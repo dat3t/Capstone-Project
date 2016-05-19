@@ -13,6 +13,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
 using AspNet.Identity.MongoDB;
+using MongoDB.Driver.Core.Bindings;
 using SendGrid;
 using Twilio;
 
@@ -30,7 +31,7 @@ namespace OneVietnam.Models
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationIdentityContext>().Users));
             // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<ApplicationUser>(manager)
+            manager.UserValidator = new UserValidator<ApplicationUser>(manager)           
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
@@ -80,7 +81,7 @@ namespace OneVietnam.Models
         /// <returns></returns>
         public virtual async Task<IdentityResult> AddUserToRolesAsync(string userId, IList<string> roles)
         {
-            var userRoleStore = (IUserRoleStore<ApplicationUser, string>)Store;
+            var userRoleStore = (IUserRoleStore<ApplicationUser, string>)Store;                        
 
             var user = await FindByIdAsync(userId).ConfigureAwait(false);
             if (user == null)
@@ -124,6 +125,14 @@ namespace OneVietnam.Models
             // Call update once when all roles are removed
             return await UpdateAsync(user).ConfigureAwait(false);
         }
+
+        public async Task SetEmailConfirmed(ApplicationUser user)
+        {
+            IUserEmailStore<ApplicationUser, string> store = Store as IUserEmailStore<ApplicationUser, string>;
+            await store.SetEmailConfirmedAsync(user, true);
+            await UpdateSecurityStampAsync(user.Id);
+            await UpdateAsync(user);            
+        }
     }
 
     public class ApplicationRoleManager : RoleManager<IdentityRole>
@@ -141,7 +150,7 @@ namespace OneVietnam.Models
         }
     }
     public class SmsService : IIdentityMessageService
-    {
+    {        
         public Task SendAsync(IdentityMessage message)
         {
             //Plug in your SMS service here to send a text message.            
