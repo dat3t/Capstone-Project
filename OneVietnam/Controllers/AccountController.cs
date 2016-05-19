@@ -281,6 +281,7 @@ namespace OneVietnam.Controllers
             var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
+                //TODO
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
