@@ -299,9 +299,16 @@ namespace OneVietnam.Controllers
                 {
                     var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                     if (user != null)
-                    {
-                        await UserManager.SetEmailConfirmed(user);
-                        await SignInAsync(user, isPersistent: false);
+                    {                        
+                        result = await UserManager.SetEmailConfirmed(user);
+                        if (result.Succeeded)
+                        {
+                            await SignInAsync(user, isPersistent: false);
+                        }
+                        else
+                        {
+                            AddErrors(result);
+                        }
                     }
                     return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
                 }
