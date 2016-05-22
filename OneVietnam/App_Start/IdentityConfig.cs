@@ -322,10 +322,9 @@ namespace OneVietnam.Models
             return SignInStatus.Success;
 
         }
-        public async Task<SignInStatus> PasswordSignIn(string userName, string password, bool isPersistent, bool shouldLockout)
-        {
-            //var user = await UserManager.FindByNameAsync(userName);
-            var user = await UserManager.FindByEmailAsync(userName);            
+        public async Task<SignInStatus> PasswordSignIn(string email, string password, bool isPersistent, bool shouldLockout)
+        {            
+            var user = await UserManager.FindByEmailAsync(email);            
             if (user == null)
             {
                 return SignInStatus.Failure;
