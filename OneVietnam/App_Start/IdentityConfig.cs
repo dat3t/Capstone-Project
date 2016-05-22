@@ -126,15 +126,17 @@ namespace OneVietnam.Models
             return await UpdateAsync(user).ConfigureAwait(false);
         }
 
-        public async Task SetEmailConfirmed(ApplicationUser user)
+        public virtual async Task<IdentityResult> SetEmailConfirmed(ApplicationUser user)
         {
-            IUserEmailStore<ApplicationUser, string> store = Store as IUserEmailStore<ApplicationUser, string>;
-            await store.SetEmailConfirmedAsync(user, true);
-            await UpdateSecurityStampAsync(user.Id);
-            await UpdateAsync(user);            
+            var userEmailStore =(IUserEmailStore<ApplicationUser, string>) Store ;            
+            //TODO            
+            await userEmailStore.SetEmailConfirmedAsync(user, true);
+            await UpdateSecurityStampAsync(user.Id);            
+            return await UpdateAsync(user).ConfigureAwait(false);
         }
-    }
 
+    }
+    
     public class ApplicationRoleManager : RoleManager<IdentityRole>
     {
         public ApplicationRoleManager(IRoleStore<IdentityRole, string> roleStore) : base(roleStore)
