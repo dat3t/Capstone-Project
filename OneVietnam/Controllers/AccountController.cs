@@ -79,8 +79,9 @@ namespace OneVietnam.Controllers
             }
 
             // Require the user to have a confirmed email before they can log on.
-            var user = await UserManager.FindByEmailAsync(model.Email);            
-            if (user != null)
+            //var user = await UserManager.FindAsync(model.Email, model.Password);
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            if (user != null && await UserManager.CheckPasswordAsync(user,model.Password))
             {
                 if (!await UserManager.IsEmailConfirmedAsync(user.Id))
                 {
@@ -118,9 +119,7 @@ namespace OneVietnam.Controllers
             }
             var user = await UserManager.FindByIdAsync(await SignInHelper.GetVerifiedUserIdAsync());
             if (user != null)
-            {
-                // To exercise the flow without actually sending codes, uncomment the following line
-                ViewBag.Status = "For DEMO purposes the current " + provider + " code is: " + await UserManager.GenerateTwoFactorTokenAsync(user.Id, provider);
+            {                
             }
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl });
         }
@@ -224,7 +223,7 @@ namespace OneVietnam.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
+                var user = await UserManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
@@ -280,8 +279,7 @@ namespace OneVietnam.Controllers
             }
             var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
-            {
-                //TODO
+            {                
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
@@ -346,8 +344,7 @@ namespace OneVietnam.Controllers
                 return View("Error");
             }
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl });
-        }
-
+        }       
         //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
