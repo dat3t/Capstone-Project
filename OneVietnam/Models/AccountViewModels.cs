@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace OneVietnam.Models
 {
@@ -108,5 +110,63 @@ namespace OneVietnam.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+    }
+    public class UserViewModel
+    {        
+        public string UserName { get; set; }
+
+        public string SecurityStamp { get; set; }
+
+        public string Email { get; set; }
+
+        public bool EmailConfirmed { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public UserViewModel()
+        {
+            
+        }
+
+        public UserViewModel(ApplicationUser appUser)
+        {
+            UserName = appUser.UserName;
+            Email = appUser.Email;
+            EmailConfirmed = appUser.EmailConfirmed;
+            SecurityStamp = appUser.SecurityStamp;
+            PhoneNumber = appUser.PhoneNumber;
+        }        
+}
+
+    public class CreatePostViewModel
+    {        
+        public string Title { get; set; }
+        public string Description { get; set; }                
+        public int PostType { get; set; }
+        // logical delete        
+    }
+
+    public class ShowPostViewModel
+    {        
+        public string Username { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateTimeOffset? PublishDate { get; set; }                
+        public int PostType { get; set; }
+        // logical delete
+        public bool DeletedFlag { get; set; }
+        // finished or not
+        public bool Status { get; set; }
+
+        public ShowPostViewModel(Post post)
+        {
+            Username = post.Username;
+            Title = post.Title;
+            Description = post.Description;
+            PublishDate = post.PublishDate;
+            PostType = post.PostType;
+            DeletedFlag = post.DeletedFlag;
+            Status = post.Status;
+        }
     }
 }

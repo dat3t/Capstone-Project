@@ -22,16 +22,18 @@ namespace OneVietnam.Models
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        public ApplicationUserManager(IUserStore<ApplicationUser> store)
+        private readonly UserStore _userStore;
+        public ApplicationUserManager(UserStore store)
             : base(store)
         {
+            this._userStore = store;
         }
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationIdentityContext>().Users));
-            // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<ApplicationUser>(manager)           
+            var manager = new ApplicationUserManager(new UserStore(context.Get<ApplicationIdentityContext>().Users));
+            // Configure validation logic for usernames            
+            manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
@@ -73,6 +75,11 @@ namespace OneVietnam.Models
             }
             return manager;
         }
+
+        public async Task<List<ApplicationUser>> AllUsersAsync()
+        {
+            return await _userStore.AllUsersAsync();
+        }
         /// <summary>
         /// Method to add user to multiple roles
         /// </summary>
@@ -81,7 +88,7 @@ namespace OneVietnam.Models
         /// <returns></returns>
         public virtual async Task<IdentityResult> AddUserToRolesAsync(string userId, IList<string> roles)
         {
-            var userRoleStore = (IUserRoleStore<ApplicationUser, string>)Store;                        
+            var userRoleStore = (IUserRoleStore<ApplicationUser, string>)Store;
 
             var user = await FindByIdAsync(userId).ConfigureAwait(false);
             if (user == null)
@@ -128,15 +135,38 @@ namespace OneVietnam.Models
 
         public virtual async Task<IdentityResult> SetEmailConfirmed(ApplicationUser user)
         {
-            var userEmailStore =(IUserEmailStore<ApplicationUser, string>) Store ;            
+            var userEmailStore = (IUserEmailStore<ApplicationUser, string>)Store;
             //TODO            
             await userEmailStore.SetEmailConfirmedAsync(user, true);
-            await UpdateSecurityStampAsync(user.Id);            
+            await UpdateSecurityStampAsync(user.Id);
             return await UpdateAsync(user).ConfigureAwait(false);
         }
 
+        public virtual async Task<IdentityResult> AddPostAsync(string userId, Post post)
+        {
+            if (post == null)
+                throw new ArgumentNullException(nameof(post));
+            var user = await FindByIdAsync(userId).ConfigureAwait(false);
+            if (user == null)
+            {
+                throw new InvalidOperationException("Invalid user Id");
+            }
+            await _userStore.AddPostAsync(user, post).ConfigureAwait(false);
+            return await UpdateAsync(user).ConfigureAwait(false);
+        }
+
+        public virtual async Task<List<Post>> GetPostsAsync(string  userId)
+        {
+            var user = await FindByIdAsync(userId).ConfigureAwait(false);
+            if (user == null)
+            {
+                throw new InvalidOperationException("Invalid user Id");
+            }
+            return _userStore.GetPostsAsync(user);            
+        }
+
     }
-    
+
     public class ApplicationRoleManager : RoleManager<IdentityRole>
     {
         public ApplicationRoleManager(IRoleStore<IdentityRole, string> roleStore) : base(roleStore)
@@ -152,21 +182,21 @@ namespace OneVietnam.Models
         }
     }
     public class SmsService : IIdentityMessageService
-    {        
+    {
         public Task SendAsync(IdentityMessage message)
         {
             //Plug in your SMS service here to send a text message.            
-             var Twilio = new TwilioRestClient(
-               System.Configuration.ConfigurationManager.AppSettings["SMSAccountIdentification"],
-               System.Configuration.ConfigurationManager.AppSettings["SMSAccountPassword"]);
-            var result = Twilio.SendMessage(
+            var twilio = new TwilioRestClient(
+              System.Configuration.ConfigurationManager.AppSettings["SMSAccountIdentification"],
+              System.Configuration.ConfigurationManager.AppSettings["SMSAccountPassword"]);
+            var result = twilio.SendMessage(
               System.Configuration.ConfigurationManager.AppSettings["SMSAccountFrom"],
               message.Destination, message.Body
             );
             //Status is one of Queued, Sending, Sent, Failed or null if the number is not valid
-             Trace.TraceInformation(result.Status);
+            Trace.TraceInformation(result.Status);
             //Twilio doesn't currently have an async API, so return success.
-             return Task.FromResult(0);
+            return Task.FromResult(0);
             //Twilio End
         }
     }
@@ -198,15 +228,7 @@ namespace OneVietnam.Models
             var transportWeb = new Web(credentials);
 
             // Send the email.
-            if (transportWeb != null)
-            {
-                await transportWeb.DeliverAsync(myMessage);
-            }
-            else
-            {
-                Trace.TraceError("Failed to create Web transport.");
-                await Task.FromResult(0);
-            }
+            await transportWeb.DeliverAsync(myMessage);
         }
     }
 
@@ -325,8 +347,8 @@ namespace OneVietnam.Models
 
         }
         public async Task<SignInStatus> PasswordSignIn(string email, string password, bool isPersistent, bool shouldLockout)
-        {            
-            var user = await UserManager.FindByEmailAsync(email);            
+        {
+            var user = await UserManager.FindByEmailAsync(email);
             if (user == null)
             {
                 return SignInStatus.Failure;

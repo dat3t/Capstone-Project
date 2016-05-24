@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -38,7 +39,36 @@ namespace OneVietnam.Controllers
                 _userManager = value;
             }
         }
+        //DEMO
+        public async Task<ActionResult> ShowAllUsers()
+        {
+            var userslist = await UserManager.AllUsersAsync();
+            List<UserViewModel> listview = userslist.Select(user => new UserViewModel(user)).ToList();
+            return View(listview);
+        }     
+        //DEMO   
+        public  ActionResult CreatePost()
+        {
+            return View();
+        }
+        //DEMO
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreatePost(CreatePostViewModel p)
+        {
+            var post = new Post(p) {Username = User.Identity.Name};
+            await UserManager.AddPostAsync(User.Identity.GetUserId(), post);
+            return RedirectToLocal("ShowPost");
+        }
+        //DEMO
+        public async Task<ActionResult> ShowPost()
+        {
 
+            List<Post> list =await UserManager.GetPostsAsync(User.Identity.GetUserId());
+            List<ShowPostViewModel> pViewList = list.Select(post => new ShowPostViewModel(post)).ToList();
+            return View(pViewList);
+        }
         //
         // GET: /Account/Login
         [AllowAnonymous]
