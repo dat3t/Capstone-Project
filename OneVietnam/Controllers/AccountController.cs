@@ -9,15 +9,21 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Facebook;
+using Microsoft.AspNet.SignalR;
+using MongoDB.Bson.IO;
 using SignInStatus = OneVietnam.Models.SignInStatus;
+using System.Web.Script.Serialization;
 
 namespace OneVietnam.Controllers
 {
-    [Authorize]
+    [System.Web.Mvc.Authorize]
     public class AccountController : Controller
     {
+        public static bool createdPost = false;
+        public static ShowPostViewModel PostView;
         public AccountController()
         {
         }
@@ -45,9 +51,9 @@ namespace OneVietnam.Controllers
             var userslist = await UserManager.AllUsersAsync();
             List<UserViewModel> listview = userslist.Select(user => new UserViewModel(user)).ToList();
             return View(listview);
-        }     
+        }
         //DEMO   
-        public  ActionResult CreatePost()
+        public ActionResult CreatePost()
         {
             return View();
         }
@@ -57,17 +63,24 @@ namespace OneVietnam.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreatePost(CreatePostViewModel p)
         {
-            var post = new Post(p) {Username = User.Identity.Name};
+            var post = new Post(p) { Username = User.Identity.Name };
             await UserManager.AddPostAsync(User.Identity.GetUserId(), post);
-            return RedirectToLocal("ShowPost");
+            createdPost = true;
+            PostView = new ShowPostViewModel(post);
+            return RedirectToAction("ShowCreatedPost");
         }
         //DEMO
         public async Task<ActionResult> ShowPost()
         {
 
-            List<Post> list =await UserManager.GetPostsAsync(User.Identity.GetUserId());
+            List<Post> list = await UserManager.GetPostsAsync(User.Identity.GetUserId());
             List<ShowPostViewModel> pViewList = list.Select(post => new ShowPostViewModel(post)).ToList();
             return View(pViewList);
+        }
+        //DEMO
+        public ActionResult ShowCreatedPost()
+        {
+            return View(PostView);
         }
         //
         // GET: /Account/Login
@@ -111,7 +124,7 @@ namespace OneVietnam.Controllers
             // Require the user to have a confirmed email before they can log on.
             //var user = await UserManager.FindAsync(model.Email, model.Password);
             var user = await UserManager.FindByEmailAsync(model.Email);
-            if (user != null && await UserManager.CheckPasswordAsync(user,model.Password))
+            if (user != null && await UserManager.CheckPasswordAsync(user, model.Password))
             {
                 if (!await UserManager.IsEmailConfirmedAsync(user.Id))
                 {
@@ -149,7 +162,7 @@ namespace OneVietnam.Controllers
             }
             var user = await UserManager.FindByIdAsync(await SignInHelper.GetVerifiedUserIdAsync());
             if (user != null)
-            {                
+            {
             }
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl });
         }
@@ -206,7 +219,7 @@ namespace OneVietnam.Controllers
                        new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(user.Id,
                        "Confirm your account", "Please confirm your account by clicking <a href=\""
-                       + callbackUrl + "\">here</a>");                   
+                       + callbackUrl + "\">here</a>");
                     ViewBag.Message = "Check your email and confirm your account, you must be confirmed "
                          + "before you can log in.";
                     return View("Info");
@@ -262,7 +275,7 @@ namespace OneVietnam.Controllers
 
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");                
+                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
@@ -309,7 +322,7 @@ namespace OneVietnam.Controllers
             }
             var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
-            {                
+            {
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
@@ -374,7 +387,7 @@ namespace OneVietnam.Controllers
                 return View("Error");
             }
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl });
-        }       
+        }
         //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
@@ -563,5 +576,19 @@ namespace OneVietnam.Controllers
             }
         }
         #endregion
+    }
+
+    public class MyHub : Hub
+    {
+        public override Task OnConnected()
+        {
+            if (AccountController.createdPost)
+            {                
+                var javaScriptSerializer = new JavaScriptSerializer();
+                string jsonString = javaScriptSerializer.Serialize(AccountController.PostView);
+                Clients.Others.loadNewPost(jsonString);
+            }
+            return base.OnConnected();
+        }
     }
 }

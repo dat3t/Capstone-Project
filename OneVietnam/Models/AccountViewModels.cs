@@ -112,7 +112,7 @@ namespace OneVietnam.Models
         public string Email { get; set; }
     }
     public class UserViewModel
-    {        
+    {
         public string UserName { get; set; }
 
         public string SecurityStamp { get; set; }
@@ -125,7 +125,7 @@ namespace OneVietnam.Models
 
         public UserViewModel()
         {
-            
+
         }
 
         public UserViewModel(ApplicationUser appUser)
@@ -135,23 +135,23 @@ namespace OneVietnam.Models
             EmailConfirmed = appUser.EmailConfirmed;
             SecurityStamp = appUser.SecurityStamp;
             PhoneNumber = appUser.PhoneNumber;
-        }        
-}
-
+        }
+    }
+    //DEMO
     public class CreatePostViewModel
-    {        
+    {
         public string Title { get; set; }
-        public string Description { get; set; }                
+        public string Description { get; set; }
         public int PostType { get; set; }
         // logical delete        
     }
-
+    //DEMO
     public class ShowPostViewModel
-    {        
+    {
         public string Username { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTimeOffset? PublishDate { get; set; }                
+        public DateTimeOffset? PublishDate { get; set; }
         public int PostType { get; set; }
         // logical delete
         public bool DeletedFlag { get; set; }
@@ -169,4 +169,5 @@ namespace OneVietnam.Models
             Status = post.Status;
         }
     }
+    //DEMO   
 }
