@@ -5,6 +5,7 @@ using MongoDB.Driver;
 using OneVietnam.Models;
 using OneVietnam.Properties;
 using AspNet.Identity.MongoDB;
+using OneVietnam.DTL;
 
 namespace OneVietnam
 {
@@ -30,7 +31,7 @@ namespace OneVietnam
             var roles = database.GetCollection<IdentityRole>("roles");
             return new ApplicationIdentityContext(users, roles);
         }
-
+        //demo
         public Task<List<IdentityRole>> AllRolesAsync()
         {
             return Roles.Find(r => true).ToListAsync();

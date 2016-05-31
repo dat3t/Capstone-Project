@@ -13,14 +13,17 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
 using AspNet.Identity.MongoDB;
+using Microsoft.Ajax.Utilities;
 using MongoDB.Driver.Core.Bindings;
+using OneVietnam.DTL;
+using OneVietnam.DAL;
 using SendGrid;
 using Twilio;
 
-namespace OneVietnam.Models
+namespace OneVietnam.BLL
 {
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
-    public class ApplicationUserManager : UserManager<ApplicationUser>
+    public partial class ApplicationUserManager : UserManager<ApplicationUser>
     {
         private readonly UserStore _userStore;
         public ApplicationUserManager(UserStore store)
@@ -43,10 +46,10 @@ namespace OneVietnam.Models
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
 
             // Configure user lockout defaults
@@ -58,12 +61,12 @@ namespace OneVietnam.Models
             // You can write your own provider and plug it in here.
             manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
             {
-                MessageFormat = "Your security code is {0}"
+                MessageFormat = "Mã đăng nhập của bạn là {0}"
             });
             manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
             {
-                Subject = "Security Code",
-                BodyFormat = "Your security code is {0}"
+                Subject = "Mã Đăng Nhập",
+                BodyFormat = "Mã đăng nhập của bạn là {0}"
             });
             manager.EmailService = new EmailService();
             manager.SmsService = new SmsService();
@@ -75,96 +78,6 @@ namespace OneVietnam.Models
             }
             return manager;
         }
-
-        public async Task<List<ApplicationUser>> AllUsersAsync()
-        {
-            return await _userStore.AllUsersAsync();
-        }
-        /// <summary>
-        /// Method to add user to multiple roles
-        /// </summary>
-        /// <param name="userId">user id</param>
-        /// <param name="roles">list of role names</param>
-        /// <returns></returns>
-        public virtual async Task<IdentityResult> AddUserToRolesAsync(string userId, IList<string> roles)
-        {
-            var userRoleStore = (IUserRoleStore<ApplicationUser, string>)Store;
-
-            var user = await FindByIdAsync(userId).ConfigureAwait(false);
-            if (user == null)
-            {
-                throw new InvalidOperationException("Invalid user Id");
-            }
-
-            var userRoles = await userRoleStore.GetRolesAsync(user).ConfigureAwait(false);
-            // Add user to each role using UserRoleStore
-            foreach (var role in roles.Where(role => !userRoles.Contains(role)))
-            {
-                await userRoleStore.AddToRoleAsync(user, role).ConfigureAwait(false);
-            }
-
-            // Call update once when all roles are added
-            return await UpdateAsync(user).ConfigureAwait(false);
-        }
-        /// <summary>
-        /// Remove user from multiple roles
-        /// </summary>
-        /// <param name="userId">user id</param>
-        /// <param name="roles">list of role names</param>
-        /// <returns></returns>
-        public virtual async Task<IdentityResult> RemoveUserFromRolesAsync(string userId, IList<string> roles)
-        {
-            var userRoleStore = (IUserRoleStore<ApplicationUser, string>)Store;
-
-            var user = await FindByIdAsync(userId).ConfigureAwait(false);
-            if (user == null)
-            {
-                throw new InvalidOperationException("Invalid user Id");
-            }
-
-            var userRoles = await userRoleStore.GetRolesAsync(user).ConfigureAwait(false);
-            // Remove user to each role using UserRoleStore
-            foreach (var role in roles.Where(userRoles.Contains))
-            {
-                await userRoleStore.RemoveFromRoleAsync(user, role).ConfigureAwait(false);
-            }
-
-            // Call update once when all roles are removed
-            return await UpdateAsync(user).ConfigureAwait(false);
-        }
-
-        public virtual async Task<IdentityResult> SetEmailConfirmed(ApplicationUser user)
-        {
-            var userEmailStore = (IUserEmailStore<ApplicationUser, string>)Store;
-            //TODO            
-            await userEmailStore.SetEmailConfirmedAsync(user, true);
-            await UpdateSecurityStampAsync(user.Id);
-            return await UpdateAsync(user).ConfigureAwait(false);
-        }
-
-        public virtual async Task<IdentityResult> AddPostAsync(string userId, Post post)
-        {
-            if (post == null)
-                throw new ArgumentNullException(nameof(post));
-            var user = await FindByIdAsync(userId).ConfigureAwait(false);
-            if (user == null)
-            {
-                throw new InvalidOperationException("Invalid user Id");
-            }
-            await _userStore.AddPostAsync(user, post).ConfigureAwait(false);
-            return await UpdateAsync(user).ConfigureAwait(false);
-        }
-
-        public virtual async Task<List<Post>> GetPostsAsync(string  userId)
-        {
-            var user = await FindByIdAsync(userId).ConfigureAwait(false);
-            if (user == null)
-            {
-                throw new InvalidOperationException("Invalid user Id");
-            }
-            return _userStore.GetPostsAsync(user);            
-        }
-
     }
 
     public class ApplicationRoleManager : RoleManager<IdentityRole>

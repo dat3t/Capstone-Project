@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using System.Web;
 using AspNet.Identity.MongoDB;
 using MongoDB.Driver;
+using OneVietnam.DTL;
 
-namespace OneVietnam.Models
+namespace OneVietnam.DAL
 {
     public class UserStore : UserStore<ApplicationUser>
     {
@@ -29,7 +30,7 @@ namespace OneVietnam.Models
 
         public List<Post> GetPostsAsync(ApplicationUser user)
         {
-            return  user.Posts;
-        }        
+            return user.Posts;
+        }
     }
 }

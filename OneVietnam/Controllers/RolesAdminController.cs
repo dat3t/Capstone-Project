@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using AspNet.Identity.MongoDB;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using OneVietnam.BLL;
 
 namespace OneVietnam.Controllers
 {

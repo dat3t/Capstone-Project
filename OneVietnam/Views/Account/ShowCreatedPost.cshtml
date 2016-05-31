@@ -84,13 +84,11 @@
             // Create a function that the hub can call back to display messages.
             chat.client.loadNewPost = function (newPost) {
                 // Add the message to the page.          
-                console.log(newPost.Username);
-                console.log(newPost.Title);
-                console.log(newPost["Username"]);
-                console.log(newPost);
+                console.log(newPost);                
 
             };            
             $.connection.hub.start().done(function () {
+
               //do nothing  
             });
         });

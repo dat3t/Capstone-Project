@@ -6,7 +6,8 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using OneVietnam.Models;
+using OneVietnam.BLL;
+using OneVietnam.DTL;
 
 namespace OneVietnam
 {

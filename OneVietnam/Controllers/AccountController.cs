@@ -14,8 +14,10 @@ using System.Web.Mvc;
 using Facebook;
 using Microsoft.AspNet.SignalR;
 using MongoDB.Bson.IO;
-using SignInStatus = OneVietnam.Models.SignInStatus;
+using SignInStatus = OneVietnam.BLL.SignInStatus;
 using System.Web.Script.Serialization;
+using OneVietnam.BLL;
+using OneVietnam.DTL;
 
 namespace OneVietnam.Controllers
 {
@@ -589,6 +591,6 @@ namespace OneVietnam.Controllers
                 Clients.Others.loadNewPost(jsonString);
             }
             return base.OnConnected();
-        }
+        }        
     }
 }
