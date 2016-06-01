@@ -14,7 +14,7 @@ using OneVietnam.BLL;
 
 namespace OneVietnam.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class RolesAdminController : Controller
     {
         public RolesAdminController()
@@ -66,7 +66,7 @@ namespace OneVietnam.Controllers
         // GET: /Roles/
         public async Task<ActionResult> Index()
         {
-            var roles = await IdentityContext.AllRolesAsync();
+            var roles = await RoleManager.AllRolesAsync();
             return View(roles);
         }
 
