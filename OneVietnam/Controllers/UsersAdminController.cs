@@ -13,7 +13,7 @@ using OneVietnam.DTL;
 
 namespace OneVietnam.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class UsersAdminController : Controller
     {
         public UsersAdminController()
