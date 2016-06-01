@@ -24,11 +24,6 @@ namespace OneVietnam.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
-        }
-
-        public ActionResult Chat()
-        {
-            return View();
-        }
+        }        
     }
 }
