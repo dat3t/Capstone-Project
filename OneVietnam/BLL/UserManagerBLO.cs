@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using AspNet.Identity.MongoDB;
 using Microsoft.AspNet.Identity;
 using OneVietnam.DTL;
 
@@ -74,6 +75,11 @@ namespace OneVietnam.BLL
             await userEmailStore.SetEmailConfirmedAsync(user, true);
             await UpdateSecurityStampAsync(user.Id);
             return await UpdateAsync(user).ConfigureAwait(false);
+        }
+
+        public async Task<List<ApplicationUser>> FindUsersByRoleAsync(IdentityRole role)
+        {
+            return await _userStore.FindUsersByRoleAsync(role);
         }
     }
 }

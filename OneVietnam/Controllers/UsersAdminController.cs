@@ -63,8 +63,8 @@ namespace OneVietnam.Controllers
         //
         // GET: /Users/
         public async Task<ActionResult> Index()
-        {
-            var users = await IdentityContext.Users.Find(u => true).ToListAsync();
+        {            
+            var users = await UserManager.AllUsersAsync();
             return View(users);
         }
 

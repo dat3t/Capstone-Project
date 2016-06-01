@@ -80,9 +80,8 @@ namespace OneVietnam.Controllers
             }
             var role = await RoleManager.FindByIdAsync(id);
 
-            // Get the list of Users in this Role
-            var users = await IdentityContext.Users.Find(u => u.Roles.Contains(role.Name)).ToListAsync();
-
+            // Get the list of Users in this Role            
+            var users = await UserManager.FindUsersByRoleAsync(role);
             ViewBag.Users = users;
             ViewBag.UserCount = users.Count();
             return View(role);
