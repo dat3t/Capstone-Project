@@ -30,12 +30,7 @@ namespace OneVietnam
             var users = database.GetCollection<ApplicationUser>("users");
             var roles = database.GetCollection<IdentityRole>("roles");
             return new ApplicationIdentityContext(users, roles);
-        }
-        //demo
-        public Task<List<IdentityRole>> AllRolesAsync()
-        {
-            return Roles.Find(r => true).ToListAsync();
-        }
+        }        
         public void Dispose()
         {            
         }
