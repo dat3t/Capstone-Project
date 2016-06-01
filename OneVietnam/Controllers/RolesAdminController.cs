@@ -26,15 +26,7 @@ namespace OneVietnam.Controllers
         {
             UserManager = userManager;
             RoleManager = roleManager;
-        }
-
-        public ApplicationIdentityContext IdentityContext
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().GetUserManager<ApplicationIdentityContext>();
-            }
-        }
+        }        
 
         private ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
