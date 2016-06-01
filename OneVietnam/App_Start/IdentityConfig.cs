@@ -80,17 +80,19 @@ namespace OneVietnam.BLL
         }
     }
 
-    public class ApplicationRoleManager : RoleManager<IdentityRole>
+    public partial class ApplicationRoleManager : RoleManager<IdentityRole>
     {
-        public ApplicationRoleManager(IRoleStore<IdentityRole, string> roleStore) : base(roleStore)
+        private readonly RoleStore _roleStore;
+        public ApplicationRoleManager(RoleStore roleStore) : base(roleStore)
         {
+            _roleStore = roleStore;
         }
 
         public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options,
             IOwinContext context)
         {
             var manager =
-                new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<ApplicationIdentityContext>().Roles));
+                new ApplicationRoleManager(new RoleStore(context.Get<ApplicationIdentityContext>().Roles));
             return manager;
         }
     }
