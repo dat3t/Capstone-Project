@@ -87,7 +87,7 @@ namespace OneVietnam.Controllers
         // GET: /Users/Create
         public async Task<ActionResult> Create()
         {
-            var roles = await IdentityContext.AllRolesAsync();
+            var roles = await RoleManager.AllRolesAsync();
             ViewBag.RoleId = new SelectList(roles, "Name", "Name");
             return View();
         }
@@ -97,7 +97,7 @@ namespace OneVietnam.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(RegisterViewModel userViewModel, params string[] selectedRoles)
         {
-            var roles = await IdentityContext.AllRolesAsync();
+            var roles = await RoleManager.AllRolesAsync();
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = userViewModel.Email, Email = userViewModel.Email };
@@ -146,7 +146,7 @@ namespace OneVietnam.Controllers
 
             var userRoles = await UserManager.GetRolesAsync(user.Id);
 
-            var roles = await IdentityContext.AllRolesAsync();
+            var roles = await RoleManager.AllRolesAsync();
             return View(new EditUserViewModel()
             {
                 Id = user.Id,
