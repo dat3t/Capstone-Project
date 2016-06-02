@@ -251,6 +251,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="BLL\CountryManager.cs" />
     <Compile Include="BLL\PostsManagerBLO.cs" />
     <Compile Include="BLL\RolesManagerBLO.cs" />
     <Compile Include="BLL\UserManagerBLO.cs" />
@@ -259,9 +260,11 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
+    <Compile Include="DAL\CountryStoreDAO.cs" />
     <Compile Include="DAL\RoleStoreDAO.cs" />
     <Compile Include="DAL\UserStoreDAO.cs" />
     <Compile Include="DTL\ApplicationUserDTO.cs" />
+    <Compile Include="DTL\CountryDTO.cs" />
     <Compile Include="DTL\IllustrationDTO.cs" />
     <Compile Include="DTL\LocationDTO.cs" />
     <Compile Include="DTL\PostDTO.cs" />
