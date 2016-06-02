@@ -5,6 +5,7 @@ using MongoDB.Driver;
 using OneVietnam.Models;
 using OneVietnam.Properties;
 using AspNet.Identity.MongoDB;
+using Microsoft.Ajax.Utilities;
 using OneVietnam.DTL;
 
 namespace OneVietnam
@@ -16,11 +17,13 @@ namespace OneVietnam
     {
         public IMongoCollection<ApplicationUser> Users { get; set; }
         public IMongoCollection<IdentityRole> Roles { get; set; }
+        public IMongoCollection<Country> Countries { get; set; }
 
-        private ApplicationIdentityContext(IMongoCollection<ApplicationUser> users, IMongoCollection<IdentityRole> roles)
+        private ApplicationIdentityContext(IMongoCollection<ApplicationUser> users, IMongoCollection<IdentityRole> roles, IMongoCollection<Country> countries )
         {
             Users = users;
             Roles = roles;
+            Countries = countries;
         }
         public static ApplicationIdentityContext Create()
         {
@@ -29,7 +32,8 @@ namespace OneVietnam
             var database = client.GetDatabase(Settings.Default.OneVietnamDatabaseName);
             var users = database.GetCollection<ApplicationUser>("users");
             var roles = database.GetCollection<IdentityRole>("roles");
-            return new ApplicationIdentityContext(users, roles);
+            var countries = database.GetCollection<Country>("countries");
+            return new ApplicationIdentityContext(users, roles,countries);
         }        
         public void Dispose()
         {            
