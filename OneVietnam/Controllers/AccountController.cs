@@ -47,6 +47,16 @@ namespace OneVietnam.Controllers
                 _userManager = value;
             }
         }
+
+        private CountryManager _countryManager;
+        public CountryManager CountryManager
+        {
+            get
+            {
+                return _countryManager ?? HttpContext.GetOwinContext().Get<CountryManager>();
+            }
+            private set { _countryManager = value; }
+        }
         //DEMO
         public async Task<ActionResult> ShowAllUsers()
         {
@@ -83,6 +93,17 @@ namespace OneVietnam.Controllers
         public ActionResult ShowCreatedPost()
         {
             return View(PostView);
+        }
+        //DEMO
+        public ActionResult CreateCountry()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> CreateCountry(AddCountryViewModel model)
+        {
+            await CountryManager.CreateAsync(new Country(model.CountryName, model.CountryCode));
+            return RedirectToAction("Index", "Home");
         }
         //
         // GET: /Account/Login
