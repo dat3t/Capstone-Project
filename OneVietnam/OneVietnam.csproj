@@ -272,6 +272,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AddCountryViewModel.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -378,6 +379,7 @@
     <Content Include="Views\Account\CreatePost.cshtml" />
     <Content Include="Views\Account\ShowPost.cshtml" />
     <Content Include="Views\Account\ShowCreatedPost.cshtml" />
+    <Content Include="Views\Account\CreateCountry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
