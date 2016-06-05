@@ -21,5 +21,11 @@ namespace OneVietnam.DTL
             CountryName = name;
             CountryCode = code;
         }
+        // demo to commit
+        public Country(string name)
+        {
+            Id = ObjectId.GenerateNewId().ToString();
+            CountryName = name;
+        }
     }
 }
