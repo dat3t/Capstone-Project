@@ -11,7 +11,7 @@ namespace OneVietnam
         public static void Exist()
         {
             var context = ApplicationIdentityContext.Create();
-            IndexChecks.EnsureUniqueIndexOnUserName(context.Users);
+            IndexChecks.EnsureUniqueIndexOnEmail(context.Users);
             IndexChecks.EnsureUniqueIndexOnRoleName(context.Roles);
         }
     }
