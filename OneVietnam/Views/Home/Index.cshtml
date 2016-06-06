@@ -49,18 +49,15 @@
         <div class="head-bg-img"></div>
         <div class="head-bg-content">
             <h1>Your Best Social Network Template</h1>
-            <p>Donec in rhoncus tortor. Sed tristique auctor ligula vel viverra</p>
+            <p>Donec in rhoncus tortor. Sed tristique auctor ligula vel viverra</p>            
             @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel {ReturnUrl = null})
-            <a class="be-register btn color-3 size-1 hover-6"><i class="fa fa-lock"></i>sign up now</a>
         </div>
     </div>
 }
 </div>    
-    <div class="be-fixed-filter"></div>
-
-    
+    <div class="be-fixed-filter"></div>    
     <div class="large-popup register">
-        <div class="large-popup-fixed"></div>
+        @*<div class="large-popup-fixed"></div>*@
         <div class="container large-popup-container">
             <div class="row">
                 <div class="col-md-10 col-md-push-1 col-lg-8 col-lg-push-2 large-popup-content">

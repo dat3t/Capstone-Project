@@ -527,7 +527,7 @@ form.input-search { position: relative; margin-bottom: 50px; }
 
 .be-drop-down:hover, .be-drop-down.be-dropdown-active { background: #0d58c8; color: #FFF; }
 
-.be-drop-down.be-dropdown-active:after { webkit-transform: translateY(-50%) rotate(180deg); -ms-transform: translateY(-50%) rotate(180deg); -webkit-transform: translateY(-50%) rotate(180deg); transform: translateY(-50%) rotate(180deg); }
+.be-drop-down.be-dropdown-active:after { -webkit-transform: translateY(-50%) rotate(180deg); -ms-transform: translateY(-50%) rotate(180deg); -webkit-transform: translateY(-50%) rotate(180deg); transform: translateY(-50%) rotate(180deg); }
 
 .drop-down-list { background: #0d58c8; color: #FFF; width: 100%; left: 0; }
 
@@ -1981,7 +1981,6 @@ span.num-data{font-size: 11px;}
 
 .social-input .social-bars { display: inline-block; font-size: 12px; line-height: 50px; color: #b4b7c1; margin-right: 20px; }
 
-\
  .social-input .social-btn { margin-right: 20px; }
     
  .head-bg-content .btn i{font-size: 14px; line-height: 12px; font-weight: 700;  }
