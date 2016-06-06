@@ -299,10 +299,18 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\stylesheet.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\helveticaneuecyr-bold.svg" />
+    <Content Include="fonts\helveticaneuecyr-roman.svg" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="fonts\helveticaneuecyr-bold.eot" />
+    <Content Include="fonts\helveticaneuecyr-bold.ttf" />
+    <Content Include="fonts\helveticaneuecyr-bold.woff" />
+    <Content Include="fonts\helveticaneuecyr-roman.eot" />
+    <Content Include="fonts\helveticaneuecyr-roman.ttf" />
+    <Content Include="fonts\helveticaneuecyr-roman.woff" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
