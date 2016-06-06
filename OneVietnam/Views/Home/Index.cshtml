@@ -1,37 +1,998 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using OneVietnam.Models
+@using Microsoft.AspNet.Identity
+@model LoginViewModel
+
+<head>
+   
+
+    <!--[if lt IE 10]>
+        <link rel="stylesheet" type="text/css" href="style/ie-9.css" />
+    <![endif]-->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+
+    <!-- THE LOADER -->
+
+    <div class="be-loader">
+        <div class="spinner">
+            <div class="spinner-container container1">
+                <div class="circle1"></div>
+                <div class="circle2"></div>
+                <div class="circle3"></div>
+                <div class="circle4"></div>
+            </div>
+            <div class="spinner-container container2">
+                <div class="circle1"></div>
+                <div class="circle2"></div>
+                <div class="circle3"></div>
+                <div class="circle4"></div>
+            </div>
+            <div class="spinner-container container3">
+                <div class="circle1"></div>
+                <div class="circle2"></div>
+                <div class="circle3"></div>
+                <div class="circle4"></div>
+            </div>
+        </div>
+    </div>
+   
+   
+    <!-- MAIN CONTENT -->
+<div id="content-block">
+@if (!Request.IsAuthenticated)
+{
+    <div class="head-bg">
+        <div class="head-bg-img"></div>
+        <div class="head-bg-content">
+            <h1>Your Best Social Network Template</h1>
+            <p>Donec in rhoncus tortor. Sed tristique auctor ligula vel viverra</p>
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel {ReturnUrl = null})
+            <a class="be-register btn color-3 size-1 hover-6"><i class="fa fa-lock"></i>sign up now</a>
+        </div>
+    </div>
 }
-
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<div class="container-fluid custom-container">
+    <div class="row">
+        <div class="col-md-2 left-feild">
+            <form action="./" class="input-search">
+                <input type="text" required="" placeholder="Enter keyword">
+                <i class="fa fa-search"></i>
+                <input type="submit" value="">
+            </form>
+        </div>
+        <div class="col-md-10 ">
+            <div class="for-be-dropdowns">
+                <div class="be-drop-down">
+                    <i class="icon-projects"></i>
+                    <span class="be-dropdown-content"> Projects	</span>
+                    <ul class="drop-down-list">
+                        <li><a>Item - 1</a></li>
+                        <li><a>Item - 2</a></li>
+                        <li><a>Item - 3</a></li>
+                    </ul>
+                </div>
+                <div class="be-drop-down">
+                    <i class="icon-creative"></i>
+                    <span class="be-dropdown-content">
+                                All Creative Filds
+                            </span>
+                    <ul class="drop-down-list">
+                        <li><a>Item - 1</a></li>
+                        <li><a>Item - 2</a></li>
+                        <li><a>Item - 3</a></li>
+                    </ul>
+                </div>
+                <div class="be-drop-down">
+                    <i class="icon-features"></i>
+                    <span class="be-dropdown-content">
+                                Features
+                            </span>
+                    <ul class="drop-down-list">
+                        <li><a>Featured</a></li>
+                        <li><a>Most Appreciated</a></li>
+                        <li><a>Most Viewed</a></li>
+                        <li><a>Most Discussed</a></li>
+                        <li><a>Most Recent</a></li>
+                    </ul>
+                </div>
+                <div class="be-drop-down">
+                    <i class="icon-worldwide"></i>
+                    <span class="be-dropdown-content">
+                                Worldwide
+                            </span>
+                    <ul class="drop-down-list">
+                        <li><a>Item - 1</a></li>
+                        <li><a>Item - 2</a></li>
+                        <li><a>Item - 3</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
+<div class="container-fluid custom-container">
 <div class="row">
-    <p>@Html.ActionLink("Show All Users", "ShowAllUsers", "Account")</P>
-    <p>@Html.ActionLink("Create a Post", "CreatePost", "Account")</p>
-    <p>@Html.ActionLink("Chat","Chat")</p>
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a>
-        </p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a>
-        </p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a>
-        </p>
+
+<div class="col-md-2 left-feild">
+<div class="be-vidget">
+    <h3 class="letf-menu-article">
+        Popular Creative Filds
+    </h3>
+    <div class="creative_filds_block">
+        <div class="ul">
+            <a href="blog-detail-2.html">Graphic Design </a>
+            <a href="blog-detail-2.html">Photography </a>
+            <a href="blog-detail-2.html">Interaction Design </a>
+            <a href="blog-detail-2.html">Art Direction </a>
+            <a href="blog-detail-2.html">Illustration </a>
+        </div>
     </div>
 </div>
+<div class="be-vidget">
+    <h3 class="letf-menu-article">
+        Popular Tags
+    </h3>
+    <div class="tags_block clearfix">
+        <ul>
+            <li><a href="blog-detail-2.html">photoshop</a></li>
+            <li><a href="blog-detail-2.html">graphic</a></li>
+            <li><a href="blog-detail-2.html">art</a></li>
+            <li><a href="blog-detail-2.html">website</a></li>
+            <li><a href="blog-detail-2.html">logo</a></li>
+            <li><a href="blog-detail-2.html">identity</a></li>
+            <li><a href="blog-detail-2.html">logo design</a></li>
+            <li><a href="blog-detail-2.html">interactive</a></li>
+            <li><a href="blog-detail-2.html">blue</a></li>
+            <li><a href="blog-detail-2.html">branding</a></li>
+        </ul>
+    </div>
+</div>
+<div class="be-vidget">
+    <h3 class="letf-menu-article">
+        Filter By
+    </h3>
+    <div class="filter-block">
+        <ul>
+            <li>
+                <a><i class="fa fa-graduation-cap"></i>Schools</a>
+                <div class="be-popup">
+                    <h3 class="letf-menu-article">
+                        Enter School
+                    </h3>
+                    <form action="./" class="input-search">
+                        <input type="text" required placeholder="Start typing to see list">
+                    </form>
+                    <i class="fa fa-times"></i>
+                </div>
+            </li>
+            <li>
+                <a><i class="fa fa-wrench"></i>Tools Used</a>
+                <div class="be-popup">
+                    <h3 class="letf-menu-article">
+                        Tools
+                    </h3>
+                    <form action="./" class="input-search">
+                        <input type="text" required placeholder="Start typing to see list">
+                    </form>
+                    <i class="fa fa-times"></i>
+                </div>
+            </li>
+            <li>
+                <a><i class="fa fa-paint-brush"></i>Color</a>
+                <div class="be-popup be-color-picker">
+                    <h3 class="letf-menu-article">
+                        Choose color
+                    </h3>
+                    <div class="for-colors">
+                        <ul class="colors cfix">
+                            <li class="color color-0-0"></li>
+                            <li class="color color-0-1"></li>
+                            <li class="color color-0-2"></li>
+                            <li class="color color-0-3"></li>
+                            <li class="color color-0-4"></li>
+                            <li class="color color-0-5"></li>
+                            <li class="color color-0-6"></li>
+                            <li class="color color-0-7"></li>
+                            <li class="color color-0-8"></li>
+                            <li class="color color-0-9"></li>
+                            <li class="color color-0-10"></li>
+                            <li class="color color-0-11"></li>
+                            <li class="color color-1-0"></li>
+                            <li class="color color-1-1"></li>
+                            <li class="color color-1-2"></li>
+                            <li class="color color-1-3"></li>
+                            <li class="color color-1-4"></li>
+                            <li class="color color-1-5"></li>
+                            <li class="color color-1-6"></li>
+                            <li class="color color-1-7"></li>
+                            <li class="color color-1-8"></li>
+                            <li class="color color-1-9"></li>
+                            <li class="color color-1-10"></li>
+                            <li class="color color-1-11"></li>
+                            <li class="color color-2-0"></li>
+                            <li class="color color-2-1"></li>
+                            <li class="color color-2-2"></li>
+                            <li class="color color-2-3"></li>
+                            <li class="color color-2-4"></li>
+                            <li class="color color-2-5"></li>
+                            <li class="color color-2-6"></li>
+                            <li class="color color-2-7"></li>
+                            <li class="color color-2-8"></li>
+                            <li class="color color-2-9"></li>
+                            <li class="color color-2-10"></li>
+                            <li class="color color-2-11"></li>
+                            <li class="color color-3-0"></li>
+                            <li class="color color-3-1"></li>
+                            <li class="color color-3-2"></li>
+                            <li class="color color-3-3"></li>
+                            <li class="color color-3-4"></li>
+                            <li class="color color-3-5"></li>
+                            <li class="color color-3-6"></li>
+                            <li class="color color-3-7"></li>
+                            <li class="color color-3-8"></li>
+                            <li class="color color-3-9"></li>
+                            <li class="color color-3-10"></li>
+                            <li class="color color-3-11"></li>
+                            <li class="color color-4-0"></li>
+                            <li class="color color-4-1"></li>
+                            <li class="color color-4-2"></li>
+                            <li class="color color-4-3"></li>
+                            <li class="color color-4-4"></li>
+                            <li class="color color-4-5"></li>
+                            <li class="color color-4-6"></li>
+                            <li class="color color-4-7"></li>
+                            <li class="color color-4-8"></li>
+                            <li class="color color-4-9"></li>
+                            <li class="color color-4-10"></li>
+                            <li class="color color-4-11"></li>
+                            <li class="color color-5-0"></li>
+                            <li class="color color-5-1"></li>
+                            <li class="color color-5-2"></li>
+                            <li class="color color-5-3"></li>
+                            <li class="color color-5-4"></li>
+                            <li class="color color-5-5"></li>
+                            <li class="color color-5-6"></li>
+                            <li class="color color-5-7"></li>
+                            <li class="color color-5-8"></li>
+                            <li class="color color-5-9"></li>
+                            <li class="color color-5-10"></li>
+                            <li class="color color-5-11"></li>
+                            <li class="color color-6-0"></li>
+                            <li class="color color-6-1"></li>
+                            <li class="color color-6-2"></li>
+                            <li class="color color-6-3"></li>
+                            <li class="color color-6-4"></li>
+                            <li class="color color-6-5"></li>
+                            <li class="color color-6-6"></li>
+                            <li class="color color-6-7"></li>
+                            <li class="color color-6-8"></li>
+                            <li class="color color-6-9"></li>
+                            <li class="color color-6-10"></li>
+                            <li class="color color-6-11"></li>
+                            <li class="color color-7-0"></li>
+                            <li class="color color-7-1"></li>
+                            <li class="color color-7-2"></li>
+                            <li class="color color-7-3"></li>
+                            <li class="color color-7-4"></li>
+                            <li class="color color-7-5"></li>
+                            <li class="color color-7-6"></li>
+                            <li class="color color-7-7"></li>
+                            <li class="color color-7-8"></li>
+                            <li class="color color-7-9"></li>
+                            <li class="color color-7-10"></li>
+                            <li class="color color-7-11"></li>
+                            <li class="color color-8-0"></li>
+                            <li class="color color-8-1"></li>
+                            <li class="color color-8-2"></li>
+                            <li class="color color-8-3"></li>
+                            <li class="color color-8-4"></li>
+                            <li class="color color-8-5"></li>
+                            <li class="color color-8-6"></li>
+                            <li class="color color-8-7"></li>
+                            <li class="color color-8-8"></li>
+                            <li class="color color-8-9"></li>
+                            <li class="color color-8-10"></li>
+                            <li class="color color-8-11"></li>
+                            <li class="color color-9-0"></li>
+                            <li class="color color-9-1"></li>
+                            <li class="color color-9-2"></li>
+                            <li class="color color-9-3"></li>
+                            <li class="color color-9-4"></li>
+                            <li class="color color-9-5"></li>
+                            <li class="color color-9-6"></li>
+                            <li class="color color-9-7"></li>
+                            <li class="color color-9-8"></li>
+                            <li class="color color-9-9"></li>
+                            <li class="color color-9-10"></li>
+                            <li class="color color-9-11"></li>
+                        </ul>
+                    </div>
+                    <i class="fa fa-times"></i>
+
+                </div>
+            </li>
+            <li>
+                <a><i class="fa fa-camera-retro"></i>Visit Gallery</a>
+                <div class="be-popup">
+                    <h3 class="letf-menu-article">
+                        Galerry
+                    </h3>
+                    <form action="./" class="input-search">
+                        <input type="text" required placeholder="Start typing to see list">
+                    </form>
+                    <i class="fa fa-times"></i>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+<div class="col-md-10">
+<div class="row _post-container_">
+<div class="custom-column-5">
+    <div class="be-post">
+        <a href="blog-detail-2.html" class="be-img-block">
+            <img src="/Images/p1.jpg" alt="omg">
+        </a>
+        <a href="blog-detail-2.html" class="be-post-title">The kitsch destruction of our world</a>
+        <span>
+                                    <a href="blog-detail-2.html" class="be-post-tag">Interaction Design</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">UI/UX</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">Web Design</a>
+                                </span>
+        <div class="author-post">
+            <img src="/Images/a1.png" alt="" class="ava-author">
+            <span>by <a href="blog-detail-2.html">Hoang Nguyen</a></span>
+        </div>
+        <div class="info-block">
+            <span><i class="fa fa-thumbs-o-up"></i> 360</span>
+            <span><i class="fa fa-eye"></i> 789</span>
+            <span><i class="fa fa-comment-o"></i> 20</span>
+        </div>
+    </div>
+</div>
+<div class="custom-column-5">
+    <div class="be-post">
+        <a href="blog-detail-2.html" class="be-img-block">
+            <img src="/Images/p2.jpg" alt="omg">
+        </a>
+        <a href="blog-detail-2.html" class="be-post-title">Treebeard</a>
+        <span>
+                                    <a href="blog-detail-2.html" class="be-post-tag">Interaction Design</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">UI/UX</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">Web Design</a>
+                                </span>
+        <div class="author-post">
+            <img src="/Images/a1.png" alt="" class="ava-author">
+            <span>by <a href="blog-detail-2.html">Hoang Nguyen</a></span>
+        </div>
+        <div class="info-block">
+            <span><i class="fa fa-thumbs-o-up"></i> 360</span>
+            <span><i class="fa fa-eye"></i> 789</span>
+            <span><i class="fa fa-comment-o"></i> 20</span>
+        </div>
+    </div>
+</div>
+<div class="custom-column-5">
+    <div class="be-post">
+        <a href="blog-detail-2.html" class="be-img-block">
+            <img src="/Images/p3.jpg" alt="omg">
+        </a>
+        <a href="blog-detail-2.html" class="be-post-title">Colors of Ramadan</a>
+        <span>
+                                    <a href="blog-detail-2.html" class="be-post-tag">Interaction Design</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">UI/UX</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">Web Design</a>
+                                </span>
+        <div class="author-post">
+            <img src="/Images/a2.png" alt="" class="ava-author">
+            <span>by <a href="blog-detail-2.html">Hoang Nguyen</a></span>
+        </div>
+        <div class="info-block">
+            <span><i class="fa fa-thumbs-o-up"></i> 360</span>
+            <span><i class="fa fa-eye"></i> 789</span>
+            <span><i class="fa fa-comment-o"></i> 20</span>
+        </div>
+    </div>
+</div>
+<div class="custom-column-5">
+    <div class="be-post">
+        <a href="blog-detail-2.html" class="be-img-block">
+            <img src="/Images/p4.jpg" alt="omg">
+        </a>
+        <a href="blog-detail-2.html" class="be-post-title">Leaving Home - L'Officiel Ukraine</a>
+        <span>
+                                    <a href="blog-detail-2.html" class="be-post-tag">Interaction Design</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">UI/UX</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">Web Design</a>
+                                </span>
+        <div class="author-post">
+            <img src="/Images/a3.png" alt="" class="ava-author">
+            <span>by <a href="blog-detail-2.html">Hoang Nguyen</a></span>
+        </div>
+        <div class="info-block">
+            <span><i class="fa fa-thumbs-o-up"></i> 360</span>
+            <span><i class="fa fa-eye"></i> 789</span>
+            <span><i class="fa fa-comment-o"></i> 20</span>
+        </div>
+    </div>
+</div>
+<div class="custom-column-5">
+    <div class="be-post">
+        <a href="blog-detail-2.html" class="be-img-block">
+            <img src="/Images/p5.jpg" alt="omg">
+        </a>
+        <a href="blog-detail-2.html" class="be-post-title">Drive Your World</a>
+        <span>
+                                    <a href="blog-detail-2.html" class="be-post-tag">Interaction Design</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">UI/UX</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">Web Design</a>
+                                </span>
+        <div class="author-post">
+            <img src="/Images/a4.png" alt="" class="ava-author">
+            <span>by <a href="blog-detail-2.html">Hoang Nguyen</a></span>
+        </div>
+        <div class="info-block">
+            <span><i class="fa fa-thumbs-o-up"></i> 360</span>
+            <span><i class="fa fa-eye"></i> 789</span>
+            <span><i class="fa fa-comment-o"></i> 20</span>
+        </div>
+    </div>
+</div>
+<div class="custom-column-5">
+    <div class="be-post">
+        <a href="blog-detail-2.html" class="be-img-block">
+            <img src="/Images/p6.jpg" alt="omg">
+        </a>
+        <a href="blog-detail-2.html" class="be-post-title">Fran Ewald for The Diaries Project</a>
+        <span>
+                                    <a href="blog-detail-2.html" class="be-post-tag">Interaction Design</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">UI/UX</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">Web Design</a>
+                                </span>
+        <div class="author-post">
+            <img src="/Images/a5.png" alt="" class="ava-author">
+            <span>by <a href="blog-detail-2.html">Hoang Nguyen</a></span>
+        </div>
+        <div class="info-block">
+            <span><i class="fa fa-thumbs-o-up"></i> 360</span>
+            <span><i class="fa fa-eye"></i> 789</span>
+            <span><i class="fa fa-comment-o"></i> 20</span>
+        </div>
+    </div>
+</div>
+<div class="custom-column-5">
+    <div class="be-post">
+        <a href="blog-detail-2.html" class="be-img-block">
+            <img src="/Images/p7.jpg" alt="omg">
+        </a>
+        <a href="blog-detail-2.html" class="be-post-title">raindrops monochrome</a>
+        <span>
+                                    <a href="blog-detail-2.html" class="be-post-tag">Interaction Design</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">UI/UX</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">Web Design</a>
+                                </span>
+        <div class="author-post">
+            <img src="/Images/a6.png" alt="" class="ava-author">
+            <span>by <a href="blog-detail-2.html">Hoang Nguyen</a></span>
+        </div>
+        <div class="info-block">
+            <span><i class="fa fa-thumbs-o-up"></i> 360</span>
+            <span><i class="fa fa-eye"></i> 789</span>
+            <span><i class="fa fa-comment-o"></i> 20</span>
+        </div>
+    </div>
+</div>
+<div class="custom-column-5">
+    <div class="be-post">
+        <a href="blog-detail-2.html" class="be-img-block">
+            <img src="/Images/p8.jpg" alt="omg">
+        </a>
+        <a href="blog-detail-2.html" class="be-post-title">Racing Queensland</a>
+        <span>
+                                    <a href="blog-detail-2.html" class="be-post-tag">Interaction Design</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">UI/UX</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">Web Design</a>
+                                </span>
+        <div class="author-post">
+            <img src="/Images/a7.png" alt="" class="ava-author">
+            <span>by <a href="blog-detail-2.html">Hoang Nguyen</a></span>
+        </div>
+        <div class="info-block">
+            <span><i class="fa fa-thumbs-o-up"></i> 360</span>
+            <span><i class="fa fa-eye"></i> 789</span>
+            <span><i class="fa fa-comment-o"></i> 20</span>
+        </div>
+    </div>
+</div>
+<div class="custom-column-5">
+    <div class="be-post">
+        <a href="blog-detail-2.html" class="be-img-block">
+            <img src="/Images/p9.jpg" alt="omg">
+        </a>
+        <a href="blog-detail-2.html" class="be-post-title">NAHA Finalist Hairstylist of the Year Allen Ruiz</a>
+        <span>
+                                    <a href="blog-detail-2.html" class="be-post-tag">Interaction Design</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">UI/UX</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">Web Design</a>
+                                </span>
+        <div class="author-post">
+            <img src="/Images/a7.png" alt="" class="ava-author">
+            <span>by <a href="blog-detail-2.html">Hoang Nguyen</a></span>
+        </div>
+        <div class="info-block">
+            <span><i class="fa fa-thumbs-o-up"></i> 360</span>
+            <span><i class="fa fa-eye"></i> 789</span>
+            <span><i class="fa fa-comment-o"></i> 20</span>
+        </div>
+    </div>
+</div>
+<div class="custom-column-5">
+    <div class="be-post">
+        <a href="blog-detail-2.html" class="be-img-block">
+            <img src="/Images/p10.jpg" alt="omg">
+        </a>
+        <a href="blog-detail-2.html" class="be-post-title">tomorrow</a>
+        <span>
+                                    <a href="blog-detail-2.html" class="be-post-tag">Interaction Design</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">UI/UX</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">Web Design</a>
+                                </span>
+        <div class="author-post">
+            <img src="/Images/a8.png" alt="" class="ava-author">
+            <span>by <a href="blog-detail-2.html">Hoang Nguyen</a></span>
+        </div>
+        <div class="info-block">
+            <span><i class="fa fa-thumbs-o-up"></i> 360</span>
+            <span><i class="fa fa-eye"></i> 789</span>
+            <span><i class="fa fa-comment-o"></i> 20</span>
+        </div>
+    </div>
+</div>
+<div class="custom-column-5">
+    <div class="be-post">
+        <a href="blog-detail-2.html" class="be-img-block">
+            <img src="/Images/p11.jpg" alt="omg">
+        </a>
+        <a href="blog-detail-2.html" class="be-post-title">Tropicalia</a>
+        <span>
+                                    <a href="blog-detail-2.html" class="be-post-tag">Interaction Design</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">UI/UX</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">Web Design</a>
+                                </span>
+        <div class="author-post">
+            <img src="/Images/a5.png" alt="" class="ava-author">
+            <span>by <a href="blog-detail-2.html">Hoang Nguyen</a></span>
+        </div>
+        <div class="info-block">
+            <span><i class="fa fa-thumbs-o-up"></i> 360</span>
+            <span><i class="fa fa-eye"></i> 789</span>
+            <span><i class="fa fa-comment-o"></i> 20</span>
+        </div>
+    </div>
+</div>
+<div class="custom-column-5">
+    <div class="be-post">
+        <a href="blog-detail-2.html" class="be-img-block">
+            <img src="/Images/p12.jpg" alt="omg">
+        </a>
+        <a href="blog-detail-2.html" class="be-post-title">Face</a>
+        <span>
+                                    <a href="blog-detail-2.html" class="be-post-tag">Interaction Design</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">UI/UX</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">Web Design</a>
+                                </span>
+        <div class="author-post">
+            <img src="/Images/a6.png" alt="" class="ava-author">
+            <span>by <a href="blog-detail-2.html">Hoang Nguyen</a></span>
+        </div>
+        <div class="info-block">
+            <span><i class="fa fa-thumbs-o-up"></i> 360</span>
+            <span><i class="fa fa-eye"></i> 789</span>
+            <span><i class="fa fa-comment-o"></i> 20</span>
+        </div>
+    </div>
+</div>
+<div class="custom-column-5">
+    <div class="be-post">
+        <a href="blog-detail-2.html" class="be-img-block">
+            <img src="/Images/p13.jpg" alt="omg">
+        </a>
+        <a href="blog-detail-2.html" class="be-post-title">Stay Ahead Series</a>
+        <span>
+                                    <a href="blog-detail-2.html" class="be-post-tag">Interaction Design</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">UI/UX</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">Web Design</a>
+                                </span>
+        <div class="author-post">
+            <img src="/Images/a5.png" alt="" class="ava-author">
+            <span>by <a href="blog-detail-2.html">Hoang Nguyen</a></span>
+        </div>
+        <div class="info-block">
+            <span><i class="fa fa-thumbs-o-up"></i> 360</span>
+            <span><i class="fa fa-eye"></i> 789</span>
+            <span><i class="fa fa-comment-o"></i> 20</span>
+        </div>
+    </div>
+</div>
+<div class="custom-column-5">
+    <div class="be-post">
+        <a href="blog-detail-2.html" class="be-img-block">
+            <img src="/Images/p14.jpg" alt="omg">
+        </a>
+        <a href="blog-detail-2.html" class="be-post-title">Faber-Castell / Psychological Problems</a>
+        <span>
+                                    <a href="blog-detail-2.html" class="be-post-tag">Interaction Design</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">UI/UX</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">Web Design</a>
+                                </span>
+        <div class="author-post">
+            <img src="/Images/a1.png" alt="" class="ava-author">
+            <span>by <a href="blog-detail-2.html">Hoang Nguyen</a></span>
+        </div>
+        <div class="info-block">
+            <span><i class="fa fa-thumbs-o-up"></i> 360</span>
+            <span><i class="fa fa-eye"></i> 789</span>
+            <span><i class="fa fa-comment-o"></i> 20</span>
+        </div>
+    </div>
+</div>
+<div class="custom-column-5">
+    <div class="be-post">
+        <a href="blog-detail-2.html" class="be-img-block">
+            <img src="/Images/p15.jpg" alt="omg">
+        </a>
+        <a href="blog-detail-2.html" class="be-post-title">Garry Simpson - Bridges - Intelligent Life Magazine</a>
+        <span>
+                                    <a href="blog-detail-2.html" class="be-post-tag">Interaction Design</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">UI/UX</a>,
+                                    <a href="blog-detail-2.html" class="be-post-tag">Web Design</a>
+                                </span>
+        <div class="author-post">
+            <img src="/Images/a9.png" alt="" class="ava-author">
+            <span>by <a href="blog-detail-2.html">Hoang Nguyen</a></span>
+        </div>
+        <div class="info-block">
+            <span><i class="fa fa-thumbs-o-up"></i> 360</span>
+            <span><i class="fa fa-eye"></i> 789</span>
+            <span><i class="fa fa-comment-o"></i> 20</span>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+    <!-- THE FOOTER -->
+    <footer>
+        <div class="footer_slider">
+            <div class="swiper-container" data-autoplay="0" data-loop="1" data-speed="500" data-center="0" data-slides-per-view="responsive" data-xs-slides="4" data-sm-slides="8" data-md-slides="14" data-lg-slides="19" data-add-slides="19">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide active" data-val="0">
+                        <img class="img-responsive img-full" src="/Images/f1.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="1">
+                        <img class="img-responsive img-full" src="/Images/f2.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="2">
+                        <img class="img-responsive img-full" src="/Images/f3.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="3">
+                        <img class="img-responsive img-full" src="/Images/f4.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="4">
+                        <img class="img-responsive img-full" src="/Images/f5.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="5">
+                        <img class="img-responsive img-full" src="/Images/f6.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="6">
+                        <img class="img-responsive img-full" src="/Images/f7.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="7">
+                        <img class="img-responsive img-full" src="/Images/f8.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="8">
+                        <img class="img-responsive img-full" src="/Images/f9.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="9">
+                        <img class="img-responsive img-full" src="/Images/f10.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="10">
+                        <img class="img-responsive img-full" src="/Images/f11.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="11">
+                        <img class="img-responsive img-full" src="/Images/f12.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="12">
+                        <img class="img-responsive img-full" src="/Images/f13.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="13">
+                        <img class="img-responsive img-full" src="/Images/f14.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="14">
+                        <img class="img-responsive img-full" src="/Images/f15.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="15">
+                        <img class="img-responsive img-full" src="/Images/f16.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="16">
+                        <img class="img-responsive img-full" src="/Images/f17.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="17">
+                        <img class="img-responsive img-full" src="/Images/f18.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="18">
+                        <img class="img-responsive img-full" src="/Images/f19.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="19">
+                        <img class="img-responsive img-full" src="/Images/f1.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="20">
+                        <img class="img-responsive img-full" src="/Images/f2.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="21">
+                        <img class="img-responsive img-full" src="/Images/f3.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="22">
+                        <img class="img-responsive img-full" src="/Images/f4.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide" data-val="23">
+                        <img class="img-responsive img-full" src="/Images/f5.jpg" alt="">
+                    </div>
+                </div>
+                <div class="pagination hidden"></div>
+            </div>
+        </div>
+        <div class="footer-main">
+            <div class="container-fluid custom-container">
+                <div class="row">
+                    <div class="col-md-3 col-xl-4">
+                        <div class="footer-block">
+                            <h1 class="footer-title">About Us</h1>
+                            <p>Vestibulum tincidunt, augue fermentum accumsan viverra, eros dui rutrum libero, nec imperdiet felis sem in augue luctus <a href="blog-detail-2.html">diam a porta</a> iaculis. Vivamus sit amet fermentum nisl. Duis id <a href="blog-detail-2.html">massa id purus</a> tristique varius a sit amet est. Fusce dolor libero, efficitur et lobortis at, faucibus nec nunc.</p>
+                            <ul class="soc_buttons">
+                                <li><a href=""><i class="fa fa-facebook"></i></a></li>
+                                <li><a href=""><i class="fa fa-twitter"></i></a></li>
+                                <li><a href=""><i class="fa fa-google-plus"></i></a></li>
+                                <li><a href=""><i class="fa fa-pinterest-p"></i></a></li>
+                                <li><a href=""><i class="fa fa-instagram"></i></a></li>
+                                <li><a href=""><i class="fa fa-linkedin"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xl-2">
+                        <div class="footer-block">
+                            <h1 class="footer-title">Some Links</h1>
+                            <div class="row footer-list-footer">
+                                <div class="col-md-6">
+                                    <ul class="link-list">
+                                        <li><a href="blog-detail-2.html">About Us</a></li>
+                                        <li><a href="blog-detail-2.html">Help</a></li>
+                                        <li><a href="blog-detail-2.html">Contacts</a></li>
+                                        <li><a href="blog-detail-2.html">Job</a></li>
+                                        <li><a href="blog-detail-2.html">Projets</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="link-list">
+                                        <li><a href="blog-detail-2.html">New Works</a></li>
+                                        <li><a href="blog-detail-2.html">Popular Authors</a></li>
+                                        <li><a href="blog-detail-2.html">New Authors</a></li>
+                                        <li><a href="blog-detail-2.html">Career</a></li>
+                                        <li><a href="blog-detail-2.html">FAQ</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 galerry">
+                        <div class="footer-block">
+                            <h1 class="footer-title">Recent Works</h1>
+                            <a href="blog-detail-2.html"><img src="/Images/g1.jpg" alt=""></a>
+                            <a href="blog-detail-2.html"><img src="/Images/g2.jpg" alt=""></a>
+                            <a href="blog-detail-2.html"><img src="/Images/g3.jpg" alt=""></a>
+                            <a href="blog-detail-2.html"><img src="/Images/g4.jpg" alt=""></a>
+                            <a href="blog-detail-2.html"><img src="/Images/g5.jpg" alt=""></a>
+                            <a href="blog-detail-2.html"><img src="/Images/g6.jpg" alt=""></a>
+                            <a href="blog-detail-2.html"><img src="/Images/g7.jpg" alt=""></a>
+                            <a href="blog-detail-2.html"><img src="/Images/g8.jpg" alt=""></a>
+                            <a href="blog-detail-2.html"><img src="/Images/g9.jpg" alt=""></a>
+                            <a href="blog-detail-2.html"><img src="/Images/g10.jpg" alt=""></a>
+                            <a href="blog-detail-2.html"><img src="/Images/g11.jpg" alt=""></a>
+                            <a href="blog-detail-2.html"><img src="/Images/g12.jpg" alt=""></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="footer-block">
+                            <h1 class="footer-title">Subscribe On Our News</h1>
+                            <form action="./" class="subscribe-form">
+                                <input type="text" placeholder="Yout Name" required>
+                                <div class="submit-block">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <input type="submit" value="">
+                                </div>
+                            </form>
+                            <div class="soc-activity">
+                                <div class="soc_ico_triangle">
+                                    <i class="fa fa-twitter"></i>
+                                </div>
+                                <div class="message-soc">
+                                    <div class="date">16h ago</div>
+                                    <a href="blog-detail-2.html" class="account">Sau nhớ sửa nhé Toản đẹp trai</a> vestibulum accumsan est <a href="blog-detail-2.html" class="heshtag">blog-detail-2.htmlmalesuada</a> sem auctor, eu aliquet nisi ornare leo sit amet varius egestas.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container-fluid custom-container">
+                <div class="col-md-12 footer-end clearfix">
+                    <div class="left">
+                        <span class="copy">© 2015. All rights reserved. <span class="white"><a href="blog-detail-2.html"> NRGNetwork</a></span></span>
+                        <span class="created">Created with LOVE by <span class="white"><a href="blog-detail-2.html"> NRGThemes</a></span></span>
+                    </div>
+                    <div class="right">
+                        <a class="btn color-7 size-2 hover-9">About Us</a>
+                        <a class="btn color-7 size-2 hover-9">Help</a>
+                        <a class="btn color-7 size-2 hover-9">Privacy Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="be-fixed-filter"></div>
+
+    
+    <div class="large-popup register">
+        <div class="large-popup-fixed"></div>
+        <div class="container large-popup-container">
+            <div class="row">
+                <div class="col-md-10 col-md-push-1 col-lg-8 col-lg-push-2 large-popup-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <i class="fa fa-times close-button"></i>
+                            <h5 class="large-popup-title">Register</h5>
+                        </div>
+                        <form action="./" class="popup-input-search">
+                            <div class="col-md-6">
+                                <input class="input-signtype" type="text" required="" placeholder="First Name">
+                            </div>
+                            <div class="col-md-6">
+                                <input class="input-signtype" type="text" required="" placeholder="Last Name">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="be-custom-select-block">
+                                    <select class="be-custom-select">
+                                        <option value="" disabled selected>
+                                            Country
+                                        </option>
+                                        <option value="">USA</option>
+                                        <option value="">Canada</option>
+                                        <option value="">England</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="input-signtype" type="text" required="" placeholder="Email">
+                            </div>
+                            <div class="col-md-6">
+                                <input class="input-signtype" type="text" required="" placeholder="Password">
+                            </div>
+                            <div class="col-md-6">
+                                <input class="input-signtype" type="text" required="" placeholder="Repeat Password">
+                            </div>
+                            <div class="col-md-12 be-date-block">
+                                <span class="large-popup-text">
+                                    Date of birth
+                                </span>
+                                <div class="be-custom-select-block mounth">
+                                    <select class="be-custom-select">
+                                        <option value="" disabled selected>
+                                            Mounth
+                                        </option>
+                                        <option value="">January</option>
+                                        <option value="">February</option>
+                                        <option value="">March</option>
+                                        <option value="">April</option>
+                                        <option value="">May</option>
+                                        <option value="">June</option>
+                                        <option value="">July</option>
+                                        <option value="">August</option>
+                                        <option value="">September</option>
+                                        <option value="">October</option>
+                                        <option value="">November</option>
+                                        <option value="">December</option>
+                                    </select>
+                                </div>
+                                <div class="be-custom-select-block">
+                                    <select class="be-custom-select">
+                                        <option value="" disabled selected>
+                                            Day
+                                        </option>
+                                        <option value="">1</option>
+                                        <option value="">2</option>
+                                        <option value="">3</option>
+                                        <option value="">4</option>
+                                        <option value="">5</option>
+                                        <option value="">6</option>
+                                        <option value="">7</option>
+                                        <option value="">8</option>
+                                        <option value="">9</option>
+                                        <option value="">10</option>
+                                        <option value="">11</option>
+                                        <option value="">12</option>
+                                        <option value="">13</option>
+                                        <option value="">14</option>
+                                        <option value="">15</option>
+                                        <option value="">16</option>
+                                        <option value="">17</option>
+                                        <option value="">18</option>
+                                        <option value="">19</option>
+                                        <option value="">20</option>
+                                        <option value="">21</option>
+                                        <option value="">22</option>
+                                        <option value="">23</option>
+                                        <option value="">24</option>
+                                        <option value="">25</option>
+                                        <option value="">26</option>
+                                        <option value="">27</option>
+                                        <option value="">28</option>
+                                        <option value="">29</option>
+                                        <option value="">30</option>
+                                    </select>
+                                </div>
+                                <div class="be-custom-select-block">
+                                    <select class="be-custom-select">
+                                        <option value="" disabled selected>
+                                            Year
+                                        </option>
+                                        <option value="">1996</option>
+                                        <option value="">1997</option>
+                                        <option value="">1998</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="be-checkbox">
+                                    <label class="check-box">
+                                        <input class="checkbox-input" type="checkbox" required="" value=""> <span class="check-box-sign"></span>
+                                    </label>
+                                    <span class="large-popup-text">
+                                        I have read and agree to the <a class="be-popup-terms" href="blog-detail-2.html">Terms of Use</a> and <a class="be-popup-terms" href="blog-detail-2.html">Privacy Policy</a>.
+                                    </span>
+                                </div>
+                                <div class="be-checkbox">
+                                    <label class="check-box">
+                                        <input class="checkbox-input" type="checkbox" value=""> <span class="check-box-sign"></span>
+                                    </label>
+                                    <span class="large-popup-text">
+                                        Send me notifications
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 for-signin">
+                                <input type="submit" class="be-popup-sign-button" value="SIGN IN">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SCRIPTS	 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+</body>

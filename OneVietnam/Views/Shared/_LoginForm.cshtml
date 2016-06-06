@@ -1,0 +1,54 @@
+﻿@using OneVietnam.Models
+@model LoginViewModel
+
+<section id="loginForm">
+    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+        @Html.AntiForgeryToken()
+        <h4>Use a local account to log in.</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "input-signtype", @placeholder = "Email"  })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.Password, new { @class = "input-signtype", @placeholder="Password" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+@*                <div class="form-group col-xs-6">*@
+@*                    <div class="col-md-offset-2 col-md-10">*@
+@*                        <div class=" checkbox">*@
+@*                            @Html.CheckBoxFor(m => m.RememberMe)*@
+@*                            @Html.LabelFor(m => m.RememberMe)*@
+@*                        </div>*@
+@*                       *@
+@*                    </div>*@
+@*                </div>*@
+        <div class="col-xs-6">
+            <div class="be-checkbox">
+                <label class="check-box">
+                    <input class="checkbox-input"  id="RememberMe" name="RememberMe" type="checkbox" value=""> <span class="check-box-sign"></span>
+                </label>
+                <span class="large-popup-text">
+                    Stay signed in
+                </span>
+            </div>
+
+        </div>
+                            <div class="col-xs-6 for-signin">
+                                <input type="submit" class="be-popup-sign-button" value="Đăng nhập">
+                            </div>
+                <p>
+                    @Html.ActionLink("Register as a new user", "Register","Account")
+                </p>
+                @* Enable this once you have account confirmation enabled for password reset functionality *@
+                <p>
+                    @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                </p>
+    }
+</section>
