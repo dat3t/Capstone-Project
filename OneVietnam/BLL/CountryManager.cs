@@ -31,6 +31,11 @@ namespace OneVietnam.BLL
                 new CountryManager(new CountryStore(context.Get<ApplicationIdentityContext>().Countries));
             return manager;
         }
+        public async Task<List<Country>> GetCountriesAsync()
+        {
+            return await _countryStore.GetCountriesAsync();
+        }
+      
         public void Dispose()
         {
         }
