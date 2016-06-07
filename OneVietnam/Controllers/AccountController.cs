@@ -57,6 +57,26 @@ namespace OneVietnam.Controllers
             }
             private set { _countryManager = value; }
         }
+
+
+
+        public async Task<ActionResult> SelectCountry()
+        {
+            var countrieslist = await CountryManager.GetCountriesAsync();
+
+            if (countrieslist== null)
+            {
+                ViewBag.CountryIcon = countrieslist[0].CountryIcon;
+            }
+            //else
+            //	{
+            //  ViewBag.CountryIcon = countrieslist[0].CountryIcon;			
+
+            //	}
+
+            return View(countrieslist);
+        }
+
         //DEMO
         public async Task<ActionResult> ShowAllUsers()
         {
@@ -102,7 +122,7 @@ namespace OneVietnam.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateCountry(AddCountryViewModel model)
         {
-            await CountryManager.CreateAsync(new Country(model.CountryName, model.CountryCode));
+            await CountryManager.CreateAsync(new Country(model.CountryName, model.CountryCode, model.CountryIcon));
             return RedirectToAction("Index", "Home");
         }
         //
@@ -606,12 +626,12 @@ namespace OneVietnam.Controllers
         public override Task OnConnected()
         {
             if (AccountController.createdPost)
-            {                
+            {
                 var javaScriptSerializer = new JavaScriptSerializer();
                 string jsonString = javaScriptSerializer.Serialize(AccountController.PostView);
                 Clients.Others.loadNewPost(jsonString);
             }
             return base.OnConnected();
-        }        
+        }
     }
 }
