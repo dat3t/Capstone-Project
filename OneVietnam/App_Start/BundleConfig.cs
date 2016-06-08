@@ -24,7 +24,7 @@ namespace OneVietnam
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrapTheme.min.css",
                       "~/Content/site.css"));
         }
     }
