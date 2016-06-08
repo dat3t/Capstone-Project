@@ -45,6 +45,16 @@ namespace OneVietnam.DAL
             return Task.FromResult(0);
         }
 
+        public List<Location> GetLocationAsync(List<ApplicationUser> userList)
+        {
+            //user.AddLocation(location);
+            List<Location> Locations = new List<Location>();
+            foreach(ApplicationUser user in userList)
+            {
+                Locations.Add(user.Location);
+            }
+            return Locations;
+        }
     }
 
 }

@@ -26,14 +26,14 @@ namespace OneVietnam.BLL
             return await UpdateAsync(user).ConfigureAwait(false);
         }
 
-        //public virtual async Task<List<Post>> GetPostsAsync(string userId)
-        //{
-        //    var user = await FindByIdAsync(userId).ConfigureAwait(false);
-        //    if (user == null)
-        //    {
-        //        throw new InvalidOperationException("Invalid user Id");
-        //    }
-        //    return _userStore.GetPostsAsync(user);
-        //}
+        public virtual async Task<List<Location>> GetLocationAsync(List<ApplicationUser> userList)
+        {
+          
+            if (userList == null)
+            {
+                throw new InvalidOperationException("Invalid user");
+            }
+            return _userStore.GetLocationAsync(userList);
+        }
     }
 }
