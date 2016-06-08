@@ -37,5 +37,14 @@ namespace OneVietnam.DAL
         {
             return user.Posts;
         }
+
+        //DEMO
+        public Task AddLocationAsync(ApplicationUser user, Location location)
+        {
+            user.AddLocation(location);
+            return Task.FromResult(0);
+        }
+
     }
+
 }

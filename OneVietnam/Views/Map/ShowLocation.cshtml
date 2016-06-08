@@ -1,0 +1,45 @@
+﻿@model IEnumerable<OneVietnam.DTL.Location>
+
+@{
+    ViewBag.Title = "ShowLocation";
+}
+
+<h2>ShowLocation</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.XCoordinate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.YCoordinate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.XCoordinate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.YCoordinate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>
