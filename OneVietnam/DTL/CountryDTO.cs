@@ -14,18 +14,14 @@ namespace OneVietnam.DTL
 
         public string CountryName { get; set; }
         public string CountryCode { get; set; }
+        public string CountryIcon { get; set; }
 
-        public Country(string name, string code)
+        public Country(string name, string code, string icon)
         {
             Id = ObjectId.GenerateNewId().ToString();
             CountryName = name;
             CountryCode = code;
-        }
-        // demo to commit
-        public Country(string name)
-        {
-            Id = ObjectId.GenerateNewId().ToString();
-            CountryName = name;
+            CountryIcon = icon;
         }
     }
 }

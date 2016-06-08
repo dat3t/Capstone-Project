@@ -1,0 +1,8 @@
+﻿@model IEnumerable<OneVietnam.DTL.Country>
+
+
+@Html.DropDownList("CountryName",
+                   new SelectList(Model.Select(i => i.CountryName).Distinct().ToList()),
+                   new { @class = "input-large form-control", onchange = "$(this.form).submit();" })
+
+<img runat="server" id="img_logo" alt="Logo" src=@ViewBag.CountryIcon />
