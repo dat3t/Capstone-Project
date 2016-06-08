@@ -17,11 +17,30 @@ else
 {
     <ul >
         @*        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
-       <li> <a class="btn-login btn color-1 size-2 hover-2" href="lấy cái a rồi bao viền cho nó đẹp thôi">
+        <li> <a class="btn-login btn color-1 size-2 hover-2" href="lấy cái a rồi bao viền cho nó đẹp thôi">
             <i class="fa fa-user"></i>
             Log in
         </a></li>
-@*        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>*@
+        @*        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>*@
     </ul>
+    <div class="large-popup login">
+        <div class="large-popup-fixed"></div>
+        <div class="container large-popup-container">
+            <div class="row">
+                <div class="col-md-8 col-md-push-2 col-lg-6 col-lg-push-3  large-popup-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <i class="fa fa-times close-button"></i>
+                            <h5 class="large-popup-title">Log in</h5>
+                        </div>
+                        @Html.Partial("_LoginForm")
+                        @*                        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
+
+                        //
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>NGRNetwork</title>
+    <title>OneVietnam</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="/Images/favicon.png">
@@ -27,44 +27,11 @@
                 </div>
                 <div class="header-menu-block">
                     <button class="cmn-toggle-switch cmn-toggle-switch__htx"><span></span></button>
-                    <ul class="header-menu" id="one">
+                    <ul class="header-menu" id="one">                                          
                         <li class="active-header">
-                            <a href="blog-detail-2.html">Find Projects</a><i class="fa fa-angle-down"></i>
-                            <ul>
-                                <li>
-                                    <a href="@Url.Action("Index", "Home")">
-                                        Hướng dẫn
-                                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                                    </a>
-                                    <ul>
-                                        <li><a href="page1.html">PAGE 1</a></li>
-                                        <li><a href="page2.html">PAGE 2</a></li>
-                                        <li><a href="page3.html">PAGE 3</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="search.html">SEARCH</a></li>
-                            </ul>
+                            <a href="">Trang Chủ</a><i class="fa fa-angle-down"></i>
                         </li>
-                        <li><a href="activity.html">Jobs</a></li>
-                        <li>
-                            <a href="search.html">Find Candidates</a><i class="fa fa-angle-down"></i>
-                            <ul>
-                                <li><a href="author-edit.html">AUTHOR EDIT</a></li>
-                                <li><a href="author-login.html">AUTHOR LOGIN</a></li>
-                                <li><a href="messages.html">MESSAGES</a></li>
-                                <li><a href="messages-2.html">MESSAGES 2</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="blog-detail-2.html">Community</a><i class="fa fa-angle-down"></i>
-                            <ul>
-                                <li><a href="statictics.html">STATISTICS</a></li>
-                                <li><a href="faq.html">FAQ</a></li>
-                                <li><a href="about-us.html">ABOUT US</a></li>
-                                <li><a href="contact-us.html">CONTACT US</a></li>
-                                <li><a href="shortcodes.html">SHORTCODES</a></li>
-                            </ul>
-                        </li>
+                        <li><a href="">Bảng Tin</a></li>
                     </ul>
                 </div>
                 <div class="login-header-block">
@@ -77,26 +44,7 @@
         </div>
     </header>
 
-<div id="content-block">
-    <div class="large-popup login">
-        <div class="large-popup-fixed"></div>
-        <div class="container large-popup-container">
-            <div class="row">
-                <div class="col-md-8 col-md-push-2 col-lg-6 col-lg-push-3  large-popup-content">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <i class="fa fa-times close-button"></i>
-                            <h5 class="large-popup-title">Log in</h5>
-                        </div>
-                        @Html.Partial("_LoginForm")
-@*                        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
-
-                        //
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div id="content-block">    
     @RenderBody()
     <hr/>
     <footer>
