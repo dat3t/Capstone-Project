@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -252,12 +253,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="BLL\CountryManager.cs" />
+    <Compile Include="BLL\MapManagerBLO.cs" />
     <Compile Include="BLL\PostsManagerBLO.cs" />
     <Compile Include="BLL\RolesManagerBLO.cs" />
     <Compile Include="BLL\UserManagerBLO.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="DAL\CountryStoreDAO.cs" />
@@ -273,6 +276,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddCountryViewModel.cs" />
+    <Compile Include="Models\LocationViewModel.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -380,6 +384,9 @@
     <Content Include="Views\Account\ShowPost.cshtml" />
     <Content Include="Views\Account\ShowCreatedPost.cshtml" />
     <Content Include="Views\Account\CreateCountry.cshtml" />
+    <Content Include="Views\Map\ViewMap.cshtml" />
+    <Content Include="Views\Map\AddLocation.cshtml" />
+    <Content Include="Views\Map\ShowLocation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
