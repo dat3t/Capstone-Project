@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OneVietnam.DTL.Location>
+﻿@model IEnumerable<OneVietnam.Models.AddLocationViewModel>
 
 @{
     ViewBag.Title = "ShowLocation";
@@ -12,13 +12,16 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.XCoordinate)
+            @Html.DisplayNameFor(model => model.x)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.YCoordinate)
+            @Html.DisplayNameFor(model => model.y)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Address)
+            @Html.DisplayNameFor(model => model.address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.userid)
         </th>
         <th></th>
     </tr>
@@ -26,13 +29,16 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.XCoordinate)
+            @Html.DisplayFor(modelItem => item.x)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.YCoordinate)
+            @Html.DisplayFor(modelItem => item.y)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Address)
+            @Html.DisplayFor(modelItem => item.address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.userid)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

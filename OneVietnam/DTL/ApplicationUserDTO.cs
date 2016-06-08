@@ -25,6 +25,8 @@ namespace OneVietnam.DTL
         [BsonIgnoreIfNull]
         public List<Post> Posts { get; set; }
 
+
+
         public void AddPost(Post p)
         {
             if (Posts == null)
