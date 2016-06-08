@@ -33,7 +33,7 @@ namespace OneVietnam
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.min.css",
+                      "~/Content/bootstrapTheme.min.css",
                       "~/Content/icon.css",
                       "~/Content/idangerous.swiper.css",
                       "~/Content/idangerous.swiper_backup.css",
