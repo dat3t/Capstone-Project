@@ -16,16 +16,24 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>                
-                @Html.ActionLink("One Vietnam", "Index", "Home", new {area = ""}, new {@class = "navbar-brand "})
-
-            </div>            
+                </button>
+                @Html.ActionLink("One Vietnam", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Trang Chủ", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Bảng Tin", "Index", "NewFeed")</li>                    
-                </ul>
                 @Html.Partial("_LoginPartial")
+                <ul class="nav navbar-nav navbar-right">
+                    <li>@Html.ActionLink("Trang Chủ", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Bảng Tin", "Index", "NewFeed")</li>
+                </ul>
+                <form class="navbar-form">
+                    <div class="form-group" style="display:inline;">
+                        <div class="input-group" style="display:table;">
+                            <span class="input-group-addon" style="width:1%;"><span class="glyphicon glyphicon-search"></span></span>
+                            <input type="text" class="form-control" placeholder="Search..." autocomplete="off" autofocus="autofocus">
+                        </div>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
