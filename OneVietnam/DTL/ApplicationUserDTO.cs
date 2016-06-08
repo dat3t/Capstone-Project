@@ -33,5 +33,12 @@ namespace OneVietnam.DTL
             }
             Posts.Add(p);
         }
+
+        //DEMO
+        public void AddLocation(Location location)
+        {
+            Location = location;
+            
+        }
     }
 }
