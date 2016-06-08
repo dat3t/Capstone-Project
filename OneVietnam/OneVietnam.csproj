@@ -277,7 +277,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddCountryViewModel.cs" />
-    <Compile Include="Models\LocationViewModel.cs" />
+    <Compile Include="Models\AddLocationViewModel.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -300,6 +300,27 @@
     <Content Include="Content\CountryImage\kr.png" />
     <Content Include="Content\CountryImage\us.png" />
     <Content Include="Content\CountryImage\vi.png" />
+    <Content Include="Images\conv30.png" />
+    <Content Include="Images\conv40.png" />
+    <Content Include="Images\conv50.png" />
+    <Content Include="Images\currentLocationButton.png" />
+    <Content Include="Images\dat.JPG" />
+    <Content Include="Images\heart30.png" />
+    <Content Include="Images\heart40.png" />
+    <Content Include="Images\heart50.png" />
+    <Content Include="Content\Map\infoWindow.css" />
+    <Content Include="Images\m1.png" />
+    <Content Include="Images\m2.png" />
+    <Content Include="Images\m3.png" />
+    <Content Include="Images\m4.png" />
+    <Content Include="Images\m5.png" />
+    <Content Include="Content\Map\map.css" />
+    <Content Include="Images\myLocation.png" />
+    <Content Include="Images\people35.png" />
+    <Content Include="Images\people45.png" />
+    <Content Include="Images\people55.png" />
+    <Content Include="Images\pin.png" />
+    <Content Include="Content\Map\searchbox.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -325,6 +346,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\map.js" />
+    <Content Include="Scripts\markerclusterer.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -391,8 +414,8 @@
     <Content Include="Views\Account\CreateCountry.cshtml" />
     <Content Include="Views\Map\ViewMap.cshtml" />
     <Content Include="Views\Map\AddLocation.cshtml" />
-    <Content Include="Views\Map\ShowLocation.cshtml" />
     <Content Include="Views\Account\SelectCountry.cshtml" />
+    <Content Include="Views\Map\ShowLocation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

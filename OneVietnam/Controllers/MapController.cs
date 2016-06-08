@@ -13,9 +13,14 @@ namespace OneVietnam.Controllers
 {
     public class MapController : Controller
     {
-        public static LocationViewModel LocationView;
+        public static AddLocationViewModel LocationView;
         // GET: Map
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult ViewMap()
         {
             return View();
         }
@@ -41,12 +46,10 @@ namespace OneVietnam.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> AddLocation(LocationViewModel l)
+        public async Task<ActionResult> AddLocation(AddLocationViewModel l)
         {
             Location location = new Location(l);
             await UserManager.AddLocationAsync(l.userid,location);
-            //createdPost = true;
-            //PostView = new ShowPostViewModel(post);
             return RedirectToAction("Index", "Home");
         }
 
@@ -58,9 +61,10 @@ namespace OneVietnam.Controllers
         public async Task<ActionResult> ShowLocation()
         {
             var userslist = await UserManager.AllUsersAsync();
-            List<Location> list = await UserManager.GetPostsAsync(User.Identity.GetUserId());
-            List<LocationViewModel> locationViewList = list.Select(post => new ShowPostViewModel(post)).ToList();
-            return View(pViewList);
+            List<Location> list = await UserManager.GetLocationAsync(userslist);
+            ViewBag.
+            List<AddLocationViewModel> locationViewList = list.Select(location => new AddLocationViewModel(location)).ToList();
+            return View(locationViewList);
         }
 
     }
