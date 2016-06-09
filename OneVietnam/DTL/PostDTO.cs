@@ -17,6 +17,8 @@ namespace OneVietnam.DTL
 
         public string Username { get; set; }
         public string Title { get; set; }
+
+        [BsonIgnoreIfNull]
         public string Description { get; set; }
         public DateTimeOffset? PublishDate { get; set; }
         [BsonIgnoreIfNull]
@@ -26,6 +28,16 @@ namespace OneVietnam.DTL
         public bool DeletedFlag { get; set; }
         // finished or not
         public bool Status { get; set; }
+
+        public Location PostLocation { get; set; }
+
+        public Location UserLocation { get; set; }
+        [BsonIgnoreIfNull]
+        public List<Report> Reports { get; set; }
+
+        [BsonIgnoreIfNull]
+        public List<Tag> Tags { get; set; }
+
         public Post(CreatePostViewModel pView)
         {
             Id = ObjectId.GenerateNewId().ToString();
@@ -35,6 +47,20 @@ namespace OneVietnam.DTL
             PostType = pView.PostType;
             DeletedFlag = false;
             Status = false;
+            PostLocation = pView.PostLocation;
+            UserLocation = pView.UserLocation;
+            Reports = pView.Reports;
+            Illustrations = pView.Illustrations;
+
+        }
+
+        public void AddReport(Report pReport)
+        {
+            if (Reports == null)
+            {
+                Reports = new List<Report>();
+            }
+            Reports.Add(pReport);
         }
     }
 }
