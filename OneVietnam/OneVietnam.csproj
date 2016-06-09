@@ -301,6 +301,12 @@
     <Content Include="Content\CountryImage\kr.png" />
     <Content Include="Content\CountryImage\us.png" />
     <Content Include="Content\CountryImage\vi.png" />
+    <Content Include="Content\icon.css" />
+    <Content Include="Content\idangerous.swiper.css" />
+    <Content Include="Content\idangerous.swiper_backup.css" />
+    <Content Include="Content\ie-9.css" />
+    <Content Include="Content\loader.css" />
+    <Content Include="Content\stylesheet.css" />
     <Content Include="fonts\helveticaneuecyr-bold.svg" />
     <Content Include="fonts\helveticaneuecyr-roman.svg" />
     <Content Include="Images\conv30.png" />
@@ -341,6 +347,7 @@
     <Content Include="fonts\helveticaneuecyr-roman.eot" />
     <Content Include="fonts\helveticaneuecyr-roman.ttf" />
     <Content Include="fonts\helveticaneuecyr-roman.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

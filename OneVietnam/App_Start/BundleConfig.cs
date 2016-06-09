@@ -25,7 +25,13 @@ namespace OneVietnam
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrapTheme.min.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/stylesheet.css",
+                      "~/Content/icon.css",
+                      "~/Content/idangerous.swiper.css",
+                      "~/Content/idangerous.swiper_backup.css",
+                      "~/Content/ie-9.css",
+                      "~/Content/loader.css"));
         }
     }
 }
