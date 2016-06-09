@@ -14,9 +14,45 @@
     }
 }
 else
-{
+{   
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>
+            <a  id="btnLogin" href="">Đăng Nhập</a>
+        </li>
+        <li>
+            <a  id="btnRegister" href="">Đăng Ký</a>
+        </li>
     </ul>
+    <div class="large-popup login" id="loginDiv">
+        <div class="large-popup-fixed"></div>
+        <div class="container large-popup-container">
+            <div class="row">
+                <div class="col-md-8 col-md-push-2 col-lg-6 col-lg-push-3  large-popup-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <i class="fa fa-times close-button"></i>
+                            <h5 class="large-popup-title">Log in</h5>
+                        </div>
+                        @Html.Partial("~/Views/Account/Login.cshtml");
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="large-popup register" id="registerDiv">
+        <div class="large-popup-fixed"></div>
+        <div class="container large-popup-container">
+            <div class="row">
+                <div class="col-md-8 col-md-push-2 col-lg-6 col-lg-push-3  large-popup-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <i class="fa fa-times close-button"></i>
+                            <h5 class="large-popup-title">Register</h5>
+                        </div>
+                        @Html.Partial("~/Views/Account/Register.cshtml");
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
