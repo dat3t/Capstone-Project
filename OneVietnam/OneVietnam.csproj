@@ -301,6 +301,8 @@
     <Content Include="Content\CountryImage\kr.png" />
     <Content Include="Content\CountryImage\us.png" />
     <Content Include="Content\CountryImage\vi.png" />
+    <Content Include="fonts\helveticaneuecyr-bold.svg" />
+    <Content Include="fonts\helveticaneuecyr-roman.svg" />
     <Content Include="Images\conv30.png" />
     <Content Include="Images\conv40.png" />
     <Content Include="Images\conv50.png" />
@@ -333,6 +335,12 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="fonts\helveticaneuecyr-bold.eot" />
+    <Content Include="fonts\helveticaneuecyr-bold.ttf" />
+    <Content Include="fonts\helveticaneuecyr-bold.woff" />
+    <Content Include="fonts\helveticaneuecyr-roman.eot" />
+    <Content Include="fonts\helveticaneuecyr-roman.ttf" />
+    <Content Include="fonts\helveticaneuecyr-roman.woff" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
