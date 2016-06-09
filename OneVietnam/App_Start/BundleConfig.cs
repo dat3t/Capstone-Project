@@ -33,7 +33,7 @@ namespace OneVietnam
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrapTheme.min.css",
+                      "~/Content/bootstrap.min.css",
                       "~/Content/site.css",
                       "~/Content/stylesheet.css",
                       "~/Content/icon.css",
