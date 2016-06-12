@@ -305,6 +305,14 @@
     <Content Include="Content\idangerous.swiper_backup.css" />
     <Content Include="Content\ie-9.css" />
     <Content Include="Content\loader.css" />
+    <Content Include="Content\SlideImages\HA.jpg" />
+    <Content Include="Content\SlideImages\Halong.jpg" />
+    <Content Include="Content\SlideImages\HL2.jpg" />
+    <Content Include="Content\SlideImages\hoian.jpg" />
+    <Content Include="Content\SlideImages\QB.jpg" />
+    <Content Include="Content\SlideImages\QuangBinh.jpg" />
+    <Content Include="Content\SlideImages\Sapa.jpg" />
+    <Content Include="Content\SlideImages\SP.jpg" />
     <Content Include="Content\stylesheet.css" />
     <Content Include="fonts\helveticaneuecyr-bold.svg" />
     <Content Include="fonts\helveticaneuecyr-roman.svg" />

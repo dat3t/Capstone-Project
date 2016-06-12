@@ -330,7 +330,7 @@ $(function() {
 	    }
 	    $("#loginDiv").slideToggle();
         return false;
-    });
+	});
 	$("#btnRegister").on("click", function () {
 	    if ($("#loginDiv").is(":visible")) {
 	        $("#loginDiv").slideToggle();
