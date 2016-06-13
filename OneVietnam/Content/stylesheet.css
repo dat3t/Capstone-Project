@@ -1429,7 +1429,7 @@ display: inline-block; float: none; margin: 0 10px;}
 .subblock .type-2:after{color:#fff !important;}
 .subblock .pagination{text-align: left; margin: 0;}
 /*buttons*/
-.btn { display: inline-block; font-size: 12px; line-height: 12px; font-weight: 400; color: #fff; text-transform: uppercase; margin-bottom: 10px; margin-right: 27px; border-radius: 3px; }
+.btn { display: inline-block; font-size: 12px; line-height: 12px; font-weight: 400; color: #fff; text-transform: uppercase; margin-bottom: 10px; border-radius: 3px; }
 
 .btn.color-1 { background: #0d58c8; border: 1px solid #0d58c8; }
 

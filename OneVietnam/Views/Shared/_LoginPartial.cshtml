@@ -3,47 +3,30 @@
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </ul>
     }
 }
 else
-{   
+{
     <ul class="nav navbar-nav navbar-right">
         <li>
-            <a  id="btnLogin" href="">Đăng Nhập</a>
+            <a id="btnLogin" href="">Đăng Nhập</a>
         </li>
         <li>
-            <a  id="btnRegister" href="">Đăng Ký</a>
+            <a id="btnRegister" href="">Đăng Ký</a>
         </li>
     </ul>
     <div class="large-popup" id="loginDiv">
-        <div class="large-popup-fixed"></div>
-        <div class="container large-popup-container">
-            <div class="row">
-                <div class="col-md-8 col-md-push-2 col-lg-6 col-lg-push-3  large-popup-content">
-                    <div class="row">                        
-                        @Html.Partial("~/Views/Account/Login.cshtml");
-                    </div>
-                </div>
-            </div>
-        </div>
+        @Html.Partial("~/Views/Account/Login.cshtml");
     </div>
-    <div class="large-popup" id="registerDiv">        
-        <div class="container large-popup-container">
-            <div class="row">
-                <div class="col-md-8 col-md-push-2 col-lg-6 col-lg-push-3  large-popup-content">
-                    <div class="row">                        
-                        @Html.Partial("~/Views/Account/Register.cshtml");
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="large-popup" id="registerDiv">
+        @Html.Partial("~/Views/Account/Register.cshtml");
     </div>
 }

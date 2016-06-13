@@ -301,6 +301,7 @@
     <Content Include="Content\CountryImage\us.png" />
     <Content Include="Content\CountryImage\vi.png" />
     <Content Include="Content\icon.css" />
+    <Content Include="Content\Icon\icon-gg.png" />
     <Content Include="Content\idangerous.swiper.css" />
     <Content Include="Content\idangerous.swiper_backup.css" />
     <Content Include="Content\ie-9.css" />

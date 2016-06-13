@@ -326,16 +326,24 @@ $(function() {
 
 	$("#btnLogin").on("click", function () {
 	    if ($("#registerDiv").is(":visible")) {
-	        $("#registerDiv").slideToggle();
+	        $("#registerDiv").slideUp();
 	    }
 	    $("#loginDiv").slideToggle();
         return false;
 	});
 	$("#btnRegister").on("click", function () {
 	    if ($("#loginDiv").is(":visible")) {
-	        $("#loginDiv").slideToggle();
+	        $("#loginDiv").slideUp();
 	    }
 	    $("#registerDiv").slideToggle();
+        return false;
+	});
+    $("#closeLoginButton").on("click", function() {
+        $("#loginDiv").slideUp();
+        return false;
+    });
+    $("#closeRegisterButton").on("click", function () {
+        $("#registerDiv").slideUp();
         return false;
     });
 	$(".be-signup-link").on("click", function(){
