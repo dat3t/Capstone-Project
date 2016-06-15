@@ -25,6 +25,8 @@ namespace OneVietnam.DTL
         [BsonIgnoreIfNull]
         public List<Post> Posts { get; set; }
 
+
+
         public void AddPost(Post p)
         {
             if (Posts == null)
@@ -32,6 +34,13 @@ namespace OneVietnam.DTL
                 Posts = new List<Post>();
             }
             Posts.Add(p);
+        }
+
+        //DEMO
+        public void AddLocation(Location location)
+        {
+            Location = location;
+            
         }
     }
 }

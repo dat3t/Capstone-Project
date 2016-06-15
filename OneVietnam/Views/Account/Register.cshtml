@@ -1,40 +1,47 @@
-﻿@model OneVietnam.Models.RegisterViewModel
+﻿@using OneVietnam.Models
+@model OneVietnam.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Đăng Ký";
 }
 
-<h2>@ViewBag.Title.</h2>
+<div class="container large-popup-container">
+    <div class="row">
+        <div class="col-md-8 col-md-push-2 col-lg-6 col-lg-push-3  large-popup-content">
+            <div class="row">
+                <h2>
+                    <button class="btn text-center btn-primary" id="closeRegisterButton">x</button>
+                    @ViewBag.Title
+                </h2>
+                <div class="row">
+                    <div class="col-md-8">
+                        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <hr />
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "input-signtype", @placeholder = "Email" })
+                            </div>
+                            <div class="form-group">
+                                @Html.PasswordFor(m => m.Password, new { @class = "input-signtype", @placeholder = "Mật Khẩu" })
+                            </div>
+                            <div class="form-group">
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "input-signtype", @placeholder = "Nhập Lại Mật Khẩu" })
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" class="btn text-center pull-left btn-primary btn-block" value="Register" />
+                            </div>
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                    </div>
+                </div>           
+            </div>
+        </div>
+    </div>
+</div>
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
-        </div>
-    </div>
-}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
