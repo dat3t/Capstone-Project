@@ -14,9 +14,9 @@ namespace OneVietnam.DTL
 
         public string CountryName { get; set; }
         public string CountryCode { get; set; }
-        public string CountryIcon { get; set; }
-
-        public Country(string name, string code, string icon)
+        public byte[] CountryIcon { get; set; }
+        
+        public Country(string name, string code, byte[] icon)
         {
             Id = ObjectId.GenerateNewId().ToString();
             CountryName = name;
