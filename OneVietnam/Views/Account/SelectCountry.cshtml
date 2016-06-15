@@ -1,8 +1,26 @@
 ﻿@model IEnumerable<OneVietnam.DTL.Country>
 
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <select class="input-large form-control" id="CountryName" name="CountryName" onchange="form.submit();">
+        @foreach (var item in Model)
+                {
+                    if (@item.CountryName == ViewBag.SelectedCountry)
+                    {
+                <option @*id=@item.CountryName*@ selected="selected">
+                    @item.CountryName
+                </option>
+            }
+            else
+            {
+                <option @*id=@item.CountryName*@>
+                    @item.CountryName
+                </option>
+            }
 
-@Html.DropDownList("CountryName",
-                   new SelectList(Model.Select(i => i.CountryName).Distinct().ToList()),
-                   new { @class = "input-large form-control", onchange = "$(this.form).submit();" })
+        }
+    </select>
+    <img id="img_countryIcon" alt="countryIcon" src="data:image/png;base64,@System.Convert.ToBase64String(ViewBag.CountryIcon)" />
 
-<img runat="server" id="img_logo" alt="Logo" src=@ViewBag.CountryIcon />
+}

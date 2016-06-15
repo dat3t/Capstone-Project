@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Web;
 using OneVietnam.DTL;
 
@@ -14,9 +16,19 @@ namespace OneVietnam.Models
         {
             this.country = country;
         }
+
+       
         public AddCountryViewModel() { }
+        [Required]
+        [Display(Name = "Tên quốc gia")]
         public string CountryName { get; set; }
+
+        [Required]
+        [Display(Name = "Mã quốc gia")]
         public string CountryCode { get; set; }
-        public string CountryIcon { get; set; }
+
+        [Required]
+        [Display(Name = "Quốc kỳ")]
+        public byte[] CountryIcon { get; set; }
     }
 }

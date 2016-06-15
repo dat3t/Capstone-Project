@@ -18,12 +18,15 @@ using SignInStatus = OneVietnam.BLL.SignInStatus;
 using System.Web.Script.Serialization;
 using OneVietnam.BLL;
 using OneVietnam.DTL;
+using System.IO;
+using System.Drawing;
 
 namespace OneVietnam.Controllers
 {
     [System.Web.Mvc.Authorize]
     public class AccountController : Controller
     {
+        
         public static bool createdPost = false;
         public static ShowPostViewModel PostView;
         public AccountController()
@@ -59,20 +62,30 @@ namespace OneVietnam.Controllers
         }
 
 
-
+        public Image byteArrayToImage(byte[] byteArrayIn)
+        {
+            MemoryStream ms = new MemoryStream(byteArrayIn);
+            Image returnImage = Image.FromStream(ms);
+            return returnImage;
+        }
         public async Task<ActionResult> SelectCountry()
         {
+         
             var countrieslist = await CountryManager.GetCountriesAsync();
 
-            if (countrieslist== null)
+            var selectedCountry = Request.Form["CountryName"];
+
+            if (selectedCountry == null)
             {
                 ViewBag.CountryIcon = countrieslist[0].CountryIcon;
+                ViewBag.SelectedCountry = countrieslist[0].CountryName;
             }
-            //else
-            //	{
-            //  ViewBag.CountryIcon = countrieslist[0].CountryIcon;			
-
-            //	}
+            else
+            {
+                Country c = countrieslist.Find(country => country.CountryName == selectedCountry.ToString());
+                ViewBag.CountryIcon = c.CountryIcon;
+                ViewBag.SelectedCountry = c.CountryName;
+            }
 
             return View(countrieslist);
         }
@@ -119,9 +132,21 @@ namespace OneVietnam.Controllers
         {
             return View();
         }
+
         [HttpPost]
-        public async Task<ActionResult> CreateCountry(AddCountryViewModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateCountry(AddCountryViewModel model, HttpPostedFileBase upload)
         {
+
+            if (upload != null && upload.ContentLength > 0)
+            {
+                using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                {
+                    model.CountryIcon = reader.ReadBytes(upload.ContentLength);
+                }
+
+            }
+
             await CountryManager.CreateAsync(new Country(model.CountryName, model.CountryCode, model.CountryIcon));
             return RedirectToAction("Index", "Home");
         }
