@@ -25,6 +25,10 @@ namespace OneVietnam.Controllers
             return View();
         }
 
+        public ActionResult CustomInfoWindow()
+        {
+            return View();
+        }
         //DEMO
         public ActionResult AddLocation()
         {
@@ -62,7 +66,6 @@ namespace OneVietnam.Controllers
         {
             var userslist = await UserManager.AllUsersAsync();
             List<Location> list = await UserManager.GetLocationAsync(userslist);
-            ViewBag.
             List<AddLocationViewModel> locationViewList = list.Select(location => new AddLocationViewModel(location)).ToList();
             return View(locationViewList);
         }

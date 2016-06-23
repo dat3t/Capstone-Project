@@ -416,6 +416,7 @@
     <Content Include="Views\Map\AddLocation.cshtml" />
     <Content Include="Views\Account\SelectCountry.cshtml" />
     <Content Include="Views\Map\ShowLocation.cshtml" />
+    <Content Include="Views\Map\CustomInfoWindow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

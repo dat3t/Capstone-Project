@@ -1,17 +1,62 @@
 ﻿var listMarkers = [];
 var map;
+var bounds;
 
+function checkAuthenticated() {
+    if (isAuthenticated) {
+        //Declare a new map
+        map = new google.maps.Map(document.getElementById('map_canvas'), {
+            center: { lat: 10.8114587, lng: 106.67885000000001 },
+            zoom: 13,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+    }
+    else {
+        //Declare a new map
+        map = new google.maps.Map(document.getElementById('map_canvas'), {
+            center: { lat: -34.397, lng: 150.644 },
+            zoom: 13,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+        // Declare a myLocation marker using icon declared above, and bind it to the map
+        var myLocationMarker = new google.maps.Marker({
+            map: map,
+            title: "Vị trí của tôi",
+            // icon:myLocationIcon
+        });
+
+        //Identify current user's location and bind it to the map
+        //Using HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                //   myLocationMarker.setPosition(pos);
+                addMarker(pos);
+                map.setCenter(pos);
+                map.setZoom(14);
+
+
+            }, function () {
+                handleLocationError(true, myLocationMarker, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, myLocationMarker, map.getCenter());
+        }
+        //map.fitBounds(map.getBounds());
+
+    }
+}
 function initialize() {
 
-    //Declare a new map
-     map = new google.maps.Map(document.getElementById('map_canvas'), {
-        center: {lat: -34.397, lng: 150.644},
-        zoom: 13,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
+    checkAuthenticated();
 
     //Declare a bound
-    var bounds = new google.maps.LatLngBounds();
+    bounds = new google.maps.LatLngBounds();
 
    
 
@@ -22,7 +67,8 @@ function initialize() {
   
     // Bias the SearchBox results towards current map's viewport.
     map.addListener('bounds_changed', function () {
-        searchBox.setBounds(map.getBounds());
+       // searchBox.setBounds(map.getBounds());
+       // map.setZoom(14);
     });
 
     var markers2 = [];
@@ -41,7 +87,7 @@ function initialize() {
 
     //markers2.push(marker5);
     //markers2.push(marker6);
-    for (var i = 0; i < 100; i++) {
+    for (var i = 0; i < 10000; i++) {
        // var dataPhoto = data.photos[i];
         var latLng = new google.maps.LatLng(Math.floor(Math.random() * 50), Math.floor(Math.random() * 100));
         var marker = new google.maps.Marker({
@@ -50,6 +96,14 @@ function initialize() {
         markers2.push(marker);
     }
     var markerCluster = new MarkerClusterer(map, markers2);
+
+    //var marker = new google.maps.Marker({
+    //    map: map,
+    //    position: new google.maps.LatLng(-20.3, 30.3)
+    //});
+
+
+
 
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
@@ -77,13 +131,13 @@ function initialize() {
                 scaledSize: new google.maps.Size(25, 25)
             };
 
-            // Create a marker for each place.
-            marker2.push(new google.maps.Marker({
-                map: map,
-                icon: icon,
-                title: place.name,
-                position: place.geometry.location
-            }));
+            //// Create a marker for each place.
+            //marker2.push(new google.maps.Marker({
+            //    map: map,
+            //    icon: icon,
+            //    title: place.name,
+            //    position: place.geometry.location
+            //}));
 
             if (place.geometry.viewport) {
                 // Only geocodes have viewport.
@@ -101,10 +155,10 @@ function initialize() {
     var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
 
     // Multiple Markers
-    var markers = [
-    ['Matsumoto Station, Matsumoto, Nagano Prefecture, Japan', 36.23081510000001, 137.9643552],
-    ['4-1 Marunouchi, Matsumoto, Nagano Prefecture 390-0873, Japan', 36.238666, 137.96902209999996]
-    ];
+    //var markers = [
+    //['Matsumoto Station, Matsumoto, Nagano Prefecture, Japan', 36.23081510000001, 137.9643552],
+    //['4-1 Marunouchi, Matsumoto, Nagano Prefecture 390-0873, Japan', 36.238666, 137.96902209999996]
+    //];
 
     // InfoWindow content
     var content ='<div style="overflow:hidden;">'+
@@ -140,8 +194,8 @@ function initialize() {
 
     // A new Info Window is created and set content
     var infowindow = new google.maps.InfoWindow({
-        content: content,
-
+        content: "",
+        //content: '@Html.Partial("CustomInfoWindow")',
         // Assign a maximum value for the width of the infowindow allows
         // greater control over the various content elements
         maxWidth: 350
@@ -151,29 +205,69 @@ function initialize() {
     // Loop through our array of markers & place each one on the map
 
 
-    for (i = 0; i < markers.length; i++) {
-        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+    //for (i = 0; i < markers.length; i++) {
+    //    var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+    //    bounds.extend(position);
+    //    marker = new google.maps.Marker({
+    //        position: position,
+    //        map: map,
+    //        title: markers[i][0],
+    //        icon:image
+    //    });
+
+    //    // Allow each marker to have an info window
+    //    google.maps.event.addListener(marker, 'click', (function (marker, i) {
+    //        return function () {
+    //           // infowindow.setContent(infoWindowContent[i][0]);
+    //            infowindow.open(map, marker);
+    //        }
+    //    })(marker, i));
+
+    //    // Automatically center the map fitting all markers on the screen
+    //    map.fitBounds(bounds);
+    //}
+
+    var listDBMarkers = [];
+    var length = array.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(array[i].x, array[i].y);
         bounds.extend(position);
         marker = new google.maps.Marker({
             position: position,
             map: map,
-            title: markers[i][0],
-            icon:image
+            title: array[i].address,
+            icon: image
         });
-
+        listDBMarkers.push(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-               // infowindow.setContent(infoWindowContent[i][0]);
-                infowindow.open(map, marker);
+                // infowindow.setContent(infoWindowContent[i][0]);
+                AjaxDisplayString(infowindow,marker)
+               // infowindow.open(map, marker);
             }
         })(marker, i));
 
+        // add the double-click event listener
+        //google.maps.event.addListener(marker, 'dblclick', function (event) {
+        //    map = marker.getMap();
+        //    map.setCenter(marker.getPosition()); // set map center to marker position
+        //    smoothZoom(map, 10, map.getZoom()); // call smoothZoom, parameters map, final zoomLevel, and starting zoom level
+        //});
+
         // Automatically center the map fitting all markers on the screen
-        map.fitBounds(bounds);
+    //    map.fitBounds(bounds);
+      
     }
+   
+    var markerCluster = new MarkerClusterer(map, listDBMarkers);
 
+    //google.maps.event.addListenerOnce(map, 'bounds_changed', function () {
+    //  //  map.setZoom(14);
 
+    //    map.setCenter({ lat: 36.238666, lng: 137.96902209999996 });
+    //});
+   
     // This event expects a click on a marker
     // When this event is fired the Info Window is opened.
     google.maps.event.addListener(marker, 'click', function () {
@@ -193,7 +287,7 @@ function initialize() {
     // *
     google.maps.event.addListener(infowindow, 'domready', function () {
 
-        // Reference to the DIV that wraps the bottom of infowindow
+        // Reference to the DIV that wraps the bottom of infowindow--
         var iwOuter = $('.gm-style-iw');
 
         /* Since this div is in a position prior to .gm-div style-iw.
@@ -249,7 +343,8 @@ function loadScript() {
 window.onload = loadScript;
 
 function showCurrentLocation() {
-    
+    //alert(aa);
+   // alert(array[0].x);
     var p1 = { lat: 36.23081510000001, lng: 137.9643552 };
     
     var p2 = { lat: 36.238666, lng: 137.96902209999996};
@@ -294,11 +389,12 @@ function showCurrentLocation() {
 
             //   myLocationMarker.setPosition(pos);
             addMarker(pos);
-            map.zoom = 14;
+            map.setZoom(14);
             map.setCenter(pos);
             
            
         }, function () {
+            alert("aa");
             handleLocationError(true, myLocationMarker, map.getCenter());
         });
     } else {
@@ -309,6 +405,7 @@ function showCurrentLocation() {
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    alert("bb");
     infoWindow.setPosition(pos);
     infoWindow.setContent(browserHasGeolocation ?
                           'Error: The Geolocation service failed.' :
@@ -361,4 +458,41 @@ function showMarkers() {
 function deleteMarkers() {
     clearMarkers();
     listMarkers = [];
+}
+
+// the smooth zoom function
+function smoothZoom(map, max, cnt) {
+    if (cnt >= max) {
+        return;
+    }
+    else {
+        z = google.maps.event.addListener(map, 'zoom_changed', function (event) {
+            google.maps.event.removeListener(z);
+            smoothZoom(map, max, cnt + 1);
+        });
+        setTimeout(function () { map.setZoom(cnt) }, 80); // 80ms is what I found to work well on my system -- it might not work well on all systems
+    }
+}
+
+function AjaxDisplayString(infowindow,marker) {
+    var addressData;
+    var testData;
+    $.ajax({
+        type: "GET",
+        url: '/Map/CustomInfoWindow?useid=asd',
+        dataType: "HTML",
+        contentType: 'application/json',
+        traditional: true,
+        data: addressData,
+        success: function (result) {
+            debugger;
+            infowindow.setContent("<div>" + result + "</div>");
+            infowindow.open(map, marker);
+        },
+        error: function (arg) {
+            alert("Error");
+        }
+
+    });
+
 }

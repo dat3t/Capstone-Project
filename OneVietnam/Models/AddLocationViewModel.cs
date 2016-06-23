@@ -13,10 +13,14 @@ namespace OneVietnam.Models
         public string address { get; set; }
         public string userid { get; set; }
 
+        public AddLocationViewModel()
+        {
+
+        }
         public AddLocationViewModel(Location location)
         {
             x = location.XCoordinate;
-            y = location.XCoordinate;
+            y = location.YCoordinate;
             address = location.Address;
         }
 

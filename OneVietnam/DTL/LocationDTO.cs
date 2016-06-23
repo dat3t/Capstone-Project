@@ -12,6 +12,10 @@ namespace OneVietnam.DTL
         public double YCoordinate { get; set; }
         public string Address { get; set; }
 
+        public Location()
+        {
+
+        }
         public Location(AddLocationViewModel view)
         {
             XCoordinate = view.x;
