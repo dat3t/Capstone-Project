@@ -18,14 +18,20 @@ namespace OneVietnam
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
+            bundles.Add(new ScriptBundle("~/bundles/theme").Include(
+                        "~/Scripts/global.js",
 
+                        "~/Scripts/map.js"
+
+                        ));
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
+                      "~/semantic/dist/semantic.min.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/semantic/dist/semantic.min.css",
+                      "~/Content/site.css",
+                      "~/Content/stylesheet.css"));
         }
     }
 }
