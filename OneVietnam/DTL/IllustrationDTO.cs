@@ -15,5 +15,17 @@ namespace OneVietnam.DTL
 
         public string Description { get; set; }
         public string PhotoLink { get; set; }
-    }
+
+        public Illustration()
+        {
+        }
+
+        public Illustration(string pStrPhotoId, string pStrDescription, string pStrPhotoLink)
+        {
+            PhotoId = pStrPhotoId;
+            Description = pStrDescription;
+            PhotoLink = pStrPhotoLink;
+        }
+        
+}
 }
