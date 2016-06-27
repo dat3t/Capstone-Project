@@ -20,27 +20,18 @@ namespace OneVietnam
                         "~/Scripts/modernizr-*"));
             bundles.Add(new ScriptBundle("~/bundles/theme").Include(
                         "~/Scripts/global.js",
-                        "~/Scripts/idangerous.swiper.min.js",
-                        "~/Scripts/isotope.pkgd.min.js",
-                        "~/Scripts/jquery.countTo.js",
-                        "~/Scripts/jquery.viewportchecker.min.js",
-                        "~/Scripts/map.js",
-                        "~/Scripts/sorttable.js",
-                        "~/Scripts/wow.js"
+                       
+                        "~/Scripts/map.js"
+                       
                         ));
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
+                      "~/semantic/dist/semantic.min.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.min.css",
+                      "~/semantic/dist/semantic.min.css",
                       "~/Content/site.css",
-                      "~/Content/stylesheet.css",
-                      "~/Content/icon.css",
-                      "~/Content/idangerous.swiper.css",
-                      "~/Content/idangerous.swiper_backup.css",
-                      "~/Content/ie-9.css",
-                      "~/Content/loader.css"));
+                      "~/Content/stylesheet.css"));
         }
     }
 }
