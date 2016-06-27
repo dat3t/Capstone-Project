@@ -38,6 +38,12 @@ namespace OneVietnam.DTL
         [BsonIgnoreIfNull]
         public List<Tag> Tags { get; set; }
 
+        public Post()
+        {
+            
+        }
+
+
         public Post(CreatePostViewModel pView)
         {
             Id = ObjectId.GenerateNewId().ToString();
@@ -48,8 +54,7 @@ namespace OneVietnam.DTL
             DeletedFlag = false;
             Status = false;
             PostLocation = pView.PostLocation;
-            UserLocation = pView.UserLocation;
-            Reports = pView.Reports;
+            UserLocation = pView.UserLocation;            
             Illustrations = pView.Illustrations;
 
         }
@@ -61,6 +66,15 @@ namespace OneVietnam.DTL
                 Reports = new List<Report>();
             }
             Reports.Add(pReport);
+        }
+
+        public void AddIllustration(Illustration pIllustration)
+        {
+            if (Illustrations == null)
+            {
+                Illustrations = new List<Illustration>();
+            }
+            Illustrations.Add(pIllustration);
         }
     }
 }
