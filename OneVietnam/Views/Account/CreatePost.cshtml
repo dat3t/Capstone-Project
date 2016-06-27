@@ -1,4 +1,6 @@
-﻿@model OneVietnam.Models.CreatePostViewModel
+﻿@using System.Collections;
+@using OneVietnam.DTL;
+@model OneVietnam.Models.CreatePostViewModel
 
 @{
     ViewBag.Title = "CreatePost";
@@ -6,47 +8,112 @@
 
 <h2>CreatePost</h2>
 
-@using (Html.BeginForm()) 
+<script src="~/Scripts/dropzone.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<link href="~/Content/dropzone.css" rel="stylesheet" type="text/css"/>
+
+
+@using (Html.BeginForm("CreatePost", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>CreatePostViewModel</h4>
+
+    <div class="form-horizontal" style="height: 500px;">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+
+        <div class="col-md-6">
+            @*<div id="dZUpload" class="dropzone">
+                    <div class="dz-default dz-message">
+                        Drop image here.
+                    </div>
+            </div>*@
+            @*<script type="text/javascript">
+                $(document).ready(function () {
+                    Dropzone.autoDiscover = false;                    
+                    $("#dZUpload").dropzone({
+                        url: "F:/Program/OneVietnamVer2/OneVietnam/Views/Account/HnFileUpload.ashx",
+                        addRemoveLinks: true,
+                        success: function (file) {                            
+                            file.previewElement.classList.add("dz-success");                            
+                        },
+                        error: function (file) {
+                            file.previewElement.classList.add("dz-error");
+                        }
+                    });
+                });
+            </script>*@
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PostType, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.PostType, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PostType, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserName, new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    <input class="form-control text-box single-line" disabled="disabled" value="@User.Identity.Name" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserLocation, new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    <input class="form-control text-box single-line" disabled="disabled" value="FPT Uni" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PostLocation.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.PostLocation.Address, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PostLocation.Address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Publish Date</label>
+                <div class="col-md-6">
+                    <input class="form-control" type="datetime" disabled="disabled" value="@System.DateTime.Now.ToString("yyyy MMMM dd")" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-6">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PostType, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PostType, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PostType, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+
     </div>
 }
 
 <div>
     <p>@Html.ActionLink("Back to List", "Index", "Home")</p>
-    <p>@Html.ActionLink("Show all Posts","ShowPost")</p>
+    <p>@Html.ActionLink("Show all Posts", "ShowPost")</p>
 </div>
+
