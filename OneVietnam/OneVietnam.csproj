@@ -272,6 +272,8 @@
     <Compile Include="DTL\IllustrationDTO.cs" />
     <Compile Include="DTL\LocationDTO.cs" />
     <Compile Include="DTL\PostDTO.cs" />
+    <Compile Include="DTL\ReportDTO.cs" />
+    <Compile Include="DTL\TagDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -280,6 +282,7 @@
     <Compile Include="Models\AddLocationViewModel.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PostViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -354,6 +357,9 @@
     <Content Include="Scripts\_references.js" />
     <None Include="Service References\ASPSMSX2\configuration91.svcinfo" />
     <None Include="Service References\ASPSMSX2\configuration.svcinfo" />
+    <Content Include="semantic\tasks\build\assets.js" />
+    <Content Include="semantic\tasks\build\css.js" />
+    <Content Include="semantic\tasks\build\javascript.js" />
     <Content Include="Service References\ASPSMSX2\OneVietnam.ASPSMSX2.vouchers.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
@@ -450,7 +456,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51801</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
