@@ -24,14 +24,11 @@ namespace OneVietnam.DTL
         [BsonIgnoreIfNull]
         public List<Illustration> Illustrations { get; set; }
         public int PostType { get; set; }
-        // logical delete
         public bool DeletedFlag { get; set; }
-        // finished or not
         public bool Status { get; set; }
 
         public Location PostLocation { get; set; }
-
-        public Location UserLocation { get; set; }
+                
         [BsonIgnoreIfNull]
         public List<Report> Reports { get; set; }
 
@@ -53,8 +50,7 @@ namespace OneVietnam.DTL
             PostType = pView.PostType;
             DeletedFlag = false;
             Status = false;
-            PostLocation = pView.PostLocation;
-            UserLocation = pView.UserLocation;            
+            PostLocation = pView.PostLocation;                     
             Illustrations = pView.Illustrations;
 
         }

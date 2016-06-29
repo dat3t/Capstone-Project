@@ -1,0 +1,132 @@
+﻿@using System.Collections;
+@using OneVietnam.DTL;
+@model OneVietnam.Models.CreatePostViewModel
+
+@{
+    ViewBag.Title = "CreatePost";
+}
+
+<h2>CreatePost</h2>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+
+
+@using (Html.BeginForm("CreatePost", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" style="height: 500px;">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <table>
+            <tr>
+                <td>
+                    <input id="fileUpload" name="fileUpload" type="file" value="" multiple="" />
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <th colspan="2"><label for="Title">Tiêu đề</label></th>
+                            <td></td>
+                            <td>
+                                <input id="Title" name="Title" type="text" value="" tabindex="1" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Title" data-valmsg-replace="true"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2"><label for="PostType">Loại bài đăng</label></th>
+                            <td>
+                                <input data-val="true" tabindex="2" data-val-number="The field PostType must be a number." data-val-required="The PostType field is required." id="PostType" name="PostType" type="number" value="" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="PostType" data-valmsg-replace="true"></span>
+
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2"><label for="UserName">Người đăng</label></th>
+                            <td>
+                                <input disabled="disabled" value="" id="UserName" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2"><label for="PostLocation_Address">Địa chỉ của bài đăng</label></th>
+                            <td>
+                                <input tabindex="3" id="PostLocation_Address" name="PostLocation.Address" type="text" value="" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="PostLocation.Address" data-valmsg-replace="true"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2"><label>Ngày đăng</label></th>
+                            <td>
+                                <input type="datetime" disabled="disabled" value="@System.DateTime.Now.ToString("yyyy MMMM dd")" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2"><label for="Description">Mô tả </label></th>
+                            <td>
+                                <input tabindex="4" id="Description" name="Description" type="text" value="" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Description" data-valmsg-replace="true"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2"><label>Thẻ liên quan</label></th>
+                            <td>
+                                <div class="ui fluid multiple search selection dropdown">
+                                    <input name="tags" id="tags" type="hidden" value="">
+                                    <i class="dropdown icon"></i>
+                                    <input class="search" autocomplete="off" tabindex="5"><span class="sizer"></span><div class="default text">Chọn hoăc tạo thẻ mới</div>
+                                    <div class="menu transition hidden" tabindex="-1">
+                                        <div class="item selected" data-value="angular">Angular</div>
+                                        <div class="item" data-value="css">CSS</div>
+                                        <div class="item" data-value="design">Graphic Design</div>
+                                        <div class="item" data-value="ember">Ember</div>
+                                        <div class="item" data-value="html">HTML</div>
+                                        <div class="item" data-value="ia">Information Architecture</div>
+                                        <div class="item" data-value="javascript">Javascript</div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2"></th>
+                            <td><input id="btnCreate" type="submit" tabindex="6" value="Tạo mới" class="btn btn-default" /></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <div>
+        <script type="text/javascript">
+            $("#btnCreate").click(function() {
+                    @{
+                        Model.Tags = new List<Tag>();
+                        Tag newTag = new Tag("iphone");
+                        Model.Tags.Add(newTag);
+                    }
+                });
+        </script>
+    </div>
+    }
+
+@*<div class="ui fluid multiple search selection dropdown">
+        <input name="tags" id="tags" type="hidden" value="">
+        <i class="dropdown icon"></i>
+        <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Chọn hoăc tạo thẻ mới</div>
+        <div class="menu transition hidden" tabindex="-1">
+            <div class="item selected" data-value="angular">Angular</div>
+            <div class="item" data-value="css">CSS</div>
+            <div class="item" data-value="design">Graphic Design</div>
+            <div class="item" data-value="ember">Ember</div>
+            <div class="item" data-value="html">HTML</div>
+            <div class="item" data-value="ia">Information Architecture</div>
+            <div class="item" data-value="javascript">Javascript</div>
+        </div>
+    </div>*@
+
+<div>
+    <p>@Html.ActionLink("Back to List", "Index", "Home")</p>
+    <p>@Html.ActionLink("Show all Posts", "ShowPost")</p>
+</div>
+

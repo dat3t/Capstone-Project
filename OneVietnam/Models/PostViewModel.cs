@@ -3,26 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using OneVietnam.DTL;
-
+using System.ComponentModel.DataAnnotations;
 namespace OneVietnam.Models
 {
     public class CreatePostViewModel
     {
+        
         public string Title { get; set; }
 
         public string UserName { get; set; }
 
-        public int PostType { get; set; }
-
-        public Location UserLocation { get; set; }
+        public int PostType { get; set; }        
 
         public Location PostLocation { get; set; }
-
+                
         public string Description { get; set; }
 
         public List<Illustration> Illustrations { get; set; }
 
         public List<Tag> Tags { get; set; }
+
+        public CreatePostViewModel()
+        {           
+        }
+
+        public CreatePostViewModel(List<Illustration> pIllustrations, List<Tag> pTags)
+        {
+            Illustrations = pIllustrations;
+            Tags = pTags;
+        }
 
     }
     public class ShowPostViewModel
@@ -33,8 +42,7 @@ namespace OneVietnam.Models
         public DateTimeOffset? PublishDate { get; set; }
         public int PostType { get; set; }
         public bool DeletedFlag { get; set; }
-        public bool Status { get; set; }        
-        public Location UserLocation { get; set; }
+        public bool Status { get; set; }                
         public Location PostLocation { get; set; }
         public List<Illustration> Illustrations { get; set; }
         public List<Tag> Tags { get; set; }
@@ -51,8 +59,7 @@ namespace OneVietnam.Models
             PublishDate = post.PublishDate;
             PostType = post.PostType;
             DeletedFlag = post.DeletedFlag;
-            Status = post.Status;
-            UserLocation = post.UserLocation;
+            Status = post.Status;            
             PostLocation = post.PostLocation;
             Tags = post.Tags;
             Reports = post.Reports;            

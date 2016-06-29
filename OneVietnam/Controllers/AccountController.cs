@@ -18,14 +18,14 @@ using SignInStatus = OneVietnam.BLL.SignInStatus;
 using System.Web.Script.Serialization;
 using OneVietnam.BLL;
 using OneVietnam.DTL;
+using System.IO;
+using System.Drawing;
 
 namespace OneVietnam.Controllers
 {
     [System.Web.Mvc.Authorize]
     public class AccountController : Controller
     {
-        public static bool createdPost = false;
-        public static ShowPostViewModel PostView;
         public AccountController()
         {
         }
@@ -47,6 +47,46 @@ namespace OneVietnam.Controllers
                 _userManager = value;
             }
         }
+
+        private CountryManager _countryManager;
+        public CountryManager CountryManager
+        {
+            get
+            {
+                return _countryManager ?? HttpContext.GetOwinContext().Get<CountryManager>();
+            }
+            private set { _countryManager = value; }
+        }
+
+
+        public Image byteArrayToImage(byte[] byteArrayIn)
+        {
+            MemoryStream ms = new MemoryStream(byteArrayIn);
+            Image returnImage = Image.FromStream(ms);
+            return returnImage;
+        }
+        public async Task<ActionResult> SelectCountry()
+        {
+         
+            var countrieslist = await CountryManager.GetCountriesAsync();
+
+            var selectedCountry = Request.Form["CountryName"];
+
+            if (selectedCountry == null)
+            {
+                ViewBag.CountryIcon = countrieslist[0].CountryIcon;
+                ViewBag.SelectedCountry = countrieslist[0].CountryName;
+            }
+            else
+            {
+                Country c = countrieslist.Find(country => country.CountryName == selectedCountry.ToString());
+                ViewBag.CountryIcon = c.CountryIcon;
+                ViewBag.SelectedCountry = c.CountryName;
+            }
+
+            return View(countrieslist);
+        }
+
         //DEMO
         public async Task<ActionResult> ShowAllUsers()
         {
@@ -54,35 +94,29 @@ namespace OneVietnam.Controllers
             List<UserViewModel> listview = userslist.Select(user => new UserViewModel(user)).ToList();
             return View(listview);
         }
-        //DEMO   
-        public ActionResult CreatePost()
+        
+        //DEMO
+        public ActionResult CreateCountry()
         {
             return View();
         }
-        //DEMO
+
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreatePost(CreatePostViewModel p)
-        {
-            var post = new Post(p) { Username = User.Identity.Name };
-            await UserManager.AddPostAsync(User.Identity.GetUserId(), post);
-            createdPost = true;
-            PostView = new ShowPostViewModel(post);
-            return RedirectToAction("ShowCreatedPost");
-        }
-        //DEMO
-        public async Task<ActionResult> ShowPost()
+        public async Task<ActionResult> CreateCountry(AddCountryViewModel model, HttpPostedFileBase upload)
         {
 
-            List<Post> list = await UserManager.GetPostsAsync(User.Identity.GetUserId());
-            List<ShowPostViewModel> pViewList = list.Select(post => new ShowPostViewModel(post)).ToList();
-            return View(pViewList);
-        }
-        //DEMO
-        public ActionResult ShowCreatedPost()
-        {
-            return View(PostView);
+            if (upload != null && upload.ContentLength > 0)
+            {
+                using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                {
+                    model.CountryIcon = reader.ReadBytes(upload.ContentLength);
+                }
+
+            }
+
+            await CountryManager.CreateAsync(new Country(model.CountryName, model.CountryCode, model.CountryIcon));
+            return RedirectToAction("Index", "Home");
         }
         //
         // GET: /Account/Login
@@ -578,19 +612,5 @@ namespace OneVietnam.Controllers
             }
         }
         #endregion
-    }
-
-    public class MyHub : Hub
-    {
-        public override Task OnConnected()
-        {
-            if (AccountController.createdPost)
-            {                
-                var javaScriptSerializer = new JavaScriptSerializer();
-                string jsonString = javaScriptSerializer.Serialize(AccountController.PostView);
-                Clients.Others.loadNewPost(jsonString);
-            }
-            return base.OnConnected();
-        }        
     }
 }
