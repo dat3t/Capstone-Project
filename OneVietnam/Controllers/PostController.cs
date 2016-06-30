@@ -51,10 +51,29 @@ namespace OneVietnam.Controllers
             private set { _tagManager = value; }
         }
 
-        public async Task<ActionResult> CreatePost()
+        private IconManager _iconManager;
+        public IconManager IconManager
         {
-            var tagList = await TagManager.GetTagsAsync();
-            ViewData["TagList"] = tagList;
+            get
+            {
+                return _iconManager ?? HttpContext.GetOwinContext().Get<IconManager>();
+            }
+            private set { _iconManager = value; }
+        }
+
+        public ActionResult CreatePost()
+        {
+            var tagList = TagManager.GetTagsAsync();
+            if (tagList != null)
+            {
+                ViewData["TagList"] = tagList.Result;
+            }                                   
+            var icons = IconManager.GetIconPostAsync();
+            if (icons != null)
+            {
+                ViewData["PostTypes"] = icons;
+            }
+            
             return View();
         }        
         [HttpPost]
@@ -62,6 +81,7 @@ namespace OneVietnam.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreatePost(CreatePostViewModel p, List<Tag> pTags)
         {
+            ViewData.Clear();
             p.UserName = User.Identity.Name;
             var tagList = UtilityBO.GetAddedTags(Request, TagManager, "Tags");
             if (tagList != null)

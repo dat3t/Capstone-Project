@@ -6,7 +6,7 @@
 @{
     ViewBag.Title = "CreatePost";
     List<Tag> tagList = ViewData["TagList"] as List<Tag>;
-
+    List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;    
 }
 
 <h2>CreatePost</h2>
@@ -24,7 +24,32 @@
         <table>
             <tr>
                 <td>
-                    <input id="fileUpload" name="fileUpload" type="file" value="" multiple="" />
+                    <input id="fileUpload" name="fileUpload" type="file" hidden="" value="" multiple=""/>
+
+
+                    @*<label id="imgUpload">Tải ảnh lên</label>                                                           
+                    <script type="text/javascript">
+                        $("#imgUpload").click(function() {
+                            $('.ui.modal')
+                                .modal('show')
+                            ;
+                        });
+                    </script>
+                    <div class="ui modal">
+                        <i class="close icon"></i>
+                        <div class="header">
+                            Tải ảnh lên
+                        </div>
+                        
+                        <div class="actions">
+                            <button class="ui primary button">
+                                Hoàn tât
+                            </button>
+                            <button class="ui button">
+                                Hủy bỏ
+                            </button>
+                        </div>
+                    </div>*@
                 </td>
                 <td>
                     <table>
@@ -38,10 +63,40 @@
                         <tr>
                             <th colspan="2"><label for="PostType">Loại bài đăng</label></th>
                             <td>
-                                <input data-val="true" tabindex="2" data-val-number="The field PostType must be a number." data-val-required="The PostType field is required." id="PostType" name="PostType" type="number" value="" />
-                                <span class="field-validation-valid text-danger" data-valmsg-for="PostType" data-valmsg-replace="true"></span>
-                                @*@Html.DropDownListFor(model => model.PostType, , "Chọn loại bài đăng")*@
+                                <div class="ui fluid selection dropdown">
+                                    <input type="hidden" id="PostType" name="PostType">
+                                    <i class="dropdown icon"></i>
+                                    <div class="default text">Chọn loại bài đăng</div>
+                                    <div class="menu">
+                                        @{
+                                            if (postTypes != null)
+                                            {
+                                                foreach (Icon icon in postTypes)
+                                                {
+                                                    <div class="item" data-value="@icon.IconId">
+                                                        <img class="ui mini avatar image" src="@icon.IconImage">
+                                                        @icon.IconText
+                                                    </div>
+                                                }
+                                            }
+                                        }
 
+                                    </div>
+                                </div>                                
+
+                                @*<select data-val="true" data-val-number="The field PostType must be a number." data-val-required="The PostType field is required." id="PostType" name="PostType">
+                                    <option value="">Chọn loại bài đăng</option>
+
+                                    @{
+                                        if (postTypes != null)
+                                        {
+                                            foreach (Icon icon in postTypes)
+                                            {
+                                                <option value="@icon.IconId">@icon.IconText</option>
+                                            }
+                                        }
+                                    }
+                                </select>*@
                             </td>
                         </tr>
                         <tr>
@@ -53,7 +108,7 @@
                         <tr>
                             <th colspan="2"><label for="PostLocation_Address">Địa chỉ của bài đăng</label></th>
                             <td>
-                                <input tabindex="3" id="PostLocation_Address" name="PostLocation.Address" type="text" value="" />
+                                <input tabindex="3" id="PostLocation_Address" name="PostLocation.Address" type="text" value=""/>                                
                                 <span class="field-validation-valid text-danger" data-valmsg-for="PostLocation.Address" data-valmsg-replace="true"></span>
                             </td>
                         </tr>
@@ -79,7 +134,8 @@
                                     <input name="tags" id="tags" type="hidden" value="">
                                     <i class="dropdown icon"></i>
                                     <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Chọn hoặc tạo thẻ mới</div>
-                                    <div class="menu transition hidden" tabindex="-1">                                      
+                                    <div class="menu transition hidden" tabindex="-1">
+                                        
                                         @{
                                             if (tagList != null)
                                             {
@@ -89,8 +145,6 @@
                                                 }
                                             }
                                         }
-
-
 
                                     </div>
 

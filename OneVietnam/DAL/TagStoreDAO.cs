@@ -22,29 +22,10 @@ namespace OneVietnam.DAL
             return _tags.ReplaceOneAsync(c => c.Id == pTag.Id, pTag, null);
         }
 
-        public  Task<List<DTL.Tag>> GetTagsAsync()
+        public Task<List<DTL.Tag>> GetTagsAsync()
         {
-            return  _tags.Find(u => true).ToListAsync();
-        }
-
-        public List<string> GetTagsValueAsync()
-        {
-            var tagList =  _tags.Find(u => true).ToListAsync();
-            if (tagList.Result.Count > 0)
-            {
-                List<string> tagValueList = new List<string>();
-                foreach (var tagItem in tagList.Result)
-                {
-                    tagValueList.Add(tagItem.TagValue);
-                }
-                return tagValueList;
-            }
-            else
-            {
-                return null;
-            }
-            
-        }
+            return  _tags.Find(u => true).ToListAsync();            
+        }        
 
         public Task<List<DTL.Tag>> FindTagByValueAsync(string pTagValue)
         {
