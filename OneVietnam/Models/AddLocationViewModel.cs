@@ -12,7 +12,8 @@ namespace OneVietnam.Models
         public double y { get; set; }
         public string address { get; set; }
         public string userid { get; set; }
-
+        public Dictionary<Location, string> infoForInitMap { get; set; }
+        public List<Post> Posts { get; set; } 
         public AddLocationViewModel()
         {
 
@@ -24,5 +25,19 @@ namespace OneVietnam.Models
             address = location.Address;
         }
 
+        public AddLocationViewModel(Dictionary<Location,string> dic)
+        {
+            infoForInitMap = dic;
+        }
+
+        public AddLocationViewModel(Location location, string userid, List<Post> Posts)
+        {
+            x = location.XCoordinate;
+            y = location.YCoordinate;
+            address = location.Address;
+            this.userid = userid;
+            this.Posts = Posts;
+
+        }
     }
 }

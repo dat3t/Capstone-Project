@@ -6,6 +6,7 @@ using System.Web;
 using AspNet.Identity.MongoDB;
 using MongoDB.Driver;
 using OneVietnam.DTL;
+using OneVietnam.Models;
 
 namespace OneVietnam.DAL
 {
@@ -45,16 +46,55 @@ namespace OneVietnam.DAL
             return Task.FromResult(0);
         }
 
-        public List<Location> GetLocationAsync(List<ApplicationUser> userList)
+        //public List<Location> GetLocationAsync(List<ApplicationUser> userList)
+        //{
+        //    //user.AddLocation(location);
+        //    List<Location> Locations = new List<Location>();
+        //    Dictionary<Location, string> dictionary = new Dictionary<Location, string>();
+
+        //    foreach (ApplicationUser user in userList)
+        //    {
+
+        //        Locations.Add(user.Location);
+        //    }
+        //    return Locations;
+        //}
+
+        public List<AddLocationViewModel> GetInfoForInitMap(List<ApplicationUser> userList)
         {
-            //user.AddLocation(location);
+            List<AddLocationViewModel> infoForInitMap = new List<AddLocationViewModel>();
+            AddLocationViewModel viewModel;
+            foreach (ApplicationUser user in userList)
+            {
+
+                viewModel = new AddLocationViewModel(user.Location, user.Id, user.Posts);
+                infoForInitMap.Add(viewModel);
+            }
+
+            return infoForInitMap;
+        }
+
+        public List<Location> GetLocationListAsync(List<ApplicationUser> userList)
+        {
             List<Location> Locations = new List<Location>();
-            foreach(ApplicationUser user in userList)
+
+            foreach (ApplicationUser user in userList)
             {
                 Locations.Add(user.Location);
             }
             return Locations;
         }
-    }
 
+        public List<List<Post>> GetPostListAsync(List<ApplicationUser> userList)
+        {
+            List<List<Post>> Posts = new List<List<Post>>();
+
+            foreach (ApplicationUser user in userList)
+            {
+                Posts.Add(user.Posts);
+            }
+            return Posts;
+        }
+
+    }
 }

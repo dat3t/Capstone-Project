@@ -62,12 +62,38 @@ namespace OneVietnam.Controllers
         //    return View(LocationView);
         //}
 
+        //public async Task<ActionResult> ShowLocation()
+        //{
+        //    var userslist = await UserManager.AllUsersAsync();
+        //   List<Location> list = await UserManager.GetLocationAsync(userslist);
+        //    /*List<AddLocationViewModel> locationViewList = list.Select(location => new AddLocationViewModel(location)).ToList();*/
+        //    return View(locationViewList);
+        //}
+
+        //public async Task<ActionResult> ShowLocation()
+        //{
+        //    var userslist = await UserManager.AllUsersAsync();
+        //    List<Dictionary<Location,string>> list = await UserManager.GetInfoForInitMapAsync(userslist);
+        //    List<AddLocationViewModel> locationViewList = list.Select(infoForInitMap => new AddLocationViewModel(infoForInitMap)).ToList();
+
+        // return view(alocationviewmodel);
+        //    return View(list);
+        //}
+
+        //public async Task<ActionResult> ShowLocation()
+        //{
+        //    var userslist = await UserManager.AllUsersAsync();
+        //    List<Object> list = await UserManager.GetInfoForInitMapAsync(userslist);
+        //    List<AddLocationViewModel> locationViewList = list.Select(infoForInitMap => new AddLocationViewModel(infoForInitMap)).ToList();
+        //    return View(list);
+        //}
+
         public async Task<ActionResult> ShowLocation()
         {
             var userslist = await UserManager.AllUsersAsync();
-            List<Location> list = await UserManager.GetLocationAsync(userslist);
-            List<AddLocationViewModel> locationViewList = list.Select(location => new AddLocationViewModel(location)).ToList();
-            return View(locationViewList);
+            List<AddLocationViewModel> list = await UserManager.GetInfoForInitMapAsync(userslist);
+            /*List<AddLocationViewModel> locationViewList = list.Select(location => new AddLocationViewModel(location)).ToList();*/
+            return View(list);
         }
 
     }
