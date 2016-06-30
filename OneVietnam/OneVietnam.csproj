@@ -256,7 +256,9 @@
     <Compile Include="BLL\MapManagerBLO.cs" />
     <Compile Include="BLL\PostsManagerBLO.cs" />
     <Compile Include="BLL\RolesManagerBLO.cs" />
+    <Compile Include="BLL\TagManagerBLO.cs" />
     <Compile Include="BLL\UserManagerBLO.cs" />
+    <Compile Include="BLL\UtilityBO.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -267,6 +269,7 @@
     <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="DAL\CountryStoreDAO.cs" />
     <Compile Include="DAL\RoleStoreDAO.cs" />
+    <Compile Include="DAL\TagStoreDAO.cs" />
     <Compile Include="DAL\UserStoreDAO.cs" />
     <Compile Include="DTL\ApplicationUserDTO.cs" />
     <Compile Include="DTL\CountryDTO.cs" />
@@ -1031,6 +1034,7 @@
     <Content Include="Views\Map\ShowLocation.cshtml" />
     <Content Include="Views\NewFeed\Index.cshtml" />
     <Content Include="Views\Post\CreatePost.cshtml" />
+    <Content Include="Views\Post\Demo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

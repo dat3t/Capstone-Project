@@ -24,13 +24,31 @@ namespace OneVietnam.Models
         public List<Tag> Tags { get; set; }
 
         public CreatePostViewModel()
-        {           
+        {
         }
 
         public CreatePostViewModel(List<Illustration> pIllustrations, List<Tag> pTags)
         {
             Illustrations = pIllustrations;
             Tags = pTags;
+        }        
+
+        public void AddIllustration(Illustration pIllustration)
+        {
+            if (Illustrations == null)
+            {
+                Illustrations = new List<Illustration>();
+            }
+            Illustrations.Add(pIllustration);
+        }
+
+        public void AddTags(Tag pTag)
+        {
+            if (Tags == null)
+            {
+                Tags = new List<Tag>();
+            }
+            Tags.Add(pTag);
         }
 
     }

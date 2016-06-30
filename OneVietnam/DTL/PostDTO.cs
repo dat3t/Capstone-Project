@@ -42,7 +42,7 @@ namespace OneVietnam.DTL
 
 
         public Post(CreatePostViewModel pView)
-        {
+        {            
             Id = ObjectId.GenerateNewId().ToString();
             Title = pView.Title;
             Description = pView.Description;
@@ -71,6 +71,15 @@ namespace OneVietnam.DTL
                 Illustrations = new List<Illustration>();
             }
             Illustrations.Add(pIllustration);
+        }
+
+        public void AddTags(Tag pTag)
+        {
+            if (Tags == null)
+            {
+                Tags = new List<Tag>();
+            }
+            Tags.Add(pTag);
         }
     }
 }

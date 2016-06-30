@@ -1,9 +1,12 @@
 ﻿@using System.Collections;
+@using OneVietnam.BLL
 @using OneVietnam.DTL;
 @model OneVietnam.Models.CreatePostViewModel
 
 @{
     ViewBag.Title = "CreatePost";
+    List<Tag> tagList = ViewData["TagList"] as List<Tag>;
+
 }
 
 <h2>CreatePost</h2>
@@ -11,7 +14,7 @@
 
 
 
-@using (Html.BeginForm("CreatePost", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -27,7 +30,6 @@
                     <table>
                         <tr>
                             <th colspan="2"><label for="Title">Tiêu đề</label></th>
-                            <td></td>
                             <td>
                                 <input id="Title" name="Title" type="text" value="" tabindex="1" />
                                 <span class="field-validation-valid text-danger" data-valmsg-for="Title" data-valmsg-replace="true"></span>
@@ -38,14 +40,14 @@
                             <td>
                                 <input data-val="true" tabindex="2" data-val-number="The field PostType must be a number." data-val-required="The PostType field is required." id="PostType" name="PostType" type="number" value="" />
                                 <span class="field-validation-valid text-danger" data-valmsg-for="PostType" data-valmsg-replace="true"></span>
-
+                                @*@Html.DropDownListFor(model => model.PostType, , "Chọn loại bài đăng")*@
 
                             </td>
                         </tr>
                         <tr>
                             <th colspan="2"><label for="UserName">Người đăng</label></th>
                             <td>
-                                <input disabled="disabled" value="" id="UserName" />
+                                <input disabled="disabled" value="@User.Identity.Name" id="UserName" />
                             </td>
                         </tr>
                         <tr>
@@ -69,26 +71,39 @@
                             </td>
                         </tr>
                         <tr>
-                            <th colspan="2"><label>Thẻ liên quan</label></th>
+                            <th colspan="2">
+                                <label>Thẻ liên quan</label>
+                            </th>
                             <td>
                                 <div class="ui fluid multiple search selection dropdown">
                                     <input name="tags" id="tags" type="hidden" value="">
                                     <i class="dropdown icon"></i>
-                                    <input class="search" autocomplete="off" tabindex="5"><span class="sizer"></span><div class="default text">Chọn hoăc tạo thẻ mới</div>
-                                    <div class="menu transition hidden" tabindex="-1">
-                                        <div class="item selected" data-value="angular">Angular</div>
-                                        <div class="item" data-value="css">CSS</div>
-                                        <div class="item" data-value="design">Graphic Design</div>
-                                        <div class="item" data-value="ember">Ember</div>
-                                        <div class="item" data-value="html">HTML</div>
-                                        <div class="item" data-value="ia">Information Architecture</div>
-                                        <div class="item" data-value="javascript">Javascript</div>
+                                    <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Chọn hoặc tạo thẻ mới</div>
+                                    <div class="menu transition hidden" tabindex="-1">                                      
+                                        @{
+                                            if (tagList != null)
+                                            {
+                                                foreach (Tag tag in tagList)
+                                                {
+                                                    <div class="item" data-value="@tag.TagValue">@tag.TagText</div>
+                                                }
+                                            }
+                                        }
+
+
+
                                     </div>
+
                                 </div>
+
                             </td>
+
                         </tr>
+
                         <tr>
+
                             <th colspan="2"></th>
+
                             <td><input id="btnCreate" type="submit" tabindex="6" value="Tạo mới" class="btn btn-default" /></td>
                         </tr>
                     </table>
@@ -97,33 +112,8 @@
         </table>
 
     </div>
-    <div>
-        <script type="text/javascript">
-            $("#btnCreate").click(function() {
-                    @{
-                        Model.Tags = new List<Tag>();
-                        Tag newTag = new Tag("iphone","iphone 6");
-                        Model.Tags.Add(newTag);
-                    }
-                });
-        </script>
-    </div>
-    }
 
-@*<div class="ui fluid multiple search selection dropdown">
-        <input name="tags" id="tags" type="hidden" value="">
-        <i class="dropdown icon"></i>
-        <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Chọn hoăc tạo thẻ mới</div>
-        <div class="menu transition hidden" tabindex="-1">
-            <div class="item selected" data-value="angular">Angular</div>
-            <div class="item" data-value="css">CSS</div>
-            <div class="item" data-value="design">Graphic Design</div>
-            <div class="item" data-value="ember">Ember</div>
-            <div class="item" data-value="html">HTML</div>
-            <div class="item" data-value="ia">Information Architecture</div>
-            <div class="item" data-value="javascript">Javascript</div>
-        </div>
-    </div>*@
+                                            }
 
 <div>
     <p>@Html.ActionLink("Back to List", "Index", "Home")</p>

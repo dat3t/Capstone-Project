@@ -41,17 +41,34 @@ namespace OneVietnam.Controllers
             }
         }
 
-        public ActionResult CreatePost()
+        private TagManager _tagManager;
+        public TagManager TagManager
         {
-            return View(new CreatePostViewModel());
+            get
+            {
+                return _tagManager ?? HttpContext.GetOwinContext().Get<TagManager>();
+            }
+            private set { _tagManager = value; }
         }
-        //DEMO
+
+        public async Task<ActionResult> CreatePost()
+        {
+            var tagList = await TagManager.GetTagsAsync();
+            ViewData["TagList"] = tagList;
+            return View();
+        }        
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreatePost(CreatePostViewModel p)
+        public async Task<ActionResult> CreatePost(CreatePostViewModel p, List<Tag> pTags)
         {
-            var post = new Post(p) { Username = User.Identity.Name };
+            p.UserName = User.Identity.Name;
+            var tagList = UtilityBO.GetAddedTags(Request, TagManager, "Tags");
+            if (tagList != null)
+            {
+                p.Tags = tagList;
+            }
+            var post = new Post(p);
             await UserManager.AddPostAsync(User.Identity.GetUserId(), post);
             CreatedPost = true;
             PostView = new ShowPostViewModel(post);
@@ -70,7 +87,7 @@ namespace OneVietnam.Controllers
         {
             return View(PostView);
         }
-
+        
 
         public class MyHub : Hub
         {
@@ -85,5 +102,6 @@ namespace OneVietnam.Controllers
                 return base.OnConnected();
             }
         }
+
     }
 }

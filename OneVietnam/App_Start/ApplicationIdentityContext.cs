@@ -18,12 +18,13 @@ namespace OneVietnam
         public IMongoCollection<ApplicationUser> Users { get; set; }
         public IMongoCollection<IdentityRole> Roles { get; set; }
         public IMongoCollection<Country> Countries { get; set; }
-
-        private ApplicationIdentityContext(IMongoCollection<ApplicationUser> users, IMongoCollection<IdentityRole> roles, IMongoCollection<Country> countries)
+        public IMongoCollection<DTL.Tag> Tags { get; set; }
+        private ApplicationIdentityContext(IMongoCollection<ApplicationUser> users, IMongoCollection<IdentityRole> roles, IMongoCollection<Country> countries, IMongoCollection<DTL.Tag> tags)
         {
             Users = users;
             Roles = roles;
             Countries = countries;
+            Tags = tags;
         }
         public static ApplicationIdentityContext Create()
         {
@@ -33,7 +34,8 @@ namespace OneVietnam
             var users = database.GetCollection<ApplicationUser>("users");
             var roles = database.GetCollection<IdentityRole>("roles");
             var countries = database.GetCollection<Country>("countries");
-            return new ApplicationIdentityContext(users, roles, countries);
+            var tags = database.GetCollection<DTL.Tag>("tags");
+            return new ApplicationIdentityContext(users, roles, countries, tags);
         }
         public void Dispose()
         {
