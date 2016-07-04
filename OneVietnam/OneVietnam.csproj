@@ -1038,7 +1038,6 @@
     <Content Include="Views\Map\ShowLocation.cshtml" />
     <Content Include="Views\NewFeed\Index.cshtml" />
     <Content Include="Views\Post\CreatePost.cshtml" />
-    <Content Include="Views\Post\Demo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
