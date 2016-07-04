@@ -6,50 +6,68 @@
 @{
     ViewBag.Title = "CreatePost";
     List<Tag> tagList = ViewData["TagList"] as List<Tag>;
-    List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;    
+    List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
 }
 
 <h2>CreatePost</h2>
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 
 
-
 @using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    
 
-    <div class="form-horizontal" style="height: 500px;">
+    <div class="form-horizontal" style="height: 800px;">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         <table>
             <tr>
                 <td>
-                    <input id="fileUpload" name="fileUpload" type="file" hidden="" value="" multiple=""/>
+                    <input id="fileUpload" name="fileUpload" type="file" hidden="" value="" multiple="" />
 
+                    <label id="imgUpload">Tải ảnh lên</label>
+                    
+                    <div id="uploadList">
+                        <div class="ui image">
+                            <i class="delete icon"></i>
+                            <img src="/Images/heart30.png" />
+                        </div>
+                        @*<div class="ui image">
+                <i class="delete icon"></i>
+                <img src="/Images/heart30.png" />
+            </div>
+            <div class="ui image">
+                <i class="delete icon"></i>
+                <img src="/Images/heart30.png" />
+            </div>*@
+                    </div>
 
-                    @*<label id="imgUpload">Tải ảnh lên</label>                                                           
                     <script type="text/javascript">
-                        $("#imgUpload").click(function() {
-                            $('.ui.modal')
-                                .modal('show')
-                            ;
-                        });
+                        $("#imgUpload")
+                            .click(function () {                                
+                                $("#fileUpload").trigger('click');                                
+                                var fileUploader = document.getElementById("fileUpload");
+                                var newFiles = fileUploader.files.length;
+                                var friend = "<div></div>";
+                                for (var index = 0; index < newFiles; index++)
+                                {                               
+                                    var reader = new FileReader();                                    
+                                    reader.onload = function (e) {
+                                        //var uploadList = document.getElementById("uploadList");
+                                        friend = '<div class="ui image">ss</div>';
+                                        //$("#uploadList").append("<p>hhhhh</p>");
+                                        var src = e.target.result;
+                                    }
+                                    reader.readAsDataURL(fileUploader.files[index]);                                   
+                                }
+                                ////$("#uploadList").append(friend);
+                                //$("#uploadList").parent().show();
+                            });
                     </script>
-                    <div class="ui modal">
-                        <i class="close icon"></i>
-                        <div class="header">
-                            Tải ảnh lên
-                        </div>
-                        
-                        <div class="actions">
-                            <button class="ui primary button">
-                                Hoàn tât
-                            </button>
-                            <button class="ui button">
-                                Hủy bỏ
-                            </button>
-                        </div>
-                    </div>*@
+                    
+
                 </td>
                 <td>
                     <table>
@@ -82,21 +100,7 @@
                                         }
 
                                     </div>
-                                </div>                                
-
-                                @*<select data-val="true" data-val-number="The field PostType must be a number." data-val-required="The PostType field is required." id="PostType" name="PostType">
-                                    <option value="">Chọn loại bài đăng</option>
-
-                                    @{
-                                        if (postTypes != null)
-                                        {
-                                            foreach (Icon icon in postTypes)
-                                            {
-                                                <option value="@icon.IconId">@icon.IconText</option>
-                                            }
-                                        }
-                                    }
-                                </select>*@
+                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -108,7 +112,7 @@
                         <tr>
                             <th colspan="2"><label for="PostLocation_Address">Địa chỉ của bài đăng</label></th>
                             <td>
-                                <input tabindex="3" id="PostLocation_Address" name="PostLocation.Address" type="text" value=""/>                                
+                                <input tabindex="3" id="PostLocation_Address" name="PostLocation.Address" type="text" value="" />
                                 <span class="field-validation-valid text-danger" data-valmsg-for="PostLocation.Address" data-valmsg-replace="true"></span>
                             </td>
                         </tr>
@@ -135,7 +139,7 @@
                                     <i class="dropdown icon"></i>
                                     <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Chọn hoặc tạo thẻ mới</div>
                                     <div class="menu transition hidden" tabindex="-1">
-                                        
+
                                         @{
                                             if (tagList != null)
                                             {
