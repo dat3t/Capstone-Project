@@ -21,7 +21,8 @@ namespace OneVietnam
             bundles.Add(new ScriptBundle("~/bundles/theme").Include(
                         "~/Scripts/global.js",
 
-                        "~/Scripts/map.js"
+                        "~/Scripts/map.js",
+                        "~/Scripts/OverlappingMarkerSpiderfier.js"
 
                         ));
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
