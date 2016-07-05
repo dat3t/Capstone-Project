@@ -1076,6 +1076,7 @@ ClusterIcon.prototype.triggerClusterClick = function (event) {
     if (markerClusterer.isZoomOnClick()) {
         // Zoom into the cluster.
         this.map_.fitBounds(this.cluster_.getBounds());
+        this.map_.setZoom(markerClusterer.getMaxZoom() + 1);
     }
 };
 

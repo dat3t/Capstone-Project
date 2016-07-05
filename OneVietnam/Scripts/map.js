@@ -84,7 +84,7 @@ function initialize() {
     bounds = new google.maps.LatLngBounds();
 
     //var iw = new map.InfoWindow();
-
+    var oms = new OverlappingMarkerSpiderfier(map);
 
     createListUserMarkers();
     createListType0Markers();
@@ -93,11 +93,11 @@ function initialize() {
     userMarkerCluster = new MarkerClusterer(map, listUserMarkers);
     type0MarkerCluster = new MarkerClusterer(map, listType0Markers);
     type1MarkerCluster = new MarkerClusterer(map, listType1Markers);
-        
+
     userMarkerCluster.setMap(null);
     type0MarkerCluster.setMap(null);
     type1MarkerCluster.setMap(null);
-  
+
     showUsers();
 
     var markers = [];
@@ -111,18 +111,26 @@ function initialize() {
         map: map,
         title: 'Second Marker'
     });
+    var marker7 = new google.maps.Marker({
+        position: { lat: 15.8800584, lng: 108.3380469 },
+        map: map,
+        title: 'Second Marker'
+    });
     // there is better way of doing things, Below is done to show you in detail whats going on
     markers.push(marker5);
     markers.push(marker6);
+    markers.push(marker7);
     // now we have 2 markers with different title and same position
- 
+
     // lets now create our markerClusterer instance with markers array
     //var markerCluster = new MarkerClusterer(map, markers,{zoomOnClick:false,maxZoom:15});
     //var oms = new OverlappingMarkerSpiderfier(map);
-    //oms.addMarker(marker5);
-    //oms.addMarker(marker6);
-   
-
+    oms.addMarker(marker5);
+    oms.addMarker(marker6);
+    oms.addMarker(marker7);
+    markerCluster = new MarkerClusterer(map, markers);
+    markerCluster.setMaxZoom(11);
+    markerCluster.fitMapToMarkers();
 
     // Create the search box and link it to the UI element.
     var input = document.getElementById("pac-input");
@@ -150,13 +158,8 @@ function initialize() {
         markers2.push(marker);
     }
 
-    // markerCluster = new MarkerClusterer(map, markers2);
     markerCluster2 = new MarkerClusterer(map, null);
     markerCluster2.addMarkers(markers2);
-    //var marker = new google.maps.Marker({
-    //    map: map,
-    //    position: new google.maps.LatLng(-20.3, 30.3)
-    //});
 
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
@@ -253,20 +256,6 @@ function initialize() {
         maxWidth: 350
     });
 
-
-    // Loop through our array of markers & place each one on the map
-
-
-    //for (i = 0; i < markers.length; i++) {
-    //    var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-    //    bounds.extend(position);
-    //    marker = new google.maps.Marker({
-    //        position: position,
-    //        map: map,
-    //        title: markers[i][0],
-    //        icon:image
-    //    });
-
     //    // Allow each marker to have an info window
     //    google.maps.event.addListener(marker, 'click', (function (marker, i) {
     //        return function () {
@@ -278,8 +267,6 @@ function initialize() {
     //    // Automatically center the map fitting all markers on the screen
     //    map.fitBounds(bounds);
     //}
-    
-
 
     //google.maps.event.addListenerOnce(map, 'bounds_changed', function () {
     //  //  map.setZoom(14);
@@ -357,10 +344,10 @@ function loadScript() {
     var script = document.createElement("script");
     script.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyBiPDMBCKXsusl5-BgCw1nIyHwu5u3j8xw&libraries=places,geometry&callback=initialize";
     document.body.appendChild(script);
-   
+
 }
 
-window.onload = loadScript;
+window.onload = initialize;
 
 function showCurrentLocation() {
     //alert(aa);
@@ -529,7 +516,7 @@ function createListType1Markers() {
         })(marker, i));
 
     }
-  //  alert(listType1Markers[0].getTitle());
+    //  alert(listType1Markers[0].getTitle());
 
 }
 
