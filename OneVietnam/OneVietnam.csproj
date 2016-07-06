@@ -260,7 +260,6 @@
     <Compile Include="BLL\RolesManagerBLO.cs" />
     <Compile Include="BLL\TagManagerBLO.cs" />
     <Compile Include="BLL\UserManagerBLO.cs" />
-    <Compile Include="BLL\UtilityBO.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -1038,6 +1037,7 @@
     <Content Include="Views\Map\ShowLocation.cshtml" />
     <Content Include="Views\NewFeed\Index.cshtml" />
     <Content Include="Views\Post\CreatePost.cshtml" />
+    <Content Include="Views\Post\EditPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

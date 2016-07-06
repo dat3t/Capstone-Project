@@ -5,7 +5,8 @@
 }
 
 <h2>ShowCreatedPost</h2>
-
+@using (Html.BeginForm("ShowCreatedPost", "Post", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
 <div>
     <h4>ShowPostViewModel</h4>
     <hr/>
@@ -67,8 +68,12 @@
             @Html.DisplayFor(model => model.Status)
         </dd>
 
+
+
     </dl>
+    <input id="btnEdit" type="submit" value="Sửa bài đăng" class="btn btn-default"/>
 </div>
+}
 @section scripts {
     <!--Script references. -->
     <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->

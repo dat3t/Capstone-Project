@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -83,13 +83,19 @@ namespace OneVietnam.Controllers
         {
             ViewData.Clear();
             p.UserName = User.Identity.Name;
-            var tagList = UtilityBO.GetAddedTags(Request, TagManager, "Tags");
+            var tagList = GetAddedTags(Request, TagManager, "TagsInput");
+            var illList = GetAddedImage(Request, "Img", "Des");
             if (tagList != null)
             {
                 p.Tags = tagList;
             }
+
+            if (illList != null)
+            {
+                p.Illustrations = illList;
+            }
             var post = new Post(p);
-            await UserManager.AddPostAsync(User.Identity.GetUserId(), post);
+            await UserManager.AddPostAsync("57725283465f96135c101588", post);
             CreatedPost = true;
             PostView = new ShowPostViewModel(post);
             return RedirectToAction("ShowCreatedPost");
@@ -107,7 +113,27 @@ namespace OneVietnam.Controllers
         {
             return View(PostView);
         }
-        
+        [HttpPost]
+        public ActionResult ShowCreatedPost(ShowPostViewModel pPostView)
+        {
+            return RedirectToAction("EditPost");
+        }
+
+        public ActionResult EditPost()
+        {
+            var tagList = TagManager.GetTagsAsync();
+            if (tagList != null)
+            {
+                ViewData["TagList"] = tagList.Result;
+            }
+            var icons = IconManager.GetIconPostAsync();
+            if (icons != null)
+            {
+                ViewData["PostTypes"] = icons;
+            }
+            return View(PostView);
+        }
+
 
         public class MyHub : Hub
         {
@@ -122,6 +148,66 @@ namespace OneVietnam.Controllers
                 return base.OnConnected();
             }
         }
+
+        public List<Tag> GetAddedTags(HttpRequestBase pRequestBase, TagManager pTagManager, string pFormId)
+        {
+            if (pRequestBase.Form.Count > 0)
+            {
+                var addedTagValueList = pRequestBase.Form[pFormId];
+                if (!string.IsNullOrEmpty(addedTagValueList.ToString()))
+                {
+                    List<Tag> newList = new List<Tag>();
+                    var tagsInDb = pTagManager.GetTagsValueAsync();                    
+                    int numberTags = 0;
+                    if (tagsInDb != null)
+                    {
+                        numberTags = tagsInDb.Count;
+                    }
+
+                    foreach (var tag in addedTagValueList.Split(','))
+                    {
+                        if (tagsInDb == null | (tagsInDb != null && !tagsInDb.Contains(tag)))
+                        {
+                            Tag newTag = new Tag(string.Concat("Tag_", numberTags.ToString()), tag);
+                            pTagManager.CreateAsync(newTag);
+                            numberTags = numberTags + 1;
+                            newList.Add(newTag);
+                        }
+                        else
+                        {
+                            var existTag = pTagManager.FindTagByValueAsync(tag);
+                            newList.Add(existTag[0]);
+                        }
+                    }
+                    return newList;
+                }
+                return null;
+            }
+            return null;
+        }
+        
+        public List<Illustration> GetAddedImage(HttpRequestBase pRequestBase, string pImgSrc, string pImgDes)
+        {
+            List<Illustration> illList = new List<Illustration>();
+            if (pRequestBase.Form.Count > 0)
+            {
+                var addedImgSrcList = pRequestBase.Form[pImgSrc];
+                var addedImgDesList = pRequestBase.Form[pImgDes];
+                if (!string.IsNullOrEmpty(addedImgSrcList) && !string.IsNullOrEmpty(addedImgDesList) )
+                {
+                    var imgSrcs = addedImgSrcList.Split(',');
+                    var imgDes = addedImgDesList.Split(',');                                        
+                    for (int index = 0; index < imgDes.Length; index++)
+                    {
+
+                        Illustration newIll = new Illustration(string.Concat(imgSrcs[2 * index] + ",",imgSrcs[2 * index + 1]), imgDes[index]);
+                        illList.Add(newIll);
+                    }                    
+                }
+            }
+            return illList;
+        }
+
 
     }
 }

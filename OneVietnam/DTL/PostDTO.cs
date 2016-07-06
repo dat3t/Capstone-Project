@@ -52,7 +52,7 @@ namespace OneVietnam.DTL
             Status = false;
             PostLocation = pView.PostLocation;                     
             Illustrations = pView.Illustrations;
-
+            Tags = pView.Tags;
         }
 
         public void AddReport(Report pReport)

@@ -18,8 +18,8 @@ namespace OneVietnam.BLL
             if (user == null)
             {
                 throw new InvalidOperationException("Invalid user Id");
-            }
-            await _userStore.AddPostAsync(user, post).ConfigureAwait(false);
+            }            
+           await _userStore.AddPostAsync(user, post).ConfigureAwait(false);
             return await UpdateAsync(user).ConfigureAwait(false);
         }
 
