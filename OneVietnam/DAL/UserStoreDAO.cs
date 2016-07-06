@@ -67,7 +67,7 @@ namespace OneVietnam.DAL
             foreach (ApplicationUser user in userList)
             {
 
-                viewModel = new AddLocationViewModel(user.Location, user.Id, user.Posts);
+                viewModel = new AddLocationViewModel(user.Location, user.Id,user.Gender, user.Posts);
                 infoForInitMap.Add(viewModel);
             }
 

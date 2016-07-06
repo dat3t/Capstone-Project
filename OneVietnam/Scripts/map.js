@@ -1,16 +1,23 @@
 ﻿var listMarkers = [];
 var map;
 var bounds;
+var userInfoWindow;
 
 var myCurrentLocationMarker;
 var markerCluster;
 
 var listUserMarkers = [];
+var listMaleMarkers = [];
+var listFemaleMarkers = [];
+var listLGBTMarkers = [];
 var listType0Markers = [];
 var listType1Markers = [];
 var listType2Markers = [];
 
 var userMarkerCluster = [];
+var maleMarkerCluster = [];
+var femaleMarkerCluster = [];
+var LGBTMarkerCluster = [];
 var type0MarkerCluster = [];
 var type1MarkerCluster = [];
 var type2MarkerCluster = [];
@@ -87,17 +94,20 @@ function initialize() {
     var oms = new OverlappingMarkerSpiderfier(map);
 
     createListUserMarkers();
+    createListMaleMarkers();
+    createListFemaleMarkers();
+    createListLGBTMarkers();
     createListType0Markers();
     createListType1Markers();
 
     userMarkerCluster = new MarkerClusterer(map, listUserMarkers);
+    maleMarkerCluster = new MarkerClusterer(map, listMaleMarkers);
+    femaleMarkerCluster = new MarkerClusterer(map, listFemaleMarkers);
+    LGBTMarkerCluster = new MarkerClusterer(map,listLGBTMarkers);
     type0MarkerCluster = new MarkerClusterer(map, listType0Markers);
     type1MarkerCluster = new MarkerClusterer(map, listType1Markers);
 
-    userMarkerCluster.setMap(null);
-    type0MarkerCluster.setMap(null);
-    type1MarkerCluster.setMap(null);
-
+    userMarkerCluster.setMaxZoom(9);
     showUsers();
 
     var markers = [];
@@ -130,7 +140,18 @@ function initialize() {
     oms.addMarker(marker7);
     markerCluster = new MarkerClusterer(map, markers);
     markerCluster.setMaxZoom(11);
-    markerCluster.fitMapToMarkers();
+
+    userInfoWindow = new google.maps.InfoWindow({
+        content: "",
+        //content: '@Html.Partial("CustomInfoWindow")',
+        maxWidth: 350
+    });
+    google.maps.event.addListener(markerCluster, "clusterover", function (mCluster) {
+        //infowindow.content += "aa";
+        //infowindow.setPosition(mCluster.getCenter());
+        //infowindow.open(map);
+        alert(10);
+    });
 
     // Create the search box and link it to the UI element.
     var input = document.getElementById("pac-input");
@@ -276,9 +297,9 @@ function initialize() {
 
     // This event expects a click on a marker
     // When this event is fired the Info Window is opened.
-    google.maps.event.addListener(marker, 'click', function () {
-        infowindow.open(map, marker);
-    });
+    //google.maps.event.addListener(marker, 'click', function () {
+    //    infowindow.open(map, marker);
+    //});
 
     // Event that closes the Info Window with a click on the map
     google.maps.event.addListener(map, 'click', function () {
@@ -408,31 +429,39 @@ function showCurrentLocation() {
 
 }
 
-function showUsers() {
-
+function setMapToAMarkerCluster(markerCluster) {
+    userMarkerCluster.setMap(null);
+    maleMarkerCluster.setMap(null);
+    femaleMarkerCluster.setMap(null);
+    LGBTMarkerCluster.setMap(null);
     type0MarkerCluster.setMap(null);
     type1MarkerCluster.setMap(null);
 
-    userMarkerCluster.setMap(map);
+    markerCluster.setMap(map);
+}
 
+function showUsers() {
+    setMapToAMarkerCluster(userMarkerCluster);
+}
+
+function showMales() {
+    setMapToAMarkerCluster(maleMarkerCluster);
+}
+
+function showFemales() {
+    setMapToAMarkerCluster(femaleMarkerCluster);
+}
+
+function showGLBT() {
+    setMapToAMarkerCluster(LGBTMarkerCluster);
 }
 
 function showAccommodation() {
-
-    userMarkerCluster.setMap(null);
-    type1MarkerCluster.setMap(null);
-
-    type0MarkerCluster.setMap(map);
-
-
+    setMapToAMarkerCluster(type0MarkerCluster);
 }
 
 function showJobOffer() {
-
-    userMarkerCluster.setMap(null);
-    type0MarkerCluster.setMap(null);
-
-    type1MarkerCluster.setMap(map);
+    setMapToAMarkerCluster(type1MarkerCluster);
 }
 
 function createListUserMarkers() {
@@ -451,7 +480,7 @@ function createListUserMarkers() {
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 // infowindow.setContent(infoWindowContent[i][0]);
-                AjaxDisplayString(infowindow, marker)
+                AjaxDisplayString(userInfoWindow, marker)
                 // infowindow.open(map, marker);
             }
         })(marker, i));
@@ -466,6 +495,73 @@ function createListUserMarkers() {
         // Automatically center the map fitting all markers on the screen
         //    map.fitBounds(bounds);
 
+    }
+}
+
+function createListMaleMarkers() {
+    var length = males.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(males[i].x, males[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            title: array[i].address,
+            icon: image
+        });
+        listMaleMarkers.push(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                // infowindow.setContent(infoWindowContent[i][0]);
+                AjaxDisplayString(userInfoWindow, marker)
+                // infowindow.open(map, marker);
+            }
+        })(marker, i));
+    }
+}
+
+function createListFemaleMarkers() {
+    var length = females.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(females[i].x, females[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            title: array[i].address,
+            icon: image
+        });
+        listFemaleMarkers.push(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                AjaxDisplayString(userInfoWindow, marker)
+            }
+        })(marker, i));
+    }
+}
+
+function createListLGBTMarkers() {
+    var length = LGBT.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(array[i].x, array[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            title: array[i].address,
+            icon: image
+        });
+        listLGBTMarkers.push(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                // infowindow.setContent(infoWindowContent[i][0]);
+                AjaxDisplayString(userInfoWindow, marker)
+                // infowindow.open(map, marker);
+            }
+        })(marker, i));
     }
 }
 
