@@ -22,12 +22,9 @@
 /*-------------------------------------------------------------------------------------------------------------------------------*/
 
 $(function () {
-    //$('.delete.icon').on('click', function () {
-    //    $(this)
-    //        .parent().remove();
-    //    ;
-    //});    
-    
+    $('.delete.icon.image-add').on('click', function () {
+        $(this).parent().remove();;
+    });
 
     $('.ui.dropdown')
   .dropdown({

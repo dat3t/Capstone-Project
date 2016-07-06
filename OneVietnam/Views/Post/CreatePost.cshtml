@@ -1,4 +1,5 @@
 ﻿@using System.Collections;
+@using Microsoft.AspNet.Identity
 @using OneVietnam.BLL
 @using OneVietnam.DTL;
 @model OneVietnam.Models.CreatePostViewModel
@@ -26,23 +27,20 @@
         <tr>
             <td>
                 <input id="fileUpload" name="fileUpload" type="file" hidden="" value="" onchange="previewImg()" multiple="" />
-
                 <label id="imgUpload">Tải ảnh lên</label>
-
                 <div id="uploadList">
                 </div>
-
                 <script type="text/javascript">
                     $("#imgUpload")
-                        .click(function () {
-                            $("#fileUpload").trigger('click');
-                        });
+                            .click(function () {
+                                $("#fileUpload").trigger('click');
+                            });
 
                     function previewImg() {
                         var fileUploader = document.getElementById("fileUpload");
                         var newFiles = fileUploader.files.length;
                         for (var index = 0; index < newFiles; index++) {
-                            var reader = new FileReader();                            
+                            var reader = new FileReader();
                             reader.onload = function (e) {
                                 var newDiv =
                                     $('<div class="ui image image-add"><i class="delete icon image-add"></i></div>');
@@ -50,7 +48,7 @@
                                 var src = e.target.result;
                                 img.attr("src", src);
                                 img.appendTo(newDiv);
-                                var imgSrc = $('<input name="Img" id="Img" type="hidden"  />');
+                                var imgSrc = $('<input name="Img" id="Img" type="hidden" />');
                                 imgSrc.attr("value", src);
                                 imgSrc.appendTo(newDiv);
                                 var description = $('<input name="Des" id="Des" type="text" value="" />');
@@ -66,50 +64,9 @@
                                         });
                             }
                             reader.readAsDataURL(fileUploader.files[index]);
-                            //setupReader(fileUploader.files[index]);
                         }
-                    };
-
-                    function setupReader(file) {                        
-                        var reader = new FileReader();
-                        reader.onload = function (e) {                             
-                            var newDiv =
-                                    $('<div class="ui image image-add"><i class="delete icon image-add"></i></div>');
-                            var img = $('<img />');
-                            var src = e.target.result;
-                            img.attr("src", src);
-                            img.appendTo(newDiv);
-                            var imgSrc = $('<input name="Img" id="Img" type="hidden"  />');
-                            imgSrc.attr("value", src);
-                            imgSrc.appendTo(newDiv);
-                            var description = $('<input name="Des" id="Des" type="text" value="" />');
-                            description.appendTo(newDiv);
-                            newDiv.appendTo("#uploadList");
-
-                            $('.delete.icon.image-add')
-                                .on('click',
-                                    function () {
-                                        $(this)
-                                            .parent()
-                                            .remove();;
-                                    });
-                        }
-                        reader.readAsText(file);
-                    }
-
-
-
-                    $('.delete.icon.image-add')
-                        .on('click',
-                            function () {
-                                $(this)
-                                    .parent()
-                                    .remove();;
-                            });                    
-
+                    };                    
                 </script>
-
-
             </td>
             <td>
                 <table>

@@ -18,8 +18,8 @@ namespace OneVietnam.BLL
             if (user == null)
             {
                 throw new InvalidOperationException("Invalid user Id");
-            }            
-           await _userStore.AddPostAsync(user, post).ConfigureAwait(false);
+            }
+            await _userStore.AddPostAsync(user, post).ConfigureAwait(false);
             return await UpdateAsync(user).ConfigureAwait(false);
         }
 
@@ -32,5 +32,36 @@ namespace OneVietnam.BLL
             }
             return _userStore.GetPostsAsync(user);
         }
+
+        public Post GetPostByIdAsync(string pUserId, string pPostId)
+        {
+
+            var posts = GetPostsAsync(pUserId);
+            if (posts != null)
+            {
+                foreach (var post in posts.Result)
+                {
+                    if (pPostId.Equals(post.Id))
+                    {
+                        return post;
+                    }
+                }                
+            }
+            return null;
+        }
+
+        public async Task<IdentityResult> UpdatePostAsync(string pUserId, Post pPost)
+        {
+            if (pPost == null)
+                throw new ArgumentNullException(nameof(pPost));
+            var user = await FindByIdAsync(pUserId).ConfigureAwait(false);
+            if (user == null)
+            {
+                throw new InvalidOperationException("Invalid user Id");
+            }
+            await _userStore.UpdatePostAsync(user, pPost).ConfigureAwait(false);
+            return await UpdateAsync(user).ConfigureAwait(false);
+        }
+
     }
 }

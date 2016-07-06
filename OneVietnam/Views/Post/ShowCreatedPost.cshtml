@@ -1,79 +1,167 @@
-﻿@model OneVietnam.Models.ShowPostViewModel
+﻿@using OneVietnam.DTL
+@model OneVietnam.Models.PostViewModel
 
 @{
     ViewBag.Title = "ShowCreatedPost";
+    List<Tag> tagList = ViewData["TagList"] as List<Tag>;
+    List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
+    string postId = ViewData["PostId"] as string;
 }
 
 <h2>ShowCreatedPost</h2>
-@using (Html.BeginForm("ShowCreatedPost", "Post", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("ShowCreatedPost", "Post", FormMethod.Post))
 {
-<div>
-    <h4>ShowPostViewModel</h4>
-    <hr/>
-    <div id="hitCount">0</div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
+    <div>        
+        <input type="hidden" name="PostId" id="PostId" value="@postId"/>
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <div id="uploadList">
+                            @{
+                                if (Model.Illustrations != null)
+                                {
+                                    foreach (var ill in Model.Illustrations)
+                                    {
+                                        <div class="ui image image-add">                                            
+                                            <img src="@ill.PhotoLink" />
+                                            <input name="Img" id="Img" type="hidden" value="@ill.PhotoLink" />
+                                            <input name="Des" id="Des" type="text" disabled="disabled" value="@ill.Description" />
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <th colspan="2"><label for="Title">Tiêu đề</label></th>
+                                <td>
+                                    <input id="Title" name="Title" type="text" value="@Model.Title" tabindex="1" disabled="disabled" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="2"><label for="PostType">Loại bài đăng</label></th>
+                                <td>
+                                    <div class="ui fluid selection dropdown disabled">
+                                        <input type="hidden" id="PostType" name="PostType" value="@Model.PostType">
+                                        <i class="dropdown icon"></i>
+                                        <div class="default text">Chọn loại bài đăng</div>
+                                        <div class="menu">
+                                            @{
+                                                if (postTypes != null)
+                                                {
+                                                    foreach (Icon icon in postTypes)
+                                                    {
 
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
+                                                        <div class="item" data-value="@icon.IconId">
+                                                            <img class="ui mini avatar image" src="@icon.IconImage">
+                                                            @icon.IconText
+                                                        </div>
+                                                    }
+                                                }
+                                            }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="2"><label for="UserName">Người đăng</label></th>
+                                <td>
+                                    <input disabled="disabled" value="@Model.UserName" id="UserName" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="2"><label for="PostLocation_Address">Địa chỉ của bài đăng</label></th>
+                                <td>
+                                    <input tabindex="3" id="PostLocation_Address" name="PostLocation.Address" type="text" value="@Model.PostLocation.Address" disabled="disabled" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="2"><label>Ngày đăng</label></th>
+                                <td>
+                                    <input type="datetime" disabled="disabled" value="@Model.PublishDate" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="2"><label for="Description">Mô tả </label></th>
+                                <td>
+                                    <input tabindex="4" id="Description" name="Description" type="text" value="@Model.Description" disabled="disabled" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="2">
+                                    <label>Thẻ liên quan</label>
+                                </th>
+                                <td>
+                                    <div class="ui fluid multiple search selection dropdown disabled">
+                                        @{
+                                        string tagValue = "";
+                                        if (Model.Tags != null)
+                                        {
+                                            foreach (var tag in Model.Tags)
+                                            {
+                                                tagValue = string.IsNullOrEmpty(tagValue) ? tag.TagValue : string.Concat(tagValue + ",", tag.TagValue);
+                                            }
+                                        }
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+                                        }
+                                        <input name="TagsInput" id="TagsInput" type="hidden" value="@tagValue">
+                                        <i class="dropdown icon"></i>
+                                        <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Chọn hoặc tạo thẻ mới</div>
+                                        <div class="menu transition hidden" tabindex="-1">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                                            @{
+                                            if (tagList != null)
+                                            {
+                                                foreach (Tag tag in tagList)
+                                                {
+                                        <div class="item" data-value="@tag.TagValue">@tag.TagText</div>
+                                                }
+                                            }
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PublishDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PublishDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PostType)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PostType)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DeletedFlag)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DeletedFlag)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
+                            <tr>
+                                <th><label for="Status">Trạng thái bài đăng</label></th>
+                                <td>
+                                    @if (Model.Status)
+                                    {
+                                        <label id="Status">Đang hoạt động</label>
+                                    }
+                                    else
+                                    {
+                                        <label id="Status">Đã đóng</label>
+                                    }
+                                </td>
 
 
+                            </tr>
 
-    </dl>
-    <input id="btnEdit" type="submit" value="Sửa bài đăng" class="btn btn-default"/>
-</div>
-}
+
+                        </table>
+
+
+                    </td>
+
+
+                </tr>
+
+
+            </table>
+
+
+        </div>
+
+
+        <input id="btnEdit" type="submit" value="Sửa bài đăng" class="btn btn-default" />
+    </div>
+                                                }
 @section scripts {
     <!--Script references. -->
     <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
@@ -88,13 +176,13 @@
             var chat = $.connection.myHub;
             // Create a function that the hub can call back to display messages.
             chat.client.loadNewPost = function (newPost) {
-                // Add the message to the page.          
-                console.log(newPost);                
+                // Add the message to the page.
+                console.log(newPost);
 
-            };            
+            };
             $.connection.hub.start().done(function () {
 
-              //do nothing  
+                //do nothing
             });
         });
         // This optional function html-encodes messages for display in the page.

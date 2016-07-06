@@ -27,9 +27,15 @@ namespace OneVietnam.DAL
             return await _users.Find(u => u.Roles.Contains(role.Name)).ToListAsync();
         }
 
-        public Task AddPostAsync(ApplicationUser user, Post post)
+        public Task AddPostAsync(ApplicationUser pUser, Post pPost)
         {
-            user.AddPost(post);
+            pUser.AddPost(pPost);
+            return Task.FromResult(0);
+        }
+
+        public Task UpdatePostAsync(ApplicationUser pUser, Post pPost)
+        {
+            pUser.UpdatePost(pPost);
             return Task.FromResult(0);
         }
 

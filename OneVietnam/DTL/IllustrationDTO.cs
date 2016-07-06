@@ -19,7 +19,7 @@ namespace OneVietnam.DTL
         {
         }
 
-        public Illustration(string pStrDescription, string pStrPhotoLink)
+        public Illustration(string pStrPhotoLink, string pStrDescription)
         {            
             Description = pStrDescription;
             PhotoLink = pStrPhotoLink;

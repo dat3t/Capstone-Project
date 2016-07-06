@@ -52,7 +52,7 @@ namespace OneVietnam.Models
         }
 
     }
-    public class ShowPostViewModel
+    public class PostViewModel
     {
         public string UserName { get; set; }
         public string Title { get; set; }
@@ -66,10 +66,10 @@ namespace OneVietnam.Models
         public List<Tag> Tags { get; set; }
 
         public List<Report> Reports { get; set; }
-        public ShowPostViewModel()
+        public PostViewModel()
         {
         }
-        public ShowPostViewModel(Post post)
+        public PostViewModel(Post post)
         {
             UserName = post.Username;
             Title = post.Title;
@@ -80,7 +80,8 @@ namespace OneVietnam.Models
             Status = post.Status;            
             PostLocation = post.PostLocation;
             Tags = post.Tags;
-            Reports = post.Reports;            
+            Reports = post.Reports;
+            Illustrations = post.Illustrations;
         }
     }
 }

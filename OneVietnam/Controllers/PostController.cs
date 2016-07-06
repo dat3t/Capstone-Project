@@ -17,7 +17,7 @@ namespace OneVietnam.Controllers
     public class PostController : Controller
     {
         public static bool CreatedPost = false;
-        public static ShowPostViewModel PostView;
+        public static PostViewModel PostView;        
 
         public PostController()
         {
@@ -49,7 +49,7 @@ namespace OneVietnam.Controllers
                 return _tagManager ?? HttpContext.GetOwinContext().Get<TagManager>();
             }
             private set { _tagManager = value; }
-        }
+        }        
 
         private IconManager _iconManager;
         public IconManager IconManager
@@ -59,19 +59,34 @@ namespace OneVietnam.Controllers
                 return _iconManager ?? HttpContext.GetOwinContext().Get<IconManager>();
             }
             private set { _iconManager = value; }
+        }           
+        public List<Tag> TagList
+        {
+            get
+            {
+                var tags = TagManager.GetTagsAsync();
+                return tags?.Result;
+            }                    
+        }        
+        public List<Icon> IconList
+        {
+            get
+            {
+                var icons = IconManager.GetIconPostAsync();
+                return icons;
+            }            
         }
 
+
         public ActionResult CreatePost()
-        {
-            var tagList = TagManager.GetTagsAsync();
-            if (tagList != null)
+        {            
+            if (TagList != null)
             {
-                ViewData["TagList"] = tagList.Result;
-            }                                   
-            var icons = IconManager.GetIconPostAsync();
-            if (icons != null)
+                ViewData["TagList"] = TagList;
+            }                                               
+            if (IconList != null)
             {
-                ViewData["PostTypes"] = icons;
+                ViewData["PostTypes"] = IconList;
             }
             
             return View();
@@ -79,11 +94,11 @@ namespace OneVietnam.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreatePost(CreatePostViewModel p, List<Tag> pTags)
+        public async Task<ActionResult> CreatePost(CreatePostViewModel p)
         {
             ViewData.Clear();
             p.UserName = User.Identity.Name;
-            var tagList = GetAddedTags(Request, TagManager, "TagsInput");
+            var tagList = AddAndGetAddedTags(Request, TagManager, "TagsInput");
             var illList = GetAddedImage(Request, "Img", "Des");
             if (tagList != null)
             {
@@ -95,45 +110,91 @@ namespace OneVietnam.Controllers
                 p.Illustrations = illList;
             }
             var post = new Post(p);
-            await UserManager.AddPostAsync(User.Identity.GetUserId(), post);
-            CreatedPost = true;
-            PostView = new ShowPostViewModel(post);
-            return RedirectToAction("ShowCreatedPost");
+            await UserManager.AddPostAsync("57725283465f96135c101588", post);
+            //await UserManager.AddPostAsync(User.Identity.GetUserId(), post); TODO
+            CreatedPost = true;                        
+            return RedirectToAction("ShowCreatedPost", "Post", new { postId = post.Id });
         }
 
         public async Task<ActionResult> ShowPost()
         {
 
             List<Post> list = await UserManager.GetPostsAsync(User.Identity.GetUserId());
-            List<ShowPostViewModel> pViewList = list.Select(post => new ShowPostViewModel(post)).ToList();
+            List<PostViewModel> pViewList = list.Select(post => new PostViewModel(post)).ToList();
             return View(pViewList);
         }
 
-        public ActionResult ShowCreatedPost()
+        public ActionResult ShowCreatedPost(string postId)
         {
-            return View(PostView);
+            if (TagList != null)
+            {
+                ViewData["TagList"] = TagList;
+            }
+            if (IconList != null)
+            {
+                ViewData["PostTypes"] = IconList;
+            }
+            //Post post = UserManager.GetPostByIdAsync(User.Identity.GetUserId(), postId); TODO
+            Post post = UserManager.GetPostByIdAsync("57725283465f96135c101588", postId);            
+            PostViewModel showPost = new PostViewModel(post);
+            ViewData["PostId"] = postId;
+            return View(showPost);
         }
         [HttpPost]
-        public ActionResult ShowCreatedPost(ShowPostViewModel pPostView)
-        {
-            return RedirectToAction("EditPost");
+        public ActionResult ShowCreatedPost(PostViewModel pPostView)
+        {            
+            ViewData.Clear();
+            string strPostId = "";
+            if (Request.Form.Count > 0)
+            {
+                strPostId = Request.Form["PostId"];
+            }
+            return RedirectToAction("EditPost", "Post", new { postId = strPostId });
         }
 
-        public ActionResult EditPost()
+        public ActionResult EditPost(string postId)
         {
-            var tagList = TagManager.GetTagsAsync();
+            if (TagList != null)
+            {
+                ViewData["TagList"] = TagList;
+            }
+            if (IconList != null)
+            {
+                ViewData["PostTypes"] = IconList;
+            }
+            //Post post = UserManager.GetPostByIdAsync(User.Identity.GetUserId(), postId); TODO
+            Post post = UserManager.GetPostByIdAsync("57725283465f96135c101588", postId);
+            PostViewModel showPost = new PostViewModel(post);
+            ViewData["PostId"] = postId;
+            return View(showPost);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditPost(PostViewModel pPostView)
+        {
+            ViewData.Clear();
+            string strPostId = "";
+            if (Request.Form.Count > 0)
+            {
+                strPostId = Request.Form["PostId"];
+            }
+            ViewData.Clear();
+            pPostView.UserName = User.Identity.Name;
+            var tagList = AddAndGetAddedTags(Request, TagManager, "TagsInput");
+            var illList = GetAddedImage(Request, "Img", "Des");
             if (tagList != null)
             {
-                ViewData["TagList"] = tagList.Result;
+                pPostView.Tags = tagList;
             }
-            var icons = IconManager.GetIconPostAsync();
-            if (icons != null)
-            {
-                ViewData["PostTypes"] = icons;
-            }
-            return View(PostView);
-        }
 
+            if (illList != null)
+            {
+                pPostView.Illustrations = illList;
+            }
+            Post post = new Post(pPostView, strPostId);
+            await UserManager.UpdatePostAsync("57725283465f96135c101588", post);
+            return RedirectToAction("ShowCreatedPost", "Post", new { postId = strPostId });
+        }
 
         public class MyHub : Hub
         {
@@ -149,7 +210,7 @@ namespace OneVietnam.Controllers
             }
         }
 
-        public List<Tag> GetAddedTags(HttpRequestBase pRequestBase, TagManager pTagManager, string pFormId)
+        public List<Tag> AddAndGetAddedTags(HttpRequestBase pRequestBase, TagManager pTagManager, string pFormId)
         {
             if (pRequestBase.Form.Count > 0)
             {

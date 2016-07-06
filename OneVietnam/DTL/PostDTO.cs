@@ -49,10 +49,26 @@ namespace OneVietnam.DTL
             PublishDate = DateTimeOffset.Now;
             PostType = pView.PostType;
             DeletedFlag = false;
-            Status = false;
+            Status = true;
             PostLocation = pView.PostLocation;                     
             Illustrations = pView.Illustrations;
             Tags = pView.Tags;
+        }
+
+        public Post(PostViewModel pView, string pPostId)
+        {
+            Id = pPostId;
+            Username = pView.UserName;
+            Title = pView.Title;
+            Description = pView.Description;
+            PublishDate = pView.PublishDate;
+            PostType = pView.PostType;
+            DeletedFlag = pView.DeletedFlag;
+            Status = pView.Status;
+            PostLocation = pView.PostLocation;
+            Illustrations = pView.Illustrations;
+            Tags = pView.Tags;
+            Reports = pView.Reports;
         }
 
         public void AddReport(Report pReport)
