@@ -95,7 +95,7 @@ namespace OneVietnam.Controllers
                 p.Illustrations = illList;
             }
             var post = new Post(p);
-            await UserManager.AddPostAsync("57725283465f96135c101588", post);
+            await UserManager.AddPostAsync(User.Identity.GetUserId(), post);
             CreatedPost = true;
             PostView = new ShowPostViewModel(post);
             return RedirectToAction("ShowCreatedPost");
