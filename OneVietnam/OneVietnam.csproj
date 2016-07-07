@@ -272,6 +272,8 @@
     <Compile Include="DTL\IllustrationDTO.cs" />
     <Compile Include="DTL\LocationDTO.cs" />
     <Compile Include="DTL\PostDTO.cs" />
+    <Compile Include="DTL\ReportDTO.cs" />
+    <Compile Include="DTL\TagDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -280,6 +282,7 @@
     <Compile Include="Models\AddLocationViewModel.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PostViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
