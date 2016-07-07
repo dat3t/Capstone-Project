@@ -39,6 +39,11 @@ namespace OneVietnam.DTL
         {
             Posts[Posts.FindIndex(x => x.Id == pPost.Id)] = pPost;
         }
+
+        public void DeletePost(Post pPost)
+        {
+            Posts.Remove(Posts.First(post => post.Id == pPost.Id));            
+        }
         public void AddLocation(Location location)
         {
             Location = location;

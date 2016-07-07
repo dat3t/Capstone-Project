@@ -211,6 +211,12 @@ namespace OneVietnam.Controllers
             return RedirectToAction("ShowCreatedPost", "Post", new { postId = strPostId });
         }
 
+        public async Task<ActionResult> DeletePost(string postId)
+        {
+            await UserManager.DeletePostAsync("57725283465f96135c101588", postId);
+            return RedirectToAction("CreatePost", "Post");
+        }
+
         public class MyHub : Hub
         {
             public override Task OnConnected()
