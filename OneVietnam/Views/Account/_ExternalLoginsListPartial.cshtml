@@ -1,7 +1,5 @@
 ﻿@model OneVietnam.Models.ExternalLoginListViewModel
 @using Microsoft.Owin.Security
-<h4>Đăng Nhập Ngoại Tuyến</h4>
-<hr />
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
     if (loginProviders.Count() == 0)
@@ -18,17 +16,15 @@
         {
             @Html.AntiForgeryToken()
             <div>
-                <p></p>
-            </div>
-            <div class="row">
                 @foreach (AuthenticationDescription p in loginProviders)
                 {
-                    <div class="input-group">
-                        <span class="input-group-addon" style="background: url('Content/Icon/icon-gg.png')"></span>
-                        <button type="submit" class="form-control" style="background-color: #3b5998; color: #fff" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">Đăng Nhập Bằng @p.AuthenticationType</button>
-                    </div>                    
+                    //<button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
+                    <button class="ui @p.AuthenticationType.ToLower() button " type="submit" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Đăng Nhập Bằng @p.Caption account">
+                        <i class="@p.AuthenticationType.ToLower() icon"></i>
+                         Đăng Nhập Bằng @p.AuthenticationType
+                    </button>
                 }
-            </div>            
+            </div>
         }
     }
 }

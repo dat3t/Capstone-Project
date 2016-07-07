@@ -1,32 +1,24 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "ui form" }))
     {
         @Html.AntiForgeryToken()
-
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-            </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-        </ul>
+        
+        <div class="item">
+            @Html.ActionLink("Hi " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+        </div>
+        <div class="item">
+            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>            
+        </div>
     }
 }
 else
-{
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            <a id="btnLogin" href="">Đăng Nhập</a>
-        </li>
-        <li>
-            <a id="btnRegister" href="">Đăng Ký</a>
-        </li>
-    </ul>
-    <div class="large-popup" id="loginDiv">
-        @Html.Partial("~/Views/Account/Login.cshtml");
+{    
+    <div class="item">        
+        @Html.ActionLink("Đăng Nhập", "Login", "Account", routeValues: null, htmlAttributes: new {@class="ui fluid primary button"})        
     </div>
-    <div class="large-popup" id="registerDiv">
-        @Html.Partial("~/Views/Account/Register.cshtml");
-    </div>
+    <div class="item">
+        @Html.ActionLink("Đăng Ký", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "ui fluid primary button" })        
+    </div>    
 }
