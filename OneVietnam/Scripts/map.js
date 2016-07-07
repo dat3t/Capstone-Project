@@ -2,6 +2,7 @@
 var map;
 var bounds;
 var userInfoWindow;
+var infowindow;
 
 var myCurrentLocationMarker;
 var markerCluster;
@@ -269,8 +270,8 @@ function initialize() {
             '</div>';
 
     // A new Info Window is created and set content
-    var infowindow = new google.maps.InfoWindow({
-        content: "",
+     infowindow = new google.maps.InfoWindow({
+        content: content,
         //content: '@Html.Partial("CustomInfoWindow")',
         // Assign a maximum value for the width of the infowindow allows
         // greater control over the various content elements
@@ -480,8 +481,8 @@ function createListUserMarkers() {
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 // infowindow.setContent(infoWindowContent[i][0]);
-                AjaxDisplayString(userInfoWindow, marker)
-                // infowindow.open(map, marker);
+               // AjaxDisplayString(userInfoWindow, marker)
+                 infowindow.open(map, marker);
             }
         })(marker, i));
 
@@ -581,7 +582,7 @@ function createListType0Markers() {
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 // infowindow.setContent(infoWindowContent[i][0]);
-                // AjaxDisplayString(infowindow, marker)
+                AjaxDisplayString(userInfoWindow, marker)
                 // infowindow.open(map, marker);
             }
         })(marker, i));
@@ -606,7 +607,7 @@ function createListType1Markers() {
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 // infowindow.setContent(infoWindowContent[i][0]);
-                //AjaxDisplayString(infowindow, marker)
+                AjaxDisplayString(userInfoWindow, marker)
                 // infowindow.open(map, marker);
             }
         })(marker, i));
@@ -699,13 +700,32 @@ function AjaxDisplayString(infowindow, marker) {
         data: addressData,
         success: function (result) {
             debugger;
+            //infowindow.setContent("<div>" + result + "</div>");
+            infowindow.open(map, marker);
+        },
+        error: function (arg) {
+            alert("Error");
+        }
+    });
+}
+
+function AjaxDisplayString(infowindow, marker) {
+    var addressData;
+    var testData;
+    $.ajax({
+        type: "GET",
+        url: '/Map/CustomInfoWindow?useid=asd',
+        dataType: "HTML",
+        contentType: 'application/json',
+        traditional: true,
+        data: addressData,
+        success: function (result) {
+            debugger;
             infowindow.setContent("<div>" + result + "</div>");
             infowindow.open(map, marker);
         },
         error: function (arg) {
             alert("Error");
         }
-
     });
-
 }
