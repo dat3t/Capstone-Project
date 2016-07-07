@@ -25,6 +25,11 @@ namespace OneVietnam.Controllers
             return View();
         }
 
+        public ActionResult CustomInfoWindow()
+        {
+            return View();
+        }
+
         //DEMO
         public ActionResult AddLocation()
         {
@@ -53,17 +58,12 @@ namespace OneVietnam.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //public ActionResult ShowLocation()
-        //{
-        //    return View(LocationView);
-        //}
-
-        public async Task<ActionResult> ShowLocation()
+        public async Task<ActionResult> ShowMap()
         {
             var userslist = await UserManager.AllUsersAsync();
-            List<Location> list = await UserManager.GetLocationAsync(userslist);
-            List<AddLocationViewModel> locationViewList = list.Select(location => new AddLocationViewModel(location)).ToList();
-            return View(locationViewList);
+            List<AddLocationViewModel> list = await UserManager.GetInfoForInitMapAsync(userslist);
+            /*List<AddLocationViewModel> locationViewList = list.Select(location => new AddLocationViewModel(location)).ToList();*/
+            return View(list);
         }
 
     }

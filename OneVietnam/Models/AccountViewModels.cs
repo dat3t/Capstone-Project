@@ -137,38 +137,5 @@ namespace OneVietnam.Models
             SecurityStamp = appUser.SecurityStamp;
             PhoneNumber = appUser.PhoneNumber;
         }
-    }
-    //DEMO
-    public class CreatePostViewModel
-    {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public int PostType { get; set; }
-        // logical delete        
-    }
-    //DEMO
-    public class ShowPostViewModel
-    {
-        public string Username { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public DateTimeOffset? PublishDate { get; set; }
-        public int PostType { get; set; }
-        // logical delete
-        public bool DeletedFlag { get; set; }
-        // finished or not
-        public bool Status { get; set; }
-
-        public ShowPostViewModel(Post post)
-        {
-            Username = post.Username;
-            Title = post.Title;
-            Description = post.Description;
-            PublishDate = post.PublishDate;
-            PostType = post.PostType;
-            DeletedFlag = post.DeletedFlag;
-            Status = post.Status;
-        }
-    }
-    //DEMO   
+    }    
 }
