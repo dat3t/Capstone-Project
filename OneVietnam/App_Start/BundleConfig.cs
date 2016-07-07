@@ -26,21 +26,25 @@ namespace OneVietnam
                         "~/Scripts/jquery.viewportchecker.min.js",
                         "~/Scripts/map.js",
                         "~/Scripts/sorttable.js",
-                        "~/Scripts/wow.js"
+                        "~/Scripts/wow.js",
+                        "~/semantic/dist/semantic.js",
+                        "~/Scripts/minimal-slide.js",
+                        "~/Scripts/jquery.min.js"
                         ));
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.min.css",
                       "~/Content/site.css",
-                      "~/Content/stylesheet.css",
                       "~/Content/icon.css",
                       "~/Content/idangerous.swiper.css",
                       "~/Content/idangerous.swiper_backup.css",
                       "~/Content/ie-9.css",
-                      "~/Content/loader.css"));
+                      "~/Content/loader.css",
+                      "~/semantic/dist/semantic.min.css",
+                      "~/Content/icon.min.css",
+                      "~/Content/minimal-slide.css"));
         }
     }
 }
