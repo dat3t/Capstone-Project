@@ -22,9 +22,44 @@
 /*-------------------------------------------------------------------------------------------------------------------------------*/
 
 $(function () {
+   Dropzone.options.UpFile = {
+  // Necessary to make dropzone create an invisible file
+  // input element (hiddenFileInput)
+  clickable: true, 
+
+  init: function () {
+    var _this = this; // For the closure
+
+    var selectFile = document.querySelector("#SelectFile");
+    selectFile.addEventListener("click", function () {
+      // Debug output to make sure the event gets triggered.
+      alert("click ok!"); 
+
+      // Trigger the click event on the hidden file input.
+      _this.hiddenFileInput.click();
+    });
+}
+
+//     
+//    $("#imgUpload").click(function () {
+//        $("#files").click();
+//    });
     $('.delete.icon.image-add').on('click', function () {
         $(this).parent().remove();;
     });
+
+    $('.item.write').click(function () {
+
+
+        $('.ui.modal').modal('show');
+
+    });
+
+    $('.ui.dropdown')
+  .dropdown({
+      allowAdditions: true
+  })
+    ;
 
     $('.ui.dropdown')
   .dropdown({

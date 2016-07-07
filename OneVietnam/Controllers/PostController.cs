@@ -16,6 +16,10 @@ namespace OneVietnam.Controllers
 {
     public class PostController : Controller
     {
+        public ActionResult Index()
+        {
+            return View();
+        }
         public static bool CreatedPost = false;
         public static PostViewModel PostView;        
 
@@ -78,7 +82,7 @@ namespace OneVietnam.Controllers
         }
 
 
-        public ActionResult CreatePost()
+        public void _CreatePost()
         {            
             if (TagList != null)
             {
@@ -89,6 +93,17 @@ namespace OneVietnam.Controllers
                 ViewData["PostTypes"] = IconList;
             }
             
+        }
+        public ActionResult CreatePost()
+        {            
+            if (TagList != null)
+            {
+                ViewData["TagList"] = TagList;
+            }                                               
+            if (IconList != null)
+            {
+                ViewData["PostTypes"] = IconList;
+            }
             return View();
         }        
         [HttpPost]
