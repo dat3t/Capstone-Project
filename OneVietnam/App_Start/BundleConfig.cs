@@ -21,7 +21,7 @@ namespace OneVietnam
        
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/semantic/dist/semantic.min.js",
-                       "~/Scripts/global.js",
+                        "~/Scripts/global.js",
                         "~/Scripts/map.js",
                         "~/Scripts/dropzone.js",
                       "~/Scripts/respond.js"));
