@@ -63,5 +63,19 @@ namespace OneVietnam.BLL
             return await UpdateAsync(user).ConfigureAwait(false);
         }
 
+        public async Task<IdentityResult> DeletePostAsync(string pUserId, string pPostId)
+        {
+            Post post = GetPostByIdAsync(pUserId, pPostId);
+            if (post == null)
+                throw new ArgumentNullException(nameof(post));
+            var user = await FindByIdAsync(pUserId).ConfigureAwait(false);
+            if (user == null)
+            {
+                throw new InvalidOperationException("Invalid user Id");
+            }
+            await _userStore.DeletePostAsync(user, post).ConfigureAwait(false);
+            return await UpdateAsync(user).ConfigureAwait(false);
+        }
+
     }
 }

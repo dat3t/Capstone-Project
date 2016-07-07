@@ -1,6 +1,4 @@
-﻿@using System.Collections;
-@using Microsoft.AspNet.Identity
-@using OneVietnam.BLL
+﻿
 @using OneVietnam.DTL;
 @model OneVietnam.Models.CreatePostViewModel
 
@@ -103,12 +101,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <th colspan="2"><label for="UserName">Người đăng</label></th>
-                        <td>
-                            <input disabled="disabled" value="@User.Identity.Name" id="UserName" />
-                        </td>
-                    </tr>
-                    <tr>
                         <th colspan="2"><label for="PostLocation_Address">Địa chỉ của bài đăng</label></th>
                         <td>
                             <input tabindex="3" id="PostLocation_Address" name="PostLocation.Address" type="text" value="" />
@@ -173,7 +165,7 @@
                                         }
 
 <div>
-    <p>@Html.ActionLink("Back to List", "Index", "Home")</p>
-    <p>@Html.ActionLink("Show all Posts", "ShowPost")</p>
+    <p>@Html.ActionLink("Back to List", "Index", "Home")</p>    
+
 </div>
 

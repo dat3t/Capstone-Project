@@ -39,6 +39,12 @@ namespace OneVietnam.DAL
             return Task.FromResult(0);
         }
 
+        public Task DeletePostAsync(ApplicationUser pUser, Post pPost)
+        {
+            pUser.DeletePost(pPost);
+            return Task.FromResult(0);
+        }
+
         public List<Post> GetPostsAsync(ApplicationUser user)
         {
             return user.Posts;

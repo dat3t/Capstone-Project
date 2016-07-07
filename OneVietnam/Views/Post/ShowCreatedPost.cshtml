@@ -5,14 +5,14 @@
     ViewBag.Title = "ShowCreatedPost";
     List<Tag> tagList = ViewData["TagList"] as List<Tag>;
     List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
-    string postId = ViewData["PostId"] as string;
+    string strPostId = ViewData["PostId"] as string;
 }
 
 <h2>ShowCreatedPost</h2>
 @using (Html.BeginForm("ShowCreatedPost", "Post", FormMethod.Post))
 {
     <div>        
-        <input type="hidden" name="PostId" id="PostId" value="@postId"/>
+        <input type="hidden" name="PostId" id="PostId" value="@strPostId"/>
         <div>
             <table>
                 <tr>
@@ -23,7 +23,7 @@
                                 {
                                     foreach (var ill in Model.Illustrations)
                                     {
-                                        <div class="ui image image-add">                                            
+                                        <div class="ui image">                                            
                                             <img src="@ill.PhotoLink" />
                                             <input name="Img" id="Img" type="hidden" value="@ill.PhotoLink" />
                                             <input name="Des" id="Des" type="text" disabled="disabled" value="@ill.Description" />
@@ -65,12 +65,6 @@
 
                                         </div>
                                     </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th colspan="2"><label for="UserName">Người đăng</label></th>
-                                <td>
-                                    <input disabled="disabled" value="@Model.UserName" id="UserName" />
                                 </td>
                             </tr>
                             <tr>
@@ -159,7 +153,8 @@
         </div>
 
 
-        <input id="btnEdit" type="submit" value="Sửa bài đăng" class="btn btn-default" />
+        <input id="btnEdit" type="submit" value="Sửa bài đăng" class="btn btn-default"/>
+        <input id="btnDel" type="button" value="Xóa bài đăng" class="btn btn-default" onclick="document.location.href='@Url.Action("DeletePost", "Post", new { postId = strPostId})';"/>
     </div>
                                                 }
 @section scripts {

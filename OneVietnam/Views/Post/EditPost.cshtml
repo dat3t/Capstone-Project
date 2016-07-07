@@ -5,20 +5,20 @@
     ViewBag.Tiltel = "EditPost";
     List<Tag> tagList = ViewData["TagList"] as List<Tag>;
     List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
-    string postId = ViewData["PostId"] as string;
+    string strPostId = ViewData["PostId"] as string;
 
 }
-    <title>EditPost</title>
-    <script src="~/Scripts/jquery-1.10.2.js"></script>
+<title>EditPost</title>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
 
 @using (Html.BeginForm("EditPost", "Post", FormMethod.Post))
 {
     <div>
-        <input type="hidden" name="PostId" id="PostId" value="@postId" />
+        <input type="hidden" name="PostId" id="PostId" value="@strPostId" />
         <table>
             <tr>
                 <td>
-                    <input id="fileUpload" name="fileUpload" type="file" hidden="" value="" onchange="previewImg()" multiple=""/>
+                    <input id="fileUpload" name="fileUpload" type="file" hidden="" value="" onchange="previewImg()" multiple="" />
 
                     <label id="imgUpload">Tải ảnh lên</label>
 
@@ -30,9 +30,9 @@
                                 {
                                     <div class="ui image image-add">
                                         <i class="delete icon image-add"></i>
-                                        <img src="@ill.PhotoLink"/>
-                                        <input name="Img" id="Img" type="hidden" value="@ill.PhotoLink"/>
-                                        <input name="Des" id="Des" type="text" value="@ill.Description"/>
+                                        <img src="@ill.PhotoLink" />
+                                        <input name="Img" id="Img" type="hidden" value="@ill.PhotoLink" />
+                                        <input name="Des" id="Des" type="text" value="@ill.Description" />
                                     </div>
                                 }
                             }
@@ -41,7 +41,7 @@
 
                     <script type="text/javascript">
                         $("#imgUpload")
-                            .click(function() {
+                            .click(function () {
                                 $("#fileUpload").trigger('click');
                             });
 
@@ -50,7 +50,7 @@
                             var newFiles = fileUploader.files.length;
                             for (var index = 0; index < newFiles; index++) {
                                 var reader = new FileReader();
-                                reader.onload = function(e) {
+                                reader.onload = function (e) {
                                     var newDiv =
                                         $('<div class="ui image image-add"><i class="delete icon image-add"></i></div>');
                                     var img = $('<img />');
@@ -66,7 +66,7 @@
 
                                     $('.delete.icon.image-add')
                                         .on('click',
-                                            function() {
+                                            function () {
                                                 $(this)
                                                     .parent()
                                                     .remove();;
@@ -83,7 +83,7 @@
                         <tr>
                             <th colspan="2"><label for="Title">Tiêu đề</label></th>
                             <td>
-                                <input id="Title" name="Title" type="text" value="@Model.Title" tabindex="1"/>
+                                <input id="Title" name="Title" type="text" value="@Model.Title" tabindex="1" />
                                 <span class="field-validation-valid text-danger" data-valmsg-for="Title" data-valmsg-replace="true"></span>
                             </td>
                         </tr>
@@ -114,28 +114,22 @@
                             </td>
                         </tr>
                         <tr>
-                            <th colspan="2"><label for="UserName">Người đăng</label></th>
-                            <td>
-                                <input disabled="disabled" value="@Model.UserName" id="UserName"/>
-                            </td>
-                        </tr>
-                        <tr>
                             <th colspan="2"><label for="PostLocation_Address">Địa chỉ của bài đăng</label></th>
                             <td>
-                                <input tabindex="3" id="PostLocation_Address" name="PostLocation.Address" type="text" value="@Model.PostLocation.Address"/>
+                                <input tabindex="3" id="PostLocation_Address" name="PostLocation.Address" type="text" value="@Model.PostLocation.Address" />
                                 <span class="field-validation-valid text-danger" data-valmsg-for="PostLocation.Address" data-valmsg-replace="true"></span>
                             </td>
                         </tr>
                         <tr>
                             <th colspan="2"><label>Ngày đăng</label></th>
                             <td>
-                                <input type="datetime" disabled="disabled" value="@Model.PublishDate"/>
+                                <input type="datetime" disabled="disabled" value="@Model.PublishDate" />
                             </td>
                         </tr>
                         <tr>
                             <th colspan="2"><label for="Description">Mô tả </label></th>
                             <td>
-                                <input tabindex="4" id="Description" name="Description" type="text" value="@Model.Description"/>
+                                <input tabindex="4" id="Description" name="Description" type="text" value="@Model.Description" />
                                 <span class="field-validation-valid text-danger" data-valmsg-for="Description" data-valmsg-replace="true"></span>
                             </td>
                         </tr>
@@ -177,16 +171,16 @@
                         <tr>
                             <th colspan="2"><label for="Status">Trạng thái bài đăng</label></th>
                             <td>
-                                <input id="Status" value="@Model.Status" type="hidden"/>
+                                <input id="Status" value="@Model.Status" type="hidden" />
                                 @if (Model.Status)
                                 {
                                     <label id="LblStatus">Đang hoạt động</label>
-                                    <input type="button" id="BtnChgStatus" value="Đóng bài đăng"/>
+                                    <input type="button" id="BtnChgStatus" value="Đóng bài đăng" />
                                 }
                                 else
                                 {
                                     <label id="LblStatus">Đã đóng</label>
-                                    <input type="button" id="BtnChgStatus" value="Mở bài đăng"/>
+                                    <input type="button" id="BtnChgStatus" value="Mở bài đăng" />
                                 }
                             </td>
 
@@ -195,11 +189,16 @@
                         <tr>
                             <th colspan="2"></th>
                             <td><input id="btnSave" type="submit" value="Lưu" class="btn btn-default"/></td>
+                            <td>
+                                <input id="btnCancel" type="button" value="Hủy" class="btn btn-default" onclick="document.location.href='@Url.Action("ShowCreatedPost", "Post", new { postId = strPostId})';"/>                                
+                            </td>
+
                         </tr>
+                        
                     </table>
                 </td>
             </tr>
         </table>
     </div>
-                                            }
+}
 
