@@ -24,7 +24,9 @@
 $(function () {
     $('.delete.icon.image-add').on('click', function () {
         $(this).parent().remove();;
-    });
+    });    
+
+    $('.clearing.star.rating').rating('setting', 'clearable', true);
 
     $('.ui.dropdown')
   .dropdown({

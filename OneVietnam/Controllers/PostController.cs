@@ -97,7 +97,7 @@ namespace OneVietnam.Controllers
         public async Task<ActionResult> CreatePost(CreatePostViewModel p)
         {
             ViewData.Clear();
-            p.UserName = User.Identity.Name;
+            p.UserName = User.Identity.Name;            
             var tagList = AddAndGetAddedTags(Request, TagManager, "TagsInput");
             var illList = GetAddedImage(Request, "Img", "Des");
             if (tagList != null)
@@ -110,6 +110,7 @@ namespace OneVietnam.Controllers
                 p.Illustrations = illList;
             }
             var post = new Post(p);
+            post.PublishDate = System.DateTime.Now;
             await UserManager.AddPostAsync("57725283465f96135c101588", post);
             //await UserManager.AddPostAsync(User.Identity.GetUserId(), post); TODO
             CreatedPost = true;                        
