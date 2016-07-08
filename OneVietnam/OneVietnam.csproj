@@ -326,6 +326,7 @@
     <Content Include="Images\people35.png" />
     <Content Include="Images\people45.png" />
     <Content Include="Images\people55.png" />
+    <Content Include="Images\pikachu.jpg" />
     <Content Include="Images\pin.png" />
     <Content Include="Content\Map\searchbox.css" />
     <Content Include="favicon.ico" />
@@ -363,6 +364,7 @@
     <Content Include="Scripts\map.js" />
     <Content Include="Scripts\markerclusterer.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\OverlappingMarkerSpiderfier.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -381,6 +383,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Map\ShowMap.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -436,6 +439,7 @@
     <Content Include="Views\NewFeed\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Map\CustomInfoWindow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

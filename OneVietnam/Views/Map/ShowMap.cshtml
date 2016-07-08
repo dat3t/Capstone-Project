@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<OneVietnam.Models.AddLocationViewModel>
 
 @{
-    Layout = null;
+    ViewBag.Title = "ShowMap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
 <script>
     var isAuthenticated;
 </script>
@@ -21,17 +21,15 @@ else
         isAuthenticated = false;
     </script>
 }
-<html>
-
 
 <head>
     <meta charset="utf-8" />
-    <title>MAP</title>
+    <title>Bản đồ tìm kiếm</title>
 
-    <link href="~/Content/Map/infoWindow.css" rel="stylesheet">
-    <link href="~/Content/Map/map.css" rel="stylesheet">
-    <link href="~/Content/Map/searchbox.css" rel="stylesheet">
-    <link href="~/Content/Map/mappagecustom.css" rel="stylesheet">
+    @*<link href="~/Content/Map/infoWindow.css" rel="stylesheet">
+        <link href="~/Content/Map/map.css" rel="stylesheet">
+        <link href="~/Content/Map/searchbox.css" rel="stylesheet">
+        <link href="~/Content/Map/mappagecustom.css" rel="stylesheet">*@
     <script type="text/javascript">
 
         var array = [];
@@ -45,7 +43,7 @@ else
 
         @foreach (var item in Model) {
         <text>
-        array.push({x :@item.x ,y : @item.y, address: '@item.address', userID :'@item.userid'});
+        array.push({x :@item.x ,y : @item.y, gender:@item.gender, address: '@item.address', userID :'@item.userid'});
         if(@item.gender == 0){
             males.push({x :@item.x ,y : @item.y, address: '@item.address', userID :'@item.userid'});
         }else
@@ -54,7 +52,7 @@ else
             }else
                 if(@item.gender == 2){
                     LGBT.push({x :@item.x ,y : @item.y, address: '@item.address', userID :'@item.userid'});
-            }
+                }
         @try {
             if (@item.Posts != null) {
                 if (@item.Posts.Count > 0) {
@@ -63,14 +61,14 @@ else
                         if(@post.PostType.CompareTo(0) == 0)
                         {
                             @:postType0.push({postID: '@post.Id',username: '@post.Username',postType : @post.PostType, deletedFlag : '@post.DeletedFlag', status : '@post.Status', x: @post.PostLocation.XCoordinate, y: @post.PostLocation.YCoordinate, address : '@post.PostLocation.Address'});
-                                        }
+                                                        }
                         else
                         if (@post.PostType.CompareTo(1) == 0)
                         {
                               @:postType1.push({postID: '@post.Id',username: '@post.Username',postType : @post.PostType, deletedFlag : '@post.DeletedFlag', status : '@post.Status', x: @post.PostLocation.XCoordinate, y: @post.PostLocation.YCoordinate, address : '@post.PostLocation.Address'});
-                                }
+                                                }
                 @:PostArray.push({postID: '@post.Id',username: '@post.Username',postType : @post.PostType, deletedFlag : '@post.DeletedFlag', status : '@post.Status', x: @post.PostLocation.XCoordinate, y: @post.PostLocation.YCoordinate, address : '@post.PostLocation.Address'});
-                                              }
+                                                              }
                     }
                 }
             }
@@ -80,64 +78,39 @@ else
 
         </text>
         }
-    
-    </script>
-
-    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBiPDMBCKXsusl5-BgCw1nIyHwu5u3j8xw&libraries=places,geometry"></script>
-    <script type="text/javascript" src="~/Scripts/respond.js"></script>
-    <link href="~/semantic/dist/semantic.min.css" rel="stylesheet">
-    <link href="~/Content/site.css" rel="stylesheet">
-    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
-    <script type="text/javascript" src="~/Scripts/map.js"></script>
-    <script type="text/javascript" src="~/semantic/dist/semantic.min.js">
-        
-    </script>
-    <script type="text/javascript" src="~/Scripts/MapElements.js">
 
     </script>
-    <script type="text/javascript" src="~/Scripts/markerclusterer.js"></script>
-    
-
-    <!-- Custom Fonts -->
-    <!--<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-
 </head>
-<body>
-   
-    <div class="ui stackable container" style="width:100%;height:100%">
-        <div id="map_canvas" style="width:100%;height:100%"></div>
-        <input id="pac-input" class="controls" type="text" placeholder="Tìm kiếm địa điểm" style=" position: absolute; left: 40% !important; top: 8px !important;">
-        @*<button type="button" onclick="showCurrentLocation()"><img src="~/images/currentLocationButton.png" class="img-rounded" alt="Cinque Terre" style="z-index: 0; width:30px;height:30px"></button>*@
-        @*background-image: url('../Images/currentLocationButton.png');*@
-        <p id="cal"></p>
-        <button class="ui purple button" type="submit" onclick="showCurrentLocation()" style=" position: absolute; left: 45% ; bottom: 8px ">Địa điểm của tôi</button>
-        <div class="ui vertical buttons" style="position: absolute; right: 10px; top: 30%;">
-            <button type="submit" onclick="showAccommodation()" class="ui red  button">Nhà ở</button>
-            <button type="submit" onclick="showJobOffer()" class="ui blue  button">Việc làm</button>
-            <button type="submit" onclick="showFurnitureOffer()" class="ui blue  button">Cho đồ</button>
-            <button type="submit" onclick="showHandGoodsOffer()" class="ui green  button">Xách tay</button>
-            <button type="submit" onclick="showTradeOffer()" class="ui olive  button">Mua bán</button>
-            <button type="submit" onclick="showSOS()" class="ui purple  button">Khẩn cấp</button>
-            
-        </div>
-        <div class="ui buttons" style=" position: absolute; left: 70% ; top: 8px;">
-            <button type="submit" onclick="showMales()" class="ui orange button">Nam</button>
-            <button type="submit" onclick="showFemales()" class="ui olive button">Nữ</button>
-            <button type="submit" onclick="showLGBT()" class="ui pink button">LGBT</button>
-            <button type="submit" onclick="showUsers()" class="ui yellow button">Tất cả người dùng</button>
-        </div>
-        <div id="postMenu" style="height:100%;width:300px;display:none;position:absolute;left:0px;top:0px;color:chartreuse;background-color:white"></div>
-        <div id="button" class="ui blue big launch left attached fixed button" style="position: absolute; left: 200px; top: 0px;">
-            <i class="content icon"></i>
-            <span class="text">Bài đăng</span>
-        </div>
+
+<div class="ui stackable container" style="width:100%;height:100%">
+    <div id="map_canvas" style="width:100%;height:100%"></div>
+    <input id="pac-input" class="controls" type="text" placeholder="Tìm kiếm địa điểm" style=" position: absolute; left: 40% !important; top: 8px !important;">
+    @*<button type="button" onclick="showCurrentLocation()"><img src="~/images/currentLocationButton.png" class="img-rounded" alt="Cinque Terre" style="z-index: 0; width:30px;height:30px"></button>*@
+    @*background-image: url('../Images/currentLocationButton.png');*@
+    <p id="cal"></p>
+    <button class="ui purple button" type="submit" onclick="showCurrentLocation()" style=" position: absolute; left: 45% ; bottom: 55px ">Địa điểm của tôi</button>
+    <div class="ui vertical buttons" style="position: absolute; right: 10px; top: 30%;">
+        <button type="submit" onclick="showAccommodation()" class="ui red  button">Nhà ở</button>
+        <button type="submit" onclick="showJobOffer()" class="ui blue  button">Việc làm</button>
+        <button type="submit" onclick="showFurnitureOffer()" class="ui blue  button">Cho đồ</button>
+        <button type="submit" onclick="showHandGoodsOffer()" class="ui green  button">Xách tay</button>
+        <button type="submit" onclick="showTradeOffer()" class="ui olive  button">Mua bán</button>
+        <button type="submit" onclick="showSOS()" class="ui purple  button">Khẩn cấp</button>
+
     </div>
-    @*<script type="text/javascript" src="~/Scripts/OverlappingMarkerSpiderfier.js"></script>*@
+    <div class="ui buttons" style=" position: absolute; left: 70% ; top: 70px;">
+        <button type="submit" onclick="showMales()" class="ui orange button">Nam</button>
+        <button type="submit" onclick="showFemales()" class="ui olive button">Nữ</button>
+        <button type="submit" onclick="showLGBT()" class="ui pink button">LGBT</button>
+        <button type="submit" onclick="showUsers()" class="ui yellow button">Tất cả người dùng</button>
+    </div>
+    <div id="postMenu" style="height:100%;width:300px;display:none;position:absolute;left:0px;top:0px;color:chartreuse;background-color:white"></div>
+    <div id="button" class="ui blue big launch left attached fixed button" style="position: absolute; left: 0px; top: 300px;">
+        <i class="content icon"></i>
+        <span class="text">Bài đăng</span>
+    </div>
+</div>
+@*<script type="text/javascript" src="~/Scripts/OverlappingMarkerSpiderfier.js"></script>*@
 
-    <script defer src="~/Scripts/OverlappingMarkerSpiderfier.js"></script>
-</body>
+<script defer src="~/Scripts/OverlappingMarkerSpiderfier.js"></script>
 
-</html>
