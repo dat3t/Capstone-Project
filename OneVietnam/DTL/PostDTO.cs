@@ -24,14 +24,11 @@ namespace OneVietnam.DTL
         [BsonIgnoreIfNull]
         public List<Illustration> Illustrations { get; set; }
         public int PostType { get; set; }
-        // logical delete
         public bool DeletedFlag { get; set; }
-        // finished or not
         public bool Status { get; set; }
 
         public Location PostLocation { get; set; }
-
-        public Location UserLocation { get; set; }
+                
         [BsonIgnoreIfNull]
         public List<Report> Reports { get; set; }
 
@@ -45,18 +42,33 @@ namespace OneVietnam.DTL
 
 
         public Post(CreatePostViewModel pView)
-        {
+        {            
             Id = ObjectId.GenerateNewId().ToString();
             Title = pView.Title;
             Description = pView.Description;
             PublishDate = DateTimeOffset.Now;
             PostType = pView.PostType;
             DeletedFlag = false;
-            Status = false;
-            PostLocation = pView.PostLocation;
-            UserLocation = pView.UserLocation;            
+            Status = true;
+            PostLocation = pView.PostLocation;                     
             Illustrations = pView.Illustrations;
+            Tags = pView.Tags;
+        }
 
+        public Post(PostViewModel pView, string pPostId)
+        {
+            Id = pPostId;
+            Username = pView.UserName;
+            Title = pView.Title;
+            Description = pView.Description;
+            PublishDate = pView.PublishDate;
+            PostType = pView.PostType;
+            DeletedFlag = pView.DeletedFlag;
+            Status = pView.Status;
+            PostLocation = pView.PostLocation;
+            Illustrations = pView.Illustrations;
+            Tags = pView.Tags;
+            Reports = pView.Reports;
         }
 
         public void AddReport(Report pReport)
@@ -75,6 +87,15 @@ namespace OneVietnam.DTL
                 Illustrations = new List<Illustration>();
             }
             Illustrations.Add(pIllustration);
+        }
+
+        public void AddTags(Tag pTag)
+        {
+            if (Tags == null)
+            {
+                Tags = new List<Tag>();
+            }
+            Tags.Add(pTag);
         }
     }
 }

@@ -1,0 +1,204 @@
+﻿
+@using OneVietnam.DTL;
+@model OneVietnam.Models.PostViewModel
+@{
+    ViewBag.Tiltel = "EditPost";
+    List<Tag> tagList = ViewData["TagList"] as List<Tag>;
+    List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
+    string strPostId = ViewData["PostId"] as string;
+
+}
+<title>EditPost</title>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+@using (Html.BeginForm("EditPost", "Post", FormMethod.Post))
+{
+    <div>
+        <input type="hidden" name="PostId" id="PostId" value="@strPostId" />
+        <table>
+            <tr>
+                <td>
+                    <input id="fileUpload" name="fileUpload" type="file" hidden="" value="" onchange="previewImg()" multiple="" />
+
+                    <label id="imgUpload">Tải ảnh lên</label>
+
+                    <div id="uploadList">
+                        @{
+                            if (Model.Illustrations != null)
+                            {
+                                foreach (var ill in Model.Illustrations)
+                                {
+                                    <div class="ui image image-add">
+                                        <i class="delete icon image-add"></i>
+                                        <img src="@ill.PhotoLink" />
+                                        <input name="Img" id="Img" type="hidden" value="@ill.PhotoLink" />
+                                        <input name="Des" id="Des" type="text" value="@ill.Description" />
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+
+                    <script type="text/javascript">
+                        $("#imgUpload")
+                            .click(function () {
+                                $("#fileUpload").trigger('click');
+                            });
+
+                        function previewImg() {
+                            var fileUploader = document.getElementById("fileUpload");
+                            var newFiles = fileUploader.files.length;
+                            for (var index = 0; index < newFiles; index++) {
+                                var reader = new FileReader();
+                                reader.onload = function (e) {
+                                    var newDiv =
+                                        $('<div class="ui image image-add"><i class="delete icon image-add"></i></div>');
+                                    var img = $('<img />');
+                                    var src = e.target.result;
+                                    img.attr("src", src);
+                                    img.appendTo(newDiv);
+                                    var imgSrc = $('<input name="Img" id="Img" type="hidden"  />');
+                                    imgSrc.attr("value", src);
+                                    imgSrc.appendTo(newDiv);
+                                    var description = $('<input name="Des" id="Des" type="text" value="" />');
+                                    description.appendTo(newDiv);
+                                    newDiv.appendTo("#uploadList");
+
+                                    $('.delete.icon.image-add')
+                                        .on('click',
+                                            function () {
+                                                $(this)
+                                                    .parent()
+                                                    .remove();;
+                                            });
+                                }
+                                reader.readAsDataURL(fileUploader.files[index]);
+                            }
+                        };
+
+                    </script>
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <th colspan="2"><label for="Title">Tiêu đề</label></th>
+                            <td>
+                                <input id="Title" name="Title" type="text" value="@Model.Title" tabindex="1" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Title" data-valmsg-replace="true"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2"><label for="PostType">Loại bài đăng</label></th>
+                            <td>
+                                <div class="ui fluid selection dropdown">
+                                    <input type="hidden" id="PostType" name="PostType" value="@Model.PostType">
+                                    <i class="dropdown icon"></i>
+                                    <div class="default text">Chọn loại bài đăng</div>
+                                    <div class="menu">
+                                        @{
+                                            if (postTypes != null)
+                                            {
+                                                foreach (Icon icon in postTypes)
+                                                {
+
+                                                    <div class="item" data-value="@icon.IconId">
+                                                        <img class="ui mini avatar image" src="@icon.IconImage">
+                                                        @icon.IconText
+                                                    </div>
+                                                }
+                                            }
+                                        }
+
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2"><label for="PostLocation_Address">Địa chỉ của bài đăng</label></th>
+                            <td>
+                                <input tabindex="3" id="PostLocation_Address" name="PostLocation.Address" type="text" value="@Model.PostLocation.Address" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="PostLocation.Address" data-valmsg-replace="true"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2"><label>Ngày đăng</label></th>
+                            <td>
+                                <input type="datetime" disabled="disabled" value="@Model.PublishDate" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2"><label for="Description">Mô tả </label></th>
+                            <td>
+                                <input tabindex="4" id="Description" name="Description" type="text" value="@Model.Description" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Description" data-valmsg-replace="true"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2">
+                                <label>Thẻ liên quan</label>
+                            </th>
+                            <td>
+                                <div class="ui fluid multiple search selection dropdown">
+                                    @{
+                                        string tagValue = "";
+                                        if (Model.Tags != null)
+                                        {
+                                            foreach (var tag in Model.Tags)
+                                            {
+                                                tagValue = string.IsNullOrEmpty(tagValue) ? tag.TagValue : string.Concat(tagValue + ",", tag.TagValue);
+                                            }
+                                        }
+
+                                    }
+                                    <input name="TagsInput" id="TagsInput" type="hidden" value="@tagValue">
+                                    <i class="dropdown icon"></i>
+                                    <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Chọn hoặc tạo thẻ mới</div>
+                                    <div class="menu transition hidden" tabindex="-1">
+
+                                        @{
+                                            if (tagList != null)
+                                            {
+                                                foreach (Tag tag in tagList)
+                                                {
+                                                    <div class="item" data-value="@tag.TagValue">@tag.TagText</div>
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2"><label for="Status">Trạng thái bài đăng</label></th>
+                            <td>
+                                <input id="Status" value="@Model.Status" type="hidden" />
+                                @if (Model.Status)
+                                {
+                                    <label id="LblStatus">Đang hoạt động</label>
+                                    <input type="button" id="BtnChgStatus" value="Đóng bài đăng" />
+                                }
+                                else
+                                {
+                                    <label id="LblStatus">Đã đóng</label>
+                                    <input type="button" id="BtnChgStatus" value="Mở bài đăng" />
+                                }
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <th colspan="2"></th>
+                            <td><input id="btnSave" type="submit" value="Lưu" class="btn btn-default"/></td>
+                            <td>
+                                <input id="btnCancel" type="button" value="Hủy" class="btn btn-default" onclick="document.location.href='@Url.Action("ShowCreatedPost", "Post", new { postId = strPostId})';"/>                                
+                            </td>
+
+                        </tr>
+                        
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -25,8 +26,6 @@ namespace OneVietnam.DTL
         [BsonIgnoreIfNull]
         public List<Post> Posts { get; set; }
 
-
-
         public void AddPost(Post p)
         {
             if (Posts == null)
@@ -36,11 +35,19 @@ namespace OneVietnam.DTL
             Posts.Add(p);
         }
 
-        //DEMO
+        public void UpdatePost(Post pPost)
+        {
+            Posts[Posts.FindIndex(x => x.Id == pPost.Id)] = pPost;
+        }
+
+        public void DeletePost(Post pPost)
+        {
+            Posts.Remove(Posts.First(post => post.Id == pPost.Id));            
+        }
         public void AddLocation(Location location)
         {
             Location = location;
-            
+
         }
     }
 }

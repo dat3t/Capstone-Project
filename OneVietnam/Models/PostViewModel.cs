@@ -3,29 +3,56 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using OneVietnam.DTL;
-
+using System.ComponentModel.DataAnnotations;
 namespace OneVietnam.Models
 {
     public class CreatePostViewModel
     {
+        
         public string Title { get; set; }
 
         public string UserName { get; set; }
 
-        public int PostType { get; set; }
-
-        public Location UserLocation { get; set; }
+        public int PostType { get; set; }        
 
         public Location PostLocation { get; set; }
-
+                
         public string Description { get; set; }
 
         public List<Illustration> Illustrations { get; set; }
 
         public List<Tag> Tags { get; set; }
 
+        public CreatePostViewModel()
+        {
+        }
+
+        public CreatePostViewModel(List<Illustration> pIllustrations, List<Tag> pTags)
+        {
+            Illustrations = pIllustrations;
+            Tags = pTags;
+        }        
+
+        public void AddIllustration(Illustration pIllustration)
+        {
+            if (Illustrations == null)
+            {
+                Illustrations = new List<Illustration>();
+            }
+            Illustrations.Add(pIllustration);
+        }
+
+        public void AddTags(Tag pTag)
+        {
+            if (Tags == null)
+            {
+                Tags = new List<Tag>();
+            }
+            Tags.Add(pTag);
+        }
+
     }
-    public class ShowPostViewModel
+    public class PostViewModel
     {
         public string UserName { get; set; }
         public string Title { get; set; }
@@ -33,17 +60,16 @@ namespace OneVietnam.Models
         public DateTimeOffset? PublishDate { get; set; }
         public int PostType { get; set; }
         public bool DeletedFlag { get; set; }
-        public bool Status { get; set; }        
-        public Location UserLocation { get; set; }
+        public bool Status { get; set; }                
         public Location PostLocation { get; set; }
         public List<Illustration> Illustrations { get; set; }
         public List<Tag> Tags { get; set; }
 
         public List<Report> Reports { get; set; }
-        public ShowPostViewModel()
+        public PostViewModel()
         {
         }
-        public ShowPostViewModel(Post post)
+        public PostViewModel(Post post)
         {
             UserName = post.Username;
             Title = post.Title;
@@ -51,11 +77,11 @@ namespace OneVietnam.Models
             PublishDate = post.PublishDate;
             PostType = post.PostType;
             DeletedFlag = post.DeletedFlag;
-            Status = post.Status;
-            UserLocation = post.UserLocation;
+            Status = post.Status;            
             PostLocation = post.PostLocation;
             Tags = post.Tags;
-            Reports = post.Reports;            
+            Reports = post.Reports;
+            Illustrations = post.Illustrations;
         }
     }
 }

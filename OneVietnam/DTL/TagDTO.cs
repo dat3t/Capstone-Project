@@ -14,6 +14,19 @@ namespace OneVietnam.DTL
         public string Id { get; private set; }
         
         public string TagValue { get; set; }
+
+        public string TagText { get; set; }
+
+        public Tag()
+        {
+            
+        }
+
+        public Tag(string pTagValue, string pTagText)
+        {
+            TagValue = pTagValue;
+            TagText = pTagText;
+        }
                 
     }
 }
