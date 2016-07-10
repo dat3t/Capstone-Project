@@ -55,4 +55,13 @@ $(document).ready(function () {
             minCharacters: 3            
     })
     ;
+
+    //ThamDTH
+        $('.clearing.star.rating').rating('setting', 'clearable', true);
+
+    $('.ui.dropdown')
+      .dropdown({
+          allowAdditions: true
+      })
+    ;
 });

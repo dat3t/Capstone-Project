@@ -110,9 +110,8 @@ namespace OneVietnam.Controllers
                 p.Illustrations = illList;
             }
             var post = new Post(p);
-            post.PublishDate = System.DateTime.Now;
-            await UserManager.AddPostAsync("57725283465f96135c101588", post);
-            //await UserManager.AddPostAsync(User.Identity.GetUserId(), post); TODO
+            post.PublishDate = System.DateTime.Now;            
+            await UserManager.AddPostAsync(User.Identity.GetUserId(), post);
             CreatedPost = true;                        
             return RedirectToAction("ShowCreatedPost", "Post", new { postId = post.Id });
         }
@@ -135,8 +134,7 @@ namespace OneVietnam.Controllers
             {
                 ViewData["PostTypes"] = IconList;
             }
-            //Post post = UserManager.GetPostByIdAsync(User.Identity.GetUserId(), postId); TODO
-            Post post = UserManager.GetPostByIdAsync("57725283465f96135c101588", postId);            
+            Post post = UserManager.GetPostByIdAsync(User.Identity.GetUserId(), postId);             
             PostViewModel showPost = new PostViewModel(post);
             ViewData["PostId"] = postId;
             return View(showPost);
@@ -163,8 +161,7 @@ namespace OneVietnam.Controllers
             {
                 ViewData["PostTypes"] = IconList;
             }
-            //Post post = UserManager.GetPostByIdAsync(User.Identity.GetUserId(), postId); TODO
-            Post post = UserManager.GetPostByIdAsync("57725283465f96135c101588", postId);
+            Post post = UserManager.GetPostByIdAsync(User.Identity.GetUserId(), postId);            
             PostViewModel showPost = new PostViewModel(post);
             ViewData["PostId"] = postId;
             return View(showPost);
@@ -192,14 +189,14 @@ namespace OneVietnam.Controllers
             {
                 pPostView.Illustrations = illList;
             }
-            Post post = new Post(pPostView, strPostId);
-            await UserManager.UpdatePostAsync("57725283465f96135c101588", post);
+            Post post = new Post(pPostView, strPostId);           
+            await UserManager.UpdatePostAsync(User.Identity.GetUserId(), post);
             return RedirectToAction("ShowCreatedPost", "Post", new { postId = strPostId });
         }
 
         public async Task<ActionResult> DeletePost(string postId)
         {
-            await UserManager.DeletePostAsync("57725283465f96135c101588", postId);
+            await UserManager.DeletePostAsync(User.Identity.GetUserId(), postId);
             return RedirectToAction("CreatePost", "Post");
         }
 
