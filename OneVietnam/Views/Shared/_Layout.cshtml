@@ -10,6 +10,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/Scripts/Map")
+    @Scripts.Render("~/bundles/jquery")
 </head>
 <body>
     <div class="ui grid">
@@ -18,8 +19,8 @@
                 <a href="/" class="ui item brand">
                     <img src="~/Content/Images/logo.png"/>
                     One Vietnam
-                </a>
-                <a href="Map/ShowMap" class="ui item">Bản Đồ</a>
+                </a>                
+                @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item" })        
                 <a href="" class="ui item">Bảng Tin</a>
                 <div class="right menu">
                     <div class="item">
@@ -55,7 +56,7 @@
                     </div>
                     <div class="results fluid"></div>
                 </div>
-                <a href="Map/ShowMap" class="ui item">Bản Đồ</a>
+                @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item" })
                 <a href="" class="ui item">Bảng Tin</a>
                 @Html.Partial("_LoginPartial")
             </div>
