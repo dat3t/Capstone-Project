@@ -44,9 +44,9 @@ namespace OneVietnam.DTL
         public Post(CreatePostViewModel pView)
         {            
             Id = ObjectId.GenerateNewId().ToString();
+            Username = pView.UserName;
             Title = pView.Title;
-            Description = pView.Description;
-            PublishDate = DateTimeOffset.Now;
+            Description = pView.Description;            
             PostType = pView.PostType;
             DeletedFlag = false;
             Status = true;
