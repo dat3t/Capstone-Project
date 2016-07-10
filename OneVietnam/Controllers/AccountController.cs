@@ -94,7 +94,7 @@ namespace OneVietnam.Controllers
         public async Task<ActionResult> ShowAllUsers()
         {
             var userslist = await UserManager.AllUsersAsync();
-            List<UserViewModel> listview = userslist.Select(user => new UserViewModel(user)).ToList();
+            List<UserViewModel> listview = userslist.Select(user => new UserViewModel(user)).ToList();            
             return View(listview);
         }
         //DEMO   

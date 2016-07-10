@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using AspNet.Identity.MongoDB;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using OneVietnam.DTL;
 using OneVietnam.Models;
@@ -46,20 +47,6 @@ namespace OneVietnam.DAL
             return Task.FromResult(0);
         }
 
-        //public List<Location> GetLocationAsync(List<ApplicationUser> userList)
-        //{
-        //    //user.AddLocation(location);
-        //    List<Location> Locations = new List<Location>();
-        //    Dictionary<Location, string> dictionary = new Dictionary<Location, string>();
-
-        //    foreach (ApplicationUser user in userList)
-        //    {
-
-        //        Locations.Add(user.Location);
-        //    }
-        //    return Locations;
-        //}
-
         public List<AddLocationViewModel> GetInfoForInitMap(List<ApplicationUser> userList)
         {
             List<AddLocationViewModel> infoForInitMap = new List<AddLocationViewModel>();
@@ -67,7 +54,7 @@ namespace OneVietnam.DAL
             foreach (ApplicationUser user in userList)
             {
 
-                viewModel = new AddLocationViewModel(user.Location, user.Id,user.Gender, user.Posts);
+                viewModel = new AddLocationViewModel(user.Location, user.Id, user.Gender, user.Posts);
                 infoForInitMap.Add(viewModel);
             }
 
@@ -76,25 +63,20 @@ namespace OneVietnam.DAL
 
         public List<Location> GetLocationListAsync(List<ApplicationUser> userList)
         {
-            List<Location> Locations = new List<Location>();
-
-            foreach (ApplicationUser user in userList)
-            {
-                Locations.Add(user.Location);
-            }
-            return Locations;
+            return userList.Select(user => user.Location).ToList();
         }
 
         public List<List<Post>> GetPostListAsync(List<ApplicationUser> userList)
         {
-            List<List<Post>> Posts = new List<List<Post>>();
-
-            foreach (ApplicationUser user in userList)
-            {
-                Posts.Add(user.Posts);
-            }
-            return Posts;
+            return userList.Select(user => user.Posts).ToList();
         }
 
+        public async Task<List<ApplicationUser>> TextSearchByUserName(string query)
+        {
+            var filter = new BsonDocument {{"UserName", new BsonDocument {{"$regex", query}, {"$options", "i"}}}};
+
+            var result = await _users.Find(filter).ToListAsync();
+            return result;
+        }
     }
 }
