@@ -76,8 +76,7 @@ namespace OneVietnam.Controllers
                 return icons;
             }            
         }
-
-
+        [System.Web.Mvc.Authorize]
         public ActionResult CreatePost()
         {            
             if (TagList != null)
