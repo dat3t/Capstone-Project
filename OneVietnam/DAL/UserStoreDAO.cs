@@ -54,6 +54,11 @@ namespace OneVietnam.DAL
             return user.Posts;
         }
 
+        public Task<List<ApplicationUser>> FindUserByPostIdAsync(string pPostId)
+        {
+            return  _users.Find(u => u.Posts.Any(t => t.Id == pPostId)).ToListAsync();
+        }
+
 
         //DEMO
         public Task AddLocationAsync(ApplicationUser user, Location location)

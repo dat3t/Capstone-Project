@@ -449,7 +449,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Post\CreatePost.cshtml" />
     <Content Include="Views\Post\EditPost.cshtml" />
-    <Content Include="Views\Post\ShowCreatedPost.cshtml" />
+    <Content Include="Views\Post\ShowPostDetail.cshtml" />
     <Content Include="Views\Post\ShowPost.cshtml" />
   </ItemGroup>
   <ItemGroup>

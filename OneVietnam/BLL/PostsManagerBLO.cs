@@ -50,6 +50,16 @@ namespace OneVietnam.BLL
             return null;
         }
 
+        public  Post GetPostByIdAsync(string pPostId)
+        {
+            var user =  _userStore.FindUserByPostIdAsync(pPostId); ;
+            if(user.Result != null)
+            {
+                return GetPostByIdAsync(user.Result[0].Id, pPostId);
+            }
+            return null;
+        }
+
         public async Task<IdentityResult> UpdatePostAsync(string pUserId, Post pPost)
         {
             if (pPost == null)

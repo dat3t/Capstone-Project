@@ -111,8 +111,9 @@ namespace OneVietnam.Controllers
             var post = new Post(p);
             post.PublishDate = System.DateTime.Now;            
             await UserManager.AddPostAsync(User.Identity.GetUserId(), post);
-            CreatedPost = true;                        
-            return RedirectToAction("ShowCreatedPost", "Post", new { postId = post.Id });
+            CreatedPost = true;
+            PostView = new PostViewModel(post);
+            return RedirectToAction("ShowPostDetail", "Post", new { postId = post.Id });
         }
 
         public async Task<ActionResult> ShowPost()
@@ -123,7 +124,7 @@ namespace OneVietnam.Controllers
             return View(pViewList);
         }
 
-        public ActionResult ShowCreatedPost(string postId)
+        public ActionResult ShowPostDetail(string postId)
         {
             if (TagList != null)
             {
@@ -133,13 +134,14 @@ namespace OneVietnam.Controllers
             {
                 ViewData["PostTypes"] = IconList;
             }
-            Post post = UserManager.GetPostByIdAsync(User.Identity.GetUserId(), postId);             
-            PostViewModel showPost = new PostViewModel(post);
-            ViewData["PostId"] = postId;
+            
+            Post post = UserManager.GetPostByIdAsync(postId);
+                               
+            PostViewModel showPost = new PostViewModel(post);            
             return View(showPost);
         }
         [HttpPost]
-        public ActionResult ShowCreatedPost(PostViewModel pPostView)
+        public ActionResult ShowPostDetail(PostViewModel pPostView)
         {            
             ViewData.Clear();
             string strPostId = "";
@@ -147,7 +149,7 @@ namespace OneVietnam.Controllers
             {
                 strPostId = Request.Form["PostId"];
             }
-            return RedirectToAction("EditPost", "Post", new { postId = strPostId });
+            return RedirectToAction("DeletePost", "Post", new { postId = strPostId });
         }
 
         public ActionResult EditPost(string postId)
@@ -161,8 +163,7 @@ namespace OneVietnam.Controllers
                 ViewData["PostTypes"] = IconList;
             }
             Post post = UserManager.GetPostByIdAsync(User.Identity.GetUserId(), postId);            
-            PostViewModel showPost = new PostViewModel(post);
-            ViewData["PostId"] = postId;
+            PostViewModel showPost = new PostViewModel(post);            
             return View(showPost);
         }
 
@@ -190,7 +191,7 @@ namespace OneVietnam.Controllers
             }
             Post post = new Post(pPostView, strPostId);           
             await UserManager.UpdatePostAsync(User.Identity.GetUserId(), post);
-            return RedirectToAction("ShowCreatedPost", "Post", new { postId = strPostId });
+            return RedirectToAction("ShowPostDetail", "Post", new { postId = strPostId });
         }
 
         public async Task<ActionResult> DeletePost(string postId)
@@ -257,7 +258,7 @@ namespace OneVietnam.Controllers
             {
                 var addedImgSrcList = pRequestBase.Form[pImgSrc];
                 var addedImgDesList = pRequestBase.Form[pImgDes];
-                if (!string.IsNullOrEmpty(addedImgSrcList) && !string.IsNullOrEmpty(addedImgDesList) )
+                if (!string.IsNullOrEmpty(addedImgSrcList))
                 {
                     var imgSrcs = addedImgSrcList.Split(',');
                     var imgDes = addedImgDesList.Split(',');                                        

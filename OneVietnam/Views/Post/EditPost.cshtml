@@ -14,7 +14,7 @@
 @using (Html.BeginForm("EditPost", "Post", FormMethod.Post))
 {
     <div>
-        <input type="hidden" name="PostId" id="PostId" value="@strPostId" />
+        <input type="hidden" name="PostId" id="PostId" value="@Model.Id" />
         <table>
             <tr>
                 <td>
@@ -41,9 +41,9 @@
 
                     <script type="text/javascript">
                         $("#imgUpload")
-                            .click(function () {
-                                $("#fileUpload").trigger('click');
-                            });
+                           .click(function () {
+                               $("#fileUpload").trigger('click');
+                           });
 
                         function previewImg() {
                             var fileUploader = document.getElementById("fileUpload");
@@ -74,8 +74,8 @@
                                 }
                                 reader.readAsDataURL(fileUploader.files[index]);
                             }
+                            fileUploader.value = "";
                         };
-
                     </script>
                 </td>
                 <td>
@@ -190,7 +190,7 @@
                             <th colspan="2"></th>
                             <td><input id="btnSave" type="submit" value="Lưu" class="btn btn-default"/></td>
                             <td>
-                                <input id="btnCancel" type="button" value="Hủy" class="btn btn-default" onclick="document.location.href='@Url.Action("ShowCreatedPost", "Post", new { postId = strPostId})';"/>                                
+                                <input id="btnCancel" type="button" value="Hủy" class="btn btn-default" onclick="document.location.href='@Url.Action("ShowPostDetail", "Post", new { postId = Model.Id})';"/>                                
                             </td>
 
                         </tr>
