@@ -1,0 +1,64 @@
+﻿.shrink {
+    margin: 0 auto !important;
+    max-width: 700px;
+    margin-top: 10% !important;
+}
+
+body {
+    background-image: url("Images/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.validation-summary-errors {
+    background-color: #FFE8E6;
+    color: #DB2828;
+    font-size: 1em;
+    position: relative;
+    min-height: 1em;
+    margin: 1em 0em;    
+    padding: 0.5em 0.5em;
+    line-height: 1.4285em;   
+    -webkit-transition: opacity 0.1s ease, color 0.1s ease, background 0.1s ease, box-shadow 0.1s ease;
+    transition: opacity 0.1s ease, color 0.1s ease, background 0.1s ease, box-shadow 0.1s ease;
+    border-radius: 0.28571429rem;
+    box-shadow: 0px 0px 0px 1px rgba(34, 36, 38, 0.22) inset, 0px 0px 0px 0px rgba(0, 0, 0, 0);
+    box-sizing: inherit;
+}
+.input-validation-error{
+    background-color: #FFE8E6!important;
+}
+.input-error-message {
+    color: #DB2828;
+}
+.ui.main.menu {
+    width: 100%;
+}
+.ui.vertical.menu.open{
+	margin-top: -15px !important;	
+	display: none;
+}
+.brand {
+    color: red !important;
+}
+
+/*ThamDTH Add*/
+.fb-comments > span {
+    width: 100% !important;
+}
+.fb-comments > span >iframe {
+     width: 100% !important;
+}
+.fb-like >span > iframe {
+    transform: scale(1.5);
+-ms-transform: scale(1.5); 
+-webkit-transform: scale(1.5); 
+-o-transform: scale(1.5); 
+-moz-transform: scale(1.5); 
+transform-origin: top left;
+-ms-transform-origin: top left;
+-webkit-transform-origin: top left;
+-moz-transform-origin: top left;
+-webkit-transform-origin: top left;
+}
+
