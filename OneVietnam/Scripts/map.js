@@ -164,7 +164,7 @@ function initialize() {
     // *
    
     // Create the search box and link it to the UI element.
-    var input = document.getElementById("pac-input");
+    var input = document.getElementById("pac-input2");
     var searchBox = new google.maps.places.SearchBox(input);
     //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
@@ -265,6 +265,7 @@ function initialize() {
           * We use jQuery and create a iwBackground variable,
           * and took advantage of the existing reference .gm-style-iw for the previous div with .prev().
          */
+         iwOuter.children(':nth-child(1)').css({'max-width': '350px'});
          var iwBackground = iwOuter.prev();
 
          //iwBackground.parent().css({ height: '218px' });
@@ -275,8 +276,8 @@ function initialize() {
          iwBackground.children(':nth-child(2)').css({ 'display': 'none' });
 
          // Removes white background DIV
-         iwBackground.children(':nth-child(4)').css({ width: '350px !important' });
-         iwBackground.children(':nth-child(4)').css({ height: '218px !important' });
+         //iwBackground.children(':nth-child(4)').css({ width: '350px !important' });
+         //iwBackground.children(':nth-child(4)').css({ height: '218px !important' });
          iwBackground.children(':nth-child(4)').css({ 'display': 'none' });
 
          // Moves the infowindow 115px to the right.
