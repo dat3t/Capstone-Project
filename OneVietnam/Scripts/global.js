@@ -10,7 +10,8 @@
         fields: {
             results: 'UserList',
             title: 'UserName',
-            url: ''
+            url: '',
+            Image:"Images/logo.png"
         },
         minCharacters: 3
     })

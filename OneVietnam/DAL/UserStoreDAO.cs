@@ -6,6 +6,7 @@ using System.Web;
 using AspNet.Identity.MongoDB;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 using OneVietnam.DTL;
 using OneVietnam.Models;
 
@@ -93,10 +94,11 @@ namespace OneVietnam.DAL
 
         public async Task<List<ApplicationUser>> TextSearchByUserName(string query)
         {
-            var filter = new BsonDocument {{"UserName", new BsonDocument {{"$regex", query}, {"$options", "i"}}}};
-
+            //var filter = new BsonDocument {{"UserName", new BsonDocument {{"$regex", query}, {"$options", "i"}}}};                        
+            var filter = Query.Text(query).ToBsonDocument();
             var result = await _users.Find(filter).ToListAsync();
             return result;
         }
+
     }
 }
