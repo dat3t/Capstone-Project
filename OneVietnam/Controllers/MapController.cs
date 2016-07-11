@@ -25,10 +25,10 @@ namespace OneVietnam.Controllers
             return View();
         }
 
-        public ActionResult CustomInfoWindow()
-        {
-            return View();
-        }
+        //public ActionResult CustomInfoWindow()
+        //{
+        //    return View();
+        //}
 
         //DEMO
         public ActionResult AddLocation()
@@ -64,6 +64,11 @@ namespace OneVietnam.Controllers
             List<AddLocationViewModel> list = await UserManager.GetInfoForInitMapAsync(userslist);
             /*List<AddLocationViewModel> locationViewList = list.Select(location => new AddLocationViewModel(location)).ToList();*/
             return View(list);
+        }
+
+        public async Task<ActionResult> CustomInfoWindow()
+        {
+            return View();
         }
 
     }
