@@ -54,6 +54,7 @@ namespace OneVietnam.Models
     }
     public class PostViewModel
     {
+        public string Id { get; set; }
         public string UserName { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -71,6 +72,7 @@ namespace OneVietnam.Models
         }
         public PostViewModel(Post post)
         {
+            Id = post.Id;
             UserName = post.Username;
             Title = post.Title;
             Description = post.Description;
