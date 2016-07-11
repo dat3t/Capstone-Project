@@ -306,17 +306,11 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrapTheme.min.css" />
     <Content Include="Content\CountryImage\jp.png" />
     <Content Include="Content\CountryImage\kr.png" />
     <Content Include="Content\CountryImage\us.png" />
     <Content Include="Content\CountryImage\vi.png" />
-    <Content Include="Content\icon.css" />
-    <Content Include="Content\icon.min.css" />
     <Content Include="Content\Icon\icon-gg.png" />
-    <Content Include="Content\idangerous.swiper.css" />
-    <Content Include="Content\idangerous.swiper_backup.css" />
-    <Content Include="Content\ie-9.css" />
     <Content Include="Content\loader.css" />
     <Content Include="Content\minimal-slide.css" />
     <Content Include="Content\semantic.min.css" />
