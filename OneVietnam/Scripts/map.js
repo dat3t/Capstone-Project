@@ -1,28 +1,168 @@
 ﻿var listMarkers = [];
 var map;
+var bounds;
+var userInfoWindow;
+var infowindow;
 
+var myCurrentLocationMarker;
+var markerCluster;
+
+var listUserMarkers = [];
+var listMaleMarkers = [];
+var listFemaleMarkers = [];
+var listLGBTMarkers = [];
+var listType0Markers = [];
+var listType1Markers = [];
+var listType2Markers = [];
+
+var userMarkerCluster = [];
+var maleMarkerCluster = [];
+var femaleMarkerCluster = [];
+var LGBTMarkerCluster = [];
+var type0MarkerCluster = [];
+var type1MarkerCluster = [];
+var type2MarkerCluster = [];
+
+
+//Declare an icon of sample marker
+var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+
+function checkAuthenticated() {
+    if (isAuthenticated) {
+        //Declare a new map
+        map = new google.maps.Map(document.getElementById('map_canvas'), {
+            center: { lat: 10.8114587, lng: 106.67885000000001 },
+            zoom: 13,
+            minZoom: 4,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+    }
+    else {
+        //Declare a new map
+        map = new google.maps.Map(document.getElementById('map_canvas'), {
+            center: { lat: -34.397, lng: 150.644 },
+            zoom: 13,
+            minZoom: 4,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+        // Declare a myLocation marker using icon declared above, and bind it to the map
+        var myLocationMarker = new google.maps.Marker({
+            map: map,
+            title: "Vị trí của tôi",
+            // icon:myLocationIcon
+        });
+
+        //Identify current user's location and bind it to the map
+        //Using HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                //   myLocationMarker.setPosition(pos);
+                addMarker(pos);
+                map.setCenter(pos);
+                map.setZoom(7);
+
+
+            }, function () {
+                handleLocationError(true, myLocationMarker, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, myLocationMarker, map.getCenter());
+        }
+        //map.fitBounds(map.getBounds());
+
+    }
+}
 function initialize() {
 
-    //Declare a new map
-     map = new google.maps.Map(document.getElementById('map_canvas'), {
-        center: {lat: -34.397, lng: 150.644},
-        zoom: 13,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+    checkAuthenticated();
+
+    myCurrentLocationMarker = new google.maps.Marker({
+        map: map,
+        title: "Vị trí của tôi",
+        // icon:myLocationIcon
     });
 
     //Declare a bound
-    var bounds = new google.maps.LatLngBounds();
+    bounds = new google.maps.LatLngBounds();
 
-   
+    //var iw = new map.InfoWindow();
+    var oms = new OverlappingMarkerSpiderfier(map);
+
+    createListUserMarkers();
+    createListMaleMarkers();
+    createListFemaleMarkers();
+    createListLGBTMarkers();
+    createListType0Markers();
+    createListType1Markers();
+
+    userMarkerCluster = new MarkerClusterer(map, listUserMarkers);
+    maleMarkerCluster = new MarkerClusterer(map, listMaleMarkers);
+    femaleMarkerCluster = new MarkerClusterer(map, listFemaleMarkers);
+    LGBTMarkerCluster = new MarkerClusterer(map,listLGBTMarkers);
+    type0MarkerCluster = new MarkerClusterer(map, listType0Markers);
+    type1MarkerCluster = new MarkerClusterer(map, listType1Markers);
+
+    userMarkerCluster.setMaxZoom(9);
+    showUsers();
+
+    var markers = [];
+    var marker5 = new google.maps.Marker({
+        position: { lat: 16.0544068, lng: 108.20216670000002 },
+        map: map,
+        title: 'First Marker'
+    });
+    var marker6 = new google.maps.Marker({
+        position: { lat: 16.0544068, lng: 108.20216670000002 },
+        map: map,
+        title: 'Second Marker'
+    });
+    var marker7 = new google.maps.Marker({
+        position: { lat: 15.8800584, lng: 108.3380469 },
+        map: map,
+        title: 'Second Marker'
+    });
+    // there is better way of doing things, Below is done to show you in detail whats going on
+    markers.push(marker5);
+    markers.push(marker6);
+    markers.push(marker7);
+    // now we have 2 markers with different title and same position
+
+    // lets now create our markerClusterer instance with markers array
+    //var markerCluster = new MarkerClusterer(map, markers,{zoomOnClick:false,maxZoom:15});
+    //var oms = new OverlappingMarkerSpiderfier(map);
+    oms.addMarker(marker5);
+    oms.addMarker(marker6);
+    oms.addMarker(marker7);
+    markerCluster = new MarkerClusterer(map, markers);
+    markerCluster.setMaxZoom(11);
+
+    userInfoWindow = new google.maps.InfoWindow({
+        content: "",
+        //content: '@Html.Partial("CustomInfoWindow")',
+        maxWidth: 350
+    });
+    google.maps.event.addListener(markerCluster, "clusterover", function (mCluster) {
+        //infowindow.content += "aa";
+        //infowindow.setPosition(mCluster.getCenter());
+        //infowindow.open(map);
+        alert(10);
+    });
 
     // Create the search box and link it to the UI element.
     var input = document.getElementById("pac-input");
     var searchBox = new google.maps.places.SearchBox(input);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-  
+    //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
     // Bias the SearchBox results towards current map's viewport.
     map.addListener('bounds_changed', function () {
-        searchBox.setBounds(map.getBounds());
+        // searchBox.setBounds(map.getBounds());
+        // map.setZoom(14);
     });
 
     var markers2 = [];
@@ -31,25 +171,17 @@ function initialize() {
 
     //var p2 = { lat: 36.238666, lng: 137.96902209999996 };
 
-    //var marker5= new google.maps.Marker({
-    //    position: p1
-    //});
-    //var marker6 = new google.maps.Marker({
-    //    position: p2
-    //});
-   
-
-    //markers2.push(marker5);
-    //markers2.push(marker6);
-    for (var i = 0; i < 100; i++) {
-       // var dataPhoto = data.photos[i];
+    for (var i = 0; i < 10000; i++) {
+        // var dataPhoto = data.photos[i];
         var latLng = new google.maps.LatLng(Math.floor(Math.random() * 50), Math.floor(Math.random() * 100));
         var marker = new google.maps.Marker({
             position: latLng
         });
         markers2.push(marker);
     }
-    var markerCluster = new MarkerClusterer(map, markers2);
+
+    markerCluster2 = new MarkerClusterer(map, null);
+    markerCluster2.addMarkers(markers2);
 
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
@@ -77,13 +209,13 @@ function initialize() {
                 scaledSize: new google.maps.Size(25, 25)
             };
 
-            // Create a marker for each place.
-            marker2.push(new google.maps.Marker({
-                map: map,
-                icon: icon,
-                title: place.name,
-                position: place.geometry.location
-            }));
+            //// Create a marker for each place.
+            //marker2.push(new google.maps.Marker({
+            //    map: map,
+            //    icon: icon,
+            //    title: place.name,
+            //    position: place.geometry.location
+            //}));
 
             if (place.geometry.viewport) {
                 // Only geocodes have viewport.
@@ -97,17 +229,16 @@ function initialize() {
 
     //SAMPLE MARKERS WITH INFOWINDOWS
 
-    //Declare an icon of sample marker
-    var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+
 
     // Multiple Markers
-    var markers = [
-    ['Matsumoto Station, Matsumoto, Nagano Prefecture, Japan', 36.23081510000001, 137.9643552],
-    ['4-1 Marunouchi, Matsumoto, Nagano Prefecture 390-0873, Japan', 36.238666, 137.96902209999996]
-    ];
+    //var markers = [
+    //['Matsumoto Station, Matsumoto, Nagano Prefecture, Japan', 36.23081510000001, 137.9643552],
+    //['4-1 Marunouchi, Matsumoto, Nagano Prefecture 390-0873, Japan', 36.238666, 137.96902209999996]
+    //];
 
     // InfoWindow content
-    var content ='<div style="overflow:hidden;">'+
+    var content = '<div style="overflow:hidden;">' +
         '<div id="iw-container">' +
                       '<div class="iw-title">Đạt đẹp zai\'s profile</div>' +
                       '<div class="iw-content">' +
@@ -133,52 +264,43 @@ function initialize() {
                             '<td>abcxyz</td>' +
                             '</tr>' +
                             '</table>' +
-                            '</div>'+
-                      '</div>' +'</div>' +
+                            '</div>' +
+                      '</div>' + '</div>' +
                       '<div class="iw-bottom-gradient"></div>' +
             '</div>';
 
     // A new Info Window is created and set content
-    var infowindow = new google.maps.InfoWindow({
+     infowindow = new google.maps.InfoWindow({
         content: content,
-
+        //content: '@Html.Partial("CustomInfoWindow")',
         // Assign a maximum value for the width of the infowindow allows
         // greater control over the various content elements
         maxWidth: 350
     });
 
-    
-    // Loop through our array of markers & place each one on the map
+    //    // Allow each marker to have an info window
+    //    google.maps.event.addListener(marker, 'click', (function (marker, i) {
+    //        return function () {
+    //           // infowindow.setContent(infoWindowContent[i][0]);
+    //            infowindow.open(map, marker);
+    //        }
+    //    })(marker, i));
 
+    //    // Automatically center the map fitting all markers on the screen
+    //    map.fitBounds(bounds);
+    //}
 
-    for (i = 0; i < markers.length; i++) {
-        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-        bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: map,
-            title: markers[i][0],
-            icon:image
-        });
+    //google.maps.event.addListenerOnce(map, 'bounds_changed', function () {
+    //  //  map.setZoom(14);
 
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-               // infowindow.setContent(infoWindowContent[i][0]);
-                infowindow.open(map, marker);
-            }
-        })(marker, i));
-
-        // Automatically center the map fitting all markers on the screen
-        map.fitBounds(bounds);
-    }
-
+    //    map.setCenter({ lat: 36.238666, lng: 137.96902209999996 });
+    //});
 
     // This event expects a click on a marker
     // When this event is fired the Info Window is opened.
-    google.maps.event.addListener(marker, 'click', function () {
-        infowindow.open(map, marker);
-    });
+    //google.maps.event.addListener(marker, 'click', function () {
+    //    infowindow.open(map, marker);
+    //});
 
     // Event that closes the Info Window with a click on the map
     google.maps.event.addListener(map, 'click', function () {
@@ -193,7 +315,7 @@ function initialize() {
     // *
     google.maps.event.addListener(infowindow, 'domready', function () {
 
-        // Reference to the DIV that wraps the bottom of infowindow
+        // Reference to the DIV that wraps the bottom of infowindow--
         var iwOuter = $('.gm-style-iw');
 
         /* Since this div is in a position prior to .gm-div style-iw.
@@ -236,23 +358,25 @@ function initialize() {
             $(this).css({ opacity: '1' });
         });
         iwCloseBtn.css({ 'display': 'none' });
-});
+    });
 
 }
 
 function loadScript() {
     var script = document.createElement("script");
-    script.src = "http://maps.googleapis.com/maps/api/js?libraries=places,geometry&callback=initialize";
+    script.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyBiPDMBCKXsusl5-BgCw1nIyHwu5u3j8xw&libraries=places,geometry&callback=initialize";
     document.body.appendChild(script);
+
 }
 
-window.onload = loadScript;
+window.onload = initialize;
 
 function showCurrentLocation() {
-    
+    //alert(aa);
+    // alert(array[0].x);
     var p1 = { lat: 36.23081510000001, lng: 137.9643552 };
-    
-    var p2 = { lat: 36.238666, lng: 137.96902209999996};
+
+    var p2 = { lat: 36.238666, lng: 137.96902209999996 };
     //var R = 6378137; // Earth’s mean radius in meter
     //var dLat = rad(p2.lat - p1.lat);
     //var dLong = rad(p2.lng - p1.lng);
@@ -262,9 +386,9 @@ function showCurrentLocation() {
     //var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     //var d = R * c;
     //return d; // returns the distance in meter
-   document.getElementById('cal').innerHTML = getDistance(p1,p2);
-   
-    
+    //document.getElementById('cal').innerHTML = getDistance(p1,p2);
+
+
     // getDistance({ lat: -36.23081510000001, lng: 137.9643552 }, { lat: -36.238666, lng: 137.96902209999996 });
     ////Declare a myLocation icon 
     //var myLocationIcon = {
@@ -275,13 +399,10 @@ function showCurrentLocation() {
     //};
 
     // clearMarkers();
-    deleteMarkers();
+    //deleteMarkers(listMarkers);
+    myCurrentLocationMarker.setMap(null);
     // Declare a myLocation marker using icon declared above, and bind it to the map
-    var myLocationMarker = new google.maps.Marker({
-        map: map,
-        title: "Vị trí của tôi",
-        // icon:myLocationIcon
-    });
+
 
     //Identify current user's location and bind it to the map
     //Using HTML5 geolocation.
@@ -294,11 +415,12 @@ function showCurrentLocation() {
 
             //   myLocationMarker.setPosition(pos);
             addMarker(pos);
-            map.zoom = 14;
+            map.setZoom(14);
             map.setCenter(pos);
-            
-           
+
+
         }, function () {
+            alert("aa");
             handleLocationError(true, myLocationMarker, map.getCenter());
         });
     } else {
@@ -308,18 +430,206 @@ function showCurrentLocation() {
 
 }
 
+function setMapToAMarkerCluster(markerCluster) {
+    userMarkerCluster.setMap(null);
+    maleMarkerCluster.setMap(null);
+    femaleMarkerCluster.setMap(null);
+    LGBTMarkerCluster.setMap(null);
+    type0MarkerCluster.setMap(null);
+    type1MarkerCluster.setMap(null);
+
+    markerCluster.setMap(map);
+}
+
+function showUsers() {
+    setMapToAMarkerCluster(userMarkerCluster);
+}
+
+function showMales() {
+    setMapToAMarkerCluster(maleMarkerCluster);
+}
+
+function showFemales() {
+    setMapToAMarkerCluster(femaleMarkerCluster);
+}
+
+function showGLBT() {
+    setMapToAMarkerCluster(LGBTMarkerCluster);
+}
+
+function showAccommodation() {
+    setMapToAMarkerCluster(type0MarkerCluster);
+}
+
+function showJobOffer() {
+    setMapToAMarkerCluster(type1MarkerCluster);
+}
+
+function createListUserMarkers() {
+    var length = array.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(array[i].x, array[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            title: array[i].address,
+            icon: image
+        });
+        listUserMarkers.push(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                // infowindow.setContent(infoWindowContent[i][0]);
+               // AjaxDisplayString(userInfoWindow, marker)
+                 infowindow.open(map, marker);
+            }
+        })(marker, i));
+
+        // add the double-click event listener
+        //google.maps.event.addListener(marker, 'dblclick', function (event) {
+        //    map = marker.getMap();
+        //    map.setCenter(marker.getPosition()); // set map center to marker position
+        //    smoothZoom(map, 10, map.getZoom()); // call smoothZoom, parameters map, final zoomLevel, and starting zoom level
+        //});
+
+        // Automatically center the map fitting all markers on the screen
+        //    map.fitBounds(bounds);
+
+    }
+}
+
+function createListMaleMarkers() {
+    var length = males.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(males[i].x, males[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            title: array[i].address,
+            icon: image
+        });
+        listMaleMarkers.push(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                // infowindow.setContent(infoWindowContent[i][0]);
+                AjaxDisplayString(userInfoWindow, marker)
+                // infowindow.open(map, marker);
+            }
+        })(marker, i));
+    }
+}
+
+function createListFemaleMarkers() {
+    var length = females.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(females[i].x, females[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            title: array[i].address,
+            icon: image
+        });
+        listFemaleMarkers.push(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                AjaxDisplayString(userInfoWindow, marker)
+            }
+        })(marker, i));
+    }
+}
+
+function createListLGBTMarkers() {
+    var length = LGBT.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(array[i].x, array[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            title: array[i].address,
+            icon: image
+        });
+        listLGBTMarkers.push(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                // infowindow.setContent(infoWindowContent[i][0]);
+                AjaxDisplayString(userInfoWindow, marker)
+                // infowindow.open(map, marker);
+            }
+        })(marker, i));
+    }
+}
+
+function createListType0Markers() {
+    var length = postType0.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(postType0[i].x, postType0[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            title: postType0[i].address,
+            icon: image
+        });
+        listType0Markers.push(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                // infowindow.setContent(infoWindowContent[i][0]);
+                AjaxDisplayString(userInfoWindow, marker)
+                // infowindow.open(map, marker);
+            }
+        })(marker, i));
+
+    }
+
+}
+
+function createListType1Markers() {
+    var length = postType1.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(postType1[i].x, postType1[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            title: postType1[i].address,
+            icon: image
+        });
+        listType1Markers.push(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                // infowindow.setContent(infoWindowContent[i][0]);
+                AjaxDisplayString(userInfoWindow, marker)
+                // infowindow.open(map, marker);
+            }
+        })(marker, i));
+
+    }
+    //  alert(listType1Markers[0].getTitle());
+
+}
+
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    alert("bb");
     infoWindow.setPosition(pos);
     infoWindow.setContent(browserHasGeolocation ?
                           'Error: The Geolocation service failed.' :
                           'Error: Your browser doesn\'t support geolocation.');
 }
 
-var rad = function (x) {    
+var rad = function (x) {
     return x * Math.PI / 180;
 };
 
-var getDistance = function(p1, p2) {
+var getDistance = function (p1, p2) {
     var R = 6378137; // Earth’s mean radius in meter
     var dLat = rad(p2.lat - p1.lat);
     var dLong = rad(p2.lng - p1.lng);
@@ -341,15 +651,15 @@ function addMarker(location) {
 }
 
 // Sets the map on all markers in the array.
-function setMapOnAll(map) {
+function setMapOnAll(map, listMarkers) {
     for (var i = 0; i < listMarkers.length; i++) {
         listMarkers[i].setMap(map);
     }
 }
 
 // Removes the markers from the map, but keeps them in the array.
-function clearMarkers() {
-    setMapOnAll(null);
+function clearMarkers(listMarkers) {
+    setMapOnAll(null, listMarkers);
 }
 
 // Shows any markers currently in the array.
@@ -358,7 +668,64 @@ function showMarkers() {
 }
 
 // Deletes all markers in the array by removing references to them.
-function deleteMarkers() {
-    clearMarkers();
+function deleteMarkers(listMarkers) {
+    clearMarkers(listMarkersTest);
+    //listMarkers = [];
     listMarkers = [];
+}
+
+// the smooth zoom function
+function smoothZoom(map, max, cnt) {
+    if (cnt >= max) {
+        return;
+    }
+    else {
+        z = google.maps.event.addListener(map, 'zoom_changed', function (event) {
+            google.maps.event.removeListener(z);
+            smoothZoom(map, max, cnt + 1);
+        });
+        setTimeout(function () { map.setZoom(cnt) }, 80); // 80ms is what I found to work well on my system -- it might not work well on all systems
+    }
+}
+
+function AjaxDisplayString(infowindow, marker) {
+    var addressData;
+    var testData;
+    $.ajax({
+        type: "GET",
+        url: '/Map/CustomInfoWindow?useid=asd',
+        dataType: "HTML",
+        contentType: 'application/json',
+        traditional: true,
+        data: addressData,
+        success: function (result) {
+            debugger;
+            //infowindow.setContent("<div>" + result + "</div>");
+            infowindow.open(map, marker);
+        },
+        error: function (arg) {
+            alert("Error");
+        }
+    });
+}
+
+function AjaxDisplayString(infowindow, marker) {
+    var addressData;
+    var testData;
+    $.ajax({
+        type: "GET",
+        url: '/Map/CustomInfoWindow?useid=asd',
+        dataType: "HTML",
+        contentType: 'application/json',
+        traditional: true,
+        data: addressData,
+        success: function (result) {
+            debugger;
+            infowindow.setContent("<div>" + result + "</div>");
+            infowindow.open(map, marker);
+        },
+        error: function (arg) {
+            alert("Error");
+        }
+    });
 }

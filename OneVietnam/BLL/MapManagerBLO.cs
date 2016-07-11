@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using OneVietnam.DAL;
 using OneVietnam.DTL;
+using OneVietnam.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,14 +27,34 @@ namespace OneVietnam.BLL
             return await UpdateAsync(user).ConfigureAwait(false);
         }
 
-        public virtual async Task<List<Location>> GetLocationAsync(List<ApplicationUser> userList)
+        //public virtual async Task<List<Location>> GetLocationAsync(List<ApplicationUser> userList)
+        //{
+
+        //    if (userList == null)
+        //    {
+        //        throw new InvalidOperationException("Invalid user");
+        //    }
+        //    return _userStore.GetLocationAsync(userList);
+        //}
+
+        //public virtual async Task<List<Dictionary<Location, string>>> GetInfoForInitMapAsync(List<ApplicationUser> userList)
+        //{
+
+        //    if (userList == null)
+        //    {
+        //        throw new InvalidOperationException("Invalid user");
+        //    }
+        //    return _userStore.GetInfoForInitMap(userList);
+        //}
+
+        public virtual async Task<List<AddLocationViewModel>> GetInfoForInitMapAsync(List<ApplicationUser> userList)
         {
-          
+
             if (userList == null)
             {
                 throw new InvalidOperationException("Invalid user");
             }
-            return _userStore.GetLocationAsync(userList);
+            return _userStore.GetInfoForInitMap(userList);
         }
     }
 }

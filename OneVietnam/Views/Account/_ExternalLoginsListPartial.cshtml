@@ -1,11 +1,9 @@
 ﻿@model OneVietnam.Models.ExternalLoginListViewModel
 @using Microsoft.Owin.Security
-
-<h4>Use another service to log in.</h4>
-<hr />
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
-    if (loginProviders.Count() == 0) {
+    if (loginProviders.Count() == 0)
+    {
         <div>
             <p>
                 There are no external authentication services configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
@@ -14,14 +12,18 @@
         </div>
     }
     else {
-        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl })) {
+        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl }))
+        {
             @Html.AntiForgeryToken()
-            <div id="socialLoginList">
-                <p>
-                    @foreach (AuthenticationDescription p in loginProviders) {
-                        <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
-                    }
-                </p>
+            <div>
+                @foreach (AuthenticationDescription p in loginProviders)
+                {
+                    //<button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
+                    <button class="ui @p.AuthenticationType.ToLower() button " type="submit" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Đăng Nhập Bằng @p.Caption account">
+                        <i class="@p.AuthenticationType.ToLower() icon"></i>
+                         Đăng Nhập Bằng @p.AuthenticationType
+                    </button>
+                }
             </div>
         }
     }

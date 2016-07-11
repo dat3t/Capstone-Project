@@ -77,10 +77,10 @@ namespace OneVietnam.Models
         [DataType(DataType.Password)]
         [Display(Name = "Mật Khẩu")]
         public string Password { get; set; }
-
+        [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Xác Nhận Mật Khẩu")]
+        [Compare("Password", ErrorMessage = "Mật Khẩu Xác Nhận Không Trùng Khớp")]
         public string ConfirmPassword { get; set; }
     }
 

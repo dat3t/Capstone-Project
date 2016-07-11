@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Web;
 using AspNet.Identity.MongoDB;
 using Microsoft.AspNet.Identity;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using OneVietnam.DTL;
 
 namespace OneVietnam.BLL
@@ -80,6 +82,11 @@ namespace OneVietnam.BLL
         public async Task<List<ApplicationUser>> FindUsersByRoleAsync(IdentityRole role)
         {
             return await _userStore.FindUsersByRoleAsync(role);
+        }
+
+        public async Task<List<ApplicationUser>> TextSearchByUserName(string query)
+        {
+            return await _userStore.TextSearchByUserName(query);
         }
     }
 }
