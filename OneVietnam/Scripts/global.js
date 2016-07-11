@@ -1,37 +1,4 @@
-﻿var content = [
-  { title: 'Andorra' },
-  { title: 'United Arab Emirates' },
-  { title: 'Afghanistan' },
-  { title: 'Antigua' },
-  { title: 'Anguilla' },
-  { title: 'Albania' },
-  { title: 'Armenia' },
-  { title: 'Netherlands Antilles' },
-  { title: 'Angola' },
-  { title: 'Argentina' },
-  { title: 'American Samoa' },
-  { title: 'Austria' },
-  { title: 'Australia' },
-  { title: 'Aruba' },
-  { title: 'Aland Islands' },
-  { title: 'Azerbaijan' },
-  { title: 'Bosnia' },
-  { title: 'Barbados' },
-  { title: 'Bangladesh' },
-  { title: 'Belgium' },
-  { title: 'Burkina Faso' },
-  { title: 'Bulgaria' },
-  { title: 'Bahrain' },
-  { title: 'Burundi' }
-  // etc
-];
-$(document).ready(function () {
-    $('.ui.sidebar')
-  .sidebar({
-      context: $(' .bottom.segment')
-  })
-  .sidebar('attach events', '.context.example .menu .item')
-    ;
+﻿$(document).ready(function () {
     $(".right.menu.open").on("click", function (e) {
         e.preventDefault();
         $(".ui.vertical.menu.open").toggle();
@@ -43,7 +10,8 @@ $(document).ready(function () {
         fields: {
             results: 'UserList',
             title: 'UserName',
-            url: ''
+            url: '',
+            Image:"Images/logo.png"
         },
         minCharacters: 3
     })

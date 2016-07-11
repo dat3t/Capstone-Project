@@ -47,10 +47,13 @@ namespace OneVietnam.Controllers
         public async Task<ActionResult> Search(string id)
         {
             var userslist = await UserManager.TextSearchByUserName(id);             
+
             List<UserViewModel> listview = userslist.Select(user => new UserViewModel(user)).ToList();
-            SearchResultModel s = new SearchResultModel();
-            s.Count = listview.Count;
-            s.UserList = listview;
+            SearchResultModel s = new SearchResultModel
+            {
+                Count = listview.Count,
+                UserList = listview
+            };
             return Json(s, JsonRequestBehavior.AllowGet);
         }
     }
