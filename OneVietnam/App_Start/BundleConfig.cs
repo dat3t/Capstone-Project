@@ -31,11 +31,10 @@ namespace OneVietnam
                 "~/Content/Map/searchbox.css"));
             bundles.Add(new StyleBundle("~/Scripts/Map").Include(
                         "~/Scripts/map.js",
-                        "~/Scripts/sorttable.js",
-                        "~/Scripts/wow.js",
+                       
                         "~/semantic/dist/semantic.js",
                         "~/Scripts/minimal-slide.js",
-                        "~/Scripts/jquery.min.js"
+                       
                 "~/Scripts/markerclusterer.js"
                         ));
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
