@@ -252,26 +252,35 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="BLL\Constant.cs" />
     <Compile Include="BLL\CountryManager.cs" />
+    <Compile Include="BLL\IconManagerBLO.cs" />
     <Compile Include="BLL\MapManagerBLO.cs" />
     <Compile Include="BLL\PostsManagerBLO.cs" />
     <Compile Include="BLL\RolesManagerBLO.cs" />
+    <Compile Include="BLL\TagManagerBLO.cs" />
     <Compile Include="BLL\UserManagerBLO.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NewFeedController.cs" />
     <Compile Include="Controllers\MapController.cs" />
+    <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="DAL\CountryStoreDAO.cs" />
+    <Compile Include="DAL\IconStoreDAO.cs" />
     <Compile Include="DAL\RoleStoreDAO.cs" />
+    <Compile Include="DAL\TagStoreDAO.cs" />
     <Compile Include="DAL\UserStoreDAO.cs" />
     <Compile Include="DTL\ApplicationUserDTO.cs" />
     <Compile Include="DTL\CountryDTO.cs" />
+    <Compile Include="DTL\IconDTO.cs" />
     <Compile Include="DTL\IllustrationDTO.cs" />
     <Compile Include="DTL\LocationDTO.cs" />
     <Compile Include="DTL\PostDTO.cs" />
+    <Compile Include="DTL\ReportDTO.cs" />
+    <Compile Include="DTL\TagDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -281,6 +290,8 @@
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ViewProfileUser.cs" />
+    <Compile Include="Models\PostViewModel.cs" />
+    <Compile Include="Models\SearchResultModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -320,37 +331,26 @@
     <Content Include="Content\SlideImages\Sapa.jpg" />
     <Content Include="Content\SlideImages\SP.jpg" />
     <Content Include="Content\stylesheet.css" />
+    <Content Include="Content\image-slider.css" />
+    <Content Include="Content\Images\background.jpg" />
+    <Content Include="Content\Images\dat.JPG" />
+    <Content Include="Content\Images\Logo.png" />
+    <Content Include="Content\Images\m1.png" />
+    <Content Include="Content\Images\m2.png" />
+    <Content Include="Content\Images\m3.png" />
+    <Content Include="Content\Images\m4.png" />
+    <Content Include="Content\Images\m5.png" />
+    <Content Include="Content\Images\pikachu.jpg" />
+    <Content Include="Content\StyleSheet.css" />
     <Content Include="fonts\helveticaneuecyr-bold.svg" />
     <Content Include="fonts\helveticaneuecyr-roman.svg" />
-    <Content Include="Images\conv30.png" />
-    <Content Include="Images\conv40.png" />
-    <Content Include="Images\conv50.png" />
-    <Content Include="Images\currentLocationButton.png" />
-    <Content Include="Images\dat.JPG" />
-    <Content Include="Images\heart30.png" />
-    <Content Include="Images\heart40.png" />
-    <Content Include="Images\heart50.png" />
     <Content Include="Content\Map\infoWindow.css" />
-    <Content Include="Images\m1.png" />
-    <Content Include="Images\m2.png" />
-    <Content Include="Images\m3.png" />
-    <Content Include="Images\m4.png" />
-    <Content Include="Images\m5.png" />
     <Content Include="Content\Map\map.css" />
-    <Content Include="Images\myLocation.png" />
-    <Content Include="Images\people35.png" />
-    <Content Include="Images\people45.png" />
-    <Content Include="Images\people55.png" />
-    <Content Include="Images\pin.png" />
     <Content Include="Content\Map\searchbox.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -366,6 +366,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\docs.js" />
     <Content Include="Scripts\global.js" />
     <Content Include="Scripts\idangerous.swiper.min.js" />
     <Content Include="Scripts\infiniteScroll.js" />
@@ -381,7 +382,6 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\jquery.viewportchecker.min.js" />
     <Content Include="Scripts\map.js" />
     <Content Include="Scripts\markerclusterer.js" />
     <Content Include="Scripts\minimal-slide.js" />
@@ -998,8 +998,6 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
@@ -1035,6 +1033,12 @@
     <Content Include="Views\Account\SelectCountry.cshtml" />
     <Content Include="Views\Map\ShowLocation.cshtml" />
     <Content Include="Views\NewFeed\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Post\CreatePost.cshtml" />
+    <Content Include="Views\Post\EditPost.cshtml" />
+    <Content Include="Views\Post\ShowPostDetail.cshtml" />
+    <Content Include="Views\Post\ShowPost.cshtml" />
     <Content Include="Views\Manage\TimeLine.cshtml" />
     <Content Include="Views\Shared\_PostRow.cshtml" />
     <Content Include="Views\Shared\_Loading.cshtml" />
@@ -1043,9 +1047,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />

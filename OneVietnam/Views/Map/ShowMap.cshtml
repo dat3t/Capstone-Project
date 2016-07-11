@@ -1,0 +1,152 @@
+﻿@model IEnumerable<OneVietnam.Models.AddLocationViewModel>
+
+@{
+    ViewBag.Title = "ShowMap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    var isAuthenticated;
+</script>
+@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    <script>
+        isAuthenticated = true;
+    </script>
+}
+else
+{
+    <script>
+        isAuthenticated = false;
+    </script>
+}
+
+<head>
+    <meta charset="utf-8" />
+    <title>Bản đồ tìm kiếm</title>
+
+    <script type="text/javascript">
+
+        var array = [];
+        var males = [];
+        var females = [];
+        var LGBT = [];
+        var PostArray = [];
+        var postType0 = [];
+        var postType1 = [];
+        var postType2 = [];
+
+        @foreach (var item in Model) {
+        <text>
+        array.push({x :@item.x ,y : @item.y, gender:@item.gender, address: '@item.address', userID :'@item.userid'});
+        if(@item.gender == 0){
+            males.push({x :@item.x ,y : @item.y, address: '@item.address', userID :'@item.userid'});
+        }else
+            if(@item.gender == 1){
+                females.push({x :@item.x ,y : @item.y, address: '@item.address', userID :'@item.userid'});
+            }else
+                if(@item.gender == 2){
+                    LGBT.push({x :@item.x ,y : @item.y, address: '@item.address', userID :'@item.userid'});
+                }
+        @try {
+            if (@item.Posts != null) {
+                if (@item.Posts.Count > 0) {
+                    foreach (var post in @item.Posts) {
+
+                        if(@post.PostType.CompareTo(0) == 0)
+                        {
+                            @:postType0.push({postID: '@post.Id',username: '@post.Username',postType : @post.PostType, deletedFlag : '@post.DeletedFlag', status : '@post.Status', x: @post.PostLocation.XCoordinate, y: @post.PostLocation.YCoordinate, address : '@post.PostLocation.Address'});
+                                                        }
+                        else
+                        if (@post.PostType.CompareTo(1) == 0)
+                        {
+                              @:postType1.push({postID: '@post.Id',username: '@post.Username',postType : @post.PostType, deletedFlag : '@post.DeletedFlag', status : '@post.Status', x: @post.PostLocation.XCoordinate, y: @post.PostLocation.YCoordinate, address : '@post.PostLocation.Address'});
+                                                }
+                @:PostArray.push({postID: '@post.Id',username: '@post.Username',postType : @post.PostType, deletedFlag : '@post.DeletedFlag', status : '@post.Status', x: @post.PostLocation.XCoordinate, y: @post.PostLocation.YCoordinate, address : '@post.PostLocation.Address'});
+                                                              }
+                    }
+                }
+            }
+            catch (ArgumentException e) {
+                // throw new YourCustomException("Put your error message here.", e);
+            }
+
+        </text>
+        }
+
+    </script>
+    <script>
+$(document).ready(function(){
+    $("#aa").hover(function(){
+        $("span").animate({right: '500px'});
+        //$(this).css("left", "500px");
+    });
+});
+    </script>
+</head>
+
+<div class="ui stackable container" style="width:100%;height:100%;position:relative">
+    <div id="map_canvas" style="width:100%;height:100%"></div>
+
+    <div class="ui icon input"  style=" position: absolute; left: 40% !important; top: 8px !important;">
+        <input id="pac-input2" type="text" placeholder="Tìm kiếm địa điểm...">
+        <i class="search icon"></i>
+    </div>
+
+    <button type="submit" class="ui icon green button" onclick="showCurrentLocation()" data-tooltip="Địa điểm của tôi" data-position="left center" style=" position: absolute;right: 7px;bottom:23%">
+        <i class="location arrow icon"></i>
+    </button>
+
+    <div class="ui vertical buttons" style="position: absolute; right: 10px; top: 30%;">
+
+        <button type="submit" class="ui icon red button" onclick="showSOS()" data-tooltip="Nhờ giúp đỡ" data-position="left center">
+            <i class="warning icon"></i>
+        </button>
+
+        <button type="submit" class="ui blue icon  button" onclick="showAccommodation()" data-tooltip="Nhà ở" data-position="left center">
+            <i class="home icon"></i>
+        </button>
+
+        <button type="submit" class="ui icon blue button" onclick="showJobOffer()" data-tooltip="Việc làm" data-position="left center">
+            <i class="doctor icon"></i>
+        </button>
+        <button type="submit" class="ui icon blue button" onclick="showFurnitureOffer()" data-tooltip="Cho đồ/Đổi đồ" data-position="left center">
+            <i class="cubes icon"></i>
+        </button>
+
+        <button type="submit" class="ui icon blue button" onclick="showHandGoodsOffer()" data-tooltip="Xách tay" data-position="left center">
+            <i class="plane icon"></i>
+        </button>
+
+        <button type="submit" class="ui icon blue button" onclick="showTradeOffer()" data-tooltip="Bán đồ" data-position="left center">
+            <i class="money icon"></i>
+        </button>
+    </div>
+    <div class="ui buttons" style=" position: absolute; left: 40% ; bottom: 25px ">
+
+        <button type="submit" class="ui icon green button" data-tooltip="Nam" data-position="top center" onclick="showMales()">
+            <i class="male icon"></i>
+        </button>
+
+        <button type="submit" class="ui icon pink button" data-tooltip="Nữ" data-position="top center" onclick="showFemales()">
+            <i class="female icon"></i>
+        </button>
+
+        <button type="submit" class="ui icon purple button" data-tooltip="GLBT" data-position="top center" onclick="showLGBT()">
+            <i class="transgender icon"></i>
+        </button>
+
+        <button type="submit" class="ui icon blue button" data-tooltip="Tất cả người dùng" data-position="top center" onclick="showUsers()">
+            <i class="users icon"></i>
+        </button>
+    </div>
+    @*<div id="postMenu" style="height:100%;width:300px;display:none;position:absolute;left:0px;top:0px;color:chartreuse;background-color:white"></div>*@
+    <div id="aa" class="ui blue big launch left attached fixed button" style="position: absolute; left: 0px; top: 300px;">
+        <i id ="button" class="content icon"></i>
+        <span class="text" id="baidang" style="">Bài đăng</span>
+    </div>
+</div>
+
+<script defer src="~/Scripts/OverlappingMarkerSpiderfier.js"></script>
+

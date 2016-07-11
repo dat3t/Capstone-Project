@@ -18,18 +18,25 @@ namespace OneVietnam
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
-            bundles.Add(new ScriptBundle("~/bundles/theme").Include(
-                        "~/Scripts/global.js",
-                        "~/Scripts/idangerous.swiper.min.js",
-                        "~/Scripts/isotope.pkgd.min.js",
-                        "~/Scripts/jquery.countTo.js",
-                        "~/Scripts/jquery.viewportchecker.min.js",
+            bundles.Add(new ScriptBundle("~/bundles/semantic").Include(
+                      "~/semantic/dist/semantic.js"));
+            bundles.Add(new ScriptBundle("~/bundles/Scripts").Include(
+                "~/Scripts/global.js"));
+            bundles.Add(new StyleBundle("~/semantic/css").Include(
+                      "~/semantic/dist/semantic.css"));
+            bundles.Add(new StyleBundle("~/Content/css").Include(
+                "~/Content/StyleSheet.css",
+                  "~/Content/Map/map.css",
+                "~/Content/Map/infoWindow.css",
+                "~/Content/Map/searchbox.css"));
+            bundles.Add(new StyleBundle("~/Scripts/Map").Include(
                         "~/Scripts/map.js",
                         "~/Scripts/sorttable.js",
                         "~/Scripts/wow.js",
                         "~/semantic/dist/semantic.js",
                         "~/Scripts/minimal-slide.js",
                         "~/Scripts/jquery.min.js"
+                "~/Scripts/markerclusterer.js"
                         ));
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",

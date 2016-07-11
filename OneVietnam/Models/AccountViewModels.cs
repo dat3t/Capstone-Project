@@ -77,10 +77,10 @@ namespace OneVietnam.Models
         [DataType(DataType.Password)]
         [Display(Name = "Mật Khẩu")]
         public string Password { get; set; }
-
+        [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Xác Nhận Mật Khẩu")]
+        [Compare("Password", ErrorMessage = "Mật Khẩu Xác Nhận Không Trùng Khớp")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -137,38 +137,5 @@ namespace OneVietnam.Models
             SecurityStamp = appUser.SecurityStamp;
             PhoneNumber = appUser.PhoneNumber;
         }
-    }
-    //DEMO
-    public class CreatePostViewModel
-    {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public int PostType { get; set; }
-        // logical delete        
-    }
-    //DEMO
-    public class ShowPostViewModel
-    {
-        public string Username { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public DateTimeOffset? PublishDate { get; set; }
-        public int PostType { get; set; }
-        // logical delete
-        public bool DeletedFlag { get; set; }
-        // finished or not
-        public bool Status { get; set; }
-
-        public ShowPostViewModel(Post post)
-        {
-            Username = post.Username;
-            Title = post.Title;
-            Description = post.Description;
-            PublishDate = post.PublishDate;
-            PostType = post.PostType;
-            DeletedFlag = post.DeletedFlag;
-            Status = post.Status;
-        }
-    }
-    //DEMO   
+    }    
 }

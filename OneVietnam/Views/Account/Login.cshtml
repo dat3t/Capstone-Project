@@ -3,58 +3,54 @@
 @{
     ViewBag.Title = "Đăng Nhập";
 }
-
-<div class="container large-popup-container">
-    <div class="row">
-        <div class="col-md-8 col-md-push-2 col-lg-6 col-lg-push-3  large-popup-content">
-            <div class="row">
-                <h2>
-                    <button class="btn text-center btn-primary" id="closeLoginButton">x</button>
-                    @ViewBag.Title
-                </h2>
-                <div class="row">
-                    <div class="col-md-8">
-                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <hr />
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <div class="form-group">
-                                @Html.TextBoxFor(m => m.Email, new { @class = "input-signtype", @placeholder = "Email" })
-                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="form-group">
-                                @Html.PasswordFor(m => m.Password, new { @class = "input-signtype", @placeholder = "Mật Khẩu" })
-                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-6 col-xs-6">
-                                        @Html.CheckBoxFor(m => m.RememberMe, new { @class = "check-box", @checked = true })
-                                        @Html.LabelFor(m => m.RememberMe, new { @class = "large-popup-text" })
-                                    </div>
-                                    <div class="col-md-6">
-                                        <button type="button" class="btn text-center pull-left btn-primary btn-block">Đăng Nhập</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <p>
-                                @Html.ActionLink("Đăng Ký Tài Khoản", "Register")
-                            </p>
-                            @* Enable this once you have account confirmation enabled for password reset functionality *@
-                            <p>
-                                @Html.ActionLink("Quên Mật Khẩu?", "ForgotPassword")
-                            </p>
-                        }
-                    </div>
-                    <div class="col-md-4">
-                        @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-                    </div>
+<div class="ui center middle aligned segment two column stackable grid shrink">
+    <div class="ui horizontal divider">
+        <h2>Đăng Nhập</h2>
+    </div>
+    <div class="column">
+        @using (Html.BeginForm("Login", "Account", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {@class = "ui form", role = "form"}))
+        {
+            @Html.AntiForgeryToken()
+            //@Html.ValidationSummary("")
+            <div class="field">
+                @Html.ValidationMessageFor(m => m.Email, "",new {@class= "input-error-message" })
+                <div class="ui left icon input">
+                    <i class="user icon"></i>
+                    @Html.TextBoxFor(m => m.Email, new {@placeholder = "Email"})
                 </div>
             </div>
-        </div>
+            <div class="field">
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "input-error-message" })
+                <div class="ui left icon input">
+                    <i class="lock icon"></i>
+                    @Html.PasswordFor(m => m.Password, new {@placeholder = "Mật Khẩu"})
+                </div>
+                @*@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })*@
+            </div>
+            <div class="inline field">
+                <div class="ui checkbox">
+                    @Html.CheckBoxFor(m => m.RememberMe, new {@class = "ui checkbox", @checked = true})
+                    @Html.LabelFor(m => m.RememberMe)
+                </div>
+            </div>
+            <button class="ui primary button" type="submit">Đăng Nhập</button>
+            <p>
+                @Html.ActionLink("Đăng Ký Tài Khoản", "Register")
+            </p>
+            //Enable this once you have account confirmation enabled for password reset functionality
+            <p>
+                @Html.ActionLink("Quên Mật Khẩu?", "ForgotPassword")
+            </p>
+        }
+    </div>
+    <div class="ui vertical divider">        
+    </div>
+    <div class="center aligned column">
+        @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml", new ExternalLoginListViewModel {ReturnUrl = ViewBag.ReturnUrl})
     </div>
 </div>
+
+
 
 
 
