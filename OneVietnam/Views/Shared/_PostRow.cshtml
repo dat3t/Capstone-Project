@@ -1,10 +1,42 @@
 ﻿@model Dictionary<int, OneVietnam.DTL.Post>
-@foreach (var cust in Model)
-{
-    <tr>
-        <td>@cust.Key </td>
-        <td>@cust.Value.Title</td>
-        <td>@cust.Value.PublishDate</td>
-        <td>@cust.Value.Description</td>
-    </tr>
-}
+    <div class="ui three column grid">
+    @foreach (var cust in Model)
+    {
+        <div class="column">
+            <div class="ui card">
+                <div class="content">
+                    <div class="right floated meta">@cust.Value.PublishDate</div>
+                    <img class="ui avatar image" src="~/Images/elliot.jpg"> @cust.Value.Username
+                </div>
+                <div class="image">
+                    <img src="~/Images/image.png">
+                </div>
+
+                <div class="content">
+                    <h4 class="ui sub header">@cust.Value.Title</h4>
+                    <div class="description">
+                        <p>@cust.Value.Description</p>
+                    </div>
+                    <span class="right floated">
+                        <i class="heart outline like icon"></i>
+                        17 likes
+                    </span>
+                    <i class="comment icon"></i>
+                    3 comments
+                </div>
+                <div class="extra content">
+                    <div class="ui large transparent left icon input">
+                        <i class="heart outline icon"></i>
+                        <input type="text" placeholder="Add Comment...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*    <tr>*@
+        @*        <td>@cust.Key </td>*@
+        @*        <td>@cust.Value.Title</td>*@
+        @*        <td>@cust.Value.PublishDate</td>*@
+        @*        <td>@cust.Value.Description</td>*@
+        @*    </tr>*@
+    }
+</div>

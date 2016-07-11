@@ -12,7 +12,7 @@ using OneVietnam.DTL;
 
 namespace OneVietnam.Controllers
 {
-    [Authorize]
+    
     public class ManageController : Controller
     {
         public ManageController()
@@ -60,7 +60,7 @@ namespace OneVietnam.Controllers
             else
             {
                 // LoadAllPostsToSession
-                List<Post> list = await UserManager.GetPostsAsync(User.Identity.GetUserId());
+                List<Post> list = await UserManager.GetPostsAsync("5771da7a27d14200a075b61b");
                 var posts = list;
                 int postIndex = 1;
                 Session["Posts"] = posts.ToDictionary(x => postIndex++, x => x);

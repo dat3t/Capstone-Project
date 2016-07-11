@@ -27,10 +27,11 @@ namespace OneVietnam
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/semantic/dist/semantic.min.css",
-                      "~/Content/site.css",
+                "~/semantic/dist/semantic.min.css",
+                "~/Content/Site.css",
                       "~/Content/dropzone.css",
-                      "~/Content/stylesheet.css"));
+                      "~/Content/stylesheet.css"
+                      ));
         }
     }
 }

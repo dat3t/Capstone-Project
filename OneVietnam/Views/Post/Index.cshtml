@@ -4,40 +4,57 @@
 <div class="ui grid">
 <div class="four wide column">
     
-    <div class="ui vertical menu right floated">
-        <div class="item">
-            <div class="ui input"><input type="text" placeholder="Search...">
-            </div>
-        </div>
-        <div class="item">
-            Home
-            <div class="menu">
-                <a class="active item">Search</a>
-                @{
-                    ((PostController)ViewContext.Controller)._CreatePost();
-                }
-                <a class="item write"  ><i class="write icon"></i>Write Post</a>
-                <a class="item">Remove</a>
-            </div>
-        </div>
-        <a class="browse item">
-            <i class="grid layout icon"></i> Filter
-        </a>
-
+@*    <div class="ui vertical menu right floated">*@
+@*        <div class="item">*@
+@*            <div class="ui input"><input type="text" placeholder="Search...">*@
+@*            </div>*@
+@*        </div>*@
+@*        <div class="item">*@
+@*            Home*@
+@*            <div class="menu">*@
+@*                <a class="active item">Search</a>*@
+@*                @{*@
+@*                    ((PostController)ViewContext.Controller)._CreatePost();*@
+@*                }*@
+@*                <a class="item write"  ><i class="write icon"></i>Write Post</a>*@
+@*                <a class="item">Remove</a>*@
+@*            </div>*@
+@*        </div>*@
+@*        <a class="browse item">*@
+@*            <i class="grid layout icon"></i> Filter*@
+@*        </a>*@
+@**@
+@*        <a class="item">*@
+@*            Messages*@
+@*        </a>*@
+@*        <div class="ui dropdown item">*@
+@*            More*@
+@*            <i class="dropdown icon"></i>*@
+@*            <div class="menu">*@
+@*                <a class="item"><i class="edit icon"></i> Edit Profile</a>*@
+@*                <a class="item"><i class="globe icon"></i> Choose Language</a>*@
+@*                <a class="item"><i class="settings icon"></i> Account AppSettings.Settings</a>*@
+@*            </div>*@
+@*        </div>*@
+    @*    </div>*@
+    <div class="ui secondary vertical pointing menu">
         <a class="item">
-            Messages
+            Việc làm
         </a>
-        <div class="ui dropdown item">
-            More
-            <i class="dropdown icon"></i>
-            <div class="menu">
-                <a class="item"><i class="edit icon"></i> Edit Profile</a>
-                <a class="item"><i class="globe icon"></i> Choose Language</a>
-                <a class="item"><i class="settings icon"></i> Account AppSettings.Settings</a>
-            </div>
-        </div>
-    </div>
-    <div class="ui flowing popup right hidden">
+        <a class="item">
+            Ở đâu
+        </a>
+        <a class="item ">
+            Ăn gì?
+        </a>
+        <a class="item ">
+            Mua sắm ở đâu?
+        </a>
+        
+    <a class="item ">
+            Xách tay
+        </a>
+    </div><div class="ui flowing popup right hidden">
         <div class="ui one column divided center aligned grid">
             <div class="column">
                 <h4 class="ui header">Basic Plan</h4>

@@ -22,23 +22,7 @@
 /*-------------------------------------------------------------------------------------------------------------------------------*/
 
 $(function () {
-   Dropzone.options.UpFile = {
-  // Necessary to make dropzone create an invisible file
-  // input element (hiddenFileInput)
-  clickable: true, 
-
-  init: function () {
-    var _this = this; // For the closure
-
-    var selectFile = document.querySelector("#SelectFile");
-    selectFile.addEventListener("click", function () {
-      // Debug output to make sure the event gets triggered.
-      alert("click ok!"); 
-
-      // Trigger the click event on the hidden file input.
-      _this.hiddenFileInput.click();
-    });
-}
+    $("div#myId").dropzone({ url: "/file/post" });
 
 //     
 //    $("#imgUpload").click(function () {

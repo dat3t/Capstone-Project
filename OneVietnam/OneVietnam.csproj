@@ -398,10 +398,12 @@
     <Content Include="Images\conv50.png" />
     <Content Include="Images\currentLocationButton.png" />
     <Content Include="Images\dat.JPG" />
+    <Content Include="Images\elliot.jpg" />
     <Content Include="Images\heart30.png" />
     <Content Include="Images\heart40.png" />
     <Content Include="Images\heart50.png" />
     <Content Include="Content\Map\infoWindow.css" />
+    <Content Include="Images\image.png" />
     <Content Include="Images\m1.png" />
     <Content Include="Images\m2.png" />
     <Content Include="Images\m3.png" />
@@ -448,7 +450,9 @@
     <Content Include="Scripts\jquery-ui-1.9.0.js" />
     <Content Include="Scripts\jquery-ui-1.9.0.min.js" />
     <Content Include="Scripts\jquery.countTo.js" />
+    <Content Include="Scripts\jquery.lazyload.js" />
     <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\jquery.scrollstop.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -533,6 +537,7 @@
     <Content Include="Views\Post\EditPost.cshtml" />
     <Content Include="Views\Post\Index.cshtml" />
     <Content Include="Views\Shared\_CreatePost.cshtml" />
+    <Content Include="Views\Post\TimeLine.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

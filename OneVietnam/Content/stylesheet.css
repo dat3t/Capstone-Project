@@ -30,10 +30,70 @@
 
 #content-block *:last-child { margin-bottom: 0; }
 
-body { margin: 0; font-family: 'Conv_helveticaneuecyr-roman', sans-serif; }
-
-h1, h2, h3, h4, h5, p { margin: 0; padding: 0; }
-
+body { margin: 0; font-family: 'Conv_helveticaneuecyr-roman', sans-serif;   background: #43423E;}
+/*toan test fix side menu*/
+/*nav {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  z-index: 100;
+  height: 100vh;
+  left: 0;
+  width: 10vw;
+  font-weight: 300;
+  font-size: 1rem;
+}
+nav ul {
+  list-style-type: none;
+  height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
+}
+nav a, nav a:visited, nav a:active {
+  text-decoration: none;
+  color: #fff;
+}
+nav a {
+  -webkit-transition: color 2s, background 1s;
+  transition: color 2s, background 1s;
+  padding: 10px;
+  position: relative;
+  z-index: 0;
+}
+nav a.active {
+  background: rgba(0, 0, 0, 0.9);
+}
+nav a::before {
+  content: "";
+  position: absolute;
+  height: 0%;
+  width: 0%;
+  bottom: 0;
+  left: 0;
+  opacity: 1;
+  background: #555;
+  z-index: -1;
+}
+nav a:hover {
+  -webkit-animation: fillColour 0.7s forwards ease-in-out;
+          animation: fillColour 0.7s forwards ease-in-out;
+}
+nav a:hover::before {
+  -webkit-animation: fill 0.7s forwards ease-in-out;
+          animation: fill 0.7s forwards ease-in-out;
+  opacity: 1;
+}*/
+/*test end here*/
 textarea{   resize: none;}
 
 .no_row { margin: 0; }

@@ -26,6 +26,50 @@ namespace OneVietnam.Controllers
         public PostController()
         {
         }
+        public async Task<ActionResult> TimeLine()
+        {
+            return RedirectToAction("GetPosts");
+        }
+
+        public const int RecordsPerPage = 60;
+        //
+        // GET: /Account/TimeLine
+        public async Task<ActionResult> GetPosts(int? pageNum)
+        {
+            pageNum = pageNum ?? 0;
+            ViewBag.IsEndOfRecords = false;
+
+            if (Request.IsAjaxRequest())
+            {
+                var posts = GetRecordsForPage(pageNum.Value);
+                ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
+                return PartialView("_PostRow", posts);
+            }
+            else
+            {
+                // LoadAllPostsToSession
+                List<Post> list = await UserManager.GetPostsAsync("5771da7a27d14200a075b61b");
+                var posts = list;
+                int postIndex = 1;
+                Session["Posts"] = posts.ToDictionary(x => postIndex++, x => x);
+
+                ViewBag.Posts = GetRecordsForPage(pageNum.Value);
+                return View("TimeLine");
+            }
+        }
+
+        public Dictionary<int, Post> GetRecordsForPage(int pageNum)
+        {
+            Dictionary<int, Post> posts = (Session["Posts"] as Dictionary<int, Post>);
+
+            int from = (pageNum * RecordsPerPage);
+            int to = from + RecordsPerPage;
+
+            return posts
+                .Where(x => x.Key > from && x.Key <= to)
+                .OrderBy(x => x.Key)
+                .ToDictionary(x => x.Key, x => x.Value);
+        }
 
         public PostController(ApplicationUserManager userManager)
         {
