@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using AspNet.Identity.MongoDB;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using OneVietnam.DTL;
 using OneVietnam.Models;
@@ -28,9 +29,23 @@ namespace OneVietnam.DAL
             return await _users.Find(u => u.Roles.Contains(role.Name)).ToListAsync();
         }
 
-        public Task AddPostAsync(ApplicationUser user, Post post)
+        public Task AddPostAsync(ApplicationUser pUser, Post pPost)
         {
-            user.AddPost(post);
+            pUser.AddPost(pPost);
+            return Task.FromResult(0);
+        }
+
+
+
+        public Task UpdatePostAsync(ApplicationUser pUser, Post pPost)
+        {
+            pUser.UpdatePost(pPost);
+            return Task.FromResult(0);
+        }
+
+        public Task DeletePostAsync(ApplicationUser pUser, Post pPost)
+        {
+            pUser.DeletePost(pPost);
             return Task.FromResult(0);
         }
 
@@ -39,26 +54,18 @@ namespace OneVietnam.DAL
             return user.Posts;
         }
 
+        public Task<List<ApplicationUser>> FindUserByPostIdAsync(string pPostId)
+        {
+            return  _users.Find(u => u.Posts.Any(t => t.Id == pPostId)).ToListAsync();
+        }
+
+
         //DEMO
         public Task AddLocationAsync(ApplicationUser user, Location location)
         {
             user.AddLocation(location);
             return Task.FromResult(0);
         }
-
-        //public List<Location> GetLocationAsync(List<ApplicationUser> userList)
-        //{
-        //    //user.AddLocation(location);
-        //    List<Location> Locations = new List<Location>();
-        //    Dictionary<Location, string> dictionary = new Dictionary<Location, string>();
-
-        //    foreach (ApplicationUser user in userList)
-        //    {
-
-        //        Locations.Add(user.Location);
-        //    }
-        //    return Locations;
-        //}
 
         public List<AddLocationViewModel> GetInfoForInitMap(List<ApplicationUser> userList)
         {
@@ -67,7 +74,7 @@ namespace OneVietnam.DAL
             foreach (ApplicationUser user in userList)
             {
 
-                viewModel = new AddLocationViewModel(user.Location, user.Id,user.Gender, user.Posts);
+                viewModel = new AddLocationViewModel(user.Location, user.Id, user.Gender, user.Posts);
                 infoForInitMap.Add(viewModel);
             }
 
@@ -76,25 +83,20 @@ namespace OneVietnam.DAL
 
         public List<Location> GetLocationListAsync(List<ApplicationUser> userList)
         {
-            List<Location> Locations = new List<Location>();
-
-            foreach (ApplicationUser user in userList)
-            {
-                Locations.Add(user.Location);
-            }
-            return Locations;
+            return userList.Select(user => user.Location).ToList();
         }
 
         public List<List<Post>> GetPostListAsync(List<ApplicationUser> userList)
         {
-            List<List<Post>> Posts = new List<List<Post>>();
-
-            foreach (ApplicationUser user in userList)
-            {
-                Posts.Add(user.Posts);
-            }
-            return Posts;
+            return userList.Select(user => user.Posts).ToList();
         }
 
+        public async Task<List<ApplicationUser>> TextSearchByUserName(string query)
+        {
+            var filter = new BsonDocument {{"UserName", new BsonDocument {{"$regex", query}, {"$options", "i"}}}};
+
+            var result = await _users.Find(filter).ToListAsync();
+            return result;
+        }
     }
 }

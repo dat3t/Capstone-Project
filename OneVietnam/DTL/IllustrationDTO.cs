@@ -11,7 +11,6 @@ namespace OneVietnam.DTL
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; private set; }
-        public string PhotoId { get; set; }
 
         public string Description { get; set; }
         public string PhotoLink { get; set; }
@@ -20,9 +19,8 @@ namespace OneVietnam.DTL
         {
         }
 
-        public Illustration(string pStrPhotoId, string pStrDescription, string pStrPhotoLink)
-        {
-            PhotoId = pStrPhotoId;
+        public Illustration(string pStrPhotoLink, string pStrDescription)
+        {            
             Description = pStrDescription;
             PhotoLink = pStrPhotoLink;
         }
