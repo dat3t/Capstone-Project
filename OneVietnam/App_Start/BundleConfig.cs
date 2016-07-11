@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace OneVietnam
 {
@@ -30,27 +29,9 @@ namespace OneVietnam
                 "~/Content/Map/infoWindow.css",
                 "~/Content/Map/searchbox.css"));
             bundles.Add(new StyleBundle("~/Scripts/Map").Include(
-                        "~/Scripts/map.js",
-                       
-                        "~/semantic/dist/semantic.js",
-                        "~/Scripts/minimal-slide.js",
-                       
+                "~/Scripts/map.js",
                 "~/Scripts/markerclusterer.js"
-                        ));
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
-
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/site.css",
-                      "~/Content/icon.css",
-                      "~/Content/idangerous.swiper.css",
-                      "~/Content/idangerous.swiper_backup.css",
-                      "~/Content/ie-9.css",
-                      "~/Content/loader.css",
-                      "~/semantic/dist/semantic.min.css",
-                      "~/Content/icon.min.css",
-                      "~/Content/minimal-slide.css"));
+                ));
         }
     }
 }
