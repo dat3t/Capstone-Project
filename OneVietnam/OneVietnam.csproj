@@ -449,10 +449,8 @@
     <Content Include="Views\Account\ShowPost.cshtml" />
     <Content Include="Views\Account\ShowCreatedPost.cshtml" />
     <Content Include="Views\Account\CreateCountry.cshtml" />
-    <Content Include="Views\Map\ViewMap.cshtml" />
     <Content Include="Views\Map\AddLocation.cshtml" />
     <Content Include="Views\Account\SelectCountry.cshtml" />
-    <Content Include="Views\Map\ShowLocation.cshtml" />
     <Content Include="Views\NewFeed\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
@@ -463,6 +461,8 @@
     <Content Include="Views\Manage\TimeLine.cshtml" />
     <Content Include="Views\Shared\_PostRow.cshtml" />
     <Content Include="Views\Shared\_Loading.cshtml" />
+    <Content Include="Views\Map\ShowMap.cshtml" />
+    <Content Include="Views\Map\CustomInfoWindow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
