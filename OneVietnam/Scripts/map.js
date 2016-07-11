@@ -700,7 +700,7 @@ function createUserInfoWindowContent(name, age, gender, address) {
                       '<div class="iw-title">'+name+'</div>' +
                       '<div class="iw-content">' +
                         '<div id="navInfo">' +
-                            '<img src="../Images/dat.jpg" alt="Trần Trọng Tiến Đạt" height="115" width="115">' +
+                            '<img src="../Content/Images/dat.jpg" alt="Trần Trọng Tiến Đạt" height="115" width="115">' +
                             '</div>' +
                         '<div id="sectionInfo" stype="padding:10px;">' +
                             '<table style="width:220px;height:115px;">' +
@@ -747,7 +747,7 @@ function createPostInfoWindowContent(username, postType, postTitle, address) {
                       '<div class="iw-title">' + 'Bài đăng' + '</div>' +
                       '<div class="iw-content">' +
                         '<div id="navInfo">' +
-                            '<img src="../Images/pikachu.jpg" alt="Trần Trọng Tiến Đạt" height="115" width="115">' +
+                            '<img src="../Content/Images/pikachu.jpg" alt="Trần Trọng Tiến Đạt" height="115" width="115">' +
                             '</div>' +
                         '<div id="sectionInfo" stype="padding:10px;">' +
                             '<table style="width:220px;height:115px;">' +
