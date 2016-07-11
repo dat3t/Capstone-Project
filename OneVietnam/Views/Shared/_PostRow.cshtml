@@ -1,0 +1,10 @@
+﻿@model Dictionary<int, OneVietnam.DTL.Post>
+@foreach (var cust in Model)
+{
+    <tr>
+        <td>@cust.Key </td>
+        <td>@cust.Value.Title</td>
+        <td>@cust.Value.PublishDate</td>
+        <td>@cust.Value.Description</td>
+    </tr>
+}

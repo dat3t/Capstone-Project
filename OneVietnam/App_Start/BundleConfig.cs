@@ -17,7 +17,7 @@ namespace OneVietnam
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));            
+                        "~/Scripts/modernizr-*"));
             bundles.Add(new ScriptBundle("~/bundles/semantic").Include(
                       "~/semantic/dist/semantic.js"));
             bundles.Add(new ScriptBundle("~/bundles/Scripts").Include(
@@ -30,9 +30,27 @@ namespace OneVietnam
                 "~/Content/Map/infoWindow.css",
                 "~/Content/Map/searchbox.css"));
             bundles.Add(new StyleBundle("~/Scripts/Map").Include(
-                "~/Scripts/map.js",
+                        "~/Scripts/map.js",
+                       
+                        "~/semantic/dist/semantic.js",
+                        "~/Scripts/minimal-slide.js",
+                       
                 "~/Scripts/markerclusterer.js"
-                ));
+                        ));
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                      "~/Scripts/bootstrap.js",
+                      "~/Scripts/respond.js"));
+
+            bundles.Add(new StyleBundle("~/Content/css").Include(
+                      "~/Content/site.css",
+                      "~/Content/icon.css",
+                      "~/Content/idangerous.swiper.css",
+                      "~/Content/idangerous.swiper_backup.css",
+                      "~/Content/ie-9.css",
+                      "~/Content/loader.css",
+                      "~/semantic/dist/semantic.min.css",
+                      "~/Content/icon.min.css",
+                      "~/Content/minimal-slide.css"));
         }
     }
 }
