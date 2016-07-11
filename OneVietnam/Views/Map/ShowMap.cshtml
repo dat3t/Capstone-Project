@@ -1,54 +1,54 @@
 ﻿@model IEnumerable<OneVietnam.Models.AddLocationViewModel>
 
-@{
+    @{
     ViewBag.Title = "ShowMap";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
+    }
 
-<script>
-    var isAuthenticated;
-</script>
-@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
-{
+    <script>
+        var isAuthenticated;
+    </script>
+    @using Microsoft.AspNet.Identity
+    @if (Request.IsAuthenticated)
+    {
     <script>
         isAuthenticated = true;
     </script>
-}
-else
-{
+    }
+    else
+    {
     <script>
         isAuthenticated = false;
     </script>
-}
+    }
 
-<head>
-    <meta charset="utf-8" />
-    <title>Bản đồ tìm kiếm</title>
+    <head>
+        <meta charset="utf-8" />
+        <title>Bản đồ tìm kiếm</title>
 
-    <script type="text/javascript">
+        <script type="text/javascript">
 
-        var array = [];
-        var males = [];
-        var females = [];
-        var LGBT = [];
-        var PostArray = [];
-        var postType0 = [];
-        var postType1 = [];
-        var postType2 = [];
+            var array = [];
+            var males = [];
+            var females = [];
+            var LGBT = [];
+            var PostArray = [];
+            var postType0 = [];
+            var postType1 = [];
+            var postType2 = [];
 
         @foreach (var item in Model) {
-        <text>
-        array.push({x :@item.x ,y : @item.y, gender:@item.gender, address: '@item.address', userID :'@item.userid'});
-        if(@item.gender == 0){
-            males.push({x :@item.x ,y : @item.y, address: '@item.address', userID :'@item.userid'});
-        }else
-            if(@item.gender == 1){
-                females.push({x :@item.x ,y : @item.y, address: '@item.address', userID :'@item.userid'});
+            <text>
+            array.push({x :@item.x ,y : @item.y, gender:@item.gender, address: '@item.address', userID :'@item.userid'});
+            if(@item.gender == 0){
+                males.push({x :@item.x ,y : @item.y, address: '@item.address', userID :'@item.userid'});
             }else
-                if(@item.gender == 2){
-                    LGBT.push({x :@item.x ,y : @item.y, address: '@item.address', userID :'@item.userid'});
-                }
+                if(@item.gender == 1){
+                    females.push({x :@item.x ,y : @item.y, address: '@item.address', userID :'@item.userid'});
+                }else
+                    if(@item.gender == 2){
+                        LGBT.push({x :@item.x ,y : @item.y, address: '@item.address', userID :'@item.userid'});
+                    }
         @try {
             if (@item.Posts != null) {
                 if (@item.Posts.Count > 0) {
@@ -57,96 +57,210 @@ else
                         if(@post.PostType.CompareTo(0) == 0)
                         {
                             @:postType0.push({postID: '@post.Id',username: '@post.Username',postType : @post.PostType, deletedFlag : '@post.DeletedFlag', status : '@post.Status', x: @post.PostLocation.XCoordinate, y: @post.PostLocation.YCoordinate, address : '@post.PostLocation.Address'});
-                                                        }
+                        }
                         else
-                        if (@post.PostType.CompareTo(1) == 0)
-                        {
-                              @:postType1.push({postID: '@post.Id',username: '@post.Username',postType : @post.PostType, deletedFlag : '@post.DeletedFlag', status : '@post.Status', x: @post.PostLocation.XCoordinate, y: @post.PostLocation.YCoordinate, address : '@post.PostLocation.Address'});
-                                                }
-                @:PostArray.push({postID: '@post.Id',username: '@post.Username',postType : @post.PostType, deletedFlag : '@post.DeletedFlag', status : '@post.Status', x: @post.PostLocation.XCoordinate, y: @post.PostLocation.YCoordinate, address : '@post.PostLocation.Address'});
-                                                              }
+                            if (@post.PostType.CompareTo(1) == 0)
+                            {
+                                @:postType1.push({postID: '@post.Id',username: '@post.Username',postType : @post.PostType, deletedFlag : '@post.DeletedFlag', status : '@post.Status', x: @post.PostLocation.XCoordinate, y: @post.PostLocation.YCoordinate, address : '@post.PostLocation.Address'});
+                            }
+                        @:PostArray.push({postID: '@post.Id',username: '@post.Username',postType : @post.PostType, deletedFlag : '@post.DeletedFlag', status : '@post.Status', x: @post.PostLocation.XCoordinate, y: @post.PostLocation.YCoordinate, address : '@post.PostLocation.Address'});
                     }
                 }
             }
+        }
             catch (ArgumentException e) {
                 // throw new YourCustomException("Put your error message here.", e);
             }
 
-        </text>
+            </text>
         }
+        </script>
 
-    </script>
-    <script>
-$(document).ready(function(){
-    $("#aa").hover(function(){
-        $("span").animate({right: '500px'});
-        //$(this).css("left", "500px");
-    });
-});
-    </script>
-</head>
+        <script>
+            var isOpen = true;
+            function toggle(){
+                if(isOpen == true){
+                    closeNav();
+                    isOpen = false;
+                    document.getElementById("button").className = "arrow right icon";
+                    document.getElementById("aa").setAttribute("data-tooltip","Mở các bài đăng");
+                }else{
+                    openNav();
+                    isOpen = true;
+                    document.getElementById("button").className = "arrow left icon";
+                    document.getElementById("aa").setAttribute("data-tooltip","Đóng các bài đăng");
+                }
+            }
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "380px";
+                document.getElementById("aa").style.marginLeft = "380px";
+            }
 
-<div class="ui stackable container" style="width:100%;height:100%;position:relative">
-    <div id="map_canvas" style="width:100%;height:100%"></div>
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+                document.getElementById("aa").style.marginLeft = "0px";
+            }
+        </script>
+        <style>
+            .sidenav {
+                height: 550px;
+                width: 380px;
+                position: fixed;
+                z-index: 1;
+                /*top: 0;*/
+                left: 0;
+                background-color: white;
+                overflow-x: hidden;
+                transition: 0.5s;
+                padding-top: 0px;
+            }
 
-    <div class="ui icon input"  style=" position: absolute; left: 40% !important; top: 8px !important;">
-        <input id="pac-input2" type="text" placeholder="Tìm kiếm địa điểm...">
-        <i class="search icon"></i>
+                .sidenav a {
+                    padding: 8px 8px 8px 32px;
+                    text-decoration: none;
+                    font-size: 25px;
+                    color: #818181;
+                    display: block;
+                    transition: 0.3s;
+                }
+
+                    .sidenav a:hover, .offcanvas a:focus {
+                        color: #f1f1f1;
+                    }
+
+            .closebtn {
+                position: absolute;
+                top: 0;
+                right: 25px;
+                font-size: 36px !important;
+                margin-left: 50px;
+            }
+
+            #button {
+                display: inline-block;
+                color: white;
+                padding: 0 5px;
+            }
+
+            #button2 {
+                /*position: absolute;
+                display: inline-block;
+                max-width: 0;*/
+                overflow: hidden;
+                transition: all 1s ease-in;
+            }
+
+            #button:hover + span {
+                max-width: 200px;
+            }
+        </style>
+
+        <style>
+            #wrapper {
+                margin: 0px;
+                border-bottom: 1px solid #E2E2E2;
+                /*padding-top: 2px;*/
+                background-color: white;
+                padding: 3px 5px 3px 5px;
+            }
+        </style>
+    </head>
+
+    <div class="ui stackable container" style="width:100%;height:100%;position:relative">
+        <div id="map_canvas" style="width:100%;height:100%"></div>
+        <div class="ui icon input" style=" position: absolute; left: 40% !important; top: 8px !important;">
+            <input id="pac-input2" type="text" placeholder="Tìm kiếm địa điểm...">
+            <i class="search icon"></i>
+        </div>
+
+        <button type="submit" class="ui icon green button" onclick="showCurrentLocation()" data-tooltip="Địa điểm của tôi" data-position="left center" style=" position: absolute;right: 7px;bottom:23%">
+            <i class="location arrow icon"></i>
+        </button>
+
+        <div class="ui vertical buttons" style="position: absolute; right: 10px; top: 30%;">
+
+            <button type="submit" class="ui icon red button" onclick="showSOS()" data-tooltip="Nhờ giúp đỡ" data-position="left center">
+                <i class="warning icon"></i>
+            </button>
+
+            <button type="submit" class="ui blue icon  button" onclick="showAccommodation()" data-tooltip="Nhà ở" data-position="left center">
+                <i class="home icon"></i>
+            </button>
+
+            <button type="submit" class="ui icon blue button" onclick="showJobOffer()" data-tooltip="Việc làm" data-position="left center">
+                <i class="doctor icon"></i>
+            </button>
+            <button type="submit" class="ui icon blue button" onclick="showFurnitureOffer()" data-tooltip="Cho đồ/Đổi đồ" data-position="left center">
+                <i class="cubes icon"></i>
+            </button>
+
+            <button type="submit" class="ui icon blue button" onclick="showHandGoodsOffer()" data-tooltip="Xách tay" data-position="left center">
+                <i class="plane icon"></i>
+            </button>
+
+            <button type="submit" class="ui icon blue button" onclick="showTradeOffer()" data-tooltip="Bán đồ" data-position="left center">
+                <i class="money icon"></i>
+            </button>
+        </div>
+        <div class="ui buttons" style=" position: absolute; left: 40% ; bottom: 25px ">
+
+            <button type="submit" class="ui icon green button" data-tooltip="Nam" data-position="top center" onclick="showMales()">
+                <i class="male icon"></i>
+            </button>
+
+            <button type="submit" class="ui icon pink button" data-tooltip="Nữ" data-position="top center" onclick="showFemales()">
+                <i class="female icon"></i>
+            </button>
+
+            <button type="submit" class="ui icon purple button" data-tooltip="GLBT" data-position="top center" onclick="showLGBT()">
+                <i class="transgender icon"></i>
+            </button>
+
+            <button type="submit" class="ui icon blue button" data-tooltip="Tất cả người dùng" data-position="top center" onclick="showUsers()">
+                <i class="users icon"></i>
+            </button>
+        </div>
+        <div id="mySidenav" class="sidenav" style="position:absolute;left:0px;top:0px;">
+            @*<div style="width:100%;height:30%;background-color:aqua;margin-top:0px;">*@
+                <div id="wrapper" style="height:150px;">
+                            <div class="iw-content" style="margin-right:10px;">
+                                <div id="navInfo">
+                                    <img src="../Images/dat.jpg" alt="Trần Trọng Tiến Đạt" height="115" width="115">
+                                </div>
+                                <div id="sectionInfo" style="position:relative">
+                                    <table style="width:200px">
+                                        <tr>
+                                            <td><b>Địa điểm:</b></td>
+                                            <td>Oosaka</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Facebook:</b></td>
+                                            <td><a href="https://www.facebook.com/Dat3T">Dat3T</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Đang offer:</b></td>
+                                            <td>Cho thuê nhà trọ</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Thông tin khác:</b></td>
+                                            <td>abcxyz</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                </div>
+            @*</div>*@
+            <div style="width:100%;height:30%;background-color:brown;margin-top:0px;"></div>
+            <div style="width:100%;height:30%;background-color:crimson;margin-top:0px;"></div>
+            <div style="width:100%;height:30%;background-color:deeppink;margin-top:0px;"></div>
+        </div>
+        <div id="aa" onclick="toggle()" class="ui blue big launch left attached fixed button" data-tooltip="Đóng các bài đăng" data-position="right center" style="position: absolute; left: 0px; margin-left:380px;top:50%;transition: margin-left .5s;">
+            <div style="position:relative;">
+                <i id="button" class="arrow left icon"></i>
+                @*  <span class="text" id="button2">Bài đăng</span>*@
+            </div>
+        </div>
     </div>
 
-    <button type="submit" class="ui icon green button" onclick="showCurrentLocation()" data-tooltip="Địa điểm của tôi" data-position="left center" style=" position: absolute;right: 7px;bottom:23%">
-        <i class="location arrow icon"></i>
-    </button>
-
-    <div class="ui vertical buttons" style="position: absolute; right: 10px; top: 30%;">
-
-        <button type="submit" class="ui icon red button" onclick="showSOS()" data-tooltip="Nhờ giúp đỡ" data-position="left center">
-            <i class="warning icon"></i>
-        </button>
-
-        <button type="submit" class="ui blue icon  button" onclick="showAccommodation()" data-tooltip="Nhà ở" data-position="left center">
-            <i class="home icon"></i>
-        </button>
-
-        <button type="submit" class="ui icon blue button" onclick="showJobOffer()" data-tooltip="Việc làm" data-position="left center">
-            <i class="doctor icon"></i>
-        </button>
-        <button type="submit" class="ui icon blue button" onclick="showFurnitureOffer()" data-tooltip="Cho đồ/Đổi đồ" data-position="left center">
-            <i class="cubes icon"></i>
-        </button>
-
-        <button type="submit" class="ui icon blue button" onclick="showHandGoodsOffer()" data-tooltip="Xách tay" data-position="left center">
-            <i class="plane icon"></i>
-        </button>
-
-        <button type="submit" class="ui icon blue button" onclick="showTradeOffer()" data-tooltip="Bán đồ" data-position="left center">
-            <i class="money icon"></i>
-        </button>
-    </div>
-    <div class="ui buttons" style=" position: absolute; left: 40% ; bottom: 25px ">
-
-        <button type="submit" class="ui icon green button" data-tooltip="Nam" data-position="top center" onclick="showMales()">
-            <i class="male icon"></i>
-        </button>
-
-        <button type="submit" class="ui icon pink button" data-tooltip="Nữ" data-position="top center" onclick="showFemales()">
-            <i class="female icon"></i>
-        </button>
-
-        <button type="submit" class="ui icon purple button" data-tooltip="GLBT" data-position="top center" onclick="showLGBT()">
-            <i class="transgender icon"></i>
-        </button>
-
-        <button type="submit" class="ui icon blue button" data-tooltip="Tất cả người dùng" data-position="top center" onclick="showUsers()">
-            <i class="users icon"></i>
-        </button>
-    </div>
-    @*<div id="postMenu" style="height:100%;width:300px;display:none;position:absolute;left:0px;top:0px;color:chartreuse;background-color:white"></div>*@
-    <div id="aa" class="ui blue big launch left attached fixed button" style="position: absolute; left: 0px; top: 300px;">
-        <i id ="button" class="content icon"></i>
-        <span class="text" id="baidang" style="">Bài đăng</span>
-    </div>
-</div>
-
-<script defer src="~/Scripts/OverlappingMarkerSpiderfier.js"></script>
+    <script defer src="~/Scripts/OverlappingMarkerSpiderfier.js"></script>
 

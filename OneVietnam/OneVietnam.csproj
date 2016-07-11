@@ -320,6 +320,14 @@
     <Content Include="Content\Images\m4.png" />
     <Content Include="Content\Images\m5.png" />
     <Content Include="Content\Images\pikachu.jpg" />
+    <Content Include="Content\SlideImages\HA.jpg" />
+    <Content Include="Content\SlideImages\Halong.jpg" />
+    <Content Include="Content\SlideImages\HL2.jpg" />
+    <Content Include="Content\SlideImages\hoian.jpg" />
+    <Content Include="Content\SlideImages\QB.jpg" />
+    <Content Include="Content\SlideImages\QuangBinh.jpg" />
+    <Content Include="Content\SlideImages\Sapa.jpg" />
+    <Content Include="Content\SlideImages\SP.jpg" />
     <Content Include="Content\StyleSheet.css" />
     <Content Include="fonts\helveticaneuecyr-bold.svg" />
     <Content Include="fonts\helveticaneuecyr-roman.svg" />

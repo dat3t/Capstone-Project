@@ -26,6 +26,12 @@
   // etc
 ];
 $(document).ready(function () {
+    $('.ui.sidebar')
+  .sidebar({
+      context: $(' .bottom.segment')
+  })
+  .sidebar('attach events', '.context.example .menu .item')
+    ;
     $(".right.menu.open").on("click", function (e) {
         e.preventDefault();
         $(".ui.vertical.menu.open").toggle();
