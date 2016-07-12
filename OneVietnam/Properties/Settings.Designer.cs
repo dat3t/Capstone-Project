@@ -35,7 +35,7 @@ namespace OneVietnam.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("OneVietnamV2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("OneVietnam")]
         public string OneVietnamDatabaseName {
             get {
                 return ((string)(this["OneVietnamDatabaseName"]));

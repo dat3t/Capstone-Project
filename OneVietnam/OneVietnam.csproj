@@ -270,6 +270,7 @@
     <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="DAL\CountryStoreDAO.cs" />
     <Compile Include="DAL\IconStoreDAO.cs" />
+    <Compile Include="DAL\PostStore.cs" />
     <Compile Include="DAL\RoleStoreDAO.cs" />
     <Compile Include="DAL\TagStoreDAO.cs" />
     <Compile Include="DAL\UserStoreDAO.cs" />

@@ -43,12 +43,7 @@ namespace OneVietnam.BLL
             var tagList = GetTagsAsync();
             if (tagList!= null && tagList.Result.Count > 0)
             {
-                List<string> tagValueList = new List<string>();
-                foreach (var tagItem in tagList.Result)
-                {
-                    tagValueList.Add(tagItem.TagValue);
-                }
-                return tagValueList;
+                return tagList.Result.Select(tagItem => tagItem.TagValue).ToList();
             }
             else
             {

@@ -41,6 +41,15 @@ namespace OneVietnam.Controllers
             }
         }
 
+        private PostManager _postManager;
+        public PostManager PostManager
+        {
+            get
+            {
+                return _postManager ?? HttpContext.GetOwinContext().Get<PostManager>();
+            }
+            private set { _postManager = value; }
+        }
         private TagManager _tagManager;
         public TagManager TagManager
         {
@@ -108,23 +117,26 @@ namespace OneVietnam.Controllers
             {
                 p.Illustrations = illList;
             }
-            var post = new Post(p);
-            post.PublishDate = System.DateTime.Now;            
-            await UserManager.AddPostAsync(User.Identity.GetUserId(), post);
+            var post = new Post(p)
+            {
+                PublishDate = System.DateTime.Now,
+                UserId = User.Identity.GetUserId()
+            };
+
+            await PostManager.CreatePostAsync(post);
             CreatedPost = true;
             PostView = new PostViewModel(post);
             return RedirectToAction("ShowPostDetail", "Post", new { postId = post.Id });
         }
 
         public async Task<ActionResult> ShowPost()
-        {
-
-            List<Post> list = await UserManager.GetPostsAsync(User.Identity.GetUserId());
+        {            
+            List<Post> list = await PostManager.FindByUserId(User.Identity.GetUserId());
             List<PostViewModel> pViewList = list.Select(post => new PostViewModel(post)).ToList();
             return View(pViewList);
         }
 
-        public ActionResult ShowPostDetail(string postId)
+        public async Task<ActionResult> ShowPostDetail(string postId)
         {
             if (TagList != null)
             {
@@ -134,9 +146,8 @@ namespace OneVietnam.Controllers
             {
                 ViewData["PostTypes"] = IconList;
             }
-            
-            Post post = UserManager.GetPostByIdAsync(postId);
-                               
+
+            Post post = await PostManager.FindById(postId);                               
             PostViewModel showPost = new PostViewModel(post);            
             return View(showPost);
         }
@@ -152,7 +163,7 @@ namespace OneVietnam.Controllers
             return RedirectToAction("DeletePost", "Post", new { postId = strPostId });
         }
 
-        public ActionResult EditPost(string postId)
+        public async Task<ActionResult> EditPost(string postId)
         {
             if (TagList != null)
             {
@@ -161,8 +172,8 @@ namespace OneVietnam.Controllers
             if (IconList != null)
             {
                 ViewData["PostTypes"] = IconList;
-            }
-            Post post = UserManager.GetPostByIdAsync(User.Identity.GetUserId(), postId);            
+            }            
+            Post post = await PostManager.FindById(postId);
             PostViewModel showPost = new PostViewModel(post);            
             return View(showPost);
         }
@@ -176,8 +187,7 @@ namespace OneVietnam.Controllers
             {
                 strPostId = Request.Form["PostId"];
             }
-            ViewData.Clear();
-            pPostView.UserName = User.Identity.Name;
+            ViewData.Clear();            
             var tagList = AddAndGetAddedTags(Request, TagManager, "TagsInput");
             var illList = GetAddedImage(Request, "Img", "Des");
             if (tagList != null)
@@ -189,14 +199,14 @@ namespace OneVietnam.Controllers
             {
                 pPostView.Illustrations = illList;
             }
-            Post post = new Post(pPostView, strPostId);           
-            await UserManager.UpdatePostAsync(User.Identity.GetUserId(), post);
+            Post post = new Post(pPostView, strPostId);                       
+            await PostManager.UpdatePostAsync(post);
             return RedirectToAction("ShowPostDetail", "Post", new { postId = strPostId });
         }
 
         public async Task<ActionResult> DeletePost(string postId)
         {
-            await UserManager.DeletePostAsync(User.Identity.GetUserId(), postId);
+            await PostManager.DeleteByIdAsync(postId);            
             return RedirectToAction("CreatePost", "Post");
         }
 
