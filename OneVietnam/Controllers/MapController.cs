@@ -66,10 +66,5 @@ namespace OneVietnam.Controllers
             return View(list);
         }
 
-        public async Task<ActionResult> CustomInfoWindow()
-        {
-            return View();
-        }
-
     }
 }
