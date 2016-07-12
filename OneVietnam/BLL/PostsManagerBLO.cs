@@ -66,6 +66,10 @@ namespace OneVietnam.BLL
         {
             return await _postStore.FindAllPostAsync().ConfigureAwait(false);
         }
+        public async Task<List<Post>> FullTextSearch(string query)
+        {
+            return await _postStore.FullTextSearch(query).ConfigureAwait(false);
+        }
         public void Dispose()
         {
         }
