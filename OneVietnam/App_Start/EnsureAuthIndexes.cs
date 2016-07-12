@@ -15,7 +15,7 @@ namespace OneVietnam
             var context = ApplicationIdentityContext.Create();            
             IndexChecks.EnsureUniqueIndexOnEmail(context.Users);
             IndexChecks.EnsureUniqueIndexOnRoleName(context.Roles);
-            //context.Users.Indexes.CreateOne(Builders<ApplicationUser>.IndexKeys.Text("UserName").Text("Posts.Title"));                                    
+            context.Posts.Indexes.CreateOne(Builders<Post>.IndexKeys.Text("Title").Text("Description").Text("Illustrations.Description").Text("Tags.TagText"));                                    
         }
     }
 }
