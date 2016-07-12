@@ -14,18 +14,18 @@ namespace OneVietnam.BLL
 {
     public partial class ApplicationUserManager
     {
-        public virtual async Task<IdentityResult> AddLocationAsync(string userId, Location location)
-        {
-            if (location == null)
-                throw new ArgumentNullException(nameof(location));
-            var user = await FindByIdAsync(userId).ConfigureAwait(false);
-            if (user == null)
-            {
-                throw new InvalidOperationException("Invalid user Id");
-            }
-            await _userStore.AddLocationAsync(user, location).ConfigureAwait(false);
-            return await UpdateAsync(user).ConfigureAwait(false);
-        }
+        //public virtual async Task<IdentityResult> AddLocationAsync(string userId, Location location)
+        //{
+        //    if (location == null)
+        //        throw new ArgumentNullException(nameof(location));
+        //    var user = await FindByIdAsync(userId).ConfigureAwait(false);
+        //    if (user == null)
+        //    {
+        //        throw new InvalidOperationException("Invalid user Id");
+        //    }
+        //    await _userStore.AddLocationAsync(user, location).ConfigureAwait(false);
+        //    return await UpdateAsync(user).ConfigureAwait(false);
+        //}
 
         //public virtual async Task<List<Location>> GetLocationAsync(List<ApplicationUser> userList)
         //{
@@ -47,14 +47,14 @@ namespace OneVietnam.BLL
         //    return _userStore.GetInfoForInitMap(userList);
         //}
 
-        public virtual async Task<List<AddLocationViewModel>> GetInfoForInitMapAsync(List<ApplicationUser> userList)
-        {
+        //public virtual async Task<List<AddLocationViewModel>> GetInfoForInitMapAsync(List<ApplicationUser> userList)
+        //{
 
-            if (userList == null)
-            {
-                throw new InvalidOperationException("Invalid user");
-            }
-            return _userStore.GetInfoForInitMap(userList);
-        }
+        //    if (userList == null)
+        //    {
+        //        throw new InvalidOperationException("Invalid user");
+        //    }
+        //    return _userStore.GetInfoForInitMap(userList);
+        //}
     }
 }

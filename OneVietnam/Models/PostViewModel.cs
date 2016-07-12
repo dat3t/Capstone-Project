@@ -10,7 +10,7 @@ namespace OneVietnam.Models
     {
         
         public string Title { get; set; }
-
+        
         public string UserName { get; set; }
 
         public int PostType { get; set; }        
@@ -54,8 +54,7 @@ namespace OneVietnam.Models
     }
     public class PostViewModel
     {
-        public string Id { get; set; }
-        public string UserName { get; set; }
+        public string Id { get; set; }        
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTimeOffset? PublishDate { get; set; }
@@ -72,8 +71,7 @@ namespace OneVietnam.Models
         }
         public PostViewModel(Post post)
         {
-            Id = post.Id;
-            UserName = post.Username;
+            Id = post.Id;            
             Title = post.Title;
             Description = post.Description;
             PublishDate = post.PublishDate;

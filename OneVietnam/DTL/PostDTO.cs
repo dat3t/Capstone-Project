@@ -13,11 +13,9 @@ namespace OneVietnam.DTL
     public class Post
     {
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; private set; }
-
-        public string Username { get; set; }
+        public string Id { get; private set;}
+        public string UserId { get; set; }        
         public string Title { get; set; }
-
         [BsonIgnoreIfNull]
         public string Description { get; set; }
         public DateTimeOffset? PublishDate { get; set; }
@@ -26,12 +24,10 @@ namespace OneVietnam.DTL
         public int PostType { get; set; }
         public bool DeletedFlag { get; set; }
         public bool Status { get; set; }
-
-        public Location PostLocation { get; set; }
-                
+        [BsonIgnoreIfNull]
+        public Location PostLocation { get; set; }                
         [BsonIgnoreIfNull]
         public List<Report> Reports { get; set; }
-
         [BsonIgnoreIfNull]
         public List<Tag> Tags { get; set; }
 
@@ -39,12 +35,9 @@ namespace OneVietnam.DTL
         {
             
         }
-
-
         public Post(CreatePostViewModel pView)
         {            
-            Id = ObjectId.GenerateNewId().ToString();
-            Username = pView.UserName;
+            Id = ObjectId.GenerateNewId().ToString();            
             Title = pView.Title;
             Description = pView.Description;            
             PostType = pView.PostType;
@@ -57,8 +50,7 @@ namespace OneVietnam.DTL
 
         public Post(PostViewModel pView, string pPostId)
         {
-            Id = pPostId;
-            Username = pView.UserName;
+            Id = pPostId;            
             Title = pView.Title;
             Description = pView.Description;
             PublishDate = pView.PublishDate;
