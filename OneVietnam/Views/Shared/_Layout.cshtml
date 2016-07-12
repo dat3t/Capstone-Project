@@ -12,9 +12,9 @@
     @Scripts.Render("~/Scripts/Map")
     @Scripts.Render("~/bundles/jquery")
 </head>
-<body>
+<body style="overflow:hidden;">
     <div class="ui grid">
-        <div class="computer tablet only row">
+        <div class="computer tablet only row" style=" width:100% !important;">
             <div class="ui main menu">                
                 <a href="@Url.Action("Index","Home")" class="ui item brand">
                     <img src="~/Content/Images/logo.png"/>
@@ -22,7 +22,7 @@
                 </a>                
                 @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item" })        
                 <a href="" class="ui item">Bảng Tin</a>
-                <div class="right menu">
+                <div class="right menu" style="margin-right:10px;">
                     <div class="item">
                         <div class="ui search">
                             <div class="ui icon input">
@@ -36,7 +36,7 @@
                 </div>
             </div>
         </div>
-        <div class="mobile only row">
+        <div class="mobile only row" style=" padding-bottom: 0em !important; ">
             <div class="ui main menu">
                 <a href="@Url.Action("Index","Home")" class="ui item brand">
                     <img src="~/Content/Images/logo.png" />
@@ -62,7 +62,7 @@
             </div>
         </div>
     </div>    
-    <div class="ui fluid container" style="height:650px;">
+    <div class="ui fluid container" style="height:100%;width:100%;">
         @RenderBody()
         <hr />
             <footer>

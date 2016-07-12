@@ -27,7 +27,8 @@ namespace OneVietnam
                 "~/Content/StyleSheet.css",
                   "~/Content/Map/map.css",
                 "~/Content/Map/infoWindow.css",
-                "~/Content/Map/searchbox.css"));
+                "~/Content/Map/searchbox.css",
+                "~/Content/Map/mappagecustom.css"));
             bundles.Add(new StyleBundle("~/Scripts/Map").Include(
                 "~/Scripts/map.js",
                 "~/Scripts/markerclusterer.js"

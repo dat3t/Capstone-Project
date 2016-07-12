@@ -311,7 +311,11 @@
     <Content Include="Content\CountryImage\us.png" />
     <Content Include="Content\CountryImage\vi.png" />
     <Content Include="Content\Icon\icon-gg.png" />
+    <Content Include="Content\Images\chov.png" />
+    <Content Include="Content\Images\poke_celebi.png" />
+    <Content Include="Content\Images\rua.png" />
     <Content Include="Content\loader.css" />
+    <Content Include="Content\Map\mappagecustom.css" />
     <Content Include="Content\minimal-slide.css" />
     <Content Include="Content\semantic.min.css" />
     <Content Include="Content\SlideImages\HA.jpg" />
