@@ -50,8 +50,7 @@ namespace OneVietnam.DAL
         }
         public async Task<List<Post>> FullTextSearch(string query)
         {            
-            //var filter = Query.Text(query).ToBsonDocument();
-            var filter = Builders<Post>.Filter.Text(query);                        
+            var filter = Query.Text(query).ToBsonDocument();                                  
             var result = await _posts.Find(filter).ToListAsync();
             return result;
         }
