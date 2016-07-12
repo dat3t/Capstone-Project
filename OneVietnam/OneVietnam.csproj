@@ -316,6 +316,7 @@
     <Content Include="Content\Images\rua.png" />
     <Content Include="Content\loader.css" />
     <Content Include="Content\Map\mappagecustom.css" />
+    <Content Include="Content\Map\scrollbar.css" />
     <Content Include="Content\minimal-slide.css" />
     <Content Include="Content\semantic.min.css" />
     <Content Include="Content\SlideImages\HA.jpg" />
