@@ -20,6 +20,7 @@ namespace OneVietnam
             app.CreatePerOwinContext(ApplicationIdentityContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
+            app.CreatePerOwinContext<PostManager>(PostManager.Create);
             //todo
             app.CreatePerOwinContext<TagManager>(TagManager.Create);
             app.CreatePerOwinContext<IconManager>(IconManager.Create);
@@ -65,7 +66,7 @@ namespace OneVietnam
             facebookAuthenticationOptions.AppId = "1615798268744410";
             facebookAuthenticationOptions.AppSecret = "a16339de41e0b2386e8e37230bb0478a";
             facebookAuthenticationOptions.Scope.Add("email");
-            facebookAuthenticationOptions.Scope.Add("user_about_me");            
+            facebookAuthenticationOptions.Scope.Add("user_about_me");
             facebookAuthenticationOptions.Provider = new FacebookAuthenticationProvider()
             {
                 OnAuthenticated = async context =>
