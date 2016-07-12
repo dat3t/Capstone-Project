@@ -1,0 +1,220 @@
+﻿@using OneVietnam.Controllers
+@using OneVietnam.DTL
+@using Twilio
+<div class="ui grid">
+<div class="four wide column">
+    
+    <div class="ui vertical menu right floated">
+        <div class="item">
+            <div class="ui input"><input type="text" placeholder="Search...">
+            </div>
+        </div>
+        <div class="item">
+            Home
+            <div class="menu">
+                <a class="active item">Search</a>
+                @{
+                    ((PostController)ViewContext.Controller)._CreatePost();
+                }
+                <a class="item write"  ><i class="write icon"></i>Write Post</a>
+                <a class="item">Remove</a>
+            </div>
+        </div>
+        <a class="browse item">
+            <i class="grid layout icon"></i> Filter
+        </a>
+
+        <a class="item">
+            Messages
+        </a>
+        <div class="ui dropdown item">
+            More
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <a class="item"><i class="edit icon"></i> Edit Profile</a>
+                <a class="item"><i class="globe icon"></i> Choose Language</a>
+                <a class="item"><i class="settings icon"></i> Account AppSettings.Settings</a>
+            </div>
+        </div>
+        </div>
+@*    <div class="ui secondary vertical pointing menu">*@
+@*        <a class="item">*@
+@*            Việc làm*@
+@*        </a>*@
+@*        <a class="item">*@
+@*            Ở đâu*@
+@*        </a>*@
+@*        <a class="item ">*@
+@*            Ăn gì?*@
+@*        </a>*@
+@*        <a class="item ">*@
+@*            Mua sắm ở đâu?*@
+@*        </a>*@
+@*        *@
+@*    <a class="item ">*@
+@*            Xách tay*@
+@*        </a>*@
+    @*    </div>*@
+        <div class="ui flowing popup right hidden">
+        <div class="ui one column divided center aligned grid">
+            <div class="column">
+                <h4 class="ui header">Basic Plan</h4>
+                <p><b>2</b> projects, $10 a month
+                </p>
+                <div class="ui button">Choose</div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="eight wide column">
+    <div class="container">
+        <div class="ui feed">
+            <div class="event">
+                <div class="label">
+                    <img src="http://semantic-ui.com/images/avatar/small/helen.jpg">
+                </div>
+                <div class="content">
+                    <div class="summary">
+                        <a class="user">
+                            Elliot Fu
+                        </a> added you as a friend
+                        <div class="date">
+                            1 Hour Ago
+                        </div>
+                    </div>
+                    <div class="meta">
+                        <a class="like">
+                            <i class="like icon"></i> 4 Likes
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="event">
+                <div class="label">
+                    <img src="http://semantic-ui.com/images/avatar/small/elliot.jpg">
+                </div>
+                <div class="content">
+                    <div class="summary">
+                        <a>Helen Troy</a> added <a>2 new illustrations</a>
+                        <div class="date">
+                            4 days ago
+                        </div>
+                    </div>
+                    <div class="extra images">
+                        <a><img src="http://semantic-ui.com/images/wireframe/image.png"></a>
+                        <a><img src="http://semantic-ui.com/images/wireframe/image.png"></a>
+                    </div>
+                    <div class="meta">
+                        <a class="like">
+                            <i class="like icon"></i> 1 Like
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="event">
+                <div class="label">
+                    <img src="http://semantic-ui.com/images/avatar/small/jenny.jpg">
+                </div>
+                <div class="content">
+                    <div class="summary">
+                        <a class="user">
+                            Jenny Hess
+                        </a> added you as a friend
+                        <div class="date">
+                            2 Days Ago
+                        </div>
+                    </div>
+                    <div class="meta">
+                        <a class="like">
+                            <i class="like icon"></i> 8 Likes
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="event">
+                <div class="label">
+                    <img src="http://semantic-ui.com/images/avatar/small/joe.jpg">
+                </div>
+                <div class="content">
+                    <div class="summary">
+                        <a>Joe Henderson</a> posted on his page
+                        <div class="date">
+                            3 days ago
+                        </div>
+                    </div>
+                    <div class="extra text">
+                        Ours is a life of constant reruns. We're always circling back to where we'd we started, then starting all over again. Even if we don't run extra laps that day, we surely will come back for more of the same another day soon.
+                    </div>
+                    <div class="meta">
+                        <a class="like">
+                            <i class="like icon"></i> 5 Likes
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="event">
+                <div class="label">
+                    <img src="http://semantic-ui.com/images/avatar/small/justen.jpg">
+                </div>
+                <div class="content">
+                    <div class="summary">
+                        <a>Justen Kitsune</a> added <a>2 new photos</a> of you
+                        <div class="date">
+                            4 days ago
+                        </div>
+                    </div>
+                    <div class="extra images">
+                        <a><img src="http://semantic-ui.com/images/wireframe/image.png"></a>
+                        <a><img src="http://semantic-ui.com/images/wireframe/image.png"></a>
+                    </div>
+                    <div class="meta">
+                        <a class="like">
+                            <i class="like icon"></i> 41 Likes
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="four wide column">
+    <div class="ui card">
+        <div class="content">
+            <div class="header">Admin post</div>
+        </div>
+        <div class="content">
+            <h4 class="ui sub header">Activity</h4>
+            <div class="ui small feed">
+                <div class="event">
+                    <div class="content">
+                        <div class="summary">
+                            <a>Elliot Fu</a> added <a>Jenny Hess</a> to the project
+                        </div>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="content">
+                        <div class="summary">
+                            <a>Stevie Feliciano</a> was added as an <a>Administrator</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="content">
+                        <div class="summary">
+                            <a>Helen Troy</a> added two pictures
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="extra content">
+            <button class="ui button">Join Project</button>
+        </div>
+    </div>
+</div>
+</div>
+
+    @Html.Partial("_CreatePost")

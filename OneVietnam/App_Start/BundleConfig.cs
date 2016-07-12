@@ -17,15 +17,21 @@ namespace OneVietnam
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));            
-            bundles.Add(new ScriptBundle("~/bundles/semantic").Include(
-                      "~/semantic/dist/semantic.js"));
-            bundles.Add(new ScriptBundle("~/bundles/Scripts").Include(
-                "~/Scripts/global.js"));
-            bundles.Add(new StyleBundle("~/semantic/css").Include(
-                      "~/semantic/dist/semantic.css"));
+                        "~/Scripts/modernizr-*"));
+       
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                      "~/semantic/dist/semantic.min.js",
+                        "~/Scripts/global.js",
+                        "~/Scripts/map.js",
+                        "~/Scripts/dropzone.js",
+                      "~/Scripts/respond.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/StyleSheet.css"));
+                "~/semantic/dist/semantic.min.css",
+                "~/Content/Site.css",
+                      "~/Content/dropzone.css",
+                      "~/Content/stylesheet.css"
+                      ));
         }
     }
 }

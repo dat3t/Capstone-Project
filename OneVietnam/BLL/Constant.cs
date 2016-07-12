@@ -7,9 +7,9 @@ namespace OneVietnam.BLL
 {
     public class Constant
     {
-        public static string IconTypeGender = "gender";
-        public static string IconTypeSos = "sos";
-        public static string IconTypePost = "postType";
+        public const string IconTypeGender = "gender";
+        public const string IconTypeSos = "sos";
+        public const string IconTypePost = "postType";
 
         public enum PostTypEnum
         {

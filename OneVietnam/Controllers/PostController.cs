@@ -16,11 +16,59 @@ namespace OneVietnam.Controllers
 {
     public class PostController : Controller
     {
+        public ActionResult Index()
+        {
+            return View();
+        }
         public static bool CreatedPost = false;
         public static PostViewModel PostView;        
 
         public PostController()
         {
+        }
+        public async Task<ActionResult> TimeLine()
+        {
+            return RedirectToAction("GetPosts");
+        }
+
+        public const int RecordsPerPage = 60;
+        //
+        // GET: /Account/TimeLine
+        public async Task<ActionResult> GetPosts(int? pageNum)
+        {
+            pageNum = pageNum ?? 0;
+            ViewBag.IsEndOfRecords = false;
+
+            if (Request.IsAjaxRequest())
+            {
+                var posts = GetRecordsForPage(pageNum.Value);
+                ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
+                return PartialView("_PostRow", posts);
+            }
+            else
+            {
+                // LoadAllPostsToSession
+                List<Post> list = await UserManager.GetPostsAsync("57826a44465f92099cb955ae");
+                var posts = list;
+                int postIndex = 1;
+                Session["Posts"] = posts.ToDictionary(x => postIndex++, x => x);
+
+                ViewBag.Posts = GetRecordsForPage(pageNum.Value);
+                return View("TimeLine");
+            }
+        }
+
+        public Dictionary<int, Post> GetRecordsForPage(int pageNum)
+        {
+            Dictionary<int, Post> posts = (Session["Posts"] as Dictionary<int, Post>);
+
+            int from = (pageNum * RecordsPerPage);
+            int to = from + RecordsPerPage;
+
+            return posts
+                .Where(x => x.Key > from && x.Key <= to)
+                .OrderBy(x => x.Key)
+                .ToDictionary(x => x.Key, x => x.Value);
         }
 
         public PostController(ApplicationUserManager userManager)
@@ -76,8 +124,9 @@ namespace OneVietnam.Controllers
                 return icons;
             }            
         }
-        [System.Web.Mvc.Authorize]
-        public ActionResult CreatePost()
+
+
+        public void _CreatePost()
         {            
             if (TagList != null)
             {
@@ -88,6 +137,17 @@ namespace OneVietnam.Controllers
                 ViewData["PostTypes"] = IconList;
             }
             
+        }
+        public ActionResult CreatePost()
+        {            
+            if (TagList != null)
+            {
+                ViewData["TagList"] = TagList;
+            }                                               
+            if (IconList != null)
+            {
+                ViewData["PostTypes"] = IconList;
+            }
             return View();
         }        
         [HttpPost]
@@ -109,9 +169,9 @@ namespace OneVietnam.Controllers
                 p.Illustrations = illList;
             }
             var post = new Post(p);
-            post.PublishDate = System.DateTime.Now;            
+            post.PublishDate = System.DateTime.Now;
             await UserManager.AddPostAsync(User.Identity.GetUserId(), post);
-            CreatedPost = true;
+            CreatedPost = true;                        
             PostView = new PostViewModel(post);
             return RedirectToAction("ShowPostDetail", "Post", new { postId = post.Id });
         }
@@ -122,6 +182,17 @@ namespace OneVietnam.Controllers
             List<Post> list = await UserManager.GetPostsAsync(User.Identity.GetUserId());
             List<PostViewModel> pViewList = list.Select(post => new PostViewModel(post)).ToList();
             return View(pViewList);
+        }
+
+        public void _ShowPostDetail(string postId)
+        {            
+            if (IconList != null)
+            {
+                ViewData["PostTypes"] = IconList;
+            }
+            Post post = UserManager.GetPostByIdAsync(postId);
+            PostViewModel showPost = new PostViewModel(post);
+            ViewData["PostView"] = showPost;
         }
 
         public ActionResult ShowPostDetail(string postId)
@@ -137,7 +208,7 @@ namespace OneVietnam.Controllers
             
             Post post = UserManager.GetPostByIdAsync(postId);
                                
-            PostViewModel showPost = new PostViewModel(post);            
+            PostViewModel showPost = new PostViewModel(post);
             return View(showPost);
         }
         [HttpPost]
@@ -161,9 +232,9 @@ namespace OneVietnam.Controllers
             if (IconList != null)
             {
                 ViewData["PostTypes"] = IconList;
-            }
+            }            
             Post post = UserManager.GetPostByIdAsync(User.Identity.GetUserId(), postId);            
-            PostViewModel showPost = new PostViewModel(post);            
+            PostViewModel showPost = new PostViewModel(post);
             return View(showPost);
         }
 
@@ -189,7 +260,7 @@ namespace OneVietnam.Controllers
             {
                 pPostView.Illustrations = illList;
             }
-            Post post = new Post(pPostView, strPostId);           
+            Post post = new Post(pPostView, strPostId);
             await UserManager.UpdatePostAsync(User.Identity.GetUserId(), post);
             return RedirectToAction("ShowPostDetail", "Post", new { postId = strPostId });
         }
@@ -219,7 +290,7 @@ namespace OneVietnam.Controllers
             if (pRequestBase.Form.Count > 0)
             {
                 var addedTagValueList = pRequestBase.Form[pFormId];
-                if (!string.IsNullOrEmpty(addedTagValueList.ToString()))
+                if (!string.IsNullOrEmpty(addedTagValueList))
                 {
                     List<Tag> newList = new List<Tag>();
                     var tagsInDb = pTagManager.GetTagsValueAsync();                    

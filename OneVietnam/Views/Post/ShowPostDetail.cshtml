@@ -1,10 +1,11 @@
-﻿@using OneVietnam.DTL
+﻿@using OneVietnam.Controllers
+@using OneVietnam.DTL
 @model OneVietnam.Models.PostViewModel
 
 @{
     ViewBag.Title = "ShowPostDetail";
     List<Tag> tagList = ViewData["TagList"] as List<Tag>;
-    List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;    
+    List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
 }
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <link rel="stylesheet" href="~/Content/image-slider.css">
@@ -81,7 +82,7 @@
                             <div class="item">
                                 <div id="fb-root"></div>
                                 <script>
-                                    (function(d, s, id) {
+                                    (function (d, s, id) {
                                         var js, fjs = d.getElementsByTagName(s)[0];
                                         if (d.getElementById(id)) return;
                                         js = d.createElement(s);
@@ -99,7 +100,7 @@
                                                 "' data-layout='button_count' data-action='like' data-size='large' data-show-faces='false' data-share='false'></div>");
                                         </script>
                                     </div>
-                                    <div class="right floated item">                                        
+                                    <div class="right floated item">
                                         <script>
                                             //share button
                                             document.write("<div class='fb-share-button' data-href='" +
@@ -196,10 +197,11 @@
                             </div>
                             <div class="item">
                                 @if (User.Identity.IsAuthenticated)
-                {
-                                    <input type="button" class="positive ui button" value="Sửa bài đăng" onclick="document.location.href='@Url.Action("EditPost", "Post", new {postId = Model.Id})' ;" />
+                                {
+                                    ((PostController)ViewContext.Controller)._ShowPostDetail(Model.Id);
+                                    <input type="button" class="positive ui edit button" value="Sửa bài đăng" />
                                     <input class="negative ui button" value="Xóa bài đăng" type="submit" />
-                                }
+                                }                               
                             </div>
                         </div>
                     </div>
@@ -269,6 +271,9 @@
         </div>
     </div>
                                 }
+
+@Html.Partial("_ShowPostDetail")
+
 @section scripts {
     <!--Script references. -->
     <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->

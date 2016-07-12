@@ -53,7 +53,7 @@ namespace OneVietnam.BLL
         public  Post GetPostByIdAsync(string pPostId)
         {
             var user =  _userStore.FindUserByPostIdAsync(pPostId); ;
-            if(user.Result != null)
+            if(user.Result != null && user.Result.Count > 0)
             {
                 return GetPostByIdAsync(user.Result[0].Id, pPostId);
             }
