@@ -414,14 +414,14 @@ function showJobOffer() {
 }
 
 function createListUserMarkers() {
-    var length = array.length;
+    var length = allUsers.length;
     for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(array[i].x, array[i].y);
+        var position = new google.maps.LatLng(allUsers[i].x, allUsers[i].y);
         bounds.extend(position);
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            title: array[i].address,
+           // title: array[i].address,
             icon: image
         });
         listUserMarkers.push(marker);
@@ -430,8 +430,8 @@ function createListUserMarkers() {
             return function () {
                 // infowindow.setContent(infoWindowContent[i][0]);
                 ///AjaxDisplayString(userInfoWindow, marker)
-                    createUserInfoWindowContent(array[i].userID, 23, array[i].gender, array[i].address);
-                    infowindow.open(map, marker);
+                    //createUserInfoWindowContent(array[i].userID, 23, array[i].gender, array[i].address);
+                    //infowindow.open(map, marker);
             }
         })(marker, i));
 
@@ -456,7 +456,7 @@ function createListMaleMarkers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            title: array[i].address,
+           // title: array[i].address,
             icon: image
         });
         listMaleMarkers.push(marker);
@@ -479,7 +479,7 @@ function createListFemaleMarkers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            title: array[i].address,
+          //  title: array[i].address,
             icon: image
         });
         listFemaleMarkers.push(marker);
@@ -496,12 +496,12 @@ function createListFemaleMarkers() {
 function createListLGBTMarkers() {
     var length = LGBT.length;
     for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(array[i].x, array[i].y);
+        var position = new google.maps.LatLng(LGBT[i].x, LGBT[i].y);
         bounds.extend(position);
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            title: array[i].address,
+         //   title: array[i].address,
             icon: image
         });
         listLGBTMarkers.push(marker);
@@ -524,7 +524,7 @@ function createListType0Markers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            title: postType0[i].address,
+           // title: postType0[i].address,
             icon: image
         });
         listType0Markers.push(marker);
@@ -533,7 +533,7 @@ function createListType0Markers() {
             return function () {
                 // infowindow.setContent(infoWindowContent[i][0]);
                 // AjaxDisplayString(userInfoWindow, marker)
-                createPostInfoWindowContent(postType0[i].username, postType0[i].postType, "Ở chung nhà", postType0[i].address);
+                //createPostInfoWindowContent(postType0[i].username, postType0[i].postType, "Ở chung nhà", postType0[i].address);
                 infowindow.open(map, marker);
             }
         })(marker, i));
@@ -550,7 +550,7 @@ function createListType1Markers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            title: postType1[i].address,
+            //title: postType1[i].address,
             icon: image
         });
         listType1Markers.push(marker);
@@ -559,7 +559,7 @@ function createListType1Markers() {
             return function () {
                 // infowindow.setContent(infoWindowContent[i][0]);
                 //AjaxDisplayString(userInfoWindow, marker)
-                createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
+             //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
                 infowindow.open(map, marker);
             }
         })(marker, i));

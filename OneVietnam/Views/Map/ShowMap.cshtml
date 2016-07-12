@@ -28,7 +28,7 @@ else
 
     <script type="text/javascript">
 
-        var array = [];
+        var allUsers = [];
         var males = [];
         var females = [];
         var LGBT = [];
@@ -38,39 +38,31 @@ else
         var postType2 = [];
 
         @foreach (var item in Model) {
-            <text>
-        array.push({x :@item.x ,y : @item.y, gender:@item.gender, address: '@item.address', userID :'@item.userid'});
-        if(@item.gender == 0){
-            males.push({x :@item.x ,y : @item.y, address: '@item.address', userID :'@item.userid'});
-        }else
-            if(@item.gender == 1){
-                females.push({x :@item.x ,y : @item.y, address: '@item.address', userID :'@item.userid'});
+           <text>
+        if('@item.PostId' == ''){
+            allUsers.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
+            if(@item.Gender == 0){
+                males.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
             }else
-                if(@item.gender == 2){
-                    LGBT.push({x :@item.x ,y : @item.y, address: '@item.address', userID :'@item.userid'});
-                }
-        @try {
-            if (@item.Posts != null) {
-                if (@item.Posts.Count > 0) {
-                    foreach (var post in @item.Posts) {
+                if(@item.Gender == 1){
+                    females.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
+                }else
+                    if(@item.Gender == 2){
+                        LGBT.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
+                    }
 
-                        if(@post.PostType.CompareTo(0) == 0)
-                        {
-                            @:postType0.push({postID: '@post.Id',username: '@post.Username',postType : @post.PostType, deletedFlag : '@post.DeletedFlag', status : '@post.Status', x: @post.PostLocation.XCoordinate, y: @post.PostLocation.YCoordinate, address : '@post.PostLocation.Address'});
-                                                        }
-                        else
-                            if (@post.PostType.CompareTo(1) == 0)
-                            {
-                                @:postType1.push({postID: '@post.Id',username: '@post.Username',postType : @post.PostType, deletedFlag : '@post.DeletedFlag', status : '@post.Status', x: @post.PostLocation.XCoordinate, y: @post.PostLocation.YCoordinate, address : '@post.PostLocation.Address'});
-                                                            }
-                        @:PostArray.push({postID: '@post.Id',username: '@post.Username',postType : @post.PostType, deletedFlag : '@post.DeletedFlag', status : '@post.Status', x: @post.PostLocation.XCoordinate, y: @post.PostLocation.YCoordinate, address : '@post.PostLocation.Address'});
-                                                    }
+        } else {
+            if(@item.PostType.CompareTo(0) == 0)
+            {
+                postType0.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
+            }
+            else
+                if (@item.PostType.CompareTo(1) == 0)
+                {
+                     postType1.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
                 }
-            }
         }
-            catch (ArgumentException e) {
-                // throw new YourCustomException("Put your error message here.", e);
-            }
+
 
         </text>
         }
@@ -78,17 +70,17 @@ else
 
     <script>
         var isOpen = true;
-        function toggle(){
-            if(isOpen == true){
+        function toggle() {
+            if (isOpen == true) {
                 closeNav();
                 isOpen = false;
                 document.getElementById("button").className = "arrow right icon";
-                document.getElementById("aa").setAttribute("data-tooltip","Mở các bài đăng");
-            }else{
+                document.getElementById("aa").setAttribute("data-tooltip", "Mở các bài đăng");
+            } else {
                 openNav();
                 isOpen = true;
                 document.getElementById("button").className = "arrow left icon";
-                document.getElementById("aa").setAttribute("data-tooltip","Đóng các bài đăng");
+                document.getElementById("aa").setAttribute("data-tooltip", "Đóng các bài đăng");
             }
         }
         function openNav() {
@@ -156,19 +148,18 @@ else
     </style>
 
     <style>
-            #wrapper {
-                margin: 0px;
-                border-bottom: 1px solid #E2E2E2;
-                /*padding-top: 2px;*/
-                background-color: white;
-                padding: 3px 5px 3px 5px;
-            }
-          
+        #wrapper {
+            margin: 0px;
+            border-bottom: 1px solid #E2E2E2;
+            /*padding-top: 2px;*/
+            background-color: white;
+            padding: 3px 5px 3px 5px;
+        }
     </style>
 </head>
 
 <div class="ui stackable container" style="width:100%;height:85%;position:relative;">
-  
+
     <div id="map_canvas" style="width:100%;height:100%;margin-top:0px !important;margin-left:0px!important;margin-right:0px!important;"></div>
     <div class="ui icon input" style=" position: absolute; left: 40% !important; top: 8px !important;">
         <input id="pac-input2" type="text" placeholder="Tìm kiếm địa điểm...">
