@@ -175,7 +175,12 @@ namespace OneVietnam.Controllers
                 ViewData["PostTypes"] = IconList;
             }
             
-            Post post = await PostManager.FindById(postId);                               
+            Post post = await PostManager.FindById(postId);
+            ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
+            if (postUser != null)
+            {
+                ViewData["PostUser"] = postUser;
+            }
             PostViewModel showPost = new PostViewModel(post);            
             return View(showPost);
         }
@@ -234,7 +239,10 @@ namespace OneVietnam.Controllers
 
         public async Task<ActionResult> DeletePost(string postId)
         {
-            await PostManager.DeleteByIdAsync(postId);            
+            Post post = await PostManager.FindById(postId);
+            post.DeletedFlag = true;
+            //await PostManager.DeleteByIdAsync(postId);            
+            await PostManager.UpdatePostAsync(post);
             return RedirectToAction("CreatePost", "Post");
         }
 

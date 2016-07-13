@@ -4,8 +4,9 @@
 
 @{
     ViewBag.Title = "ShowPostDetail";
-    List<Tag> tagList = ViewData["TagList"] as List<Tag>;
     List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
+    ApplicationUser postUser = ViewData["PostUser"] as ApplicationUser;
+    
 }
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <link rel="stylesheet" href="~/Content/image-slider.css">
@@ -28,33 +29,33 @@
                                             @{
                                                 if (Model.Illustrations == null | (Model.Illustrations != null && Model.Illustrations.Count <= 0))
                                                 {
-                                                    <div class="side active">
-                                                        <div class="ui card" style="width: auto !important; max-height: 100%">
-                                                            <div class="image">
-                                                                <img src="/Images/no-image.png" style="max-height: 50vh !important; max-width: 100% !important; width: auto !important" />
-                                                            </div>
-                                                        </div>
+                                            <div class="side active">
+                                                <div class="ui card" style="width: auto !important; max-height: 100%">
+                                                    <div class="image">
+                                                        <img src="/Content/Images/no-image.png" style="max-height: 50vh !important; max-width: 100% !important; width: auto !important" />
                                                     </div>
+                                                </div>
+                                            </div>
                                                 }
                                                 else
                                                 {
                                                     foreach (var ill in Model.Illustrations)
                                                     {
-                                                        <div class="side fade">
-                                                            <div class="ui card" style="width: auto !important; max-height: 100%">
-                                                                <div class="image">
-                                                                    <img src="@ill.PhotoLink" style="max-height: 60vh !important; max-width: 100% !important; width: auto !important" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                            <div class="side fade">
+                                                <div class="ui card" style="width: auto !important; max-height: 100%">
+                                                    <div class="image">
+                                                        <img src="@ill.PhotoLink" style="max-height: 60vh !important; max-width: 100% !important; width: auto !important" />
+                                                    </div>
+                                                </div>
+                                            </div>
                                                     }
-                                                    <div style="text-align: center">
-                                                        @for (int index = 1; index < Model.Illustrations.Count + 1; index++)
+                                            <div style="text-align: center">
+                                                @for (int index = 1; index < Model.Illustrations.Count + 1; index++)
                                                         {
-                                                            <span class="dot" onclick="currentSlide(@index)"></span>
+                                                        <span class="dot" onclick="currentSlide(@index)"></span>
                                                         }
 
-                                                    </div>
+                                            </div>
                                                 }
                                             }
                                         </div>
@@ -75,8 +76,11 @@
                             </div>
                             <div class="item">
                                 <a href="http://google.com">
-                                    <img class="ui middle aligned avatar image" src="/Images/dat.JPG">
-                                    <span>@Model.UserName</span>
+                                    <img class="ui middle aligned avatar image" src="/Content/Images/dat.JPG">
+                                    <span>@if (postUser != null)
+                                          {
+                                              @postUser.UserName
+                                          }</span>
                                 </a>
                             </div>
                             <div class="item">
@@ -117,39 +121,35 @@
                             </div>
                             <div class="item">
                                 <div class="ui header">
-                                    <div class="ui huge star clearing rating" data-rating="4" data-max-rating="5">
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="item">
-                                <div class="ui header">
                                     <i class="calendar icon"></i>
                                     <div class="content">
                                         @($"{Model.PublishDate:dd/MM/yyyy}")
                                     </div>
                                 </div>
                             </div>
-                            <div class="item">
-                                <div class="ui header">
-                                    @{
-                                        if (postTypes != null)
-                                        {
-                                            foreach (Icon icon in postTypes)
+
+                            @{
+                                if (postTypes != null)
+                                {
+                                    <div class="item">
+                                        <div class="ui header">
+                                            @foreach (Icon icon in postTypes)
                                             {
                                                 if (icon.IconId == Model.PostType)
                                                 {
-                                                    <img class="ui mini avatar image" src="@icon.IconImage" />
+                                                    <i class="bookmark icon"></i>
                                                     <div class="content">
                                                         @icon.IconText
                                                     </div>
                                                 }
                                             }
-                                        }
-                                    }
+                                        </div>
+                                    </div>
+                                }
 
-                                </div>
-                            </div>
+                            }
+
+
                             <div class="item">
                                 <div class="ui header">
                                     <i class="home icon"></i>
@@ -198,111 +198,109 @@
                             <div class="item">
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    ((PostController)ViewContext.Controller)._ShowPostDetail(Model.Id);
                                     <input type="button" class="positive ui edit button" value="Sửa bài đăng" />
-                                    <input class="negative ui button" value="Xóa bài đăng" type="submit" />
-                                }                               
+                                            <input class="negative ui button" value="Xóa bài đăng" type="submit" />
+                                }
+                            </div>
+                        </div>
+
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="ui segment" style="width: 100%; border: 0 !important; margin-top: 0">
-                <div class="ui horizontal segments" style="width: 100%; box-shadow: none; margin: 0; border: 0 !important">
-                    <div class="ui segment" style="width: 60%; border: 0 !important; padding: 0">
-                        <script>
+                    <div class="ui segment" style="width: 100%; border: 0 !important; margin-top: 0">
+                        <div class="ui horizontal segments" style="width: 100%; box-shadow: none; margin: 0; border: 0 !important">
+                            <div class="ui segment" style="width: 60%; border: 0 !important; padding: 0">
+                                <script>
 
                             document.write("<div class='fb-comments' style='width: 100%' data-href='" +
                                 window.location.href +
                                 "' data-numposts='3' ></div>");
-                        </script>
-                    </div>
-                    <div class="ui segment" style="width: 40%; border: 0 !important; padding: 0">
-                        <div class="ui very relaxed selection list">
-                            <div class="item">
-                                <div class="ui header">
-                                    <i class="edit icon"></i>
-                                    <div class="content">
-                                        Mô tả chi tiết
-                                    </div>
-                                    <div class="sub header">
-                                        @Model.Description
+                                </script>
+                            </div>
+                            <div class="ui segment" style="width: 40%; border: 0 !important; padding: 0">
+                                <div class="ui very relaxed selection list">
+                                    <div class="item">
+                                        <div class="ui header">
+                                            <i class="edit icon"></i>
+                                            <div class="content">
+                                                Mô tả chi tiết
+                                            </div>
+                                            <div class="sub header">
+                                                @Model.Description
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div>
+                    <script>
+
+                        var slideIndex = 1;
+                        showSlides(slideIndex);
+                        function plusSlides(n) {
+                            showSlides(slideIndex += n);
+                        }
+
+                        function currentSlide(n) {
+                            showSlides(slideIndex = n);
+                        }
+
+                        function showSlides(n) {
+                            var i;
+                            var slides = document.getElementsByClassName("side");
+                            var dots = document.getElementsByClassName("dot");
+                            if (n > slides.length) {
+                                slideIndex = 1;
+                            }
+                            if (n < 1) {
+                                slideIndex = slides.length;
+                            }
+                            for (i = 0; i < slides.length; i++) {
+                                slides[i].style.display = "none";
+                            }
+                            for (i = 0; i < dots.length; i++) {
+                                dots[i].className = dots[i].className.replace(" active", "");
+                            }
+                            slides[slideIndex - 1].style.display = "block";
+                            dots[slideIndex - 1].className += " active";
+                        }
+                    </script>
+                </div>
             </div>
-        </div>
-        <div>
-            <script>
+                            }
 
-                var slideIndex = 1;
-                showSlides(slideIndex);
-                function plusSlides(n) {
-                    showSlides(slideIndex += n);
-                }
+                            @section scripts {
+                                <!--Script references. -->
+                                <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
+                                <!--Reference the SignalR library. -->
+                                <script src="http://localhost:51801/Scripts/jquery.signalR-2.2.0.min.js"></script>
+                                <!--Reference the autogenerated SignalR hub script. -->
+                                <script src="~/signalr/hubs"></script>
+                                <!--SignalR script to update the chat page and send messages.-->
+                                <script>
+                                    $(function () {
+                                        // Reference the auto-generated proxy for the hub.
+                                        var chat = $.connection.myHub;
+                                        // Create a function that the hub can call back to display messages.
+                                        chat.client.loadNewPost = function (newPost) {
+                                            // Add the message to the page.
+                                            console.log(newPost);
 
-                function currentSlide(n) {
-                    showSlides(slideIndex = n);
-                }
+                                        };
+                                        $.connection.hub.start()
+                                            .done(function () {
 
-                function showSlides(n) {
-                    var i;
-                    var slides = document.getElementsByClassName("side");
-                    var dots = document.getElementsByClassName("dot");
-                    if (n > slides.length) {
-                        slideIndex = 1;
-                    }
-                    if (n < 1) {
-                        slideIndex = slides.length;
-                    }
-                    for (i = 0; i < slides.length; i++) {
-                        slides[i].style.display = "none";
-                    }
-                    for (i = 0; i < dots.length; i++) {
-                        dots[i].className = dots[i].className.replace(" active", "");
-                    }
-                    slides[slideIndex - 1].style.display = "block";
-                    dots[slideIndex - 1].className += " active";
-                }
-            </script>
-        </div>
-    </div>
-                                }
+                                                //do nothing
+                                            });
+                                    });
 
-@Html.Partial("_ShowPostDetail")
-
-@section scripts {
-    <!--Script references. -->
-    <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
-    <!--Reference the SignalR library. -->
-    <script src="http://localhost:51801/Scripts/jquery.signalR-2.2.0.min.js"></script>
-    <!--Reference the autogenerated SignalR hub script. -->
-    <script src="~/signalr/hubs"></script>
-    <!--SignalR script to update the chat page and send messages.-->
-    <script>
-        $(function () {
-            // Reference the auto-generated proxy for the hub.
-            var chat = $.connection.myHub;
-            // Create a function that the hub can call back to display messages.
-            chat.client.loadNewPost = function (newPost) {
-                // Add the message to the page.
-                console.log(newPost);
-
-            };
-            $.connection.hub.start()
-                .done(function () {
-
-                    //do nothing
-                });
-        });
-
-        // This optional function html-encodes messages for display in the page.
-        function htmlEncode(value) {
-            var encodedValue = $('<div />').text(value).html();
-            return encodedValue;
-        }
-    </script>
-}
+                                    // This optional function html-encodes messages for display in the page.
+                                    function htmlEncode(value) {
+                                        var encodedValue = $('<div />').text(value).html();
+                                        return encodedValue;
+                                    }
+                                </script>
+                            }
