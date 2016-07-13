@@ -12520,6 +12520,12 @@ $.fn.search = function(parameters) {
                 event.preventDefault();
                 return false;
               }
+                //todo
+              if ($result.length > 0) {
+                  location.href = "/Search/Index";                  
+                  return false;;
+              }
+
             }
             else if(keyCode == keys.upArrow) {
               module.verbose('Up key pressed, changing active result');

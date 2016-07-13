@@ -25,16 +25,7 @@ namespace OneVietnam.Controllers
             {
                 _userManager = value;
             }
-        }
-        private PostManager _postManager;
-        public PostManager PostManager
-        {
-            get
-            {
-                return _postManager ?? HttpContext.GetOwinContext().Get<PostManager>();
-            }
-            private set { _postManager = value; }
-        }
+        }        
         public ActionResult Index()
         {
             return View();
@@ -51,17 +42,6 @@ namespace OneVietnam.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
-        }
-
-        public async Task<ActionResult> Search(string id)
-        {
-            var result = await PostManager.FullTextSearch(id);            
-            var s = new SearchResultModel
-            {
-                Count = result.Count,
-                Result = result
-            };
-            return Json(s, JsonRequestBehavior.AllowGet);
-        }
+        }        
     }
 }
