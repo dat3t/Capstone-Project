@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using AspNet.Identity.MongoDB;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using OneVietnam.DTL;
 
@@ -15,7 +16,11 @@ namespace OneVietnam
             var context = ApplicationIdentityContext.Create();            
             IndexChecks.EnsureUniqueIndexOnEmail(context.Users);
             IndexChecks.EnsureUniqueIndexOnRoleName(context.Roles);
-            //context.Users.Indexes.CreateOne(Builders<ApplicationUser>.IndexKeys.Text("UserName").Text("Posts.Title"));                                    
+            var options = new CreateIndexOptions()
+            {
+                Weights = new BsonDocument {{"Title", 2}, {"Description", 1}, { "Tags.TagText",5 }, { "Illustrations.Description",1 } }
+            };            
+            context.Posts.Indexes.CreateOne(Builders<Post>.IndexKeys.Text("Title").Text("Description").Text("Illustrations.Description").Text("Tags.TagText"),options);                                    
         }
     }
 }
