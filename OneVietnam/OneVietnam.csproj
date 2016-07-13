@@ -317,6 +317,7 @@
     <Content Include="Content\icon.min.css" />
     <Content Include="Content\Icon\icon-gg.png" />
     <Content Include="Content\Images\chov.png" />
+    <Content Include="Content\Images\no-image.png" />
     <Content Include="Content\Images\poke_celebi.png" />
     <Content Include="Content\Images\rua.png" />
     <Content Include="Content\loader.css" />

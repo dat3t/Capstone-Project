@@ -1,10 +1,7 @@
 ﻿$(document).ready(function () {
     $('.item.write')
        .click(function () {
-
-
            $('.ui.modal').modal('show');
-
        });
 
   
@@ -43,5 +40,7 @@
       .click(function () {
           $('.ui.fullscreen.modal').modal('show');
       });
+
+    $('.icon.link').popup({});
 
 });

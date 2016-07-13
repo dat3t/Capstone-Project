@@ -1516,7 +1516,7 @@ body {
 .fb-comments > span >iframe {
      width: 100% !important;
 }
-.fb-like >span > iframe {
+/*.fb-like >span > iframe {
     transform: scale(1.5);
 -ms-transform: scale(1.5); 
 -webkit-transform: scale(1.5); 
@@ -1527,5 +1527,5 @@ transform-origin: top left;
 -webkit-transform-origin: top left;
 -moz-transform-origin: top left;
 -webkit-transform-origin: top left;
-}
+}*/
 
