@@ -61,6 +61,13 @@ namespace OneVietnam.Controllers
 
             return View(list);
         }
+   
 
+        //[HttpPost] // can be HttpGet
+        public async Task<ActionResult> GetUserInfo(string userId)
+        {
+            var user = await UserManager.FindByIdAsync(userId);
+            return Json(user, JsonRequestBehavior.AllowGet);
+        }
     }
 }
