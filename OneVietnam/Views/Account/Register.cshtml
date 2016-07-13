@@ -13,12 +13,41 @@
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary()
-            <div class="field">                
+            <div class="field">
+                <div class="ui left icon corner labeled input">
+                    <i class="user icon"></i>
+                    @Html.TextBoxFor(m => m.UserName, new { @placeholder = "Họ Và Tên" })
+                    <div class="ui corner label">
+                        <i class="asterisk icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
                 <div class="ui left icon corner labeled input">
                     <i class="user icon"></i>
                     @Html.TextBoxFor(m => m.Email, new {@placeholder = "Email"})
                     <div class="ui corner label">
                         <i class="asterisk icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="inline fields">                
+                <div class="field">
+                    <div class="ui radio checkbox">
+                        <input type="radio" name="Gender" value=0 checked="checked">
+                        <label>Nam</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui radio checkbox">
+                        <input type="radio" name="Gender" value=1>
+                        <label>Nữ</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui radio checkbox">
+                        <input type="radio" name="Gender" value=2>
+                        <label>GLBT</label>
                     </div>
                 </div>
             </div>
