@@ -145,7 +145,48 @@ namespace OneVietnam.Controllers
             PostView = new PostViewModel(post);
             return RedirectToAction("ShowPostDetail", "Post", new { postId = post.Id });
         }
+        public async Task<ActionResult> TimeLine()
+        {
+            return RedirectToAction("GetPosts");
+        }
 
+        public const int RecordsPerPage = 60;
+
+        public async Task<ActionResult> GetPosts(int? pageNum)
+        {
+            pageNum = pageNum ?? 0;
+            ViewBag.IsEndOfRecords = false;
+
+            if (Request.IsAjaxRequest())
+            {
+                var posts = GetRecordsForPage(pageNum.Value);
+                ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
+                return PartialView("_PostRow", posts);
+            }
+            else
+            {
+                // LoadAllPostsToSession
+                List<Post> list = await PostManager.FindAllPostsAsync();
+                var posts = list;
+                int postIndex = 1;
+                Session["Posts"] = posts.ToDictionary(x => postIndex++, x => x);
+
+                ViewBag.Posts = GetRecordsForPage(pageNum.Value);
+                return View("TimeLine");
+            }
+        }
+        public Dictionary<int, Post> GetRecordsForPage(int pageNum)
+        {
+            Dictionary<int, Post> posts = (Session["Posts"] as Dictionary<int, Post>);
+
+            int from = (pageNum * RecordsPerPage);
+            int to = from + RecordsPerPage;
+
+            return posts
+                .Where(x => x.Key > from && x.Key <= to)
+                .OrderBy(x => x.Key)
+                .ToDictionary(x => x.Key, x => x.Value);
+        }
         public async Task<ActionResult> ShowPost()
         {
             List<Post> list = await PostManager.FindByUserId(User.Identity.GetUserId());

@@ -28,7 +28,7 @@
                 </div>
                 <div class="content">
 
-                    <div class="two field">
+                    <div class="two fields">
 
                         <div class="field">
 
@@ -54,36 +54,35 @@
                             </div>
                         </div>
 
-                       
 
 
 
+                        <div class="field">
 
-                        <div class="ui fluid multiple search selection dropdown">
-                            <input name="tags" id="tags" type="hidden" value="">
-                            <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Tag liên quan</div>
-                            <div class="menu transition hidden" tabindex="-1">
+                            <div class="ui fluid multiple search selection dropdown">
+                                <input name="tags" id="tags" type="hidden" value="">
+                                <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Tag liên quan</div>
+                                <div class="menu transition hidden" tabindex="-1">
 
-                                @{
+                                    @{
                                     if (tagList != null)
                                     {
                                         foreach (Tag tag in tagList)
                                         {
-                                            <div class="item" data-value="@tag.TagValue">@tag.TagText</div>
+                                                <div class="item" data-value="@tag.TagValue">@tag.TagText</div>
                                         }
                                     }
-                                }
+                                    }
 
+                                </div>
                             </div>
+
                         </div>
-
-
                     </div>
 
                     <div class="field">
                         <label>Mô tả </label>
-                        <textarea rows="4" tabindex="4" id="Description" name="Description" value=""></textarea>
-                        <span class="field-validation-valid text-danger" data-valmsg-for="PostLocation.Address" data-valmsg-replace="true"></span>
+                        <textarea rows="4" tabindex="4" id="Description"  name="Description" value=""></textarea>
 
                     </div>
                     <button id="imgUpload " type="button"><i class="photo icon"></i></button>                    
