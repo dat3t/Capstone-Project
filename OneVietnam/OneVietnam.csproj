@@ -450,7 +450,6 @@
     <Content Include="Views\Account\ShowPost.cshtml" />
     <Content Include="Views\Account\ShowCreatedPost.cshtml" />
     <Content Include="Views\Account\CreateCountry.cshtml" />
-    <Content Include="Views\Map\AddLocation.cshtml" />
     <Content Include="Views\Account\SelectCountry.cshtml" />
     <Content Include="Views\NewFeed\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
