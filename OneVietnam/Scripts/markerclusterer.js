@@ -168,9 +168,9 @@ function MarkerClusterer(map, opt_markers, opt_options) {
  * @type {string}
  * @private
  */
-MarkerClusterer.prototype.MARKER_CLUSTER_IMAGE_PATH_ =
-    'https://raw.githubusercontent.com/googlemaps/js-marker-clusterer/gh-pages/images/m';
-//MarkerClusterer.prototype.MARKER_CLUSTER_IMAGE_PATH_ = 'img/markerclusterer/m';
+//MarkerClusterer.prototype.MARKER_CLUSTER_IMAGE_PATH_ =
+//    'https://raw.githubusercontent.com/googlemaps/js-marker-clusterer/gh-pages/images/m';
+MarkerClusterer.prototype.MARKER_CLUSTER_IMAGE_PATH_ = '../Content/Images/m';
 
 /**
  * The marker cluster image path.
@@ -1076,7 +1076,7 @@ ClusterIcon.prototype.triggerClusterClick = function (event) {
     if (markerClusterer.isZoomOnClick()) {
         // Zoom into the cluster.
         this.map_.fitBounds(this.cluster_.getBounds());
-        this.map_.setZoom(markerClusterer.getMaxZoom() + 1);
+       // this.map_.setZoom(markerClusterer.getMaxZoom() + 1);
     }
 };
 

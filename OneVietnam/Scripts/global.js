@@ -12,17 +12,18 @@
     $(".right.menu.open").on("click", function (e) {
         e.preventDefault();
         $(".ui.vertical.menu.open").toggle();
-    });
-        $('.ui.search').search({
-            apiSettings: {
-                url: '/Home/search?id={query}'
-            },
-            fields: {
-                results: 'UserList',
-                title: 'UserName',
-                url: ''
-            },
-            minCharacters: 3            
+    });    
+    $('.ui.search').search({
+        apiSettings: {
+            url: '/Home/search?id={query}'
+        },
+        fields: {
+            results: 'UserList',
+            title: 'UserName',
+            url: '',
+            Image:"Images/logo.png"
+        },
+        minCharacters: 3
     })
     ;
 

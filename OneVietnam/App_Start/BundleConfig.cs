@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace OneVietnam
 {
@@ -17,7 +16,7 @@ namespace OneVietnam
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
+                        "~/Scripts/modernizr-*"));            
        
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/semantic/dist/semantic.min.js",
@@ -30,8 +29,15 @@ namespace OneVietnam
                 "~/semantic/dist/semantic.min.css",
                 "~/Content/Site.css",
                       "~/Content/dropzone.css",
-                      "~/Content/stylesheet.css"
-                      ));
+                      "~/Content/stylesheet.css",                                      
+                  "~/Content/Map/map.css",
+                "~/Content/Map/infoWindow.css",
+                "~/Content/Map/searchbox.css",
+                "~/Content/Map/mappagecustom.css"));
+            bundles.Add(new StyleBundle("~/Scripts/Map").Include(
+                "~/Scripts/map.js",
+                "~/Scripts/markerclusterer.js"
+                ));
         }
     }
 }
