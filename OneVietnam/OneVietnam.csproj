@@ -320,6 +320,12 @@
     <Content Include="Content\idangerous.swiper_backup.css" />
     <Content Include="Content\ie-9.css" />
     <Content Include="Content\image-slider.css" />
+    <Content Include="Content\Images\background.jpg" />
+    <Content Include="Content\Images\chov.png" />
+    <Content Include="Content\Images\Logo.png" />
+    <Content Include="Content\Images\pikachu.jpg" />
+    <Content Include="Content\Images\poke_celebi.png" />
+    <Content Include="Content\Images\rua.png" />
     <Content Include="Content\loader.css" />
     <Content Include="Content\minimal-slide.css" />
     <Content Include="Content\semantic.min.css" />
