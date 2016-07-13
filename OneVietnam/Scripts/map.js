@@ -180,7 +180,7 @@ function initialize() {
 
     //var p2 = { lat: 36.238666, lng: 137.96902209999996 };
 
-    for (var i = 0; i < 10000; i++) {
+    for (var i = 0; i < 1000; i++) {
         // var dataPhoto = data.photos[i];
         var latLng = new google.maps.LatLng(Math.floor(Math.random() * 50), Math.floor(Math.random() * 100));
         var marker = new google.maps.Marker({
@@ -421,13 +421,14 @@ function createListUserMarkers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-           // title: array[i].address,
+            title: allUsers[i].userID,
             icon: image
         });
         listUserMarkers.push(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
+                getUserInfo(allUsers[i].userID);
                 // infowindow.setContent(infoWindowContent[i][0]);
                 ///AjaxDisplayString(userInfoWindow, marker)
                     //createUserInfoWindowContent(array[i].userID, 23, array[i].gender, array[i].address);
@@ -774,4 +775,20 @@ function createPostInfoWindowContent(username, postType, postTitle, address) {
             '</div>';
 
     infowindow.setContent(content);
+}
+
+function getUserInfo(userIdFromDB) {
+    alert(userIdFromDB);
+    $.ajax({
+        url: 'GetUserInfo',
+        type: 'GET',
+        contentType: 'application/json;',
+        data: JSON.stringify({ userId: userIdFromDB }),
+        success: function (result) {
+            alert(result);
+            var obj = JSON.parse(result);
+            var username = obj.Username;
+            alert(username);
+        }
+    });
 }
