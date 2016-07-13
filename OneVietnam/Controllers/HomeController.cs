@@ -26,6 +26,15 @@ namespace OneVietnam.Controllers
                 _userManager = value;
             }
         }
+        private PostManager _postManager;
+        public PostManager PostManager
+        {
+            get
+            {
+                return _postManager ?? HttpContext.GetOwinContext().Get<PostManager>();
+            }
+            private set { _postManager = value; }
+        }
         public ActionResult Index()
         {
             return View();
@@ -46,13 +55,11 @@ namespace OneVietnam.Controllers
 
         public async Task<ActionResult> Search(string id)
         {
-            var userslist = await UserManager.TextSearchByUserName(id);             
-
-            List<UserViewModel> listview = userslist.Select(user => new UserViewModel(user)).ToList();
-            SearchResultModel s = new SearchResultModel
+            var result = await PostManager.FullTextSearch(id);            
+            var s = new SearchResultModel
             {
-                Count = listview.Count,
-                UserList = listview
+                Count = result.Count,
+                Result = result
             };
             return Json(s, JsonRequestBehavior.AllowGet);
         }

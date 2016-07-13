@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 using OneVietnam.DTL;
 
 namespace OneVietnam.DAL
@@ -45,6 +47,12 @@ namespace OneVietnam.DAL
         public async Task<List<Post>> FindAllPostAsync()
         {
             return await _posts.Find(p => true).ToListAsync();
+        }
+        public async Task<List<Post>> FullTextSearch(string query)
+        {            
+            var filter = Query.Text(query).ToBsonDocument();                                  
+            var result = await _posts.Find(filter).ToListAsync();
+            return result;
         }
     }
 }

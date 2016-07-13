@@ -180,7 +180,7 @@ function initialize() {
 
     //var p2 = { lat: 36.238666, lng: 137.96902209999996 };
 
-    for (var i = 0; i < 10000; i++) {
+    for (var i = 0; i < 1000; i++) {
         // var dataPhoto = data.photos[i];
         var latLng = new google.maps.LatLng(Math.floor(Math.random() * 50), Math.floor(Math.random() * 100));
         var marker = new google.maps.Marker({
@@ -414,24 +414,25 @@ function showJobOffer() {
 }
 
 function createListUserMarkers() {
-    var length = array.length;
+    var length = allUsers.length;
     for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(array[i].x, array[i].y);
+        var position = new google.maps.LatLng(allUsers[i].x, allUsers[i].y);
         bounds.extend(position);
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            title: array[i].address,
+            title: allUsers[i].userID,
             icon: image
         });
         listUserMarkers.push(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
+                getUserInfo(allUsers[i].userID);
                 // infowindow.setContent(infoWindowContent[i][0]);
                 ///AjaxDisplayString(userInfoWindow, marker)
-                    createUserInfoWindowContent(array[i].userID, 23, array[i].gender, array[i].address);
-                    infowindow.open(map, marker);
+                    //createUserInfoWindowContent(array[i].userID, 23, array[i].gender, array[i].address);
+                    //infowindow.open(map, marker);
             }
         })(marker, i));
 
@@ -456,7 +457,7 @@ function createListMaleMarkers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            title: array[i].address,
+           // title: array[i].address,
             icon: image
         });
         listMaleMarkers.push(marker);
@@ -479,7 +480,7 @@ function createListFemaleMarkers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            title: array[i].address,
+          //  title: array[i].address,
             icon: image
         });
         listFemaleMarkers.push(marker);
@@ -496,12 +497,12 @@ function createListFemaleMarkers() {
 function createListLGBTMarkers() {
     var length = LGBT.length;
     for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(array[i].x, array[i].y);
+        var position = new google.maps.LatLng(LGBT[i].x, LGBT[i].y);
         bounds.extend(position);
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            title: array[i].address,
+         //   title: array[i].address,
             icon: image
         });
         listLGBTMarkers.push(marker);
@@ -524,7 +525,7 @@ function createListType0Markers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            title: postType0[i].address,
+           // title: postType0[i].address,
             icon: image
         });
         listType0Markers.push(marker);
@@ -533,7 +534,7 @@ function createListType0Markers() {
             return function () {
                 // infowindow.setContent(infoWindowContent[i][0]);
                 // AjaxDisplayString(userInfoWindow, marker)
-                createPostInfoWindowContent(postType0[i].username, postType0[i].postType, "Ở chung nhà", postType0[i].address);
+                //createPostInfoWindowContent(postType0[i].username, postType0[i].postType, "Ở chung nhà", postType0[i].address);
                 infowindow.open(map, marker);
             }
         })(marker, i));
@@ -550,7 +551,7 @@ function createListType1Markers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            title: postType1[i].address,
+            //title: postType1[i].address,
             icon: image
         });
         listType1Markers.push(marker);
@@ -559,7 +560,7 @@ function createListType1Markers() {
             return function () {
                 // infowindow.setContent(infoWindowContent[i][0]);
                 //AjaxDisplayString(userInfoWindow, marker)
-                createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
+             //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
                 infowindow.open(map, marker);
             }
         })(marker, i));
@@ -774,4 +775,20 @@ function createPostInfoWindowContent(username, postType, postTitle, address) {
             '</div>';
 
     infowindow.setContent(content);
+}
+
+function getUserInfo(userIdFromDB) {
+    alert(userIdFromDB);
+    $.ajax({
+        url: 'GetUserInfo',
+        type: 'GET',
+        contentType: 'application/json;',
+        data: JSON.stringify({ userId: userIdFromDB }),
+        success: function (result) {
+            alert(result);
+            var obj = JSON.parse(result);
+            var username = obj.Username;
+            alert(username);
+        }
+    });
 }
