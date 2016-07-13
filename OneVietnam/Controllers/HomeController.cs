@@ -55,13 +55,19 @@ namespace OneVietnam.Controllers
 
         public async Task<ActionResult> Search(string id)
         {
-            var result = await PostManager.FullTextSearch(id);            
-            var s = new SearchResultModel
+            var result = await PostManager.FullTextSearch(id);
+            var list = (from post in result
+                where post.DeletedFlag == false
+                select new SearchResultItem
+                {
+                    Description = post.Description, Title = post.Title, Url= Url.Action("ShowPostDetail","Post",new { postId = post.Id})
+                }).ToList();            
+            var searchResult = new SearchResultModel
             {
                 Count = result.Count,
-                Result = result
+                Result = list
             };
-            return Json(s, JsonRequestBehavior.AllowGet);
+            return Json(searchResult, JsonRequestBehavior.AllowGet);
         }
     }
 }

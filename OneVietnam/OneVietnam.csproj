@@ -290,6 +290,7 @@
     <Compile Include="Models\AddLocationViewModel.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\SearchResultItem.cs" />
     <Compile Include="Models\ViewProfileUser.cs" />
     <Compile Include="Models\PostViewModel.cs" />
     <Compile Include="Models\SearchResultModel.cs" />

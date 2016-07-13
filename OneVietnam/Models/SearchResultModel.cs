@@ -9,6 +9,7 @@ namespace OneVietnam.Models
     public class SearchResultModel
     {
         public int Count;
-        public List<Post> Result;
+        public List<SearchResultItem> Result;
+
     }
 }
