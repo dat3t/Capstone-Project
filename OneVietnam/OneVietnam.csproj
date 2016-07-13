@@ -1057,6 +1057,8 @@
     <Content Include="Views\Map\ShowMap.cshtml" />
     <Content Include="Views\Map\CustomInfoWindow.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
+    <Content Include="Views\Post\_ShowPostDetail.cshtml" />
+    <Content Include="Views\Shared\_ShowPostDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

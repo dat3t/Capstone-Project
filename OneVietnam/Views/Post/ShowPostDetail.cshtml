@@ -1,6 +1,4 @@
-﻿@using System.Activities.Expressions
-@using Microsoft.AspNet.Identity
-@using OneVietnam.Controllers
+﻿@using Microsoft.AspNet.Identity
 @using OneVietnam.DTL
 @model OneVietnam.Models.PostViewModel
 
@@ -15,8 +13,6 @@
 <style>
 </style>
 
-@using (Html.BeginForm("ShowPostDetail", "Post", FormMethod.Post))
-{
     <div style="margin: auto; width: 40%">
         <input type="hidden" name="PostId" id="PostId" value="@Model.Id" />
         <div class="ui segments" style="width: 100%; border: 0 !important;">
@@ -241,4 +237,4 @@
 
         </div>        
     </div>
-                }
+                

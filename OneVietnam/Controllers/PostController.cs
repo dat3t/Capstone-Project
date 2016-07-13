@@ -194,16 +194,7 @@ namespace OneVietnam.Controllers
             return View(pViewList);
         }
 
-        public void _ShowPostDetail(string postId)
-        {            
-            //if (IconList != null)
-            //{
-            //    ViewData["PostTypes"] = IconList;
-            //}
-            //Post post = UserManager.GetPostByIdAsync(postId);
-            //PostViewModel showPost = new PostViewModel(post);
-            //ViewData["PostView"] = showPost;
-        }
+      
 
         public async Task<ActionResult> ShowPostDetail(string postId)
         {
@@ -216,12 +207,10 @@ namespace OneVietnam.Controllers
                 ViewData["PostTypes"] = IconList;
             }
             
-            Post post = await PostManager.FindById(postId);
+            Post post = await PostManager.FindById("578517e6bab6761980278f40");
             ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
-            if (postUser != null)
-            {
-                ViewData["PostUser"] = postUser;
-            }
+        
+
             PostViewModel showPost = new PostViewModel(post);            
             return View(showPost);
         }

@@ -1,7 +1,35 @@
-﻿
+﻿@model  List<OneVietnam.Models.PostViewModel>
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Index</h2>
-
+<div class="ui fluid five item menu">
+    <a class="item active">Tất cả</a>
+    <a class="item">Người</a>
+    <a class="item">Công việc</a>
+    <a class="item">Chỗ ở</a>
+    <a class="item">Ship đồ</a>
+</div>
+<div class="ui grid">
+    <div class="three wide column">
+        <div class="ui vertical menu">
+            <div class="header item">Sort By</div>
+            <a class="active item">
+                Closest
+            </a>
+            <a class="item">
+                Most Comments
+            </a>
+            <a class="item">
+                Most Popular
+            </a>
+        </div>
+    </div>
+    <div class="ten wide column">
+        @*@Html.Action("_ShowPostDetail", "Post", new { postId = "123"})*@
+        @foreach (var post in Model)
+        {
+            @Html.Partial("_ShowPostDetail", post)
+        }
+    </div>
+    <div class="three wide column"></div>
+</div>
