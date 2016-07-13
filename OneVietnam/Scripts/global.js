@@ -5,7 +5,7 @@
     });    
     $('.ui.search').search({
         apiSettings: {
-            url: '/Home/search?id={query}'
+            url: '/Search/search?query={query}'
         },
         fields: {
             results: 'Result',

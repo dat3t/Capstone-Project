@@ -16,6 +16,7 @@ namespace OneVietnam
             var context = ApplicationIdentityContext.Create();            
             IndexChecks.EnsureUniqueIndexOnEmail(context.Users);
             IndexChecks.EnsureUniqueIndexOnRoleName(context.Roles);
+            context.Posts.Indexes.CreateOne(Builders<Post>.IndexKeys.Ascending("UserId"));
             var options = new CreateIndexOptions()
             {
                 Weights = new BsonDocument {{"Title", 2}, {"Description", 1}, { "Tags.TagText",5 }, { "Illustrations.Description",1 } }
