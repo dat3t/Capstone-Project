@@ -61,4 +61,9 @@ transform-origin: top left;
 -moz-transform-origin: top left;
 -webkit-transform-origin: top left;
 }
-
+#uiSearch {
+    width: 300px;
+}
+.force100 {
+    width: 100% !important;
+}
