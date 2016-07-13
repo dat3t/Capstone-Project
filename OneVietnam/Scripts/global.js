@@ -18,8 +18,9 @@
             url: '/Home/search?id={query}'
         },
         fields: {
-            results: 'UserList',
-            title: 'UserName',
+            results: 'Result',
+            title: 'Title',
+            description: 'Description',
             url: '',
             Image:"Images/logo.png"
         },

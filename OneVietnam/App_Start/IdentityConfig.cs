@@ -130,7 +130,7 @@ namespace OneVietnam.BLL
             myMessage.AddTo(message.Destination);
             myMessage.From = new System.Net.Mail.MailAddress(
                                 "toanlmse03407@fpt.edu.vn", "MinhToanLe");
-            myMessage.Subject = "this is the subject";
+            myMessage.Subject = "Xác Nhận Tài Khoản Đăng Nhập Mạng Xã Hội OneVietnam";
             myMessage.Text = message.Body;
             myMessage.Html = message.Body;
 
