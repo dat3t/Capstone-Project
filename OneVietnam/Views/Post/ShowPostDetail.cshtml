@@ -1,4 +1,5 @@
-﻿@using OneVietnam.DTL
+﻿@using OneVietnam.Controllers
+@using OneVietnam.DTL
 @model OneVietnam.Models.PostViewModel
 
 @{
@@ -74,13 +75,13 @@
                             </div>
                             <div class="item">
                                 <a href="http://google.com">
-                                    <img class="ui middle aligned avatar image" src="/Images/dat.JPG">                                    
+                                    <img class="ui middle aligned avatar image" src="/Images/dat.JPG">
                                 </a>
                             </div>
                             <div class="item">
                                 <div id="fb-root"></div>
                                 <script>
-                                    (function(d, s, id) {
+                                    (function (d, s, id) {
                                         var js, fjs = d.getElementsByTagName(s)[0];
                                         if (d.getElementById(id)) return;
                                         js = d.createElement(s);
@@ -195,10 +196,11 @@
                             </div>
                             <div class="item">
                                 @if (User.Identity.IsAuthenticated)
-                {
-                                    <input type="button" class="positive ui button" value="Sửa bài đăng" onclick="document.location.href='@Url.Action("EditPost", "Post", new {postId = Model.Id})' ;" />
+                                {
+                                    ((PostController)ViewContext.Controller)._ShowPostDetail(Model.Id);
+                                    <input type="button" class="positive ui edit button" value="Sửa bài đăng" />
                                     <input class="negative ui button" value="Xóa bài đăng" type="submit" />
-                                }
+                                }                               
                             </div>
                         </div>
                     </div>
@@ -268,6 +270,9 @@
         </div>
     </div>
                                 }
+
+@Html.Partial("_ShowPostDetail")
+
 @section scripts {
     <!--Script references. -->
     <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->

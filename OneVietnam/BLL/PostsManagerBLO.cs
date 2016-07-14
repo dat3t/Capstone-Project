@@ -32,14 +32,14 @@ namespace OneVietnam.BLL
             if (post == null)
                 throw new ArgumentNullException(nameof(post));
             await _postStore.CreatePostAsync(post).ConfigureAwait(false);
-        }
+            }
         //OK
         public async Task<List<Post>> FindByUserId(string userId)
         {
             if (string.IsNullOrEmpty(userId))
                 throw new ArgumentNullException(nameof(userId));
             return await _postStore.FindByUserIdAsync(userId).ConfigureAwait(false);
-        }
+            }
         //OK
         public async Task<Post> FindById(string id)
         {
@@ -49,21 +49,21 @@ namespace OneVietnam.BLL
 
         }
         public async Task UpdatePostAsync(Post post)
-        {
+                    {
             if (post == null)
                 throw new ArgumentNullException(nameof(post));
             await _postStore.UpdateAsync(post).ConfigureAwait(false);
         }
 
         public async Task DeleteByIdAsync(string id)
-        {
+            {
             if (string.IsNullOrEmpty(id))
                 throw new ArgumentNullException(nameof(id));
             await _postStore.DeleteByIdAsync(id).ConfigureAwait(false);
         }
 
         public async Task<List<Post>> FindAllPostsAsync()
-        {
+            {
             return await _postStore.FindAllPostAsync().ConfigureAwait(false);
         }
         public async Task<List<Post>> FullTextSearch(string query)
@@ -71,7 +71,7 @@ namespace OneVietnam.BLL
             return await _postStore.FullTextSearch(query).ConfigureAwait(false);
         }
         public void Dispose()
-        {
+            {
         }
     }
 }
