@@ -25,6 +25,18 @@ namespace OneVietnam.Controllers
             }
             return View(postViewModels);
         }
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         private PostManager _postManager;
         public PostManager PostManager
         {
@@ -34,6 +46,7 @@ namespace OneVietnam.Controllers
             }
             private set { _postManager = value; }
         }
+
         public async Task<ActionResult> Search(string query)
         {
             var result = await PostManager.FullTextSearch(query);
@@ -51,6 +64,11 @@ namespace OneVietnam.Controllers
                 Result = list
             };
             return Json(searchResult, JsonRequestBehavior.AllowGet);
-        }
+        }        
+        //Todo
+        //public async Task<ActionResult> UsersSearch(string query)
+        //{
+        //    var result = await UserManager.TextSearchUsers(query);            
+        //}
     }
 }

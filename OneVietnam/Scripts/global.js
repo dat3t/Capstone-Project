@@ -9,8 +9,19 @@
     $(".right.menu.open").on("click", function (e) {
         e.preventDefault();
         $(".ui.vertical.menu.open").toggle();
-    });    
-    $('.ui.search').search({
+    });
+
+    $("#searchType").dropdown({
+
+        onChange: function (value, text, $selectedItem) {
+
+
+            $("#" + value).removeClass("hide-search").siblings().not(".dropdown").addClass("hide-search");
+        }
+    });
+
+    //SearchBox
+    $('#SearchPosts').search({
         apiSettings: {
             url: '/Search/search?query={query}'
         },
@@ -18,16 +29,30 @@
             results: 'Result',
             title: 'Title',
             description: 'Description',
-            url: 'Url'            
+            url: 'Url'
+        },
+        minCharacters: 3
+    })
+    ;
+    $('#SearchUsers').search({
+        apiSettings: {
+            url: '//api.github.com/search/repositories?q={query}'
+        },
+        fields: {
+            results: 'items',
+            title: 'name',
+            url: 'html_url'
         },
         minCharacters: 3
     })
     ;
 
+
+
     //ThamDTH
     $('.clearing.star.rating').rating('setting', 'clearable', true);
 
-    $('.ui.dropdown')
+    $('.ui.multiple.dropdown')
       .dropdown({
           allowAdditions: true
       })

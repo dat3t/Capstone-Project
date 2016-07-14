@@ -55,3 +55,6 @@ body {
 .force100 {
     width: 100% !important;
 }
+.hide-search {
+    display: none;
+}

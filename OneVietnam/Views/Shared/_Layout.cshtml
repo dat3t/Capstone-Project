@@ -24,12 +24,32 @@
                 <a href="" class="ui item">Bảng Tin</a>
                 <div class="right menu">
                     <div class="item">
-                        <div id="uiSearch" class="ui search">
+                        @*<div id="uiSearch" class="ui search demo">
                             <div class="ui fluid icon input">
                                 <input class="prompt" type="text" placeholder="Search...">
                                 <i class="search icon"></i>
                             </div>
                             <div class="force100 results"></div>
+                        </div>*@
+                        <div class="ui left input">
+                            <select name="gender" class="ui dropdown label" id="searchType">
+                                <option value="SearchPosts" selected="">Bài Viết</option>
+                                <option value="SearchUsers">Bạn Bè</option>
+                            </select>
+                            <div class="ui search" id="SearchPosts">
+                                <div class="ui icon input" style="width: 300px !important">
+                                    <input class="prompt" type="text" placeholder="Tìm Kiếm">
+                                    <i class="search icon"></i>
+                                </div>
+                                <div class="force100 results"></div>
+                            </div>
+                            <div class="ui search hide-search" id="SearchUsers">
+                                <div class="ui icon input" style="width: 300px !important">
+                                    <input class="prompt" type="text" placeholder="Tìm Kiếm">
+                                    <i class="search icon"></i>
+                                </div>
+                                <div class="force100 results"></div>
+                            </div>
                         </div>
                     </div>
                     @Html.Partial("_LoginPartial")
