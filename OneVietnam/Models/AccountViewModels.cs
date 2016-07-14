@@ -54,8 +54,7 @@ namespace OneVietnam.Models
         [Required]
         [Display(Name = "Email")]
         [EmailAddress]
-        public string Email { get; set; }
-
+        public string Email { get; set; }        
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Mật Khẩu")]
@@ -67,11 +66,17 @@ namespace OneVietnam.Models
 
     public class RegisterViewModel
     {
+        [Required]        
+        [StringLength(50,ErrorMessage = "Họ và Tên phải có ít nhất {2} kí tự, nhiều nhất {1} kí tự ",MinimumLength = 2)]
+        [Display(Name = "Họ Và Tên")]
+        public string UserName { get; set; }
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
-
+        [Required]
+        [Display(Name = "Giới Tính")]
+        public int Gender { get; set; }
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
@@ -82,6 +87,7 @@ namespace OneVietnam.Models
         [Display(Name = "Xác Nhận Mật Khẩu")]
         [Compare("Password", ErrorMessage = "Mật Khẩu Xác Nhận Không Trùng Khớp")]
         public string ConfirmPassword { get; set; }
+        public string CurrentLocation { get; set; }
     }
 
     public class ResetPasswordViewModel

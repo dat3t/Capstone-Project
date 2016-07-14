@@ -3,7 +3,33 @@
 @{
     ViewBag.Title = "Đăng Ký";
 }
+<script>
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+          //  alert(pos.lat+'aa'+pos.lng);
 
+            var geocoder  = new google.maps.Geocoder();             // create a geocoder object
+            var location  = new google.maps.LatLng(pos.lat, pos.lng);    // turn coordinates into an object          
+            geocoder.geocode({'latLng': location}, function (results, status) {
+                if(status == google.maps.GeocoderStatus.OK) {           // if geocode success
+                    var detailedLocation =results[0].formatted_address;         // if address found, pass to processing function
+                    document.getElementById("detailedLocation").innerText = detailedLocation;
+                }
+            })
+        }, function () {
+            // handleLocationError(true, myLocationMarker, map.getCenter());
+            alert("Không thể định vị được vị trí của bạn. Bạn cần cho phép trình duyệt sử dụng định vị GPS.");
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        //  handleLocationError(false, myLocationMarker, map.getCenter());
+        alert("Trình duyệt của bạn không hỗ trợ định vị GPS. Vui lòng nâng cấp phiên bản mới nhất của trình duyệt và thử lại sau.");
+    }
+</script>
 <div class="ui center middle aligned segment two column stackable grid shrink">
     <div class="ui horizontal divider">
         <h2>Đăng Ký</h2>
@@ -13,12 +39,41 @@
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary()
-            <div class="field">                
+            <div class="field">
+                <div class="ui left icon corner labeled input">
+                    <i class="user icon"></i>
+                    @Html.TextBoxFor(m => m.UserName, new { @placeholder = "Họ Và Tên" })
+                    <div class="ui corner label">
+                        <i class="asterisk icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
                 <div class="ui left icon corner labeled input">
                     <i class="user icon"></i>
                     @Html.TextBoxFor(m => m.Email, new {@placeholder = "Email"})
                     <div class="ui corner label">
                         <i class="asterisk icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="inline fields">                
+                <div class="field">
+                    <div class="ui radio checkbox">
+                        <input type="radio" name="Gender" value=0 checked="checked">
+                        <label>Nam</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui radio checkbox">
+                        <input type="radio" name="Gender" value=1>
+                        <label>Nữ</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui radio checkbox">
+                        <input type="radio" name="Gender" value=2>
+                        <label>GLBT</label>
                     </div>
                 </div>
             </div>
@@ -35,6 +90,15 @@
                 <div class="ui left icon corner labeled input">
                     <i class="lock icon"></i>
                     @Html.PasswordFor(m => m.ConfirmPassword, new {@placeholder = "Nhập Lại Mật Khẩu"})
+                    <div class="ui corner label">
+                        <i class="asterisk icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui left icon corner labeled disabled input " id="detailedLocation">
+                    <i class="location arrow icon"></i>
+                    @Html.TextBoxFor(m => m.CurrentLocation, new { @placeholder = "Địa chỉ hiện tại của bạn" })
                     <div class="ui corner label">
                         <i class="asterisk icon"></i>
                     </div>

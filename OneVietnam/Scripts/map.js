@@ -429,10 +429,8 @@ function createListUserMarkers() {
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 getUserInfo(allUsers[i].userID);
-                // infowindow.setContent(infoWindowContent[i][0]);
-                ///AjaxDisplayString(userInfoWindow, marker)
-                    //createUserInfoWindowContent(array[i].userID, 23, array[i].gender, array[i].address);
-                    //infowindow.open(map, marker);
+             
+                infowindow.open(map, marker);
             }
         })(marker, i));
 
@@ -777,18 +775,26 @@ function createPostInfoWindowContent(username, postType, postTitle, address) {
     infowindow.setContent(content);
 }
 
-function getUserInfo(userIdFromDB) {
-    alert(userIdFromDB);
+function getUserInfo(userId) {
     $.ajax({
-        url: 'GetUserInfo',
+        url: 'GetUserInfo?userId=' + userId,
         type: 'GET',
         contentType: 'application/json;',
-        data: JSON.stringify({ userId: userIdFromDB }),
-        success: function (result) {
-            alert(result);
-            var obj = JSON.parse(result);
-            var username = obj.Username;
-            alert(username);
+        dataType:'json',
+        success: function (json) {
+            createUserInfoWindowContent(json.UserName,23,json.Gender,json.Location.Address);
+        }
+    });
+}
+
+function getPostInfo(postID) {
+    $.ajax({
+        url: 'GetUserInfo?postId=' + postID,
+        type: 'GET',
+        contentType: 'application/json;',
+        dataType: 'json',
+        success: function (json) {
+            createUserInfoWindowContent(json.UserName, 23, json.Gender, json.Location.Address);
         }
     });
 }

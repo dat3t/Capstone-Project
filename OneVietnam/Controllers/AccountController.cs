@@ -67,7 +67,7 @@ namespace OneVietnam.Controllers
         }
         public async Task<ActionResult> SelectCountry()
         {
-         
+
             var countrieslist = await CountryManager.GetCountriesAsync();
 
             var selectedCountry = Request.Form["CountryName"];
@@ -94,7 +94,7 @@ namespace OneVietnam.Controllers
             List<UserViewModel> listview = userslist.Select(user => new UserViewModel(user)).ToList();
             return View(listview);
         }
-        
+
         //DEMO
         public ActionResult CreateCountry()
         {
@@ -246,14 +246,13 @@ namespace OneVietnam.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Gender = model.Gender };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account",
-                       new { userId = user.Id, code = code }, protocol:
-Request.Url.Scheme);
+                       new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(user.Id,
                        "Xác nhận tài khoản", "Xác nhận tài khoản của bạn bằng cách click vào <a href=\""
                        + callbackUrl + "\">link</a>");
