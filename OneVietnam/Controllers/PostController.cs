@@ -189,20 +189,35 @@ namespace OneVietnam.Controllers
         }
         public async Task<ActionResult> ShowPost()
         {
-            List<Post> list = await PostManager.FindByUserId(User.Identity.GetUserId());
+            //List<Post> list = await PostManager.FindByUserId(User.Identity.GetUserId());
+            List<Post> list = await PostManager.FindAllPostsAsync();
             List<PostViewModel> pViewList = list.Select(post => new PostViewModel(post)).ToList();
             return View(pViewList);
         }
 
         public void _ShowPostDetail(string postId)
-        {            
-            //if (IconList != null)
-            //{
-            //    ViewData["PostTypes"] = IconList;
-            //}
-            //Post post = UserManager.GetPostByIdAsync(postId);
-            //PostViewModel showPost = new PostViewModel(post);
-            //ViewData["PostView"] = showPost;
+        {
+            ViewData.Clear();
+            var post = PostManager.FindById(postId);
+            if (post.Result != null)
+            {
+                ViewBag.PostDetail = post.Result;
+
+                if (TagList != null)
+                {
+                    ViewData["TagList"] = TagList;
+                }
+                if (IconList != null)
+                {
+                    ViewData["PostTypes"] = IconList;
+                }
+
+                var postUser =  UserManager.FindByIdAsync(post.Result.UserId);
+                if (postUser.Result != null)
+                {
+                    ViewBag.PostUser = postUser.Result;
+                }
+            }                        
         }
 
         public async Task<ActionResult> ShowPostDetail(string postId)
