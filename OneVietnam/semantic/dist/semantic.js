@@ -12522,7 +12522,7 @@ $.fn.search = function(parameters) {
               }
                 //todo
               if ($result.length > 0) {
-                  location.href = "/Search/Index";                  
+                  location.href = "/home/index";                  
                   return false;;
               }
 
