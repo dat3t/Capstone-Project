@@ -1,11 +1,11 @@
 ﻿
+@using MongoDB.Driver.Linq
 @using OneVietnam.DTL;
 @model OneVietnam.Models.PostViewModel
 @{
     ViewBag.Tiltel = "EditPost";
     List<Tag> tagList = ViewData["TagList"] as List<Tag>;
-    List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
-    string strPostId = ViewData["PostId"] as string;
+    List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;    
 
 }
 <title>EditPost</title>
@@ -13,9 +13,125 @@
 
 @using (Html.BeginForm("EditPost", "Post", FormMethod.Post))
 {
+   
+        <input type="hidden" name="PostId" id="PostId" value="@Model.Id"/>
+    <div class="ui form segment">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div>
-        <input type="hidden" name="PostId" id="PostId" value="@Model.Id" />
-        <table>
+        <div class="field">
+            <label for="Title">Tiêu đề</label>
+            <input id="Title" name="Title" type="text" value="@Model.Title">
+            <span class="field-validation-valid text-danger" data-valmsg-for="Title" data-valmsg-replace="true"></span>
+        </div>
+        <div class="field">            
+            <input id="PublishDate" name="PublishDate" type="datetime" hidden="" value="@Model.PublishDate" />
+        </div>
+        <div class="field">
+            <label for="PostType">Loại bài đăng</label>
+            <div class="ui selection dropdown">
+                <input type="hidden" id="PostType" name="PostType" value="@Model.PostType">
+                <i class="dropdown icon"></i>
+                <div class="default text">Chọn loại bài đăng</div>
+                <div class="menu">
+                    @{
+                        if (postTypes != null)
+                        {
+                            foreach (Icon icon in postTypes)
+                            {
+                                <div class="item" data-value="@icon.IconId">
+                                    <img class="ui mini avatar image" src="@icon.IconImage">
+                                    @icon.IconText
+                                </div>
+                            }
+                        }
+                    }
+
+                </div>
+            </div>
+
+        </div>
+        <div class="field">
+            <label for="PostLocation_Address">Địa chỉ bài đăng</label>
+            <input tabindex="3" id="PostLocation_Address" name="PostLocation.Address" type="text" value="@Model.PostLocation.Address" />
+            <span class="field-validation-valid text-danger" data-valmsg-for="PostLocation.Address" data-valmsg-replace="true"></span>
+        </div>
+        <div class="field">
+            <label for="TagsInput">Thẻ liên quan</label>
+            <div class="ui fluid multiple search selection dropdown">
+                @{
+                    string tagValue = "";
+                    if (Model.Tags != null)
+                    {
+                        foreach (var tag in Model.Tags)
+                        {
+                            tagValue = string.IsNullOrEmpty(tagValue) ? tag.TagValue : string.Concat(tagValue + ",", tag.TagValue);
+                        }
+                    }
+
+                }
+                <input name="TagsInput" id="TagsInput" type="hidden" value="@tagValue">
+                <i class="dropdown icon"></i>
+                <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Chọn hoặc tạo thẻ mới</div>
+                <div class="menu transition hidden" tabindex="-1">
+
+                    @{
+                        if (tagList != null)
+                        {
+                            foreach (Tag tag in tagList)
+                            {
+                                <div class="item" data-value="@tag.TagValue">@tag.TagText</div>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label for="Description">Mô tả </label>
+            <textarea id="Description" name="Description">@Model.Description</textarea>
+            <span class="field-validation-valid text-danger" data-valmsg-for="Description" data-valmsg-replace="true"></span>
+
+        </div>
+        <div class="field">
+            <div class="ui toggle checkbox">
+                <input data-val="true" checked="@Model.Status" id="Status" name="Status" type="checkbox" value="true" onchange="ChangeStatus()"/>
+                <input name="Status" type="hidden" value="@Model.Status"/>
+                @if (Model.Status)
+                {
+                    <label id="LblStatus">Đang hoạt động</label>
+                }
+                else
+                {
+                    <label id="LblStatus">Đã đóng</label>
+                }
+            </div>
+            <script>
+                function ChangeStatus() {
+                    var chkStt = document.getElementById("Status");
+                    var lblStt = document.getElementById("LblStatus");
+                    if (chkStt.checked) {
+                        lblStt.innerText = "Đang hoạt động";
+                    } else {
+                        lblStt.innerText = "Đã đóng";
+                    }
+                };                
+            </script>
+               
+        </div>       
+        <div class="content">            
+            <div class="dropzone" id="myId">
+                <div class="fallback">
+                    <input id="files" multiple="" name="files" type="file">
+                </div>
+            </div>
+
+        </div>
+        <input id="btnSave" type="submit" value="Lưu" class="ui primary button" />
+        <input id="btnCancel" type="button" value="Hủy" />        
+    </div>
+
+    @*<table>
             <tr>
                 <td>
                     <input id="fileUpload" name="fileUpload" type="file" hidden="" value="" onchange="previewImg()" multiple="" />
@@ -198,7 +314,8 @@
                     </table>
                 </td>
             </tr>
-        </table>
+        </table>*@
+        
     </div>
 }
 
