@@ -11,7 +11,7 @@ namespace OneVietnam.Models
         
         public string Title { get; set; }
         
-        public string UserName { get; set; }
+        public string UserId { get; set; }
 
         public int PostType { get; set; }        
 
@@ -67,6 +67,9 @@ namespace OneVietnam.Models
         public List<Tag> Tags { get; set; }
 
         public List<Report> Reports { get; set; }
+
+        public ReportViewModal ReportView { get; set; }
+
         public PostViewModel()
         {
         }
