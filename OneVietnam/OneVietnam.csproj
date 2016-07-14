@@ -316,8 +316,15 @@
     <Content Include="Content\CountryImage\vi.png" />
     <Content Include="Content\Icon\icon-gg.png" />
     <Content Include="Content\Images\chov.png" />
+    <Content Include="Content\Images\home.png" />
+    <Content Include="Content\Images\m1.png" />
+    <Content Include="Content\Images\m2.png" />
+    <Content Include="Content\Images\m3.png" />
+    <Content Include="Content\Images\m4.png" />
+    <Content Include="Content\Images\m5.png" />
     <Content Include="Content\Images\poke_celebi.png" />
     <Content Include="Content\Images\rua.png" />
+    <Content Include="Content\Images\user.png" />
     <Content Include="Content\loader.css" />
     <Content Include="Content\Map\mappagecustom.css" />
     <Content Include="Content\Map\scrollbar.css" />
@@ -335,11 +342,6 @@
     <Content Include="Content\Images\background.jpg" />
     <Content Include="Content\Images\dat.JPG" />
     <Content Include="Content\Images\Logo.png" />
-    <Content Include="Content\Images\m1.png" />
-    <Content Include="Content\Images\m2.png" />
-    <Content Include="Content\Images\m3.png" />
-    <Content Include="Content\Images\m4.png" />
-    <Content Include="Content\Images\m5.png" />
     <Content Include="Content\Images\pikachu.jpg" />
     <Content Include="Content\stylesheet.css" />
     <Content Include="fonts\helveticaneuecyr-bold.svg" />
