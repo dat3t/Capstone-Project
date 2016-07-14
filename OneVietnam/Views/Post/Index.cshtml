@@ -1,6 +1,9 @@
 ﻿@using OneVietnam.Controllers
 @using OneVietnam.DTL
 @using Twilio
+
+<script type="text/javascript" src="~/Scripts/searchboxCreatePost.js"></script>
+
 <div class="ui grid">
 <div class="four wide column">
     
@@ -14,10 +17,14 @@
             <div class="menu">
                 <a class="active item">Search</a>
                 @{
-                    ((PostController)ViewContext.Controller)._CreatePost();
+                    ((PostController) ViewContext.Controller)._CreatePost();
                 }
-                <a class="item write"  ><i class="write icon"></i>Write Post</a>
+                <a class="item write"><i class="write icon"></i>Write Post</a>
                 <a class="item">Remove</a>
+            </div>
+            <div class="ui icon input">
+                <input class="input-location" type="text" placeholder="Tìm kiếm địa điểm...">
+                <i class="search icon"></i>
             </div>
         </div>
         <a class="browse item">

@@ -21,6 +21,7 @@ namespace OneVietnam
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/semantic/dist/semantic.min.js",
                         "~/Scripts/global.js",
+                        "~/Scripts/map.js",
                         "~/Scripts/dropzone.js",
                       "~/Scripts/respond.js"));
 
@@ -33,10 +34,12 @@ namespace OneVietnam
                 "~/Content/Map/infoWindow.css",
                 "~/Content/Map/searchbox.css",
                 "~/Content/Map/mappagecustom.css",
-                 "~/Content/Map/scrollbar.css"));
+                 "~/Content/Map/scrollbar.css"
+                 ));
             bundles.Add(new StyleBundle("~/Scripts/Map").Include(
                 "~/Scripts/map.js",
-                "~/Scripts/markerclusterer.js"
+                "~/Scripts/markerclusterer.js",
+                "~/Scripts/searchboxCreatePost"
                 ));
         }
     }

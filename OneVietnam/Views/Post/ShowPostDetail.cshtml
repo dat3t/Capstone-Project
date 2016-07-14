@@ -1,307 +1,285 @@
-﻿@using OneVietnam.Controllers
+﻿
+@using Microsoft.AspNet.Identity
 @using OneVietnam.DTL
 @model OneVietnam.Models.PostViewModel
 
 @{
     ViewBag.Title = "ShowPostDetail";
-    List<Tag> tagList = ViewData["TagList"] as List<Tag>;
     List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
+    ApplicationUser postUser = ViewData["PostUser"] as ApplicationUser;
+
 }
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <link rel="stylesheet" href="~/Content/image-slider.css">
-@using (Html.BeginForm("ShowPostDetail", "Post", FormMethod.Post))
-{
-    <div>
-        <input type="hidden" name="PostId" id="PostId" value="@Model.Id" />
-        <div class="ui segments" style="width: 100%; border: 0 !important;">
-            <div class="ui segment" style="width: 100%; border: 0 !important; margin-bottom: 0">
-                <div class="ui horizontal segments" style="width: 100%; box-shadow: none; margin: 0; border: 0 !important;">
-                    <div class="ui segment" style="width: 60%; border: 0 !important; padding: 0">
-                        <table style="height: 100%; width: 100%">
-                            <tr>
-                                <td style="width : 8%; text-align: left !important;">
-                                    <a class="prev" onclick="plusSlides(-1)">❮</a>
-                                </td>
-                                <td style="width: 84%; text-align: center">
-                                    <div class="ui people shape">
-                                        <div class="sides fade">
-                                            @{
-                                                if (Model.Illustrations == null | (Model.Illustrations != null && Model.Illustrations.Count <= 0))
-                                                {
-                                                    <div class="side active">
-                                                        <div class="ui card" style="width: auto !important; max-height: 100%">
-                                                            <div class="image">
-                                                                <img src="/Images/no-image.png" style="max-height: 50vh !important; max-width: 100% !important; width: auto !important" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                }
-                                                else
-                                                {
-                                                    foreach (var ill in Model.Illustrations)
-                                                    {
-                                                        <div class="side fade">
-                                                            <div class="ui card" style="width: auto !important; max-height: 100%">
-                                                                <div class="image">
-                                                                    <img src="@ill.PhotoLink" style="max-height: 60vh !important; max-width: 100% !important; width: auto !important" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    }
-                                                    <div style="text-align: center">
-                                                        @for (int index = 1; index < Model.Illustrations.Count + 1; index++)
-                                                        {
-                                                            <span class="dot" onclick="currentSlide(@index)"></span>
-                                                        }
+<div style="margin: auto; width: 40%">
 
-                                                    </div>
-                                                }
-                                            }
-                                        </div>
-                                    </div>
-                                </td>
-                                <td style="width: 8%; text-align: right !important">
-                                    <a class="next" onclick="plusSlides(1)">❯</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="ui segment" style="width: 40%; border: 0 !important; padding: 0">
-                        <div class="ui very relaxed selection list">
-                            <div class="item">
-                                <div class="ui huge header">
-                                    @Model.Title
-                                </div>
-                            </div>
-                            <div class="item">
-                                <a href="http://google.com">
-                                    <img class="ui middle aligned avatar image" src="/Images/dat.JPG">
-                                </a>
-                            </div>
-                            <div class="item">
-                                <div id="fb-root"></div>
-                                <script>
-                                    (function (d, s, id) {
-                                        var js, fjs = d.getElementsByTagName(s)[0];
-                                        if (d.getElementById(id)) return;
-                                        js = d.createElement(s);
-                                        js.id = id;
-                                        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
-                                        fjs.parentNode.insertBefore(js, fjs);
-                                    }(document, 'script', 'facebook-jssdk'));
-                                </script>
-                                <div class="ui horizontal list">
-                                    <div class="item" style="width: 150px;">
-                                        <script>
-                                            //like button
-                                            document.write("<div class='fb-like' data-href='" +
-                                                window.location.href +
-                                                "' data-layout='button_count' data-action='like' data-size='large' data-show-faces='false' data-share='false'></div>");
-                                        </script>
-                                    </div>
-                                    <div class="right floated item">
-                                        <script>
-                                            //share button
-                                            document.write("<div class='fb-share-button' data-href='" +
-                                                window.location.href +
-                                                "' data-layout='button_count' data-size='large' data-mobile-iframe='true'>" +
-                                                "<a class='fb-xfbml-parse-ignore' target='_blank' href='" +
-                                                window.location.href +
-                                                "'>Chia sẻ</a>" +
-                                                "</div>");
-                                        </script>
-                                    </div>
+    <div class="ui segments" style="width: 100%; border: 0 !important;">
+        @*Title area*@
+        <div class="ui segment" style="width: 100%; border: 0 !important;">
+            <div class="ui huge header">
+                @Model.Title
+            </div>
+        </div>
 
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="ui header">
-                                    <div class="ui huge star clearing rating" data-rating="4" data-max-rating="5">
-                                    </div>
-                                </div>
+        @*User post*@
+        <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
+            <span class="right floated">
+                Tạo ngày @($"{Model.PublishDate:dd/MM/yyyy}")
+            </span>
+            <a href="http://google.com">
+                <img class="ui middle aligned avatar image" src="/Content/Images/dat.JPG">
+                @if (postUser != null)
+                {
+                <span>@postUser.UserName </span>
+                }
+            </a>
 
-                            </div>
-                            <div class="item">
-                                <div class="ui header">
-                                    <i class="calendar icon"></i>
-                                    <div class="content">
-                                        @($"{Model.PublishDate:dd/MM/yyyy}")
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="ui header">
-                                    @{
-                                        if (postTypes != null)
-                                        {
-                                            foreach (Icon icon in postTypes)
-                                            {
-                                                if (icon.IconId == Model.PostType)
-                                                {
-                                                    <img class="ui mini avatar image" src="@icon.IconImage" />
-                                                    <div class="content">
-                                                        @icon.IconText
-                                                    </div>
-                                                }
-                                            }
-                                        }
-                                    }
+        </div>
 
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="ui header">
-                                    <i class="home icon"></i>
-                                    <div class="content">
-                                        <a href="">@Model.PostLocation.Address</a>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            @{if (Model.Tags != null)
+        @*Illustration Area*@
+        @{
+            if (Model.Illustrations != null && Model.Illustrations.Count > 0)
+            {
+                <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0; padding-left: 0; padding-right: 0">
+                    <table style="height: 100%; width: 100%">
+                        <tr>
+                            <td style="width: 8%; text-align: left !important;">
+                                @if (Model.Illustrations.Count > 1)
                                 {
-                                    <div class="item">
-                                        <div class="ui header">
-                                            <i class="tags icon"></i>
-                                            <div class="content">
-                                                @foreach (var tag in Model.Tags)
-                                                {
-                                                    <a href="">@tag.TagText</a>
-                                                }
+                                <a class="prev" onclick="plusSlides(-1)">❮</a>
+                                }
+
+                            </td>
+                            <td style="width: 84%; text-align: center">
+                                <div class="ui people shape">
+                                    <div class="sides fade">
+
+                                        @foreach (var ill in Model.Illustrations)
+                                        {
+                                        <div class="side fade">
+                                            <div class="ui card" style="width: auto !important; max-height: 100%">
+                                                <div class="image">
+                                                    <img src="@ill.PhotoLink" style="max-height: 60vh !important; max-width: 100% !important; width: auto !important" />
+                                                </div>
                                             </div>
                                         </div>
+                                        }
+                                        <div style="text-align: center">
+                                            @if (Model.Illustrations.Count > 1)
+                                            {
+                                                for (int index = 1; index < Model.Illustrations.Count + 1; index++)
+                                                {
+                                            <span class="dot" onclick="currentSlide(@index)"></span>
+                                                }
+                                            }
+
+
+                                        </div>
                                     </div>
-                                }
-                            }
-
-                            <div class="item">
-                                <div class="ui green header">
-                                    <i class="pin icon"></i>
-                                    @if (Model.Status)
-                                    {
-                                        <div class="content">
-                                            Đang hoạt động
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="content">
-                                            Đã đóng
-                                        </div>
-                                    }
                                 </div>
-
-                            </div>
-                            <div class="item">
-                                @if (User.Identity.IsAuthenticated)
+                            </td>
+                            <td style="width: 8%; text-align: right !important">
+                                @if (Model.Illustrations.Count > 1)
                                 {
-                                    ((PostController)ViewContext.Controller)._ShowPostDetail(Model.Id);
-                                    <input type="button" class="positive ui edit button" value="Sửa bài đăng" />
-                                    <input class="negative ui button" value="Xóa bài đăng" type="submit" />
-                                }                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="ui segment" style="width: 100%; border: 0 !important; margin-top: 0">
-                <div class="ui horizontal segments" style="width: 100%; box-shadow: none; margin: 0; border: 0 !important">
-                    <div class="ui segment" style="width: 60%; border: 0 !important; padding: 0">
-                        <script>
+                                <a class="next" onclick="plusSlides(1)">❯</a>
+                                }
 
-                            document.write("<div class='fb-comments' style='width: 100%' data-href='" +
-                                window.location.href +
-                                "' data-numposts='3' ></div>");
-                        </script>
-                    </div>
-                    <div class="ui segment" style="width: 40%; border: 0 !important; padding: 0">
-                        <div class="ui very relaxed selection list">
-                            <div class="item">
-                                <div class="ui header">
-                                    <i class="edit icon"></i>
-                                    <div class="content">
-                                        Mô tả chi tiết
-                                    </div>
-                                    <div class="sub header">
-                                        @Model.Description
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <script>
+
+                        var slideIndex = 1;
+                        showSlides(slideIndex);
+
+                        function plusSlides(n) {
+                            showSlides(slideIndex += n);
+                        }
+
+                        function currentSlide(n) {
+                            showSlides(slideIndex = n);
+                        }
+
+                        function showSlides(n) {
+                            var i;
+                            var slides = document.getElementsByClassName("side");
+                            var dots = document.getElementsByClassName("dot");
+                            if (n > slides.length) {
+                                slideIndex = 1;
+                            }
+                            if (n < 1) {
+                                slideIndex = slides.length;
+                            }
+                            for (i = 0; i < slides.length; i++) {
+                                slides[i].style.display = "none";
+                            }
+                            for (i = 0; i < dots.length; i++) {
+                                dots[i].className = dots[i].className.replace(" active", "");
+                            }
+                            slides[slideIndex - 1].style.display = "block";
+                            dots[slideIndex - 1].className += " active";
+                        }
+                    </script>
+                </div>
+            }
+        }
+
+        @*Like and Share Area*@
+        <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
+            <div id="fb-root"></div>
+            @if (Model.Status)
+            {
+            <div class="ui right floated green sub header">
+                <i class="heartbeat icon"></i>
+                <div class="content">
+                    Đang hoạt động
                 </div>
             </div>
-        </div>
-        <div>
+
+            }
+            else
+            {
+            <div class="ui right floated red header"></div>
+            <div class="content">
+                Đã đóng
+            </div>
+            }
+
             <script>
+                (function (d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));
 
-                var slideIndex = 1;
-                showSlides(slideIndex);
-                function plusSlides(n) {
-                    showSlides(slideIndex += n);
-                }
-
-                function currentSlide(n) {
-                    showSlides(slideIndex = n);
-                }
-
-                function showSlides(n) {
-                    var i;
-                    var slides = document.getElementsByClassName("side");
-                    var dots = document.getElementsByClassName("dot");
-                    if (n > slides.length) {
-                        slideIndex = 1;
-                    }
-                    if (n < 1) {
-                        slideIndex = slides.length;
-                    }
-                    for (i = 0; i < slides.length; i++) {
-                        slides[i].style.display = "none";
-                    }
-                    for (i = 0; i < dots.length; i++) {
-                        dots[i].className = dots[i].className.replace(" active", "");
-                    }
-                    slides[slideIndex - 1].style.display = "block";
-                    dots[slideIndex - 1].className += " active";
-                }
+                //like button
+                document.write("<div class='fb-like' data-href='" +
+                    window.location.href +
+                    "' data-layout='button_count' data-action='like' data-size='small' data-show-faces='false' data-share='false'></div>");
+            </script>
+            <script>
+                //share button
+                document.write("<div class='fb-share-button' data-href='" +
+                    window.location.href +
+                    "' data-layout='button_count' data-size='small' data-mobile-iframe='true'>" +
+                    "<a class='fb-xfbml-parse-ignore' target='_blank' href='" +
+                    window.location.href +
+                    "'>Chia sẻ</a>" +
+                    "</div>");
             </script>
         </div>
-    </div>
-                                }
 
-@Html.Partial("_ShowPostDetail")
+        @*Address and Post Type*@
+        <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
+            @if (postUser != null && (User.Identity.IsAuthenticated && (User.Identity.GetUserId() == postUser.Id)))
+            {
+                <i class="icon remove circle link" id="deletePost" data-content="Xóa" style="float: right"></i>
+                <i class="icon edit link" data-content="Sửa" style="float: right" onclick="document.location.href = '@Url.Action("EditPost", "Post", new {postId = Model.Id})';"></i>
 
-@section scripts {
-    <!--Script references. -->
-    <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
-    <!--Reference the SignalR library. -->
-    <script src="http://localhost:51801/Scripts/jquery.signalR-2.2.0.min.js"></script>
-    <!--Reference the autogenerated SignalR hub script. -->
-    <script src="~/signalr/hubs"></script>
-    <!--SignalR script to update the chat page and send messages.-->
-    <script>
-        $(function () {
-            // Reference the auto-generated proxy for the hub.
-            var chat = $.connection.myHub;
-            // Create a function that the hub can call back to display messages.
-            chat.client.loadNewPost = function (newPost) {
-                // Add the message to the page.
-                console.log(newPost);
+                //Delete Popup Modal
+                <script>
+                    $("#deletePost").click(function () {
+                        $('.ui.small.delete.modal').modal('show');
+                    });
+                </script>
 
-            };
-            $.connection.hub.start()
-                .done(function () {
+                <div class="ui small delete modal">
+                    <div class="header">
+                        Xóa bài đăng
+                    </div>
+                    <div class="content">
+                        <p>Bạn có chắc chắn xóa bài đăng này?</p>
+                    </div>
+                    <div class="actions">
+                        <div class="ui cancel button">
+                            Hủy
+                        </div>
+                        <div class="ui green button" onclick="document.location.href = '@Url.Action("DeletePost", "Post", new {postId = Model.Id})';">
+                            Xóa
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <i class="icon announcement link" id="reportPost" data-content="Báo cáo" style="float: right"></i>
+                //Report Popup Modal
+                <script>
+                    $("#reportPost").click(function () {
+                        $('.ui.small.report.modal').modal('show');
+                    });
+                </script>
 
-                    //do nothing
-                });
-        });
+                <div class="ui small report modal">                    
+                    <div class="header">
+                        Gửi báo cáo
+                    </div>
+                    <div class="content">
+                        <div class="ui form">                            
+                            <div class="field">                                
+                                <textarea></textarea>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <div class="ui cancel button">Hủy</div>
+                        <div class="ui green button">Gửi</div>
+                    </div>
+                </div>
 
-        // This optional function html-encodes messages for display in the page.
-        function htmlEncode(value) {
-            var encodedValue = $('<div />').text(value).html();
-            return encodedValue;
+            }
+            <i class="icon home"></i>
+            <a class="item" href="">@Model.PostLocation.Address</a>
+            @{
+                if (postTypes != null)
+                {
+                    foreach (Icon icon in postTypes)
+                    {
+                        if (icon.IconId == Model.PostType)
+                        {
+                            <a class="item" style="color: #000000">
+                                <i class="icon filter"></i> @icon.IconText
+                            </a>
+                        }
+                    }
+                }
+            }
+
+        </div>
+
+        @*Description Area*@
+        <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
+            <div class="content" style="text-align: justify">
+                @Model.Description
+            </div>
+        </div>
+
+        @*Comment Area*@
+        <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
+            <script>
+                //Comment
+                document.write("<div class='fb-comments' style='width: 100%' data-href='" +
+                    window.location.href +
+                    "' data-numposts='3' ></div>");
+            </script>
+        </div>
+
+        @*Related Tags*@
+        @{if (Model.Tags != null)
+            {
+                <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
+                    <i class="tags icon" style="float: left"></i>Thẻ liên quan:
+                    @foreach (var tag in Model.Tags)
+                    {
+                        <a href="" style="text-decoration: underline;">@tag.TagText</a>
+                    }
+                </div>
+
+            }
         }
-    </script>
-}
+
+    </div>
+</div>

@@ -48,10 +48,10 @@ namespace OneVietnam.DAL
         {
             return await _posts.Find(p => true).ToListAsync();
         }
-        public async Task<List<Post>>  FullTextSearch(string query)
+        public async Task<List<Post>> FullTextSearch(string query)
         {
-            var filter = Query.Text(query).ToBsonDocument();            
-            return await _posts.Find(filter).ToListAsync();                        
+            var filter = Query.Text(query).ToBsonDocument();
+            return await _posts.Find(filter).ToListAsync();
         }
     }
 }

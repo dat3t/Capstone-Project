@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using OneVietnam.BLL;
+using OneVietnam.DTL;
 using OneVietnam.Models;
 
 namespace OneVietnam.Controllers
@@ -13,9 +15,15 @@ namespace OneVietnam.Controllers
     public class SearchController : Controller
     {
         // GET: Search
-        public ActionResult Index()
+        public async Task<ActionResult> Index(string query)
         {
-            return View();
+             var result = await PostManager.FullTextSearch(query);
+            List<PostViewModel> postViewModels=new List<PostViewModel>();
+            foreach (var post in result)
+            {
+                postViewModels.Add(new PostViewModel(post));
+            }
+            return View(postViewModels);
         }
         private PostManager _postManager;
         public PostManager PostManager
