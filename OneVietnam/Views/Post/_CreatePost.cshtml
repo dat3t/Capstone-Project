@@ -8,8 +8,7 @@
     List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
 
 }
-
-<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="~/Scripts/searchboxCreatePost.js"></script>
 
 <div class="ui modal" >
     <div class="modal-container">
@@ -82,9 +81,11 @@
 
                     <div class="field">
                         <label>Mô tả </label>
-                        <textarea rows="4" tabindex="4" id="Description"  name="Description" value=""></textarea>
+                        <textarea rows="4" tabindex="4" id="Description" name="Description" value=""></textarea>
 
                     </div>
+                        <input id="PostLocation.Address" class="input-location" type="text" placeholder="Tìm kiếm địa điểm...">
+
                     <button id="imgUpload " type="button"><i class="photo icon"></i></button>                    
                     <div class="dropzone" id="myId">
                         <div class="fallback">

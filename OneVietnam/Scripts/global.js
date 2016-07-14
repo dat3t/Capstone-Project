@@ -12,14 +12,13 @@
     });    
     $('.ui.search').search({
         apiSettings: {
-            url: '/Home/search?id={query}'
+            url: '/Search/search?query={query}'
         },
         fields: {
             results: 'Result',
             title: 'Title',
             description: 'Description',
-            url: '',
-            Image:"Images/logo.png"
+            url: 'Url'            
         },
         minCharacters: 3
     })
