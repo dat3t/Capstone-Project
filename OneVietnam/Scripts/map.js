@@ -384,6 +384,10 @@ function setMapToAMarkerCluster(markerCluster) {
     LGBTMarkerCluster.setMap(null);
     type0MarkerCluster.setMap(null);
     type1MarkerCluster.setMap(null);
+    type2MarkerCluster.setMap(null);
+    type3MarkerCluster.setMap(null);
+    type4MarkerCluster.setMap(null);
+    type5MarkerCluster.setMap(null);
 
     markerCluster.setMap(map);
 }
