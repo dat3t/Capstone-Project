@@ -8,22 +8,13 @@ var infowindowContent;
 var myCurrentLocationMarker;
 var markerCluster;
 
-var listUserMarkers = [];
-var listMaleMarkers = [];
-var listFemaleMarkers = [];
-var listLGBTMarkers = [];
-var listType0Markers = [];
-var listType1Markers = [];
-var listType2Markers = [];
+var listUserMarkers = [],listMaleMarkers = [], listFemaleMarkers = [],listLGBTMarkers = [];
 
-var userMarkerCluster = [];
-var maleMarkerCluster = [];
-var femaleMarkerCluster = [];
-var LGBTMarkerCluster = [];
-var type0MarkerCluster = [];
-var type1MarkerCluster = [];
-var type2MarkerCluster = [];
+var listType0Markers = [], listType1Markers = [], listType2Markers = [], listType3Markers = [], listType4Markers = [], listType5Markers = [];
 
+var userMarkerCluster = [],maleMarkerCluster = [],femaleMarkerCluster = [],LGBTMarkerCluster = [];
+
+var type0MarkerCluster = [], type1MarkerCluster = [], type2MarkerCluster = [], type3MarkerCluster = [], type4MarkerCluster = [], type5MarkerCluster = [];
 
 //Declare an icon of sample marker
 var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
@@ -102,6 +93,10 @@ function initialize() {
     createListLGBTMarkers();
     createListType0Markers();
     createListType1Markers();
+    createListType2Markers();
+    createListType3Markers();
+    createListType4Markers();
+    createListType5Markers();
 
     userMarkerCluster = new MarkerClusterer(map, listUserMarkers);
     maleMarkerCluster = new MarkerClusterer(map, listMaleMarkers);
@@ -109,6 +104,10 @@ function initialize() {
     LGBTMarkerCluster = new MarkerClusterer(map,listLGBTMarkers);
     type0MarkerCluster = new MarkerClusterer(map, listType0Markers);
     type1MarkerCluster = new MarkerClusterer(map, listType1Markers);
+    type2MarkerCluster = new MarkerClusterer(map, listType2Markers);
+    type3MarkerCluster = new MarkerClusterer(map, listType3Markers);
+    type4MarkerCluster = new MarkerClusterer(map, listType4Markers);
+    type5MarkerCluster = new MarkerClusterer(map, listType5Markers);
 
     userMarkerCluster.setMaxZoom(9);
     showUsers();
@@ -125,7 +124,8 @@ function initialize() {
         title: 'Second Marker'
     });
     var marker7 = new google.maps.Marker({
-        position: { lat: 15.8800584, lng: 108.3380469 },
+        // position: { lat: 15.8800584, lng: 108.3380469 },
+        position: { lat: 16.0544068, lng: 108.20216670000002 },
         map: map,
         title: 'Second Marker'
     });
@@ -146,7 +146,6 @@ function initialize() {
 
     userInfoWindow = new google.maps.InfoWindow({
         content: "",
-        //content: '@Html.Partial("CustomInfoWindow")',
         maxWidth: 350
     });
     //google.maps.event.addListener(markerCluster, "clusterover", function (mCluster) {
@@ -201,38 +200,38 @@ function initialize() {
             return;
         }
 
-        // Clear out the old markers.
-        marker2.forEach(function (marker) {
-            marker.setMap(null);
-        });
-        marker2 = [];
+        //// Clear out the old markers.
+        //marker2.forEach(function (marker) {
+        //    marker.setMap(null);
+        //});
+        //marker2 = [];
 
-        // For each place, get the icon, name and location.
-        var bounds = new google.maps.LatLngBounds();
-        places.forEach(function (place) {
-            var icon = {
-                url: place.icon,
-                size: new google.maps.Size(71, 71),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(17, 34),
-                scaledSize: new google.maps.Size(25, 25)
-            };
+        //// For each place, get the icon, name and location.
+        //var bounds = new google.maps.LatLngBounds();
+        ////places.forEach(function (place) {
+        ////    var icon = {
+        ////        url: place.icon,
+        ////        size: new google.maps.Size(71, 71),
+        ////        origin: new google.maps.Point(0, 0),
+        ////        anchor: new google.maps.Point(17, 34),
+        ////        scaledSize: new google.maps.Size(25, 25)
+        ////    };
 
-            //// Create a marker for each place.
-            //marker2.push(new google.maps.Marker({
-            //    map: map,
-            //    icon: icon,
-            //    title: place.name,
-            //    position: place.geometry.location
-            //}));
+        //    //// Create a marker for each place.
+        //    //marker2.push(new google.maps.Marker({
+        //    //    map: map,
+        //    //    icon: icon,
+        //    //    title: place.name,
+        //    //    position: place.geometry.location
+        //    //}));
 
-            if (place.geometry.viewport) {
-                // Only geocodes have viewport.
-                bounds.union(place.geometry.viewport);
-            } else {
-                bounds.extend(place.geometry.location);
-            }
-        });
+        //    if (place.geometry.viewport) {
+        //        // Only geocodes have viewport.
+        //        bounds.union(place.geometry.viewport);
+        //    } else {
+        //        bounds.extend(place.geometry.location);
+        //    }
+        //});
         map.fitBounds(bounds);
     });
 
@@ -413,8 +412,31 @@ function showJobOffer() {
     setMapToAMarkerCluster(type1MarkerCluster);
 }
 
+function showFurnitureOffer() {
+    setMapToAMarkerCluster(type2MarkerCluster);
+}
+
+function showHandGoodsOffer() {
+    setMapToAMarkerCluster(type3MarkerCluster);
+}
+
+function showTradeOffer() {
+    setMapToAMarkerCluster(type4MarkerCluster);
+}
+
+function showSOS() {
+    setMapToAMarkerCluster(type5MarkerCluster);
+}
+
 function createListUserMarkers() {
     var length = allUsers.length;
+    var icon = {
+        url: "../Content/Images/user.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+    };
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(allUsers[i].x, allUsers[i].y);
         bounds.extend(position);
@@ -422,7 +444,8 @@ function createListUserMarkers() {
             position: position,
             map: null,
             title: allUsers[i].userID,
-            icon: image
+
+            icon: icon
         });
         listUserMarkers.push(marker);
         // Allow each marker to have an info window
@@ -517,6 +540,13 @@ function createListLGBTMarkers() {
 
 function createListType0Markers() {
     var length = postType0.length;
+    var icon = {
+        url: "../Content/Images/home.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+    };
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(postType0[i].x, postType0[i].y);
         bounds.extend(position);
@@ -524,7 +554,7 @@ function createListType0Markers() {
             position: position,
             map: null,
            // title: postType0[i].address,
-            icon: image
+            icon: icon
         });
         listType0Markers.push(marker);
         // Allow each marker to have an info window
@@ -532,7 +562,7 @@ function createListType0Markers() {
             return function () {
                 // infowindow.setContent(infoWindowContent[i][0]);
                 // AjaxDisplayString(userInfoWindow, marker)
-                //createPostInfoWindowContent(postType0[i].username, postType0[i].postType, "Ở chung nhà", postType0[i].address);
+                getPostInfo(postType0[i].postID, 0);
                 infowindow.open(map, marker);
             }
         })(marker, i));
@@ -559,6 +589,114 @@ function createListType1Markers() {
                 // infowindow.setContent(infoWindowContent[i][0]);
                 //AjaxDisplayString(userInfoWindow, marker)
              //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
+                infowindow.open(map, marker);
+            }
+        })(marker, i));
+
+    }
+    //  alert(listType1Markers[0].getTitle());
+
+}
+
+function createListType2Markers() {
+    var length = postType2.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(postType2[i].x, postType2[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            //title: postType1[i].address,
+            icon: image
+        });
+        listType2Markers.push(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                // infowindow.setContent(infoWindowContent[i][0]);
+                //AjaxDisplayString(userInfoWindow, marker)
+                //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
+                infowindow.open(map, marker);
+            }
+        })(marker, i));
+
+    }
+    //  alert(listType1Markers[0].getTitle());
+
+}
+
+function createListType3Markers() {
+    var length = postType3.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(postType3[i].x, postType3[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            //title: postType1[i].address,
+            icon: image
+        });
+        listType3Markers.push(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                // infowindow.setContent(infoWindowContent[i][0]);
+                //AjaxDisplayString(userInfoWindow, marker)
+                //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
+                infowindow.open(map, marker);
+            }
+        })(marker, i));
+
+    }
+    //  alert(listType1Markers[0].getTitle());
+
+}
+
+function createListType4Markers() {
+    var length = postType4.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(postType4[i].x, postType4[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            //title: postType1[i].address,
+            icon: image
+        });
+        listType4Markers.push(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                // infowindow.setContent(infoWindowContent[i][0]);
+                //AjaxDisplayString(userInfoWindow, marker)
+                //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
+                infowindow.open(map, marker);
+            }
+        })(marker, i));
+
+    }
+    //  alert(listType1Markers[0].getTitle());
+
+}
+
+function createListType5Markers() {
+    var length = postType5.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(postType5[i].x, postType5[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            //title: postType1[i].address,
+            icon: image
+        });
+        listType5Markers.push(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                // infowindow.setContent(infoWindowContent[i][0]);
+                //AjaxDisplayString(userInfoWindow, marker)
+                //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
                 infowindow.open(map, marker);
             }
         })(marker, i));
@@ -637,48 +775,6 @@ function smoothZoom(map, max, cnt) {
         });
         setTimeout(function () { map.setZoom(cnt) }, 80); // 80ms is what I found to work well on my system -- it might not work well on all systems
     }
-}
-
-function AjaxDisplayString(infowindow, marker) {
-    var addressData;
-    var testData;
-    $.ajax({
-        type: "GET",
-        url: '/Map/CustomInfoWindow?useid=asd',
-        dataType: "HTML",
-        contentType: 'application/json',
-        traditional: true,
-        data: addressData,
-        success: function (result) {
-            debugger;
-            //infowindow.setContent("<div>" + result + "</div>");
-            infowindow.open(map, marker);
-        },
-        error: function (arg) {
-            alert("Error");
-        }
-    });
-}
-
-function AjaxDisplayString(infowindow, marker) {
-    var addressData;
-    var testData;
-    $.ajax({
-        type: "GET",
-        url: '/Map/CustomInfoWindow?useid=asd',
-        dataType: "HTML",
-        contentType: 'application/json',
-        traditional: true,
-        data: addressData,
-        success: function (result) {
-            debugger;
-            infowindow.setContent("<div>" + result + "</div>");
-            infowindow.open(map, marker);
-        },
-        error: function (arg) {
-            alert("Error");
-        }
-    });
 }
 
 function createUserInfoWindowContent(name, age, gender, address) {
@@ -787,14 +883,14 @@ function getUserInfo(userId) {
     });
 }
 
-function getPostInfo(postID) {
+function getPostInfo(postID,postType) {
     $.ajax({
-        url: 'GetUserInfo?postId=' + postID,
+        url: 'GetPostInfo?postId=' + postID,
         type: 'GET',
         contentType: 'application/json;',
         dataType: 'json',
         success: function (json) {
-            createUserInfoWindowContent(json.UserName, 23, json.Gender, json.Location.Address);
+            createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
         }
     });
 }
