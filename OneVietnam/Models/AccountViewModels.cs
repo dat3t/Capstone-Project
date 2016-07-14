@@ -54,8 +54,7 @@ namespace OneVietnam.Models
         [Required]
         [Display(Name = "Email")]
         [EmailAddress]
-        public string Email { get; set; }
-
+        public string Email { get; set; }        
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Mật Khẩu")]
@@ -67,21 +66,28 @@ namespace OneVietnam.Models
 
     public class RegisterViewModel
     {
+        [Required]        
+        [StringLength(50,ErrorMessage = "Họ và Tên phải có ít nhất {2} kí tự, nhiều nhất {1} kí tự ",MinimumLength = 2)]
+        [Display(Name = "Họ Và Tên")]
+        public string UserName { get; set; }
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
-
+        [Required]
+        [Display(Name = "Giới Tính")]
+        public int Gender { get; set; }
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Mật Khẩu")]
         public string Password { get; set; }
-
+        [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Xác Nhận Mật Khẩu")]
+        [Compare("Password", ErrorMessage = "Mật Khẩu Xác Nhận Không Trùng Khớp")]
         public string ConfirmPassword { get; set; }
+        public string CurrentLocation { get; set; }
     }
 
     public class ResetPasswordViewModel
@@ -137,38 +143,5 @@ namespace OneVietnam.Models
             SecurityStamp = appUser.SecurityStamp;
             PhoneNumber = appUser.PhoneNumber;
         }
-    }
-    //DEMO
-    public class CreatePostViewModel
-    {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public int PostType { get; set; }
-        // logical delete        
-    }
-    //DEMO
-    public class ShowPostViewModel
-    {
-        public string Username { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public DateTimeOffset? PublishDate { get; set; }
-        public int PostType { get; set; }
-        // logical delete
-        public bool DeletedFlag { get; set; }
-        // finished or not
-        public bool Status { get; set; }
-
-        public ShowPostViewModel(Post post)
-        {
-            Username = post.Username;
-            Title = post.Title;
-            Description = post.Description;
-            PublishDate = post.PublishDate;
-            PostType = post.PostType;
-            DeletedFlag = post.DeletedFlag;
-            Status = post.Status;
-        }
-    }
-    //DEMO   
+    }    
 }

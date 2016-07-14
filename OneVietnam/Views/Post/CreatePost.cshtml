@@ -1,0 +1,169 @@
+﻿
+@using OneVietnam.DTL;
+@model OneVietnam.Models.CreatePostViewModel
+
+@{
+    ViewBag.Title = "CreatePost";
+    List<Tag> tagList = ViewData["TagList"] as List<Tag>;
+    List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
+}
+
+<h2>CreatePost</h2>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<style>
+    .image-add {
+    }
+</style>
+
+@using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{ @Html.AntiForgeryToken()    <div class="form-horizontal" style="height: 800px;">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <table>
+        <tr>
+            <td>
+                <input id="fileUpload" name="fileUpload" type="file" hidden="" value="" onchange="previewImg()" multiple="" />
+                <label id="imgUpload">Tải ảnh lên</label>
+                <div id="uploadList">
+                </div>
+                <script type="text/javascript">
+                    $("#imgUpload")
+                            .click(function () {
+                                $("#fileUpload").trigger('click');
+                            });
+
+                    function previewImg() {
+                        var fileUploader = document.getElementById("fileUpload");
+                        var newFiles = fileUploader.files.length;
+                        for (var index = 0; index < newFiles; index++) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                var newDiv =
+                                    $('<div class="ui image image-add"><i class="delete icon image-add"></i></div>');
+                                var img = $('<img />');
+                                var src = e.target.result;
+                                img.attr("src", src);
+                                img.appendTo(newDiv);
+                                var imgSrc = $('<input name="Img" id="Img" type="hidden" />');
+                                imgSrc.attr("value", src);
+                                imgSrc.appendTo(newDiv);
+                                var description = $('<input name="Des" id="Des" type="text" value="" />');
+                                description.appendTo(newDiv);
+                                newDiv.appendTo("#uploadList");
+
+                                $('.delete.icon.image-add')
+                                    .on('click',
+                                        function () {
+                                            $(this)
+                                                .parent()
+                                                .remove();;
+                                        });
+                            }
+                            reader.readAsDataURL(fileUploader.files[index]);
+                        }
+                        fileUploader.value = "";
+                    };                    
+                </script>
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <th colspan="2"><label for="Title">Tiêu đề</label></th>
+                        <td>                            
+                            <input id="Title" name="Title" type="text" value="" tabindex="1"/>
+                            <span class="field-validation-valid text-danger" data-valmsg-for="Title" data-valmsg-replace="true"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><label for="PostType">Loại bài đăng</label></th>
+                        <td>
+                            <div class="ui fluid selection dropdown">
+                                <input type="hidden" id="PostType" name="PostType">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">Chọn loại bài đăng</div>
+                                <div class="menu">
+                                    @{
+                                        if (postTypes != null)
+                                        {
+                                            foreach (Icon icon in postTypes)
+                                            {
+                                                <div class="item" data-value="@icon.IconId">
+                                                    <img class="ui mini avatar image" src="@icon.IconImage">
+                                                    @icon.IconText
+                                                </div>
+                                            }
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><label for="PostLocation_Address">Địa chỉ của bài đăng</label></th>
+                        <td>
+                            <input tabindex="3" id="PostLocation_Address" name="PostLocation.Address" type="text" value="" />
+                            <span class="field-validation-valid text-danger" data-valmsg-for="PostLocation.Address" data-valmsg-replace="true"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><label>Ngày đăng</label></th>
+                        <td>
+                            <input type="datetime" disabled="disabled" value="@System.DateTime.Now.ToString("yyyy MMMM dd")" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><label for="Description">Mô tả </label></th>
+                        <td>
+                            <input tabindex="4" id="Description" name="Description" type="text" value="" />
+                            <span class="field-validation-valid text-danger" data-valmsg-for="Description" data-valmsg-replace="true"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">
+                            <label>Thẻ liên quan</label>
+                        </th>
+                        <td>
+                            <div class="ui fluid multiple search selection dropdown">
+                                <input name="TagsInput" id="TagsInput" type="hidden" value="">
+                                <i class="dropdown icon"></i>
+                                <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Chọn hoặc tạo thẻ mới</div>
+                                <div class="menu transition hidden" tabindex="-1">
+
+                                    @{
+                                        if (tagList != null)
+                                        {
+                                            foreach (Tag tag in tagList)
+                                            {
+                                                <div class="item" data-value="@tag.TagValue">@tag.TagText</div>
+                                            }
+                                        }
+                                    }
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th colspan="2"></th>
+
+                        <td><input id="btnCreate" type="submit" tabindex="6" value="Tạo mới" class="btn btn-default" /></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+                                        }
+
+
+

@@ -8,17 +8,11 @@ namespace OneVietnam.Models
 {
     public class AddLocationViewModel
     {
-        public double x { get; set; }
-        public double y { get; set; }
-        public string address { get; set; }
-        public string userid { get; set; }
-
-        public AddLocationViewModel(Location location)
-        {
-            x = location.XCoordinate;
-            y = location.XCoordinate;
-            address = location.Address;
-        }
-
+        public double X { get; set; }
+        public double Y { get; set; }        
+        public string UserId { get; set; }
+        public string PostId { get; set; }
+        public int PostType { get; set; }
+        public int Gender { get; set; }                        
     }
 }

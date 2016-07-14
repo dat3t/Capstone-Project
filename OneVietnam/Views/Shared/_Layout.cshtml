@@ -3,52 +3,76 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - One Vietnam</title>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBiPDMBCKXsusl5-BgCw1nIyHwu5u3j8xw&libraries=places,geometry"></script>
+
+    @Styles.Render("~/semantic/css")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    @Scripts.Render("~/Scripts/Map")
+    @Scripts.Render("~/bundles/jquery")
 </head>
 <body>
-    @*<div class="navbar-custom navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("One Vietnam", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
-            </div>            
-            <div class="navbar-collapse collapse">
-                @Html.Partial("_LoginPartial")
-                <ul class="nav navbar-nav navbar-right">
-                    <li>@Html.ActionLink("Trang Chủ", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Bảng Tin", "Index", "NewFeed")</li>
-                </ul>
-                <form class="navbar-form">
-                    <div class="form-group" style="display: inline;">
-                        <div class="input-group" style="display: table;">
-                            <span class="input-group-addon" style="width: 1%;"><span class="glyphicon glyphicon-search"></span></span>
-                            <input type="text" class="form-control" placeholder="Search..." autocomplete="off" autofocus="autofocus" style="max-width: 500px">
+    <div class="ui grid">
+        <div class="computer only row">
+            <div class="ui main menu">                
+                <a href="@Url.Action("Index","Home")" class="ui item brand">
+                    <img src="~/Content/Images/logo.png"/>
+                    One Vietnam
+                </a>                
+                @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item" })        
+                <a href="" class="ui item">Bảng Tin</a>
+                <div class="right menu">
+                    <div class="item">
+                        <div id="uiSearch" class="ui search">
+                            <div class="ui fluid icon input">
+                                <input class="prompt" type="text" placeholder="Search...">
+                                <i class="search icon"></i>
+                            </div>
+                            <div class="force100 results"></div>
                         </div>
                     </div>
-                </form>
+                    @Html.Partial("_LoginPartial")
+                </div>
             </div>
         </div>
-    </div>*@
-   
-        <div class="row">
-            @RenderBody()
+        <div class="tablet mobile only row" style="padding-bottom: 0em !important;">
+            <div class="ui main menu">
+                <a href="@Url.Action("Index","Home")" class="ui item brand">
+                    <img src="~/Content/Images/logo.png" />
+                    One Vietnam
+                </a>               
+                <div class="right menu open">
+                    <a href="" class="menu item">
+                        <i class="sidebar icon"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ui fluid vertical menu open">
+                <div class="ui search">
+                    <div class="ui fluid icon input">
+                        <input class="prompt" type="text" placeholder="Search...">
+                        <i class="search icon"></i>
+                    </div>
+                    <div class="force100 results"></div>
+                </div>
+                @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item" })
+                <a href="" class="ui item">Bảng Tin</a>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>    
+    <div class="ui fluid container" style="height:100%;">
+        @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+            <footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>
     </div>
 
-
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/bootstrap")
-@Scripts.Render("~/bundles/theme")
-@RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/semantic")
+    @Scripts.Render("~/bundles/Scripts")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

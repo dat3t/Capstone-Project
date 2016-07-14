@@ -13,23 +13,7 @@ namespace OneVietnam.Controllers
 {
     public class MapController : Controller
     {
-        public static AddLocationViewModel LocationView;
-        // GET: Map
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult ViewMap()
-        {
-            return View();
-        }
-
-        //DEMO
-        public ActionResult AddLocation()
-        {
-            return View();
-        }
+        public static AddLocationViewModel LocationView;               
 
         private ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
@@ -43,28 +27,47 @@ namespace OneVietnam.Controllers
                 _userManager = value;
             }
         }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<ActionResult> AddLocation(AddLocationViewModel l)
+        private PostManager _postManager;
+        public PostManager PostManager
         {
-            Location location = new Location(l);
-            await UserManager.AddLocationAsync(l.userid,location);
-            return RedirectToAction("Index", "Home");
+            get
+            {
+                return _postManager ?? HttpContext.GetOwinContext().Get<PostManager>();
+            }
+            private set { _postManager = value; }
         }
 
-        //public ActionResult ShowLocation()
+        //[HttpPost]
+        //[AllowAnonymous]
+        //public async Task<ActionResult> AddLocation(AddLocationViewModel l)
         //{
-        //    return View(LocationView);
+        //    Location location = new Location(l);
+        //    await UserManager.AddLocationAsync(l.userid,location);
+        //    return RedirectToAction("Index", "Home");
         //}
 
-        public async Task<ActionResult> ShowLocation()
+        public async Task<ActionResult> ShowMap()
         {
             var userslist = await UserManager.AllUsersAsync();
-            List<Location> list = await UserManager.GetLocationAsync(userslist);
-            List<AddLocationViewModel> locationViewList = list.Select(location => new AddLocationViewModel(location)).ToList();
-            return View(locationViewList);
-        }
+            var list = userslist.Select(user => new AddLocationViewModel
+            {
+                X = user.Location.XCoordinate, Y = user.Location.YCoordinate, UserId = user.Id, Gender = user.Gender
+            }).ToList();
+            var postlist = await PostManager.FindAllPostsAsync();
+            list.AddRange(postlist.Select(p => new AddLocationViewModel
+            {
+                UserId = p.UserId, X = p.PostLocation.XCoordinate, Y = p.PostLocation.YCoordinate, PostId = p.Id, PostType = p.PostType
+            }));
 
+            return View(list);
+        }
+   
+
+        //[HttpPost] // can be HttpGet
+        public async Task<ActionResult> GetUserInfo(string userId)
+        {
+            var user = await UserManager.FindByIdAsync(userId);
+            return Json(user, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -26,9 +26,6 @@ namespace OneVietnam.Controllers
     [System.Web.Mvc.Authorize]
     public class AccountController : Controller
     {
-        
-        public static bool createdPost = false;
-        public static ShowPostViewModel PostView;
         public AccountController()
         {
         }
@@ -70,7 +67,7 @@ namespace OneVietnam.Controllers
         }
         public async Task<ActionResult> SelectCountry()
         {
-         
+
             var countrieslist = await CountryManager.GetCountriesAsync();
 
             var selectedCountry = Request.Form["CountryName"];
@@ -97,36 +94,7 @@ namespace OneVietnam.Controllers
             List<UserViewModel> listview = userslist.Select(user => new UserViewModel(user)).ToList();
             return View(listview);
         }
-        //DEMO   
-        public ActionResult CreatePost()
-        {
-            return View();
-        }
-        //DEMO
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreatePost(CreatePostViewModel p)
-        {
-            var post = new Post(p) { Username = User.Identity.Name };
-            await UserManager.AddPostAsync(User.Identity.GetUserId(), post);
-            createdPost = true;
-            PostView = new ShowPostViewModel(post);
-            return RedirectToAction("ShowCreatedPost");
-        }
-        //DEMO
-        public async Task<ActionResult> ShowPost()
-        {
 
-            List<Post> list = await UserManager.GetPostsAsync(User.Identity.GetUserId());
-            List<ShowPostViewModel> pViewList = list.Select(post => new ShowPostViewModel(post)).ToList();
-            return View(pViewList);
-        }
-        //DEMO
-        public ActionResult ShowCreatedPost()
-        {
-            return View(PostView);
-        }
         //DEMO
         public ActionResult CreateCountry()
         {
@@ -278,7 +246,7 @@ namespace OneVietnam.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Gender = model.Gender };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -286,10 +254,9 @@ namespace OneVietnam.Controllers
                     var callbackUrl = Url.Action("ConfirmEmail", "Account",
                        new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(user.Id,
-                       "Confirm your account", "Please confirm your account by clicking <a href=\""
-                       + callbackUrl + "\">here</a>");
-                    ViewBag.Message = "Check your email and confirm your account, you must be confirmed "
-                         + "before you can log in.";
+                       "Xác nhận tài khoản", "Xác nhận tài khoản của bạn bằng cách click vào <a href=\""
+                       + callbackUrl + "\">link</a>");
+                    ViewBag.Message = "Bạn cần xác nhận tài khoản qua Email trước khi đăng nhập.";
                     return View("Info");
                 }
                 AddErrors(result);
@@ -644,19 +611,5 @@ namespace OneVietnam.Controllers
             }
         }
         #endregion
-    }
-
-    public class MyHub : Hub
-    {
-        public override Task OnConnected()
-        {
-            if (AccountController.createdPost)
-            {
-                var javaScriptSerializer = new JavaScriptSerializer();
-                string jsonString = javaScriptSerializer.Serialize(AccountController.PostView);
-                Clients.Others.loadNewPost(jsonString);
-            }
-            return base.OnConnected();
-        }
     }
 }

@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using AspNet.Identity.MongoDB;
+using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 using OneVietnam.DTL;
+using OneVietnam.Models;
 
 namespace OneVietnam.DAL
 {
@@ -27,34 +30,51 @@ namespace OneVietnam.DAL
             return await _users.Find(u => u.Roles.Contains(role.Name)).ToListAsync();
         }
 
-        public Task AddPostAsync(ApplicationUser user, Post post)
-        {
-            user.AddPost(post);
-            return Task.FromResult(0);
-        }
+        //public Task AddPostAsync(ApplicationUser pUser, Post pPost)
+        //{
+        //    pUser.AddPost(pPost);
+        //    return Task.FromResult(0);
+        //}
 
-        public List<Post> GetPostsAsync(ApplicationUser user)
-        {
-            return user.Posts;
-        }
+
+
+        //public Task UpdatePostAsync(ApplicationUser pUser, Post pPost)
+        //{
+        //    pUser.UpdatePost(pPost);
+        //    return Task.FromResult(0);
+        //}
+
+        //public Task DeletePostAsync(ApplicationUser pUser, Post pPost)
+        //{
+        //    pUser.DeletePost(pPost);
+        //    return Task.FromResult(0);
+        //}
+
+        //public List<Post> GetPostsAsync(ApplicationUser user)
+        //{
+        //    return user.Posts;
+        //}
+
+        //public Task<List<ApplicationUser>> FindUserByPostIdAsync(string pPostId)
+        //{
+        //    return _users.Find(u => u.Posts.Any(t => t.Id == pPostId)).ToListAsync();
+        //}
+
 
         //DEMO
-        public Task AddLocationAsync(ApplicationUser user, Location location)
+        //public Task AddLocationAsync(ApplicationUser user, Location location)
+        //{
+        //    user.AddLocation(location);
+        //    return Task.FromResult(0);
+        //}        
+
+        public async Task<List<ApplicationUser>> TextSearchByUserName(string query)
         {
-            user.AddLocation(location);
-            return Task.FromResult(0);
+            //var filter = new BsonDocument {{"UserName", new BsonDocument {{"$regex", query}, {"$options", "i"}}}};                        
+            var filter = Query.Text(query).ToBsonDocument();
+            var result = await _users.Find(filter).ToListAsync();
+            return result;
         }
 
-        public List<Location> GetLocationAsync(List<ApplicationUser> userList)
-        {
-            //user.AddLocation(location);
-            List<Location> Locations = new List<Location>();
-            foreach(ApplicationUser user in userList)
-            {
-                Locations.Add(user.Location);
-            }
-            return Locations;
-        }
     }
-
 }

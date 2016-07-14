@@ -38,37 +38,37 @@ namespace OneVietnam.Controllers
         }
 
 
-        public async Task<ActionResult> TimeLine()
-        {
-            return RedirectToAction("GetPosts");
-        }
+        //public async Task<ActionResult> TimeLine()
+        //{
+        //    return RedirectToAction("GetPosts");
+        //}
 
         public const int RecordsPerPage = 5;
         //
         // GET: /Account/TimeLine
-        public async Task<ActionResult> GetPosts(int? pageNum)
-        {
-            pageNum = pageNum ?? 0;
-            ViewBag.IsEndOfRecords = false;
+        //public async Task<ActionResult> GetPosts(int? pageNum)
+        //{
+        //    pageNum = pageNum ?? 0;
+        //    ViewBag.IsEndOfRecords = false;
 
-            if (Request.IsAjaxRequest())
-            {
-                var posts = GetRecordsForPage(pageNum.Value);
-                ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
-                return PartialView("_PostRow", posts);
-            }
-            else
-            {
-                // LoadAllPostsToSession
-                List<Post> list = await UserManager.GetPostsAsync(User.Identity.GetUserId());
-                var posts = list;
-                int postIndex = 1;
-                Session["Posts"] = posts.ToDictionary(x => postIndex++, x => x);
+        //    if (Request.IsAjaxRequest())
+        //    {
+        //        var posts = GetRecordsForPage(pageNum.Value);
+        //        ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
+        //        return PartialView("_PostRow", posts);
+        //    }
+        //    else
+        //    {
+        //        // LoadAllPostsToSession
+        //        List<Post> list = await PostMana(User.Identity.GetUserId());                
+        //        var posts = list;
+        //        int postIndex = 1;
+        //        Session["Posts"] = posts.ToDictionary(x => postIndex++, x => x);
 
-                ViewBag.Posts = GetRecordsForPage(pageNum.Value);
-                return View("TimeLine");
-            }
-        }
+        //        ViewBag.Posts = GetRecordsForPage(pageNum.Value);
+        //        return View("TimeLine");
+        //    }
+        //}
 
         public Dictionary<int, Post> GetRecordsForPage(int pageNum)
         {
@@ -348,7 +348,7 @@ namespace OneVietnam.Controllers
                 {
                     var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                     if (user != null)
-                    {
+                    {                        
                         result = await UserManager.SetEmailConfirmed(user);
                         if (result.Succeeded)
                         {

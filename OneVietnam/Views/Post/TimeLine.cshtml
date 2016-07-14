@@ -1,0 +1,109 @@
+﻿@using OneVietnam.DTL
+<div class="ui grid">
+    <div class="two wide column">
+
+        @*    <div class="ui vertical menu right floated">*@
+        @*        <div class="item">*@
+        @*            <div class="ui input"><input type="text" placeholder="Search...">*@
+        @*            </div>*@
+        @*        </div>*@
+        @*        <div class="item">*@
+        @*            Home*@
+        @*            <div class="menu">*@
+        @*                <a class="active item">Search</a>*@
+        @*                @{*@
+        @*                    ((PostController)ViewContext.Controller)._CreatePost();*@
+        @*                }*@
+        @*                <a class="item write"  ><i class="write icon"></i>Write Post</a>*@
+        @*                <a class="item">Remove</a>*@
+        @*            </div>*@
+        @*        </div>*@
+        @*        <a class="browse item">*@
+        @*            <i class="grid layout icon"></i> Filter*@
+        @*        </a>*@
+        @**@
+        @*        <a class="item">*@
+        @*            Messages*@
+        @*        </a>*@
+        @*        <div class="ui dropdown item">*@
+        @*            More*@
+        @*            <i class="dropdown icon"></i>*@
+        @*            <div class="menu">*@
+        @*                <a class="item"><i class="edit icon"></i> Edit Profile</a>*@
+        @*                <a class="item"><i class="globe icon"></i> Choose Language</a>*@
+        @*                <a class="item"><i class="settings icon"></i> Account AppSettings.Settings</a>*@
+        @*            </div>*@
+        @*        </div>*@ 
+        @*    </div>*@
+        <nav>
+            <ul>
+                <li><a href="#1">Đi đâu?</a></li>
+                <li><a href="#2">Ăn gì?</a></li>
+                <li><a href="#3">Làm thêm</a></li>
+                <li><a href="#4">Nhận xách tay</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="ten wide column">
+        <div class="container">
+            @Html.Partial("_PostRow", (ViewBag.Posts as Dictionary<int, Post>))
+
+
+  
+
+        </div>
+    </div>
+    <div class="four wide column">
+        <div class="ui card">
+            <div class="content">
+                <div class="header">Admin post</div>
+            </div>
+            <div class="content">
+                <h4 class="ui sub header">Activity</h4>
+                <div class="ui small feed">
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                                <a>Elliot Fu</a> added <a>Jenny Hess</a> to the project
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                                <a>Stevie Feliciano</a> was added as an <a>Administrator</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                                <a>Helen Troy</a> added two pictures
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="extra content">
+                <button class="ui button">Join Project</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_CreatePost")
+   
+    
+      
+
+
+@*@section scripts{*@
+@*    <script src="~/Scripts/infiniteScroll.js"></script>*@
+@*    <script type="text/javascript">*@
+@*        $(function () {*@
+@*            $("div#loading").hide();*@
+@*        });*@
+@*        var moreRowsUrl = '@Url.RouteUrl("PostList")';*@
+@*        $(window).scroll(scrollHandler);*@
+@*    </script>*@
+@*}*@

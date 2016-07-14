@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace OneVietnam
 {
@@ -18,33 +17,29 @@ namespace OneVietnam
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
-            bundles.Add(new ScriptBundle("~/bundles/theme").Include(
-                        "~/Scripts/global.js",
-                        "~/Scripts/idangerous.swiper.min.js",
-                        "~/Scripts/isotope.pkgd.min.js",
-                        "~/Scripts/jquery.countTo.js",
-                        "~/Scripts/jquery.viewportchecker.min.js",
-                        "~/Scripts/map.js",
-                        "~/Scripts/sorttable.js",
-                        "~/Scripts/wow.js",
-                        "~/semantic/dist/semantic.js",
-                        "~/Scripts/minimal-slide.js",
-                        "~/Scripts/jquery.min.js"
-                        ));
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
-
+            bundles.Add(new ScriptBundle("~/bundles/semantic").Include(
+                      "~/semantic/dist/semantic.js"));
+            bundles.Add(new ScriptBundle("~/bundles/Scripts").Include(
+                "~/Scripts/global.js",
+                "~/Scripts/dropzone.js",
+                "~/Scripts/map.js",
+                "~/Scripts/respond.js"));
+            bundles.Add(new StyleBundle("~/semantic/css").Include(
+                      "~/semantic/dist/semantic.css"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/site.css",
-                      "~/Content/icon.css",
-                      "~/Content/idangerous.swiper.css",
-                      "~/Content/idangerous.swiper_backup.css",
-                      "~/Content/ie-9.css",
-                      "~/Content/loader.css",
-                      "~/semantic/dist/semantic.min.css",
-                      "~/Content/icon.min.css",
-                      "~/Content/minimal-slide.css"));
+                "~/Content/StyleSheet.css",
+                "~/Content/Site.css",
+                "~/Content/dropzone.css",
+                  "~/Content/Map/map.css",
+                "~/Content/Map/infoWindow.css",
+                "~/Content/Map/searchbox.css",
+                "~/Content/Map/mappagecustom.css",
+                 "~/Content/Map/scrollbar.css"));
+            bundles.Add(new StyleBundle("~/Scripts/Map").Include(
+                "~/Scripts/map.js",
+                "~/Scripts/markerclusterer.js",
+                "~/Scripts/searchboxCreatePost"
+                ));
         }
     }
 }

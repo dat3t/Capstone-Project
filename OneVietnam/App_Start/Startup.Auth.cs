@@ -20,7 +20,10 @@ namespace OneVietnam
             app.CreatePerOwinContext(ApplicationIdentityContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
-            app.CreatePerOwinContext<CountryManager>(CountryManager.Create);
+            app.CreatePerOwinContext<PostManager>(PostManager.Create);
+            //todo
+            app.CreatePerOwinContext<TagManager>(TagManager.Create);
+            app.CreatePerOwinContext<IconManager>(IconManager.Create);
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
             // Configure the sign in cookie
@@ -63,7 +66,7 @@ namespace OneVietnam
             facebookAuthenticationOptions.AppId = "1615798268744410";
             facebookAuthenticationOptions.AppSecret = "a16339de41e0b2386e8e37230bb0478a";
             facebookAuthenticationOptions.Scope.Add("email");
-            facebookAuthenticationOptions.Scope.Add("user_about_me");            
+            facebookAuthenticationOptions.Scope.Add("user_about_me");
             facebookAuthenticationOptions.Provider = new FacebookAuthenticationProvider()
             {
                 OnAuthenticated = async context =>

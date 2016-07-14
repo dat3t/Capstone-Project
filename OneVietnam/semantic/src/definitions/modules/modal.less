@@ -3,6 +3,7 @@
  * http://github.com/semantic-org/semantic-ui/
  *
  *
+ * Copyright 2015 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -60,7 +61,7 @@
      Close
 ---------------*/
 
-.ui.modal > .close {
+.ui.modal  .close {
   cursor: pointer;
   position: absolute;
   top: @closeTop;
@@ -75,7 +76,7 @@
   height: @closeHitbox;
   padding: @closePadding;
 }
-.ui.modal > .close:hover {
+.ui.modal  .close:hover {
   opacity: 1;
 }
 
@@ -83,7 +84,7 @@
      Header
 ---------------*/
 
-.ui.modal > .header {
+.ui.modal  .header {
   display: block;
   font-family: @headerFontFamily;
   background: @headerBackground;
@@ -94,7 +95,7 @@
   color: @headerColor;
   border-bottom: @headerBorder;
 }
-.ui.modal > .header:not(.ui) {
+.ui.modal  .header:not(.ui) {
   font-size: @headerFontSize;
   line-height: @headerLineHeight;
   font-weight: @headerFontWeight;
@@ -104,7 +105,7 @@
      Content
 ---------------*/
 
-.ui.modal > .content {
+.ui.modal  .content {
   display: block;
   width: 100%;
   font-size: @contentFontSize;
@@ -112,38 +113,38 @@
   padding: @contentPadding;
   background: @contentBackground;
 }
-.ui.modal > .image.content {
+.ui.modal  .image.content {
   display: flex;
   flex-direction: row;
 }
 
 /* Image */
-.ui.modal > .content > .image {
+.ui.modal  .content > .image {
   display: block;
   flex: 0 1 auto;
   width: @imageWidth;
   align-self: @imageVerticalAlign;
 }
-.ui.modal > [class*="top aligned"] {
+.ui.modal  [class*="top aligned"] {
   align-self: top;
 }
-.ui.modal > [class*="middle aligned"] {
+.ui.modal  [class*="middle aligned"] {
   align-self: middle;
 }
-.ui.modal > [class*="stretched"] {
+.ui.modal  [class*="stretched"] {
   align-self: stretch;
 }
 
 /* Description */
-.ui.modal > .content > .description {
+.ui.modal  .content > .description {
   display: block;
   flex: 1 0 auto;
   min-width: 0px;
   align-self: @descriptionVerticalAlign;
 }
 
-.ui.modal > .content > .icon + .description,
-.ui.modal > .content > .image + .description {
+.ui.modal  .content > .icon + .description,
+.ui.modal  .content > .image + .description {
   flex: 0 1 auto;
   min-width: @descriptionMinWidth;
   width: @descriptionWidth;
@@ -151,7 +152,7 @@
 }
 
 /*rtl:ignore*/
-.ui.modal > .content > .image > i.icon {
+.ui.modal  .content > .image > i.icon {
   margin: 0em;
   opacity: 1;
   width: auto;
@@ -163,7 +164,7 @@
      Actions
 ---------------*/
 
-.ui.modal > .actions {
+.ui.modal  .actions {
   background: @actionBackground;
   padding: @actionPadding;
   border-top: @actionBorder;
@@ -224,11 +225,11 @@
 /* Mobile */
 @media only screen and (max-width : @largestMobileScreen) {
 
-  .ui.modal > .header {
+  .ui.modal  .header {
     padding: @mobileHeaderPadding !important;
     padding-right: @closeHitbox !important;
   }
-  .ui.modal > .content {
+  .ui.modal  .content {
     display: block;
     padding: @mobileContentPadding !important;
   }
@@ -241,20 +242,20 @@
   .ui.modal .image.content {
     flex-direction: column;
   }
-  .ui.modal .content > .image {
+  .ui.modal .content  .image {
     display: block;
     max-width: 100%;
     margin: 0em auto !important;
     text-align: center;
     padding: @mobileImagePadding !important;
   }
-  .ui.modal > .content > .image > i.icon {
+  .ui.modal  .content > .image > i.icon {
     font-size: @mobileImageIconSize;
     text-align: center;
   }
 
   /*rtl:ignore*/
-  .ui.modal .content > .description {
+  .ui.modal .content  .description {
     display: block;
     width: 100% !important;
     margin: 0em !important;
@@ -263,7 +264,7 @@
   }
 
   /* Let Buttons Stack */
-  .ui.modal > .actions {
+  .ui.modal  .actions {
     padding: @mobileActionPadding !important;
   }
   .ui.modal .actions > .buttons,
@@ -291,20 +292,20 @@
   box-shadow: none !important;
   color: @basicModalColor;
 }
-.ui.basic.modal > .header,
-.ui.basic.modal > .content,
-.ui.basic.modal > .actions {
+.ui.basic.modal  .header,
+.ui.basic.modal  .content,
+.ui.basic.modal  .actions {
   background-color: transparent;
 }
-.ui.basic.modal > .header {
+.ui.basic.modal  .header {
   color: @basicModalHeaderColor;
 }
-.ui.basic.modal > .close {
+.ui.basic.modal  .close {
   top: @basicModalCloseTop;
   right: @basicModalCloseRight;
 }
 
-.ui.inverted.dimmer > .basic.modal {
+.ui.inverted.dimmer  .basic.modal {
   color: @basicInvertedModalColor;
 }
 .ui.inverted.dimmer > .ui.basic.modal > .header {
