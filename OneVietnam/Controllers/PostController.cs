@@ -261,11 +261,13 @@ namespace OneVietnam.Controllers
 
         //ThamDTH Create        
         [HttpPost]
-        public void ReportPost(string userId, string postId, string description)
+        public async Task ReportPost(string userId, string postId, string description)
         {
-            var post = PostManager.FindById(postId);
-            Post p = post.Result;
-           //TODO
+            Post post = await PostManager.FindById(postId);
+            Report report = new Report(userId, postId, description);
+            post.AddReport(report);
+            await PostManager.UpdatePostAsync(post);
+            //TODO send notification to Mod
         }
 
         public async Task<ActionResult> EditPost(string postId)

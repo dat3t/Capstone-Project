@@ -4,9 +4,7 @@ namespace OneVietnam.Models
 {
     public class ReportViewModal
     {       
-        public string PostId { get; set; }
-        
-        public string PostTitle { get; set; }
+        public string PostId { get; set; }        
 
         public string UserId { get; set; }
 
