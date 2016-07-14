@@ -532,7 +532,7 @@ function createListType0Markers() {
             return function () {
                 // infowindow.setContent(infoWindowContent[i][0]);
                 // AjaxDisplayString(userInfoWindow, marker)
-                //createPostInfoWindowContent(postType0[i].username, postType0[i].postType, "Ở chung nhà", postType0[i].address);
+                getPostInfo(postType0[i].postID, 0);
                 infowindow.open(map, marker);
             }
         })(marker, i));
@@ -787,14 +787,14 @@ function getUserInfo(userId) {
     });
 }
 
-function getPostInfo(postID) {
+function getPostInfo(postID,postType) {
     $.ajax({
-        url: 'GetUserInfo?postId=' + postID,
+        url: 'GetPostInfo?postId=' + postID,
         type: 'GET',
         contentType: 'application/json;',
         dataType: 'json',
         success: function (json) {
-            createUserInfoWindowContent(json.UserName, 23, json.Gender, json.Location.Address);
+            createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
         }
     });
 }

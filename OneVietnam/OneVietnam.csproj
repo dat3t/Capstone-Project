@@ -291,6 +291,7 @@
     <Compile Include="Models\AddLocationViewModel.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PostInfoWindowModel.cs" />
     <Compile Include="Models\SearchResultItem.cs" />
     <Compile Include="Models\ViewProfileUser.cs" />
     <Compile Include="Models\PostViewModel.cs" />
@@ -366,6 +367,7 @@
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\docs.js" />
+    <Content Include="Scripts\getAddressRegister.js" />
     <Content Include="Scripts\global.js" />
     <Content Include="Scripts\idangerous.swiper.min.js" />
     <Content Include="Scripts\infiniteScroll.js" />
@@ -384,6 +386,7 @@
     <Content Include="Scripts\map.js" />
     <Content Include="Scripts\markerclusterer.js" />
     <Content Include="Scripts\minimal-slide.js" />
+    <Content Include="Scripts\OverlappingMarkerSpiderfier.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
