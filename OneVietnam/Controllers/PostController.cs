@@ -121,8 +121,7 @@ namespace OneVietnam.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreatePost(CreatePostViewModel p)
         {
-            ViewData.Clear();
-            p.UserName = User.Identity.Name;            
+            ViewData.Clear();                  
             var tagList = AddAndGetAddedTags(Request, TagManager, "TagsInput");
             var illList = GetAddedImage(Request, "Img", "Des");
             if (tagList != null)
@@ -220,6 +219,7 @@ namespace OneVietnam.Controllers
             }                        
         }
 
+        //ThamDTH Create
         public async Task<ActionResult> ShowPostDetail(string postId)
         {
             if (TagList != null)
@@ -245,6 +245,8 @@ namespace OneVietnam.Controllers
                         
             return View();
         }
+
+        //ThamDTH Create
         [HttpPost]
         public ActionResult ShowPostDetail(PostViewModel pPostView)
         {            
@@ -255,6 +257,15 @@ namespace OneVietnam.Controllers
                 strPostId = Request.Form["PostId"];
             }
             return RedirectToAction("DeletePost", "Post", new { postId = strPostId });
+        }
+
+        //ThamDTH Create        
+        [HttpPost]
+        public void ReportPost(string userId, string postId, string description)
+        {
+            var post = PostManager.FindById(postId);
+            Post p = post.Result;
+           //TODO
         }
 
         public async Task<ActionResult> EditPost(string postId)

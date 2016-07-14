@@ -1,0 +1,44 @@
+﻿
+@using OneVietnam.Models
+@model OneVietnam.Models.ReportViewModal
+<div class="ui small report modal">
+    @using (Html.BeginForm("ReportPost", "Post", FormMethod.Post, new { enctype = "multipart/form-data", id="ReportSubmit" }))
+    {
+
+        <div class="header">
+            Gửi báo cáo
+        </div>
+        <div class="content">
+            <div class="field">
+                @*@Html.EditorFor(model => model.ReportDescription)*@
+                <textarea id="Des"></textarea>
+            </div>
+        </div>
+        <div class="actions">
+            @*<div class="ui cancel button">Hủy</div>
+            <div class="ui green button" id="submitReport">Gửi</div>*@
+            <input type="button" value="submit" id="submitReport"/>
+        </div>
+        <script>
+            $("#submitReport")
+            .click(function () {
+                var desc = document.getElementById("Des").value;
+                var param = {
+                    userId: "@Model.UserId",
+                    postId: "@Model.PostId",
+                    description: desc
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: 'ReportPost',
+                    data: param,
+                    success: function() {
+                        $('.ui.small.report.modal').modal('toggle');
+                    }                    
+                });
+
+            });
+    </script>
+
+    }
+</div>
