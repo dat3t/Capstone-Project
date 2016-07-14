@@ -231,14 +231,19 @@ namespace OneVietnam.Controllers
                 ViewData["PostTypes"] = IconList;
             }
             
-            Post post = await PostManager.FindById(postId);
-            ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
-            if (postUser != null)
+            Post post = await PostManager.FindById(postId);            
+            if (post != null)
             {
-                ViewData["PostUser"] = postUser;
-            }
-            PostViewModel showPost = new PostViewModel(post);            
-            return View(showPost);
+                ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
+                if (postUser != null)
+                {
+                    ViewData["PostUser"] = postUser;
+                }
+                PostViewModel showPost = new PostViewModel(post);
+                return View(showPost);
+            }                      
+                        
+            return View();
         }
         [HttpPost]
         public ActionResult ShowPostDetail(PostViewModel pPostView)
