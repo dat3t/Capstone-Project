@@ -1,4 +1,11 @@
 ﻿$(document).ready(function () {
+    $('.item.write')
+       .click(function () {
+           $('.ui.modal').modal('show');
+       });
+
+  
+    $("div#myId").dropzone({ url: "/file/post" });
     $(".right.menu.open").on("click", function (e) {
         e.preventDefault();
         $(".ui.vertical.menu.open").toggle();
@@ -27,5 +34,14 @@
     ;
     $('.delete.icon.image-add').on('click', function () {
         $(this).parent().remove();;
-    });    
+    });
+
+    $('.ui.edit.button')
+      .click(function () {
+          $('.ui.fullscreen.modal').modal('show');
+      });
+
+    $('.icon.link').popup({});
+    
+    
 });

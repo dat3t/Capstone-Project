@@ -348,7 +348,7 @@ namespace OneVietnam.Controllers
                 {
                     var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                     if (user != null)
-                    {
+                    {                        
                         result = await UserManager.SetEmailConfirmed(user);
                         if (result.Succeeded)
                         {

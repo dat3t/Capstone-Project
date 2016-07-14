@@ -87,6 +87,7 @@ namespace OneVietnam.Models
         [Display(Name = "Xác Nhận Mật Khẩu")]
         [Compare("Password", ErrorMessage = "Mật Khẩu Xác Nhận Không Trùng Khớp")]
         public string ConfirmPassword { get; set; }
+        public string CurrentLocation { get; set; }
     }
 
     public class ResetPasswordViewModel
