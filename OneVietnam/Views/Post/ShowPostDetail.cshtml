@@ -222,42 +222,14 @@
                     <script type="text/javascript">
                         $("#reportPost")
                             .click(function () {
-                                $('.ui.small.report.modal').modal('show');
+                                $('.small.modal').modal({
+                                    allowMultiple: false
+                                });
+                                $('.second.modal').modal('attach events', '.report.modal .green.button')
+                                ;
+                                $('.report.modal').modal('show');
                             });
-                    </script>
-                    @*<form id="reportForm" enctype="multipart/form-data" method="post">
-                                            <div class="ui small report modal">
-                                                <div class="header">
-                                                    Gửi báo cáo
-                                                </div>
-                                                <div class="content">
-                                                    <div class="ui form">
-                                                        <div class="field">
-                                                            <textarea id="ReportDescription"
-
-                        name="ReportDescription"></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="actions">
-                                                    <div class="ui cancel button">Hủy</div>
-                                                    <div class="ui green button" id="submitReport">Gửi</div>
-                                                </div>
-                                            </div>
-                                            <script>
-                                                $("#submitReport").click(function () {
-                                                    $.ajax({
-                                                        type: 'POST',
-                                                        url: '@Url.Action("ReportPost", "Post", new {postId
-
-                        = Model.Id})',
-                                                        success: function () {
-                                                            $('.ui.small.report.modal').modal('toggle');
-                                                        }
-                                                    });
-                                                });
-                                            </script>
-                                        </form>*@
+                    </script>                   
                 }
                 <i class="icon home"></i>
                 <a class="item" href="">@Model.PostLocation.Address</a>
