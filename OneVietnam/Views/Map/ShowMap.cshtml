@@ -33,12 +33,10 @@ else
         var females = [];
         var LGBT = [];
         var PostArray = [];
-        var postType0 = [];
-        var postType1 = [];
-        var postType2 = [];
+        var postType0 = [],postType1 = [],postType2 = [],postType3=[],postType4=[],postType5=[];
 
         @foreach (var item in Model) {
-           <text>
+        <text>
         if('@item.PostId' == ''){
             allUsers.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
             if(@item.Gender == 0){
@@ -59,11 +57,29 @@ else
             else
                 if (@item.PostType.CompareTo(1) == 0)
                 {
-                     postType1.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
+                    postType1.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
                 }
+                else
+                    if (@item.PostType.CompareTo(2) == 0)
+                    {
+                        postType2.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
+                    }
+                    else
+                        if (@item.PostType.CompareTo(3) == 0)
+                        {
+                            postType3.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
+                        }
+                        else
+                            if (@item.PostType.CompareTo(4) == 0)
+                            {
+                                postType4.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
+                            }
+                            else
+                                if (@item.PostType.CompareTo(5) == 0)
+                                {
+                                    postType5.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
+                                }
         }
-
-
         </text>
         }
     </script>

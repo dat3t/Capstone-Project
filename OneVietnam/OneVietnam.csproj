@@ -253,6 +253,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="DAL\PostStore.cs" />
+    <Compile Include="Models\PostInfoWindowModel.cs" />
     <Compile Include="Models\ReportViewModal.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="BLL\Constant.cs" />
@@ -440,6 +441,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\docs.js" />
     <Content Include="Scripts\dropzone.js" />
+    <Content Include="Scripts\getAddressRegister.js" />
     <Content Include="Scripts\global.js" />
     <Content Include="Scripts\idangerous.swiper.min.js" />
     <Content Include="Scripts\infiniteScroll.js" />
