@@ -92,12 +92,8 @@ function initialize() {
 
     checkAuthenticated();
 
-
     //Declare a bound
     bounds = new google.maps.LatLngBounds();
-
-    //var iw = new map.InfoWindow();
-    var oms = new OverlappingMarkerSpiderfier(map);
 
     createListUserMarkers();
     createListMaleMarkers();
@@ -141,15 +137,12 @@ function initialize() {
         map: map,
         title: 'Second Marker'
     });
-    // there is better way of doing things, Below is done to show you in detail whats going on
     markers.push(marker5);
     markers.push(marker6);
     markers.push(marker7);
-    // now we have 2 markers with different title and same position
 
-    // lets now create our markerClusterer instance with markers array
-    //var markerCluster = new MarkerClusterer(map, markers,{zoomOnClick:false,maxZoom:15});
-    //var oms = new OverlappingMarkerSpiderfier(map);
+    var oms = new OverlappingMarkerSpiderfier(map);
+
     oms.addMarker(marker5);
     oms.addMarker(marker6);
     oms.addMarker(marker7);
@@ -181,7 +174,7 @@ function initialize() {
 
     // Bias the SearchBox results towards current map's viewport.
     map.addListener('bounds_changed', function () {
-        // searchBox.setBounds(map.getBounds());
+         //searchBox.setBounds(map.getBounds());
         // map.setZoom(14);
     });
 
@@ -212,38 +205,39 @@ function initialize() {
             return;
         }
 
-        //// Clear out the old markers.
+        // Clear out the old markers.
         //marker2.forEach(function (marker) {
         //    marker.setMap(null);
         //});
         //marker2 = [];
 
-        //// For each place, get the icon, name and location.
-        //var bounds = new google.maps.LatLngBounds();
-        ////places.forEach(function (place) {
-        ////    var icon = {
-        ////        url: place.icon,
-        ////        size: new google.maps.Size(71, 71),
-        ////        origin: new google.maps.Point(0, 0),
-        ////        anchor: new google.maps.Point(17, 34),
-        ////        scaledSize: new google.maps.Size(25, 25)
-        ////    };
+        // For each place, get the icon, name and location.
+        var bounds = new google.maps.LatLngBounds();
+        places.forEach(function (place) {
+            //var icon = {
+            //    url: place.icon,
+            //    size: new google.maps.Size(71, 71),
+            //    origin: new google.maps.Point(0, 0),
+            //    anchor: new google.maps.Point(17, 34),
+            //    scaledSize: new google.maps.Size(25, 25)
+            //};
 
-        //    //// Create a marker for each place.
-        //    //marker2.push(new google.maps.Marker({
-        //    //    map: map,
-        //    //    icon: icon,
-        //    //    title: place.name,
-        //    //    position: place.geometry.location
-        //    //}));
+            // Create a marker for each place.
+            //marker2.push(new google.maps.Marker({
+            //    map: map,
+            //    icon: icon,
+            //    title: place.name,
+            //    position: place.geometry.location
+            //}));
 
-        //    if (place.geometry.viewport) {
-        //        // Only geocodes have viewport.
-        //        bounds.union(place.geometry.viewport);
-        //    } else {
-        //        bounds.extend(place.geometry.location);
-        //    }
-        //});
+            if (place.geometry.viewport) {
+                // Only geocodes have viewport.
+                bounds.union(place.geometry.viewport);
+            } else {
+                bounds.extend(place.geometry.location);
+            }
+        });
+        //map.setZoom(12);
         map.fitBounds(bounds);
     });
 
