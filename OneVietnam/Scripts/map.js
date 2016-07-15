@@ -20,20 +20,28 @@ var type0MarkerCluster = [], type1MarkerCluster = [], type2MarkerCluster = [], t
 var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
 
 function checkAuthenticated() {
+    var icon = {
+        url: "../Content/Icon/location.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+    };
+
+    myCurrentLocationMarker = new google.maps.Marker({
+        title: "Vị trí của tôi",
+        icon: icon
+    });
+
     if (isAuthenticated) {
         //Declare a new map
         map = new google.maps.Map(document.getElementById('map_canvas'), {
-            center: { lat: 10.8114587, lng: 106.67885000000001 },
+            center: { lat: authenticatedUser.x, lng: authenticatedUser.y },
             zoom: 13,
             minZoom: 4,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
-        myCurrentLocationMarker = new google.maps.Marker({
-            map: map,
-            title: "Vị trí của tôi",
-            // icon:myLocationIcon
-        });
-
+        myCurrentLocationMarker.setMap(map);
     }
     else {
         //Declare a new map
@@ -45,35 +53,36 @@ function checkAuthenticated() {
         });
         // Declare a myLocation marker using icon declared above, and bind it to the map
 
-        myCurrentLocationMarker = new google.maps.Marker({
-            map: map,
-            title: "Vị trí của tôi",
-            // icon:myLocationIcon
-        });
-
+        //myCurrentLocationMarker = new google.maps.Marker({
+        //    map: map,
+        //    title: "Vị trí của tôi",
+        //    // icon:myLocationIcon
+        //});
+        myCurrentLocationMarker.setMap(map);
+        showCurrentLocation();
 
         //Identify current user's location and bind it to the map
         //Using HTML5 geolocation.
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
+        //if (navigator.geolocation) {
+        //    navigator.geolocation.getCurrentPosition(function (position) {
+        //        var pos = {
+        //            lat: position.coords.latitude,
+        //            lng: position.coords.longitude
+        //        };
 
-                myCurrentLocationMarker.setPosition(pos);
-                //addMarker(pos);
-                map.setCenter(pos);
-                map.setZoom(7);
+        //        myCurrentLocationMarker.setPosition(pos);
+        //        //addMarker(pos);
+        //        map.setCenter(pos);
+        //        map.setZoom(7);
 
 
-            }, function () {
-                handleLocationError(true, myCurrentLocationMarker, map.getCenter());
-            });
-        } else {
-            // Browser doesn't support Geolocation
-            handleLocationError(false, myCurrentLocationMarker, map.getCenter());
-        }
+        //    }, function () {
+        //        handleLocationError(true, myCurrentLocationMarker, map.getCenter());
+        //    });
+        //} else {
+        //    // Browser doesn't support Geolocation
+        //    handleLocationError(false, myCurrentLocationMarker, map.getCenter());
+        //}
         //map.fitBounds(map.getBounds());
 
     }
@@ -366,7 +375,7 @@ function showCurrentLocation() {
 
             myCurrentLocationMarker.setPosition(pos);
             // addMarker(pos);
-            map.setZoom(14);
+            map.setZoom(7);
             map.setCenter(pos);
 
         }, function () {

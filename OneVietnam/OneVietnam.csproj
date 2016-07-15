@@ -324,6 +324,7 @@
     <Content Include="Content\Icon\icon-gg.png" />
     <Content Include="Content\Icon\job.png" />
     <Content Include="Content\Icon\LGBT.png" />
+    <Content Include="Content\Icon\location.png" />
     <Content Include="Content\Icon\male.png" />
     <Content Include="Content\Icon\sale.png" />
     <Content Include="Content\Icon\ship.png" />
