@@ -1,4 +1,5 @@
 ﻿@using OneVietnam.DTL
+@model  List<OneVietnam.Models.PostViewModel>
 <div class="ui grid">
     <div class="two wide column">
 
@@ -45,14 +46,17 @@
         </nav>
     </div>
     <div class="ten wide column">
-        <div class="container">
-            @Html.Partial("_PostRow", (ViewBag.Posts as Dictionary<int, Post>))
+       
+            @foreach (var post in Model)
+            {
+                @Html.Partial("_PostRow", post)
 
 
-  
+            }
 
-        </div>
-    </div>
+
+
+     
     <div class="four wide column">
         <div class="ui card">
             <div class="content">
@@ -91,7 +95,7 @@
     </div>
 </div>
 
-@Html.Partial("_CreatePost")
+@*@Html.Partial("_CreatePost")*@
    
     
       

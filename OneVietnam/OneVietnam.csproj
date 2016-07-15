@@ -420,6 +420,8 @@
     <Content Include="Content\Map\searchbox.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\elliot.jpg" />
+    <Content Include="Images\image.png" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -462,8 +464,10 @@
     <Content Include="Scripts\map.js" />
     <Content Include="Scripts\MapElements.js" />
     <Content Include="Scripts\markerclusterer.js" />
+    <Content Include="Scripts\masonry.pkgd.min.js" />
     <Content Include="Scripts\minimal-slide.js" />
     <Content Include="Scripts\OverlappingMarkerSpiderfier.js" />
+    <Content Include="Scripts\packery.pkgd.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\searchboxCreatePost.js" />

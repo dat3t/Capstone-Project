@@ -1,42 +1,237 @@
-﻿@model Dictionary<int, OneVietnam.DTL.Post>
-    <div class="ui three column grid">
-    @foreach (var cust in Model)
-    {
-        <div class="column">
-            <div class="ui card">
-                <div class="content">
-                    <div class="right floated meta">@cust.Value.PublishDate</div>
-                    <img class="ui avatar image" src="~/Images/elliot.jpg"> @cust.Value.UserId
+﻿@*@*<h1>Isotope - layout</h1>*@
+@**@
+@*<p>Click item to toggle size</p>*@
+@**@
+@*<div class="grids">*@
+@*    <div class="grid-item grid-item--width2"></div>*@
+@*    <div class="grid-item grid-item--height2"></div>*@
+@*    <div class="grid-item"></div>*@
+@*    <div class="grid-item"></div>*@
+@*    <div class="grid-item grid-item--width2 grid-item--height2"></div>*@
+@*    <div class="grid-item grid-item--width2"></div>*@
+@*    <div class="grid-item grid-item--width2"></div>*@
+@*    <div class="grid-item grid-item--height2"></div>*@
+@*    <div class="grid-item"></div>*@
+@*    <div class="grid-item grid-item--width2"></div>*@
+@*    <div class="grid-item grid-item--height2"></div>*@
+@*    <div class="grid-item"></div>*@
+@*    <div class="grid-item"></div>*@
+@*    <div class="grid-item grid-item--width2"></div>*@
+@*    <div class="grid-item grid-item--height2"></div>*@
+@*    <div class="grid-item"></div>*@
+@*    <div class="grid-item grid-item--width2"></div>*@
+@*    <div class="grid-item grid-item--height2"></div>*@
+@*    <div class="grid-item"></div>*@
+@*    <div class="grid-item"></div>*@
+@*</div>*@
+
+
+
+
+
+
+@*<div class="grids">*@
+@*    <div class="grid-sizer">*@
+@*</div>*@
+@*    <div class="gutter-sizer">*@
+@*</div>*@
+@*    <div class="grid-item"><div class="ui fluid card">*@
+@*    <div class="image">*@
+@*        <img src="~/Images/image.png">*@
+@*    </div>*@
+@*    <div class="content">*@
+@*        <a class="header">Daniel Louise</a>*@
+@*    </div>*@
+@*</div>*@
+@*</div>*@
+@*    <div class="grid-item grid-item--width2 grid-item--height2"><div class="ui fluid card">*@
+@*    <div class="image">*@
+@*        <img src="~/Images/image.png">*@
+@*    </div>*@
+@*    <div class="content">*@
+@*        <a class="header">Daniel Louise</a>*@
+@*    </div>*@
+@*</div>*@
+@*</div>*@
+@*    <div class="grid-item grid-item--height3"><div class="ui fluid card">*@
+@*    <div class="image">*@
+@*        <img src="~/Images/image.png">*@
+@*    </div>*@
+@*    <div class="content">*@
+@*        <a class="header">Daniel Louise</a>*@
+@*    </div>*@
+@*</div>*@
+@*</div>*@
+@*    <div class="grid-item grid-item--height2"><div class="ui fluid card">*@
+@*    <div class="image">*@
+@*        <img src="~/Images/image.png">*@
+@*    </div>*@
+@*    <div class="content">*@
+@*        <a class="header">Daniel Louise</a>*@
+@*    </div>*@
+@*</div>*@
+@*</div>*@
+@*    <div class="grid-item grid-item--width3"><div class="ui fluid card">*@
+@*    <div class="image">*@
+@*        <img src="~/Images/image.png">*@
+@*    </div>*@
+@*    <div class="content">*@
+@*        <a class="header">Daniel Louise</a>*@
+@*    </div>*@
+@*</div>*@
+@*</div>*@
+@*    <div class="grid-item"><div class="ui fluid card">*@
+@*    <div class="image">*@
+@*        <img src="~/Images/image.png">*@
+@*    </div>*@
+@*    <div class="content">*@
+@*        <a class="header">Daniel Louise</a>*@
+@*    </div>*@
+@*</div>*@
+@*</div>*@
+@*    <div class="grid-item"><div class="ui fluid card">*@
+@*    <div class="image">*@
+@*        <img src="~/Images/image.png">*@
+@*    </div>*@
+@*    <div class="content">*@
+@*        <a class="header">Daniel Louise</a>*@
+@*    </div>*@
+@*</div>*@
+@*</div>*@
+@*    <div class="grid-item grid-item--height2"><div class="ui fluid card">*@
+@*    <div class="image">*@
+@*        <img src="~/Images/image.png">*@
+@*    </div>*@
+@*    <div class="content">*@
+@*        <a class="header">Daniel Louise</a>*@
+@*    </div>*@
+@*</div>*@
+@*</div>*@
+@*    <div class="grid-item grid-item--width2 grid-item--height3"><div class="ui fluid card">*@
+@*    <div class="image">*@
+@*        <img src="~/Images/image.png">*@
+@*    </div>*@
+@*    <div class="content">*@
+@*        <a class="header">Daniel Louise</a>*@
+@*    </div>*@
+@*</div>*@
+@*</div>*@
+@*    <div class="grid-item"><div class="ui fluid card">*@
+@*    <div class="image">*@
+@*        <img src="~/Images/image.png">*@
+@*    </div>*@
+@*    <div class="content">*@
+@*        <a class="header">Daniel Louise</a>*@
+@*    </div>*@
+@*</div>*@
+@*</div>*@
+@*    <div class="grid-item grid-item--height2"><div class="ui fluid card">*@
+@*    <div class="image">*@
+@*        <img src="~/Images/image.png">*@
+@*    </div>*@
+@*    <div class="content">*@
+@*        <a class="header">Daniel Louise</a>*@
+@*    </div>*@
+@*</div>*@
+@*</div>*@
+@*    <div class="grid-item"><div class="ui fluid card">*@
+@*    <div class="image">*@
+@*        <img src="~/Images/image.png">*@
+@*    </div>*@
+@*    <div class="content">*@
+@*        <a class="header">Daniel Louise</a>*@
+@*    </div>*@
+@*</div>*@
+@*</div>*@
+@*   *@
+@*    <div class="grid-item"><div class="ui fluid card">*@
+@*    <div class="image">*@
+@*        <img src="~/Images/image.png">*@
+@*    </div>*@
+@*    <div class="content">*@
+@*        <a class="header">Daniel Louise</a>*@
+@*    </div>*@
+@*</div>*@
+@*</div>*@
+@*    <div class="grid-item"><div class="ui fluid card">*@
+@*    <div class="image">*@
+@*        <img src="~/Images/image.png">*@
+@*    </div>*@
+@*    <div class="content">*@
+@*        <a class="header">Daniel Louise</a>*@
+@*    </div>*@
+@*</div>*@
+@*</div>*@
+@*   *@
+@*</div>*@
+
+ @model OneVietnam.Models.PostViewModel
+ 
+     
+         <div class="column"> 
+             <div class="ui fluid card"> 
+                 <div class="content"> 
+                     <div class="header"> @Model.Title 
+                          @if (Model.Status) 
+                         { 
+                             <div class="ui right floated green sub header"> 
+                                 <i class="heartbeat icon"></i>
+                                <div class="content">
+                                    Đang hoạt động
+                                </div>
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="ui right floated red header"></div>
+                            <div class="content">
+                                Đã đóng
+                            </div>
+                        }</div>
+                    <div class="right floated meta"> </div>
+                    <div class="meta">
+                        <span>@Model.PublishDate</span>
+                        <a>@Model.PostType</a>
+                    </div>
+                  
                 </div>
                 <div class="image">
                     <img src="~/Images/image.png">
                 </div>
 
                 <div class="content">
-                    <h4 class="ui sub header">@cust.Value.Title</h4>
+                    <h4 class="ui sub header">@Model.Title</h4>
                     <div class="description">
-                        <p>@cust.Value.Description</p>
+                        <p>@Model.Description</p>
                     </div>
                     <span class="right floated">
-                        <i class="heart outline like icon"></i>
-                        17 likes
+
+                        <script>
+                    (function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id)) return;
+                        js = d.createElement(s);
+                        js.id = id;
+                        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+
+                    //like button
+                    document.write("<div class='fb-like' data-href='" +
+                        window.location.href +
+                        "' data-layout='button_count' data-action='like' data-size='small' data-show-faces='false' data-share='false'></div>");
+                        </script>
                     </span>
-                    <i class="comment icon"></i>
-                    3 comments
+
+                    <script>
+                    //Comment
+                    document.write("<div class='fb-comments' style='width: 100%' data-href='" +
+                        window.location.href +
+                        "' data-numposts='3' ></div>");
+                    </script>
                 </div>
-                <div class="extra content">
-                    <div class="ui large transparent left icon input">
-                        <i class="heart outline icon"></i>
-                        <input type="text" placeholder="Add Comment...">
-                    </div>
-                </div>
+             
             </div>
-        </div>
-        @*    <tr>*@
-        @*        <td>@cust.Key </td>*@
-        @*        <td>@cust.Value.Title</td>*@
-        @*        <td>@cust.Value.PublishDate</td>*@
-        @*        <td>@cust.Value.Description</td>*@
-        @*    </tr>*@
-    }
-</div>
+       </div>
+   
