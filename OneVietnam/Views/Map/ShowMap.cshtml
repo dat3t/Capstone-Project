@@ -22,7 +22,7 @@
             dataType: 'json',
             success: function (json) {
                 authenticatedUser = {x:json.Location.XCoordinate,y:json.Location.YCoordinate,address:json.Location.Address};
-             
+
             }
         });
     </script>
@@ -37,7 +37,7 @@ else
 <head>
     <meta charset="utf-8" />
     <title>Bản đồ tìm kiếm</title>
-    <link rel="stylesheet" type="text/css" href="~/Content/Map/mappagecustom.css"> 
+    <link rel="stylesheet" type="text/css" href="~/Content/Map/mappagecustom.css">
     <script src="~/Scripts/MapElements.js" language="javascript" type="text/javascript"></script>
     <script type="text/javascript">
 
@@ -175,7 +175,6 @@ else
 
             #filterHome:hover {
                 transform: scale(2);
-                box-shadow: 0px 0px 5px #fff;
             }
 
         #filterHelp {
@@ -314,7 +313,7 @@ else
                 transform: scale(2);
             }
 
-              #location {
+        #location {
             background: url(../Content/Icon/location.png);
             width: 40px;
             height: 40px;
@@ -361,7 +360,7 @@ else
         <i class="search icon"></i>
     </div>
 
-    <button type="submit" class="ui icon green button" id="location" onclick="showCurrentLocation()" data-tooltip="Địa điểm của tôi" data-position="left center" style=" position: absolute;right: 7px;bottom:23%">
+    <button type="submit" class="ui icon green button" id="location" onclick="showCurrentLocation()" data-tooltip="Vị trí hiện tại của tôi" data-position="left center" style=" position: absolute;right: 7px;bottom:23%">
         @*<i class="location arrow icon"></i>*@
     </button>
 
@@ -392,19 +391,19 @@ else
     </div>
     <div class="ui buttons" id="genderFilter" style="position: absolute; left: 43% ; bottom: 3% ;">
 
-        <button type="submit" class="ui icon green button" id= "filterMale" data-tooltip="Nam" data-position="top center" onclick="showMales()">
+        <button type="submit" class="ui icon green button" id="filterMale" data-tooltip="Nam" data-position="top center" onclick="showMales()">
             @*<i class="male icon"></i>*@
         </button>
 
-        <button type="submit" class="ui icon pink button" id= "filterFemale" data-tooltip="Nữ" data-position="top center" onclick="showFemales()">
+        <button type="submit" class="ui icon pink button" id="filterFemale" data-tooltip="Nữ" data-position="top center" onclick="showFemales()">
             @*<i class="female icon"></i>*@
         </button>
 
-        <button type="submit" class="ui icon purple button" id= "filterLGBT" data-tooltip="LGBT" data-position="top center" onclick="showLGBT()">
+        <button type="submit" class="ui icon purple button" id="filterLGBT" data-tooltip="LGBT" data-position="top center" onclick="showLGBT()">
             @*<i class="transgender icon"></i>*@
         </button>
 
-        <button type="submit" class="ui icon blue button" id= "filterUsers" data-tooltip="Tất cả người dùng" data-position="top center" onclick="showUsers()">
+        <button type="submit" class="ui icon blue button" id="filterUsers" data-tooltip="Tất cả người dùng" data-position="top center" onclick="showUsers()">
             @*<i class="users icon"></i>*@
         </button>
     </div>

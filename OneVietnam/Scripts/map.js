@@ -16,6 +16,9 @@ var userMarkerCluster = [], maleMarkerCluster = [], femaleMarkerCluster = [], LG
 
 var type0MarkerCluster = [], type1MarkerCluster = [], type2MarkerCluster = [], type3MarkerCluster = [], type4MarkerCluster = [], type5MarkerCluster = [];
 
+var overlappingType0 = [], overlappingType1 = [], overlappingType2 = [], overlappingType3 = [], overlappingType4 = [], overlappingType5 = [];
+
+var overlappingMale = [], overlappingFemale = [], overlappingLGBT = [], overlappingUsers = [];
 //Declare an icon of sample marker
 var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
 
@@ -29,7 +32,7 @@ function checkAuthenticated() {
     };
 
     myCurrentLocationMarker = new google.maps.Marker({
-        title: "Vị trí của tôi",
+        title: "Vị trí hiện tại của tôi",
         icon: icon
     });
 
@@ -95,6 +98,17 @@ function initialize() {
     //Declare a bound
     bounds = new google.maps.LatLngBounds();
 
+    overlappingUsers = new OverlappingMarkerSpiderfier(map);
+    overlappingMale = new OverlappingMarkerSpiderfier(map);
+    overlappingLGBT = new OverlappingMarkerSpiderfier(map);
+    overlappingFemale = new OverlappingMarkerSpiderfier(map);
+    overlappingType0 = new OverlappingMarkerSpiderfier(map);
+    overlappingType1 = new OverlappingMarkerSpiderfier(map);
+    overlappingType2 = new OverlappingMarkerSpiderfier(map);
+    overlappingType3 = new OverlappingMarkerSpiderfier(map);
+    overlappingType4 = new OverlappingMarkerSpiderfier(map);
+    overlappingType5 = new OverlappingMarkerSpiderfier(map);
+
     createListUserMarkers();
     createListMaleMarkers();
     createListFemaleMarkers();
@@ -116,6 +130,9 @@ function initialize() {
     type3MarkerCluster = new MarkerClusterer(map, listType3Markers);
     type4MarkerCluster = new MarkerClusterer(map, listType4Markers);
     type5MarkerCluster = new MarkerClusterer(map, listType5Markers);
+
+   
+
 
     userMarkerCluster.setMaxZoom(9);
     showUsers();
@@ -174,7 +191,7 @@ function initialize() {
 
     // Bias the SearchBox results towards current map's viewport.
     map.addListener('bounds_changed', function () {
-         //searchBox.setBounds(map.getBounds());
+        //searchBox.setBounds(map.getBounds());
         // map.setZoom(14);
     });
 
@@ -458,6 +475,7 @@ function createListUserMarkers() {
             icon: icon
         });
         listUserMarkers.push(marker);
+        overlappingUsers.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -499,6 +517,7 @@ function createListMaleMarkers() {
             icon: icon
         });
         listMaleMarkers.push(marker);
+        overlappingMale.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -529,6 +548,7 @@ function createListFemaleMarkers() {
             icon: icon
         });
         listFemaleMarkers.push(marker);
+        overlappingFemale.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -558,6 +578,7 @@ function createListLGBTMarkers() {
             icon: icon
         });
         listLGBTMarkers.push(marker);
+        overlappingLGBT.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -588,6 +609,7 @@ function createListType0Markers() {
             icon: icon
         });
         listType0Markers.push(marker);
+        overlappingType0.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -621,6 +643,7 @@ function createListType1Markers() {
             icon: icon
         });
         listType1Markers.push(marker);
+        overlappingType1.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -655,6 +678,7 @@ function createListType2Markers() {
             icon: icon
         });
         listType2Markers.push(marker);
+        overlappingType2.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -689,6 +713,7 @@ function createListType3Markers() {
             icon: icon
         });
         listType3Markers.push(marker);
+        overlappingType3.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -723,6 +748,7 @@ function createListType4Markers() {
             icon: icon
         });
         listType4Markers.push(marker);
+        overlappingType4.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -757,6 +783,7 @@ function createListType5Markers() {
             icon: icon
         });
         listType5Markers.push(marker);
+        overlappingType5.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -773,7 +800,6 @@ function createListType5Markers() {
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    alert("bb");
     infoWindow.setPosition(pos);
     infoWindow.setContent(browserHasGeolocation ?
                           'Error: The Geolocation service failed.' :
