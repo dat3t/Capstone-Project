@@ -441,7 +441,6 @@ function createListUserMarkers() {
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(25, 25)
     };
-    alert(length);
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(allUsers[i].x, allUsers[i].y);
         bounds.extend(position);
