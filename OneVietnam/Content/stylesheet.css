@@ -55,7 +55,7 @@ body {
 .force100 {
     width: 100% !important;
 }
-.ui.dropdown.selection {
+.ui.dropdown.searchType {
     min-width: 0em !important;
     width: 7em !important;
     border-right-style: none;
