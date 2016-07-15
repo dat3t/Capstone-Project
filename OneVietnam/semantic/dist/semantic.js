@@ -13200,6 +13200,10 @@ $.fn.search = function(parameters) {
                 event.preventDefault();
                 return false;
               }
+              if ($result.length > 0) {
+                  location.href = "/Search/Index?query="+module.get.value();
+                  return false;;
+              }
             }
             else if(keyCode == keys.upArrow) {
               module.verbose('Up key pressed, changing active result');

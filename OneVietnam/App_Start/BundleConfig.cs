@@ -20,14 +20,16 @@ namespace OneVietnam
             bundles.Add(new ScriptBundle("~/bundles/semantic").Include(
                       "~/semantic/dist/semantic.js"));
             bundles.Add(new ScriptBundle("~/bundles/Scripts").Include(
-                "~/Scripts/global.js"));
+                "~/Scripts/global.js",
+                "~/Scripts/dropzone.js"));
             bundles.Add(new StyleBundle("~/semantic/css").Include(
                       "~/semantic/dist/semantic.css"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/StyleSheet.css",
                   "~/Content/Map/map.css",
                 "~/Content/Map/infoWindow.css",
-                "~/Content/Map/searchbox.css"));
+                "~/Content/Map/searchbox.css",
+                "~/Content/Map/scrollbar.css"));
             bundles.Add(new StyleBundle("~/Scripts/Map").Include(
                 "~/Scripts/map.js",
                 "~/Scripts/markerclusterer.js"

@@ -360,7 +360,6 @@
     <Content Include="Content\loader.css" />
     <Content Include="Content\minimal-slide.css" />
     <Content Include="Content\semantic.min.css" />
-    <Content Include="Content\Site.css" />
     <Content Include="Content\SlideImages\HA.jpg" />
     <Content Include="Content\SlideImages\Halong.jpg" />
     <Content Include="Content\SlideImages\HL2.jpg" />
