@@ -121,8 +121,7 @@ namespace OneVietnam.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreatePost(CreatePostViewModel p)
         {
-            ViewData.Clear();
-            p.UserName = User.Identity.Name;            
+            ViewData.Clear();                  
             var tagList = AddAndGetAddedTags(Request, TagManager, "TagsInput");
             var illList = GetAddedImage(Request, "Img", "Des");
             if (tagList != null)
@@ -232,6 +231,7 @@ namespace OneVietnam.Controllers
             }                        
         }
 
+        //ThamDTH Create
         public async Task<ActionResult> ShowPostDetail(string postId)
         {
             if (TagList != null)
@@ -243,15 +243,22 @@ namespace OneVietnam.Controllers
                 ViewData["PostTypes"] = IconList;
             }
             
-            Post post = await PostManager.FindById(postId);
-            ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
-            if (postUser != null)
+            Post post = await PostManager.FindById(postId);            
+            if (post != null)
             {
-                ViewData["PostUser"] = postUser;
-            }
-            PostViewModel showPost = new PostViewModel(post);            
-            return View(showPost);
+                ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
+                if (postUser != null)
+                {
+                    ViewData["PostUser"] = postUser;
+                }
+                PostViewModel showPost = new PostViewModel(post);
+                return View(showPost);
+            }                      
+                        
+            return View();
         }
+
+        //ThamDTH Create
         [HttpPost]
         public ActionResult ShowPostDetail(PostViewModel pPostView)
         {            
@@ -262,6 +269,17 @@ namespace OneVietnam.Controllers
                 strPostId = Request.Form["PostId"];
             }
             return RedirectToAction("DeletePost", "Post", new { postId = strPostId });
+        }
+
+        //ThamDTH Create        
+        [HttpPost]
+        public async Task ReportPost(string userId, string postId, string description)
+        {
+            Post post = await PostManager.FindById(postId);
+            Report report = new Report(userId, postId, description);
+            post.AddReport(report);
+            await PostManager.UpdatePostAsync(post);
+            //TODO send notification to Mod
         }
 
         public async Task<ActionResult> EditPost(string postId)

@@ -39,6 +39,7 @@ namespace OneVietnam.DTL
         {            
             Id = ObjectId.GenerateNewId().ToString();            
             Title = pView.Title;
+            UserId = pView.UserId;
             Description = pView.Description;            
             PostType = pView.PostType;
             DeletedFlag = false;
