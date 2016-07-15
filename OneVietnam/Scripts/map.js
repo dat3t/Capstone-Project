@@ -28,6 +28,12 @@ function checkAuthenticated() {
             minZoom: 4,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
+        myCurrentLocationMarker = new google.maps.Marker({
+            map: map,
+            title: "Vị trí của tôi",
+            // icon:myLocationIcon
+        });
+
     }
     else {
         //Declare a new map
@@ -38,11 +44,13 @@ function checkAuthenticated() {
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
         // Declare a myLocation marker using icon declared above, and bind it to the map
-        var myLocationMarker = new google.maps.Marker({
+
+        myCurrentLocationMarker = new google.maps.Marker({
             map: map,
             title: "Vị trí của tôi",
             // icon:myLocationIcon
         });
+
 
         //Identify current user's location and bind it to the map
         //Using HTML5 geolocation.
@@ -53,18 +61,18 @@ function checkAuthenticated() {
                     lng: position.coords.longitude
                 };
 
-                myLocationMarker.setPosition(pos);
+                myCurrentLocationMarker.setPosition(pos);
                 //addMarker(pos);
                 map.setCenter(pos);
                 map.setZoom(7);
 
 
             }, function () {
-                handleLocationError(true, myLocationMarker, map.getCenter());
+                handleLocationError(true, myCurrentLocationMarker, map.getCenter());
             });
         } else {
             // Browser doesn't support Geolocation
-            handleLocationError(false, myLocationMarker, map.getCenter());
+            handleLocationError(false, myCurrentLocationMarker, map.getCenter());
         }
         //map.fitBounds(map.getBounds());
 
@@ -75,11 +83,6 @@ function initialize() {
 
     checkAuthenticated();
 
-    myCurrentLocationMarker = new google.maps.Marker({
-        map: map,
-        title: "Vị trí của tôi",
-        // icon:myLocationIcon
-    });
 
     //Declare a bound
     bounds = new google.maps.LatLngBounds();
@@ -404,7 +407,7 @@ function showFemales() {
     setMapToAMarkerCluster(femaleMarkerCluster);
 }
 
-function showGLBT() {
+function showLGBT() {
     setMapToAMarkerCluster(LGBTMarkerCluster);
 }
 
