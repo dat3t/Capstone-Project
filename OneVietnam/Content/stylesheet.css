@@ -77,10 +77,3 @@ body {
  .modals,.modal{
     z-index: 20;   
 }
-.pac-container {
-    background-color: #000;
-    z-index: 5051 ;
-    position: fixed;
-    display: inline-block;
-    float: left;
-}
