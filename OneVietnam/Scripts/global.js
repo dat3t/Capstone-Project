@@ -3,25 +3,34 @@
        .click(function () {
            $('.ui.modal').modal('show');
        });
+    if ($(".searchType").val() === "SearchPosts") {
+        $(".ui.user").css("display", "none");
+        $(".ui.post").css("display", "inline-flex");
+    } else {
+        $(".ui.user").css("display", "inline-flex");
+        $(".ui.post").css("display", "none");
+    }
+    $(".searchType").dropdown({
+        onChange: function (value, text, $selectedItem) {            
+            if (value === "SearchPosts") {                
+                $(".ui.user").css("display", "none");
+                $(".ui.post").css("display", "inline-flex");
 
-  
+            } else {                
+                $(".ui.user").css("display", "inline-flex");
+                $(".ui.post").css("display", "none");
+            }
+        }
+    });
     $("div#myId").dropzone({ url: "/file/post" });
     $(".right.menu.open").on("click", function (e) {
         e.preventDefault();
         $(".ui.vertical.menu.open").toggle();
     });
-
-    $("#searchType").dropdown({
-
-        onChange: function (value, text, $selectedItem) {
-
-
-            $("#" + value).removeClass("hide-search").siblings().not(".dropdown").addClass("hide-search");
-        }
-    });
+    
 
     //SearchBox
-    $('#SearchPosts').search({
+    $('.ui.search.post').search({
         apiSettings: {
             url: '/Search/search?query={query}'
         },
@@ -34,20 +43,19 @@
         minCharacters: 3
     })
     ;
-    $('#SearchUsers').search({
+    $('.ui.search.user').search({
         apiSettings: {
-            url: '//api.github.com/search/repositories?q={query}'
+            url: '/Search/UsersSearch?query={query}'
         },
         fields: {
-            results: 'items',
-            title: 'name',
-            url: 'html_url'
+            results: 'Result',
+            title: 'Title',
+            description: 'Description',
+            url: 'Url'
         },
-        minCharacters: 3
+        minCharacters: 2
     })
     ;
-
-
 
     //ThamDTH
     $('.clearing.star.rating').rating('setting', 'clearable', true);
@@ -66,7 +74,5 @@
           $('.ui.fullscreen.modal').modal('show');
       });
 
-    $('.icon.link').popup({});
-    
-    
+    $('.icon.link').popup({});    
 });

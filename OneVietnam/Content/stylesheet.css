@@ -55,6 +55,22 @@ body {
 .force100 {
     width: 100% !important;
 }
-.hide-search {
+.ui.dropdown.selection {
+    min-width: 0em !important;
+    width: 7em !important;
+    border-right-style: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.ui.user {
     display: none;
+}
+.ui.post {
+    display: inline-flex
+}
+.ui.search .prompt {
+    border-radius: 0.28571429rem;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    line-height: 1em !important;    
 }

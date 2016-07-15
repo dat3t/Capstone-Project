@@ -60,15 +60,24 @@ namespace OneVietnam.Controllers
                         }).ToList();
             var searchResult = new SearchResultModel
             {
-                Count = result.Count,
+                Count = list.Count,
                 Result = list
             };
             return Json(searchResult, JsonRequestBehavior.AllowGet);
         }        
-        //Todo
-        //public async Task<ActionResult> UsersSearch(string query)
-        //{
-        //    var result = await UserManager.TextSearchUsers(query);            
-        //}
+        public async Task<ActionResult> UsersSearch(string query)
+        {
+            var result = await UserManager.TextSearchUsers(query);
+            var list = result.Select(user => new SearchResultItem()
+            {
+                Description = user.Email, Title = user.UserName, Url = ""
+            }).ToList();
+            var searchResult = new SearchResultModel
+            {
+                Count = list.Count,
+                Result = list
+            };
+            return Json(searchResult, JsonRequestBehavior.AllowGet);
+        }
     }
 }
