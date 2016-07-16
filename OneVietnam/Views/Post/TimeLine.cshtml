@@ -1,4 +1,5 @@
 ﻿@using OneVietnam.DTL
+@using OneVietnam.Models
 <div class="ui grid">
     <div class="two wide column">
 
@@ -33,7 +34,7 @@
         @*                <a class="item"><i class="globe icon"></i> Choose Language</a>*@
         @*                <a class="item"><i class="settings icon"></i> Account AppSettings.Settings</a>*@
         @*            </div>*@
-        @*        </div>*@ 
+        @*        </div>*@
         @*    </div>*@
         <nav>
             <ul>
@@ -45,13 +46,10 @@
         </nav>
     </div>
     <div class="ten wide column">
-        <div class="container">
-            @Html.Partial("_PostRow", (ViewBag.Posts as Dictionary<int, Post>))
-
-
-  
-
+        <div class="container ">
+            @Html.Partial("_PostRow", (ViewBag.Posts as List<PostViewModel>))
         </div>
+        <div class="container infinite-scroll" id="gohere"></div>
     </div>
     <div class="four wide column">
         <div class="ui card">
@@ -90,20 +88,21 @@
         </div>
     </div>
 </div>
-
+<div class="ui text loader" id="loading">Loading</div>
 @Html.Partial("_CreatePost")
-   
-    
-      
 
 
-@*@section scripts{*@
-@*    <script src="~/Scripts/infiniteScroll.js"></script>*@
-@*    <script type="text/javascript">*@
-@*        $(function () {*@
-@*            $("div#loading").hide();*@
-@*        });*@
-@*        var moreRowsUrl = '@Url.RouteUrl("PostList")';*@
-@*        $(window).scroll(scrollHandler);*@
-@*    </script>*@
-@*}*@
+
+
+
+@section scripts{
+    <script src="~/Scripts/infiniteScroll.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("div#loading").hide();
+        });
+        var moreRowsUrl = '/Post/TimeLine';
+        $(window).scroll(scrollHandler);
+        @*var hasReachedEndOfInfiniteScroll = @ViewBag.IsEndOfRecords.ToString().ToLower();*@        
+    </script>
+}

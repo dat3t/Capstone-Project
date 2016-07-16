@@ -6,6 +6,7 @@ using System.Web;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using OneVietnam.Common;
 using OneVietnam.DTL;
 
 namespace OneVietnam.DAL
@@ -48,10 +49,24 @@ namespace OneVietnam.DAL
         {
             return await _posts.Find(p => true).ToListAsync();
         }
+
+        public async Task<List<Post>> FindAllPostAsync(BaseFilter filter)
+        {
+            if (filter.IsNeedPaging)
+            {
+                return await _posts.Find(p => p.DeletedFlag==false).Skip(filter.Skip).Limit(filter.ItemsPerPage).ToListAsync();
+            }
+            else
+            {
+                return await _posts.Find(p => p.DeletedFlag == false).ToListAsync();
+            }
+        }
         public async Task<List<Post>> FullTextSearch(string query)
         {
-            var filter = Query.Text(query).ToBsonDocument();
+            //var filter = Query.Text(query).ToBsonDocument();
+            var filter = Builders<Post>.Filter.Text(query);            
             return await _posts.Find(filter).ToListAsync();
         }
+
     }
 }
