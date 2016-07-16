@@ -83,5 +83,10 @@ namespace OneVietnam.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult SideNavPost()
+        {
+            return PartialView("SidenavPost");
+        }
     }
 }
