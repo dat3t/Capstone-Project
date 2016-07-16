@@ -222,27 +222,28 @@ namespace OneVietnam.Controllers
         //ThamDTH Create
         public async Task<ActionResult> ShowPostDetail(string postId)
         {
-            if (TagList != null)
+            if(!string.IsNullOrEmpty(postId))
             {
-                ViewData["TagList"] = TagList;
-            }
-            if (IconList != null)
-            {
-                ViewData["PostTypes"] = IconList;
-            }
-            
-            Post post = await PostManager.FindById(postId);            
-            if (post != null)
-            {
-                ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
-                if (postUser != null)
+                Post post = await PostManager.FindById(postId);
+                if (post != null)
                 {
-                    ViewData["PostUser"] = postUser;
+                    if (TagList != null)
+                    {
+                        ViewData["TagList"] = TagList;
+                    }
+                    if (IconList != null)
+                    {
+                        ViewData["PostTypes"] = IconList;
+                    }
+                    ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
+                    if (postUser != null)
+                    {
+                        ViewData["PostUser"] = postUser;
+                    }
+                    PostViewModel showPost = new PostViewModel(post);
+                    return View(showPost);
                 }
-                PostViewModel showPost = new PostViewModel(post);
-                return View(showPost);
-            }                      
-                        
+            }                                    
             return View();
         }
 
@@ -272,28 +273,30 @@ namespace OneVietnam.Controllers
 
         public async Task<ActionResult> EditPost(string postId)
         {
-            if (TagList != null)
+            if(!string.IsNullOrEmpty(postId))
             {
-                ViewData["TagList"] = TagList;
+                Post post = await PostManager.FindById(postId);
+                if (post != null)
+                {
+                    if (TagList != null)
+                    {
+                        ViewData["TagList"] = TagList;
+                    }
+                    if (IconList != null)
+                    {
+                        ViewData["PostTypes"] = IconList;
+                    }
+                    PostViewModel showPost = new PostViewModel(post);
+                    return View(showPost);
+                }
             }
-            if (IconList != null)
-            {
-                ViewData["PostTypes"] = IconList;
-            }
-            Post post = await PostManager.FindById(postId);
-            PostViewModel showPost = new PostViewModel(post);            
-            return View(showPost);
+            return View();
+
         }
 
         [HttpPost]
         public async Task<ActionResult> EditPost(PostViewModel pPostView)
-        {
-            ViewData.Clear();
-            string strPostId = "";
-            if (Request.Form.Count > 0)
-            {
-                strPostId = Request.Form["PostId"];
-            }
+        {                        
             ViewData.Clear();
             var tagList = AddAndGetAddedTags(Request, TagManager, "TagsInput");
             var illList = GetAddedImage(Request, "Img", "Des");
@@ -306,9 +309,9 @@ namespace OneVietnam.Controllers
             {
                 pPostView.Illustrations = illList;
             }
-            Post post = new Post(pPostView, strPostId);           
+            Post post = new Post(pPostView);           
             await PostManager.UpdatePostAsync(post);
-            return RedirectToAction("ShowPostDetail", "Post", new { postId = strPostId });
+            return RedirectToAction("ShowPostDetail", "Post", new { postId = post.Id });
         }
 
         public async Task<ActionResult> DeletePost(string postId)

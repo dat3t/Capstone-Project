@@ -66,9 +66,7 @@ namespace OneVietnam.Models
         public List<Illustration> Illustrations { get; set; }
         public List<Tag> Tags { get; set; }
 
-        public List<Report> Reports { get; set; }
-
-        public ReportViewModal ReportView { get; set; }
+        public List<Report> Reports { get; set; }        
 
         public PostViewModel()
         {
