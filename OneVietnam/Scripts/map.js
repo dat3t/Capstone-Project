@@ -19,8 +19,6 @@ var type0MarkerCluster = [], type1MarkerCluster = [], type2MarkerCluster = [], t
 var overlappingType0 = [], overlappingType1 = [], overlappingType2 = [], overlappingType3 = [], overlappingType4 = [], overlappingType5 = [];
 
 var overlappingMale = [], overlappingFemale = [], overlappingLGBT = [], overlappingUsers = [];
-//Declare an icon of sample marker
-var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
 
 function checkAuthenticated() {
     var icon = {
@@ -226,15 +224,7 @@ function initialize() {
         map.fitBounds(bounds);
     });
 
-    // A new Info Window is created and set content
-    infowindow = new google.maps.InfoWindow({
-        //content: content,
-        //content: '@Html.Partial("CustomInfoWindow")',
-        // Assign a maximum value for the width of the infowindow allows
-        // greater control over the various content elements
-        maxWidth: 350
-    });
-
+    
     // Event that closes the Info Window with a click on the map
     google.maps.event.addListener(map, 'click', function () {
         infowindow.close();
@@ -246,6 +236,15 @@ function initialize() {
     // the creation of the infowindow HTML structure 'domready'
     // and before the opening of the infowindow, defined styles are applied.
     // *
+    // A new Info Window is created and set content
+    infowindow = new google.maps.InfoWindow({
+        //content: content,
+        //content: '@Html.Partial("CustomInfoWindow")',
+        // Assign a maximum value for the width of the infowindow allows
+        // greater control over the various content elements
+        maxWidth: 350
+    });
+
     google.maps.event.addListener(infowindow, 'domready', function () {
 
         // Reference to the DIV that wraps the bottom of infowindow--
@@ -299,7 +298,6 @@ function initialize() {
         });
         iwCloseBtn.css({ 'display': 'none' });
     });
-
     //    // Automatically center the map fitting all markers on the screen
     //    map.fitBounds(bounds);
     //}
@@ -325,10 +323,6 @@ function loadScript() {
     document.body.appendChild(script);
 
 }
-
-//window.onload = initialize;
-google.maps.event.addDomListener(window, 'load', initialize);
-
 
 function showCurrentLocation() {
     //alert(aa);
@@ -439,11 +433,11 @@ function createListUserMarkers() {
         });
         listUserMarkers.push(marker);
         overlappingUsers.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 getUserInfo(allUsers[i].userID);
-
                 infowindow.open(map, marker);
             }
         })(marker, i));
@@ -751,6 +745,7 @@ function createListType5Markers() {
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
+            //    map2 = marker.getMap();
                 infowindow.open(map, marker);
             }
         })(marker, i));
@@ -812,19 +807,7 @@ function deleteMarkers(listMarkers) {
     listMarkers = [];
 }
 
-// the smooth zoom function
-function smoothZoom(map, max, cnt) {
-    if (cnt >= max) {
-        return;
-    }
-    else {
-        z = google.maps.event.addListener(map, 'zoom_changed', function (event) {
-            google.maps.event.removeListener(z);
-            smoothZoom(map, max, cnt + 1);
-        });
-        setTimeout(function () { map.setZoom(cnt) }, 80); // 80ms is what I found to work well on my system -- it might not work well on all systems
-    }
-}
+
 
 function createUserInfoWindowContent(name, age, gender, address) {
 
@@ -943,3 +926,6 @@ function getPostInfo(postID, postType) {
         }
     });
 }
+
+//window.onload = initialize;
+google.maps.event.addDomListener(window, 'load', initialize);
