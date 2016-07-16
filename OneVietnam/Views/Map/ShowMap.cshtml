@@ -22,7 +22,7 @@
             dataType: 'json',
             success: function (json) {
                 authenticatedUser = {x:json.Location.XCoordinate,y:json.Location.YCoordinate,address:json.Location.Address};
-             
+
             }
         });
     </script>
@@ -37,7 +37,7 @@ else
 <head>
     <meta charset="utf-8" />
     <title>Bản đồ tìm kiếm</title>
-    <link rel="stylesheet" type="text/css" href="~/Content/Map/mappagecustom.css"> 
+    <link rel="stylesheet" type="text/css" href="~/Content/Map/mappagecustom.css">
     <script src="~/Scripts/MapElements.js" language="javascript" type="text/javascript"></script>
     <script type="text/javascript">
 
@@ -175,7 +175,6 @@ else
 
             #filterHome:hover {
                 transform: scale(2);
-                box-shadow: 0px 0px 5px #fff;
             }
 
         #filterHelp {
@@ -314,7 +313,7 @@ else
                 transform: scale(2);
             }
 
-              #location {
+        #location {
             background: url(../Content/Icon/location.png);
             width: 40px;
             height: 40px;
@@ -361,7 +360,7 @@ else
         <i class="search icon"></i>
     </div>
 
-    <button type="submit" class="ui icon green button" id="location" onclick="showCurrentLocation()" data-tooltip="Địa điểm của tôi" data-position="left center" style=" position: absolute;right: 7px;bottom:23%">
+    <button type="submit" class="ui icon green button" id="location" onclick="showCurrentLocation()" data-tooltip="Vị trí hiện tại của tôi" data-position="left center" style=" position: absolute;right: 7px;bottom:23%">
         @*<i class="location arrow icon"></i>*@
     </button>
 
@@ -392,186 +391,24 @@ else
     </div>
     <div class="ui buttons" id="genderFilter" style="position: absolute; left: 43% ; bottom: 3% ;">
 
-        <button type="submit" class="ui icon green button" id= "filterMale" data-tooltip="Nam" data-position="top center" onclick="showMales()">
+        <button type="submit" class="ui icon green button" id="filterMale" data-tooltip="Nam" data-position="top center" onclick="showMales()">
             @*<i class="male icon"></i>*@
         </button>
 
-        <button type="submit" class="ui icon pink button" id= "filterFemale" data-tooltip="Nữ" data-position="top center" onclick="showFemales()">
+        <button type="submit" class="ui icon pink button" id="filterFemale" data-tooltip="Nữ" data-position="top center" onclick="showFemales()">
             @*<i class="female icon"></i>*@
         </button>
 
-        <button type="submit" class="ui icon purple button" id= "filterLGBT" data-tooltip="LGBT" data-position="top center" onclick="showLGBT()">
+        <button type="submit" class="ui icon purple button" id="filterLGBT" data-tooltip="LGBT" data-position="top center" onclick="showLGBT()">
             @*<i class="transgender icon"></i>*@
         </button>
 
-        <button type="submit" class="ui icon blue button" id= "filterUsers" data-tooltip="Tất cả người dùng" data-position="top center" onclick="showUsers()">
+        <button type="submit" class="ui icon blue button" id="filterUsers" data-tooltip="Tất cả người dùng" data-position="top center" onclick="showUsers()">
             @*<i class="users icon"></i>*@
         </button>
     </div>
-    <div id="mySidenav" class="sidenav scrollbar" style="position:absolute;left:0px;top:0px;">
-        <div id="wrapper" class="segment" style="height:150px;  border-bottom: 1px solid #E2E2E2;">
-            <div class="iw-content" style="padding:5px;">
-                <div id="navInfo" style="margin-left:3px;">
-                    <img src="../Content/Images/pikachu.jpg" alt="Trần Trọng Tiến Đạt" height="115" width="115">
-                </div>
-                <div id="sectionInfo" style="position:absolute;margin-left:125px;">
-                    <table style="width:200px">
-                        <tr>
-                            <td><b>Địa điểm:</b></td>
-                            <td>Oosaka</td>
-                        </tr>
-                        <tr>
-                            <td><b>Facebook:</b></td>
-                            <td><a href="https://www.facebook.com/Dat3T">Dat3T</a></td>
-                        </tr>
-                        <tr>
-                            <td><b>Đang offer:</b></td>
-                            <td>Cho thuê nhà trọ</td>
-                        </tr>
-                        <tr>
-                            <td><b>Thông tin khác:</b></td>
-                            <td>abcxyz</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div id="wrapper" style="height:150px;  border-bottom: 1px solid #E2E2E2;">
-            <div class="iw-content" style="padding:5px;">
-                <div id="navInfo" style="margin-left:3px;">
-                    <img src="../Content/Images/rua.png" alt="Trần Trọng Tiến Đạt" height="115" width="115">
-                </div>
-                <div id="sectionInfo" style="position:absolute;margin-left:125px;">
-                    <table style="width:200px">
-                        <tr>
-                            <td><b>Địa điểm:</b></td>
-                            <td>Oosaka</td>
-                        </tr>
-                        <tr>
-                            <td><b>Facebook:</b></td>
-                            <td><a href="https://www.facebook.com/Dat3T">Dat3T</a></td>
-                        </tr>
-                        <tr>
-                            <td><b>Đang offer:</b></td>
-                            <td>Cho thuê nhà trọ</td>
-                        </tr>
-                        <tr>
-                            <td><b>Thông tin khác:</b></td>
-                            <td>abcxyz</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div id="wrapper" style="height:150px;  border-bottom: 1px solid #E2E2E2;">
-            <div class="iw-content" style="padding:5px;">
-                <div id="navInfo" style="margin-left:3px;">
-                    <img src="../Content/Images/poke_celebi.png" alt="Trần Trọng Tiến Đạt" height="115" width="115">
-                </div>
-                <div id="sectionInfo" style="position:absolute;margin-left:125px;">
-                    <table style="width:200px">
-                        <tr>
-                            <td><b>Địa điểm:</b></td>
-                            <td>Oosaka</td>
-                        </tr>
-                        <tr>
-                            <td><b>Facebook:</b></td>
-                            <td><a href="https://www.facebook.com/Dat3T">Dat3T</a></td>
-                        </tr>
-                        <tr>
-                            <td><b>Đang offer:</b></td>
-                            <td>Cho thuê nhà trọ</td>
-                        </tr>
-                        <tr>
-                            <td><b>Thông tin khác:</b></td>
-                            <td>abcxyz</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div id="wrapper" style="height:150px;  border-bottom: 1px solid #E2E2E2;">
-            <div class="iw-content" style="padding:5px;">
-                <div id="navInfo" style="margin-left:3px;">
-                    <img src="../Content/Images/chov.png" alt="Trần Trọng Tiến Đạt" height="115" width="115">
-                </div>
-                <div id="sectionInfo" style="position:absolute;margin-left:125px;">
-                    <table style="width:200px">
-                        <tr>
-                            <td><b>Địa điểm:</b></td>
-                            <td>Oosaka</td>
-                        </tr>
-                        <tr>
-                            <td><b>Facebook:</b></td>
-                            <td><a href="https://www.facebook.com/Dat3T">Dat3T</a></td>
-                        </tr>
-                        <tr>
-                            <td><b>Đang offer:</b></td>
-                            <td>Cho thuê nhà trọ</td>
-                        </tr>
-                        <tr>
-                            <td><b>Thông tin khác:</b></td>
-                            <td>abcxyz</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div id="wrapper" style="height:150px;  border-bottom: 1px solid #E2E2E2;">
-            <div class="iw-content" style="padding:5px;">
-                <div id="navInfo" style="margin-left:3px;">
-                    <img src="../Content/Images/pikachu.jpg" alt="Trần Trọng Tiến Đạt" height="115" width="115">
-                </div>
-                <div id="sectionInfo" style="position:absolute;margin-left:125px;">
-                    <table style="width:200px">
-                        <tr>
-                            <td><b>Địa điểm:</b></td>
-                            <td>Oosaka</td>
-                        </tr>
-                        <tr>
-                            <td><b>Facebook:</b></td>
-                            <td><a href="https://www.facebook.com/Dat3T">Dat3T</a></td>
-                        </tr>
-                        <tr>
-                            <td><b>Đang offer:</b></td>
-                            <td>Cho thuê nhà trọ</td>
-                        </tr>
-                        <tr>
-                            <td><b>Thông tin khác:</b></td>
-                            <td>abcxyz</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div id="wrapper" style="height:150px;  border-bottom: 1px solid #E2E2E2;">
-            <div class="iw-content" style="padding:5px;">
-                <div id="navInfo" style="margin-left:3px;">
-                    <img src="../Content/Images/chov.png" alt="Trần Trọng Tiến Đạt" height="115" width="115">
-                </div>
-                <div id="sectionInfo" style="position:absolute;margin-left:125px;">
-                    <table style="width:200px">
-                        <tr>
-                            <td><b>Địa điểm:</b></td>
-                            <td>Oosaka</td>
-                        </tr>
-                        <tr>
-                            <td><b>Facebook:</b></td>
-                            <td><a href="https://www.facebook.com/Dat3T">Dat3T</a></td>
-                        </tr>
-                        <tr>
-                            <td><b>Đang offer:</b></td>
-                            <td>Cho thuê nhà trọ</td>
-                        </tr>
-                        <tr>
-                            <td><b>Thông tin khác:</b></td>
-                            <td>abcxyz</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-
+    <div id="dat">
+        @Html.Partial("SidenavPost");
     </div>
 
     <div id="aa" onclick="toggle()" class="ui blue big centered launch right attached fixed button" style="position: absolute; left: 0px; margin-left:380px;top:40%;transition: margin-left .5s;width:60px;">

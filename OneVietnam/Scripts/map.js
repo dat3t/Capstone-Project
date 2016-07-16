@@ -16,8 +16,9 @@ var userMarkerCluster = [], maleMarkerCluster = [], femaleMarkerCluster = [], LG
 
 var type0MarkerCluster = [], type1MarkerCluster = [], type2MarkerCluster = [], type3MarkerCluster = [], type4MarkerCluster = [], type5MarkerCluster = [];
 
-//Declare an icon of sample marker
-var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+var overlappingType0 = [], overlappingType1 = [], overlappingType2 = [], overlappingType3 = [], overlappingType4 = [], overlappingType5 = [];
+
+var overlappingMale = [], overlappingFemale = [], overlappingLGBT = [], overlappingUsers = [];
 
 function checkAuthenticated() {
     var icon = {
@@ -28,8 +29,9 @@ function checkAuthenticated() {
         scaledSize: new google.maps.Size(25, 25)
     };
 
+    // Declare a myLocation marker using icon declared above, and bind it to the map
     myCurrentLocationMarker = new google.maps.Marker({
-        title: "Vị trí của tôi",
+        title: "Vị trí hiện tại của tôi",
         icon: icon
     });
 
@@ -51,39 +53,9 @@ function checkAuthenticated() {
             minZoom: 4,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
-        // Declare a myLocation marker using icon declared above, and bind it to the map
-
-        //myCurrentLocationMarker = new google.maps.Marker({
-        //    map: map,
-        //    title: "Vị trí của tôi",
-        //    // icon:myLocationIcon
-        //});
+     
         myCurrentLocationMarker.setMap(map);
         showCurrentLocation();
-
-        //Identify current user's location and bind it to the map
-        //Using HTML5 geolocation.
-        //if (navigator.geolocation) {
-        //    navigator.geolocation.getCurrentPosition(function (position) {
-        //        var pos = {
-        //            lat: position.coords.latitude,
-        //            lng: position.coords.longitude
-        //        };
-
-        //        myCurrentLocationMarker.setPosition(pos);
-        //        //addMarker(pos);
-        //        map.setCenter(pos);
-        //        map.setZoom(7);
-
-
-        //    }, function () {
-        //        handleLocationError(true, myCurrentLocationMarker, map.getCenter());
-        //    });
-        //} else {
-        //    // Browser doesn't support Geolocation
-        //    handleLocationError(false, myCurrentLocationMarker, map.getCenter());
-        //}
-        //map.fitBounds(map.getBounds());
 
     }
 }
@@ -92,12 +64,19 @@ function initialize() {
 
     checkAuthenticated();
 
-
     //Declare a bound
     bounds = new google.maps.LatLngBounds();
 
-    //var iw = new map.InfoWindow();
-    var oms = new OverlappingMarkerSpiderfier(map);
+    overlappingUsers = new OverlappingMarkerSpiderfier(map);
+    overlappingMale = new OverlappingMarkerSpiderfier(map);
+    overlappingLGBT = new OverlappingMarkerSpiderfier(map);
+    overlappingFemale = new OverlappingMarkerSpiderfier(map);
+    overlappingType0 = new OverlappingMarkerSpiderfier(map);
+    overlappingType1 = new OverlappingMarkerSpiderfier(map);
+    overlappingType2 = new OverlappingMarkerSpiderfier(map);
+    overlappingType3 = new OverlappingMarkerSpiderfier(map);
+    overlappingType4 = new OverlappingMarkerSpiderfier(map);
+    overlappingType5 = new OverlappingMarkerSpiderfier(map);
 
     createListUserMarkers();
     createListMaleMarkers();
@@ -141,15 +120,12 @@ function initialize() {
         map: map,
         title: 'Second Marker'
     });
-    // there is better way of doing things, Below is done to show you in detail whats going on
     markers.push(marker5);
     markers.push(marker6);
     markers.push(marker7);
-    // now we have 2 markers with different title and same position
 
-    // lets now create our markerClusterer instance with markers array
-    //var markerCluster = new MarkerClusterer(map, markers,{zoomOnClick:false,maxZoom:15});
-    //var oms = new OverlappingMarkerSpiderfier(map);
+    var oms = new OverlappingMarkerSpiderfier(map);
+
     oms.addMarker(marker5);
     oms.addMarker(marker6);
     oms.addMarker(marker7);
@@ -181,7 +157,7 @@ function initialize() {
 
     // Bias the SearchBox results towards current map's viewport.
     map.addListener('bounds_changed', function () {
-        // searchBox.setBounds(map.getBounds());
+        //searchBox.setBounds(map.getBounds());
         // map.setZoom(14);
     });
 
@@ -212,50 +188,43 @@ function initialize() {
             return;
         }
 
-        //// Clear out the old markers.
+        // Clear out the old markers.
         //marker2.forEach(function (marker) {
         //    marker.setMap(null);
         //});
         //marker2 = [];
 
-        //// For each place, get the icon, name and location.
-        //var bounds = new google.maps.LatLngBounds();
-        ////places.forEach(function (place) {
-        ////    var icon = {
-        ////        url: place.icon,
-        ////        size: new google.maps.Size(71, 71),
-        ////        origin: new google.maps.Point(0, 0),
-        ////        anchor: new google.maps.Point(17, 34),
-        ////        scaledSize: new google.maps.Size(25, 25)
-        ////    };
+        // For each place, get the icon, name and location.
+        var bounds = new google.maps.LatLngBounds();
+        places.forEach(function (place) {
+            //var icon = {
+            //    url: place.icon,
+            //    size: new google.maps.Size(71, 71),
+            //    origin: new google.maps.Point(0, 0),
+            //    anchor: new google.maps.Point(17, 34),
+            //    scaledSize: new google.maps.Size(25, 25)
+            //};
 
-        //    //// Create a marker for each place.
-        //    //marker2.push(new google.maps.Marker({
-        //    //    map: map,
-        //    //    icon: icon,
-        //    //    title: place.name,
-        //    //    position: place.geometry.location
-        //    //}));
+            // Create a marker for each place.
+            //marker2.push(new google.maps.Marker({
+            //    map: map,
+            //    icon: icon,
+            //    title: place.name,
+            //    position: place.geometry.location
+            //}));
 
-        //    if (place.geometry.viewport) {
-        //        // Only geocodes have viewport.
-        //        bounds.union(place.geometry.viewport);
-        //    } else {
-        //        bounds.extend(place.geometry.location);
-        //    }
-        //});
+            if (place.geometry.viewport) {
+                // Only geocodes have viewport.
+                bounds.union(place.geometry.viewport);
+            } else {
+                bounds.extend(place.geometry.location);
+            }
+        });
+        //map.setZoom(12);
         map.fitBounds(bounds);
     });
 
-    // A new Info Window is created and set content
-    infowindow = new google.maps.InfoWindow({
-        //content: content,
-        //content: '@Html.Partial("CustomInfoWindow")',
-        // Assign a maximum value for the width of the infowindow allows
-        // greater control over the various content elements
-        maxWidth: 350
-    });
-
+    
     // Event that closes the Info Window with a click on the map
     google.maps.event.addListener(map, 'click', function () {
         infowindow.close();
@@ -267,6 +236,15 @@ function initialize() {
     // the creation of the infowindow HTML structure 'domready'
     // and before the opening of the infowindow, defined styles are applied.
     // *
+    // A new Info Window is created and set content
+    infowindow = new google.maps.InfoWindow({
+        //content: content,
+        //content: '@Html.Partial("CustomInfoWindow")',
+        // Assign a maximum value for the width of the infowindow allows
+        // greater control over the various content elements
+        maxWidth: 350
+    });
+
     google.maps.event.addListener(infowindow, 'domready', function () {
 
         // Reference to the DIV that wraps the bottom of infowindow--
@@ -320,7 +298,6 @@ function initialize() {
         });
         iwCloseBtn.css({ 'display': 'none' });
     });
-
     //    // Automatically center the map fitting all markers on the screen
     //    map.fitBounds(bounds);
     //}
@@ -347,10 +324,6 @@ function loadScript() {
 
 }
 
-//window.onload = initialize;
-google.maps.event.addDomListener(window, 'load', initialize);
-
-
 function showCurrentLocation() {
     //alert(aa);
     // alert(array[0].x);
@@ -359,10 +332,6 @@ function showCurrentLocation() {
     var p2 = { lat: 36.238666, lng: 137.96902209999996 };
 
     //document.getElementById('cal').innerHTML = getDistance(p1,p2);
-
-    // myCurrentLocationMarker.setMap(null);
-    // Declare a myLocation marker using icon declared above, and bind it to the map
-
 
     //Identify current user's location and bind it to the map
     //Using HTML5 geolocation.
@@ -379,12 +348,11 @@ function showCurrentLocation() {
             map.setCenter(pos);
 
         }, function () {
-            alert("aa");
-            handleLocationError(true, myCurrentLocationMarker, map.getCenter());
+            handleLocationError(true, "Không thể định vị được vị trí của bạn. Bạn cần cho phép trình duyệt sử dụng định vị GPS.", map.getCenter());
         });
     } else {
         // Browser doesn't support Geolocation
-        handleLocationError(false, myCurrentLocationMarker, map.getCenter());
+        handleLocationError(false, "Trình duyệt của bạn không hỗ trợ định vị GPS. Vui lòng nâng cấp phiên bản mới nhất của trình duyệt và thử lại sau.", map.getCenter());
     }
 
 }
@@ -464,11 +432,12 @@ function createListUserMarkers() {
             icon: icon
         });
         listUserMarkers.push(marker);
+        overlappingUsers.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 getUserInfo(allUsers[i].userID);
-
                 infowindow.open(map, marker);
             }
         })(marker, i));
@@ -505,6 +474,7 @@ function createListMaleMarkers() {
             icon: icon
         });
         listMaleMarkers.push(marker);
+        overlappingMale.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -535,6 +505,7 @@ function createListFemaleMarkers() {
             icon: icon
         });
         listFemaleMarkers.push(marker);
+        overlappingFemale.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -564,6 +535,7 @@ function createListLGBTMarkers() {
             icon: icon
         });
         listLGBTMarkers.push(marker);
+        overlappingLGBT.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -594,6 +566,7 @@ function createListType0Markers() {
             icon: icon
         });
         listType0Markers.push(marker);
+        overlappingType0.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -627,6 +600,7 @@ function createListType1Markers() {
             icon: icon
         });
         listType1Markers.push(marker);
+        overlappingType1.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -661,6 +635,7 @@ function createListType2Markers() {
             icon: icon
         });
         listType2Markers.push(marker);
+        overlappingType2.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -695,6 +670,7 @@ function createListType3Markers() {
             icon: icon
         });
         listType3Markers.push(marker);
+        overlappingType3.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -729,6 +705,7 @@ function createListType4Markers() {
             icon: icon
         });
         listType4Markers.push(marker);
+        overlappingType4.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -763,27 +740,22 @@ function createListType5Markers() {
             icon: icon
         });
         listType5Markers.push(marker);
+        overlappingType5.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                // infowindow.setContent(infoWindowContent[i][0]);
-                //AjaxDisplayString(userInfoWindow, marker)
                 //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
+            //    map2 = marker.getMap();
                 infowindow.open(map, marker);
             }
         })(marker, i));
 
     }
-    //  alert(listType1Markers[0].getTitle());
-
 }
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    alert("bb");
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-                          'Error: The Geolocation service failed.' :
-                          'Error: Your browser doesn\'t support geolocation.');
+function handleLocationError(browserHasGeolocation, message, pos) {
+    //infoWindow.setPosition(pos);
+    alert(message);
 }
 
 var rad = function (x) {
@@ -835,19 +807,7 @@ function deleteMarkers(listMarkers) {
     listMarkers = [];
 }
 
-// the smooth zoom function
-function smoothZoom(map, max, cnt) {
-    if (cnt >= max) {
-        return;
-    }
-    else {
-        z = google.maps.event.addListener(map, 'zoom_changed', function (event) {
-            google.maps.event.removeListener(z);
-            smoothZoom(map, max, cnt + 1);
-        });
-        setTimeout(function () { map.setZoom(cnt) }, 80); // 80ms is what I found to work well on my system -- it might not work well on all systems
-    }
-}
+
 
 function createUserInfoWindowContent(name, age, gender, address) {
 
@@ -966,3 +926,6 @@ function getPostInfo(postID, postType) {
         }
     });
 }
+
+//window.onload = initialize;
+google.maps.event.addDomListener(window, 'load', initialize);

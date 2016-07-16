@@ -1075,10 +1075,26 @@ ClusterIcon.prototype.triggerClusterClick = function (event) {
 
     if (markerClusterer.isZoomOnClick()) {
         // Zoom into the cluster.
-        this.map_.fitBounds(this.cluster_.getBounds());
+        //this.map_.fitBounds(this.cluster_.getBounds());
+        this.map_.setCenter(this.cluster_.getCenter()); // set map center to marker position
+        smoothZoom(this.map, 13, this.map.getZoom()); // call smoothZoom, parameters map, final zoomLevel, and starting zoom level
        // this.map_.setZoom(markerClusterer.getMaxZoom() + 1);
     }
 };
+
+// the smooth zoom function
+function smoothZoom(map, max, cnt) {
+    if (cnt >= max) {
+        return;
+    }
+    else {
+        z = google.maps.event.addListener(this.map, 'zoom_changed', function (event) {
+            google.maps.event.removeListener(z);
+            smoothZoom(this.map, max, cnt + 1);
+        });
+        setTimeout(function () { this.map.setZoom(cnt) }, 100); // 80ms is what I found to work well on my system -- it might not work well on all systems
+    }
+}
 
 
 /**
