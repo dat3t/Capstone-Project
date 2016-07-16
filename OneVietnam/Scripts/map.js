@@ -31,6 +31,7 @@ function checkAuthenticated() {
         scaledSize: new google.maps.Size(25, 25)
     };
 
+    // Declare a myLocation marker using icon declared above, and bind it to the map
     myCurrentLocationMarker = new google.maps.Marker({
         title: "Vị trí hiện tại của tôi",
         icon: icon
@@ -54,39 +55,9 @@ function checkAuthenticated() {
             minZoom: 4,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
-        // Declare a myLocation marker using icon declared above, and bind it to the map
-
-        //myCurrentLocationMarker = new google.maps.Marker({
-        //    map: map,
-        //    title: "Vị trí của tôi",
-        //    // icon:myLocationIcon
-        //});
+     
         myCurrentLocationMarker.setMap(map);
         showCurrentLocation();
-
-        //Identify current user's location and bind it to the map
-        //Using HTML5 geolocation.
-        //if (navigator.geolocation) {
-        //    navigator.geolocation.getCurrentPosition(function (position) {
-        //        var pos = {
-        //            lat: position.coords.latitude,
-        //            lng: position.coords.longitude
-        //        };
-
-        //        myCurrentLocationMarker.setPosition(pos);
-        //        //addMarker(pos);
-        //        map.setCenter(pos);
-        //        map.setZoom(7);
-
-
-        //    }, function () {
-        //        handleLocationError(true, myCurrentLocationMarker, map.getCenter());
-        //    });
-        //} else {
-        //    // Browser doesn't support Geolocation
-        //    handleLocationError(false, myCurrentLocationMarker, map.getCenter());
-        //}
-        //map.fitBounds(map.getBounds());
 
     }
 }
@@ -130,9 +101,6 @@ function initialize() {
     type3MarkerCluster = new MarkerClusterer(map, listType3Markers);
     type4MarkerCluster = new MarkerClusterer(map, listType4Markers);
     type5MarkerCluster = new MarkerClusterer(map, listType5Markers);
-
-   
-
 
     userMarkerCluster.setMaxZoom(9);
     showUsers();
@@ -371,10 +339,6 @@ function showCurrentLocation() {
 
     //document.getElementById('cal').innerHTML = getDistance(p1,p2);
 
-    // myCurrentLocationMarker.setMap(null);
-    // Declare a myLocation marker using icon declared above, and bind it to the map
-
-
     //Identify current user's location and bind it to the map
     //Using HTML5 geolocation.
     if (navigator.geolocation) {
@@ -390,12 +354,11 @@ function showCurrentLocation() {
             map.setCenter(pos);
 
         }, function () {
-            alert("aa");
-            handleLocationError(true, myCurrentLocationMarker, map.getCenter());
+            handleLocationError(true, "Không thể định vị được vị trí của bạn. Bạn cần cho phép trình duyệt sử dụng định vị GPS.", map.getCenter());
         });
     } else {
         // Browser doesn't support Geolocation
-        handleLocationError(false, myCurrentLocationMarker, map.getCenter());
+        handleLocationError(false, "Trình duyệt của bạn không hỗ trợ định vị GPS. Vui lòng nâng cấp phiên bản mới nhất của trình duyệt và thử lại sau.", map.getCenter());
     }
 
 }
@@ -787,23 +750,17 @@ function createListType5Markers() {
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                // infowindow.setContent(infoWindowContent[i][0]);
-                //AjaxDisplayString(userInfoWindow, marker)
                 //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
                 infowindow.open(map, marker);
             }
         })(marker, i));
 
     }
-    //  alert(listType1Markers[0].getTitle());
-
 }
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-                          'Error: The Geolocation service failed.' :
-                          'Error: Your browser doesn\'t support geolocation.');
+function handleLocationError(browserHasGeolocation, message, pos) {
+    //infoWindow.setPosition(pos);
+    alert(message);
 }
 
 var rad = function (x) {
