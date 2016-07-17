@@ -72,7 +72,19 @@ namespace OneVietnam.Controllers
                 return _iconManager ?? HttpContext.GetOwinContext().Get<IconManager>();
             }
             private set { _iconManager = value; }
-        }           
+        }
+
+        private ReportManager _reportManager;
+        public ReportManager ReportManager
+        {
+            get
+            {
+                return _reportManager ?? HttpContext.GetOwinContext().Get<ReportManager>();
+            }
+            private set { _reportManager = value; }
+        }
+
+
         public List<Tag> TagList
         {
             get
@@ -194,7 +206,7 @@ namespace OneVietnam.Controllers
         }
 
         public void _ShowPostDetail(string postId)
-        {
+        {            
             ViewData.Clear();
             var post = PostManager.FindById(postId);
             if (post.Result != null)
@@ -246,31 +258,16 @@ namespace OneVietnam.Controllers
             return View();
         }
 
-        //ThamDTH Create
-        [HttpPost]
-        public ActionResult ShowPostDetail(PostViewModel pPostView)
-        {            
-            ViewData.Clear();
-            string strPostId = "";
-            if (Request.Form.Count > 0)
-            {
-                strPostId = Request.Form["PostId"];
-            }
-            return RedirectToAction("DeletePost", "Post", new { postId = strPostId });
-        }
-
         //ThamDTH Create        
         [HttpPost]
         public async Task ReportPost(string userId, string postId, string description)
-        {
-            Post post = await PostManager.FindById(postId);
-            Report report = new Report(userId, postId, description);
-            post.AddReport(report);
-            await PostManager.UpdatePostAsync(post);
-            //TODO send notification to Mod
+        {            
+            Report report = new Report(userId, postId, description);            
+            await ReportManager.CreateAsync(report);                        
         }
 
         //ThamDTH Create 
+        [System.Web.Mvc.Authorize]
         public async Task<ActionResult> EditPost(string postId)
         {
             if(!string.IsNullOrEmpty(postId))
@@ -296,6 +293,8 @@ namespace OneVietnam.Controllers
 
         //ThamDTH Create 
         [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditPost(PostViewModel pPostView)
         {                        
             ViewData.Clear();
@@ -319,8 +318,7 @@ namespace OneVietnam.Controllers
         public async Task<ActionResult> DeletePost(string postId)
         {
             Post post = await PostManager.FindById(postId);
-            post.DeletedFlag = true;
-            //await PostManager.DeleteByIdAsync(postId);            
+            post.DeletedFlag = true;                       
             await PostManager.UpdatePostAsync(post);
             return RedirectToAction("CreatePost", "Post");
         }

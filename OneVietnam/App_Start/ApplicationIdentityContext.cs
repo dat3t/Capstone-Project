@@ -21,7 +21,10 @@ namespace OneVietnam
         public IMongoCollection<Country> Countries { get; set; }
         public IMongoCollection<DTL.Tag> Tags { get; set; }
         public IMongoCollection<Icon> Icons { get; set; }
-        private ApplicationIdentityContext(IMongoCollection<ApplicationUser> users, IMongoCollection<Post> posts, IMongoCollection<IdentityRole> roles, IMongoCollection<Country> countries, IMongoCollection<DTL.Tag> tags, IMongoCollection<Icon> icons)
+
+        public IMongoCollection<Report> Reports { get; set; }
+
+        private ApplicationIdentityContext(IMongoCollection<ApplicationUser> users, IMongoCollection<Post> posts, IMongoCollection<IdentityRole> roles, IMongoCollection<Country> countries, IMongoCollection<DTL.Tag> tags, IMongoCollection<Icon> icons, IMongoCollection<Report> reports)
         {
             Users = users;
             Posts = posts;
@@ -29,6 +32,7 @@ namespace OneVietnam
             Countries = countries;
             Tags = tags;
             Icons = icons;
+            Reports = reports;
         }
         public static ApplicationIdentityContext Create()
         {
@@ -40,8 +44,9 @@ namespace OneVietnam
             var roles = database.GetCollection<IdentityRole>("roles");
             var countries = database.GetCollection<Country>("countries");
             var tags = database.GetCollection<DTL.Tag>("tags");
-            var icons = database.GetCollection<DTL.Icon>("icons");
-            return new ApplicationIdentityContext(users, posts, roles, countries, tags, icons);
+            var icons = database.GetCollection<Icon>("icons");
+            var reports = database.GetCollection<Report>("reports");
+            return new ApplicationIdentityContext(users, posts, roles, countries, tags, icons, reports);
         }
         public void Dispose()
         {
