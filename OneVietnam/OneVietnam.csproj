@@ -252,7 +252,9 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="BLL\ReportManagerBLO.cs" />
     <Compile Include="DAL\PostStore.cs" />
+    <Compile Include="DAL\ReportStore.cs" />
     <Compile Include="Models\ReportViewModal.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="BLL\Constant.cs" />
