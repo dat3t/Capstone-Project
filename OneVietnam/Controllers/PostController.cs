@@ -148,10 +148,17 @@ namespace OneVietnam.Controllers
         {
             pageNum = pageNum ?? 0;
             ViewBag.IsEndOfRecords = false;
+            if (TagList != null)
+            {
+                ViewData["TagList"] = TagList;
+            }
+            if (IconList != null)
+            {
+                ViewData["PostTypes"] = IconList;
+            }
 
-          
-                // LoadAllPostsToSession
-                List<Post> list = await PostManager.FindAllPostsAsync();
+            // LoadAllPostsToSession
+            List<Post> list = await PostManager.FindAllPostsAsync();
                 List<PostViewModel> postViewModels = new List<PostViewModel>();
                 foreach (var post in list)
                 {

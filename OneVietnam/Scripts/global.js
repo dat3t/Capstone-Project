@@ -1,6 +1,8 @@
 ﻿
 $(document).ready(function () {
-    
+    $('.icon')
+  .popup()
+    ;
 
     $('#searchType').dropdown({
       
@@ -76,14 +78,49 @@ $(document).ready(function () {
     var $grid = $('.grids').isotope({
         itemSelector: '.grid-item',
         masonry: {
-            columnWidth: 100
+            columnWidth: 50
         }
     });
     // change size of item by toggling gigante class
     $grid.on('click', '.grid-item', function () {
+        $(this).find('.marker').toggleClass("hides");
         $(this).toggleClass('gigante');
         // trigger layout after item size changes
         $grid.isotope('layout');
     });
+    var $stamp = $grid.find('.stamp');
+var isStamped = false;
+
+$('.stamp-button').on('click', function () {
+    $('body,html').animate({
+        scrollTop: 0                       // Scroll to top of body
+    }, 500);
+    $stamp.toggleClass("hides");
+    $(".edits").toggleClass("edits-cl");
+    $(".plus").toggleClass("plus-cl");
+  // stamp or unstamp element
+  if ( isStamped ) {
+      $grid.isotope('unstamp', $stamp);
+  } else {
+      $grid.isotope('stamp', $stamp);
+  }
+  // trigger layout
+  $grid.isotope('layout');
+  // set flag
+  isStamped = !isStamped;
+});
+    // ===== Scroll to Top ==== 
+$(window).scroll(function () {
+    if ($(this).scrollTop() >= 50) {        // If page is scrolled more than 50px
+        $('#return-to-top').fadeIn(200);    // Fade in the arrow
+    } else {
+        $('#return-to-top').fadeOut(200);   // Else fade out the arrow
+    }
+});
+$('#return-to-top').click(function () {      // When arrow is clicked
+    $('body,html').animate({
+        scrollTop: 0                       // Scroll to top of body
+    }, 300);
+});
     
 });

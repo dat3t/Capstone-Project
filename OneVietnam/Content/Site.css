@@ -1,38 +1,5 @@
 ﻿
-.grid-sizer,
-.grid-item {
-  width: 22%;
-}
 
-.gutter-sizer {
-  width: 4%;
-}
-
-.grid-item {
-    margin-bottom: 20px;
- 
-  height: fit-content;
-  float: left;
-  border: 2px solid #333;
-  border-color: hsla(0, 0%, 0%, 0.5);
-  border-radius: 5px;
-}
-.grid-item--width2 { width:  48%; }
-.grid-item--width3 { width:  48%; } 
-.grid-item.gigante {
-  width: 60%;
-  background: #F80;
-}
-.modals,.modal{
-    z-index: 20;   
-}
-.pac-container {
-    background-color: #000;
-    z-index: 5051 ;
-    position: fixed;
-    display: inline-block;
-    float: left;
-}
 @-webkit-keyframes fill {
   0% {
     width: 0%;
@@ -172,8 +139,6 @@ body {
 .dl-horizontal dt {
     white-space: normal;
 }
-.hide-search {
-    display: none;
-}
+
 /* Set width on the form input elements since they're 100% wide by default */
 

@@ -22,16 +22,16 @@ namespace OneVietnam
             bundles.Add(new ScriptBundle("~/bundles/Scripts").Include(
                 "~/Scripts/global.js",
                 "~/Scripts/dropzone.js",
-                //"~/Scripts/masonry.pkgd.min.js",
-                //"~/Scripts/packery.pkgd.min.js",
+                "~/Scripts/masonry.pkgd.min.js",
+                "~/Scripts/packery.pkgd.min.js",
                 "~/Scripts/isotope.pkgd.min.js",
                 "~/Scripts/map.js",
+                "~/Scripts/searchboxCreatePost.js",
                 "~/Scripts/respond.js"));
             bundles.Add(new StyleBundle("~/semantic/css").Include(
                       "~/semantic/dist/semantic.css"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/StyleSheet.css",
-                "~/Content/Site.css",
                 "~/Content/dropzone.css",
                   "~/Content/Map/map.css",
                 "~/Content/Map/infoWindow.css",
