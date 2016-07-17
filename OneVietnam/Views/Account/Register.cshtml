@@ -3,39 +3,15 @@
 @{
     ViewBag.Title = "Đăng Ký";
 }
-<script>
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-          //  alert(pos.lat+'aa'+pos.lng);
 
-            var geocoder  = new google.maps.Geocoder();             // create a geocoder object
-            var location  = new google.maps.LatLng(pos.lat, pos.lng);    // turn coordinates into an object          
-            geocoder.geocode({'latLng': location}, function (results, status) {
-                if(status == google.maps.GeocoderStatus.OK) {           // if geocode success
-                    var detailedLocation =results[0].formatted_address;         // if address found, pass to processing function
-                    document.getElementById("detailedLocation").innerText = detailedLocation;
-                }
-            })
-        }, function () {
-            // handleLocationError(true, myLocationMarker, map.getCenter());
-            alert("Không thể định vị được vị trí của bạn. Bạn cần cho phép trình duyệt sử dụng định vị GPS.");
-        });
-    } else {
-        // Browser doesn't support Geolocation
-        //  handleLocationError(false, myLocationMarker, map.getCenter());
-        alert("Trình duyệt của bạn không hỗ trợ định vị GPS. Vui lòng nâng cấp phiên bản mới nhất của trình duyệt và thử lại sau.");
-    }
-</script>
+<script src="~/Scripts/getAddressRegister.js" language="javascript" type="text/javascript"></script>
+
 <div class="ui center middle aligned segment two column stackable grid shrink">
     <div class="ui horizontal divider">
         <h2>Đăng Ký</h2>
     </div>
     <div class="column">
-        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new {@class = "ui form", role = "form"}))
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "ui form", role = "form" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary()
@@ -95,15 +71,13 @@
                     </div>
                 </div>
             </div>
-            <div class="field">
-                <div class="ui left icon corner labeled disabled input " id="detailedLocation">
+            <div class="ui left icon corner labeled input" id="detailedLocation">
                     <i class="location arrow icon"></i>
-                    @Html.TextBoxFor(m => m.CurrentLocation, new { @placeholder = "Địa chỉ hiện tại của bạn" })
+                @Html.TextBoxFor(m => m.CurrentLocation, new { @placeholder = "Địa chỉ hiện tại của bạn", @class="read-only" })
                     <div class="ui corner label">
                         <i class="asterisk icon"></i>
                     </div>
                 </div>
-            </div>
             <button class="ui primary button" type="submit">Đăng Ký</button>            
         }
 
@@ -111,7 +85,7 @@
     <div class="ui vertical divider">        
     </div>
     <div class="center aligned column">
-        @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml", new ExternalLoginListViewModel {ReturnUrl = ViewBag.ReturnUrl})
+        @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
     </div>
 </div>
 

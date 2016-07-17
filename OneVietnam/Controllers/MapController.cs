@@ -69,5 +69,24 @@ namespace OneVietnam.Controllers
             var user = await UserManager.FindByIdAsync(userId);
             return Json(user, JsonRequestBehavior.AllowGet);
         }
+
+        public async Task<ActionResult> GetPostInfo(string postId)
+        {
+            var post = await PostManager.FindById(postId);
+            var user = await UserManager.FindByIdAsync(post.UserId);
+            var result = new PostInfoWindowModel();
+            result.UserId = user.Id;
+            result.UserName = user.UserName;
+            result.Title = post.Title;
+            result.PublishDate = (DateTimeOffset)post.PublishDate;
+            result.Address = post.PostLocation.Address;
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SideNavPost()
+        {
+            return PartialView("SidenavPost");
+        }
     }
 }

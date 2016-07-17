@@ -25,6 +25,18 @@ namespace OneVietnam.Controllers
             }
             return View(postViewModels);
         }
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         private PostManager _postManager;
         public PostManager PostManager
         {
@@ -34,6 +46,7 @@ namespace OneVietnam.Controllers
             }
             private set { _postManager = value; }
         }
+
         public async Task<ActionResult> Search(string query)
         {
             var result = await PostManager.FullTextSearch(query);
@@ -47,7 +60,21 @@ namespace OneVietnam.Controllers
                         }).ToList();
             var searchResult = new SearchResultModel
             {
-                Count = result.Count,
+                Count = list.Count,
+                Result = list
+            };
+            return Json(searchResult, JsonRequestBehavior.AllowGet);
+        }        
+        public async Task<ActionResult> UsersSearch(string query)
+        {
+            var result = await UserManager.TextSearchUsers(query);
+            var list = result.Select(user => new SearchResultItem()
+            {
+                Description = user.Email, Title = user.UserName, Url = ""
+            }).ToList();
+            var searchResult = new SearchResultModel
+            {
+                Count = list.Count,
                 Result = list
             };
             return Json(searchResult, JsonRequestBehavior.AllowGet);

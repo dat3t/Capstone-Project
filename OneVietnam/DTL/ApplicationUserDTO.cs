@@ -22,32 +22,6 @@ namespace OneVietnam.DTL
 
         public int Gender { get; set; }
         [BsonIgnoreIfNull]
-        public Location Location { get; set; }
-        //[BsonIgnoreIfNull]
-        //public List<Post> Posts { get; set; }
-
-        //public void AddPost(Post p)
-        //{
-        //    if (Posts == null)
-        //    {
-        //        Posts = new List<Post>();
-        //    }
-        //    Posts.Add(p);
-        //}
-
-        //public void UpdatePost(Post pPost)
-        //{
-        //    Posts[Posts.FindIndex(x => x.Id == pPost.Id)] = pPost;
-        //}
-
-        //public void DeletePost(Post pPost)
-        //{
-        //    Posts.Remove(Posts.First(post => post.Id == pPost.Id));            
-        //}
-        public void AddLocation(Location location)
-        {
-            Location = location;
-
-        }
+        public Location Location { get; set; }                
     }
 }
