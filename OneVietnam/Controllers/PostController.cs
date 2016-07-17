@@ -90,7 +90,6 @@ namespace OneVietnam.Controllers
             }            
         }
 
-
         public void _CreatePost()
         {            
             if (TagList != null)
@@ -271,6 +270,7 @@ namespace OneVietnam.Controllers
             //TODO send notification to Mod
         }
 
+        //ThamDTH Create 
         public async Task<ActionResult> EditPost(string postId)
         {
             if(!string.IsNullOrEmpty(postId))
@@ -294,6 +294,7 @@ namespace OneVietnam.Controllers
 
         }
 
+        //ThamDTH Create 
         [HttpPost]
         public async Task<ActionResult> EditPost(PostViewModel pPostView)
         {                        
@@ -314,6 +315,7 @@ namespace OneVietnam.Controllers
             return RedirectToAction("ShowPostDetail", "Post", new { postId = post.Id });
         }
 
+        //ThamDTH Create
         public async Task<ActionResult> DeletePost(string postId)
         {
             Post post = await PostManager.FindById(postId);
@@ -337,6 +339,7 @@ namespace OneVietnam.Controllers
             }
         }
 
+        //ThamDTH Create
         public List<Tag> AddAndGetAddedTags(HttpRequestBase pRequestBase, TagManager pTagManager, string pFormId)
         {
             if (pRequestBase.Form.Count > 0)
@@ -373,7 +376,8 @@ namespace OneVietnam.Controllers
             }
             return null;
         }
-        
+
+        //ThamDTH Create
         public List<Illustration> GetAddedImage(HttpRequestBase pRequestBase, string pImgSrc, string pImgDes)
         {
             List<Illustration> illList = new List<Illustration>();
@@ -395,7 +399,6 @@ namespace OneVietnam.Controllers
             }
             return illList;
         }
-
 
     }
 }

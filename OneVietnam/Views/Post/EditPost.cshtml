@@ -14,7 +14,7 @@
     @using (Html.BeginForm("EditPost", "Post", FormMethod.Post))
     {
 
-        if (Model != null && (Model.DeletedFlag == false))
+        if (Model != null && (Model.DeletedFlag == false) && (Model.LockedFlag == false))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -156,7 +156,7 @@
                 <div style="display: none">
                     @Html.EditorFor(model => model.Id)
                     @Html.EditorFor(model => model.UserId)
-                    @Html.EditorFor(model => model.PublishDate)
+                    @Html.EditorFor(model => model.PublishDate)                    
                 </div>
 
             </div>

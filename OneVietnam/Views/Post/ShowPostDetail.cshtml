@@ -13,7 +13,7 @@
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <link rel="stylesheet" href="~/Content/image-slider.css">
 <div style="margin: auto; width: 40%">
-    @if (postUser!= null && Model != null && (Model.DeletedFlag == false))
+    @if (postUser!= null && Model != null && (Model.DeletedFlag == false) && (Model.LockedFlag == false))
     {
         <div class="ui segments" style="width: 100%; border: 0 !important;">
             @*Title area*@
