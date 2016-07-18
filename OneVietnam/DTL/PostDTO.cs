@@ -30,6 +30,8 @@ namespace OneVietnam.DTL
         public List<Report> Reports { get; set; }
         [BsonIgnoreIfNull]
         public List<Tag> Tags { get; set; }
+        [BsonIgnoreIfNull]
+        public double? TextMatchScore { get; set; }
 
         public Post()
         {

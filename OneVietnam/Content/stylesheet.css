@@ -55,6 +55,10 @@ body {
 .force100 {
     width: 100% !important;
 }
+.force100.results {
+    overflow-y: scroll;
+    max-height: 500px;
+}
 .ui.dropdown.searchType {
     min-width: 0em !important;
     width: 7em !important;
