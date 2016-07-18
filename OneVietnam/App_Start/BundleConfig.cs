@@ -22,6 +22,7 @@ namespace OneVietnam
             bundles.Add(new ScriptBundle("~/bundles/Scripts").Include(
                 "~/Scripts/global.js",
                 "~/Scripts/dropzone.js",
+                "~/Scripts/flickity.pkgd.min.js",
                 "~/Scripts/masonry.pkgd.min.js",
                 "~/Scripts/packery.pkgd.min.js",
                 "~/Scripts/isotope.pkgd.min.js",
@@ -33,6 +34,8 @@ namespace OneVietnam
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/StyleSheet.css",
                 "~/Content/dropzone.css",
+                "~/Content/flickity.min.css",
+                "~/Content/image-slider.css",
                   "~/Content/Map/map.css",
                 "~/Content/Map/infoWindow.css",
                 "~/Content/Map/searchbox.css",

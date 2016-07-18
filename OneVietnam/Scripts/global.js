@@ -3,10 +3,7 @@ $(document).ready(function () {
     $('.icon')
 .popup()
     ;
-    $('.item.write')
-       .click(function () {
-           $('.ui.modal').modal('show');
-       });
+
     if ($(".searchType").val() === "SearchPosts") {
         $(".ui.user").css("display", "none");
         $(".ui.post").css("display", "inline-flex");
@@ -14,18 +11,18 @@ $(document).ready(function () {
         $(".ui.user").css("display", "inline-flex");
         $(".ui.post").css("display", "none");
     }
-    $(".searchType").dropdown({
-        onChange: function (value, text, $selectedItem) {            
-            if (value === "SearchPosts") {                
-                $(".ui.user").css("display", "none");
-                $(".ui.post").css("display", "inline-flex");
-
-            } else {                
-                $(".ui.user").css("display", "inline-flex");
-                $(".ui.post").css("display", "none");
-            }
-        }
-    });
+//    $(".searchType").dropdown({
+//        onChange: function (value, text, $selectedItem) {            
+//            if (value === "SearchPosts") {                
+//                $(".ui.user").css("display", "none");
+//                $(".ui.post").css("display", "inline-flex");
+//
+//            } else {                
+//                $(".ui.user").css("display", "inline-flex");
+//                $(".ui.post").css("display", "none");
+//            }
+//        }
+//    });
     $("div#myId").dropzone({ url: "/file/post" });
     $(".right.menu.open").on("click", function (e) {
         e.preventDefault();
@@ -75,8 +72,9 @@ $(document).ready(function () {
 
     //ThamDTH
     $('.clearing.star.rating').rating('setting', 'clearable', true);
+ 
 
-    $('.ui.multiple.dropdown')
+    $('.ui.dropdown')
       .dropdown({
           allowAdditions: true
       })
@@ -93,22 +91,24 @@ $(document).ready(function () {
     $('.icon.link').popup({});
    
 
+
     var $grid = $('.grids').isotope({
-        itemSelector: '.grid-item',
+        itemSelector: '.ui.fluid.card',
         masonry: {
             columnWidth: 50
         }
     });
     // change size of item by toggling gigante class
-    $grid.on('click', '.grid-item', function () {
-        $(this).find('.marker').toggleClass("hides");
-        $(this).toggleClass('gigante');
+    $grid.on('click', '.content', function (e) {
+      
+        $(this).parent().find('.marker').toggleClass("hides");
+        $(this).parent().toggleClass('gigante');
         // trigger layout after item size changes
         $grid.isotope('layout');
     });
     var $stamp = $grid.find('.stamp');
 var isStamped = false;
-
+   
 $('.stamp-button').on('click', function () {
     $('body,html').animate({
         scrollTop: 0                       // Scroll to top of body
