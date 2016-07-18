@@ -67,6 +67,10 @@ namespace OneVietnam.DAL
             var filter = Builders<Post>.Filter.Text(query);            
             return await _posts.Find(filter).ToListAsync();
         }
+        public async Task<List<Post>> FindTop5PostAsync()
+        {
+                return await _posts.Find(p => p.DeletedFlag == false).Limit(5).ToListAsync();
+        }
 
     }
 }

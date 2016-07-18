@@ -53,7 +53,7 @@ function checkAuthenticated() {
             minZoom: 4,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
-     
+
         myCurrentLocationMarker.setMap(map);
         showCurrentLocation();
 
@@ -224,7 +224,7 @@ function initialize() {
         map.fitBounds(bounds);
     });
 
-    
+
     // Event that closes the Info Window with a click on the map
     google.maps.event.addListener(map, 'click', function () {
         infowindow.close();
@@ -344,7 +344,7 @@ function showCurrentLocation() {
 
             myCurrentLocationMarker.setPosition(pos);
             // addMarker(pos);
-            map.setZoom(7);
+            map.setZoom(6);
             map.setCenter(pos);
 
         }, function () {
@@ -572,8 +572,10 @@ function createListType0Markers() {
             return function () {
                 // infowindow.setContent(infoWindowContent[i][0]);
                 // AjaxDisplayString(userInfoWindow, marker)
-                getPostInfo(postType0[i].postID, 0);
-                infowindow.open(map, marker);
+                //getPostInfo(postType0[i].postID, 0);
+                getPostInfo2(postType0[i].postID);
+                //callInfo(postType0[i].postID);
+                //infowindow.open(map, marker);
             }
         })(marker, i));
 
@@ -745,7 +747,7 @@ function createListType5Markers() {
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
-            //    map2 = marker.getMap();
+                //    map2 = marker.getMap();
                 infowindow.open(map, marker);
             }
         })(marker, i));
@@ -867,6 +869,30 @@ function createPostInfoWindowContent(username, postType, postTitle, address) {
     } else if (postType == 2) {
         postTypeInfoWindow = "Cho đồ";
     }
+    var content2 = '<div class="ui modal">' +
+        '<div class="header">' +
+            'Profile Picture'
+    '</div>' +
+        '<div class="image content">' +
+            '<div class="ui medium image">' +
+                '<img src="">' +
+            '</div>' +
+            '<div class="description">' +
+                '<div class="ui header">Weve auto-chosen a profile image for you.</div>' +
+                '<p>Weve grabbed the following image from the <a href="https://www.gravatar.com" target="_blank">gravatar</a> image associated with your registered e-mail address.</p>' +
+                '<p>Is it okay to use this photo?</p>' +
+            '</div>' +
+        '</div>' +
+        '<div class="actions">' +
+            '<div class="ui black deny button">' +
+                'Nope'
+    '</div>' +
+            '<div class="ui positive right labeled icon button">' +
+                'Yep, thats me'
+    ' <i class="checkmark icon"></i>' +
+            '</div>' +
+        '</div>' +
+    '</div>';
 
     // InfoWindow content
     var content = '<div style="overflow:hidden;">' +
@@ -925,6 +951,49 @@ function getPostInfo(postID, postType) {
             createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
         }
     });
+}
+
+function getPostInfo2(postID) {
+    $.ajax({
+        url: '/Map/UserAndPostInfo?postId=' + postID,
+        type: 'GET',
+        dataType: "html",
+        success: function (result) {
+            // createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
+            // alert(1);
+            if (result != '') {
+                $('#zzz').empty();
+
+                $("#zzz").append(result);
+            }
+            $('.ui.modal')
+               .modal('show')
+            ;
+           // alert(result);
+        },
+        error: function (arg) {
+            alert("Error");
+        }
+    });
+    
+}
+
+function callInfo(postID) {
+    $.ajax({
+        url: 'GetPostInfo?postId=' + postID,
+        type: 'GET',
+        contentType: 'application/json;',
+        dataType: 'json',
+        success: function (json) {
+            // createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
+            $('.ui.modal')
+    .modal('show')
+            ;
+
+            document.getElementById("abc").innerText = json.UserName;
+        }
+    });
+
 }
 
 //window.onload = initialize;

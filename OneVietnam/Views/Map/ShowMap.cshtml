@@ -8,8 +8,11 @@
 <script>
     var isAuthenticated;
     var authenticatedUser;
+    var top5PostList;
+
 </script>
 @using Microsoft.AspNet.Identity
+@using OneVietnam.Models;
 @if (Request.IsAuthenticated)
 {
     <script>
@@ -40,6 +43,7 @@ else
     <link rel="stylesheet" type="text/css" href="~/Content/Map/mappagecustom.css">
     <script src="~/Scripts/MapElements.js" language="javascript" type="text/javascript"></script>
     <script type="text/javascript">
+     
 
         var allUsers = [];
         var males = [];
@@ -408,7 +412,10 @@ else
         </button>
     </div>
     <div id="dat">
-        @Html.Partial("SidenavPost");
+        @{ List<PostInfoWindowModel> list = new List<PostInfoWindowModel>();
+                list = ViewBag.top5PostModel;
+                }
+        @Html.Partial("SidenavPost", (list));
     </div>
 
     <div id="aa" onclick="toggle()" class="ui blue big centered launch right attached fixed button" style="position: absolute; left: 0px; margin-left:380px;top:40%;transition: margin-left .5s;width:60px;">
@@ -417,7 +424,9 @@ else
             @*  <span class="text" id="button2">Bài đăng</span>*@
         </div>
     </div>
-</div>
 
+    <div class="ui modal"  id="zzz"></div>
+</div>
+  
 <script defer src="~/Scripts/OverlappingMarkerSpiderfier.js"></script>
 
