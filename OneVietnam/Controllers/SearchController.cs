@@ -18,8 +18,8 @@ namespace OneVietnam.Controllers
         // GET: Search
         public async Task<ActionResult> Index(string query)
         {
-             var result = await PostManager.FullTextSearch(query);
-            List<PostViewModel> postViewModels=new List<PostViewModel>();
+            var result = await PostManager.FullTextSearch(query);
+            List<PostViewModel> postViewModels = new List<PostViewModel>();
             foreach (var post in result)
             {
                 postViewModels.Add(new PostViewModel(post));
@@ -53,29 +53,17 @@ namespace OneVietnam.Controllers
             //var result = await PostManager.FullTextSearch(query);
             var filter = new BaseFilter
             {
-                CurrentPage = 1,//todo : store enum
-                ItemsPerPage = 7
+                CurrentPage = 1,
+                ItemsPerPage = Common.Constants.ResultMaximumNumber
             };
-            
+
             var result = await PostManager.FullTextSearch(query, filter);
-            //var list = (from item in result
-            //            where post.DeletedFlag == false
-            //            select new SearchResultItem
-            //            {
-            //                Description = post.Description,
-            //                Title = post.Title,
-            //                Url = Url.Action("ShowPostDetail", "Post", new { postId = post.Id })
-            //            }).ToList();
-            //var list = result.Select(item => new SearchResultItem
-            //{
-            //    Url = Url.Action("ShowPostDetail", "Post", new {postId = item["Id"].AsString}), Description = item["Description"].AsString, Title = item["Title"].AsString
-            //}).ToList();
             var list = new List<SearchResultItem>();
             foreach (var item in result)
             {
                 var searchItem = new SearchResultItem
                 {
-                    Url = Url.Action("ShowPostDetail", "Post", new {postId = item["_id"].ToString()})
+                    Url = Url.Action("ShowPostDetail", "Post", new { postId = item["_id"].ToString() })
                 };
                 //searchItem.Description = item["Description"].AsString.Substring(0,Math.Min(200, item["Description"].AsString.Length));
                 if (item["Description"].AsString.Length > Common.Constants.DescriptionMaxLength)
@@ -88,15 +76,15 @@ namespace OneVietnam.Controllers
                 }
                 if (item["Title"].AsString.Length > Common.Constants.TitleMaxLength)
                 {
-                    searchItem.Title = item["Title"].AsString.Substring(0, Common.Constants.TitleMaxLength) +"...";
+                    searchItem.Title = item["Title"].AsString.Substring(0, Common.Constants.TitleMaxLength) + "...";
                 }
                 else
                 {
                     searchItem.Title = item["Title"].AsString;
                 }
-                
+
                 //searchItem.Title = item["Title"].AsString.Substring(0, Math.Min(100, item["Title"].AsString.Length));         
-                list.Add(searchItem);       
+                list.Add(searchItem);
             }
             var searchResult = new SearchResultModel
             {
@@ -104,13 +92,15 @@ namespace OneVietnam.Controllers
                 Result = list
             };
             return Json(searchResult, JsonRequestBehavior.AllowGet);
-        }        
+        }
         public async Task<ActionResult> UsersSearch(string query)
         {
             var result = await UserManager.TextSearchUsers(query);
             var list = result.Select(user => new SearchResultItem()
             {
-                Description = user.Email, Title = user.UserName, Url = ""
+                Description = user.Email,
+                Title = user.UserName,
+                Url = ""
             }).ToList();
             var searchResult = new SearchResultModel
             {
