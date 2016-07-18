@@ -24,12 +24,17 @@ namespace OneVietnam.DTL
         public int PostType { get; set; }
         public bool DeletedFlag { get; set; }
         public bool Status { get; set; }
+
+        public bool LockedFlag { get; set; }
+
         [BsonIgnoreIfNull]
         public Location PostLocation { get; set; }                
         [BsonIgnoreIfNull]
         public List<Report> Reports { get; set; }
         [BsonIgnoreIfNull]
         public List<Tag> Tags { get; set; }
+        [BsonIgnoreIfNull]
+        public double? TextMatchScore { get; set; }
 
         public Post()
         {
@@ -44,15 +49,17 @@ namespace OneVietnam.DTL
             PostType = pView.PostType;
             DeletedFlag = false;
             Status = true;
+            LockedFlag = false;
             PostLocation = pView.PostLocation;                     
             Illustrations = pView.Illustrations;
             Tags = pView.Tags;
         }
 
-        public Post(PostViewModel pView, string pPostId)
+        public Post(PostViewModel pView)
         {
-            Id = pPostId;            
+            Id = pView.Id;            
             Title = pView.Title;
+            UserId = pView.UserId;
             Description = pView.Description;
             PublishDate = pView.PublishDate;
             PostType = pView.PostType;

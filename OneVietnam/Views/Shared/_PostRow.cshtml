@@ -1,42 +1,93 @@
-﻿@model List<OneVietnam.Models.PostViewModel>
-    <div class="ui three column grid">
-    @foreach (var post in Model)
-    {
-        <div class="column">
-            <div class="ui card">
-                <div class="content">
-                    <div class="right floated meta">@post.PublishDate</div>
-                    <img class="ui avatar image" src="~/Images/elliot.jpg"> @post.UserId
-                </div>
-                <div class="image">
-                    <img src="~/Images/image.png">
-                </div>
+﻿
 
-                <div class="content">
-                    <h4 class="ui sub header">@post.Title</h4>
-                    <div class="description">
-                        <p>@post.Description</p>
-                    </div>
-                    <span class="right floated">
-                        <i class="heart outline like icon"></i>
-                        17 likes
-                    </span>
-                    <i class="comment icon"></i>
-                    3 comments
-                </div>
-                <div class="extra content">
-                    <div class="ui large transparent left icon input">
-                        <i class="heart outline icon"></i>
-                        <input type="text" placeholder="Add Comment...">
-                    </div>
-                </div>
-            </div>
-        </div>
-        @*    <tr>*@
-        @*        <td>@cust.Key </td>*@
-        @*        <td>@cust.Value.Title</td>*@
-        @*        <td>@cust.Value.PublishDate</td>*@
-        @*        <td>@cust.Value.Description</td>*@
-        @*    </tr>*@
-    }
-</div>
+@using Microsoft.AspNet.Identity
+@model List<OneVietnam.Models.PostViewModel>
+ 
+     @foreach (var post in Model)
+     {
+             <div class="four wide column ui fluid card">
+                 <div class="content ">
+                     <div class="header ">
+                         @post.Title
+                         <div class="right floated meta marker">
+                             @if (post.Status)
+                             {
+                                 <i class="teal star icon" data-content="Đang hoạt động"></i>
+
+                             }
+                             else
+                             {
+                                 <i class="red minus circle icon" data-content="Đang đóng"></i>
+                             }
+                         </div>
+                         <div class="right floated meta marker hides">
+                             @if (User.Identity.IsAuthenticated && (User.Identity.GetUserId() == post.UserId))
+                             {
+                                 <i class="icon remove circle link" data-content="Xóa" style="float: right" onclick="document.location.href = '@Url.Action("DeletePost", "Post", new {postId = post.Id})';"></i>
+                                 <i class="icon edit link" data-content="Sửa" style="float: right" onclick="document.location.href =
+    '@Url.Action("EditPost", "Post", new {postId = post.Id})';"></i>
+                             }
+                             else
+                             {
+                                 <script>
+
+                                     document
+                                         .write("<i class='icon announcement link' data-content='Báo cáo' style='float: right'></i>");
+                                 </script>
+                             }
+                         </div>
+
+                     </div>
+
+                     <div class="meta">
+                         <span>@post.PublishDate</span>
+                         <a>@post.PostType</a>
+                     </div>
+
+                 </div>
+                 <div class="image ">
+                     <div class="carousel" data-flickity>
+                         <div class="carousel-cell"></div>
+                         <div class="carousel-cell"></div>
+                         <div class="carousel-cell"></div>
+                         <div class="carousel-cell"></div>
+                         <div class="carousel-cell"></div>
+                     </div>
+                 </div>
+
+                 <div class="content">
+                     <h4 class="ui sub header">@post.Title</h4>
+                     <div class="description hides">
+                         <p>@post.Description</p>
+                     </div>
+                     <div class="marker hides">
+                         <span class="right floated">
+
+                            <script>
+                                (function(d, s, id) {
+                                    var js, fjs = d.getElementsByTagName(s)[0];
+                                    if (d.getElementById(id)) return;
+                                    js = d.createElement(s);
+                                    js.id = id;
+                                    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
+                                    fjs.parentNode.insertBefore(js, fjs);
+                                }(document, 'script', 'facebook-jssdk'));
+
+                                //like button
+                                document.write("<div class='fb-like' data-href='" +
+                                    window.location.href +
+                                    "' data-layout='button_count' data-action='like' data-size='small' data-show-faces='false' data-share='false'></div>");
+                            </script>
+                        </span>
+
+                         <script>
+                             //Comment
+                             document.write("<div class='fb-comments' style='width: 100%' data-href='" +
+                                 window.location.href +
+                                 "' data-numposts='3' ></div>");
+                         </script>
+                     </div>
+                 </div>
+
+             </div>
+     }

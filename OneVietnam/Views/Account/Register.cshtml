@@ -1,10 +1,11 @@
-﻿@using OneVietnam.Models
+﻿@using Microsoft.Ajax.Utilities
+@using OneVietnam.Models
 @model OneVietnam.Models.RegisterViewModel
 @{
     ViewBag.Title = "Đăng Ký";
 }
 
-<script src="~/Scripts/getAddressRegister.js" language="javascript" type="text/javascript"></script>
+
 
 <div class="ui center middle aligned segment two column stackable grid shrink">
     <div class="ui horizontal divider">
@@ -33,7 +34,7 @@
                     </div>
                 </div>
             </div>
-            <div class="inline fields">                
+            <div class="inline fields">
                 <div class="field">
                     <div class="ui radio checkbox">
                         <input type="radio" name="Gender" value=0 checked="checked">
@@ -53,16 +54,16 @@
                     </div>
                 </div>
             </div>
-            <div class="field">                
+            <div class="field">
                 <div class="ui left icon corner labeled input">
                     <i class="lock icon"></i>
-                    @Html.PasswordFor(m => m.Password, new {@placeholder = "Mật Khẩu"})
+                    @Html.PasswordFor(m => m.Password, new { @placeholder = "Mật Khẩu" })
                     <div class="ui corner label">
                         <i class="asterisk icon"></i>
                     </div>
                 </div>
             </div>
-            <div class="field">               
+            <div class="field">
                 <div class="ui left icon corner labeled input">
                     <i class="lock icon"></i>
                     @Html.PasswordFor(m => m.ConfirmPassword, new {@placeholder = "Nhập Lại Mật Khẩu"})
@@ -70,19 +71,23 @@
                         <i class="asterisk icon"></i>
                     </div>
                 </div>
-            </div>
-            <div class="ui left icon corner labeled input" id="detailedLocation">
+            </div>            
+            @Html.TextBoxFor(m => m.XCoordinate, new { style = "display: none;", id = "XCoordinate" })
+            @Html.TextBoxFor(m => m.YCoordinate, new { style = "display: none;", id = "YCoordinate" })
+            <div class="field">
+                <div class="ui left icon corner labeled disabled input">
                     <i class="location arrow icon"></i>
-                @Html.TextBoxFor(m => m.CurrentLocation, new { @placeholder = "Địa chỉ hiện tại của bạn", @class="read-only" })
+                    @Html.TextBoxFor(m => m.Location, new {id="Location", @placeholder = "Địa chỉ hiện tại của bạn",@readonly=true})
                     <div class="ui corner label">
                         <i class="asterisk icon"></i>
                     </div>
                 </div>
-            <button class="ui primary button" type="submit">Đăng Ký</button>            
+            </div>
+            <button class="ui primary button" type="submit">Đăng Ký</button>
         }
 
     </div>
-    <div class="ui vertical divider">        
+    <div class="ui vertical divider">
     </div>
     <div class="center aligned column">
         @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })

@@ -7,6 +7,7 @@ using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
+using MongoDB.Bson;
 using OneVietnam.Common;
 using OneVietnam.DAL;
 using OneVietnam.DTL;
@@ -75,6 +76,11 @@ namespace OneVietnam.BLL
         public async Task<List<Post>> FullTextSearch(string query)
         {
             return await _postStore.FullTextSearch(query).ConfigureAwait(false);
+        }
+
+        public async Task<List<BsonDocument>> FullTextSearch(string query, BaseFilter filter)
+        {
+            return await _postStore.FullTextSearch(query, filter);
         }
 
         public async Task<List<Post>> FindTop5PostsAsync()

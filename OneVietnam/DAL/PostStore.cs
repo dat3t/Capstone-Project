@@ -54,7 +54,7 @@ namespace OneVietnam.DAL
         {
             if (filter.IsNeedPaging)
             {
-                return await _posts.Find(p => p.DeletedFlag==false).Skip(filter.Skip).Limit(filter.ItemsPerPage).ToListAsync();
+                return await _posts.Find(p => p.DeletedFlag == false).Skip(filter.Skip).Limit(filter.ItemsPerPage).ToListAsync();
             }
             else
             {
@@ -64,7 +64,10 @@ namespace OneVietnam.DAL
         public async Task<List<Post>> FullTextSearch(string query)
         {
             //var filter = Query.Text(query).ToBsonDocument();
-            var filter = Builders<Post>.Filter.Text(query);            
+            var filter = Builders<Post>.Filter.Text(query);
+            var project = Builders<Post>.Projection.MetaTextScore("TextMatchScore");
+            var sort = Builders<Post>.Sort.MetaTextScore("TextMatchScore").Ascending("PublishDate");
+            var result = await _posts.Find(filter).Skip(3).Limit(3).Project(project).Sort(sort).ToListAsync();
             return await _posts.Find(filter).ToListAsync();
         }
         public async Task<List<Post>> FindTop5PostAsync()
@@ -72,5 +75,27 @@ namespace OneVietnam.DAL
                 return await _posts.Find(p => p.DeletedFlag == false).Limit(5).ToListAsync();
         }
 
+        public async Task<List<BsonDocument>> FullTextSearch(string query, BaseFilter filter)
+        {
+            var builder = Builders<Post>.Filter;
+            var conFilter = builder.Text(query) & builder.Eq("DeletedFlag", false);
+            var project = Builders<Post>.Projection.MetaTextScore("TextMatchScore");
+            var sort = Builders<Post>.Sort.MetaTextScore("TextMatchScore").Ascending("PublishDate");
+            if (filter.IsNeedPaging)
+            {
+                return
+                    await
+                        _posts.Find(conFilter)
+                            .Skip(filter.Skip)
+                            .Limit(filter.Limit)
+                            .Project(project)
+                            .Sort(sort)
+                            .ToListAsync();
+            }
+            else
+            {
+                return await _posts.Find(conFilter).Project(project).Sort(sort).ToListAsync();
+            }
+        }
     }
 }

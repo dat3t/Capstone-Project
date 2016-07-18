@@ -3,15 +3,31 @@
         var pos = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
-        };
+        };        
+        if ($("#XCoordinate").length > 0) {
+            document.getElementById("XCoordinate").value = pos.lat;
+            document.getElementById("YCoordinate").value = pos.lng;
+            document.getElementById("XCoordinateExternal").value = pos.lat;
+            document.getElementById("YCoordinateExternal").value = pos.lat;
+        } else {
+            document.getElementById("XCoordinateExternal").value = pos.lat;
+            document.getElementById("YCoordinateExternal").value = pos.lat;
+        }
+        
         //  alert(pos.lat+'aa'+pos.lng);
 
-        var geocoder = new google.maps.Geocoder();             // create a geocoder object
-        var location = new google.maps.LatLng(pos.lat, pos.lng);    // turn coordinates into an object          
+        var geocoder = new window.google.maps.Geocoder();             // create a geocoder object
+        var location = new window.google.maps.LatLng(pos.lat, pos.lng);    // turn coordinates into an object          
         geocoder.geocode({ 'latLng': location }, function (results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {           // if geocode success
+            if (status === window.google.maps.GeocoderStatus.OK) {           // if geocode success
                 var detailedLocation = results[0].formatted_address;         // if address found, pass to processing function
-                document.getElementById("detailedLocation").innerText = detailedLocation;
+                if ($("#XCoordinate").length > 0) {
+                    document.getElementById("Location").value = detailedLocation;
+                    document.getElementById("LocationExternal").value = detailedLocation;
+                } else {
+                    document.getElementById("LocationExternal").value = detailedLocation;
+                }                
+
             } else {
             }
         })

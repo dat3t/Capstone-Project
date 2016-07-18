@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using OneVietnam.BLL;
+using OneVietnam.Common;
 using OneVietnam.DTL;
 using OneVietnam.Models;
 
@@ -49,15 +50,54 @@ namespace OneVietnam.Controllers
 
         public async Task<ActionResult> Search(string query)
         {
-            var result = await PostManager.FullTextSearch(query);
-            var list = (from post in result
-                        where post.DeletedFlag == false
-                        select new SearchResultItem
-                        {
-                            Description = post.Description,
-                            Title = post.Title,
-                            Url = Url.Action("ShowPostDetail", "Post", new { postId = post.Id })
-                        }).ToList();
+            //var result = await PostManager.FullTextSearch(query);
+            var filter = new BaseFilter
+            {
+                CurrentPage = 1,//todo : store enum
+                ItemsPerPage = 7
+            };
+            
+            var result = await PostManager.FullTextSearch(query, filter);
+            //var list = (from item in result
+            //            where post.DeletedFlag == false
+            //            select new SearchResultItem
+            //            {
+            //                Description = post.Description,
+            //                Title = post.Title,
+            //                Url = Url.Action("ShowPostDetail", "Post", new { postId = post.Id })
+            //            }).ToList();
+            //var list = result.Select(item => new SearchResultItem
+            //{
+            //    Url = Url.Action("ShowPostDetail", "Post", new {postId = item["Id"].AsString}), Description = item["Description"].AsString, Title = item["Title"].AsString
+            //}).ToList();
+            var list = new List<SearchResultItem>();
+            foreach (var item in result)
+            {
+                var searchItem = new SearchResultItem
+                {
+                    Url = Url.Action("ShowPostDetail", "Post", new {postId = item["_id"].ToString()})
+                };
+                //searchItem.Description = item["Description"].AsString.Substring(0,Math.Min(200, item["Description"].AsString.Length));
+                if (item["Description"].AsString.Length > Common.Constants.DescriptionMaxLength)
+                {
+                    searchItem.Description = item["Description"].AsString.Substring(0, Common.Constants.DescriptionMaxLength) + "...";
+                }
+                else
+                {
+                    searchItem.Description = item["Description"].AsString;
+                }
+                if (item["Title"].AsString.Length > Common.Constants.TitleMaxLength)
+                {
+                    searchItem.Title = item["Title"].AsString.Substring(0, Common.Constants.TitleMaxLength) +"...";
+                }
+                else
+                {
+                    searchItem.Title = item["Title"].AsString;
+                }
+                
+                //searchItem.Title = item["Title"].AsString.Substring(0, Math.Min(100, item["Title"].AsString.Length));         
+                list.Add(searchItem);       
+            }
             var searchResult = new SearchResultModel
             {
                 Count = list.Count,
