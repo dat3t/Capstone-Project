@@ -1,27 +1,29 @@
-﻿<script type="text/javascript">
+﻿@*<script type="text/javascript">
                     $(document).ready(function () {
                         $('.ui.modal')
                         .modal('show')
                         ;
                     });
 
-</script>
+</script>*@
 @using OneVietnam.Models;
-@{ 
+@{
     PostInfoWindowModel post = new PostInfoWindowModel();
     post = ViewBag.PostInfo;
 
 }
-<div class="ui modal">
+
     <div class="header">
-      Thông tin bài đăng
+        Profile Picture
     </div>
     <div class="image content">
         <div class="ui medium image">
             <img src="">
         </div>
         <div class="description">
-            
+            <div class="ui header">lll</div>
+            <p>We've grabbed the following image from the <a href="https://www.gravatar.com" target="_blank">gravatar</a> image associated with your registered e-mail address.</p>
+            <p>Is it okay to use this photo?</p>
         </div>
     </div>
     <div class="actions">
@@ -33,4 +35,3 @@
             <i class="checkmark icon"></i>
         </div>
     </div>
-</div>

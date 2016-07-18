@@ -82,6 +82,11 @@ namespace OneVietnam.BLL
         {
             return await _postStore.FullTextSearch(query, filter);
         }
+
+        public async Task<List<Post>> FindTop5PostsAsync()
+        {
+            return await _postStore.FindTop5PostAsync().ConfigureAwait(false);
+        }
         public void Dispose()
         {
         }

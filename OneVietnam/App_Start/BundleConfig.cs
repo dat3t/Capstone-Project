@@ -21,18 +21,30 @@ namespace OneVietnam
                       "~/semantic/dist/semantic.js"));
             bundles.Add(new ScriptBundle("~/bundles/Scripts").Include(
                 "~/Scripts/global.js",
-                "~/Scripts/dropzone.js"));
+                "~/Scripts/dropzone.js",
+                "~/Scripts/flickity.pkgd.min.js",
+                "~/Scripts/masonry.pkgd.min.js",
+                "~/Scripts/packery.pkgd.min.js",
+                "~/Scripts/isotope.pkgd.min.js",
+                "~/Scripts/map.js",
+                "~/Scripts/searchboxCreatePost.js",
+                "~/Scripts/respond.js"));
             bundles.Add(new StyleBundle("~/semantic/css").Include(
                       "~/semantic/dist/semantic.css"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/StyleSheet.css",
+                "~/Content/dropzone.css",
+                "~/Content/flickity.min.css",
+                "~/Content/image-slider.css",
                   "~/Content/Map/map.css",
                 "~/Content/Map/infoWindow.css",
                 "~/Content/Map/searchbox.css",
-                "~/Content/Map/scrollbar.css"));
+                "~/Content/Map/mappagecustom.css",
+                 "~/Content/Map/scrollbar.css"));
             bundles.Add(new StyleBundle("~/Scripts/Map").Include(
                 "~/Scripts/map.js",
-                "~/Scripts/markerclusterer.js"
+                "~/Scripts/markerclusterer.js",
+                "~/Scripts/searchboxCreatePost"
                 ));
         }
     }

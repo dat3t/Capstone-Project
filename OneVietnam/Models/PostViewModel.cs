@@ -61,14 +61,15 @@ namespace OneVietnam.Models
         public DateTimeOffset? PublishDate { get; set; }
         public int PostType { get; set; }
         public bool DeletedFlag { get; set; }
-        public bool Status { get; set; }                
+        public bool Status { get; set; }
+
+        public bool LockedFlag { get; set; }
+
         public Location PostLocation { get; set; }
         public List<Illustration> Illustrations { get; set; }
         public List<Tag> Tags { get; set; }
 
-        public List<Report> Reports { get; set; }
-
-        public ReportViewModal ReportView { get; set; }
+        public List<Report> Reports { get; set; }        
 
         public PostViewModel()
         {
@@ -82,7 +83,8 @@ namespace OneVietnam.Models
             PublishDate = post.PublishDate;
             PostType = post.PostType;
             DeletedFlag = post.DeletedFlag;
-            Status = post.Status;            
+            Status = post.Status;
+            LockedFlag = post.LockedFlag;           
             PostLocation = post.PostLocation;
             Tags = post.Tags;
             Reports = post.Reports;

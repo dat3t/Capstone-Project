@@ -58,6 +58,7 @@ namespace OneVietnam.Controllers
             {
                 UserId = p.UserId, X = p.PostLocation.XCoordinate, Y = p.PostLocation.YCoordinate, PostId = p.Id, PostType = p.PostType
             }));
+            ViewBag.top5PostModel = await GetTop5PostInfo();
 
             return View(list);
         }
@@ -80,13 +81,53 @@ namespace OneVietnam.Controllers
             result.Title = post.Title;
             result.PublishDate = (DateTimeOffset)post.PublishDate;
             result.Address = post.PostLocation.Address;
-
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult SideNavPost()
+        public async Task<ActionResult> CustomInfoWindow(string postId)
         {
-            return PartialView("SidenavPost");
+            var post = await PostManager.FindById(postId);
+            var user = await UserManager.FindByIdAsync(post.UserId);
+            var result = new PostInfoWindowModel();
+            result.UserId = user.Id;
+            result.UserName = user.UserName;
+            result.Title = post.Title;
+            result.PublishDate = (DateTimeOffset)post.PublishDate;
+            result.Address = post.PostLocation.Address;
+            ViewBag.PostInfo = result;
+            return View();
+        }
+
+        public async Task<ActionResult> UserAndPostInfo(string postId)
+        {
+            var post = await PostManager.FindById(postId);
+            var user = await UserManager.FindByIdAsync(post.UserId);
+            var result = new PostInfoWindowModel();
+            result.UserId = user.Id;
+            result.UserName = user.UserName;
+            result.Title = post.Title;
+            result.PublishDate = (DateTimeOffset)post.PublishDate;
+            result.Address = post.PostLocation.Address;
+            ViewBag.PostInfo = result;
+            return PartialView("UserAndPostInfo");
+        }
+        
+
+        public async Task<List<PostInfoWindowModel>> GetTop5PostInfo()
+        {
+            var top5PostList = await PostManager.FindTop5PostsAsync();
+            var result = new PostInfoWindowModel();
+            List<PostInfoWindowModel> top5PostModel = new List<PostInfoWindowModel>();
+            var postModel = new PostInfoWindowModel();
+            foreach (Post p in top5PostList)
+            {
+                postModel.Address = p.PostLocation.Address;
+                postModel.PublishDate = (DateTimeOffset)p.PublishDate;
+                postModel.Title = p.Title;
+                top5PostModel.Add(postModel);
+            }
+
+            return top5PostModel;
         }
     }
 }

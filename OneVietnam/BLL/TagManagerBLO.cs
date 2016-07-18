@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using System.Web;
-using Microsoft.Ajax.Utilities;
-using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.AspNet.Identity.Owin;
 using OneVietnam.DAL;

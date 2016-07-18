@@ -70,6 +70,10 @@ namespace OneVietnam.DAL
             var result = await _posts.Find(filter).Skip(3).Limit(3).Project(project).Sort(sort).ToListAsync();
             return await _posts.Find(filter).ToListAsync();
         }
+        public async Task<List<Post>> FindTop5PostAsync()
+        {
+                return await _posts.Find(p => p.DeletedFlag == false).Limit(5).ToListAsync();
+        }
 
         public async Task<List<BsonDocument>> FullTextSearch(string query, BaseFilter filter)
         {
