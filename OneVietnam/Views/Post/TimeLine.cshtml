@@ -1,57 +1,176 @@
 ﻿@using OneVietnam.DTL
 @using OneVietnam.Models
-<div class="ui grid">
-    <div class="two wide column">
+@{
 
-        @*    <div class="ui vertical menu right floated">*@
-        @*        <div class="item">*@
-        @*            <div class="ui input"><input type="text" placeholder="Search...">*@
-        @*            </div>*@
-        @*        </div>*@
-        @*        <div class="item">*@
-        @*            Home*@
-        @*            <div class="menu">*@
-        @*                <a class="active item">Search</a>*@
-        @*                @{*@
-        @*                    ((PostController)ViewContext.Controller)._CreatePost();*@
-        @*                }*@
-        @*                <a class="item write"  ><i class="write icon"></i>Write Post</a>*@
-        @*                <a class="item">Remove</a>*@
-        @*            </div>*@
-        @*        </div>*@
-        @*        <a class="browse item">*@
-        @*            <i class="grid layout icon"></i> Filter*@
-        @*        </a>*@
-        @**@
-        @*        <a class="item">*@
-        @*            Messages*@
-        @*        </a>*@
-        @*        <div class="ui dropdown item">*@
-        @*            More*@
-        @*            <i class="dropdown icon"></i>*@
-        @*            <div class="menu">*@
-        @*                <a class="item"><i class="edit icon"></i> Edit Profile</a>*@
-        @*                <a class="item"><i class="globe icon"></i> Choose Language</a>*@
-        @*                <a class="item"><i class="settings icon"></i> Account AppSettings.Settings</a>*@
-        @*            </div>*@
-        @*        </div>*@
-        @*    </div>*@
-        <nav>
-            <ul>
-                <li><a href="#1">Đi đâu?</a></li>
-                <li><a href="#2">Ăn gì?</a></li>
-                <li><a href="#3">Làm thêm</a></li>
-                <li><a href="#4">Nhận xách tay</a></li>
-            </ul>
-        </nav>
-    </div>
-    <div class="ten wide column">
-        <div class="container ">
-            @Html.Partial("_PostRow", (ViewBag.Posts as List<PostViewModel>))
+    List<Tag> tagList = ViewData["TagList"] as List<Tag>;
+    List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
+
+}
+<div class="ui grid">
+ 
+        <div class="two wide column">
+
+            @*    <div class="ui vertical menu right floated">*@
+            @*        <div class="item">*@
+            @*            <div class="ui input"><input type="text" placeholder="Search...">*@
+            @*            </div>*@
+            @*        </div>*@
+            @*        <div class="item">*@
+            @*            Home*@
+            @*            <div class="menu">*@
+            @*                <a class="active item">Search</a>*@
+            @*                @{*@
+            @*                    ((PostController)ViewContext.Controller)._CreatePost();*@
+            @*                }*@
+            @*                <a class="item write"  ><i class="write icon"></i>Write Post</a>*@
+            @*                <a class="item">Remove</a>*@
+            @*            </div>*@
+            @*        </div>*@
+            @*        <a class="browse item">*@
+            @*            <i class="grid layout icon"></i> Filter*@
+            @*        </a>*@
+            @**@
+            @*        <a class="item">*@
+            @*            Messages*@
+            @*        </a>*@
+            @*        <div class="ui dropdown item">*@
+            @*            More*@
+            @*            <i class="dropdown icon"></i>*@
+            @*            <div class="menu">*@
+            @*                <a class="item"><i class="edit icon"></i> Edit Profile</a>*@
+            @*                <a class="item"><i class="globe icon"></i> Choose Language</a>*@
+            @*                <a class="item"><i class="settings icon"></i> Account AppSettings.Settings</a>*@
+            @*            </div>*@
+            @*        </div>*@
+            @*    </div>*@
+          
+
+            <nav>
+                <ul>
+                    <li><a href="#1">Đi đâu?</a></li>
+                    <li><a href="#2">Ăn gì?</a></li>
+                    <li><a href="#3">Làm thêm</a></li>
+                    <li><a href="#4">Nhận xách tay</a></li>
+                </ul>
+            </nav>
+            <div id="floating-button" class="stamp-button" data-toggle="tooltip" data-original-title="Create">
+                <p class="plus"><i class="write icon"></i></p>
+                <p class="edits"><i class="remove icon"></i></p>
+            </div>
+
         </div>
-        <div class="container infinite-scroll" id="gohere"></div>
-    </div>
+        <div class="ten wide column">
+            <div class="grids">
+                <div class="stamp stamp1  hides">
+                    <div class="modal-container">
+
+                        @using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new {enctype = "multipart/form-data"}))
+                        {
+                            <div class="ui form">
+                                @Html.AntiForgeryToken()
+                                <div class="header">
+                                    <div class="ui input transparent focus">
+                                        <input id="Title" name="Title" type="text" placeholder="Title...">
+                                        <span class="field-validation-valid text-danger" data-valmsg-for="Title" data-valmsg-replace="true"></span>
+                                    </div>
+
+                                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                                </div>
+                                <div class="content">
+
+                                    <div class="two fields">
+
+                                        <div class="field">
+
+                                            <div class="ui  selection dropdown" id="#postTypeDropdown">
+                                                <input type="hidden" id="PostType" name="PostType">
+                                                <i class="dropdown icon"></i>
+                                                <div class="default text">Chọn loại bài đăng</div>
+                                                <div class="menu">
+                                                    @{
+                                                        if (postTypes != null)
+                                                        {
+                                                            foreach (Icon icon in postTypes)
+                                                            {
+                                                                <div class="item" data-value="@icon.IconId">
+                                                                    <img class="ui mini avatar image" src="@icon.IconImage">
+                                                                    @icon.IconText
+                                                                </div>
+                                                            }
+                                                        }
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="field">
+
+                                            <div class="ui fluid multiple search selection dropdown">
+                                                <input name="tags" id="tags" type="hidden" value="">
+                                                <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Tag liên quan</div>
+                                                <div class="menu transition hidden" tabindex="-1">
+
+                                                    @{
+                                                        if (tagList != null)
+                                                        {
+                                                            foreach (Tag tag in tagList)
+                                                            {
+                                                                <div class="item" data-value="@tag.TagValue">@tag.TagText</div>
+                                                            }
+                                                        }
+                                                    }
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label>Mô tả </label>
+                                        <textarea rows="4" tabindex="4" id="Description" name="Description" value=""></textarea>
+
+                                    </div>
+                                    <input id="search-location" type="text" placeholder="Tìm kiếm địa điểm...">
+
+                                    <button id="imgUpload " type="button"><i class="photo icon"></i></button>
+                                    <div class="dropzone" id="myId">
+                                        <div class="fallback">
+                                            <input id="files" multiple="" name="files" type="file">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="actions">
+                                    <input id="btnCreate" type="submit" tabindex="6" value="Post" class="ui primary button"/>
+                                    <div class="ui cancel button">Cancel</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="ui grid ">
+                    @Html.Partial("_PostRow", (ViewBag.Posts as List<PostViewModel>))
+                </div>
+                <div class="container infinite-scroll" id="gohere"></div>
+            
+                   
+
+
+                
+            </div>
+        </div>
+
+
+
     <div class="four wide column">
+        <a href="javascript:" id="return-to-top"><i class="chevron up icon"></i></a>
+        
         <div class="ui card">
             <div class="content">
                 <div class="header">Admin post</div>
@@ -87,13 +206,7 @@
             </div>
         </div>
     </div>
-</div>
-<div class="ui text loader" id="loading">Loading</div>
-@Html.Partial("_CreatePost")
-
-
-
-
+    </div>
 
 @section scripts{
     <script src="~/Scripts/infiniteScroll.js"></script>
@@ -103,6 +216,6 @@
         });
         var moreRowsUrl = '/Post/TimeLine';
         $(window).scroll(scrollHandler);
-        @*var hasReachedEndOfInfiniteScroll = @ViewBag.IsEndOfRecords.ToString().ToLower();*@        
+        @*var hasReachedEndOfInfiniteScroll = @ViewBag.IsEndOfRecords.ToString().ToLower();*@
     </script>
 }

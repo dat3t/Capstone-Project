@@ -326,7 +326,7 @@ namespace OneVietnam.Controllers
             {
                 pPostView.Illustrations = illList;
             }
-            Post post = new Post(pPostView, strPostId);           
+            Post post = new Post(pPostView);           
             await PostManager.UpdatePostAsync(post);
             return RedirectToAction("ShowPostDetail", "Post", new { postId = strPostId });
         }

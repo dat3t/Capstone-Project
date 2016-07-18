@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using AspNet.Identity.MongoDB;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using OneVietnam.Models;
-
 namespace OneVietnam.DTL
 {
     public class Report
@@ -18,8 +11,15 @@ namespace OneVietnam.DTL
         [BsonIgnoreIfNull]
         public string PostId { get; set; }
         public string ReportDescription { get; set; }
+        [BsonIgnoreIfNull]
+        public string HandlerId { get; set; }
 
         public bool ReportStatus { get; set; }
+
+        public DateTimeOffset? CreateDate { get; set; }
+
+        [BsonIgnoreIfNull]
+        public DateTimeOffset? CloseDate { get; set; }
 
         public Report()
         {
@@ -32,6 +32,7 @@ namespace OneVietnam.DTL
             PostId = pPostId;
             ReportDescription = pDescription;
             ReportStatus = true;
+            CreateDate = DateTime.Now;            
         }
 
         public Report(Report pReport)
@@ -44,6 +45,15 @@ namespace OneVietnam.DTL
             }            
             ReportDescription = pReport.ReportDescription;
             ReportStatus = pReport.ReportStatus;
+            if(pReport.HandlerId != null)
+            {
+                HandlerId = pReport.HandlerId;
+            }            
+            CreateDate = pReport.CreateDate;
+            if(pReport.CloseDate != null)
+            {
+                CloseDate = pReport.CloseDate;
+            }
         }
     }
 }
