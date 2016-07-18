@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+﻿$(document).ready(function () {    
     $('.item.write')
        .click(function () {
            $('.ui.modal').modal('show');
