@@ -67,11 +67,11 @@ namespace OneVietnam.Controllers
         //[HttpPost] // can be HttpGet
         public async Task<ActionResult> GetUserInfo(string userId)
         {
-            //var user = await UserManager.FindByIdAsync(userId);
-            //return Json(user, JsonRequestBehavior.AllowGet);
             var user = await UserManager.FindByIdAsync(userId);
-            var result = new UserViewModel(user);
-            return PartialView("_UserModal",result);
+            return Json(user, JsonRequestBehavior.AllowGet);
+            //var user = await UserManager.FindByIdAsync(userId);
+            //var result = new UserViewModel(user);
+            //return PartialView("_UserModal",result);
         }
 
         public async Task<ActionResult> GetPostInfo(string postId)
