@@ -20,7 +20,7 @@
                     @if (User.Identity.IsAuthenticated && (User.Identity.GetUserId() == Model.UserId))
                     {
                         <i class="icon remove circle link" data-content="Xóa" style="float: right" onclick="document.location.href = '@Url.Action("DeletePost", "Post", new {postId = Model.Id})';"></i>
-                            <i class="icon edit link" data-content="Sửa" style="float: right" onclick="document.location.href =
+                        <i class="icon edit link" data-content="Sửa" style="float: right" onclick="document.location.href =
     '@Url.Action("EditPost", "Post", new {postId = Model.Id})';"></i>
                     }
                     else
@@ -49,10 +49,10 @@
                 @*                }*@
                 @**@
 
-@*            </div>*@
-//</div>
+                @*            </div>*@
+                //</div>
                 @*        </div>*@
-//            </div>
+                //            </div>
             }
         }
         <div class="content">
@@ -60,7 +60,7 @@
             <div class="description hides">
                 <p>@Model.Description</p>
             </div>
-            <div class="marker ">
+            <div class="marker hides ">
                 <span class="right floated">
 
                     <script>
@@ -89,5 +89,5 @@
             </div>
         </div>
 
-        </div>
-        </div>
+    </div>
+</div>

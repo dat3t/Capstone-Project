@@ -93,16 +93,18 @@ $(document).ready(function () {
 
 
     var $grid = $('.grids').isotope({
-        itemSelector: '.ui.fluid.card',
+        itemSelector: '.grid-item',
+        percentPosition: true,
         masonry: {
-            columnWidth: 50
+            columnWidth: '.grid-sizer',
+            gutter: '.gutter-sizer'
         }
     });
     // change size of item by toggling gigante class
     $grid.on('click', '.content', function (e) {
       
         $(this).parent().find('.marker').toggleClass("hides");
-        $(this).parent().toggleClass('gigante');
+        $(this).parent().parent().toggleClass('gigante');
         // trigger layout after item size changes
         $grid.isotope('layout');
     });
@@ -140,5 +142,10 @@ $('#return-to-top').click(function () {      // When arrow is clicked
         scrollTop: 0                       // Scroll to top of body
     }, 300);
 });
-    
+
+$('.filter-group').on('click', 'a', function () {
+    var filterValue = $(this).attr('data-filter');
+    // use filterFn if matches value
+    $grid.isotope({ filter: filterValue });
+});
 });
