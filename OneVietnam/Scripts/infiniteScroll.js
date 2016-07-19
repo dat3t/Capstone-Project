@@ -27,7 +27,8 @@ function loadMoreToInfiniteScrollUl(loadMoreRowsUrl) {
             data: "pageNum=" + page,
             success: function (data, textstatus) {
                 if (data != '') {
-                    $("ul.infinite-scroll").append(data);
+                   
+                   $("ul.infinite-scroll").append(data);
                 }
                 else {
                     page = -1;
@@ -53,7 +54,9 @@ function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
             data: "pageNum=" + page,
             success: function (data, textstatus) {
                 if (data != '') {
-                    $("#gohere").append(data);
+//                    alert("adadasd");
+//                    $('.grids').isotope('appended', data, true);
+
                     //$("table.infinite-scroll > tbody > tr:even").addClass("alt-row-class");
                     //$("table.infinite-scroll > tbody > tr:odd").removeClass("alt-row-class");
                 }
