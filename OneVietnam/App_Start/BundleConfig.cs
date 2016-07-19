@@ -26,7 +26,7 @@ namespace OneVietnam
                 "~/Scripts/masonry.pkgd.min.js",
                 "~/Scripts/packery.pkgd.min.js",
                 "~/Scripts/isotope.pkgd.min.js",
-                "~/Scripts/map.js",
+             
                 "~/Scripts/searchboxCreatePost.js",
                 "~/Scripts/respond.js"));
             bundles.Add(new StyleBundle("~/semantic/css").Include(

@@ -67,8 +67,11 @@ namespace OneVietnam.Controllers
         //[HttpPost] // can be HttpGet
         public async Task<ActionResult> GetUserInfo(string userId)
         {
+            //var user = await UserManager.FindByIdAsync(userId);
+            //return Json(user, JsonRequestBehavior.AllowGet);
             var user = await UserManager.FindByIdAsync(userId);
-            return Json(user, JsonRequestBehavior.AllowGet);
+            var result = new UserViewModel(user);
+            return PartialView("_UserModal",result);
         }
 
         public async Task<ActionResult> GetPostInfo(string postId)
@@ -77,10 +80,11 @@ namespace OneVietnam.Controllers
             var user = await UserManager.FindByIdAsync(post.UserId);
             var result = new PostInfoWindowModel();
             result.UserId = user.Id;
-            result.UserName = user.UserName;
+            result.postId = postId;
             result.Title = post.Title;
             result.PublishDate = (DateTimeOffset)post.PublishDate;
             result.Address = post.PostLocation.Address;
+            ViewBag.PostInfo = result;
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -90,7 +94,7 @@ namespace OneVietnam.Controllers
             var user = await UserManager.FindByIdAsync(post.UserId);
             var result = new PostInfoWindowModel();
             result.UserId = user.Id;
-            result.UserName = user.UserName;
+            result.postId = postId;
             result.Title = post.Title;
             result.PublishDate = (DateTimeOffset)post.PublishDate;
             result.Address = post.PostLocation.Address;
@@ -100,16 +104,18 @@ namespace OneVietnam.Controllers
 
         public async Task<ActionResult> UserAndPostInfo(string postId)
         {
+            //var post = await PostManager.FindById(postId);
+            //var user = await UserManager.FindByIdAsync(post.UserId);
+            //var result = new PostInfoWindowModel();
+            //result.UserId = user.Id;
+            //result.UserName = user.UserName;
+            //result.Title = post.Title;
+            //result.PublishDate = (DateTimeOffset)post.PublishDate;
+            //result.Address = post.PostLocation.Address;
+            //ViewBag.PostInfo = result;
             var post = await PostManager.FindById(postId);
-            var user = await UserManager.FindByIdAsync(post.UserId);
-            var result = new PostInfoWindowModel();
-            result.UserId = user.Id;
-            result.UserName = user.UserName;
-            result.Title = post.Title;
-            result.PublishDate = (DateTimeOffset)post.PublishDate;
-            result.Address = post.PostLocation.Address;
-            ViewBag.PostInfo = result;
-            return PartialView("UserAndPostInfo");
+            var result = new PostViewModel(post);
+            return PartialView("UserAndPostInfo",result); ;
         }
         
 
@@ -118,10 +124,12 @@ namespace OneVietnam.Controllers
             var top5PostList = await PostManager.FindTop5PostsAsync();
             var result = new PostInfoWindowModel();
             List<PostInfoWindowModel> top5PostModel = new List<PostInfoWindowModel>();
-            var postModel = new PostInfoWindowModel();
+            PostInfoWindowModel postModel;
             foreach (Post p in top5PostList)
             {
+                postModel = new PostInfoWindowModel();
                 postModel.Address = p.PostLocation.Address;
+                postModel.postId = p.Id;
                 postModel.PublishDate = (DateTimeOffset)p.PublishDate;
                 postModel.Title = p.Title;
                 top5PostModel.Add(postModel);

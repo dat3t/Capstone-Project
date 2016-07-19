@@ -42,6 +42,7 @@ else
     <title>Bản đồ tìm kiếm</title>
     <link rel="stylesheet" type="text/css" href="~/Content/Map/mappagecustom.css">
     <script src="~/Scripts/MapElements.js" language="javascript" type="text/javascript"></script>
+    
     <script type="text/javascript">
      
 
@@ -117,17 +118,17 @@ else
         }
 
             .sidenav a {
-                padding: 8px 8px 8px 32px;
+                /*padding: 8px 8px 8px 32px;*/
                 text-decoration: none;
-                font-size: 25px;
+                /*font-size: 25px;*/
                 color: #818181;
                 display: block;
                 transition: 0.3s;
             }
 
-                .sidenav a:hover, .offcanvas a:focus {
+                /*.sidenav a:hover, .offcanvas a:focus {
                     color: #f1f1f1;
-                }
+                }*/
 
         .closebtn {
             position: absolute;
@@ -360,7 +361,7 @@ else
 
     <div id="map_canvas" style="width:100%;height:100%;margin-top:0px !important;margin-left:0px!important;margin-right:0px!important;"></div>
     <div class="ui icon input" style=" position: absolute; left: 40% !important; top: 8px !important;">
-        <input id="pac-input" type="text" placeholder="Tìm kiếm địa điểm...">
+        <input id="pac-input2" type="text" placeholder="Tìm kiếm địa điểm...">
         <i class="search icon"></i>
     </div>
 
@@ -418,14 +419,95 @@ else
         @Html.Partial("SidenavPost", (list));
     </div>
 
-    <div id="aa" onclick="toggle()" class="ui blue big centered launch right attached fixed button" style="position: absolute; left: 0px; margin-left:380px;top:40%;transition: margin-left .5s;width:60px;">
-        <div style="position:relative;">
-            <i id="button" class="arrow left icon"></i>
-            @*  <span class="text" id="button2">Bài đăng</span>*@
-        </div>
-    </div>
+   
 
-    <div class="ui modal"  id="zzz"></div>
+    <div class="ui modal"  id="userModal">  
+    
+       
+        @*<div class="four wide column ui fluid card">
+            <div class="content ">
+                <div class="header ">
+                    abc
+                    <div class="right floated meta marker">
+                        @if (true)
+                        {
+                            <i class="teal star icon" data-content="Đang hoạt động"></i>
+
+                        }
+                        else
+                        {
+                            <i class="red minus circle icon" data-content="Đang đóng"></i>
+                        }
+                    </div>
+                    <div class="right floated meta marker hides">
+                        @if (true)
+                        {
+                            <i class="icon remove circle link" data-content="Xóa" style="float: right"></i>
+                            <i class="icon edit link" data-content="Sửa" style="float: right"></i>
+                        }
+                        else
+                        {
+                            <script>
+
+                                     document
+                                         .write("<i class='icon announcement link' data-content='Báo cáo' style='float: right'></i>");
+                            </script>
+                        }
+                    </div>
+
+                </div>
+
+                <div class="meta">
+                    <span>12/2/1993</span>
+                </div>
+
+            </div>
+            <div class="image ">
+                <div class="carousel" data-flickity>
+                    <div class="carousel-cell"></div>
+                    <div class="carousel-cell"></div>
+                    <div class="carousel-cell"></div>
+                    <div class="carousel-cell"></div>
+                    <div class="carousel-cell"></div>
+                </div>
+            </div>
+
+            <div class="content">
+                <h4 class="ui sub header">ABC</h4>
+                <div class="description hides">
+                    <p>aaa</p>
+                </div>
+                <div class="marker hides">
+                    <span class="right floated">
+
+                        <script>
+                                (function(d, s, id) {
+                                    var js, fjs = d.getElementsByTagName(s)[0];
+                                    if (d.getElementById(id)) return;
+                                    js = d.createElement(s);
+                                    js.id = id;
+                                    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
+                                    fjs.parentNode.insertBefore(js, fjs);
+                                }(document, 'script', 'facebook-jssdk'));
+
+                                //like button
+                                document.write("<div class='fb-like' data-href='" +
+                                    window.location.href +
+                                    "' data-layout='button_count' data-action='like' data-size='small' data-show-faces='false' data-share='false'></div>");
+                        </script>
+                    </span>
+
+                    <script>
+                             //Comment
+                             document.write("<div class='fb-comments' style='width: 100%' data-href='" +
+                                 window.location.href +
+                                 "' data-numposts='3' ></div>");
+                    </script>
+                </div>
+            </div>
+
+        </div>*@
+    </div>
 </div>
   
 <script defer src="~/Scripts/OverlappingMarkerSpiderfier.js"></script>

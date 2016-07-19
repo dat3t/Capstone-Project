@@ -5,7 +5,8 @@
  
      @foreach (var post in Model)
      {
-             <div class="four wide column ui fluid card">
+         @Html.Partial("_ShowPostDetail", post)
+             @*<div class="four wide column ui fluid card">
                  <div class="content ">
                      <div class="header ">
                          @post.Title
@@ -89,5 +90,5 @@
                      </div>
                  </div>
 
-             </div>
+             </div>*@
      }
