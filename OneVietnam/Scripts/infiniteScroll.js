@@ -27,14 +27,14 @@ function loadMoreToInfiniteScrollUl(loadMoreRowsUrl) {
             data: "pageNum=" + page,
             success: function (data, textstatus) {
                 if (data != '') {
-                   
-                   $("ul.infinite-scroll").append(data);
+                    $("ul.infinite-scroll").append(data);
                 }
                 else {
                     page = -1;
                 }
 
                 inCallback = false;
+
                 $("div#loading").hide();
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -54,16 +54,15 @@ function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
             data: "pageNum=" + page,
             success: function (data, textstatus) {
                 if (data != '') {
-//                    alert("adadasd");
-//                    $('.grids').isotope('appended', data, true);
+                    var $items = $(data);
 
-                    //$("table.infinite-scroll > tbody > tr:even").addClass("alt-row-class");
-                    //$("table.infinite-scroll > tbody > tr:odd").removeClass("alt-row-class");
+                    $('.grids').append($items).isotope('appended', $items);
+                 
+                   
                 }
                 else {
                     page = -1;
                 }
-
                 inCallback = false;
                 $("#loading").hide();
             },
