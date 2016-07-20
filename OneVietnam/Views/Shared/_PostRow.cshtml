@@ -1,42 +1,86 @@
-﻿@model Dictionary<int, OneVietnam.DTL.Post>
-    <div class="ui three column grid">
-    @foreach (var cust in Model)
-    {
-        <div class="column">
-            <div class="ui card">
-                <div class="content">
-                    <div class="right floated meta">@cust.Value.PublishDate</div>
-                    <img class="ui avatar image" src="~/Images/elliot.jpg"> @cust.Value.UserId
+﻿
+
+ @using Microsoft.AspNet.Identity @model OneVietnam.Models.PostViewModel
+ 
+     
+         <div class="grid-item four wide column"> 
+             <div class="ui fluid card"> 
+                 <div class="content">
+                     <div class="header">
+                         @Model.Title
+                         <div class="right floated meta marker">
+                             @if (Model.Status)
+                             {
+                                 <i class="teal star icon" data-content="Đang hoạt động"></i>
+
+
+
+
+
+                             }
+                             else
+                             {
+                                 <i class="red minus circle icon" data-content="Đang đóng"></i>
+                             }
+                         </div>
+                         <div class="right floated meta marker hides">
+                             @if ( User.Identity.IsAuthenticated && (User.Identity.GetUserId() == Model.UserId))
+            {
+                                 <i class="icon remove circle link" data-content="Xóa" style="float: right" onclick="document.location.href = '@Url.Action("DeletePost", "Post", new {postId = Model.Id})';"></i>
+                                 <i class="icon edit link" data-content="Sửa" style="float: right" onclick="document.location.href = '@Url.Action("EditPost", "Post", new {postId = Model.Id})';"></i>
+                             }
+                             else
+                             {
+                                 <i class="icon announcement link" data-content="Báo cáo" style="float: right"></i>
+                             }
+                         </div>
+
+                     </div>
+
+                    <div class="meta">
+                        <span>@Model.PublishDate</span>
+                        <a>@Model.PostType</a>
+                    </div>
+                  
                 </div>
                 <div class="image">
                     <img src="~/Images/image.png">
                 </div>
 
                 <div class="content">
-                    <h4 class="ui sub header">@cust.Value.Title</h4>
-                    <div class="description">
-                        <p>@cust.Value.Description</p>
+                    <h4 class="ui sub header">@Model.Title</h4>
+                    <div class="description hides">
+                        <p>@Model.Description</p>
                     </div>
-                    <span class="right floated">
-                        <i class="heart outline like icon"></i>
-                        17 likes
-                    </span>
-                    <i class="comment icon"></i>
-                    3 comments
-                </div>
-                <div class="extra content">
-                    <div class="ui large transparent left icon input">
-                        <i class="heart outline icon"></i>
-                        <input type="text" placeholder="Add Comment...">
+                    <div class="marker hides">
+                        <span class="right floated">
+
+                            <script>
+                    (function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id)) return;
+                        js = d.createElement(s);
+                        js.id = id;
+                        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+
+                    //like button
+                    document.write("<div class='fb-like' data-href='" +
+                        window.location.href +
+                        "' data-layout='button_count' data-action='like' data-size='small' data-show-faces='false' data-share='false'></div>");
+                            </script>
+                        </span>
+
+                        <script>
+                            //Comment
+                            document.write("<div class='fb-comments' style='width: 100%' data-href='" +
+                                window.location.href +
+                                "' data-numposts='3' ></div>");
+                        </script>
                     </div>
                 </div>
+             
             </div>
-        </div>
-        @*    <tr>*@
-        @*        <td>@cust.Key </td>*@
-        @*        <td>@cust.Value.Title</td>*@
-        @*        <td>@cust.Value.PublishDate</td>*@
-        @*        <td>@cust.Value.Description</td>*@
-        @*    </tr>*@
-    }
-</div>
+       </div>
+   
