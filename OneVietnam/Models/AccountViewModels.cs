@@ -16,6 +16,11 @@ namespace OneVietnam.Models
     public class ExternalLoginListViewModel
     {
         public string ReturnUrl { get; set; }
+        [Required]
+        [Display(Name = "Vị Trí")]
+        public string LocationExternal { get; set; }        
+        public double XCoordinateExternal { get; set; }        
+        public double YCoordinateExternal { get; set; }
     }
 
     public class SendCodeViewModel
@@ -87,7 +92,12 @@ namespace OneVietnam.Models
         [Display(Name = "Xác Nhận Mật Khẩu")]
         [Compare("Password", ErrorMessage = "Mật Khẩu Xác Nhận Không Trùng Khớp")]
         public string ConfirmPassword { get; set; }
-        public string CurrentLocation { get; set; }
+        [Required]
+        [Display(Name = "Vị Trí")]
+        public string Location { get; set; }        
+        public double XCoordinate { get; set; }        
+        public double YCoordinate { get; set; }
+
     }
 
     public class ResetPasswordViewModel

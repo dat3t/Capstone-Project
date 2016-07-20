@@ -246,7 +246,14 @@ namespace OneVietnam.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Gender = model.Gender };
+                var location = new Location
+                {
+                    XCoordinate = model.XCoordinate,
+                    YCoordinate = model.YCoordinate,
+                    Address = model.Location
+                };
+
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Gender = model.Gender,Location = location};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -383,10 +390,12 @@ namespace OneVietnam.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ExternalLogin(string provider, string returnUrl)
-        {
+        public ActionResult ExternalLogin(string provider, string returnUrl, string locationExternal, double xCoordinateExternal, double yCoordinateExternal)
+        {                           
             // Request a redirect to the external login provider
-            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", 
+                new { ReturnUrl = returnUrl, locationExternal= locationExternal, xCoordinateExternal= xCoordinateExternal,
+                    yCoordinateExternal = yCoordinateExternal }));
         }
 
         //
@@ -426,7 +435,7 @@ namespace OneVietnam.Controllers
         //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
-        public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
+        public async Task<ActionResult> ExternalLoginCallback(string returnUrl, string locationExternal, double xCoordinateExternal, double yCoordinateExternal)
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
             if (loginInfo == null)
@@ -471,7 +480,8 @@ namespace OneVietnam.Controllers
                         dynamic userEmail = fb.Get("me?fields=email");
                         string name = userInfo["name"];
                         string email = userEmail["email"];
-                        var user = new ApplicationUser { UserName = name, Email = email };
+                        var location = new Location(xCoordinateExternal, yCoordinateExternal, locationExternal);
+                        var user = new ApplicationUser { UserName = name, Email = email,Location = location};
                         //Add to database
                         var result2 = await UserManager.CreateAsync(user);
                         if (result2.Succeeded)
@@ -557,13 +567,7 @@ namespace OneVietnam.Controllers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
+        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         private void AddErrors(IdentityResult result)
         {

@@ -8,35 +8,42 @@ var infowindowContent;
 var myCurrentLocationMarker;
 var markerCluster;
 
-var listUserMarkers = [];
-var listMaleMarkers = [];
-var listFemaleMarkers = [];
-var listLGBTMarkers = [];
-var listType0Markers = [];
-var listType1Markers = [];
-var listType2Markers = [];
+var listUserMarkers = [], listMaleMarkers = [], listFemaleMarkers = [], listLGBTMarkers = [];
 
-var userMarkerCluster = [];
-var maleMarkerCluster = [];
-var femaleMarkerCluster = [];
-var LGBTMarkerCluster = [];
-var type0MarkerCluster = [];
-var type1MarkerCluster = [];
-var type2MarkerCluster = [];
+var listType0Markers = [], listType1Markers = [], listType2Markers = [], listType3Markers = [], listType4Markers = [], listType5Markers = [];
 
+var userMarkerCluster = [], maleMarkerCluster = [], femaleMarkerCluster = [], LGBTMarkerCluster = [];
 
-//Declare an icon of sample marker
-var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+var type0MarkerCluster = [], type1MarkerCluster = [], type2MarkerCluster = [], type3MarkerCluster = [], type4MarkerCluster = [], type5MarkerCluster = [];
+
+var overlappingType0 = [], overlappingType1 = [], overlappingType2 = [], overlappingType3 = [], overlappingType4 = [], overlappingType5 = [];
+
+var overlappingMale = [], overlappingFemale = [], overlappingLGBT = [], overlappingUsers = [];
 
 function checkAuthenticated() {
+    var icon = {
+        url: "../Content/Icon/location.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+    };
+
+    // Declare a myLocation marker using icon declared above, and bind it to the map
+    myCurrentLocationMarker = new google.maps.Marker({
+        title: "Vị trí hiện tại của tôi",
+        icon: icon
+    });
+
     if (isAuthenticated) {
         //Declare a new map
         map = new google.maps.Map(document.getElementById('map_canvas'), {
-            center: { lat: 10.8114587, lng: 106.67885000000001 },
+            center: { lat: authenticatedUser.x, lng: authenticatedUser.y },
             zoom: 13,
             minZoom: 4,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
+        myCurrentLocationMarker.setMap(map);
     }
     else {
         //Declare a new map
@@ -46,36 +53,9 @@ function checkAuthenticated() {
             minZoom: 4,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
-        // Declare a myLocation marker using icon declared above, and bind it to the map
-        var myLocationMarker = new google.maps.Marker({
-            map: map,
-            title: "Vị trí của tôi",
-            // icon:myLocationIcon
-        });
 
-        //Identify current user's location and bind it to the map
-        //Using HTML5 geolocation.
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
-
-                myLocationMarker.setPosition(pos);
-                //addMarker(pos);
-                map.setCenter(pos);
-                map.setZoom(7);
-
-
-            }, function () {
-                handleLocationError(true, myLocationMarker, map.getCenter());
-            });
-        } else {
-            // Browser doesn't support Geolocation
-            handleLocationError(false, myLocationMarker, map.getCenter());
-        }
-        //map.fitBounds(map.getBounds());
+        myCurrentLocationMarker.setMap(map);
+        showCurrentLocation();
 
     }
 }
@@ -84,17 +64,19 @@ function initialize() {
 
     checkAuthenticated();
 
-    myCurrentLocationMarker = new google.maps.Marker({
-        map: map,
-        title: "Vị trí của tôi",
-        // icon:myLocationIcon
-    });
-
     //Declare a bound
     bounds = new google.maps.LatLngBounds();
 
-    //var iw = new map.InfoWindow();
-    var oms = new OverlappingMarkerSpiderfier(map);
+    overlappingUsers = new OverlappingMarkerSpiderfier(map);
+    overlappingMale = new OverlappingMarkerSpiderfier(map);
+    overlappingLGBT = new OverlappingMarkerSpiderfier(map);
+    overlappingFemale = new OverlappingMarkerSpiderfier(map);
+    overlappingType0 = new OverlappingMarkerSpiderfier(map);
+    overlappingType1 = new OverlappingMarkerSpiderfier(map);
+    overlappingType2 = new OverlappingMarkerSpiderfier(map);
+    overlappingType3 = new OverlappingMarkerSpiderfier(map);
+    overlappingType4 = new OverlappingMarkerSpiderfier(map);
+    overlappingType5 = new OverlappingMarkerSpiderfier(map);
 
     createListUserMarkers();
     createListMaleMarkers();
@@ -102,13 +84,21 @@ function initialize() {
     createListLGBTMarkers();
     createListType0Markers();
     createListType1Markers();
+    createListType2Markers();
+    createListType3Markers();
+    createListType4Markers();
+    createListType5Markers();
 
     userMarkerCluster = new MarkerClusterer(map, listUserMarkers);
     maleMarkerCluster = new MarkerClusterer(map, listMaleMarkers);
     femaleMarkerCluster = new MarkerClusterer(map, listFemaleMarkers);
-    LGBTMarkerCluster = new MarkerClusterer(map,listLGBTMarkers);
+    LGBTMarkerCluster = new MarkerClusterer(map, listLGBTMarkers);
     type0MarkerCluster = new MarkerClusterer(map, listType0Markers);
     type1MarkerCluster = new MarkerClusterer(map, listType1Markers);
+    type2MarkerCluster = new MarkerClusterer(map, listType2Markers);
+    type3MarkerCluster = new MarkerClusterer(map, listType3Markers);
+    type4MarkerCluster = new MarkerClusterer(map, listType4Markers);
+    type5MarkerCluster = new MarkerClusterer(map, listType5Markers);
 
     userMarkerCluster.setMaxZoom(9);
     showUsers();
@@ -125,19 +115,17 @@ function initialize() {
         title: 'Second Marker'
     });
     var marker7 = new google.maps.Marker({
-        position: { lat: 15.8800584, lng: 108.3380469 },
+        // position: { lat: 15.8800584, lng: 108.3380469 },
+        position: { lat: 16.0544068, lng: 108.20216670000002 },
         map: map,
         title: 'Second Marker'
     });
-    // there is better way of doing things, Below is done to show you in detail whats going on
     markers.push(marker5);
     markers.push(marker6);
     markers.push(marker7);
-    // now we have 2 markers with different title and same position
 
-    // lets now create our markerClusterer instance with markers array
-    //var markerCluster = new MarkerClusterer(map, markers,{zoomOnClick:false,maxZoom:15});
-    //var oms = new OverlappingMarkerSpiderfier(map);
+    var oms = new OverlappingMarkerSpiderfier(map);
+
     oms.addMarker(marker5);
     oms.addMarker(marker6);
     oms.addMarker(marker7);
@@ -146,7 +134,6 @@ function initialize() {
 
     userInfoWindow = new google.maps.InfoWindow({
         content: "",
-        //content: '@Html.Partial("CustomInfoWindow")',
         maxWidth: 350
     });
     //google.maps.event.addListener(markerCluster, "clusterover", function (mCluster) {
@@ -162,7 +149,7 @@ function initialize() {
     // the creation of the infowindow HTML structure 'domready'
     // and before the opening of the infowindow, defined styles are applied.
     // *
-   
+
     // Create the search box and link it to the UI element.
     var input = document.getElementById("pac-input2");
     var searchBox = new google.maps.places.SearchBox(input);
@@ -170,7 +157,7 @@ function initialize() {
 
     // Bias the SearchBox results towards current map's viewport.
     map.addListener('bounds_changed', function () {
-        // searchBox.setBounds(map.getBounds());
+        //searchBox.setBounds(map.getBounds());
         // map.setZoom(14);
     });
 
@@ -202,23 +189,23 @@ function initialize() {
         }
 
         // Clear out the old markers.
-        marker2.forEach(function (marker) {
-            marker.setMap(null);
-        });
-        marker2 = [];
+        //marker2.forEach(function (marker) {
+        //    marker.setMap(null);
+        //});
+        //marker2 = [];
 
         // For each place, get the icon, name and location.
         var bounds = new google.maps.LatLngBounds();
         places.forEach(function (place) {
-            var icon = {
-                url: place.icon,
-                size: new google.maps.Size(71, 71),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(17, 34),
-                scaledSize: new google.maps.Size(25, 25)
-            };
+            //var icon = {
+            //    url: place.icon,
+            //    size: new google.maps.Size(71, 71),
+            //    origin: new google.maps.Point(0, 0),
+            //    anchor: new google.maps.Point(17, 34),
+            //    scaledSize: new google.maps.Size(25, 25)
+            //};
 
-            //// Create a marker for each place.
+            // Create a marker for each place.
             //marker2.push(new google.maps.Marker({
             //    map: map,
             //    icon: icon,
@@ -233,22 +220,15 @@ function initialize() {
                 bounds.extend(place.geometry.location);
             }
         });
+        //map.setZoom(12);
         map.fitBounds(bounds);
     });
 
-    // A new Info Window is created and set content
-     infowindow = new google.maps.InfoWindow({
-        //content: content,
-        //content: '@Html.Partial("CustomInfoWindow")',
-        // Assign a maximum value for the width of the infowindow allows
-        // greater control over the various content elements
-        maxWidth: 350
-    });
 
     // Event that closes the Info Window with a click on the map
-     google.maps.event.addListener(map, 'click', function () {
-         infowindow.close();
-     });
+    google.maps.event.addListener(map, 'click', function () {
+        infowindow.close();
+    });
 
     // *
     // START INFOWINDOW CUSTOMIZE.
@@ -256,60 +236,68 @@ function initialize() {
     // the creation of the infowindow HTML structure 'domready'
     // and before the opening of the infowindow, defined styles are applied.
     // *
-     google.maps.event.addListener(infowindow, 'domready', function () {
+    // A new Info Window is created and set content
+    infowindow = new google.maps.InfoWindow({
+        //content: content,
+        //content: '@Html.Partial("CustomInfoWindow")',
+        // Assign a maximum value for the width of the infowindow allows
+        // greater control over the various content elements
+        maxWidth: 350
+    });
 
-         // Reference to the DIV that wraps the bottom of infowindow--
-         var iwOuter = $('.gm-style-iw');
+    google.maps.event.addListener(infowindow, 'domready', function () {
 
-         /* Since this div is in a position prior to .gm-div style-iw.
-          * We use jQuery and create a iwBackground variable,
-          * and took advantage of the existing reference .gm-style-iw for the previous div with .prev().
-         */
-         iwOuter.children(':nth-child(1)').css({'max-width': '350px'});
-         var iwBackground = iwOuter.prev();
+        // Reference to the DIV that wraps the bottom of infowindow--
+        var iwOuter = $('.gm-style-iw');
 
-         //iwBackground.parent().css({ height: '218px' });
-         iwBackground.parent().css({ width: '350px' });
-         //iwBackground.parent().css({ bottom: '218px' });
+        /* Since this div is in a position prior to .gm-div style-iw.
+         * We use jQuery and create a iwBackground variable,
+         * and took advantage of the existing reference .gm-style-iw for the previous div with .prev().
+        */
+        iwOuter.children(':nth-child(1)').css({ 'max-width': '350px' });
+        var iwBackground = iwOuter.prev();
 
-         // Removes background shadow DIV
-         iwBackground.children(':nth-child(2)').css({ 'display': 'none' });
+        //iwBackground.parent().css({ height: '218px' });
+        iwBackground.parent().css({ width: '350px' });
+        //iwBackground.parent().css({ bottom: '218px' });
 
-         // Removes white background DIV
-         //iwBackground.children(':nth-child(4)').css({ width: '350px !important' });
-         //iwBackground.children(':nth-child(4)').css({ height: '218px !important' });
-         iwBackground.children(':nth-child(4)').css({ 'display': 'none' });
+        // Removes background shadow DIV
+        iwBackground.children(':nth-child(2)').css({ 'display': 'none' });
 
-         // Moves the infowindow 115px to the right.
-         iwOuter.parent().parent().css({ left: '115px' });
+        // Removes white background DIV
+        //iwBackground.children(':nth-child(4)').css({ width: '350px !important' });
+        //iwBackground.children(':nth-child(4)').css({ height: '218px !important' });
+        iwBackground.children(':nth-child(4)').css({ 'display': 'none' });
 
-         // Moves the shadow of the arrow 76px to the left margin.
-         iwBackground.children(':nth-child(1)').attr('style', function (i, s) { return s + 'left: 76px !important;' });
+        // Moves the infowindow 115px to the right.
+        iwOuter.parent().parent().css({ left: '115px' });
 
-         // Moves the arrow 76px to the left margin.
-         iwBackground.children(':nth-child(3)').attr('style', function (i, s) { return s + 'left: 76px !important;' });
+        // Moves the shadow of the arrow 76px to the left margin.
+        iwBackground.children(':nth-child(1)').attr('style', function (i, s) { return s + 'left: 76px !important;' });
 
-         // Changes the desired tail shadow color.
-         iwBackground.children(':nth-child(3)').find('div').children().css({ 'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index': '1' });
+        // Moves the arrow 76px to the left margin.
+        iwBackground.children(':nth-child(3)').attr('style', function (i, s) { return s + 'left: 76px !important;' });
 
-         // Reference to the div that groups the close button elements.
-         var iwCloseBtn = iwOuter.next();
+        // Changes the desired tail shadow color.
+        iwBackground.children(':nth-child(3)').find('div').children().css({ 'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index': '1' });
 
-         // Apply the desired effect to the close button
-         iwCloseBtn.css({ opacity: '1', right: '38px', top: '3px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9' });
+        // Reference to the div that groups the close button elements.
+        var iwCloseBtn = iwOuter.next();
 
-         // If the content of infowindow not exceed the set maximum height, then the gradient is removed.
-         if ($('.iw-content').height() < 140) {
-             $('.iw-bottom-gradient').css({ display: 'none' });
-         }
+        // Apply the desired effect to the close button
+        iwCloseBtn.css({ opacity: '1', right: '38px', top: '3px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9' });
 
-         // The API automatically applies 0.7 opacity to the button after the mouseout event. This function reverses this event to the desired value.
-         iwCloseBtn.mouseout(function () {
-             $(this).css({ opacity: '1' });
-         });
-         iwCloseBtn.css({ 'display': 'none' });
-     });
+        // If the content of infowindow not exceed the set maximum height, then the gradient is removed.
+        if ($('.iw-content').height() < 140) {
+            $('.iw-bottom-gradient').css({ display: 'none' });
+        }
 
+        // The API automatically applies 0.7 opacity to the button after the mouseout event. This function reverses this event to the desired value.
+        iwCloseBtn.mouseout(function () {
+            $(this).css({ opacity: '1' });
+        });
+        iwCloseBtn.css({ 'display': 'none' });
+    });
     //    // Automatically center the map fitting all markers on the screen
     //    map.fitBounds(bounds);
     //}
@@ -326,7 +314,7 @@ function initialize() {
     //    infowindow.open(map, marker);
     //});
 
-   
+
 }
 
 function loadScript() {
@@ -336,22 +324,14 @@ function loadScript() {
 
 }
 
-//window.onload = initialize;
-google.maps.event.addDomListener(window, 'load', initialize);
-
-
 function showCurrentLocation() {
     //alert(aa);
     // alert(array[0].x);
     var p1 = { lat: 36.23081510000001, lng: 137.9643552 };
 
     var p2 = { lat: 36.238666, lng: 137.96902209999996 };
-  
-    //document.getElementById('cal').innerHTML = getDistance(p1,p2);
-   
-   // myCurrentLocationMarker.setMap(null);
-    // Declare a myLocation marker using icon declared above, and bind it to the map
 
+    //document.getElementById('cal').innerHTML = getDistance(p1,p2);
 
     //Identify current user's location and bind it to the map
     //Using HTML5 geolocation.
@@ -363,17 +343,16 @@ function showCurrentLocation() {
             };
 
             myCurrentLocationMarker.setPosition(pos);
-           // addMarker(pos);
-            map.setZoom(14);
+            // addMarker(pos);
+            map.setZoom(6);
             map.setCenter(pos);
 
         }, function () {
-            alert("aa");
-            handleLocationError(true, myCurrentLocationMarker, map.getCenter());
+            handleLocationError(true, "Không thể định vị được vị trí của bạn. Bạn cần cho phép trình duyệt sử dụng định vị GPS.", map.getCenter());
         });
     } else {
         // Browser doesn't support Geolocation
-        handleLocationError(false, myCurrentLocationMarker, map.getCenter());
+        handleLocationError(false, "Trình duyệt của bạn không hỗ trợ định vị GPS. Vui lòng nâng cấp phiên bản mới nhất của trình duyệt và thử lại sau.", map.getCenter());
     }
 
 }
@@ -385,6 +364,10 @@ function setMapToAMarkerCluster(markerCluster) {
     LGBTMarkerCluster.setMap(null);
     type0MarkerCluster.setMap(null);
     type1MarkerCluster.setMap(null);
+    type2MarkerCluster.setMap(null);
+    type3MarkerCluster.setMap(null);
+    type4MarkerCluster.setMap(null);
+    type5MarkerCluster.setMap(null);
 
     markerCluster.setMap(map);
 }
@@ -401,7 +384,7 @@ function showFemales() {
     setMapToAMarkerCluster(femaleMarkerCluster);
 }
 
-function showGLBT() {
+function showLGBT() {
     setMapToAMarkerCluster(LGBTMarkerCluster);
 }
 
@@ -413,8 +396,31 @@ function showJobOffer() {
     setMapToAMarkerCluster(type1MarkerCluster);
 }
 
+function showFurnitureOffer() {
+    setMapToAMarkerCluster(type2MarkerCluster);
+}
+
+function showHandGoodsOffer() {
+    setMapToAMarkerCluster(type3MarkerCluster);
+}
+
+function showTradeOffer() {
+    setMapToAMarkerCluster(type4MarkerCluster);
+}
+
+function showSOS() {
+    setMapToAMarkerCluster(type5MarkerCluster);
+}
+
 function createListUserMarkers() {
     var length = allUsers.length;
+    var icon = {
+        url: "../Content/Icon/Users.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+    };
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(allUsers[i].x, allUsers[i].y);
         bounds.extend(position);
@@ -422,15 +428,17 @@ function createListUserMarkers() {
             position: position,
             map: null,
             title: allUsers[i].userID,
-            icon: image
+
+            icon: icon
         });
         listUserMarkers.push(marker);
+        overlappingUsers.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 getUserInfo(allUsers[i].userID);
-             
-                infowindow.open(map, marker);
+               // infowindow.open(map, marker);
             }
         })(marker, i));
 
@@ -448,6 +456,13 @@ function createListUserMarkers() {
 }
 
 function createListMaleMarkers() {
+    var icon = {
+        url: "../Content/Icon/male.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+    };
     var length = males.length;
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(males[i].x, males[i].y);
@@ -455,22 +470,31 @@ function createListMaleMarkers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-           // title: array[i].address,
-            icon: image
+            // title: array[i].address,
+            icon: icon
         });
         listMaleMarkers.push(marker);
+        overlappingMale.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 // infowindow.setContent(infoWindowContent[i][0]);
-               // AjaxDisplayString(userInfoWindow, marker)
-                 infowindow.open(map, marker);
+                // AjaxDisplayString(userInfoWindow, marker)
+                getUserInfo(allUsers[i].userID);
+                //infowindow.open(map, marker);
             }
         })(marker, i));
     }
 }
 
 function createListFemaleMarkers() {
+    var icon = {
+        url: "../Content/Icon/female.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+    };
     var length = females.length;
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(females[i].x, females[i].y);
@@ -478,21 +502,30 @@ function createListFemaleMarkers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-          //  title: array[i].address,
-            icon: image
+            //  title: array[i].address,
+            icon: icon
         });
         listFemaleMarkers.push(marker);
+        overlappingFemale.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 // AjaxDisplayString(userInfoWindow, marker)
-                infowindow.open(map, marker);
+                getUserInfo(allUsers[i].userID);
+                //infowindow.open(map, marker);
             }
         })(marker, i));
     }
 }
 
 function createListLGBTMarkers() {
+    var icon = {
+        url: "../Content/Icon/LGBT.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+    };
     var length = LGBT.length;
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(LGBT[i].x, LGBT[i].y);
@@ -500,10 +533,11 @@ function createListLGBTMarkers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-         //   title: array[i].address,
-            icon: image
+            //   title: array[i].address,
+            icon: icon
         });
         listLGBTMarkers.push(marker);
+        overlappingLGBT.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -517,23 +551,33 @@ function createListLGBTMarkers() {
 
 function createListType0Markers() {
     var length = postType0.length;
+    var icon = {
+        url: "../Content/Icon/home.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+    };
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(postType0[i].x, postType0[i].y);
         bounds.extend(position);
         marker = new google.maps.Marker({
             position: position,
             map: null,
-           // title: postType0[i].address,
-            icon: image
+            // title: postType0[i].address,
+            icon: icon
         });
         listType0Markers.push(marker);
+        overlappingType0.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 // infowindow.setContent(infoWindowContent[i][0]);
                 // AjaxDisplayString(userInfoWindow, marker)
-                //createPostInfoWindowContent(postType0[i].username, postType0[i].postType, "Ở chung nhà", postType0[i].address);
-                infowindow.open(map, marker);
+                //getPostInfo(postType0[i].postID, 0);
+                getPostInfo2(postType0[i].postID);
+                //callInfo(postType0[i].postID);
+                //infowindow.open(map, marker);
             }
         })(marker, i));
 
@@ -542,6 +586,13 @@ function createListType0Markers() {
 }
 
 function createListType1Markers() {
+    var icon = {
+        url: "../Content/Icon/job.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+    };
     var length = postType1.length;
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(postType1[i].x, postType1[i].y);
@@ -550,15 +601,16 @@ function createListType1Markers() {
             position: position,
             map: null,
             //title: postType1[i].address,
-            icon: image
+            icon: icon
         });
         listType1Markers.push(marker);
+        overlappingType1.addMarker(marker);
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 // infowindow.setContent(infoWindowContent[i][0]);
                 //AjaxDisplayString(userInfoWindow, marker)
-             //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
+                //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
                 infowindow.open(map, marker);
             }
         })(marker, i));
@@ -568,12 +620,146 @@ function createListType1Markers() {
 
 }
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    alert("bb");
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-                          'Error: The Geolocation service failed.' :
-                          'Error: Your browser doesn\'t support geolocation.');
+function createListType2Markers() {
+    var icon = {
+        url: "../Content/Icon/free.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+    };
+    var length = postType2.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(postType2[i].x, postType2[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            //title: postType1[i].address,
+            icon: icon
+        });
+        listType2Markers.push(marker);
+        overlappingType2.addMarker(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                // infowindow.setContent(infoWindowContent[i][0]);
+                //AjaxDisplayString(userInfoWindow, marker)
+                //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
+                infowindow.open(map, marker);
+            }
+        })(marker, i));
+
+    }
+    //  alert(listType1Markers[0].getTitle());
+
+}
+
+function createListType3Markers() {
+    var icon = {
+        url: "../Content/Icon/ship.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+    };
+    var length = postType3.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(postType3[i].x, postType3[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            //title: postType1[i].address,
+            icon: icon
+        });
+        listType3Markers.push(marker);
+        overlappingType3.addMarker(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                // infowindow.setContent(infoWindowContent[i][0]);
+                //AjaxDisplayString(userInfoWindow, marker)
+                //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
+                infowindow.open(map, marker);
+            }
+        })(marker, i));
+
+    }
+    //  alert(listType1Markers[0].getTitle());
+
+}
+
+function createListType4Markers() {
+    var icon = {
+        url: "../Content/Icon/sale.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+    };
+    var length = postType4.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(postType4[i].x, postType4[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            //title: postType1[i].address,
+            icon: icon
+        });
+        listType4Markers.push(marker);
+        overlappingType4.addMarker(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                // infowindow.setContent(infoWindowContent[i][0]);
+                //AjaxDisplayString(userInfoWindow, marker)
+                //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
+                infowindow.open(map, marker);
+            }
+        })(marker, i));
+
+    }
+    //  alert(listType1Markers[0].getTitle());
+
+}
+
+function createListType5Markers() {
+    var icon = {
+        url: "../Content/Icon/help.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+    };
+    var length = postType5.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(postType5[i].x, postType5[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            //title: postType1[i].address,
+            icon: icon
+        });
+        listType5Markers.push(marker);
+        overlappingType5.addMarker(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
+                //    map2 = marker.getMap();
+                infowindow.open(map, marker);
+            }
+        })(marker, i));
+
+    }
+}
+
+function handleLocationError(browserHasGeolocation, message, pos) {
+    //infoWindow.setPosition(pos);
+    alert(message);
 }
 
 var rad = function (x) {
@@ -625,61 +811,7 @@ function deleteMarkers(listMarkers) {
     listMarkers = [];
 }
 
-// the smooth zoom function
-function smoothZoom(map, max, cnt) {
-    if (cnt >= max) {
-        return;
-    }
-    else {
-        z = google.maps.event.addListener(map, 'zoom_changed', function (event) {
-            google.maps.event.removeListener(z);
-            smoothZoom(map, max, cnt + 1);
-        });
-        setTimeout(function () { map.setZoom(cnt) }, 80); // 80ms is what I found to work well on my system -- it might not work well on all systems
-    }
-}
 
-function AjaxDisplayString(infowindow, marker) {
-    var addressData;
-    var testData;
-    $.ajax({
-        type: "GET",
-        url: '/Map/CustomInfoWindow?useid=asd',
-        dataType: "HTML",
-        contentType: 'application/json',
-        traditional: true,
-        data: addressData,
-        success: function (result) {
-            debugger;
-            //infowindow.setContent("<div>" + result + "</div>");
-            infowindow.open(map, marker);
-        },
-        error: function (arg) {
-            alert("Error");
-        }
-    });
-}
-
-function AjaxDisplayString(infowindow, marker) {
-    var addressData;
-    var testData;
-    $.ajax({
-        type: "GET",
-        url: '/Map/CustomInfoWindow?useid=asd',
-        dataType: "HTML",
-        contentType: 'application/json',
-        traditional: true,
-        data: addressData,
-        success: function (result) {
-            debugger;
-            infowindow.setContent("<div>" + result + "</div>");
-            infowindow.open(map, marker);
-        },
-        error: function (arg) {
-            alert("Error");
-        }
-    });
-}
 
 function createUserInfoWindowContent(name, age, gender, address) {
 
@@ -687,16 +819,16 @@ function createUserInfoWindowContent(name, age, gender, address) {
 
     if (gender == 0) {
         genderOfInfoWindow = "Nữ";
-    }else if(gender==1){
+    } else if (gender == 1) {
         genderOfInfoWindow = "Nam";
-    }else if(gender==2){
+    } else if (gender == 2) {
         genderOfInfoWindow = "LGBT";
     }
 
     // InfoWindow content
     var content = '<div style="overflow:hidden;">' +
         '<div id="iw-container">' +
-                      '<div class="iw-title">'+name+'</div>' +
+                      '<div class="iw-title">' + name + '</div>' +
                       '<div class="iw-content">' +
                         '<div id="navInfo">' +
                             '<img src="../Content/Images/dat.jpg" alt="Trần Trọng Tiến Đạt" height="115" width="115">' +
@@ -705,7 +837,7 @@ function createUserInfoWindowContent(name, age, gender, address) {
                             '<table style="width:220px;height:115px;">' +
                             '<tr>' +
                             '<td><b>Tuổi:</b></td>' +
-                            '<td>'+age+'</td> ' +
+                            '<td>' + age + '</td> ' +
                             '</tr>' +
                             '<tr>' +
                             '<td><b>Facebook:</b></td>' +
@@ -713,11 +845,11 @@ function createUserInfoWindowContent(name, age, gender, address) {
                             '</tr>' +
                             '<tr>' +
                             '<td><b>Giới tính:</b></td>' +
-                            '<td>'+genderOfInfoWindow+'</td>' +
+                            '<td>' + genderOfInfoWindow + '</td>' +
                             '</tr>' +
                             '<tr>' +
                             '<td><b>Địa chỉ:</b></td>' +
-                            '<td>'+address+'</td>' +
+                            '<td>' + address + '</td>' +
                             '</tr>' +
                             '</table>' +
                             '</div>' +
@@ -739,6 +871,30 @@ function createPostInfoWindowContent(username, postType, postTitle, address) {
     } else if (postType == 2) {
         postTypeInfoWindow = "Cho đồ";
     }
+    var content2 = '<div class="ui modal">' +
+        '<div class="header">' +
+            'Profile Picture'
+    '</div>' +
+        '<div class="image content">' +
+            '<div class="ui medium image">' +
+                '<img src="">' +
+            '</div>' +
+            '<div class="description">' +
+                '<div class="ui header">Weve auto-chosen a profile image for you.</div>' +
+                '<p>Weve grabbed the following image from the <a href="https://www.gravatar.com" target="_blank">gravatar</a> image associated with your registered e-mail address.</p>' +
+                '<p>Is it okay to use this photo?</p>' +
+            '</div>' +
+        '</div>' +
+        '<div class="actions">' +
+            '<div class="ui black deny button">' +
+                'Nope'
+    '</div>' +
+            '<div class="ui positive right labeled icon button">' +
+                'Yep, thats me'
+    ' <i class="checkmark icon"></i>' +
+            '</div>' +
+        '</div>' +
+    '</div>';
 
     // InfoWindow content
     var content = '<div style="overflow:hidden;">' +
@@ -756,7 +912,7 @@ function createPostInfoWindowContent(username, postType, postTitle, address) {
                             '</tr>' +
                             '<tr>' +
                             '<td><b>Mục:</b></td>' +
-                            '<td>'+postTypeInfoWindow+'</td>' +
+                            '<td>' + postTypeInfoWindow + '</td>' +
                             '</tr>' +
                             '<tr>' +
                             '<td><b>Nội dung:</b></td>' +
@@ -779,22 +935,94 @@ function getUserInfo(userId) {
     $.ajax({
         url: 'GetUserInfo?userId=' + userId,
         type: 'GET',
-        contentType: 'application/json;',
-        dataType:'json',
-        success: function (json) {
-            createUserInfoWindowContent(json.UserName,23,json.Gender,json.Location.Address);
+       // dataType: 'json',
+        success: function (result) {
+         //   createUserInfoWindowContent(json.UserName, 23, json.Gender, json.Location.Address);
+            if (result != '') {
+
+                $("#userModal").empty();
+
+                $("#userModal").html(result);
+                //$("#zzz").find("script").each(function (i) {
+                //    eval($(this).text());
+                //    //alert(a);
+                //});
+                $("#userModal").modal('show');
+
+                // alert(result);
+            }
+
+            // alert(result);
+        },
+        error: function (xhr, status, error) {
+            alert(xhr.responseText);
         }
     });
 }
 
-function getPostInfo(postID) {
+function getPostInfo(postID, postType) {
     $.ajax({
-        url: 'GetUserInfo?postId=' + postID,
+        url: 'GetPostInfo?postId=' + postID,
         type: 'GET',
         contentType: 'application/json;',
         dataType: 'json',
         success: function (json) {
-            createUserInfoWindowContent(json.UserName, 23, json.Gender, json.Location.Address);
+            createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
         }
     });
 }
+
+function getPostInfo2(postID) {
+    $.ajax({
+        url: '/Map/UserAndPostInfo?postId=' + postID,
+        type: 'GET',
+        dataType: 'text',
+        success: function (result) {
+            // createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
+            // alert(1);
+            if (result != '') {
+
+                $("#zzz").empty();
+
+                $("#zzz").html(result);
+                //$("#zzz").find("script").each(function (i) {
+                //    eval($(this).text());
+                //    //alert(a);
+                //});
+                  $("#zzz").modal('show');
+
+                // alert(result);
+            }
+
+            // alert(result);
+        },
+        error: function(xhr, status, error) {
+            alert(xhr.responseText);
+        }
+    });
+
+}
+
+function callInfo(postID) {
+    $.ajax({
+        url: 'GetPostInfo?postId=' + postID,
+        type: 'GET',
+        context: document.body,
+        success: function (json) {
+            // createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
+            $('.ui.modal')
+            .modal('show')
+            ;
+
+
+            //document.getElementById("abc").innerText = json.UserName;
+        },
+        error: function (arg) {
+            alert("Error");
+        }
+    });
+
+}
+
+//window.onload = initialize;
+google.maps.event.addDomListener(window, 'load', initialize);
