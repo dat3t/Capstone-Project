@@ -1,5 +1,6 @@
 ﻿@model OneVietnam.Models.ExternalLoginListViewModel
 @using Microsoft.Owin.Security
+<script src="~/Scripts/getAddressRegister.js" language="javascript" type="text/javascript"></script>
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
     if (loginProviders.Count() == 0)
@@ -12,19 +13,35 @@
         </div>
     }
     else {
-        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl }))
+
+        using (Html.BeginForm("ExternalLogin", "Account", new
+        {
+            ReturnUrl = Model.ReturnUrl,
+            locationExternal = Model.LocationExternal,
+            xCoordinateExternal = Model.XCoordinateExternal,
+            yCoordinateExternal = Model.YCoordinateExternal
+        }, FormMethod.Post, new { id = "ExternalForm",@class="ui form" }))
         {
             @Html.AntiForgeryToken()
-            <div>
-                @foreach (AuthenticationDescription p in loginProviders)
-                {
-                    //<button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
-                    <button class="ui @p.AuthenticationType.ToLower() button " type="submit" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Đăng Nhập Bằng @p.Caption account">
-                        <i class="@p.AuthenticationType.ToLower() icon"></i>
-                         Đăng Nhập Bằng @p.AuthenticationType
-                    </button>
-                }
+            @Html.ValidationSummary()
+            @Html.TextBoxFor(m => m.XCoordinateExternal, new { style = "display: none;", id = "XCoordinateExternal" })
+            @Html.TextBoxFor(m => m.YCoordinateExternal, new { style = "display: none;", id = "YCoordinateExternal" })
+            <div class="field">
+                <div class="ui left icon corner labeled disabled input">
+                    <i class="location arrow icon"></i>
+                    @Html.TextBoxFor(m => m.LocationExternal, new { id = "LocationExternal", @placeholder = "Địa chỉ hiện tại của bạn",@readonly=true })
+                    <div class="ui corner label">
+                        <i class="asterisk icon"></i>
+                    </div>
+                </div>
             </div>
+            foreach (AuthenticationDescription p in loginProviders)
+            {                
+                <button class="ui @p.AuthenticationType.ToLower() button " type="submit" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Đăng Nhập Bằng @p.Caption account">
+                    <i class="@p.AuthenticationType.ToLower() icon"></i>
+                    Đăng Nhập Bằng @p.AuthenticationType
+                </button>
+            }
         }
     }
 }

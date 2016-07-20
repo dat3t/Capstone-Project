@@ -20,19 +20,20 @@ namespace OneVietnam
             bundles.Add(new ScriptBundle("~/bundles/semantic").Include(
                       "~/semantic/dist/semantic.js"));
             bundles.Add(new ScriptBundle("~/bundles/Scripts").Include(
+                "~/Scripts/flickity.pkgd.min.js",
+
                 "~/Scripts/global.js",
+                "~/Scripts/infiniteScroll.js",
                 "~/Scripts/dropzone.js",
                 "~/Scripts/masonry.pkgd.min.js",
                 "~/Scripts/packery.pkgd.min.js",
-                "~/Scripts/isotope.pkgd.min.js",
-                "~/Scripts/map.js",
-                "~/Scripts/searchboxCreatePost.js",
-                "~/Scripts/respond.js"));
+                "~/Scripts/isotope.pkgd.min.js"));
             bundles.Add(new StyleBundle("~/semantic/css").Include(
                       "~/semantic/dist/semantic.css"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/StyleSheet.css",
                 "~/Content/dropzone.css",
+                "~/Content/flickity.css",
                   "~/Content/Map/map.css",
                 "~/Content/Map/infoWindow.css",
                 "~/Content/Map/searchbox.css",

@@ -28,52 +28,14 @@ namespace OneVietnam.DAL
         public async Task<List<ApplicationUser>> FindUsersByRoleAsync(IdentityRole role)
         {
             return await _users.Find(u => u.Roles.Contains(role.Name)).ToListAsync();
-        }
+        }                
 
-        //public Task AddPostAsync(ApplicationUser pUser, Post pPost)
-        //{
-        //    pUser.AddPost(pPost);
-        //    return Task.FromResult(0);
-        //}
-
-
-
-        //public Task UpdatePostAsync(ApplicationUser pUser, Post pPost)
-        //{
-        //    pUser.UpdatePost(pPost);
-        //    return Task.FromResult(0);
-        //}
-
-        //public Task DeletePostAsync(ApplicationUser pUser, Post pPost)
-        //{
-        //    pUser.DeletePost(pPost);
-        //    return Task.FromResult(0);
-        //}
-
-        //public List<Post> GetPostsAsync(ApplicationUser user)
-        //{
-        //    return user.Posts;
-        //}
-
-        //public Task<List<ApplicationUser>> FindUserByPostIdAsync(string pPostId)
-        //{
-        //    return _users.Find(u => u.Posts.Any(t => t.Id == pPostId)).ToListAsync();
-        //}
-
-
-        //DEMO
-        //public Task AddLocationAsync(ApplicationUser user, Location location)
-        //{
-        //    user.AddLocation(location);
-        //    return Task.FromResult(0);
-        //}        
-
-        public async Task<List<ApplicationUser>> TextSearchByUserName(string query)
+        public async Task<List<ApplicationUser>> TextSearchUsers(string query)
         {
-            //var filter = new BsonDocument {{"UserName", new BsonDocument {{"$regex", query}, {"$options", "i"}}}};                        
-            var filter = Query.Text(query).ToBsonDocument();
-            var result = await _users.Find(filter).ToListAsync();
-            return result;
+            //var filter = new BsonDocument {{"UserName", new BsonDocument {{"$regex", query}, {"$options", "i"}}}, { "Email", new BsonDocument { { "$regex", query }, { "$options", "i" } } } };            
+            var builder = Builders<ApplicationUser>.Filter;
+            var filter = builder.Regex("UserName", new BsonRegularExpression(query, "i")) | builder.Regex("Email", new BsonRegularExpression(query, "i"));            
+            return await _users.Find(filter).ToListAsync();            
         }
 
     }
