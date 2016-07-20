@@ -118,7 +118,7 @@ $(document).ready(function () {
        
      
 //        //like button
-        $(e.currentTarget).parent().find('.socials').html(
+      $this.find('.socials').html(
             "<div class='fb-comments' style='width: 100%' data-href='" +
                            window.location.href +
                             "' data-numposts='3' ></div>");
