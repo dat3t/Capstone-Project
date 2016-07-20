@@ -207,13 +207,15 @@ body {
 /* 5 columns, percentage width */
 .grid-item,
 .grid-sizer {
-  width: 22%;
+  width: 48%;
 }
 
 .grid-item {
+     
     margin-bottom :22px;
   float: left;
 }
+
 
 .gutter-sizer { width: 4%; }
 

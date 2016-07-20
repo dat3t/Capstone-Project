@@ -65,97 +65,99 @@
         
         <div class="grids">
             <div class="stamp stamp1  hides">
-                
 
-                    @using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new { enctype = "multipart/form-data",@class="ui form" }))
-                    {
 
-                        <div class="ui segment">
-                            @Html.AntiForgeryToken()
-                            <div class="field">
-                                <div class="ui input  focus">
-                                    <input id="Title" name="Title" type="text" placeholder="Title...">
-                                    <span class="field-validation-valid text-danger" data-valmsg-for="Title" data-valmsg-replace="true"></span>
-                                </div>
+                @using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new {enctype = "multipart/form-data", @class = "ui form"}))
+                {
 
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
+                    <div class="ui segment">
+                        @Html.AntiForgeryToken()
+                        <div class="field">
+                            <div class="ui input  focus">
+                                <input id="Title" name="Title" type="text" placeholder="Title...">
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Title" data-valmsg-replace="true"></span>
                             </div>
 
-                            <div class="two fields">
+                            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
 
-                                <div class="field">
+                        </div>
 
-                                    <div class="ui  selection dropdown">
-                                        <input type="hidden" id="PostType" name="PostType">
-                                        <i class="dropdown icon"></i>
-                                        <div class="default text">Chọn loại bài đăng</div>
-                                        <div class="menu">
-                                            @{
-                                                if (postTypes != null)
+                        <div class="two fields">
+
+                            <div class="field">
+
+                                <div class="ui  selection dropdown">
+                                    <input type="hidden" id="PostType" name="PostType">
+                                    <i class="dropdown icon"></i>
+                                    <div class="default text">Chọn loại bài đăng</div>
+                                    <div class="menu">
+                                        @{
+                                            if (postTypes != null)
+                                            {
+                                                foreach (Icon icon in postTypes)
                                                 {
-                                                    foreach (Icon icon in postTypes)
-                                                    {
-                                                        <div class="item" data-value="@icon.IconId">
-                                                            <img class="ui mini avatar image" src="@icon.IconImage">
-                                                            @icon.IconText
-                                                        </div>
-                                                    }
+                                                    <div class="item" data-value="@icon.IconId">
+                                                        <img class="ui mini avatar image" src="@icon.IconImage">
+                                                        @icon.IconText
+                                                    </div>
                                                 }
                                             }
+                                        }
 
-                                        </div>
                                     </div>
-
-
                                 </div>
 
 
-                                    <div class="field">
+                            </div>
 
-                                        <div class="ui fluid multiple search selection dropdown">
-                                            <input name="tags" id="tags" type="hidden" value="">
-                                            <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Tag liên quan</div>
-                                            <div class="menu transition hidden" tabindex="-1">
 
-                                                @{
-                                                    if (tagList != null)
-                                                    {
-                                                        foreach (Tag tag in tagList)
-                                                        {
-                                                            <div class="item" data-value="@tag.TagValue">@tag.TagText</div>
-                                                        }
-                                                    }
+                            <div class="field">
+
+                                <div class="ui fluid multiple search selection dropdown">
+                                    <input name="tags" id="tags" type="hidden" value="">
+                                    <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Tag liên quan</div>
+                                    <div class="menu transition hidden" tabindex="-1">
+
+                                        @{
+                                            if (tagList != null)
+                                            {
+                                                foreach (Tag tag in tagList)
+                                                {
+                                                    <div class="item" data-value="@tag.TagValue">@tag.TagText</div>
                                                 }
-
-                                            </div>
-                                        </div>
+                                            }
+                                        }
 
                                     </div>
-                                
-
-
-
-
-                            </div>
-                            <div class="field">
-                                <label>Mô tả </label>
-                                <textarea rows="4" tabindex="4" id="Description" name="Description" value=""></textarea>
+                                </div>
 
                             </div>
 
-                            <div class="field">
-                                <input id="search-location" type="text" placeholder="Tìm kiếm địa điểm...">
-                            </div>
 
-                            <div class="field">
-                                <input id="btnCreate" type="submit" tabindex="6" value="Post" class="ui primary button" />
 
-                            </div>
+
+
                         </div>
-                                                    }
-             
+                        <div class="field">
+                            <label>Mô tả </label>
+                            <textarea rows="4" tabindex="4" id="Description" name="Description" value=""></textarea>
+
+                        </div>
+
+                        <div class="field">
+                            <input id="search-location" type="text" placeholder="Tìm kiếm địa điểm...">
+                        </div>
+
+                        <div class="field">
+                            <input id="btnCreate" type="submit" tabindex="6" value="Post" class="ui primary button"/>
+
+                        </div>
+                    </div>
+                }
+
             </div>
+            <div class="grid-sizer"></div>
+            <div class="gutter-sizer"></div>
           @Html.Partial("_PostRow", (ViewBag.Posts as List<PostViewModel>))
             <div class="container infinite-scroll" id="gohere"></div>
 
@@ -209,6 +211,7 @@
     </div>
 
 @section scripts{
+    <script src="~/Scripts/infiniteScroll.js"></script>
     <script type="text/javascript">
         $(function () {
             $("div#loading").hide();
