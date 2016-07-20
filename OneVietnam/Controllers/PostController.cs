@@ -224,29 +224,31 @@ namespace OneVietnam.Controllers
             return View(pViewList);
         }
 
-        public void _ShowPostDetail(string postId)
-        {            
-            ViewData.Clear();
-            var post = PostManager.FindById(postId);
-            if (post.Result != null)
+        [HttpGet]
+        public async Task<ActionResult> _ShowPostDetail(string postId)
+        {
+            if (!string.IsNullOrEmpty(postId))
             {
-                ViewBag.PostDetail = post.Result;
-
-                if (TagList != null)
+                Post post = await PostManager.FindById(postId);
+                if (post != null)
                 {
-                    ViewData["TagList"] = TagList;
+                    if (TagList != null)
+                    {
+                        ViewData["TagList"] = TagList;
+                    }
+                    if (IconList != null)
+                    {
+                        ViewData["PostTypes"] = IconList;
+                    }
+                    ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
+                    if (postUser != null)
+                    {
+                        PostViewModel showPost = new PostViewModel(post, postUser.UserName);
+                        return PartialView("../Post/_ShowPostDetail", showPost);
+                    }
                 }
-                if (IconList != null)
-                {
-                    ViewData["PostTypes"] = IconList;
-                }
-
-                var postUser =  UserManager.FindByIdAsync(post.Result.UserId);
-                if (postUser.Result != null)
-                {
-                    ViewBag.PostUser = postUser.Result;
-                }
-            }                        
+            }
+            return View();
         }
 
         //ThamDTH Create
@@ -270,6 +272,7 @@ namespace OneVietnam.Controllers
                     {
                         PostViewModel showPost = new PostViewModel(post, postUser.UserName);
                         return View(showPost);
+                        
                     }                    
                 }
             }                                    

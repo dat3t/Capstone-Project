@@ -166,7 +166,7 @@
             
             @{
                 string url = "http://localhost:51801/Post/ShowPostDetail?postId=" + Model.Id;
-                string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";
+                string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";               
             }
 
             <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
@@ -256,12 +256,7 @@
 
         @*Comment Area*@
         <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
-            <script>
-                    //Comment
-                    document.write("<div class='fb-comments' style='width: 100%' data-href='" +
-                        window.location.href +
-                        "' data-numposts='3' ></div>");
-            </script>
+            <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts=""></div>
         </div>
 
         @*Related Tags*@
