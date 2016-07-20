@@ -1,14 +1,6 @@
 ﻿
 $(document).ready(function () {
-    (function (d, s, id) {
-        var fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        var js = d.createElement(s);
-
-        js.id = id;
-        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
+   
     $('.icon')
 .popup()
     ;
@@ -118,11 +110,7 @@ $(document).ready(function () {
        
      
 //        //like button
-      $this.find('.socials').html(
-            "<div class='fb-comments' style='width: 100%' data-href='" +
-                           window.location.href +
-                            "' data-numposts='3' ></div>");
-        FB.XFBML.parse($this.attr('id'));
+      
       
 //        $(this).parent().parent().toggleClass('gigante');
         // trigger layout after item size changes

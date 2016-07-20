@@ -61,32 +61,32 @@
                 <p>@Model.Description</p>
                 <p>Hahaha</p>
             </div>
-            <div class="marker social">
-                <span class="right floated">
+            <div >
 
                     <script>
-//                            (function (d, s, id) {
-//                                var js, fjs = d.getElementsByTagName(s)[0];
-//                                if (d.getElementById(id)) return;
-//                                js = d.createElement(s);
-//                                js.id = id;
-//                                js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
-//                                fjs.parentNode.insertBefore(js, fjs);
-//                            }(document, 'script', 'facebook-jssdk'));
-//
-//                            //like button
-//                            document.write("<div class='fb-like' data-href='" +
-//                                window.location.href +
-//                                "' data-layout='button_count' data-action='like' data-size='small' data-show-faces='false' data-share='false'></div>");
+                        (function(d, s, id) {
+                            var js, fjs = d.getElementsByTagName(s)[0];
+                            if (d.getElementById(id)) return;
+                            js = d.createElement(s);
+                            js.id = id;
+                            alert("hahaha");
+                            js.src =
+                                "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
+                            fjs.parentNode.insertBefore(js, fjs);
+                        }(document, 'script', 'facebook-jssdk'));
                     </script>
-                </span>
+                    @{
+                        string url = "http://localhost:51801/Post/ShowPostDetail?postId=" + Model.Id;
+                        string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";
+                    }
+
+                    <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+                    <div class="fb-share-button" data-href="@url" data-layout="button_count" data-size="small" data-mobile-iframe="true">
+                        <a class="fb-xfbml-parse-ignore" target="_blank" href="@iframeUrl">Chia sẻ</a>
+                    </div>
+                    
                
-                <script>
-//                        //Comment
-//                        document.write("<div class='fb-comments' style='width: 100%' data-href='" +
-//                            window.location.href +
-//                            "' data-numposts='3' ></div>");
-                </script>
+    
             </div>
         </div>
 
