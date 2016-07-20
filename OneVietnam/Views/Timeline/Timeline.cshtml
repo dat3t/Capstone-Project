@@ -22,11 +22,11 @@
         @{
             if (Model.PostList != null && Model.PostList.Count > 0)
             {
-        <div style="margin: auto; width: 40%">
+        <div class="grids">
             @{
                         foreach (var postView in Model.PostList)
                         {
-            @Html.Partial("../Post/_ShowPostDetail", postView)
+            @Html.Partial("../Shared/_ShowPostDetail", postView)
                         }
             }
 
