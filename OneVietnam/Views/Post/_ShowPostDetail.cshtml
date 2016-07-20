@@ -1,20 +1,19 @@
-﻿@using Microsoft.AspNet.Identity
+﻿
+@using Microsoft.AspNet.Identity
 @using OneVietnam.DTL
+@using OneVietnam.Models
 @model OneVietnam.Models.PostViewModel
 
 @{
     ViewBag.Title = "ShowPostDetail";
-    List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
-    ApplicationUser postUser = ViewData["PostUser"] as ApplicationUser;
+    List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;    
 
 }
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <link rel="stylesheet" href="~/Content/image-slider.css">
-<style>
-</style>
 
-<div style="margin: auto; width: 40%">
-    <input type="hidden" name="PostId" id="PostId" value="@Model.Id" />
+@if (Model != null && (Model.DeletedFlag == false) && (Model.LockedFlag == false))
+{
     <div class="ui segments" style="width: 100%; border: 0 !important;">
         @*Title area*@
         <div class="ui segment" style="width: 100%; border: 0 !important;">
@@ -25,15 +24,13 @@
 
         @*User post*@
         <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
-            <span class="right floated">
+            <span style="float: right">
                 Tạo ngày @($"{Model.PublishDate:dd/MM/yyyy}")
             </span>
-            <a href="http://google.com">
-                <img class="ui middle aligned avatar image" src="/Content/Images/dat.JPG">
-                @if (postUser != null)
-                {
-                    <span>@postUser.UserName </span>
-                }
+            <a href="@Url.Action("TimeLine", "Timeline", new { userId = Model.UserId})">
+                <img class="ui middle aligned avatar image"
+                     src="/Content/Images/dat.JPG">
+                <span>@Model.UserName </span>
             </a>
 
         </div>
@@ -42,7 +39,7 @@
         @{
             if (Model.Illustrations != null && Model.Illustrations.Count > 0)
             {
-                <div class="ui segment" style="width: 100%; border: 0 !important; padding: 0">
+                <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0; padding-left: 0; padding-right: 0">
                     <table style="height: 100%; width: 100%">
                         <tr>
                             <td style="width: 8%; text-align: left !important;">
@@ -59,9 +56,10 @@
                                         @foreach (var ill in Model.Illustrations)
                                         {
                                             <div class="side fade">
-                                                <div class="ui card" style="width: auto !important; max-height: 100%">
+                                                <div class="ui card" style="width:auto !important; max-height: 100%">
                                                     <div class="image">
-                                                        <img src="@ill.PhotoLink" style="max-height: 60vh !important; max-width: 100% !important; width: auto !important" />
+                                                        <img src="@ill.PhotoLink"
+                                                             style="max-height: 60vh !important; max-width: 100% !important; width: auto !important" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -69,9 +67,12 @@
                                         <div style="text-align: center">
                                             @if (Model.Illustrations.Count > 1)
                                             {
-                                                for (int index = 1; index < Model.Illustrations.Count + 1; index++)
+                                                for (int index = 1; index <
+
+                        Model.Illustrations.Count + 1; index++)
                                                 {
-                                                    <span class="dot" onclick="currentSlide(@index)"></span>
+                                                    <span class="dot"
+                                                          onclick="currentSlide(@index)"></span>
                                                 }
                                             }
 
@@ -116,7 +117,7 @@
                                     slides[i].style.display = "none";
                                 }
                                 for (i = 0; i < dots.length; i++) {
-                                    dots[i].className = dots[i].className.replace(" active", "");
+                                    dots[i].className = dots[i].className.replace("active", "");
                                 }
                                 slides[slideIndex - 1].style.display = "block";
                                 dots[slideIndex - 1].className += " active";
@@ -130,7 +131,7 @@
         <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
             <div id="fb-root"></div>
             @if (Model.Status)
-            {
+                {
                 <div class="ui right floated green sub header">
                     <i class="heartbeat icon"></i>
                     <div class="content">
@@ -141,10 +142,13 @@
             }
             else
             {
-                <div class="ui right floated red header"></div>
+                <div class="ui right floated red sub header">
+                    <i class="heartbeat icon"></i>
                     <div class="content">
                         Đã đóng
                     </div>
+                </div>
+
             }
 
             <script>
@@ -153,37 +157,76 @@
                         if (d.getElementById(id)) return;
                         js = d.createElement(s);
                         js.id = id;
-                        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
-                        fjs.parentNode.insertBefore(js, fjs);
-                    }(document, 'script', 'facebook-jssdk'));
+                        js.src =
 
-                    //like button
-                    document.write("<div class='fb-like' data-href='" +
-                        window.location.href +
-                        "' data-layout='button_count' data-action='like' data-size='small' data-show-faces='false' data-share='false'></div>");
+    "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));                   
             </script>
-            <script>
-                    //share button
-                    document.write("<div class='fb-share-button' data-href='" +
-                        window.location.href +
-                        "' data-layout='button_count' data-size='small' data-mobile-iframe='true'>" +
-                        "<a class='fb-xfbml-parse-ignore' target='_blank' href='" +
-                        window.location.href +
-                        "'>Chia sẻ</a>" +
-                        "</div>");
-            </script>
+            
+            @{
+                string url = "http://localhost:51801/Post/ShowPostDetail?postId=" + Model.Id;
+                string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";
+            }
+
+            <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+            <div class="fb-share-button" data-href="@url" data-layout="button_count" data-size="small" data-mobile-iframe="true">
+                <a class="fb-xfbml-parse-ignore" target="_blank" href="@iframeUrl">Chia sẻ</a>
+            </div>
         </div>
 
         @*Address and Post Type*@
         <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
-            @if (postUser != null && (User.Identity.IsAuthenticated && (User.Identity.GetUserId() == postUser.Id)))
-            {
-                <i class="icon remove circle link" data-content="Xóa" style="float: right" onclick="document.location.href = '@Url.Action("DeletePost", "Post", new {postId = Model.Id})';"></i>
-                    <i class="icon edit link" data-content="Sửa" style="float: right" onclick="document.location.href = '@Url.Action("EditPost", "Post", new {postId = Model.Id})';"></i>
+            @if ((User.Identity.IsAuthenticated && (User.Identity.GetUserId() == Model.UserId)))
+                {
+                <i class="icon remove circle link" id="deletePost" data-
+                   content="Xóa" style="float: right"></i>
+                    <i class="icon edit link" data-content="Sửa" style="float: right"
+                       onclick="document.location.href = '@Url.Action("EditPost", "Post", new {postId =Model.Id})';"></i>
+
+                //Delete Popup Modal
+                <script>
+                        $("#deletePost")
+                            .click(function () {
+                                $('.ui.small.delete.modal').modal('show');
+                            });
+                </script>
+
+                    <div class="ui small delete modal">
+                        <div class="header">
+                            Xóa bài đăng
+                        </div>
+                        <div class="content">
+                            <p>Bạn có chắc chắn xóa bài đăng này?</p>
+                        </div>
+                        <div class="actions">
+                            <div class="ui cancel button">
+                                Hủy
+                            </div>
+                            <div class="ui green button" onclick="document.location.href= '@Url.Action("DeletePost", "Post", new {postId = Model.Id})';">
+                                Xóa
+                            </div>
+                        </div>
+                    </div>
             }
             else
             {
-                <i class="icon announcement link" data-content="Báo cáo" style="float: right"></i>
+                <i class="icon announcement link" id="reportPost" data-content="Báocáo" style="float: right"></i>
+                //Report Popup Modal
+
+                @Html.Partial("../Post/_Report", new ReportViewModal(Model.Id, Model.UserId))
+
+                <script type="text/javascript">
+                        $("#reportPost")
+                            .click(function () {
+                                $('.small.modal').modal({
+                                    allowMultiple: false
+                                });
+                                $('.second.modal').modal('attach events', '.report.modal .green.button')
+                                ;
+                                $('.report.modal').modal('show');
+                            });
+                </script>
             }
             <i class="icon home"></i>
             <a class="item" href="">@Model.PostLocation.Address</a>
@@ -222,13 +265,14 @@
         </div>
 
         @*Related Tags*@
-        @{if (Model.Tags != null)
+        @{
+            if (Model.Tags != null)
             {
-                <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
+                <div class="ui segment" style="width: 100%; border: 0 !important;padding-top: 0">
                     <i class="tags icon" style="float: left"></i>Thẻ liên quan:
                     @foreach (var tag in Model.Tags)
                     {
-                        <a href="" style="text-decoration: underline;">@tag.TagText</a>
+                        <a href="" style="text-decoration:underline;">@tag.TagText</a>
                     }
                 </div>
 
@@ -236,5 +280,15 @@
         }
 
     </div>
-</div>
+            }
+            else
+
+            {
+                <div class="ui segment">
+                    <div class="ui centered header">
+                        <i class="warning circle icon"></i>
+                        Trang bạn tìm kiếm đã bị xóa hoặc không tồn tại
+                    </div>
+                </div>
+            }
 

@@ -1,0 +1,50 @@
+﻿
+@using OneVietnam.BLL
+@model OneVietnam.Models.UserProfileViewModel
+
+<div class="ui segment">
+    <div class="ui selection list">
+
+        <div class="ui item">
+            Giới tính            
+            <div class="ui selection dropdown">
+                <input type="hidden" name="Gender" id="Gender" value="@Model.Gender">
+                <i class="dropdown icon"></i>
+                <div class="default text">Giới tính</div>
+                <div class="menu">
+                    <div class="item" data-value="0">Nữ</div>
+                    <div class="item" data-value="1">Nam</div>
+                    <div class="item" data-value="2">Khác</div>
+                </div>
+            </div>
+            <script>
+                $('.ui.dropdown').dropdown({});
+            </script>
+        </div>
+        <div class="ui item">
+            Địa chỉ
+            @Html.EditorFor(model => model.Address.Address)
+        </div>
+        <div class="ui item">
+            Email
+            @Html.EditorFor(model => model.Email)
+        </div>
+        <div class="ui item">
+            Số điện thoại
+            @Html.EditorFor(model => model.PhoneNumber)
+        </div>
+
+        <div class="ui item">
+
+            <input type="button" value="Lưu" id="btnSave" onclick="submitEditProfile()" />
+            <input type="button" value="Hủy" id="btnCancel" onclick="showProfileForm('@Model.Id')" />
+        </div>
+
+        <div class="ui item" style="display: none">
+            @Html.EditorFor(model => model.Id)
+        </div>
+
+    </div>
+</div>
+
+

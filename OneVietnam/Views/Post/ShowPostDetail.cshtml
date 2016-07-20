@@ -28,7 +28,7 @@
                 <span style="float: right">
                     Tạo ngày @($"{Model.PublishDate:dd/MM/yyyy}")
                 </span>
-                <a href="http://google.com">
+                <a href="@Url.Action("TimeLine", "Timeline", new { userId = postUser.Id})">
                     <img class="ui middle aligned avatar image"
                          src="/Content/Images/dat.JPG">                  
                         <span>@postUser.UserName </span>                    

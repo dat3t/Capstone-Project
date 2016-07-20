@@ -56,6 +56,7 @@ namespace OneVietnam.Models
     {
         public string Id { get; set; }     
         public string UserId { get; set; }
+        public string UserName { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTimeOffset? PublishDate { get; set; }
@@ -85,6 +86,23 @@ namespace OneVietnam.Models
             DeletedFlag = post.DeletedFlag;
             Status = post.Status;
             LockedFlag = post.LockedFlag;           
+            PostLocation = post.PostLocation;
+            Tags = post.Tags;
+            Reports = post.Reports;
+            Illustrations = post.Illustrations;
+        }
+        public PostViewModel(Post post, string pUserName)
+        {
+            Id = post.Id;
+            UserId = post.UserId;
+            UserName = pUserName;
+            Title = post.Title;
+            Description = post.Description;
+            PublishDate = post.PublishDate;
+            PostType = post.PostType;
+            DeletedFlag = post.DeletedFlag;
+            Status = post.Status;
+            LockedFlag = post.LockedFlag;
             PostLocation = post.PostLocation;
             Tags = post.Tags;
             Reports = post.Reports;

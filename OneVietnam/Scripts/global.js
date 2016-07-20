@@ -42,6 +42,28 @@
       });
 
     $('.icon.link').popup({});
+
+
+    $('.tabular.menu .item').tab({        
+    });
     
-    
+    $("#TabProfile")
+                .click(function () {
+                    var param = {
+                        userId: "@Model.Id"
+                    };
+                    $.ajax({
+                        type: 'GET',
+                        url: 'ShowProfile',
+                        data: param,
+                        success: function (partialResult) {
+                            $("#ShowProfile").html(partialResult);
+                            $("#EditProfile").html("");
+                        }
+                    });
+
+                });
+
+
+
 });

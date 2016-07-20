@@ -249,10 +249,9 @@ namespace OneVietnam.Controllers
                     ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
                     if (postUser != null)
                     {
-                        ViewData["PostUser"] = postUser;
-                    }
-                    PostViewModel showPost = new PostViewModel(post);
-                    return View(showPost);
+                        PostViewModel showPost = new PostViewModel(post, postUser.UserName);
+                        return View(showPost);
+                    }                    
                 }
             }                                    
             return View();
