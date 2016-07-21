@@ -4,7 +4,7 @@ var bounds;
 var userInfoWindow;
 var infowindow;
 var infowindowContent;
-
+var isFirstTime = true;
 var myCurrentLocationMarker;
 var markerCluster;
 
@@ -29,10 +29,25 @@ function checkAuthenticated() {
         scaledSize: new google.maps.Size(25, 25)
     };
 
+    var myhomeicon = {
+        url: "../Content/Icon/myhome.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+    };
+
+
+
     // Declare a myLocation marker using icon declared above, and bind it to the map
     myCurrentLocationMarker = new google.maps.Marker({
         title: "Vị trí hiện tại của tôi",
         icon: icon
+    });
+
+    var myHomeMarker = new google.maps.Marker({
+        title: "Vị trí của tôi",
+        icon: myhomeicon
     });
 
     if (isAuthenticated) {
@@ -43,14 +58,17 @@ function checkAuthenticated() {
             minZoom: 4,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
-        myCurrentLocationMarker.setMap(map);
+        //myCurrentLocationMarker.setMap(map);
+        myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
+        myHomeMarker.setMap(map);
+
     }
     else {
         //Declare a new map
         map = new google.maps.Map(document.getElementById('map_canvas'), {
             center: { lat: -34.397, lng: 150.644 },
             zoom: 13,
-            minZoom: 4,
+            minZoom: 2,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
@@ -67,6 +85,23 @@ function initialize() {
     //Declare a bound
     bounds = new google.maps.LatLngBounds();
 
+
+
+    //alert(bounds);
+
+    google.maps.event.addListener(map, 'bounds_changed', function () {
+
+        bounds = map.getBounds();
+       // var centerOfCurrentBound = bounds.getCenter();
+        //alert(bounds);
+        //alert(bounds.getCenter());
+        //alert(bounds.getCenter().lat());
+        //alert(bounds.getCenter().lng());
+    });
+
+    google.maps.event.addListener(map, 'idle', function () {
+        bounds = map.getBounds();
+    });
     overlappingUsers = new OverlappingMarkerSpiderfier(map);
     overlappingMale = new OverlappingMarkerSpiderfier(map);
     overlappingLGBT = new OverlappingMarkerSpiderfier(map);
@@ -357,6 +392,10 @@ function showCurrentLocation() {
 
 }
 
+function showMyLocation() {
+    map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
+    map.setZoom(14);
+}
 function setMapToAMarkerCluster(markerCluster) {
     userMarkerCluster.setMap(null);
     maleMarkerCluster.setMap(null);
@@ -374,42 +413,89 @@ function setMapToAMarkerCluster(markerCluster) {
 
 function showUsers() {
     setMapToAMarkerCluster(userMarkerCluster);
+    if (isFirstTime == false) {
+        bounds.extend(calculateNearestMarker(allUsers));
+        map.fitBounds(bounds);
+    }
+    isFirstTime = false;
 }
 
 function showMales() {
     setMapToAMarkerCluster(maleMarkerCluster);
+    bounds.extend(calculateNearestMarker(males));
+    map.fitBounds(bounds);
 }
 
 function showFemales() {
     setMapToAMarkerCluster(femaleMarkerCluster);
+    bounds.extend(calculateNearestMarker(females));
+    map.fitBounds(bounds);
 }
 
 function showLGBT() {
     setMapToAMarkerCluster(LGBTMarkerCluster);
+    bounds.extend(calculateNearestMarker(LGBT));
+    map.fitBounds(bounds);
 }
 
 function showAccommodation() {
     setMapToAMarkerCluster(type0MarkerCluster);
+   
+    bounds.extend(calculateNearestMarker(postType0));
+    map.fitBounds(bounds);
+    
 }
 
+function calculateNearestMarker(listLocation) {
+
+    //bounds = map.getBounds();
+    var centerOfCurrentBound = bounds.getCenter();
+
+    var position = new google.maps.LatLng(listLocation[0].x, listLocation[0].y);
+   
+    var min = getDistance(centerOfCurrentBound, position);
+    var length = listLocation.length;
+    for (var i = 1; i < length; i++) {
+        var position2 = new google.maps.LatLng(listLocation[i].x, listLocation[i].y);
+        var distance2 = getDistance(centerOfCurrentBound, position)
+        if (min > distance2) {
+            min = distance2;
+            position = position2;
+        }
+    }
+
+    return position;
+
+  
+}
 function showJobOffer() {
     setMapToAMarkerCluster(type1MarkerCluster);
+    bounds.extend(calculateNearestMarker(postType1));
+    map.fitBounds(bounds);
 }
 
 function showFurnitureOffer() {
     setMapToAMarkerCluster(type2MarkerCluster);
+    bounds.extend(calculateNearestMarker(postType2));
+    map.fitBounds(bounds);
 }
 
 function showHandGoodsOffer() {
     setMapToAMarkerCluster(type3MarkerCluster);
+    bounds.extend(calculateNearestMarker(postType03));
+    map.fitBounds(bounds);
 }
 
 function showTradeOffer() {
     setMapToAMarkerCluster(type4MarkerCluster);
+    bounds.extend(calculateNearestMarker(postType4));
+    map.fitBounds(bounds);
 }
 
 function showSOS() {
     setMapToAMarkerCluster(type5MarkerCluster);
+    bounds.extend(calculateNearestMarker(postType5));
+    map.fitBounds(bounds);
 }
 
 function createListUserMarkers() {
@@ -428,7 +514,6 @@ function createListUserMarkers() {
             position: position,
             map: null,
             title: allUsers[i].userID,
-
             icon: icon
         });
         listUserMarkers.push(marker);
@@ -438,7 +523,7 @@ function createListUserMarkers() {
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 getUserInfo(allUsers[i].userID);
-               // infowindow.open(map, marker);
+                // infowindow.open(map, marker);
             }
         })(marker, i));
 
@@ -768,10 +853,10 @@ var rad = function (x) {
 
 var getDistance = function (p1, p2) {
     var R = 6378137; // Earth’s mean radius in meter
-    var dLat = rad(p2.lat - p1.lat);
-    var dLong = rad(p2.lng - p1.lng);
+    var dLat = rad(p2.lat() - p1.lat());
+    var dLong = rad(p2.lng() - p1.lng());
     var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(rad(p1.lat)) * Math.cos(rad(p2.lat)) *
+      Math.cos(rad(p1.lat())) * Math.cos(rad(p2.lat())) *
       Math.sin(dLong / 2) * Math.sin(dLong / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c;
@@ -935,9 +1020,9 @@ function getUserInfo(userId) {
     $.ajax({
         url: 'GetUserInfo?userId=' + userId,
         type: 'GET',
-       // dataType: 'json',
+        // dataType: 'json',
         success: function (result) {
-         //   createUserInfoWindowContent(json.UserName, 23, json.Gender, json.Location.Address);
+            //   createUserInfoWindowContent(json.UserName, 23, json.Gender, json.Location.Address);
             if (result != '') {
 
                 $("#userModal").empty();
@@ -981,25 +1066,25 @@ function getPostInfo2(postID) {
             // createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
             // alert(1);
             if (result != '') {
+                $("#userModal").empty();
 
-                $("#zzz").empty();
-
-                $("#zzz").html(result);
+                $("#userModal").html(result);
                 //$("#zzz").find("script").each(function (i) {
                 //    eval($(this).text());
                 //    //alert(a);
                 //});
-                  $("#zzz").modal('show');
-
-                // alert(result);
+                //alert(result);
             }
 
             // alert(result);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             alert(xhr.responseText);
         }
     });
+
+    $("#userModal").modal('show');
+
 
 }
 

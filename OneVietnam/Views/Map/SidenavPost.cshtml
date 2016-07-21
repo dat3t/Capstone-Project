@@ -38,7 +38,7 @@
                     </div>
                     <div style="margin-left:1px;text-align:left;font-size:20px;">
                         <a class="item">
-                            <i class="small icon calendar" style="width:100%;text-align:left"> @post.PublishDate</i>
+                            <i class="small icon calendar" style="width:100%;text-align:left"> @($"{post.PublishDate:dd/MM/yyyy}")</i>
                         </a>
                     </div>
                   
@@ -51,7 +51,8 @@
         </div>
 
     }
-    <button class="ui blue button" style="width:380px !important;position:absolute; bottom:0;" onclick="location.href='@Url.Action("Timeline", "Post")'">Hiện tất cả bài đăng</button>
+    <button class="ui blue button" style="width:380px !important;position:absolute; bottom:0;" onclick="location.href='@Url.Action("Timeline", "Post")'">Xem tất cả bài đăng</button>
+   
 </div>
 <div id="aa" onclick="toggle()" class="ui blue big centered launch right attached fixed button" style="position: absolute; left: 0px; margin-left:380px;top:40%;transition: margin-left .5s;width:60px;">
     <div style="position:relative;">
