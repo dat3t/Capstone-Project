@@ -74,14 +74,8 @@ namespace OneVietnam.Controllers
             }
             private set { _iconManager = value; }
         }           
-        public List<Tag> TagList
-        {
-            get
-            {
-                var tags = TagManager.GetTagsAsync();
-                return tags?.Result;
-            }                    
-        }        
+        public List<Tag> TagList => TagManager.FindAllAsync().Result;
+
         public List<Icon> IconList
         {
             get
@@ -123,7 +117,7 @@ namespace OneVietnam.Controllers
         public async Task<ActionResult> CreatePost(CreatePostViewModel p)
         {
             ViewData.Clear();                  
-            var tagList = AddAndGetAddedTags(Request, TagManager, "TagsInput");
+            var tagList = await AddAndGetAddedTags(Request, TagManager, "TagsInput");
             var illList = GetAddedImage(Request, "Img", "Des");
             if (tagList != null)
             {
@@ -323,7 +317,7 @@ namespace OneVietnam.Controllers
                 strPostId = Request.Form["PostId"];
             }
             ViewData.Clear();
-            var tagList = AddAndGetAddedTags(Request, TagManager, "TagsInput");
+            var tagList = await AddAndGetAddedTags(Request, TagManager, "TagsInput");
             var illList = GetAddedImage(Request, "Img", "Des");
             if (tagList != null)
             {
@@ -362,7 +356,7 @@ namespace OneVietnam.Controllers
             }
         }
 
-        public List<Tag> AddAndGetAddedTags(HttpRequestBase pRequestBase, TagManager pTagManager, string pFormId)
+        public async Task<List<Tag>> AddAndGetAddedTags(HttpRequestBase pRequestBase, TagManager pTagManager, string pFormId)
         {
             if (pRequestBase.Form.Count > 0)
             {
@@ -370,7 +364,7 @@ namespace OneVietnam.Controllers
                 if (!string.IsNullOrEmpty(addedTagValueList))
                 {
                     List<Tag> newList = new List<Tag>();
-                    var tagsInDb = pTagManager.GetTagsValueAsync();                    
+                    var tagsInDb = await pTagManager.GetTagsValueAsync();                    
                     int numberTags = 0;
                     if (tagsInDb != null)
                     {
@@ -382,13 +376,13 @@ namespace OneVietnam.Controllers
                         if (tagsInDb == null | (tagsInDb != null && !tagsInDb.Contains(tag)))
                         {
                             Tag newTag = new Tag(string.Concat("Tag_", numberTags.ToString()), tag);
-                            pTagManager.CreateAsync(newTag);
+                            await pTagManager.CreatAsync(newTag);
                             numberTags = numberTags + 1;
                             newList.Add(newTag);
                         }
                         else
                         {
-                            var existTag = pTagManager.FindTagByValueAsync(tag);
+                            var existTag = await pTagManager.FindTagByValueAsync(tag);
                             newList.Add(existTag[0]);
                         }
                     }
