@@ -58,7 +58,7 @@ function checkAuthenticated() {
             minZoom: 4,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
-        //myCurrentLocationMarker.setMap(map);
+        myCurrentLocationMarker.setMap(map);
         myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
         myHomeMarker.setMap(map);
 
@@ -379,7 +379,7 @@ function showCurrentLocation() {
 
             myCurrentLocationMarker.setPosition(pos);
             // addMarker(pos);
-            map.setZoom(6);
+            map.setZoom(12);
             map.setCenter(pos);
 
         }, function () {
@@ -452,12 +452,11 @@ function calculateNearestMarker(listLocation) {
     var centerOfCurrentBound = bounds.getCenter();
 
     var position = new google.maps.LatLng(listLocation[0].x, listLocation[0].y);
-   
     var min = getDistance(centerOfCurrentBound, position);
     var length = listLocation.length;
     for (var i = 1; i < length; i++) {
         var position2 = new google.maps.LatLng(listLocation[i].x, listLocation[i].y);
-        var distance2 = getDistance(centerOfCurrentBound, position)
+        var distance2 = getDistance(centerOfCurrentBound, position2)
         if (min > distance2) {
             min = distance2;
             position = position2;
