@@ -1,7 +1,6 @@
 ﻿
 $(document).ready(function () {
-    $('.icon')
-.popup()
+    $('.icon').popup()
     ;
 
     if ($(".searchType").val() === "SearchPosts") {
@@ -11,18 +10,18 @@ $(document).ready(function () {
         $(".ui.user").css("display", "inline-flex");
         $(".ui.post").css("display", "none");
     }
-//    $(".searchType").dropdown({
-//        onChange: function (value, text, $selectedItem) {            
-//            if (value === "SearchPosts") {                
-//                $(".ui.user").css("display", "none");
-//                $(".ui.post").css("display", "inline-flex");
-//
-//            } else {                
-//                $(".ui.user").css("display", "inline-flex");
-//                $(".ui.post").css("display", "none");
-//            }
-//        }
-//    });
+    $(".searchType").dropdown({
+        onChange: function (value, text, $selectedItem) {            
+            if (value === "SearchPosts") {                
+                $(".ui.user").css("display", "none");
+                $(".ui.post").css("display", "inline-flex");
+
+            } else {                
+                $(".ui.user").css("display", "inline-flex");
+                $(".ui.post").css("display", "none");
+            }
+        }
+    });
     $("div#myId").dropzone({ url: "/file/post" });
     $(".right.menu.open").on("click", function (e) {
         e.preventDefault();
@@ -74,10 +73,10 @@ $(document).ready(function () {
     $('.clearing.star.rating').rating('setting', 'clearable', true);
 
 
-    $('.ui.dropdown')
-      .dropdown({
-          allowAdditions: true
-      })
+    //$('.ui.dropdown')
+    //  .dropdown({
+    //      allowAdditions: true
+    //  })
     ;
     $('.delete.icon.image-add').on('click', function () {
         $(this).parent().remove();;

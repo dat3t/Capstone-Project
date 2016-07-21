@@ -36,7 +36,6 @@ namespace OneVietnam.DAL
             var builder = Builders<ApplicationUser>.Filter;
             var filter = builder.Regex("UserName", new BsonRegularExpression(query, "i")) | builder.Regex("Email", new BsonRegularExpression(query, "i"));            
             return await _users.Find(filter).ToListAsync();            
-        }
-
+        }                
     }
 }

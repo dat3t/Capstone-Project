@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace OneVietnam.Common
+namespace OneVietnam
 {
     public static class Constants
     {
         public const int ResultMaximumNumber = 7;
         public const int DescriptionMaxLength = 200;
         public const int TitleMaxLength = 100;
-
+        public const string IconTypeGender = "gender";
+        public const string IconTypeSos = "sos";
+        public const string IconTypePost = "postType";        
     }
 }
