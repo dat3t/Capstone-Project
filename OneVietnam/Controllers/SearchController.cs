@@ -17,13 +17,15 @@ namespace OneVietnam.Controllers
         // GET: Search
         public async Task<ActionResult> Index(string query)
         {
-            var result = await PostManager.FullTextSearch(query);
-            List<PostViewModel> postViewModels = new List<PostViewModel>();
-            foreach (var post in result)
-            {
-                postViewModels.Add(new PostViewModel(post));
-            }
-            return View(postViewModels);
+            var baseFilter = new BaseFilter();
+            var result = await PostManager.FullTextSearch(query, baseFilter);
+            //List<PostViewModel> postViewModels = new List<PostViewModel>();
+            //foreach (var post in result)
+            //{
+            //    postViewModels.Add(new PostViewModel(post));
+            //}
+            //return View(postViewModels);
+            return View();
         }
         private ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager

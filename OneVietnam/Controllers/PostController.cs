@@ -140,7 +140,7 @@ namespace OneVietnam.Controllers
                 UserId = User.Identity.GetUserId()
             };
 
-            await PostManager.CreatePostAsync(post);
+            await PostManager.CreatAsync(post);
             CreatedPost = true;
             PostView = new PostViewModel(post);
             return RedirectToAction("ShowPostDetail", "Post", new { postId = post.Id });
@@ -171,7 +171,7 @@ namespace OneVietnam.Controllers
             if (Request.IsAjaxRequest())
             {                
                 filter = new BaseFilter {CurrentPage = pageNum.Value};
-                posts = await PostManager.FindAllPostAsync(filter);
+                posts = await PostManager.FindAllAsync(filter);
                 if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
                 list = posts.Select(p => new PostViewModel(p)).ToList();                
                 //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
@@ -189,7 +189,7 @@ namespace OneVietnam.Controllers
             //    return View();
             //}
             filter = new BaseFilter { CurrentPage = pageNum.Value };
-            posts = await PostManager.FindAllPostAsync(filter);
+            posts = await PostManager.FindAllAsync(filter);
             if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
             list = posts.Select(p => new PostViewModel(p)).ToList();
             ViewBag.Posts = list;
@@ -212,12 +212,12 @@ namespace OneVietnam.Controllers
             //    .OrderBy(x => x.Key)
             //    .ToDictionary(x => x.Key, x => x.Value);
             var filter = new BaseFilter {CurrentPage = pageNum};
-            return await PostManager.FindAllPostAsync(filter);
+            return await PostManager.FindAllAsync(filter);
         }
         public async Task<ActionResult> ShowPost()
         {
             //List<Post> list = await PostManager.FindByUserId(User.Identity.GetUserId());
-            List<Post> list = await PostManager.FindAllPostsAsync();
+            List<Post> list = await PostManager.FindAllAsync(false);
             List<PostViewModel> pViewList = list.Select(post => new PostViewModel(post)).ToList();
             return View(pViewList);
         }
@@ -225,7 +225,7 @@ namespace OneVietnam.Controllers
         public void _ShowPostDetail(string postId)
         {
             ViewData.Clear();
-            var post = PostManager.FindById(postId);
+            var post = PostManager.FindByIdAsync(postId);
             if (post.Result != null)
             {
                 ViewBag.PostDetail = post.Result;
@@ -259,7 +259,7 @@ namespace OneVietnam.Controllers
                 ViewData["PostTypes"] = IconList;
             }
             
-            Post post = await PostManager.FindById(postId);            
+            Post post = await PostManager.FindByIdAsync(postId);            
             if (post != null)
             {
                 ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
@@ -291,10 +291,10 @@ namespace OneVietnam.Controllers
         [HttpPost]
         public async Task ReportPost(string userId, string postId, string description)
         {
-            Post post = await PostManager.FindById(postId);
+            Post post = await PostManager.FindByIdAsync(postId);
             Report report = new Report(userId, postId, description);
             post.AddReport(report);
-            await PostManager.UpdatePostAsync(post);
+            await PostManager.UpdateAsync(post);
             //TODO send notification to Mod
         }
 
@@ -308,7 +308,7 @@ namespace OneVietnam.Controllers
             {
                 ViewData["PostTypes"] = IconList;
             }
-            Post post = await PostManager.FindById(postId);
+            Post post = await PostManager.FindByIdAsync(postId);
             PostViewModel showPost = new PostViewModel(post);            
             return View(showPost);
         }
@@ -335,16 +335,16 @@ namespace OneVietnam.Controllers
                 pPostView.Illustrations = illList;
             }
             Post post = new Post(pPostView);           
-            await PostManager.UpdatePostAsync(post);
+            await PostManager.UpdateAsync(post);
             return RedirectToAction("ShowPostDetail", "Post", new { postId = strPostId });
         }
 
         public async Task<ActionResult> DeletePost(string postId)
         {
-            Post post = await PostManager.FindById(postId);
+            Post post = await PostManager.FindByIdAsync(postId);
             post.DeletedFlag = true;
             //await PostManager.DeleteByIdAsync(postId);            
-            await PostManager.UpdatePostAsync(post);
+            await PostManager.UpdateAsync(post);
             return RedirectToAction("CreatePost", "Post");
         }
 

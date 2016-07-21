@@ -53,7 +53,7 @@ namespace OneVietnam.Controllers
             {
                 X = user.Location.XCoordinate, Y = user.Location.YCoordinate, UserId = user.Id, Gender = user.Gender
             }).ToList();
-            var postlist = await PostManager.FindAllPostsAsync();
+            var postlist = await PostManager.FindAllAsync(false);
             list.AddRange(postlist.Select(p => new AddLocationViewModel
             {
                 UserId = p.UserId, X = p.PostLocation.XCoordinate, Y = p.PostLocation.YCoordinate, PostId = p.Id, PostType = p.PostType
@@ -76,7 +76,7 @@ namespace OneVietnam.Controllers
 
         public async Task<ActionResult> GetPostInfo(string postId)
         {
-            var post = await PostManager.FindById(postId);
+            var post = await PostManager.FindByIdAsync(postId);
             var user = await UserManager.FindByIdAsync(post.UserId);
             var result = new PostInfoWindowModel();
             result.UserId = user.Id;
@@ -90,7 +90,7 @@ namespace OneVietnam.Controllers
 
         public async Task<ActionResult> CustomInfoWindow(string postId)
         {
-            var post = await PostManager.FindById(postId);
+            var post = await PostManager.FindByIdAsync(postId);
             var user = await UserManager.FindByIdAsync(post.UserId);
             var result = new PostInfoWindowModel();
             result.UserId = user.Id;
@@ -113,7 +113,7 @@ namespace OneVietnam.Controllers
             //result.PublishDate = (DateTimeOffset)post.PublishDate;
             //result.Address = post.PostLocation.Address;
             //ViewBag.PostInfo = result;
-            var post = await PostManager.FindById(postId);
+            var post = await PostManager.FindByIdAsync(postId);
             var result = new PostViewModel(post);
             return PartialView("UserAndPostInfo",result); ;
         }
@@ -121,7 +121,8 @@ namespace OneVietnam.Controllers
 
         public async Task<List<PostInfoWindowModel>> GetTop5PostInfo()
         {
-            var top5PostList = await PostManager.FindTop5PostsAsync();
+            var baseFilter = new BaseFilter {Limit = 5};
+            var top5PostList = await PostManager.FindAllAsync(baseFilter);
             var result = new PostInfoWindowModel();
             List<PostInfoWindowModel> top5PostModel = new List<PostInfoWindowModel>();
             PostInfoWindowModel postModel;
