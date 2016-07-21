@@ -115,7 +115,8 @@ namespace OneVietnam.Controllers
             //ViewBag.PostInfo = result;
             var post = await PostManager.FindById(postId);
             var result = new PostViewModel(post);
-            return PartialView("UserAndPostInfo",result); ;
+            //return PartialView("_ShowPostDetail",result); ;
+            return PartialView("../Post/_ShowPostDetail", result);
         }
         
 

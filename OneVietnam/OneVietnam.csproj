@@ -332,6 +332,7 @@
     <Content Include="Content\Icon\LGBT.png" />
     <Content Include="Content\Icon\location.png" />
     <Content Include="Content\Icon\male.png" />
+    <Content Include="Content\Icon\myhome.png" />
     <Content Include="Content\Icon\sale.png" />
     <Content Include="Content\Icon\ship.png" />
     <Content Include="Content\Icon\Users.png" />
@@ -380,7 +381,6 @@
     <Content Include="fonts\helveticaneuecyr-roman.svg" />
     <Content Include="Content\Map\infoWindow.css" />
     <Content Include="Content\Map\map.css" />
-    <Content Include="Content\Map\searchbox.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\elliot.jpg" />
@@ -521,6 +521,7 @@
     <Content Include="Views\Map\SidenavPost.cshtml" />
     <Content Include="Views\Map\UserAndPostInfo.cshtml" />
     <Content Include="Views\Map\_UserModal.cshtml" />
+    <Content Include="Views\Post\_ShowPostDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
