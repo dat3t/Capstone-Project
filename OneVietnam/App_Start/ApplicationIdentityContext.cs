@@ -34,6 +34,19 @@ namespace OneVietnam
             Icons = icons;
             Reports = reports;
         }
+
+        public ApplicationIdentityContext()
+        {
+            var client = new MongoClient(Settings.Default.OneVietnamConnectionString);
+            var database = client.GetDatabase(Settings.Default.OneVietnamDatabaseName);                        
+            Users = database.GetCollection<ApplicationUser>("users");
+            Posts = database.GetCollection<Post>("posts");
+            Roles = database.GetCollection<IdentityRole>("roles");
+            Countries = database.GetCollection<Country>("countries");
+            Tags = database.GetCollection<DTL.Tag>("tags");
+            Icons = database.GetCollection<Icon>("icons");
+            Reports = database.GetCollection<Report>("reports");
+        }
         public static ApplicationIdentityContext Create()
         {
             // todo add settings where appropriate to switch server & database in your own application            

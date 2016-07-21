@@ -20,18 +20,18 @@ $(document).ready(function () {
         $(".ui.user").css("display", "inline-flex");
         $(".ui.post").css("display", "none");
     }
-//    $(".searchType").dropdown({
-//        onChange: function (value, text, $selectedItem) {            
-//            if (value === "SearchPosts") {                
-//                $(".ui.user").css("display", "none");
-//                $(".ui.post").css("display", "inline-flex");
-//
-//            } else {                
-//                $(".ui.user").css("display", "inline-flex");
-//                $(".ui.post").css("display", "none");
-//            }
-//        }
-//    });
+    $(".searchType").dropdown({
+        onChange: function (value, text, $selectedItem) {            
+            if (value === "SearchPosts") {                
+                $(".ui.user").css("display", "none");
+                $(".ui.post").css("display", "inline-flex");
+
+            } else {                
+                $(".ui.user").css("display", "inline-flex");
+                $(".ui.post").css("display", "none");
+            }
+        }
+    });
     $("div#myId").dropzone({ url: "/file/post" });
     $(".right.menu.open").on("click", function (e) {
         e.preventDefault();
@@ -83,10 +83,10 @@ $(document).ready(function () {
     $('.clearing.star.rating').rating('setting', 'clearable', true);
 
 
-    $('.ui.dropdown')
-      .dropdown({
-          allowAdditions: true
-      })
+    //$('.ui.dropdown')
+    //  .dropdown({
+    //      allowAdditions: true
+    //  })
     ;
     $('.delete.icon.image-add').on('click', function () {
         $(this).parent().remove();;
@@ -116,7 +116,7 @@ $(document).ready(function () {
         var $this = $(this).parent();
         $(this).parent().find('.marker').toggleClass("hides");
        
-     
+      
 //        //like button
         $(e.currentTarget).parent().find('.socials').html(
             "<div class='fb-comments' style='width: 100%' data-href='" +
@@ -162,7 +162,7 @@ $('#return-to-top').click(function () {      // When arrow is clicked
         scrollTop: 0                       // Scroll to top of body
     }, 300);
 });
-
+    
 $('.filter-group').on('click', 'a', function () {
     var filterValue = $(this).attr('data-filter');
     // use filterFn if matches value

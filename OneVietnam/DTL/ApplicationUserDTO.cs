@@ -20,8 +20,20 @@ namespace OneVietnam.DTL
             return userIdentity;
         }
 
-        public int Gender { get; set; }
+        public int Gender { get; set; }       
+        public Location Location { get; set; }
         [BsonIgnoreIfNull]
-        public Location Location { get; set; }                
+        public List<Connection> Connections { get; set; }
+        [BsonIgnoreIfNull]
+        public List<Message> Messages { get; set; }
+
+        public void AddMessage(Message message)
+        {
+            if (Messages==null)
+            {
+                Messages = new List<Message>();
+            }
+            Messages.Add(message);
+        }
     }
 }
