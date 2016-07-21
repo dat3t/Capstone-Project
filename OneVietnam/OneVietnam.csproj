@@ -337,7 +337,7 @@
     <Content Include="Content\CountryImage\us.png" />
     <Content Include="Content\CountryImage\vi.png" />
     <Content Include="Content\dropzone.css" />
-    <Content Include="Content\flickity.min.css" />
+    <Content Include="Content\flickity.css" />
     <Content Include="Content\icon.min.css" />
     <Content Include="Content\Icon\female.png" />
     <Content Include="Content\Icon\free.png" />
@@ -529,7 +529,6 @@
     <Content Include="Views\Map\ShowMap.cshtml" />
     <Content Include="Views\Map\CustomInfoWindow.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
-    <Content Include="Views\Post\_ShowPostDetail.cshtml" />
     <Content Include="Views\Shared\_ShowPostDetail.cshtml" />
     <Content Include="Views\Post\_CreatePost.cshtml" />
     <Content Include="Views\Post\TimeLine.cshtml" />
@@ -538,6 +537,7 @@
     <Content Include="Views\Map\SidenavPost.cshtml" />
     <Content Include="Views\Map\UserAndPostInfo.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
+    <Content Include="Views\Map\_UserModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

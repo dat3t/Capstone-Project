@@ -1,37 +1,98 @@
 ﻿@*<script type="text/javascript">
-                    $(document).ready(function () {
-                        $('.ui.modal')
-                        .modal('show')
-                        ;
-                    });
+                        $(document).ready(function () {
+                            $('.ui.modal')
+                            .modal('show')
+                            ;
+                        });
 
-</script>*@
+    </script>*@
+
 @using OneVietnam.Models;
+@using Microsoft.AspNet.Identity
+@model  OneVietnam.Models.PostViewModel
 @{
     PostInfoWindowModel post = new PostInfoWindowModel();
     post = ViewBag.PostInfo;
 
 }
+<div class="four wide column ui fluid card" id="tiendat">
+    <div class="content ">
+        <div class="header ">
+            @Model.Title
+            <div class="right floated meta marker">
+                @if (Model.Status)
+                {
+                    <i class="teal star icon" data-content="Đang hoạt động"></i>
 
-    <div class="header">
-        Profile Picture
+                }
+                else
+                {
+                    <i class="red minus circle icon" data-content="Đang đóng"></i>
+                }
+            </div>
+            <div class="right floated meta marker ">
+                @if (User.Identity.IsAuthenticated && (User.Identity.GetUserId() == Model.UserId))
+                {
+                    <i class="icon remove circle link" data-content="Xóa" style="float: right" onclick="document.location.href = '@Url.Action("DeletePost", "Post", new {postId = Model.Id})';"></i>
+                    <i class="icon edit link" data-content="Sửa" style="float: right" onclick="document.location.href =
+    '@Url.Action("EditPost", "Post", new {postId = Model.Id})';"></i>
+                }
+                else
+                {
+                    <i class='icon announcement link' data-content='Báo cáo' style='float: right'></i>
+                }
+            </div>
+
+        </div>
+
+        <div class="meta">
+            <span>@Model.PublishDate</span>
+            <a>@Model.PostType</a>
+        </div>
+
     </div>
-    <div class="image content">
-        <div class="ui medium image">
-            <img src="">
-        </div>
-        <div class="description">
-            <div class="ui header">lll</div>
-            <p>We've grabbed the following image from the <a href="https://www.gravatar.com" target="_blank">gravatar</a> image associated with your registered e-mail address.</p>
-            <p>Is it okay to use this photo?</p>
-        </div>
-    </div>
-    <div class="actions">
-        <div class="ui black deny button">
-            Nope
-        </div>
-        <div class="ui positive right labeled icon button">
-            Yep, that's me
-            <i class="checkmark icon"></i>
+    <div class="image ">
+        <div class="carousel" data-flickity>
+            <div class="carousel-cell"></div>
+            <div class="carousel-cell"></div>
+            <div class="carousel-cell"></div>
+            <div class="carousel-cell"></div>
+            <div class="carousel-cell"></div>
         </div>
     </div>
+
+    <div class="content">
+        <h4 class="ui sub header">@Model.Title</h4>
+        <div class="description hides">
+            <p>@Model.Description</p>
+        </div>
+        <div class="marker">
+            <span class="right floated">
+
+                <script>
+                    (function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id)) return;
+                        js = d.createElement(s);
+                        js.id = id;
+                        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+
+                    //like button
+                    document.write("<div class='fb-like' data-href='" +
+                        window.location.href +
+                        "' data-layout='button_count' data-action='like' data-size='small' data-show-faces='false' data-share='false'></div>");
+                </script>
+            </span>
+
+            <script>
+                //Comment
+                document.write("<div class='fb-comments' style='width: 100%' data-href='" +
+                    window.location.href +
+                    "' data-numposts='3' ></div>");
+            </script>
+        </div>
+    </div>
+
+</div>

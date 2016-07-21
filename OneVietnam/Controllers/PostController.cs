@@ -154,6 +154,14 @@ namespace OneVietnam.Controllers
 
         public async Task<ActionResult> TimeLine(int? pageNum)
         {
+            if (TagList != null)
+            {
+                ViewData["TagList"] = TagList;
+            }
+            if (IconList != null)
+            {
+                ViewData["PostTypes"] = IconList;
+            }
             pageNum = pageNum ?? 1;
             ViewBag.IsEndOfRecords = false;
 

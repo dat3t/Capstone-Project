@@ -1,4 +1,7 @@
-﻿.shrink {
+﻿.hides {
+    display: none;
+}
+.shrink {
     margin: 0 auto !important;
     max-width: 700px;
     margin-top: 10% !important;
@@ -183,28 +186,42 @@ body {
   animation: plus-in 0.15s linear;
   animation-fill-mode: forwards;
 }
-.grid-sizer,
-.grid-item {
-  width: 24%;
-  
+/* clear fix */
+.isotope:after {
+  content: '';
+  display: block;
+  clear: both;
 }
 
-.gutter-sizer {
-  width: 1%;
+/* ---- .grid-item ---- */
+
+/* 5 columns, percentage width */
+
+
+
+/* clear fix */
+
+
+/* ---- .grid-item ---- */
+
+/* 5 columns, percentage width */
+.grid-item,
+.grid-sizer {
+  width: 48%;
 }
 
 .grid-item {
-    margin-bottom: 22px;
+     
+    margin-bottom :22px;
   float: left;
 }
-.grid-item--width2 { width:  48%; }
-.grid-item--width3 { width:  48%; } 
-.grid-item.gigante {
-  width:44%;
-}
-.hides {
-    display: none;
-}
+
+
+.gutter-sizer { width: 4%; }
+
+ .gigante { width:48%; }
+
+
 .ui.dropdown.searchType {
     min-width: 0em !important;
     width: 7em !important;
@@ -227,37 +244,21 @@ body {
  .modals,.modal{
     z-index: 20;   
 }
-.carousel {
-  background: #EEE;
-}
 
-.carousel-cell {
-  width: 100%;
-  height: 200px;
-  margin-right: 10px;
-  background: #8C8;
-  border-radius: 5px;
-  counter-increment: carousel-cell;
-}
-
-/* cell number */
-.carousel-cell:before {
-  display: block;
-  text-align: center;
-  content: counter(carousel-cell);
-  line-height: 200px;
-  font-size: 80px;
-  color: white;
-}
 
 /* position dots up a bit */
 .flickity-page-dots {
-  bottom: -22px;
+  bottom: 0px;
 }
-/* dots are lines */
+/* white circles */
 .flickity-page-dots .dot {
-  height: 4px;
-  width: 40px;
-  margin: 0;
-  border-radius: 0;
+  width: 12px;
+  height: 12px;
+  opacity: 1;
+  background: transparent;
+  border: 2px solid white;
+}
+/* fill-in selected dot */
+.flickity-page-dots .dot.is-selected {
+  background: white;
 }

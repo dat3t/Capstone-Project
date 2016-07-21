@@ -1,6 +1,16 @@
 ﻿
 $(document).ready(function () {
-    $('.icon').popup()
+    (function (d, s, id) {
+        var fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        var js = d.createElement(s);
+
+        js.id = id;
+        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    $('.icon')
+.popup()
     ;
 
     if ($(".searchType").val() === "SearchPosts") {
@@ -92,16 +102,29 @@ $(document).ready(function () {
 
 
     var $grid = $('.grids').isotope({
-        itemSelector: '.ui.fluid.card',
+        itemSelector: '.grid-item',
+        percentPosition: true,
         masonry: {
-            columnWidth: 50
+            columnWidth: '.grid-sizer',
+            gutter: '.gutter-sizer'
         }
     });
+    
+    
     // change size of item by toggling gigante class
     $grid.on('click', '.content', function (e) {
-      
+        var $this = $(this).parent();
         $(this).parent().find('.marker').toggleClass("hides");
-        $(this).parent().toggleClass('gigante');
+       
+      
+//        //like button
+        $(e.currentTarget).parent().find('.socials').html(
+            "<div class='fb-comments' style='width: 100%' data-href='" +
+                           window.location.href +
+                            "' data-numposts='3' ></div>");
+        FB.XFBML.parse($this.attr('id'));
+      
+//        $(this).parent().parent().toggleClass('gigante');
         // trigger layout after item size changes
         $grid.isotope('layout');
     });
@@ -140,4 +163,15 @@ $('#return-to-top').click(function () {      // When arrow is clicked
     }, 300);
 });
     
+$('.filter-group').on('click', 'a', function () {
+    var filterValue = $(this).attr('data-filter');
+    // use filterFn if matches value
+    $grid.isotope({ filter: filterValue });
+});
+$(document).ajaxComplete(function () {
+    try {
+        FB.XFBML.parse(document.getElementsByClassName("grid-item"));
+        alert("fasfasf");
+    } catch (ex) { }
+});
 });

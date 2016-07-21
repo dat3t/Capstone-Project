@@ -438,7 +438,7 @@ function createListUserMarkers() {
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 getUserInfo(allUsers[i].userID);
-                infowindow.open(map, marker);
+               // infowindow.open(map, marker);
             }
         })(marker, i));
 
@@ -480,7 +480,8 @@ function createListMaleMarkers() {
             return function () {
                 // infowindow.setContent(infoWindowContent[i][0]);
                 // AjaxDisplayString(userInfoWindow, marker)
-                infowindow.open(map, marker);
+                getUserInfo(allUsers[i].userID);
+                //infowindow.open(map, marker);
             }
         })(marker, i));
     }
@@ -510,7 +511,8 @@ function createListFemaleMarkers() {
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 // AjaxDisplayString(userInfoWindow, marker)
-                infowindow.open(map, marker);
+                getUserInfo(allUsers[i].userID);
+                //infowindow.open(map, marker);
             }
         })(marker, i));
     }
@@ -933,10 +935,27 @@ function getUserInfo(userId) {
     $.ajax({
         url: 'GetUserInfo?userId=' + userId,
         type: 'GET',
-        contentType: 'application/json;',
-        dataType: 'json',
-        success: function (json) {
-            createUserInfoWindowContent(json.UserName, 23, json.Gender, json.Location.Address);
+       // dataType: 'json',
+        success: function (result) {
+         //   createUserInfoWindowContent(json.UserName, 23, json.Gender, json.Location.Address);
+            if (result != '') {
+
+                $("#userModal").empty();
+
+                $("#userModal").html(result);
+                //$("#zzz").find("script").each(function (i) {
+                //    eval($(this).text());
+                //    //alert(a);
+                //});
+                $("#userModal").modal('show');
+
+                // alert(result);
+            }
+
+            // alert(result);
+        },
+        error: function (xhr, status, error) {
+            alert(xhr.responseText);
         }
     });
 }
@@ -957,40 +976,49 @@ function getPostInfo2(postID) {
     $.ajax({
         url: '/Map/UserAndPostInfo?postId=' + postID,
         type: 'GET',
-        dataType: "html",
+        dataType: 'text',
         success: function (result) {
             // createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
             // alert(1);
             if (result != '') {
-                $('#zzz').empty();
 
-                $("#zzz").append(result);
+                $("#zzz").empty();
+
+                $("#zzz").html(result);
+                //$("#zzz").find("script").each(function (i) {
+                //    eval($(this).text());
+                //    //alert(a);
+                //});
+                  $("#zzz").modal('show');
+
+                // alert(result);
             }
-            $('.ui.modal')
-               .modal('show')
-            ;
-           // alert(result);
+
+            // alert(result);
         },
-        error: function (arg) {
-            alert("Error");
+        error: function(xhr, status, error) {
+            alert(xhr.responseText);
         }
     });
-    
+
 }
 
 function callInfo(postID) {
     $.ajax({
         url: 'GetPostInfo?postId=' + postID,
         type: 'GET',
-        contentType: 'application/json;',
-        dataType: 'json',
+        context: document.body,
         success: function (json) {
             // createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
             $('.ui.modal')
-    .modal('show')
+            .modal('show')
             ;
 
-            document.getElementById("abc").innerText = json.UserName;
+
+            //document.getElementById("abc").innerText = json.UserName;
+        },
+        error: function (arg) {
+            alert("Error");
         }
     });
 
