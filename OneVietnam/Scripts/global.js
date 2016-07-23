@@ -1,6 +1,21 @@
 ﻿
 $(document).ready(function () {
-   
+    function createUploader() {
+        var uploader = new qq.FineUploader({
+            element: document.getElementById('fine-uploader'),
+            request: {
+                endpoint: '@Url.Action("UploadBatchDataFile")'
+            }
+        });
+    }
+    window.onload = createUploader;
+    $(".ui.toggle.button").state({
+        text: {
+            inactive: 'Bật',
+            active: 'Tắt'
+        }
+    })
+    ;
     $('.icon')
   .popup()
     ;
@@ -160,10 +175,5 @@ $('.filter-group').on('click', 'a', function () {
     // use filterFn if matches value
     $grid.isotope({ filter: filterValue });
 });
-$(document).ajaxComplete(function () {
-    try {
-        FB.XFBML.parse(document.getElementsByClassName("grid-item"));
-        alert("fasfasf");
-    } catch (ex) { }
-});
+
 });

@@ -6,35 +6,23 @@ function showProfileForm(pUserId) {
     };
     $.ajax({
         type: 'GET',
-        url: 'ShowProfile',
+        url: 'EditProfile',
         data: param,
         success: function (partialResult) {
-            $("#ShowProfile").html(partialResult);
-            $("#EditProfile").html("");
-            $("#btnEdit").show();
+            $("#EditProfile").html(partialResult);
         }
 
     });
 }
 
-function showEditProfileForm() {           
-    $.ajax({
-        type: 'GET',
-        url: 'EditProfile',        
-        success: function (partialResult) {
-            $("#EditProfile").html(partialResult);
-            $("#ShowProfile").html("");
-            $("#btnEdit").hide();
 
-        },
-        error: function (error) {
-            alert(error);
-        }
-    });
+    
+function editableForm() {
+   $('.tog').toggleClass('disabled');
+    $('#btnSave').toggleClass('hides');
 }
 
 function submitEditProfile() {
-    $("#ShowProfile").html("");
     var param = {        
         gender: $("#Gender").val(),
         email: $("#Email").val(),
@@ -46,9 +34,8 @@ function submitEditProfile() {
         url: 'EditProfile',
         data: param,
         success: function (partialResult) {
-            $("#ShowProfile").html(partialResult);
-            $("#EditProfile").html("");
-            $("#btnEdit").show();
+//            $("#EditProfile").html(partialResult);
+//            $("#btnEdit").show();
         }
     });
 }
@@ -68,14 +55,16 @@ function showTwoFactorAuthen(pUserId) {
     });
 }
 
-function enableTwoFactorAuthentication() {    
+function enableTwoFactorAuthentication() {
+    var param = $(".ui.toggle.button").text();
     $.ajax({
         type: 'POST',
         url: 'EnableTwoFactorAuthentication',
+        data:{'value':param},
         success: function(partialResult) {
             if (partialResult !== null | partialResult !== "") {
-                $("#ShowTwoFactorAuthen").html("");
-                $("#ShowTwoFactorAuthen").html(partialResult);
+//                $("#ShowTwoFactorAuthen").html("");
+//                $("#ShowTwoFactorAuthen").html(partialResult);
             }                
         }
     });

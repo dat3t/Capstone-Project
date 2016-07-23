@@ -7,63 +7,134 @@
 
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Scripts/timeline.js"></script>
-@if (Model != null) //TODO them dieu kien user chua bi lock
-{
-    <div class="ui tabular menu">
-        <div class="item active" data-tab="timeline">Dòng thời gian</div>
-        <div class="item" data-tab="profile" onclick="showProfileForm('@Model.Id')">Giới thiệu</div>
-        @if (Model.Id.Equals(User.Identity.GetUserId()))
-        {
-        <div class="item" data-tab="setting" onclick="showTwoFactorAuthen('@Model.Id')">Cài đặt</div>
-        }
 
-    </div>
-    <div class="ui tab active" data-tab="timeline">
-        @{
-            if (Model.PostList != null && Model.PostList.Count > 0)
-            {
-        <div class="grids">
-            @{
-                        foreach (var postView in Model.PostList)
+
+        <div class="containers">
+
+            <a href="#"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/hobbit_cover.jpg" alt="cover" class="cover" /></a>
+
+            <div class="hero">
+
+                <div class="details">
+
+                    <div class="title1">@Model.UserName</div>
+
+                    <div class="title2">The Battle of the Five Armies</div>
+
+                   
+
+                    <span class="likes">109 likes</span>
+
+                </div> <!-- end details -->
+
+            </div> <!-- end hero -->
+
+            <div class="ui grid">
+
+                <div class="three wide column">
+                    
+                </div> <!-- end column1 -->
+
+                <div class="eleven wide column">
+                    
+                    @if (Model != null) //TODO them dieu kien user chua bi lock
+                    {
+                        <div class="ui pointing secondary tabular menu">
+                            <div class="item active" data-tab="timeline">Bài đăng<div class="ui teal   label">@Model.PostList.Count</div> </div>
+                            <div class="item" data-tab="profile" onclick="showProfileForm('@Model.Id')">Giới thiệu</div>
+                            @if (Model.Id.Equals(User.Identity.GetUserId()))
+                            {
+                                <div class="item" data-tab="setting" >Cài đặt</div>
+                            }
+
+                        </div>
+                        <div class="ui tab active" data-tab="timeline">
+                            @{
+                                if (Model.PostList != null && Model.PostList.Count > 0)
+                                {
+                                    <div class="grids">
+                                        <div class="grid-sizer"></div>
+                                        <div class="gutter-sizer"></div>
+                                        @{
+                                            foreach (var postView in Model.PostList)
+                                            {
+                                                @Html.Partial("../Shared/_ShowPostDetail", postView)
+                                            }
+                                        }
+
+                                    </div>
+
+                                }
+                            }
+
+
+                        </div>
+                        <div class="ui tab" data-tab="profile">
+                            @*Show profile*@
+
+                            <div id="ShowProfile"></div>
+                            <div id="EditProfile"></div>
+
+                        </div>
+
+
+                        if (Model.Id.Equals(User.Identity.GetUserId()))
                         {
-            @Html.Partial("../Shared/_ShowPostDetail", postView)
+                            <div class="ui tab" data-tab="setting">
+                                <div class="ui segment">
+                                    @{ string value = "Tắt";}
+                                    @if (Model.Setting.TwoFacterEnabled == false)
+                                    {
+                                        value="Bật";
+                                    }
+                                    <div class="ui selection list">
+                                        <div class="ui item">
+                                            Bảo mật hai lớp
+                                            <button class="ui toggle button" onclick="enableTwoFactorAuthentication()">@value</button>
+
+@*                                            <input type="button" class="ui toggle button" value="@value"  onclick="enableTwoFactorAuthentication()"/>*@
+
+                                           
+                                           
+
+                                        </div>
+                                        <div class="ui item">
+                                            Mật khẩu
+                                            <div id="ShowPassword">
+                                                <div>Thay đổi mật khẩu thường xuyên để nâng cao bảo mật hơn</div>
+                                            </div>
+                                            <input type="button" class="ui right floated teal button" id="btnChangePass" value="Đổi mật khẩu" onclick="showChangePasswordForm()"/>
+                                            <div id="ChangePassword"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
                         }
-            }
-
-        </div>
-
-            }
-        }
-
-
-    </div>
-    <div class="ui tab" data-tab="profile">
-        @*Show profile*@
-        @if (Model.Id.Equals(User.Identity.GetUserId()))
-        {
-        <input type="button" value="Sửa" id="btnEdit" onclick="showEditProfileForm()" />
-        }
-        <div id="ShowProfile"></div>
-        <div id="EditProfile"></div>
-
-    </div>
-
-                if (Model.Id.Equals(User.Identity.GetUserId()))
-                {
-                    <div class="ui tab" data-tab="setting">
-                        <div id="ShowTwoFactorAuthen"></div>
-                    </div>
                     }
-                }
-                else
-                {
-                    <div style="margin: auto; width: 40%">
-                        <div class="ui segment">
-                            <div class="ui centered header">
-                                <i class="warning circle icon"></i>
-                                Trang bạn tìm kiếm đã bị xóa hoặc không tồn tại
+                    else
+                    {
+                        <div style="margin: auto; width: 40%">
+                            <div class="ui segment">
+                                <div class="ui centered header">
+                                    <i class="warning circle icon"></i>
+                                    Trang bạn tìm kiếm đã bị xóa hoặc không tồn tại
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                }
+                    }
+
+                    <!-- end avatars -->
+
+
+
+                </div> <!-- end column2 -->
+            </div> <!-- end description -->
+
+
+        </div> <!-- end container -->
+
+
+  

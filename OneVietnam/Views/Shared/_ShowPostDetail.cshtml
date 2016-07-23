@@ -41,23 +41,22 @@
         @{
             if (Model.Illustrations != null && Model.Illustrations.Count > 0)
             {
-                @*        <div class="image ">*@
-                @*            <div class="carousel" data-flickity='{ "imagesLoaded": false,"adaptiveHeight": true  }'>*@
-                @*                @foreach (var ill in Model.Illustrations)*@
-                @*                {*@
-                @*                <div class="carousel-cell"><img src="@ill.PhotoLink" /></div>*@
-                @*                }*@
-                @**@
+                        <div class="image ">
+                            <div class="carousel" data-flickity='{ "imagesLoaded": false,"adaptiveHeight": true  }'>
+                                @foreach (var ill in Model.Illustrations)
+                                {
+                                <div class="carousel-cell"><img src="@ill.PhotoLink" /></div>
+                               }
+              
 
-@*            </div>*@
-//</div>
-                @*        </div>*@
-//            </div>
+            </div>
+</div>
+               
             }
         }
         <div class="content">
             <h4 class="ui sub header">@Model.Title</h4>
-            <div class="description hides">
+            <div class="description marker hides">
                 <p>@Model.Description</p>
                 <p>Hahaha</p>
             </div>
@@ -69,9 +68,7 @@
                             if (d.getElementById(id)) return;
                             js = d.createElement(s);
                             js.id = id;
-                            alert("hahaha");
-                            js.src =
-                                "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
+                            js.src ="//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
                             fjs.parentNode.insertBefore(js, fjs);
                         }(document, 'script', 'facebook-jssdk'));
                     </script>

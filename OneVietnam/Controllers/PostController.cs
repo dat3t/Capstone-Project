@@ -145,14 +145,14 @@ namespace OneVietnam.Controllers
             PostView = new PostViewModel(post);
             return RedirectToAction("ShowPostDetail", "Post", new { postId = post.Id });
         }
-        //public async Task<ActionResult> TimeLine()
+        //public async Task<ActionResult> NewFeeds()
         //{
         //    return RedirectToAction("GetPosts");
         //}
 
         public const int RecordsPerPage = 60;
 
-        public async Task<ActionResult> TimeLine(int? pageNum)
+        public async Task<ActionResult> NewFeeds(int? pageNum)
         {
             if (TagList != null)
             {
