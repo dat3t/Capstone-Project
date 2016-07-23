@@ -17,7 +17,13 @@ namespace OneVietnam
 
     public enum MessageType
     {
-        Send =0,
+        Send = 0,
         Receive = 1
+    }
+    public enum Gender
+    {
+        male = 0,
+        female = 1,
+        Other = 2
     }
 }

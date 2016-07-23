@@ -33,6 +33,7 @@ body {
 }
 .input-error-message {
     color: #DB2828;
+    text-align: left !important;
 }
 .ui.main.menu {
     width: 100%;
