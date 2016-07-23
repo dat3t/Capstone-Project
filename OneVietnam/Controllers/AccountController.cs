@@ -253,7 +253,7 @@ namespace OneVietnam.Controllers
                     Address = model.Location
                 };
 
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Gender = model.Gender,Location = location};
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Gender = model.Gender,Location = location, CreatedDate = DateTimeOffset.UtcNow};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -475,13 +475,20 @@ namespace OneVietnam.Controllers
                             return View("ExternalLoginFailure");
                         }
                         var access_token = claimsIdentity.FindAll("FacebookAccessToken").First().Value;
-                        var fb = new FacebookClient(access_token);
-                        dynamic userInfo = fb.Get("/me");
-                        dynamic userEmail = fb.Get("me?fields=email");
+                        var fb = new FacebookClient(access_token);                        
+                        dynamic userInfo = fb.Get("me?fields=name,email,gender,picture.width(800)");                        
                         string name = userInfo["name"];
-                        string email = userEmail["email"];
+                        string email = userInfo["email"];
+                        string fbGender = userInfo["gender"];
+                        string avatar = userInfo["picture"]["data"]["url"];
+                        var gender=(int)Gender.Other;
+                        Gender choice;
+                        if (Enum.TryParse(fbGender, out choice))
+                        {
+                            gender = (int) choice;
+                        }                        
                         var location = new Location(xCoordinateExternal, yCoordinateExternal, locationExternal);
-                        var user = new ApplicationUser { UserName = name, Email = email,Location = location};
+                        var user = new ApplicationUser { UserName = name, Email = email,Location = location,Gender = gender,Avatar = avatar,CreatedDate = DateTimeOffset.UtcNow};
                         //Add to database
                         var result2 = await UserManager.CreateAsync(user);
                         if (result2.Succeeded)
@@ -527,7 +534,7 @@ namespace OneVietnam.Controllers
             {
                 // Retrieve the existing claims for the user and add the FacebookAccessTokenClaim
                 var currentClaims = await UserManager.GetClaimsAsync(user.Id);
-                var facebookTokenFromDb = currentClaims.Where(o => o.Type == "FacebookAccessToken").FirstOrDefault();
+                var facebookTokenFromDb = currentClaims.FirstOrDefault(o => o.Type == "FacebookAccessToken");
 
                 //Search the claims (from the cookie) for the facebook access token
                 var facebookAccessToken = claimsIdentity.FindAll("FacebookAccessToken").First();
