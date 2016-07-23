@@ -23,6 +23,13 @@
     left:30% !important;
  }
 
+ #userModal{
+     width:300px !important;
+     height:400px !important;
+     left:55% !important;
+     /*overflow-y:scroll;*/
+ }
+
 }
 
   /*Map icon*/

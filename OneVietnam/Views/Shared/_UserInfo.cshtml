@@ -1,0 +1,51 @@
+﻿@model OneVietnam.Models.UserViewModel
+
+<div class="header">
+    <div>
+        <a class="item" style="float:left;">
+            <i class="icon male" style="width:100%;text-align:left"> </i>
+        </a>
+    </div>
+    <a  href='@Url.Action("Timeline", "Post")'>@Model.UserName</a>
+</div>
+
+
+    <div class="image content" style="clear:left;">
+        <div class="ui medium image">
+            <img src="../Content/Images/dat.jpg">
+        </div>
+        <div class="description">
+            <div class="userInfoModal" style="position:relative;">
+                <div>
+                    <a class="item">
+                        <i class="small icon marker" style="width:100%;text-align:left"> @Model.Location.Address</i>
+                    </a>
+                </div>
+                <div>
+                    <a class="item">
+                        <i class="small icon birthday" style="width:100%;text-align:left"> 26/02/1993</i>
+                    </a>
+                </div>
+                <div>
+                    <a class="item">
+                        <i class="small icon mobile" style="width:100%;text-align:left"> 0971046525</i>
+                    </a>
+                </div>
+                <div>
+                    <a class="item">
+                        <i class="small icon mail" style="width:100%;text-align:left"> @Model.Email</i>
+                    </a>
+                </div>
+                @*<div >
+                <a class="item">
+                    <i class="small icon calendar" style="width:100%;text-align:left"> @($"{@Model.PublishDate:dd/MM/yyyy}")</i>
+                </a>
+            </div>*@
+
+                <div class="ui blue right small icon button" style="position:absolute !important; right:0px !important;">
+                    Trò chuyện
+                </div>
+            </div>
+            </div>
+
+    </div>
