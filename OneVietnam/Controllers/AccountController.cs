@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -14,7 +15,6 @@ using System.Web.Mvc;
 using Facebook;
 using Microsoft.AspNet.SignalR;
 using MongoDB.Bson.IO;
-using SignInStatus = OneVietnam.BLL.SignInStatus;
 using System.Web.Script.Serialization;
 using OneVietnam.BLL;
 using OneVietnam.DTL;
@@ -155,33 +155,27 @@ namespace OneVietnam.Controllers
             if (!ModelState.IsValid)
             {
                 return View(model);
-            }
-
-            // Require the user to have a confirmed email before they can log on.
-            //var user = await UserManager.FindAsync(model.Email, model.Password);
-            var user = await UserManager.FindByEmailAsync(model.Email);
-            if (user != null && await UserManager.CheckPasswordAsync(user, model.Password))
-            {
-                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
-                {
-                    ViewBag.errorMessage = "You must have a confirmed email to log on.";
-                    return View("Error");
-                }
-            }
+            }         
             // This doen't count login failures towards lockout only two factor authentication
             // To enable password failures to trigger lockout, change to shouldLockout: true
-            var result = await SignInHelper.PasswordSignIn(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInHelper.PasswordSignIn(model.Email, model.Password, model.RememberMe, shouldLockout: true);
             switch (result)
             {
                 case SignInStatus.Success:
+
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
+                    ViewBag.LockedDuration =
+                        ConfigurationManager.AppSettings["DefaultAccountLockoutTimeSpan"].ToString();
                     return View("Lockout");
+                case SignInStatus.RequiresConfirmingEmail:
+                    ViewBag.errorMessage = "Bản Phải Xác Nhận Mail Trước Khi Đăng Nhập";
+                    return View("Error");
                 case SignInStatus.RequiresTwoFactorAuthentication:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Thông Tin Đăng Nhập Không Hợp Lệ");
                     return View(model);
             }
         }
