@@ -26,4 +26,12 @@ namespace OneVietnam
         female = 1,
         Other = 2
     }
+    public enum SignInStatus
+    {
+        Success,
+        LockedOut,
+        RequiresConfirmingEmail,
+        RequiresTwoFactorAuthentication,
+        Failure
+    }
 }

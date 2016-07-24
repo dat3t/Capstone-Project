@@ -90,6 +90,11 @@ namespace OneVietnam.BLL
         {
             return await _userStore.TextSearchUsers(query);
         }
+
+        public async Task<List<ApplicationUser>> TextSearchUsers(string query, BaseFilter baseFilter)
+        {
+            return await _userStore.TextSearchUsers(query, baseFilter);
+        }
         public async Task<ICollection<Connection>> GetConnectionsById(string id)
         {
 
@@ -115,7 +120,7 @@ namespace OneVietnam.BLL
                     user.Connections.Add(connection);
                 }
             }
-            await _userStore.UpdateAsync(user);
+            await _userStore.UpdateAsync(user).ConfigureAwait(false);
         }
 
         public async Task DisConnection(string userId, string connectionId)
@@ -133,11 +138,11 @@ namespace OneVietnam.BLL
             await _userStore.UpdateAsync(user);
         }
 
-        public async Task AddMessage(string userId, Message message)
-        {
-            var user = await _userStore.FindByIdAsync(userId);
-            user.AddMessage(message);
-            await _userStore.UpdateAsync(user);           
-        }
+        //public async Task AddMessage(string userId, Message message)
+        //{
+        //    var user = await _userStore.FindByIdAsync(userId);
+        //    user.AddMessage(message);
+        //    await _userStore.UpdateAsync(user).ConfigureAwait(false);           
+        //}
     }
 }

@@ -8,7 +8,7 @@ using MongoDB.Bson;
 
 namespace OneVietnam.DAL
 {
-    public abstract class AbstractStore<T>
+    public abstract class AbstractStore<T> : IDisposable
     {
         protected internal IMongoCollection<T> Collection { get; set; }
 
@@ -179,6 +179,21 @@ namespace OneVietnam.DAL
                 throw new Exception(ex.Message);
             }
         }
+        public virtual async Task<List<T>> FindAllAsync(FilterDefinition<T> filter, SortDefinition<T> sort )
+        {
+            try
+            {
+                return await Collection.Find(filter).Sort(sort).ToListAsync().ConfigureAwait(false);
+            }
+            catch (MongoConnectionException ex)
+            {
+                throw new MongoConnectionException(ex.ConnectionId, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         /// <summary>
         /// find all instances by basefilter and deletedflag
         /// </summary>
@@ -247,6 +262,35 @@ namespace OneVietnam.DAL
                 throw new Exception(ex.Message);
             }
         }
+        public virtual async Task<List<T>> FindAllAsync(BaseFilter baseFilter, FilterDefinition<T> filter, SortDefinition<T> sort )
+        {
+            try
+            {
+
+                if (baseFilter.IsNeedPaging)
+                {
+                    return await
+                        Collection.Find(filter)
+                            .Skip(baseFilter.Skip)
+                            .Limit(baseFilter.Limit)
+                            .Sort(sort)
+                            .ToListAsync()
+                            .ConfigureAwait(false);
+                }
+                else
+                {
+                    return await FindAllAsync(filter,sort).ConfigureAwait(false);
+                }
+            }
+            catch (MongoConnectionException ex)
+            {
+                throw new MongoConnectionException(ex.ConnectionId, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
         public virtual async Task<List<T>> FindAllAsync(BaseFilter baseFilter)
         {
@@ -281,6 +325,10 @@ namespace OneVietnam.DAL
             {
                 return await Collection.Find(conFilter).Project(project).Sort(sort).ToListAsync().ConfigureAwait(false);
             }
+        }
+
+        public void Dispose()
+        {            
         }
     }
 }

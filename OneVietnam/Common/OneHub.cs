@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -13,37 +14,39 @@ namespace OneVietnam
 {
     [Authorize]    
     public class OneHub : Hub
-    {
-        //public static HttpContext hc = new HttpContext();
+    {        
+        public ApplicationUserManager UserManager { get; private set; }
+        public MessageManager MessageManager { get; set; }
 
-        public ApplicationUserManager Manager { get; private set; }
-
-        public OneHub(ApplicationUserManager manager)
+        public OneHub(ApplicationUserManager userManager,MessageManager messageManager)
         {
-            Manager = manager;
+            UserManager = userManager;
+            MessageManager = messageManager;
         }
         public async Task SendChatMessage(string receiveId, string message)
-        {                        
-            var sendName = Context.User.Identity.Name;            
-            var receiveUser = await Manager.FindByIdAsync(receiveId);
+        {            
+
+            var sendName = Context.User.Identity.Name;
+            var receiveUser = await UserManager.FindByIdAsync(receiveId);
             var connecting = receiveUser.Connections.Any(c => c.Connected == true);
             var connection = receiveUser.Connections;
-            if (connection!=null)
+            if (connection != null)
             {
-                foreach (var conn in connection.Where(conn => conn.Connected==true))
+                foreach (var conn in connection.Where(conn => conn.Connected == true))
                 {
+                    // call client's javascript function 
                     Clients.Client(conn.ConnectionId).addChatMessage(sendName + ": " + message);
                 }
-            }
-            //get sender's userId
-            var sendId = Context.User.Identity.GetUserId();
-            //Create sending message to store in sender User
-            var sendMes = new Message(receiveId, message, (int)MessageType.Send);
-            await Manager.AddMessage(sendId, sendMes);
-            //Create receiving message to store in receiver user
-            var receiveMes = new Message(sendId, message, (int)MessageType.Receive);
-            receiveUser.AddMessage(receiveMes);
-            await Manager.UpdateAsync(receiveUser);
+            }            
+            //Add Messages to database
+            var mes = new Message
+            {
+                ReceiverId = receiveId,
+                SenderId = Context.User.Identity.GetUserId(),
+                Content = message,
+                CreatedDate = DateTimeOffset.UtcNow
+            };
+             await MessageManager.CreateAsync(mes).ConfigureAwait(false);
         }
         public override async Task OnConnected()
         {            
@@ -54,14 +57,14 @@ namespace OneVietnam
                 Connected = true,
                 UserAgent = Context.Request.Headers["User-Agent"]
             };
-            await Manager.AddConnection(userId, conn);                        
+            await UserManager.AddConnection(userId, conn);                        
             await base.OnConnected(); 
         }
         public override async Task OnDisconnected(bool stopCalled)
         {
             var userId = Context.User.Identity.GetUserId();
             var connectionId = Context.ConnectionId;
-            await Manager.DisConnection(userId, connectionId);                        
+            await UserManager.DisConnection(userId, connectionId);                        
             await base.OnDisconnected(stopCalled);
         }
     }

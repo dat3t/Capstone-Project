@@ -82,7 +82,7 @@ namespace OneVietnam.Controllers
             result.UserId = user.Id;
             result.postId = postId;
             result.Title = post.Title;
-            result.PublishDate = (DateTimeOffset)post.PublishDate;
+            result.PublishDate = (DateTimeOffset)post.CreatedDate;
             result.Address = post.PostLocation.Address;
             ViewBag.PostInfo = result;
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -96,7 +96,7 @@ namespace OneVietnam.Controllers
             result.UserId = user.Id;
             result.postId = postId;
             result.Title = post.Title;
-            result.PublishDate = (DateTimeOffset)post.PublishDate;
+            result.PublishDate = (DateTimeOffset)post.CreatedDate;
             result.Address = post.PostLocation.Address;
             ViewBag.PostInfo = result;
             return View();
@@ -110,7 +110,7 @@ namespace OneVietnam.Controllers
             //result.UserId = user.Id;
             //result.UserName = user.UserName;
             //result.Title = post.Title;
-            //result.PublishDate = (DateTimeOffset)post.PublishDate;
+            //result.CreatedDate = (DateTimeOffset)post.CreatedDate;
             //result.Address = post.PostLocation.Address;
             //ViewBag.PostInfo = result;
             var post = await PostManager.FindByIdAsync(postId);
@@ -147,7 +147,7 @@ namespace OneVietnam.Controllers
                 postModel = new PostInfoWindowModel();
                 postModel.Address = p.PostLocation.Address;
                 postModel.postId = p.Id;
-                postModel.PublishDate = (DateTimeOffset)p.PublishDate;
+                postModel.PublishDate = (DateTimeOffset)p.CreatedDate;
                 postModel.Title = p.Title;
                 top5PostModel.Add(postModel);
             }

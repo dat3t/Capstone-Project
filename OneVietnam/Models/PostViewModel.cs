@@ -80,7 +80,7 @@ namespace OneVietnam.Models
             UserId = post.UserId;     
             Title = post.Title;
             Description = post.Description;
-            PublishDate = post.PublishDate;
+            PublishDate = post.CreatedDate;
             PostType = post.PostType;
             DeletedFlag = post.DeletedFlag;
             Status = post.Status;

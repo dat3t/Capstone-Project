@@ -37,7 +37,7 @@ namespace OneVietnam.BLL
         //OK                                
         public async Task<List<BsonDocument>> FullTextSearch(string query, BaseFilter filter)
         {
-            var sort = Builders<Post>.Sort.MetaTextScore("TextMatchScore").Ascending("PublishDate");
+            var sort = Builders<Post>.Sort.MetaTextScore("TextMatchScore").Ascending("CreatedDate");
             return await Store.FullTextSearch(query, filter, sort).ConfigureAwait(false);
         }             
         public PostManager(PostStore store) : base(store)

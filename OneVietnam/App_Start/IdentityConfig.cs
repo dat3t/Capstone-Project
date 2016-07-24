@@ -47,14 +47,15 @@ namespace OneVietnam.BLL
             };
 
             // Configure user lockout defaults
-            this.UserLockoutEnabledByDefault = true;
-            this.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            this.MaxFailedAccessAttemptsBeforeLockout = 5;
+            this.UserLockoutEnabledByDefault = Convert.ToBoolean(ConfigurationManager.AppSettings["UserLockoutEnabledByDefault"].ToString());
+            this.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(double.Parse(ConfigurationManager.AppSettings["DefaultAccountLockoutTimeSpan"].ToString()));
+            this.MaxFailedAccessAttemptsBeforeLockout =
+                Convert.ToInt32(ConfigurationManager.AppSettings["MaxFailedAccessAttemptsBeforeLockout"].ToString());
         }
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new UserStore(context.Get<ApplicationIdentityContext>().Users));                          
+            var manager = new ApplicationUserManager(new UserStore(context.Get<ApplicationIdentityContext>().Users));
 
             // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
             // You can write your own provider and plug it in here.
@@ -76,7 +77,7 @@ namespace OneVietnam.BLL
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
-        }        
+        }
     }
 
     public partial class ApplicationRoleManager : RoleManager<IdentityRole>
@@ -144,15 +145,7 @@ namespace OneVietnam.BLL
             // Send the email.
             await transportWeb.DeliverAsync(myMessage);
         }
-    }
-
-    public enum SignInStatus
-    {
-        Success,
-        LockedOut,
-        RequiresTwoFactorAuthentication,
-        Failure
-    }
+    }   
     /// <summary>
     /// These help with sign and two factor (will possibly be moved into identity framework itself)
     /// </summary>
@@ -273,6 +266,10 @@ namespace OneVietnam.BLL
             }
             if (await UserManager.CheckPasswordAsync(user, password))
             {
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                {                    
+                    return SignInStatus.RequiresConfirmingEmail;
+                }
                 return await SignInOrTwoFactor(user, isPersistent);
             }
             if (shouldLockout)
