@@ -111,29 +111,3 @@ function cancelChangePassword() {
     $("#ShowPassword").html("<div>Thay đổi mật khẩu thường xuyên để nâng cao bảo mật hơn</div>");
     $("#btnChangePass").show();
 }
-
-function changePassword() {
-    var param = {
-        oldPass: $("#OldPassword").val(),
-        newPass: $("#NewPassword").val(),
-        confirmPass: $("#ConfirmPassword").val()
-    };
-    $.ajax({
-        type: 'POST',
-        url: 'ChangePassword',
-        data: param,
-        success: function (partialResult) {
-            if (partialResult === null | partialResult === "") {
-                $("#ShowPassword").html("<div>Thay đổi mật khẩu thường xuyên để nâng cao bảo mật hơn</div>");
-                $("#ChangePassword").html("");                
-                $("#btnChangePass").show();                
-            } else {
-                $("#ChangePassword").html(partialResult);
-                $("#ShowPassword").html("");
-                $("#btnChangePass").hide();
-            }
-            
-            
-       }
-    });
-}

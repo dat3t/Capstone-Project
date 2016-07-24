@@ -9,7 +9,6 @@
     List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;    
 
 }
-<script src="~/Scripts/jquery-1.10.2.js"></script>
 <link rel="stylesheet" href="~/Content/image-slider.css">
 
 @if (Model != null && (Model.DeletedFlag == false) && (Model.LockedFlag == false))
@@ -152,9 +151,9 @@
             }
 
             <script>
+                FB=null;
                     (function (d, s, id) {
-                        var js, fjs = d.getElementsByTagName(s)[0];
-                        if (d.getElementById(id)) return;
+                        var js, fjs = d.getElementsByTagName(s)[0];                       
                         js = d.createElement(s);
                         js.id = id;
                         js.src =

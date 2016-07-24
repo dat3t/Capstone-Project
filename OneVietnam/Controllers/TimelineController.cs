@@ -183,12 +183,17 @@ namespace OneVietnam.Controllers
         public ActionResult ChangePassword()
         {            
             return PartialView("_ChangePassword", new ChangePasswordViewModel());
-        }
+        }       
 
-        [HttpPost]               
-        public async Task<ActionResult> ChangePassword(string oldPass, string newPass, string confirmPass)
-        {            
-            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), oldPass, newPass);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<PartialViewResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return PartialView("_ChangePassword", model);
+            }
+            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -197,8 +202,9 @@ namespace OneVietnam.Controllers
                     await SignInAsync(user, isPersistent: false);
                 }
                 return null;
-            }            
-            return PartialView("_ChangePassword", new ChangePasswordViewModel(oldPass, newPass, confirmPass));
+            }
+            AddErrors(result);            
+            return PartialView("_ChangePassword", model);
         }
 
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
@@ -207,7 +213,15 @@ namespace OneVietnam.Controllers
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie, DefaultAuthenticationTypes.TwoFactorCookie);
             AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = isPersistent }, await user.GenerateUserIdentityAsync(UserManager));
-        }        
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
 
     }
 }

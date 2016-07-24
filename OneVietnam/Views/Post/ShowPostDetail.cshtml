@@ -22,12 +22,12 @@
                     success: function (partialResult) {
                         $("#ShowPostDetail").html("");
                         $("#ShowPostDetail").html(partialResult);
-                                            
+                        $("#ShowPostDetail").modal('show');
                     }
 
                 });
 
-                $(".ui.modal").modal('show');
+                
             });
     </script>
     <div id="ShowPostDetail" class="ui modal">

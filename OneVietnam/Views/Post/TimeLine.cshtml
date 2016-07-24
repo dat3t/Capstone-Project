@@ -205,6 +205,31 @@
             </div>
             <div class="extra content">
                 <button class="ui button">Join Project</button>
+                @*<input type="button" id="btnShow" value="Show detail" onclick="" />
+                <script>
+        $("#btnShow")
+            .click(function() {
+                var param = {
+                    postId: '5789f131465f912730e239b8'
+                };
+                $.ajax({
+                    type: 'GET',
+                    url: '_ShowPostDetail',
+                    data: param,
+                    success: function (partialResult) {
+                        $("#ShowPostDetail").html("");
+                        $("#ShowPostDetail").html(partialResult);
+
+                    }
+
+                });
+
+                $("#ShowPostDetail").modal('show');
+            });
+                </script>
+                <div id="ShowPostDetail" class="ui modal">
+
+                </div>*@
             </div>
         </div>
     </div>
