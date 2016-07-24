@@ -131,7 +131,6 @@ namespace OneVietnam.Controllers
         {
             var user = await UserManager.FindByIdAsync(userId);
             var result = new UserViewModel(user);
-            //return PartialView("_ShowPostDetail",result); ;
             return PartialView("_UserInfo", result);
         }
 
@@ -155,5 +154,11 @@ namespace OneVietnam.Controllers
 
             return top5PostModel;
         }
+
+        //public async Task<List<PostInfoWindowModel>> GetMorePostInfo(int pageNum) {
+        //    var filter = new BaseFilter { CurrentPage = pageNum, ItemsPerPage = 5};
+        //    List<Post> posts = await PostManager.FindAllAsync(filter);
+
+        //}
     }
 }

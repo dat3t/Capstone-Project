@@ -64,15 +64,42 @@
 
     <script>
         ////$('#mySidenav').scroll(scrollHandler2);
+        var moreRowsUrl = '/Post/TimeLine';
+        var page = 1;
+
         $("#mySidenav").scroll(function () {
             if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
                 alert('end reached');
+                loadMoreToInfiniteScrollTable(moreRowsUrl);
             }
         });
 
-        //$("#mySidenav").bind('scroll', function () {
-        //    if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
-        //        alert('end reached');
-        //    }
-        //});
+
+        function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
+            if (page > -1) {
+                page++;
+                $.ajax({
+                    type: 'GET',
+                    url: loadMoreRowsUrl,
+                    data: "pageNum=" + page,
+                    success: function (data, textstatus) {
+                        if (data != '') {
+                            var $items = $(data);
+
+                            $('#mySidenav').append($items).isotope('appended', $items);
+
+
+                        }
+                        else {
+                            page = -1;
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    }
+                });
+            }
+        }
+
     </script>
+
+
