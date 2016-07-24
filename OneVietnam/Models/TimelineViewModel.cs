@@ -14,12 +14,14 @@ namespace OneVietnam.Models
         public string AvatarLink { get; set; }
         public string UserName { get; set; }
         public List<PostViewModel> PostList { get; set; }
+        public TwoFacterViewModel Setting { get; set; }
 
         public TimelineViewModel() { }
 
         public TimelineViewModel(ApplicationUser user, List<Post> posts)
         {
             Id = user.Id;
+            UserName = user.UserName;
             //AvatarLink = user.AvatarLink; TODO           
             if (posts != null)
             {
@@ -30,6 +32,7 @@ namespace OneVietnam.Models
                     PostList.Add(postView);
                 }
             }
+            Setting = new TwoFacterViewModel(user);
         }
     }
 

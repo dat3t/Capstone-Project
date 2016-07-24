@@ -1,17 +1,24 @@
 ﻿
 $(document).ready(function () {
-  //  (function (d, s, id) {
-  //      var fjs = d.getElementsByTagName(s)[0];
-  //      if (d.getElementById(id)) return;
-  //      var js = d.createElement(s);
-
-  //      js.id = id;
-  //      js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
-  //      fjs.parentNode.insertBefore(js, fjs);
-  //  }(document, 'script', 'facebook-jssdk'));
-  //  $('.icon')
-  //.popup()
-  //  ;
+    function createUploader() {
+        var uploader = new qq.FineUploader({
+            element: document.getElementById('fine-uploader'),
+            request: {
+                endpoint: '@Url.Action("UploadBatchDataFile")'
+            }
+        });
+    }
+    window.onload = createUploader;
+    $(".ui.toggle.button").state({
+        text: {
+            inactive: 'Bật',
+            active: 'Tắt'
+        }
+    })
+    ;
+    $('.icon')
+  .popup()
+    ;
 
     if ($(".searchType").val() === "SearchPosts") {
         $(".ui.user").css("display", "none");

@@ -228,7 +228,7 @@
                 </script>
             }
             <i class="icon home"></i>
-            <a class="item" href="">@Model.PostLocation.Address</a>
+            <a class="item" href="">@Model.PostLocation</a>
             @{
                 if (postTypes != null)
                 {
@@ -259,18 +259,19 @@
         </div>
 
         @*Related Tags*@
-        @{
-            if (Model.Tags != null)
-            {
-                <div class="ui segment" style="width: 100%; border: 0 !important;padding-top: 0">
-                    <i class="tags icon" style="float: left"></i>Thẻ liên quan:
-                    @foreach (var tag in Model.Tags)
-                    {
-                        <a href="" style="text-decoration:underline;">@tag.TagText</a>
-                    }
-                </div>
-
-            }
+    @{
+//baochi tham
+@*            if (Model.Tags.Count!=0)*@
+@*            {*@
+@*                <div class="ui segment" style="width: 100%; border: 0 !important;padding-top: 0">*@
+@*                    <i class="tags icon" style="float: left"></i>Thẻ liên quan:*@
+@*                    @foreach (var tag in Model.Tags)*@
+@*                    {*@
+@*                        <a href="" style="text-decoration:underline;">@tag.TagText</a>*@
+@*                    }*@
+@*                </div>*@
+@**@
+@*            }*@
         }
 
     </div>

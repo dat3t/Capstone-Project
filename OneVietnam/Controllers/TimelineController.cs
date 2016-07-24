@@ -152,9 +152,17 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
-        public async Task<PartialViewResult> EnableTwoFactorAuthentication()
+        public async Task<PartialViewResult> EnableTwoFactorAuthentication(string value)
         {
-            await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), true);
+            if (value == "Bật")
+            {
+                await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), true);
+            }
+            else
+            {
+                await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), false);
+
+            }
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {

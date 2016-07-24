@@ -38,14 +38,14 @@ namespace OneVietnam.Controllers
         }
 
 
-        //public async Task<ActionResult> TimeLine()
+        //public async Task<ActionResult> NewFeeds()
         //{
         //    return RedirectToAction("GetPosts");
         //}
 
         public const int RecordsPerPage = 5;
         //
-        // GET: /Account/TimeLine
+        // GET: /Account/NewFeeds
         //public async Task<ActionResult> GetPosts(int? pageNum)
         //{
         //    pageNum = pageNum ?? 0;
@@ -66,7 +66,7 @@ namespace OneVietnam.Controllers
         //        Session["Posts"] = posts.ToDictionary(x => postIndex++, x => x);
 
         //        ViewBag.Posts = GetRecordsForPage(pageNum.Value);
-        //        return View("TimeLine");
+        //        return View("NewFeeds");
         //    }
         //}
 
