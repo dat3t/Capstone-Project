@@ -59,15 +59,25 @@ namespace OneVietnam.Controllers
             list.AddRange(postlist.Select(p => new AddLocationViewModel
             {
                 UserId = p.UserId, X = p.PostLocation.XCoordinate, Y = p.PostLocation.YCoordinate, PostId = p.Id, PostType = p.PostType
-            }));
-            var baseFilter = new BaseFilter {Limit = Constants.LimitedNumberOfPost};
-            var builder = Builders<Post>.Filter;
-            var filter = builder.Eq("DeletedFlag", false) & builder.Eq("LockedFlag", false) & builder.Eq("Status", true);
-            var sort = Builders<Post>.Sort.Descending("CreatedDate");
-            ViewBag.topPostModel = await PostManager.FindAllAsync(baseFilter, filter, sort).ConfigureAwait(false);
+            }));            
+            ViewBag.topPostModel = await GetTopPostInfo();            
             return View(list);
         }
-   
+        public async Task<List<PostInfoWindowModel>> GetTopPostInfo()
+        {
+            var baseFilter = new BaseFilter { Limit = Constants.LimitedNumberOfPost };
+            var builder = Builders<Post>.Filter;
+            var filter = builder.Eq("DeletedFlag", false) & builder.Eq("LockedFlag", false) & builder.Eq("Status", true);
+            var sort = Builders<Post>.Sort.Ascending("CreatedDate");
+            var topPostList = await PostManager.FindAllAsync(baseFilter, filter, sort).ConfigureAwait(false);
+
+            var result = new PostInfoWindowModel();
+
+            return topPostList.Select(p => new PostInfoWindowModel
+            {
+                Address = p.PostLocation.Address, postId = p.Id, CreatedDate = (DateTimeOffset) p.CreatedDate, Title = p.Title
+            }).ToList();
+        }
 
         //[HttpPost] // can be HttpGet
         public async Task<ActionResult> GetUserInfo(string userId)
