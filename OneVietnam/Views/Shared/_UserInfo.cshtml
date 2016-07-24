@@ -17,9 +17,20 @@
         <div class="description">
             <div class="userInfoModal" style="position:relative;">
                 <div>
-                    <a class="item">
-                        <i class="small icon marker" style="width:100%;text-align:left"> @Model.Location.Address</i>
+                    <a class="item" title="@Model.Location.Address">
+                        <i class="small icon marker" style="width:100%;text-align:left">
+                            @if (@Model.Location.Address.Length > 65)
+                            {
+                               @Model.Location.Address.Substring(0, 60);
+                            }
+                            else
+                            {
+                              @Model.Location.Address
+                            }
+                            ...
+                       </i>
                     </a>
+
                 </div>
                 <div>
                     <a class="item">
