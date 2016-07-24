@@ -21,8 +21,14 @@ namespace OneVietnam.Models
         public TimelineViewModel(ApplicationUser user, List<Post> posts)
         {
             Id = user.Id;
-            UserName = user.UserName;
-            //AvatarLink = user.AvatarLink; TODO           
+            if (user.UserName != null)
+            {
+                UserName = user.UserName;
+            }            
+            if (user.AvatarLink != null)
+            {
+                AvatarLink = user.AvatarLink;
+            }                    
             if (posts != null)
             {
                 PostList = new List<PostViewModel>();
@@ -51,11 +57,18 @@ namespace OneVietnam.Models
 
         public UserProfileViewModel(ApplicationUser user)
         {
-            Id = user.Id;                
+            Id = user.Id;            
             Gender = user.Gender;            
             Email = user.Email;
-            PhoneNumber = user.PhoneNumber;
-            Address = user.Location;
+            if (user.PhoneNumber != null)
+            {
+                PhoneNumber = user.PhoneNumber;
+            }
+            if (user.Location != null)
+            {
+                Address = user.Location;
+            }
+            
         }
 
     }
@@ -64,8 +77,8 @@ namespace OneVietnam.Models
     public class TwoFacterViewModel
     {
         public string Id { get; set; }
-        public bool TwoFacterEnabled { get; set; }
-
+        public bool TwoFacterEnabled { get; set; }        
+        public bool HasPassWord { get; set; }
         public TwoFacterViewModel()
         {
         }
@@ -74,26 +87,27 @@ namespace OneVietnam.Models
         {
             Id = user.Id;
             TwoFacterEnabled = user.TwoFactorEnabled;
+            HasPassWord = user.PasswordHash != null;
         }
     }
 
     public class ChangePasswordViewModel
     {        
 
-        [Required]
+        [Required(ErrorMessage = "{0} không được để trống")]
         [DataType(DataType.Password)]
         [Display(Name = "Mật khẩu hiện tại")]
         public string OldPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "{0} không được để trống")]
         [StringLength(100, ErrorMessage = "{0} phải chứa ít nhất {2} kí tự.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Mật khẩu mới")]
         public string NewPassword { get; set; }
-
+        
         [DataType(DataType.Password)]
         [Display(Name = "Xác nhận lại mật khẩu mới")]
-        [Compare("NewPassword", ErrorMessage = "Mật khẩu mới và xác nhận lại mật khẩu không khớp với nhau.")]
+        [Compare("NewPassword", ErrorMessage = "Mật khẩu mới và mật khẩu xác nhận lại không khớp với nhau.")]
         public string ConfirmPassword { get; set; }
 
         public ChangePasswordViewModel()

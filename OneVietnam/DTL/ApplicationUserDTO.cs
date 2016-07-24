@@ -22,6 +22,10 @@ namespace OneVietnam.DTL
 
         public int Gender { get; set; }
         [BsonIgnoreIfNull]
-        public Location Location { get; set; }                
+        public Location Location { get; set; }
+
+        //ThamDTH Add
+        [BsonIgnoreIfNull]
+        public string AvatarLink { get; set; }
     }
 }

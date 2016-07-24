@@ -373,6 +373,7 @@
     <Content Include="Content\Images\m3.png" />
     <Content Include="Content\Images\m4.png" />
     <Content Include="Content\Images\m5.png" />
+    <Content Include="Content\Images\no-avatar.png" />
     <Content Include="Content\Images\no-image.png" />
     <Content Include="Content\Images\poke_celebi.png" />
     <Content Include="Content\Images\rua.png" />
