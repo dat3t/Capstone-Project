@@ -5,7 +5,7 @@ var userInfoWindow;
 var infowindow;
 var infowindowContent;
 var isFirstTime = true;
-var myCurrentLocationMarker;
+var myCurrentLocationMarker, myHomeMarker;
 var markerCluster;
 
 var listUserMarkers = [], listMaleMarkers = [], listFemaleMarkers = [], listLGBTMarkers = [];
@@ -45,7 +45,7 @@ function checkAuthenticated() {
         icon: icon
     });
 
-    var myHomeMarker = new google.maps.Marker({
+    myHomeMarker = new google.maps.Marker({
         title: "Vị trí của tôi",
         icon: myhomeicon
     });
@@ -469,7 +469,7 @@ function showCurrentLocation() {
     var p2 = { lat: 36.238666, lng: 137.96902209999996 };
 
     //document.getElementById('cal').innerHTML = getDistance(p1,p2);
-
+    myHomeMarker.setMap(null);
     //Identify current user's location and bind it to the map
     //Using HTML5 geolocation.
     if (navigator.geolocation) {
@@ -480,6 +480,7 @@ function showCurrentLocation() {
             };
 
             myCurrentLocationMarker.setPosition(pos);
+            myCurrentLocationMarker.setMap(map);
             // addMarker(pos);
             map.setZoom(12);
             map.setCenter(pos);
@@ -495,6 +496,9 @@ function showCurrentLocation() {
 }
 
 function showMyLocation() {
+    myCurrentLocationMarker.setMap(null);
+    myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
+    myHomeMarker.setMap(map);
     map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
     map.setZoom(14);
 }
