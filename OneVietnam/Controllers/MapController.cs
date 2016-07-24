@@ -63,7 +63,7 @@ namespace OneVietnam.Controllers
             var baseFilter = new BaseFilter {Limit = Constants.LimitedNumberOfPost};
             var builder = Builders<Post>.Filter;
             var filter = builder.Eq("DeletedFlag", false) & builder.Eq("LockedFlag", false) & builder.Eq("Status", true);
-            var sort = Builders<Post>.Sort.Ascending("CreatedDate");
+            var sort = Builders<Post>.Sort.Descending("CreatedDate");
             ViewBag.topPostModel = await PostManager.FindAllAsync(baseFilter, filter, sort).ConfigureAwait(false);
             return View(list);
         }
