@@ -18,6 +18,8 @@ namespace OneVietnam.Controllers
         public async Task<ActionResult> Index(string query)
         {
             //todo
+
+            // Hien top 5 users va 1 page row cac bai post, sau do thuc hien infiniti scroll giong trang timeline
             var usersBaseFilter = new BaseFilter
             {                
                 Limit = Constants.LimitedNumberDisplayUsers
@@ -33,6 +35,13 @@ namespace OneVietnam.Controllers
             //return View(postViewModels);
             return View();
         }
+        //todo
+        //public async Task<ActionResult> UsersResult(string query)
+        //{
+        //    var baseFilter = new BaseFilter();
+        //    var users = await UserManager.TextSearchUsers(query, baseFilter).ConfigureAwait(false);
+        //    return View();
+        //}
         private ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
         {

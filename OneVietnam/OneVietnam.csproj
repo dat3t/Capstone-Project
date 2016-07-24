@@ -283,6 +283,7 @@
     <Compile Include="DTL\MessageDTO.cs" />
     <Compile Include="Models\PostInfoWindowModel.cs" />
     <Compile Include="Models\ReportViewModal.cs" />
+    <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\TimelineViewModel.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="BLL\CountryManager.cs" />
