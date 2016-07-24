@@ -52,7 +52,7 @@
         </div>
 
     }
-    <button class="ui blue button" style="width:380px !important;position:absolute; bottom:0;" onclick="location.href='@Url.Action("Timeline", "Post")'">Xem tất cả bài đăng</button>
+ @*   <button class="ui blue button" style="width:380px !important;position:absolute; bottom:0;" onclick="location.href='@Url.Action("Timeline", "Post")'">Xem tất cả bài đăng</button>*@
 
 
     <script>
@@ -62,7 +62,7 @@
 
         $("#mySidenav").scroll(function () {
             if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
-                alert('end reached');
+               // alert('end reached');
                 loadMoreToInfiniteScrollTable(moreRowsUrl);
             }
         });
