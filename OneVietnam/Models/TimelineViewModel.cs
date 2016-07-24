@@ -25,9 +25,9 @@ namespace OneVietnam.Models
             {
                 UserName = user.UserName;
             }            
-            if (user.AvatarLink != null)
+            if (user.Avatar != null)
             {
-                AvatarLink = user.AvatarLink;
+                AvatarLink = user.Avatar;
             }                    
             if (posts != null)
             {

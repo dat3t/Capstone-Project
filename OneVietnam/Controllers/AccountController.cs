@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -14,7 +15,6 @@ using System.Web.Mvc;
 using Facebook;
 using Microsoft.AspNet.SignalR;
 using MongoDB.Bson.IO;
-using SignInStatus = OneVietnam.BLL.SignInStatus;
 using System.Web.Script.Serialization;
 using OneVietnam.BLL;
 using OneVietnam.DTL;
@@ -86,15 +86,6 @@ namespace OneVietnam.Controllers
 
             return View(countrieslist);
         }
-
-        //DEMO
-        public async Task<ActionResult> ShowAllUsers()
-        {
-            var userslist = await UserManager.AllUsersAsync();
-            List<UserViewModel> listview = userslist.Select(user => new UserViewModel(user)).ToList();
-            return View(listview);
-        }
-
         //DEMO
         public ActionResult CreateCountry()
         {
@@ -155,33 +146,27 @@ namespace OneVietnam.Controllers
             if (!ModelState.IsValid)
             {
                 return View(model);
-            }
-
-            // Require the user to have a confirmed email before they can log on.
-            //var user = await UserManager.FindAsync(model.Email, model.Password);
-            var user = await UserManager.FindByEmailAsync(model.Email);
-            if (user != null && await UserManager.CheckPasswordAsync(user, model.Password))
-            {
-                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
-                {
-                    ViewBag.errorMessage = "You must have a confirmed email to log on.";
-                    return View("Error");
-                }
-            }
+            }         
             // This doen't count login failures towards lockout only two factor authentication
             // To enable password failures to trigger lockout, change to shouldLockout: true
-            var result = await SignInHelper.PasswordSignIn(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInHelper.PasswordSignIn(model.Email, model.Password, model.RememberMe, shouldLockout: true);
             switch (result)
             {
                 case SignInStatus.Success:
+
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
+                    ViewBag.LockedDuration =
+                        ConfigurationManager.AppSettings["DefaultAccountLockoutTimeSpan"].ToString();
                     return View("Lockout");
+                case SignInStatus.RequiresConfirmingEmail:
+                    ViewBag.errorMessage = "Bản Phải Xác Nhận Mail Trước Khi Đăng Nhập";
+                    return View("Error");
                 case SignInStatus.RequiresTwoFactorAuthentication:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Thông Tin Đăng Nhập Không Hợp Lệ");
                     return View(model);
             }
         }
@@ -253,7 +238,7 @@ namespace OneVietnam.Controllers
                     Address = model.Location
                 };
 
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Gender = model.Gender,Location = location};
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Gender = model.Gender,Location = location, CreatedDate = DateTimeOffset.UtcNow};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -475,13 +460,20 @@ namespace OneVietnam.Controllers
                             return View("ExternalLoginFailure");
                         }
                         var access_token = claimsIdentity.FindAll("FacebookAccessToken").First().Value;
-                        var fb = new FacebookClient(access_token);
-                        dynamic userInfo = fb.Get("/me");
-                        dynamic userEmail = fb.Get("me?fields=email");
+                        var fb = new FacebookClient(access_token);                        
+                        dynamic userInfo = fb.Get("me?fields=name,email,gender,picture.width(800)");                        
                         string name = userInfo["name"];
-                        string email = userEmail["email"];
+                        string email = userInfo["email"];
+                        string fbGender = userInfo["gender"];
+                        string avatar = userInfo["picture"]["data"]["url"];
+                        var gender=(int)Gender.Other;
+                        Gender choice;
+                        if (Enum.TryParse(fbGender, out choice))
+                        {
+                            gender = (int) choice;
+                        }                        
                         var location = new Location(xCoordinateExternal, yCoordinateExternal, locationExternal);
-                        var user = new ApplicationUser { UserName = name, Email = email,Location = location};
+                        var user = new ApplicationUser { UserName = name, Email = email,Location = location,Gender = gender,Avatar = avatar,CreatedDate = DateTimeOffset.UtcNow};
                         //Add to database
                         var result2 = await UserManager.CreateAsync(user);
                         if (result2.Succeeded)
@@ -527,7 +519,7 @@ namespace OneVietnam.Controllers
             {
                 // Retrieve the existing claims for the user and add the FacebookAccessTokenClaim
                 var currentClaims = await UserManager.GetClaimsAsync(user.Id);
-                var facebookTokenFromDb = currentClaims.Where(o => o.Type == "FacebookAccessToken").FirstOrDefault();
+                var facebookTokenFromDb = currentClaims.FirstOrDefault(o => o.Type == "FacebookAccessToken");
 
                 //Search the claims (from the cookie) for the facebook access token
                 var facebookAccessToken = claimsIdentity.FindAll("FacebookAccessToken").First();

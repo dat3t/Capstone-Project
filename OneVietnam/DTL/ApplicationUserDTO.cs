@@ -20,12 +20,12 @@ namespace OneVietnam.DTL
             return userIdentity;
         }
 
-        public int Gender { get; set; }
-        [BsonIgnoreIfNull]
+        public int Gender { get; set; }               
         public Location Location { get; set; }
-
-        //ThamDTH Add
+        public DateTimeOffset CreatedDate { get; set; }
         [BsonIgnoreIfNull]
-        public string AvatarLink { get; set; }
+        public string Avatar { get; set; }
+        [BsonIgnoreIfNull]
+        public List<Connection> Connections { get; set; }                        
     }
 }

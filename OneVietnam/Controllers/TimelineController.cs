@@ -71,7 +71,7 @@ namespace OneVietnam.Controllers
         {
             get
             {
-                var tags = TagManager.GetTagsAsync();
+                var tags = TagManager.FindAllAsync();
                 return tags?.Result;
             }
         }

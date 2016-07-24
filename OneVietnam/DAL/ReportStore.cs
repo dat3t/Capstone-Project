@@ -1,34 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using OneVietnam.DTL;
 
 namespace OneVietnam.DAL
 {
-    public class ReportStore
-    {
-        private readonly IMongoCollection<Report> _reports;
-
-        public ReportStore(IMongoCollection<Report> pReports)
+    public class ReportStore : AbstractStore<Report>
+    {                
+        public override Task UpdateAsync(Report instance)
         {
-            _reports = pReports;
+            return Collection.ReplaceOneAsync(c => c.Id == instance.Id, instance, null);
         }
 
-        public Task CreatAsync(Report pReport)
+        public override async Task UpdateAsync(Report instance, bool upsert)
         {
-            return _reports.InsertOneAsync(pReport);
-        }
-
-        public virtual Task UpdateAsync(Report pReport)
+            try
+            {
+                var option = new UpdateOptions() { IsUpsert = upsert };
+                await Collection.ReplaceOneAsync(p => p.Id == instance.Id, instance, option).ConfigureAwait(false);
+            }
+            catch (MongoConnectionException ex)
+            {
+                throw new MongoConnectionException(ex.ConnectionId, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }        
+        public ReportStore(IMongoCollection<Report> collection) : base(collection)
         {
-            return _reports.ReplaceOneAsync(c => c.Id == pReport.Id, pReport, null);
         }
-
-        public Task<List<Report>> GetReportsAsync()
-        {
-            return _reports.Find(u => true).ToListAsync();
-        }
-
-
     }
 }

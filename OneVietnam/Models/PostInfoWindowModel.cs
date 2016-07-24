@@ -10,9 +10,9 @@ namespace OneVietnam.Models
         public string Title { get; set; }
         public string UserId { get; set; }
         public string postId { get; set; }
-        public DateTimeOffset PublishDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
         public string Address { get; set; }
 
-
+         
     }
 }

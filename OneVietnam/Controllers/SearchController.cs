@@ -7,7 +7,6 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using OneVietnam.BLL;
-using OneVietnam.Common;
 using OneVietnam.DTL;
 using OneVietnam.Models;
 
@@ -18,13 +17,21 @@ namespace OneVietnam.Controllers
         // GET: Search
         public async Task<ActionResult> Index(string query)
         {
-            var result = await PostManager.FullTextSearch(query);
-            List<PostViewModel> postViewModels = new List<PostViewModel>();
-            foreach (var post in result)
-            {
-                postViewModels.Add(new PostViewModel(post));
-            }
-            return View(postViewModels);
+            //todo
+            var usersBaseFilter = new BaseFilter
+            {                
+                Limit = Constants.LimitedNumberDisplayUsers
+            };
+            var userResult = await UserManager.TextSearchUsers(query, usersBaseFilter);
+            var postsBaseFilter = new BaseFilter();
+            var postResult = await PostManager.FullTextSearch(query, postsBaseFilter);
+            //List<PostViewModel> postViewModels = new List<PostViewModel>();
+            //foreach (var post in result)
+            //{
+            //    postViewModels.Add(new PostViewModel(post));
+            //}
+            //return View(postViewModels);
+            return View();
         }
         private ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
@@ -54,7 +61,7 @@ namespace OneVietnam.Controllers
             var filter = new BaseFilter
             {
                 CurrentPage = 1,
-                ItemsPerPage = Common.Constants.ResultMaximumNumber
+                ItemsPerPage = Constants.ResultMaximumNumber
             };
 
             var result = await PostManager.FullTextSearch(query, filter);
@@ -66,17 +73,17 @@ namespace OneVietnam.Controllers
                     Url = Url.Action("ShowPostDetail", "Post", new { postId = item["_id"].ToString() })
                 };
                 //searchItem.Description = item["Description"].AsString.Substring(0,Math.Min(200, item["Description"].AsString.Length));
-                if (item["Description"].AsString.Length > Common.Constants.DescriptionMaxLength)
+                if (item["Description"].AsString.Length > Constants.DescriptionMaxLength)
                 {
-                    searchItem.Description = item["Description"].AsString.Substring(0, Common.Constants.DescriptionMaxLength) + "...";
+                    searchItem.Description = item["Description"].AsString.Substring(0, Constants.DescriptionMaxLength) + "...";
                 }
                 else
                 {
                     searchItem.Description = item["Description"].AsString;
                 }
-                if (item["Title"].AsString.Length > Common.Constants.TitleMaxLength)
+                if (item["Title"].AsString.Length > Constants.TitleMaxLength)
                 {
-                    searchItem.Title = item["Title"].AsString.Substring(0, Common.Constants.TitleMaxLength) + "...";
+                    searchItem.Title = item["Title"].AsString.Substring(0, Constants.TitleMaxLength) + "...";
                 }
                 else
                 {

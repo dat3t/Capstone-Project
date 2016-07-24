@@ -1,16 +1,26 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "ui form" }))
-    {
-        @Html.AntiForgeryToken()
-        <div class="item" >
-            @Html.ActionLink("Hi " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new {title = "Manage"})
-        </div>        
-        <div class="item">
-            <a href="javascript:document.getElementById('logoutForm').submit()">Đăng Xuất</a>
+    <div class="item">
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "ui form"}))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new {title = "Manage"})
+        }
+    </div>
+    <div class="ui item">        
+        <div>
+            <i class="talk icon" id="chatchat"></i>
         </div>
-    }
+        <div class="segment" id="messagechat" style="display: block">
+            <p>Hello world</p>
+        </div>
+    </div>
+    <div class="item">
+        <a href="javascript:document.getElementById('logoutForm').submit()">
+            <i class="power icon"></i>
+        </a>
+    </div>
 }
 else
 {

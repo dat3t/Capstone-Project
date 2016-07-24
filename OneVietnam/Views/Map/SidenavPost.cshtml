@@ -20,42 +20,79 @@
         //}
     </script>*@
 
+<link rel="stylesheet" type="text/css" href="~/Content/Map/infoWindow.css">
 
-<div id="mySidenav" class="sidenav scrollbar" style="position:absolute;left:0px;top:0px;">
+
     @foreach (var post in Model)
     {
         <div id="wrapper" class="segment" style="height:150px;  border-bottom: 1px solid #E2E2E2;">
-            <div class="iw-content" style="padding:5px;">
-                <div id="navInfo" style="margin-left:3px;">
+            <div class="iw-content2" style="padding:5px;">
+                <div id="navInfo2" style="margin-left:3px;">
                     <img src="../Content/Images/pikachu.jpg" alt="Trần Trọng Tiến Đạt" height="115" width="115">
                 </div>
-                <div id="sectionInfo" style="position:absolute;margin-left:115px;margin-top:0px !important;">
+                <div id="sectionInfo2" style="position:absolute;margin-left:115px;margin-top:0px !important;">
                     <div style="margin-top:3px;"><b>@post.Title</b></div>
                     <div style="margin-left:1px;text-align:left!important;font-size:20px;">
                         <a class="item">
-                            <i class="small icon marker" style="width:100%;text-align:left"> @post.Address</i> 
+                            <i class="small icon marker" style="width:100%;text-align:left"> @post.Address</i>
                         </a>
                     </div>
                     <div style="margin-left:1px;text-align:left;font-size:20px;">
                         <a class="item">
-                            <i class="small icon calendar" style="width:100%;text-align:left"> @post.PublishDate</i>
+                            <i class="small icon calendar" style="width:100%;text-align:left"> @($"{post.CreatedDate:dd/MM/yyyy}")</i>
                         </a>
                     </div>
-                  
+
                     <button class="ui mini button" style="position:absolute;margin-top:45px!important;margin-right:0px;" onclick="location.href='@Url.Action("ShowPostDetail", "Post",new {postId= @post.postId})'">
                         <i class="pointing right icon" style="width:100%;"> Xem chi tiết</i>
                     </button>
-                  
+
                 </div>
             </div>
         </div>
 
     }
-    <button class="ui blue button" style="width:380px !important;position:absolute; bottom:0;" onclick="location.href='@Url.Action("Timeline", "Post")'">Hiện tất cả bài đăng</button>
-</div>
-<div id="aa" onclick="toggle()" class="ui blue big centered launch right attached fixed button" style="position: absolute; left: 0px; margin-left:380px;top:40%;transition: margin-left .5s;width:60px;">
-    <div style="position:relative;">
-        <i id="button" class="arrow left icon"></i>
-        @*  <span class="text" id="button2">Bài đăng</span>*@
-    </div>
-</div>
+ @*   <button class="ui blue button" style="width:380px !important;position:absolute; bottom:0;" onclick="location.href='@Url.Action("Timeline", "Post")'">Xem tất cả bài đăng</button>*@
+
+
+    <script>
+        ////$('#mySidenav').scroll(scrollHandler2);
+        var moreRowsUrl = '/Post/TimeLine';
+        var page = 1;
+
+        $("#mySidenav").scroll(function () {
+            if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+               // alert('end reached');
+                loadMoreToInfiniteScrollTable(moreRowsUrl);
+            }
+        });
+
+
+        function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
+            if (page > -1) {
+                page++;
+                $.ajax({
+                    type: 'GET',
+                    url: loadMoreRowsUrl,
+                    data: "pageNum=" + page,
+                    success: function (data, textstatus) {
+                        if (data != '') {
+                            var $items = $(data);
+
+                            $('#mySidenav').append($items).isotope('appended', $items);
+
+
+                        }
+                        else {
+                            page = -1;
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    }
+                });
+            }
+        }
+
+    </script>
+
+
