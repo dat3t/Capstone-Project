@@ -431,7 +431,7 @@ else
     </div>
     <div id="dat">
         @{ List<PostInfoWindowModel> list = new List<PostInfoWindowModel>();
-            list = ViewBag.top5PostModel;
+            list = ViewBag.topPostModel;
         }
         @Html.Partial("SidenavPost", (list));
     </div>

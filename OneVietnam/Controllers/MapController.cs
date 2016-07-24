@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Compilation;
 using System.Web.Mvc;
+using MongoDB.Driver;
 
 namespace OneVietnam.Controllers
 {
@@ -58,8 +60,11 @@ namespace OneVietnam.Controllers
             {
                 UserId = p.UserId, X = p.PostLocation.XCoordinate, Y = p.PostLocation.YCoordinate, PostId = p.Id, PostType = p.PostType
             }));
-            ViewBag.top5PostModel = await GetTop5PostInfo();
-
+            var baseFilter = new BaseFilter {Limit = Constants.LimitedNumberOfPost};
+            var builder = Builders<Post>.Filter;
+            var filter = builder.Eq("DeletedFlag", false) & builder.Eq("LockedFlag", false) & builder.Eq("Status", true);
+            var sort = Builders<Post>.Sort.Ascending("CreatedDate");
+            ViewBag.topPostModel = await PostManager.FindAllAsync(baseFilter, filter, sort).ConfigureAwait(false);
             return View(list);
         }
    
@@ -135,26 +140,6 @@ namespace OneVietnam.Controllers
             var result = new UserViewModel(user);
             //return PartialView("_ShowPostDetail",result); ;
             return PartialView("_UserInfo", result);
-        }
-
-
-        public async Task<List<PostInfoWindowModel>> GetTop5PostInfo()
-        {
-            var baseFilter = new BaseFilter {Limit = 5};
-            var top5PostList = await PostManager.FindAllAsync(baseFilter);
-            var result = new PostInfoWindowModel();
-            var top5PostModel = new List<PostInfoWindowModel>();
-            foreach (var p in top5PostList)
-            {
-                var postModel = new PostInfoWindowModel();
-                postModel.Address = p.PostLocation.Address;
-                postModel.postId = p.Id;
-                postModel.CreatedDate = (DateTimeOffset)p.CreatedDate;
-                postModel.Title = p.Title;
-                top5PostModel.Add(postModel);
-            }
-
-            return top5PostModel;
-        }
+        }        
     }
 }
