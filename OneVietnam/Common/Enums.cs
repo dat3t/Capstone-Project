@@ -5,15 +5,15 @@ using System.Web;
 
 namespace OneVietnam
 {
-    public enum PostTypEnum
-    {
-        ViecLam = 4,
-        NhaO = 5,
-        XachTay = 6,
-        MuaBan = 7,
-        ChoDo = 8,
-        LoaiKhac = 9
-    }
+        public enum PostTypEnum
+        {
+            ViecLam = 4,
+            NhaO = 5,
+            XachTay = 6,
+            MuaBan = 7,
+            ChoDo = 8,
+            LoaiKhac = 9
+        }
 
     public enum MessageType
     {

@@ -1,0 +1,71 @@
+﻿
+@using Microsoft.Ajax.Utilities
+@using Microsoft.AspNet.Identity
+@using OneVietnam.BLL
+@model OneVietnam.Models.UserProfileViewModel
+
+<div class="ui segment">
+    <div class="ui selection list">        
+        <div class="ui item">
+            Giới tính
+            @{
+                if (Model.Gender == (int)Constant.Gender.Female)
+                {
+                    <div class="conten">Nữ</div>
+                }
+                else if (Model.Gender == (int) Constant.Gender.Male)
+                {
+                    <div class="conten">Nam</div>
+                }
+                else
+                {
+                    <div class="conten">Khác</div>
+                }
+            }
+
+        </div>
+        <div class="ui item">
+            Địa chỉ
+            @if (Model.Address != null)
+            {
+                <div class="conten">@Model.Address.Address</div>
+            }
+            else
+            {
+                if (Model.Id.Equals(User.Identity.GetUserId()))
+                {
+                    <div class="content">Bạn chưa thêm địa chỉ</div>
+                }
+                else
+                {
+                    <div class="content">Người dùng chưa thêm địa chỉ liên hệ</div>
+                }
+            }
+            
+        </div>
+        <div class="ui item">
+            Email
+            <div class="conten">@Model.Email</div>
+        </div>
+        <div class="ui item">
+            Số điện thoại
+            @if (Model.PhoneNumber != null)
+            {
+                <div class="conten">@Model.PhoneNumber</div>
+            }
+            else
+            {
+                if (Model.Id.Equals(User.Identity.GetUserId()))
+                {
+                    <div class="content">Bạn chưa thêm số điện thoại</div>
+                }
+                else
+                {
+                    <div class="content">Người dùng chưa thêm sô điện thoại</div>
+                }
+            }
+
+        </div>        
+    </div>
+</div>
+

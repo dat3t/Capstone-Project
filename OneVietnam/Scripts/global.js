@@ -1,5 +1,24 @@
 ﻿
 $(document).ready(function () {
+    //function createUploader() {
+    //    var uploader = new qq.FineUploader({
+    //        element: document.getElementById('fine-uploader'),
+    //        request: {
+    //            endpoint: '@Url.Action("UploadBatchDataFile")'
+    //        }
+    //    });
+    //}
+    //window.onload = createUploader;
+    $(".ui.toggle.button").state({
+        text: {
+            inactive: 'Bật',
+            active: 'Tắt'
+        }
+    })
+    ;
+    $('.icon')
+  .popup()
+    ;
     //(function (d, s, id) {
     //    var fjs = d.getElementsByTagName(s)[0];
     //    if (d.getElementById(id)) return;
@@ -84,10 +103,15 @@ $(document).ready(function () {
     $('.clearing.star.rating').rating('setting', 'clearable', true);
 
 
-    //$('.ui.dropdown')
-    //  .dropdown({
-    //      allowAdditions: true
-    //  })
+    $('.ui.multiple.dropdown')
+      .dropdown({
+          allowAdditions: true
+      })
+    ;
+    $('#drPostType')
+      .dropdown({
+          
+      })
     ;
     $('.delete.icon.image-add').on('click', function () {
         $(this).parent().remove();;
@@ -100,6 +124,10 @@ $(document).ready(function () {
 
     $('.icon.link').popup({});    
    
+    $('.tabular.menu .item').tab({
+    });
+
+    //ToanLM
 
 
     var $grid = $('.grids').isotope({
@@ -117,13 +145,13 @@ $(document).ready(function () {
         var $this = $(this).parent();
         $(this).parent().find('.marker').toggleClass("hides");
        
-      
+     
 //        //like button
-        $(e.currentTarget).parent().find('.socials').html(
-            "<div class='fb-comments' style='width: 100%' data-href='" +
-                           window.location.href +
-                            "' data-numposts='3' ></div>");
-        FB.XFBML.parse($this.attr('id'));
+        //$(e.currentTarget).parent().find('.socials').html(
+        //    "<div class='fb-comments' style='width: 100%' data-href='" +
+        //                   window.location.href +
+        //                    "' data-numposts='3' ></div>");
+        //FB.XFBML.parse($this.attr('id'));
       
 //        $(this).parent().parent().toggleClass('gigante');
         // trigger layout after item size changes
@@ -163,16 +191,16 @@ $('#return-to-top').click(function () {      // When arrow is clicked
         scrollTop: 0                       // Scroll to top of body
     }, 300);
 });
-    
+
 $('.filter-group').on('click', 'a', function () {
     var filterValue = $(this).attr('data-filter');
     // use filterFn if matches value
     $grid.isotope({ filter: filterValue });
 });
-$(document).ajaxComplete(function () {
-    try {
-        FB.XFBML.parse(document.getElementsByClassName("grid-item"));
-        alert("fasfasf");
-    } catch (ex) { }
-});
+//$(document).ajaxComplete(function () {
+//    try {
+//        FB.XFBML.parse(document.getElementsByClassName("grid-item"));
+//        alert("fasfasf");
+//    } catch (ex) { }
+//});
 });
