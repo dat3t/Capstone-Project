@@ -264,7 +264,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="BLL\MessageManager.cs" />
+    <Compile Include="BLL\MessageManagerBLO.cs" />
     <Compile Include="BLL\ReportManagerBLO.cs" />
     <Compile Include="Common\BaseFilter.cs" />
     <Compile Include="Common\Constants.cs" />
