@@ -24,7 +24,7 @@
         @*User post*@
         <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
             <span style="float: right">
-                Tạo ngày @($"{Model.PublishDate:dd/MM/yyyy}")
+                Tạo ngày @($"{Model.CreatedDate:dd/MM/yyyy}")
             </span>
             <a href="@Url.Action("TimeLine", "Timeline", new { userId = Model.UserId})">
                 <img class="ui middle aligned avatar image"
