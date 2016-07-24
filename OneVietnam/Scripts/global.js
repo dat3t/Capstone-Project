@@ -9,9 +9,10 @@ $(document).ready(function () {
     //    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
     //    fjs.parentNode.insertBefore(js, fjs);
     //}(document, 'script', 'facebook-jssdk'));
-    $('.icon')
-.popup()
-    ;
+    $("#chatchat").click(function () {
+        $("#messagechat").slideToggle();
+    });
+    $('.icon').popup();
 
     if ($(".searchType").val() === "SearchPosts") {
         $(".ui.user").css("display", "none");

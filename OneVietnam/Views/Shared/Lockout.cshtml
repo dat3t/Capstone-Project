@@ -3,8 +3,9 @@
 @{
     ViewBag.Title = "Locked Out";
 }
-
-<hgroup>
-    <h1 class="text-danger">Tạm Khóa Tài Khoản</h1>
-    <h2 class="text-danger">Tài Khoản Của Bạn Tạm Thời Bị Khóa Để Đảm Bảo An Toàn, Hãy Đăng Nhập Lại Sau @ViewBag.LockedDuration Phút</h2>
-</hgroup>
+<div class="ui message">
+    <div class="header">
+        Tài Khoản Bị Khóa
+    </div>
+    <p>Tài Khoản Của Bạn Tạm Thời Bị Khóa Để Đảm Bảo An Toàn, Hãy Đăng Nhập Lại Sau @ViewBag.LockedDuration Phút.</p>
+</div>
