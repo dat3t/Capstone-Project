@@ -17,6 +17,7 @@ namespace OneVietnam.Controllers
         // GET: Search
         public async Task<ActionResult> Index(string query)
         {
+            //todo
             var usersBaseFilter = new BaseFilter
             {                
                 Limit = Constants.LimitedNumberDisplayUsers
