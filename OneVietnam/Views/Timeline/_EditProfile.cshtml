@@ -1,0 +1,66 @@
+﻿
+@using Microsoft.AspNet.Identity
+@model OneVietnam.Models.UserProfileViewModel
+
+<div class="ui segment">
+    @if (Model.Id.Equals(User.Identity.GetUserId()))
+    {
+        <div class="ui right floated teal icon buttons" data-content="Sửa thông tin" >
+            <button class="ui  button" onclick="editableForm()"  ><i class="small edit icon"  ></i></button>
+        </div>
+    }
+    <p> </p>
+    <div class="ui selection list">
+
+        <div class="ui item">
+
+            <div class="ui selection dropdown tog disabled">
+                <input type="hidden" name="Gender" id="Gender" value="@Model.Gender">
+                <i class="dropdown icon"></i>
+                <div class="default text">Giới tính</div>
+                <div class="menu">
+                    <div class="item" data-value="0"><i class="woman icon"></i> Nữ</div>
+                    <div class="item" data-value="1"><i class="man icon"></i> Nam</div>
+                    <div class="item" data-value="2"><i class="genderless icon"></i>Khác</div>
+                </div>
+            </div>
+            <script>
+                $('.ui.dropdown').dropdown({});
+            </script>
+        </div>
+        <div class="ui item">
+            <div class="ui big fluid transparent tog disabled input">
+               <i class="large world icon"></i>
+                
+                @Html.EditorFor(model => model.Address.Address)
+            </div>
+        </div>
+        <div class="ui item">
+         
+            <div class="ui big fluid transparent tog disabled input">
+                <i class="large mail outline icon"></i>
+                @Html.EditorFor(model => model.Email)
+            </div>
+        </div>
+        <div class="ui item">
+
+            <div class="ui big fluid tog transparent disabled input">
+                <i class="large mobile icon"></i>
+                @Html.EditorFor(model => model.PhoneNumber)
+            </div>
+        </div>
+
+            <button class="hides ui  teal fluid button " id="btnSave" onclick="submitEditProfile()">
+                <i class="save user"></i>
+                Lưu
+            </button>
+
+
+        <div class="ui item" style="display: none">
+            @Html.EditorFor(model => model.Id)
+        </div>
+
+    </div>
+</div>
+
+

@@ -146,7 +146,7 @@ namespace OneVietnam.Controllers
 
         public const int RecordsPerPage = 60;
 
-        public async Task<ActionResult> TimeLine(int? pageNum)
+        public async Task<ActionResult> Newfeeds(int? pageNum)
         {
             if (TagList != null)
             {
@@ -215,32 +215,33 @@ namespace OneVietnam.Controllers
             List<PostViewModel> pViewList = list.Select(post => new PostViewModel(post)).ToList();
             return View(pViewList);
         }
-
-        public void _ShowPostDetail(string postId)
+        //ThamDTH Create
+        [HttpGet]
+        public async Task<ActionResult> _ShowPostDetail(string postId)
         {
-            ViewData.Clear();
-            var post = PostManager.FindByIdAsync(postId);
-            if (post.Result != null)
+            if (!string.IsNullOrEmpty(postId))
             {
-                ViewBag.PostDetail = post.Result;
-
-                if (TagList != null)
+                Post post = await PostManager.FindByIdAsync(postId);
+                if (post != null)
                 {
-                    ViewData["TagList"] = TagList;
+                    if (TagList != null)
+                    {
+                        ViewData["TagList"] = TagList;
+                    }
+                    if (IconList != null)
+                    {
+                        ViewData["PostTypes"] = IconList;
+                    }
+                    ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
+                    if (postUser != null)
+                    {
+                        PostViewModel showPost = new PostViewModel(post, postUser.UserName);
+                        return PartialView("../Post/_ShowPostDetail", showPost);
+                    }
                 }
-                if (IconList != null)
-                {
-                    ViewData["PostTypes"] = IconList;
-                }
-
-                var postUser =  UserManager.FindByIdAsync(post.Result.UserId);
-                if (postUser.Result != null)
-                {
-                    ViewBag.PostUser = postUser.Result;
-                }
-            }                        
+            }
+            return View();
         }
-
         //ThamDTH Create
         public async Task<ActionResult> ShowPostDetail(string postId)
         {
@@ -252,31 +253,32 @@ namespace OneVietnam.Controllers
             {
                 ViewData["PostTypes"] = IconList;
             }
-            
-            Post post = await PostManager.FindByIdAsync(postId);            
+            Post post = await PostManager.FindByIdAsync(postId);
             if (post != null)
             {
                 ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
                 if (postUser != null)
                 {
-                    ViewData["PostUser"] = postUser;
+
+                    PostViewModel showPost = new PostViewModel(post, postUser.UserName);
+
+                    return View(showPost);
                 }
-                PostViewModel showPost = new PostViewModel(post);
-                return View(showPost);
-            }                      
-                        
+            }
             return View();
         }
 
         //ThamDTH Create
         [HttpPost]
         public ActionResult ShowPostDetail(PostViewModel pPostView)
-        {            
+
+        {
             ViewData.Clear();
             string strPostId = "";
             if (Request.Form.Count > 0)
             {
                 strPostId = Request.Form["PostId"];
+
             }
             return RedirectToAction("DeletePost", "Post", new { postId = strPostId });
         }

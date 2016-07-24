@@ -5,8 +5,9 @@ using System.Web;
 
 namespace OneVietnam.Models
 {
-    public class ViewProfileUser
+    public class SearchModel
     {
-
+        //List User
+        //List Post        
     }
 }
