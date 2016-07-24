@@ -23,7 +23,8 @@ namespace OneVietnam
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
             app.CreatePerOwinContext<PostManager>(PostManager.Create);            
-            ////todo
+            //Todo            
+            app.CreatePerOwinContext<MessageManager>(MessageManager.Create);
             app.CreatePerOwinContext<TagManager>(TagManager.Create);
             app.CreatePerOwinContext<IconManager>(IconManager.Create);
             app.CreatePerOwinContext<ReportManager>(ReportManager.Create);

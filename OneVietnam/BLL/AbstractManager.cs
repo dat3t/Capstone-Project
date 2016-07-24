@@ -18,7 +18,7 @@ namespace OneVietnam.DAL
             Store = store;
         }
 
-        public virtual async Task CreatAsync(T instance)
+        public virtual async Task CreateAsync(T instance)
         {
             if (instance == null)
             {
@@ -57,6 +57,10 @@ namespace OneVietnam.DAL
         public virtual async Task<List<T>> FindAllAsync(BaseFilter baseFilter, FilterDefinition<T> filter)
         {
             return await Store.FindAllAsync(baseFilter, filter).ConfigureAwait(false);
+        }
+        public virtual async Task<List<T>> FindAllAsync(BaseFilter baseFilter, FilterDefinition<T> filter, SortDefinition<T> sort )
+        {
+            return await Store.FindAllAsync(baseFilter, filter,sort).ConfigureAwait(false);
         }
 
         public virtual async Task<List<T>> FindAllAsync(BaseFilter baseFilter, bool deletedFlag)

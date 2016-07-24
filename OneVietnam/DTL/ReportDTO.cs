@@ -3,10 +3,8 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 namespace OneVietnam.DTL
 {
-    public class Report
-    {
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; private set; }              
+    public class Report :BaseMongoDocument
+    {                      
         public string UserId { get; set; }
         [BsonIgnoreIfNull]
         public string PostId { get; set; }
@@ -14,9 +12,7 @@ namespace OneVietnam.DTL
         [BsonIgnoreIfNull]
         public string HandlerId { get; set; }
 
-        public bool ReportStatus { get; set; }
-
-        public DateTimeOffset? CreateDate { get; set; }
+        public bool ReportStatus { get; set; }        
 
         [BsonIgnoreIfNull]
         public DateTimeOffset? CloseDate { get; set; }
@@ -32,7 +28,7 @@ namespace OneVietnam.DTL
             PostId = pPostId;
             ReportDescription = pDescription;
             ReportStatus = true;
-            CreateDate = DateTime.Now;            
+            CreatedDate = DateTime.Now;            
         }
 
         public Report(Report pReport)
@@ -49,7 +45,7 @@ namespace OneVietnam.DTL
             {
                 HandlerId = pReport.HandlerId;
             }            
-            CreateDate = pReport.CreateDate;
+            CreatedDate = pReport.CreatedDate;
             if(pReport.CloseDate != null)
             {
                 CloseDate = pReport.CloseDate;

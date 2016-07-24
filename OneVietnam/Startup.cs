@@ -17,10 +17,11 @@ namespace OneVietnam
         {
             ConfigureAuth(app);
             var context = ApplicationIdentityContext.Create();
-            var manager = new ApplicationUserManager(new UserStore(context.Users));            
+            var postManager = new ApplicationUserManager(new UserStore(context.Users));       
+            var messageManager = new MessageManager(new MessageStore(context.Messages));                     
             GlobalHost.DependencyResolver.Register(
             typeof(OneHub),
-            () => new OneHub(manager));
+            () => new OneHub(postManager,messageManager));
             app.MapSignalR();
         }
     }

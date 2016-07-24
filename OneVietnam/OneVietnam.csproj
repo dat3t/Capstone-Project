@@ -264,6 +264,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="BLL\MessageManager.cs" />
     <Compile Include="BLL\ReportManagerBLO.cs" />
     <Compile Include="Common\BaseFilter.cs" />
     <Compile Include="Common\Constants.cs" />
@@ -271,12 +272,14 @@
     <Compile Include="Common\NinjectSignalRDependencyResolver .cs" />
     <Compile Include="Common\OneHub.cs" />
     <Compile Include="Common\SimpleInjectorHubActivator.cs" />
-    <Compile Include="DAL\AbstractManager.cs" />
+    <Compile Include="BLL\AbstractManager.cs" />
     <Compile Include="DAL\AbstractStore.cs" />
+    <Compile Include="DAL\MessageStore.cs" />
     <Compile Include="DAL\PostStore.cs" />
     <Compile Include="DAL\ReportStore.cs" />
+    <Compile Include="DTL\BaseMongoDocument.cs" />
     <Compile Include="DTL\ConnectionDTO.cs" />
-    <Compile Include="DTL\Message.cs" />
+    <Compile Include="DTL\MessageDTO.cs" />
     <Compile Include="Models\PostInfoWindowModel.cs" />
     <Compile Include="Models\ReportViewModal.cs" />
     <Compile Include="Startup.cs" />

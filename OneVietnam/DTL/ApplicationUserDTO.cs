@@ -26,16 +26,6 @@ namespace OneVietnam.DTL
         [BsonIgnoreIfNull]
         public string Avatar { get; set; }
         [BsonIgnoreIfNull]
-        public List<Connection> Connections { get; set; }
-        [BsonIgnoreIfNull]
-        public List<Message> Messages { get; set; }
-        public void AddMessage(Message message)
-        {
-            if (Messages==null)
-            {
-                Messages = new List<Message>();
-            }
-            Messages.Add(message);
-        }
+        public List<Connection> Connections { get; set; }                        
     }
 }

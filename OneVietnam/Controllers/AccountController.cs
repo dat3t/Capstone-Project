@@ -86,15 +86,6 @@ namespace OneVietnam.Controllers
 
             return View(countrieslist);
         }
-
-        //DEMO
-        public async Task<ActionResult> ShowAllUsers()
-        {
-            var userslist = await UserManager.AllUsersAsync();
-            List<UserViewModel> listview = userslist.Select(user => new UserViewModel(user)).ToList();
-            return View(listview);
-        }
-
         //DEMO
         public ActionResult CreateCountry()
         {

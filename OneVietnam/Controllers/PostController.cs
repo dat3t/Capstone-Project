@@ -130,11 +130,11 @@ namespace OneVietnam.Controllers
             }
             var post = new Post(p)  
             {
-                PublishDate = System.DateTime.Now,
+                CreatedDate = System.DateTime.Now,
                 UserId = User.Identity.GetUserId()
             };
 
-            await PostManager.CreatAsync(post);
+            await PostManager.CreateAsync(post);
             CreatedPost = true;
             PostView = new PostViewModel(post);
             return RedirectToAction("ShowPostDetail", "Post", new { postId = post.Id });
@@ -376,7 +376,7 @@ namespace OneVietnam.Controllers
                         if (tagsInDb == null | (tagsInDb != null && !tagsInDb.Contains(tag)))
                         {
                             Tag newTag = new Tag(string.Concat("Tag_", numberTags.ToString()), tag);
-                            await pTagManager.CreatAsync(newTag);
+                            await pTagManager.CreateAsync(newTag);
                             numberTags = numberTags + 1;
                             newList.Add(newTag);
                         }
