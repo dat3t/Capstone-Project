@@ -58,7 +58,7 @@ namespace OneVietnam.Models
         public string UserId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTimeOffset? PublishDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
         public int PostType { get; set; }
         public bool DeletedFlag { get; set; }
         public bool Status { get; set; }
@@ -80,7 +80,7 @@ namespace OneVietnam.Models
             UserId = post.UserId;     
             Title = post.Title;
             Description = post.Description;
-            PublishDate = post.CreatedDate;
+            CreatedDate = post.CreatedDate;
             PostType = post.PostType;
             DeletedFlag = post.DeletedFlag;
             Status = post.Status;

@@ -12,6 +12,6 @@ namespace OneVietnam.DTL
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public bool DeletedFlag { get; set; }
-        public DateTimeOffset? CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
     }
 }

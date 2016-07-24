@@ -55,7 +55,7 @@ namespace OneVietnam.DTL
             Title = pView.Title;
             UserId = pView.UserId;
             Description = pView.Description;
-            CreatedDate = pView.PublishDate;
+            CreatedDate = pView.CreatedDate;
             PostType = pView.PostType;
             DeletedFlag = pView.DeletedFlag;
             Status = pView.Status;

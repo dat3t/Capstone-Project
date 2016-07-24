@@ -78,11 +78,13 @@ namespace OneVietnam.Controllers
         {
             var post = await PostManager.FindByIdAsync(postId);
             var user = await UserManager.FindByIdAsync(post.UserId);
-            var result = new PostInfoWindowModel();
-            result.UserId = user.Id;
-            result.postId = postId;
-            result.Title = post.Title;
-            result.PublishDate = (DateTimeOffset)post.CreatedDate;
+            var result = new PostInfoWindowModel
+            {
+                UserId = user.Id,
+                postId = postId,
+                Title = post.Title
+            };
+            if (post.CreatedDate != null) result.CreatedDate = (DateTimeOffset)post.CreatedDate;
             result.Address = post.PostLocation.Address;
             ViewBag.PostInfo = result;
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -96,7 +98,7 @@ namespace OneVietnam.Controllers
             result.UserId = user.Id;
             result.postId = postId;
             result.Title = post.Title;
-            result.PublishDate = (DateTimeOffset)post.CreatedDate;
+            result.CreatedDate =(DateTimeOffset) post.CreatedDate;
             result.Address = post.PostLocation.Address;
             ViewBag.PostInfo = result;
             return View();
@@ -140,14 +142,13 @@ namespace OneVietnam.Controllers
             var baseFilter = new BaseFilter {Limit = 5};
             var top5PostList = await PostManager.FindAllAsync(baseFilter);
             var result = new PostInfoWindowModel();
-            List<PostInfoWindowModel> top5PostModel = new List<PostInfoWindowModel>();
-            PostInfoWindowModel postModel;
-            foreach (Post p in top5PostList)
+            var top5PostModel = new List<PostInfoWindowModel>();
+            foreach (var p in top5PostList)
             {
-                postModel = new PostInfoWindowModel();
+                var postModel = new PostInfoWindowModel();
                 postModel.Address = p.PostLocation.Address;
                 postModel.postId = p.Id;
-                postModel.PublishDate = (DateTimeOffset)p.CreatedDate;
+                postModel.CreatedDate = (DateTimeOffset)p.CreatedDate;
                 postModel.Title = p.Title;
                 top5PostModel.Add(postModel);
             }
