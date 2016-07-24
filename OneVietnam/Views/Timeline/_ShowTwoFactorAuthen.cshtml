@@ -1,0 +1,30 @@
+﻿@model OneVietnam.Models.TwoFacterViewModel
+<div class="ui segment" >
+    <div class="ui middle aligned list">
+        <div class="ui item">
+            Bảo mật hai lớp
+            @if (Model.TwoFacterEnabled == false)
+            {
+                <div class="content">Tắt</div>
+                <input type="button" class="ui teal button" value="Bật" onclick="enableTwoFactorAuthentication()" />
+            }
+            else
+            {
+                <div>Bật</div>
+                <input type="button" class="ui button" value="Tắt" onclick="disableTwoFactorAuthentication()" />
+            }
+
+        </div>
+        <div class="ui item">
+            Mật khẩu
+            <div id="ShowPassword">
+                <div>Thay đổi mật khẩu thường xuyên để nâng cao bảo mật hơn</div>
+            </div>
+            <input type="button" id="btnChangePass" value="Đổi mật khẩu" onclick="showChangePasswordForm()" />
+            <div id="ChangePassword"></div>
+        </div>
+    </div>
+
+</div>
+
+

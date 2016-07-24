@@ -273,6 +273,7 @@
     <Compile Include="Common\OneHub.cs" />
     <Compile Include="Common\SimpleInjectorHubActivator.cs" />
     <Compile Include="BLL\AbstractManager.cs" />
+    <Compile Include="Controllers\TimelineController.cs" />
     <Compile Include="DAL\AbstractStore.cs" />
     <Compile Include="DAL\MessageStore.cs" />
     <Compile Include="DAL\PostStore.cs" />
@@ -343,7 +344,8 @@
     <Content Include="Content\CountryImage\us.png" />
     <Content Include="Content\CountryImage\vi.png" />
     <Content Include="Content\dropzone.css" />
-    <Content Include="Content\flickity.min.css" />
+    <Content Include="Content\fine-uploader-gallery.css" />
+    <Content Include="Content\flickity.css" />
     <Content Include="Content\icon.min.css" />
     <Content Include="Content\Icon\female.png" />
     <Content Include="Content\Icon\free.png" />
@@ -423,8 +425,10 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\azure.jquery.fine-uploader.min.js" />
     <Content Include="Scripts\docs.js" />
     <Content Include="Scripts\dropzone.js" />
+    <Content Include="Scripts\fine-uploader.js" />
     <Content Include="Scripts\flickity.pkgd.min.js" />
     <Content Include="Scripts\getAddressRegister.js" />
     <Content Include="Scripts\global.js" />
@@ -442,6 +446,7 @@
     <Content Include="Scripts\jquery.scrollstop.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -450,11 +455,14 @@
     <Content Include="Scripts\map.js" />
     <Content Include="Scripts\MapElements.js" />
     <Content Include="Scripts\markerclusterer.js" />
+    <Content Include="Scripts\masonry.pkgd.min.js" />
     <Content Include="Scripts\minimal-slide.js" />
     <Content Include="Scripts\OverlappingMarkerSpiderfier.js" />
+    <Content Include="Scripts\packery.pkgd.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\searchboxCreatePost.js" />
+    <Content Include="Scripts\timeline.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="semantic.json" />
     <None Include="Service References\ASPSMSX2\configuration91.svcinfo" />
@@ -545,6 +553,12 @@
     <Content Include="Views\Map\_UserModal.cshtml" />
     <Content Include="Views\Post\_ShowPostDetail.cshtml" />
     <Content Include="Views\Shared\_UserInfo.cshtml" />
+    <Content Include="Views\Post\NewFeeds.cshtml" />
+    <Content Include="Views\Timeline\Timeline.cshtml" />
+    <Content Include="Views\Timeline\_ChangePassword.cshtml" />
+    <Content Include="Views\Timeline\_EditProfile.cshtml" />
+    <Content Include="Views\Timeline\_ShowProfile.cshtml" />
+    <Content Include="Views\Timeline\_ShowTwoFactorAuthen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
