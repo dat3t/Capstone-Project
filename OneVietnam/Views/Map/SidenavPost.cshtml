@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" type="text/css" href="~/Content/Map/infoWindow.css">
 
-<div id="mySidenav" class="sidenav scrollbar" style="position:absolute;left:0px;top:0px;">
+
     @foreach (var post in Model)
     {
         <div id="wrapper" class="segment" style="height:150px;  border-bottom: 1px solid #E2E2E2;">
@@ -54,13 +54,6 @@
     }
     <button class="ui blue button" style="width:380px !important;position:absolute; bottom:0;" onclick="location.href='@Url.Action("Timeline", "Post")'">Xem tất cả bài đăng</button>
 
-</div>
-<div id="aa" onclick="toggle()" class="ui blue big centered launch right attached fixed button" style="position: absolute; left: 0px; margin-left:380px;top:40%;transition: margin-left .5s;width:60px;">
-    <div style="position:relative;">
-        <i id="button" class="arrow left icon"></i>
-        @*  <span class="text" id="button2">Bài đăng</span>*@
-    </div>
-</div>
 
     <script>
         ////$('#mySidenav').scroll(scrollHandler2);

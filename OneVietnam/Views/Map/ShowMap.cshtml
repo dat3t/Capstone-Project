@@ -130,7 +130,7 @@ else
 
         .userInfoModal a {
             /*font-size: 25px;*/
-            width:100%;
+            width: 100%;
             color: #818181;
             text-align: left;
             font-size: 20px;
@@ -430,19 +430,26 @@ else
         </button>
     </div>
     <div id="dat">
-        @{ List<PostInfoWindowModel> list = new List<PostInfoWindowModel>();
+        <div id="mySidenav" class="sidenav scrollbar" style="position:absolute;left:0px;top:0px;">
+            @{ List<PostInfoWindowModel> list = new List<PostInfoWindowModel>();
             list = ViewBag.topPostModel;
-        }
-        @Html.Partial("SidenavPost", (list));
+            }
+            @Html.Partial("SidenavPost", (list));
+        </div>
+
+        <div id="aa" onclick="toggle()" class="ui blue big centered launch right attached fixed button" style="position: absolute; left: 0px; margin-left:380px;top:40%;transition: margin-left .5s;width:60px;">
+            <div style="position:relative;">
+                <i id="button" class="arrow left icon"></i>
+                @*  <span class="text" id="button2">Bài đăng</span>*@
+            </div>
+        </div>
+        <div class="ui modal scrollbar" id="postModal" style="height:500px;overflow-y:scroll;">
+        </div>
+
+        <div class="ui modal" id="userModal" style="height:250px ;width:500px ;position: absolute; left:65%;">
+        </div>
+
     </div>
 
-    <div class="ui modal scrollbar" id="postModal" style="height:500px;overflow-y:scroll;">
-    </div>
-
-    <div class="ui modal" id="userModal" style="height:250px ;width:500px ;position: absolute; left:65%;">
-    </div>
-
-</div>
-
-<script defer src="~/Scripts/OverlappingMarkerSpiderfier.js"></script>
+    <script defer src="~/Scripts/OverlappingMarkerSpiderfier.js"></script>
 
