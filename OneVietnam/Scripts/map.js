@@ -260,10 +260,10 @@ function initialize() {
     });
 
 
-    // Event that closes the Info Window with a click on the map
-    google.maps.event.addListener(map, 'click', function () {
-        infowindow.close();
-    });
+    //// Event that closes the Info Window with a click on the map
+    //google.maps.event.addListener(map, 'click', function () {
+    //    infowindow.close();
+    //});
 
     // *
     // START INFOWINDOW CUSTOMIZE.
@@ -277,63 +277,165 @@ function initialize() {
         //content: '@Html.Partial("CustomInfoWindow")',
         // Assign a maximum value for the width of the infowindow allows
         // greater control over the various content elements
+        map:map,
         maxWidth: 350
     });
+    //google.maps.event.addListener(infowindow, 'domready', function () {
+    //    alert(1);
+    //    // Reference to the DIV that wraps the bottom of infowindow--
+    //    var iwOuter = $('.gm-style-iw');
 
-    google.maps.event.addListener(infowindow, 'domready', function () {
+    //    /* Since this div is in a position prior to .gm-div style-iw.
+    //     * We use jQuery and create a iwBackground variable,
+    //     * and took advantage of the existing reference .gm-style-iw for the previous div with .prev().
+    //    */
+    //    iwOuter.children(':nth-child(1)').css({ 'max-width': '350px' });
+    //    var iwBackground = iwOuter.prev();
 
-        // Reference to the DIV that wraps the bottom of infowindow--
-        var iwOuter = $('.gm-style-iw');
+    //    //iwBackground.parent().css({ height: '218px' });
+    //    iwBackground.parent().css({ width: '350px' });
+    //    //iwBackground.parent().css({ bottom: '218px' });
 
-        /* Since this div is in a position prior to .gm-div style-iw.
-         * We use jQuery and create a iwBackground variable,
-         * and took advantage of the existing reference .gm-style-iw for the previous div with .prev().
-        */
-        iwOuter.children(':nth-child(1)').css({ 'max-width': '350px' });
-        var iwBackground = iwOuter.prev();
+    //    // Removes background shadow DIV
+    //    iwBackground.children(':nth-child(2)').css({ 'display': 'none' });
 
-        //iwBackground.parent().css({ height: '218px' });
-        iwBackground.parent().css({ width: '350px' });
-        //iwBackground.parent().css({ bottom: '218px' });
+    //    // Removes white background DIV
+    //    //iwBackground.children(':nth-child(4)').css({ width: '350px !important' });
+    //    //iwBackground.children(':nth-child(4)').css({ height: '218px !important' });
+    //    iwBackground.children(':nth-child(4)').css({ 'display': 'none' });
 
-        // Removes background shadow DIV
-        iwBackground.children(':nth-child(2)').css({ 'display': 'none' });
+    //    // Moves the infowindow 115px to the right.
+    //    iwOuter.parent().parent().css({ left: '115px' });
 
-        // Removes white background DIV
-        //iwBackground.children(':nth-child(4)').css({ width: '350px !important' });
-        //iwBackground.children(':nth-child(4)').css({ height: '218px !important' });
-        iwBackground.children(':nth-child(4)').css({ 'display': 'none' });
+    //    // Moves the shadow of the arrow 76px to the left margin.
+    //    iwBackground.children(':nth-child(1)').attr('style', function (i, s) { return s + 'left: 76px !important;' });
 
-        // Moves the infowindow 115px to the right.
-        iwOuter.parent().parent().css({ left: '115px' });
+    //    // Moves the arrow 76px to the left margin.
+    //    iwBackground.children(':nth-child(3)').attr('style', function (i, s) { return s + 'left: 76px !important;' });
 
-        // Moves the shadow of the arrow 76px to the left margin.
-        iwBackground.children(':nth-child(1)').attr('style', function (i, s) { return s + 'left: 76px !important;' });
+    //    // Changes the desired tail shadow color.
+    //    iwBackground.children(':nth-child(3)').find('div').children().css({ 'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index': '1' });
 
-        // Moves the arrow 76px to the left margin.
-        iwBackground.children(':nth-child(3)').attr('style', function (i, s) { return s + 'left: 76px !important;' });
+    //    // Reference to the div that groups the close button elements.
+    //    var iwCloseBtn = iwOuter.next();
 
-        // Changes the desired tail shadow color.
-        iwBackground.children(':nth-child(3)').find('div').children().css({ 'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index': '1' });
+    //    // Apply the desired effect to the close button
+    //    iwCloseBtn.css({ opacity: '1', right: '38px', top: '3px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9' });
 
-        // Reference to the div that groups the close button elements.
-        var iwCloseBtn = iwOuter.next();
+    //    // If the content of infowindow not exceed the set maximum height, then the gradient is removed.
+    //    //if ($('.iw-content').height() < 140) {
+    //    //    $('.iw-bottom-gradient').css({ display: 'none' });
+    //    //}
 
-        // Apply the desired effect to the close button
-        iwCloseBtn.css({ opacity: '1', right: '38px', top: '3px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9' });
+    //    //// The API automatically applies 0.7 opacity to the button after the mouseout event. This function reverses this event to the desired value.
+    //    //iwCloseBtn.mouseout(function () {
+    //    //    $(this).css({ opacity: '1' });
+    //    //});
+    //    iwCloseBtn.css({ 'display': 'none' });
+    //});
 
-        // If the content of infowindow not exceed the set maximum height, then the gradient is removed.
-        if ($('.iw-content').height() < 140) {
-            $('.iw-bottom-gradient').css({ display: 'none' });
-        }
-
-        // The API automatically applies 0.7 opacity to the button after the mouseout event. This function reverses this event to the desired value.
-        iwCloseBtn.mouseout(function () {
-            $(this).css({ opacity: '1' });
-        });
-        iwCloseBtn.css({ 'display': 'none' });
+    marker6.addListener('mouseover', function () {
+        infowindow.open(map, this);
     });
-    //    // Automatically center the map fitting all markers on the screen
+
+    // assuming you also want to hide the infowindow when user mouses-out
+    marker6.addListener('mouseout', function () {
+        infowindow.close();
+    });
+
+    //google.maps.event.addListener(markerCluster, "mouseover", function (cluster) {
+
+    //    var markers = markerCluster.getMarkers();
+    //    var content = '';
+    //    //$.each(markers, function () {
+    //    //    content += this.get('content');
+    //    //});
+       
+    //    var info = new google.maps.MVCObject;
+    //    info.set('position', cluster.getCenter());
+
+    //    //infowindow = new google.maps.InfoWindow();
+    //   // infowindow.close();
+    //    infowindow.setContent("<div style='width:100px;height:100px;' id='contentInsideMap' class='ui avatar image'>");
+    //   // infowindow.setContent("");
+    //    infowindow.open(map, info);
+    //    $(".gm-style-iw").next("div").hide();
+     
+    //    // Event that closes the Info Window with a click on the map
+    //    //google.maps.event.addListener(infowindow, 'mouseout', function () {
+    //    //    infowindow.close();
+    //    //});
+         
+    //    //google.maps.event.addListener(infowindow, "mouseover", function () {
+    //        //infowindow.open(map, this);
+    //    //});
+    //    $(document).on('mouseenter', '#contentInsideMap', function () {
+    //        // do something
+    //          infowindow.open(map, info);
+    //    });
+
+    //    $(document).on('mouseleave', '#contentInsideMap', function () {
+    //        // do something
+    //        infowindow.close();
+    //    });
+    //});
+    //google.maps.event.addListener(markerCluster, 'mouseout', function () {
+    //    setTimeout(function () { infowindow.close(); }, 3000);
+
+    //});
+ 
+    //$(document).on('mouseenter', '.cluster', function (cluster) {
+    //    alert(1);
+    //    var markers = markerCluster.getMarkers();
+    //    var content = '';
+    //    //$.each(markers, function () {
+    //    //    content += this.get('content');
+    //    //});
+    //   var  marke = new google.maps.Marker();
+        
+    //   marke = markerCluster.getMarkers
+    //    var info = new google.maps.MVCObject;
+    //    info.set('position', cluster.getCenter());
+
+    //    //infowindow = new google.maps.InfoWindow();
+    //    // infowindow.close();
+    //    infowindow.setContent("<div style='width:100px;height:100px;' id='contentInsideMap' class='ui avatar image'>");
+    //    // infowindow.setContent("");
+    //    infowindow.open(map, info);
+    //    $(".gm-style-iw").next("div").hide();
+
+    //    // Event that closes the Info Window with a click on the map
+    //    //google.maps.event.addListener(infowindow, 'mouseout', function () {
+    //    //    infowindow.close();
+    //    //});
+
+    //    //google.maps.event.addListener(infowindow, "mouseover", function () {
+    //    //infowindow.open(map, this);
+    //    //});
+    //    //$(document).on('mouseenter', '#contentInsideMap', function () {
+    //    //    // do something
+    //    //    infowindow.open(map, info);
+    //    //});
+
+    //    //$(document).on('mouseleave', '#contentInsideMap', function () {
+    //    //    // do something
+    //    //    infowindow.close();
+    //    //});
+    //});
+   
+
+    //google.maps.event.addListener(map, 'mousemove', function (event) {
+    //    infowindow.close();
+    //});
+    //google.maps.event.addListener(markerCluster, "mouseout", function () {
+
+       
+    //    infowindow.close();
+      
+
+    //});
+    
+        // Automatically center the map fitting all markers on the screen
     //    map.fitBounds(bounds);
     //}
 
@@ -659,7 +761,8 @@ function createListType0Markers() {
                 // infowindow.setContent(infoWindowContent[i][0]);
                 // AjaxDisplayString(userInfoWindow, marker)
                 //getPostInfo(postType0[i].postID, 0);
-                getPostInfo2(postType0[i].postID);
+                //getPostInfo2(postType0[i].postID);
+                getPostInfo(postType0[i].postID);
                 //callInfo(postType0[i].postID);
                 //infowindow.open(map, marker);
             }
@@ -895,8 +998,6 @@ function deleteMarkers(listMarkers) {
     listMarkers = [];
 }
 
-
-
 function createUserInfoWindowContent(name, age, gender, address) {
 
     var genderOfInfoWindow;
@@ -1017,26 +1118,49 @@ function createPostInfoWindowContent(username, postType, postTitle, address) {
 
 function getUserInfo(userId) {
     $.ajax({
-        url: 'GetUserInfo?userId=' + userId,
+        url: 'GetUserPartialView?userId=' + userId,
         type: 'GET',
-        // dataType: 'json',
+        success: function (result) {
+            if (result != '') {
+                $("#userModal").empty();
+                $("#userModal").html(result);
+                $("#userModal").modal('show');
+            }
+        },
+        error: function (xhr, status, error) {
+            alert(xhr.responseText);
+        }
+    });
+  
+}
+
+function getPostInfo(postID) {
+    //$.ajax({
+    //    url: 'GetPostInfo?postId=' + postID,
+    //    type: 'GET',
+    //    contentType: 'application/json;',
+    //    dataType: 'json',
+    //    success: function (json) {
+    //        createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
+    //    }
+    //});
+    $.ajax({
+        url: '/Map/GetPostPartialView?postId=' + postID,
+        type: 'GET',
+        dataType: 'text',
         success: function (result) {
             //   createUserInfoWindowContent(json.UserName, 23, json.Gender, json.Location.Address);
             if (result != '') {
 
-                $("#userModal").empty();
+                $("#postModal").empty();
 
-                $("#userModal").html(result);
-                //$("#zzz").find("script").each(function (i) {
-                //    eval($(this).text());
-                //    //alert(a);
-                //});
-                $("#userModal").modal('show');
+                $("#postModal").html(result);
+
+                $("#postModal").modal('show');
 
                 // alert(result);
             }
 
-            // alert(result);
         },
         error: function (xhr, status, error) {
             alert(xhr.responseText);
@@ -1044,48 +1168,36 @@ function getUserInfo(userId) {
     });
 }
 
-function getPostInfo(postID, postType) {
-    $.ajax({
-        url: 'GetPostInfo?postId=' + postID,
-        type: 'GET',
-        contentType: 'application/json;',
-        dataType: 'json',
-        success: function (json) {
-            createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
-        }
-    });
-}
+//function getPostInfo2(postID) {
+//    $.ajax({
+//        url: '/Map/UserAndPostInfo?postId=' + postID,
+//        type: 'GET',
+//        dataType: 'text',
+//        success: function (result) {
+//            // createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
+//            // alert(1);
+//            if (result != '') {
+//                $("#userModal").empty();
 
-function getPostInfo2(postID) {
-    $.ajax({
-        url: '/Map/UserAndPostInfo?postId=' + postID,
-        type: 'GET',
-        dataType: 'text',
-        success: function (result) {
-            // createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
-            // alert(1);
-            if (result != '') {
-                $("#userModal").empty();
+//                $("#userModal").html(result);
+//                //$("#zzz").find("script").each(function (i) {
+//                //    eval($(this).text());
+//                //    //alert(a);
+//                //});
+//                //alert(result);
+//            }
 
-                $("#userModal").html(result);
-                //$("#zzz").find("script").each(function (i) {
-                //    eval($(this).text());
-                //    //alert(a);
-                //});
-                //alert(result);
-            }
+//            // alert(result);
+//        },
+//        error: function (xhr, status, error) {
+//            alert(xhr.responseText);
+//        }
+//    });
 
-            // alert(result);
-        },
-        error: function (xhr, status, error) {
-            alert(xhr.responseText);
-        }
-    });
-
-    $("#userModal").modal('show');
+//    $("#userModal").modal('show');
 
 
-}
+//}
 
 function callInfo(postID) {
     $.ajax({

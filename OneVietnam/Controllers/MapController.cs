@@ -118,7 +118,23 @@ namespace OneVietnam.Controllers
             //return PartialView("_ShowPostDetail",result); ;
             return PartialView("../Post/_ShowPostDetail", result);
         }
-        
+
+        public async Task<ActionResult> GetPostPartialView(string postId)
+        {
+            var post = await PostManager.FindByIdAsync(postId);
+            var result = new PostViewModel(post);
+            //return PartialView("_ShowPostDetail",result); ;
+            return PartialView("../Post/_ShowPostDetail", result);
+        }
+
+        public async Task<ActionResult> GetUserPartialView(string userId)
+        {
+            var user = await UserManager.FindByIdAsync(userId);
+            var result = new UserViewModel(user);
+            //return PartialView("_ShowPostDetail",result); ;
+            return PartialView("_UserInfo", result);
+        }
+
 
         public async Task<List<PostInfoWindowModel>> GetTop5PostInfo()
         {

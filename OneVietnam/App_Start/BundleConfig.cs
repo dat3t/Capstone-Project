@@ -35,7 +35,6 @@ namespace OneVietnam
                 "~/Content/dropzone.css",
                 "~/Content/flickity.css",
                   "~/Content/Map/map.css",
-                "~/Content/Map/infoWindow.css",
                 "~/Content/Map/searchbox.css",
                 "~/Content/Map/mappagecustom.css",
                  "~/Content/Map/scrollbar.css"));

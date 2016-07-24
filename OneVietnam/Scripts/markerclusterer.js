@@ -169,8 +169,8 @@ function MarkerClusterer(map, opt_markers, opt_options) {
  * @private
  */
 //MarkerClusterer.prototype.MARKER_CLUSTER_IMAGE_PATH_ =
-//    'https://raw.githubusercontent.com/googlemaps/js-marker-clusterer/gh-pages/images/m';
-MarkerClusterer.prototype.MARKER_CLUSTER_IMAGE_PATH_ = '../Content/Images/m';
+//    //'https://raw.githubusercontent.com/googlemaps/js-marker-clusterer/gh-pages/images/m';
+MarkerClusterer.prototype.MARKER_CLUSTER_IMAGE_PATH_ = '../Content/Images//m';
 
 /**
  * The marker cluster image path.
@@ -1078,7 +1078,7 @@ ClusterIcon.prototype.triggerClusterClick = function (event) {
         //this.map_.fitBounds(this.cluster_.getBounds());
         this.map_.setCenter(this.cluster_.getCenter()); // set map center to marker position
         smoothZoom(this.map, 13, this.map.getZoom()); // call smoothZoom, parameters map, final zoomLevel, and starting zoom level
-       // this.map_.setZoom(markerClusterer.getMaxZoom() + 1);
+        // this.map_.setZoom(markerClusterer.getMaxZoom() + 1);
     }
 };
 
@@ -1095,6 +1095,7 @@ function smoothZoom(map, max, cnt) {
         setTimeout(function () { this.map.setZoom(cnt) }, 100); // 80ms is what I found to work well on my system -- it might not work well on all systems
     }
 }
+
 
 
 /**
