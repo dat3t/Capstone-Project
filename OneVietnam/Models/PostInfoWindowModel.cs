@@ -13,6 +13,6 @@ namespace OneVietnam.Models
         public DateTimeOffset CreatedDate { get; set; }
         public string Address { get; set; }
 
-
+         
     }
 }
