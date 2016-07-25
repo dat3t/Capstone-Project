@@ -1,15 +1,6 @@
 ﻿
 $(document)
     .ready(function() {
-        //function createUploader() {
-        //    var uploader = new qq.FineUploader({
-        //        element: document.getElementById('fine-uploader'),
-        //        request: {
-        //            endpoint: '@Url.Action("UploadBatchDataFile")'
-        //        }
-        //    });
-        //}
-        //window.onload = createUploader;
         $(".ui.toggle.button")
             .state({
                 text: {
@@ -22,7 +13,6 @@ $(document)
             .click(function() {
                 $("#messagechat").slideToggle();
             });
-        //$('.icon').popup();
 
         if ($(".searchType").val() === "SearchPosts") {
             $(".ui.user").css("display", "none");
@@ -124,11 +114,6 @@ $(document)
     
             });
 
-        $("#dvComment").click( function(){
-            $grid.isotope('layout');
-            alert("chi tham");
-        });
-
     //ToanLM
 
 
@@ -192,10 +177,4 @@ $('.filter-group').on('click', 'a', function () {
     // use filterFn if matches value
     $grid.isotope({ filter: filterValue });
 });
-//$(document).ajaxComplete(function () {
-//    try {
-//        FB.XFBML.parse(document.getElementsByClassName("grid-item"));
-//        alert("fasfasf");
-//    } catch (ex) { }
-//});
 });
