@@ -366,6 +366,7 @@
     <Content Include="Content\Images\m3.png" />
     <Content Include="Content\Images\m4.png" />
     <Content Include="Content\Images\m5.png" />
+    <Content Include="Content\Images\no-avatar.png" />
     <Content Include="Content\Images\no-image.png" />
     <Content Include="Content\Images\poke_celebi.png" />
     <Content Include="Content\Images\rua.png" />
@@ -558,8 +559,6 @@
     <Content Include="Views\Timeline\Timeline.cshtml" />
     <Content Include="Views\Timeline\_ChangePassword.cshtml" />
     <Content Include="Views\Timeline\_EditProfile.cshtml" />
-    <Content Include="Views\Timeline\_ShowProfile.cshtml" />
-    <Content Include="Views\Timeline\_ShowTwoFactorAuthen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

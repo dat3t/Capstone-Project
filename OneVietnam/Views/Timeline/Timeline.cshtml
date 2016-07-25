@@ -13,8 +13,8 @@
     <div class="containers">
 
     @{
-        var avatarLink = "/Content/Images/no-avatar.png";
-        //var avatarLink = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/hobbit_cover.jpg";
+        //var avatarLink = "/Content/Images/no-avatar.png";
+        var avatarLink = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/hobbit_cover.jpg";
         if (Model.AvatarLink != null)
         {
             avatarLink = Model.AvatarLink;
@@ -26,7 +26,7 @@
 
             <div class="details">
 
-                <div class="title1">@if(Model.UserName != null) {@Model.UserName}</div>
+                <div class="title1" id="lblTimeLineUserName">@if(Model.UserName != null) {@Model.UserName}</div>
 
                 <div class="title2">The Battle of the Five Armies</div>
 
@@ -56,7 +56,7 @@
                     <div class="item active" data-tab="timeline">Bài đăng
                         <div class="ui teal   label">@postCount</div>
                     </div>
-                    <div class="item" data-tab="profile" onclick="showProfileForm('@Model.Id')">Giới thiệu</div>
+                    <div class="item" data-tab="profile">Giới thiệu</div>
                     @if (Model.Id.Equals(User.Identity.GetUserId()))
                     {
                         <div class="item" data-tab="setting">Cài đặt</div>
@@ -76,18 +76,14 @@
                                         @Html.Partial("../Shared/_ShowPostDetail", postView)
                                     }
                                 }
-
                             </div>
-
                          }
                     }
-
-
                 </div>
-                <div class="ui tab" data-tab="profile">
-                    @*Show profile*@
-                    <div id="ShowProfile"></div>
-                    <div id="EditProfile"></div>
+                <div class="ui tab" data-tab="profile">                    
+                    <div id="EditProfileForm">
+                        @Html.Partial("_EditProfile", Model.Profile)
+                    </div>
                 </div>
 
 
@@ -115,7 +111,7 @@
                                         </div>
                                     </div>
                                     <div class="ui right floated item">
-                                        <button class="ui toggle button" onclick="enableTwoFactorAuthentication()">@value</button>
+                                        <button class="ui toggle button" onclick="changeTwoFactorAuthentication()">@value</button>
                                     </div>
                                 </div>
                                 
@@ -136,14 +132,12 @@
                                             </div>
                                         </div>
                                         <div class="ui right floated middle aligned item">
-                                            <input type="button" class="ui right floated teal button" id="btnChangePass" value="Đổi mật khẩu" onclick="showChangePasswordForm()" />
+                                            <input type="button" class="ui right floated teal button" id="btnChangePass" value="Đổi mật khẩu" onclick="showChangePasswordForm('@User.Identity.GetUserId()')" />
                                         </div>
-                                    </div>                                                                                                            
-                                    <div id="ChangePassword"></div>
+                                    </div>
+                                    <div id="ChangePasswordForm"></div>
                                 </div>
                             }
-
-
                         </div>
                     </div>
                 </div>

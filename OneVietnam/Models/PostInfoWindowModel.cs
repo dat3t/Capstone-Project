@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using OneVietnam.DTL;
 
 namespace OneVietnam.Models
 {
@@ -12,6 +13,8 @@ namespace OneVietnam.Models
         public string postId { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
         public string Address { get; set; }
+        public string Description { get; set; }
+        public Location PostLocation { get; set; }
 
          
     }
