@@ -16,9 +16,9 @@ $(document).ready(function () {
         }
     })
     ;
-    $('.icon')
-  .popup()
-    ;
+  //  $('.icon')
+  //.popup()
+  //  ;
     //(function (d, s, id) {
     //    var fjs = d.getElementsByTagName(s)[0];
     //    if (d.getElementById(id)) return;
@@ -28,10 +28,13 @@ $(document).ready(function () {
     //    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
     //    fjs.parentNode.insertBefore(js, fjs);
     //}(document, 'script', 'facebook-jssdk'));
-    $("#chatchat").click(function () {
-        $("#messagechat").slideToggle();
+    $("#messageIcon").click(function () {
+        //var div = document.getElementById("messagechat");
+        //div.innerHTML = div.innerHTML + 'Hello World';
+        $("#messages").slideToggle();
+
     });
-    $('.icon').popup();
+    //$('.icon').popup();
 
     if ($(".searchType").val() === "SearchPosts") {
         $(".ui.user").css("display", "none");
@@ -113,6 +116,8 @@ $(document).ready(function () {
           
       })
     ;
+    $("#drdGender").dropdown({});
+
     $('.delete.icon.image-add').on('click', function () {
         $(this).parent().remove();;
     });

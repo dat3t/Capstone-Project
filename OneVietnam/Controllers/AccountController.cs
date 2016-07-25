@@ -20,6 +20,8 @@ using OneVietnam.BLL;
 using OneVietnam.DTL;
 using System.IO;
 using System.Drawing;
+using OneVietnam.Common;
+using SignInStatus = OneVietnam.Common.SignInStatus;
 
 namespace OneVietnam.Controllers
 {
@@ -238,7 +240,9 @@ namespace OneVietnam.Controllers
                     Address = model.Location
                 };
 
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Gender = model.Gender,Location = location, CreatedDate = DateTimeOffset.UtcNow};
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email,
+                    Gender = model.Gender,Location = location, CreatedDate = DateTimeOffset.UtcNow,
+                    Avatar = "~/Content/Images/Avatar_Default.jpg",Cover = "~/Content/Images/Cover_default.jpg" };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -473,7 +477,8 @@ namespace OneVietnam.Controllers
                             gender = (int) choice;
                         }                        
                         var location = new Location(xCoordinateExternal, yCoordinateExternal, locationExternal);
-                        var user = new ApplicationUser { UserName = name, Email = email,Location = location,Gender = gender,Avatar = avatar,CreatedDate = DateTimeOffset.UtcNow};
+                        var user = new ApplicationUser { UserName = name, Email = email,Location = location,Gender = gender,Avatar = avatar,
+                            CreatedDate = DateTimeOffset.UtcNow,Cover ="~/Content/Images/Cover_default.jpg" };
                         //Add to database
                         var result2 = await UserManager.CreateAsync(user);
                         if (result2.Succeeded)
