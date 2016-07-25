@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace OneVietnam
+﻿namespace OneVietnam.Common
 {
-        public enum PostTypEnum
-        {
-            ViecLam = 4,
-            NhaO = 5,
-            XachTay = 6,
-            MuaBan = 7,
-            ChoDo = 8,
-            LoaiKhac = 9
-        }
+    public enum PostTypeEnum
+    {
+        Accommodation = 3,
+        Job = 4,        
+        Furniture = 5,
+        HandGoods = 6,
+        Trade = 7,        
+        Sos = 8
+    }
 
     public enum MessageType
     {
@@ -22,8 +17,8 @@ namespace OneVietnam
     }
     public enum Gender
     {
-        male = 0,
-        female = 1,
+        female = 0,
+        male = 1,
         Other = 2
     }
     public enum SignInStatus

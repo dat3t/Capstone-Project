@@ -19,6 +19,7 @@ using OneVietnam.DTL;
 using OneVietnam.DAL;
 using SendGrid;
 using Twilio;
+using SignInStatus = OneVietnam.Common.SignInStatus;
 
 namespace OneVietnam.BLL
 {

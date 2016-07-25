@@ -5,7 +5,8 @@
         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "ui form"}))
         {
             @Html.AntiForgeryToken()
-            @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new {title = "Manage"})
+            @*@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new {title = "Manage"})*@
+            @Html.ActionLink(User.Identity.GetUserName(), "Timeline", "Timeline", routeValues: new {userId = User.Identity.GetUserId()}, htmlAttributes: new { id = "txtHeaderUserName" })
         }
     </div>
     <div class="ui item">        

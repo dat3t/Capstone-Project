@@ -20,6 +20,8 @@ using OneVietnam.BLL;
 using OneVietnam.DTL;
 using System.IO;
 using System.Drawing;
+using OneVietnam.Common;
+using SignInStatus = OneVietnam.Common.SignInStatus;
 
 namespace OneVietnam.Controllers
 {

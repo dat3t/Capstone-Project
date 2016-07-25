@@ -16,9 +16,9 @@ $(document).ready(function () {
         }
     })
     ;
-    $('.icon')
-  .popup()
-    ;
+  //  $('.icon')
+  //.popup()
+  //  ;
     //(function (d, s, id) {
     //    var fjs = d.getElementsByTagName(s)[0];
     //    if (d.getElementById(id)) return;
@@ -31,7 +31,7 @@ $(document).ready(function () {
     $("#chatchat").click(function () {
         $("#messagechat").slideToggle();
     });
-    $('.icon').popup();
+    //$('.icon').popup();
 
     if ($(".searchType").val() === "SearchPosts") {
         $(".ui.user").css("display", "none");
@@ -113,6 +113,8 @@ $(document).ready(function () {
           
       })
     ;
+    $("#drdGender").dropdown({});
+
     $('.delete.icon.image-add').on('click', function () {
         $(this).parent().remove();;
     });
