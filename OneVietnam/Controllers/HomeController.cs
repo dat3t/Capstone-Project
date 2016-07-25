@@ -28,6 +28,7 @@ namespace OneVietnam.Controllers
         }        
         public ActionResult Index()
         {
+
             return View();
         }
 

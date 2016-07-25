@@ -142,7 +142,7 @@ $('.stamp-button').on('click', function () {
     $('body,html').animate({
         scrollTop: 0                       // Scroll to top of body
     }, 500);
-    $stamp.toggleClass("hides");
+    $(".stamp").toggleClass("hides");
     $(".edits").toggleClass("edits-cl");
     $(".plus").toggleClass("plus-cl");
   // stamp or unstamp element

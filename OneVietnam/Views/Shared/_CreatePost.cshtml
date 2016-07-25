@@ -1,0 +1,214 @@
+﻿@using OneVietnam.DTL
+@{
+
+    List<Tag> tagList = ViewData["TagList"] as List<Tag>;
+    List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
+
+}
+<link href="~/Content/fine-uploader-gallery.min.css" rel="stylesheet">
+<script src="~/Scripts/fine-uploader.js"></script>
+<script type="text/template" id="qq-template-gallery">
+    <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="Drop files here">
+        <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
+            <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-total-progress-bar-selector qq-progress-bar qq-total-progress-bar"></div>
+        </div>
+        <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+            <span class="qq-upload-drop-area-text-selector"></span>
+        </div>
+        <div class="qq-upload-button-selector qq-upload-button">
+            <div>Upload a file</div>
+        </div>
+        <span class="qq-drop-processing-selector qq-drop-processing">
+            <span>Processing dropped files...</span>
+            <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+        </span>
+        <ul class="qq-upload-list-selector qq-upload-list" role="region" aria-live="polite" aria-relevant="additions removals">
+            <li>
+                <div class="qq-progress-bar-container-selector qq-progress-bar-container">
+                    <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
+                </div>
+                <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+                <div class="qq-thumbnail-wrapper">
+                    <img class="qq-thumbnail-selector" qq-max-size="120" qq-server-scale>
+                </div>
+                <button type="button" class="qq-upload-cancel-selector qq-upload-cancel">X</button>
+
+
+                <div class="qq-file-info">
+                    <div class="qq-file-name">
+                        <span class="qq-upload-file-selector qq-upload-file"></span>
+                        <span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Edit filename"></span>
+                    </div>
+                    <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+                    <span class="qq-upload-size-selector qq-upload-size"></span>
+                    <button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">
+                        <span class="qq-btn qq-delete-icon" aria-label="Delete"></span>
+                    </button>
+                    <button type="button" class="qq-btn qq-upload-pause-selector qq-upload-pause">
+                        <span class="qq-btn qq-pause-icon" aria-label="Pause"></span>
+                    </button>
+                    <button type="button" class="qq-btn qq-upload-continue-selector qq-upload-continue">
+                        <span class="qq-btn qq-continue-icon" aria-label="Continue"></span>
+                    </button>
+                </div>
+            </li>
+        </ul>
+
+        <dialog class="qq-alert-dialog-selector">
+            <div class="qq-dialog-message-selector"></div>
+            <div class="qq-dialog-buttons">
+                <button type="button" class="qq-cancel-button-selector">Close</button>
+            </div>
+        </dialog>
+
+        <dialog class="qq-confirm-dialog-selector">
+            <div class="qq-dialog-message-selector"></div>
+            <div class="qq-dialog-buttons">
+                <button type="button" class="qq-cancel-button-selector">No</button>
+                <button type="button" class="qq-ok-button-selector">Yes</button>
+            </div>
+        </dialog>
+
+        <dialog class="qq-prompt-dialog-selector">
+            <div class="qq-dialog-message-selector"></div>
+            <input type="text">
+            <div class="qq-dialog-buttons">
+                <button type="button" class="qq-cancel-button-selector">Cancel</button>
+                <button type="button" class="qq-ok-button-selector">Ok</button>
+            </div>
+        </dialog>
+    </div>
+</script>
+<div class="ui grid">
+    <div class="two wide column"></div>
+    <div class="ten wide column">
+    <div class="stamp stamp1  hides">
+
+
+        @*loops through all files and displays three items:
+        - The Image (159x159) - [Set in .thumb css class]
+        - A delete icon (30X30) - [Set in .deleteDiv css class] (~/Images/deleteImage.png) that calls deleteImage JS function
+        - A DeleteAll button if there are any items that calls the DeleteAll controller Action*@
+    
+
+
+
+
+        @using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new {enctype = "multipart/form-data", @class = "ui form"}))
+        {
+
+            <div class="ui segment">
+                @Html.AntiForgeryToken()
+                <div class="field">
+
+
+                    @*loops through all files and displays three items:
+                    - The Image (159x159) - [Set in .thumb css class]
+                    - A delete icon (30X30) - [Set in .deleteDiv css class] (~/Images/deleteImage.png) that calls deleteImage JS function
+                    - A DeleteAll button if there are any items that calls the DeleteAll controller Action*@
+
+                </div>
+                <div class="field">
+                    <div class="ui input  focus">
+                        <input id="Title" name="Title" type="text" placeholder="Title...">
+                        <span class="field-validation-valid text-danger" data-valmsg-for="Title" data-valmsg-replace="true"></span>
+                    </div>
+
+                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+
+                </div>
+
+                <div class="two fields">
+
+                    <div class="field">
+
+                        <div class="ui  selection dropdown">
+                            <input type="hidden" id="PostType" name="PostType">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Chọn loại bài đăng</div>
+                            <div class="menu">
+                                @{
+                                    if (postTypes != null)
+                                    {
+                                        foreach (Icon icon in postTypes)
+                                        {
+                                            <div class="item" data-value="@icon.IconId">
+                                                <img class="ui mini avatar image" src="@icon.IconImage">
+                                                @icon.IconText
+                                            </div>
+                                        }
+                                    }
+                                }
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <div class="ui fluid multiple search selection dropdown">
+                            <input name="tags" id="tags" type="hidden" value="">
+                            <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Tag liên quan</div>
+                            <div class="menu transition hidden" tabindex="-1">
+
+                                @{
+                                    if (tagList != null)
+                                    {
+                                        foreach (Tag tag in tagList)
+                                        {
+                                            <div class="item" data-value="@tag.TagValue">@tag.TagText</div>
+                                        }
+                                    }
+                                }
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+
+                </div>
+                <div class="field">
+                    <label>Mô tả </label>
+                    <textarea rows="4" tabindex="4" id="Description" name="Description" value=""></textarea>
+
+                </div>
+
+                <div class="field">
+                    <input id="search-location" type="text" placeholder="Tìm kiếm địa điểm...">
+                </div>
+
+
+                <div id="fine-uploader-gallery"></div>
+                <script>
+                    var uploader = new qq.FineUploader({
+                        element: document.getElementById('fine-uploader-gallery'),
+                        template: 'qq-template-gallery',
+                        callbacks: {
+                            onError: function() {
+                                $(".grids").isotope("layout");
+                            }
+
+                        }
+
+
+                    });
+                </script>
+
+                <div class="field">
+                    <input id="btnCreate" type="submit" tabindex="6" value="Đăng bài" name="createpost" class="ui primary button"/>
+
+                </div>
+            </div>
+
+        }
+
+    </div>
+</div>
+</div>

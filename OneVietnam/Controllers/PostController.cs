@@ -1,5 +1,7 @@
 ﻿
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -8,6 +10,8 @@ using System.Web.Script.Serialization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.SignalR;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using OneVietnam.BLL;
 using OneVietnam.Common;
 using OneVietnam.DTL;
@@ -17,10 +21,14 @@ namespace OneVietnam.Controllers
 {
     public class PostController : Controller
     {
+
         public ActionResult Index()
         {
             return View();
         }
+        static CloudBlobClient blobClient;
+        const string blobContainerName = "webappstoragedotnet-imagecontainer";
+        static CloudBlobContainer blobContainer;
         public static bool CreatedPost = false;
         public static PostViewModel PostView;        
 
@@ -143,7 +151,7 @@ namespace OneVietnam.Controllers
             await PostManager.CreatePostAsync(post);
             CreatedPost = true;
             PostView = new PostViewModel(post);
-            return RedirectToAction("ShowPostDetail", "Post", new { postId = post.Id });
+            return RedirectToAction("NewFeeds", "Post", new { postId = post.Id });
         }
         //public async Task<ActionResult> NewFeeds()
         //{
@@ -154,6 +162,50 @@ namespace OneVietnam.Controllers
 
         public async Task<ActionResult> NewFeeds(int? pageNum)
         {
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
+
+            // Create a blob client for interacting with the blob service.
+            blobClient = storageAccount.CreateCloudBlobClient();
+            blobContainer = blobClient.GetContainerReference(blobContainerName);
+            await blobContainer.CreateIfNotExistsAsync();
+
+            // To view the uploaded blob in a browser, you have two options. The first option is to use a Shared Access Signature (SAS) token to delegate  
+            // access to the resource. See the documentation links at the top for more information on SAS. The second approach is to set permissions  
+            // to allow public access to blobs in this container. Comment the line below to not use this approach and to use SAS. Then you can view the image  
+            // using: https://[InsertYourStorageAccountNameHere].blob.core.windows.net/webappstoragedotnet-imagecontainer/FileName 
+            await blobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
+            if (Request.Form["createpost"] != null)
+            {
+                try
+                {
+                    HttpFileCollectionBase files = Request.Files;
+                    int fileCount = files.Count;
+
+                    if (fileCount > 0)
+                    {
+                        for (int i = 0; i < fileCount; i++)
+                        {
+                            CloudBlockBlob blob = blobContainer.GetBlockBlobReference(GetRandomBlobName(files[i].FileName));
+
+
+
+                            blob.UploadFromStream(files[i].InputStream);
+
+                            //await blob.UploadFromFileAsync(path, FileMode.Open);
+                        }
+                    }
+
+
+
+                }
+                catch (Exception ex)
+                {
+
+                    ViewData["message"] = ex.Message;
+                    ViewData["trace"] = ex.StackTrace;
+                    return View("Error");
+                }
+            }
             if (TagList != null)
             {
                 ViewData["TagList"] = TagList;
@@ -214,6 +266,97 @@ namespace OneVietnam.Controllers
             var filter = new BaseFilter {CurrentPage = pageNum};
             return await PostManager.FindAllPostAsync(filter);
         }
+        [HttpPost]
+        public async Task<ActionResult> UploadAsync()
+        {
+            try
+            {
+                HttpFileCollectionBase files = Request.Files;
+                int fileCount = files.Count;
+
+                if (fileCount > 0)
+                {
+                    for (int i = 0; i < fileCount; i++)
+                    {
+                        CloudBlockBlob blob = blobContainer.GetBlockBlobReference(GetRandomBlobName(files[i].FileName));
+
+
+
+                        blob.UploadFromStream(files[i].InputStream);
+
+                        //await blob.UploadFromFileAsync(path, FileMode.Open);
+                    }
+                }
+
+
+
+                return RedirectToAction("NewFeeds");
+            }
+            catch (Exception ex)
+            {
+
+                ViewData["message"] = ex.Message;
+                ViewData["trace"] = ex.StackTrace;
+                return View("Error");
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult> DeleteImage(string name)
+        {
+            try
+            {
+                Uri uri = new Uri(name);
+                string filename = Path.GetFileName(uri.LocalPath);
+
+                var blob = blobContainer.GetBlockBlobReference(filename);
+                await blob.DeleteIfExistsAsync();
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewData["message"] = ex.Message;
+                ViewData["trace"] = ex.StackTrace;
+                return View("Error");
+            }
+        }
+
+        /// <summary> 
+        /// Task<ActionResult> DeleteAll(string name) 
+        /// Documentation References:  
+        /// - Delete Blobs: https://azure.microsoft.com/en-us/documentation/articles/storage-dotnet-how-to-use-blobs/#delete-blobs
+        /// </summary> 
+        [HttpPost]
+        public async Task<ActionResult> DeleteAll()
+        {
+            try
+            {
+                foreach (var blob in blobContainer.ListBlobs())
+                {
+                    if (blob.GetType() == typeof(CloudBlockBlob))
+                    {
+                        await ((CloudBlockBlob)blob).DeleteIfExistsAsync();
+                    }
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewData["message"] = ex.Message;
+                ViewData["trace"] = ex.StackTrace;
+                return View("Error");
+            }
+        }
+
+        /// <summary> 
+        /// string GetRandomBlobName(string filename): Generates a unique random file name to be uploaded  
+        /// </summary> 
+        private string GetRandomBlobName(string filename)
+        {
+            string ext = Path.GetExtension(filename);
+            return string.Format("{0:10}_{1}{2}", DateTime.Now.Ticks, Guid.NewGuid(), ext);
+        }
         public async Task<ActionResult> ShowPost()
         {
             //List<Post> list = await PostManager.FindByUserId(User.Identity.GetUserId());
@@ -242,7 +385,7 @@ namespace OneVietnam.Controllers
                     if (postUser != null)
                 {
                         PostViewModel showPost = new PostViewModel(post, postUser.UserName);
-                        return PartialView("../Post/_ShowPostDetail", showPost);
+                        return PartialView("../Post/ShowPostDetail", showPost);
                     }
                 }
             }                        
