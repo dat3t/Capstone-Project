@@ -4,7 +4,11 @@
 @{
     ViewBag.Title = "Timeline";
 }
-
+<script>
+    var x =  @Model.Profile.Location.XCoordinate;
+    var y = @Model.Profile.Location.YCoordinate;
+    var address = '@Model.Profile.Location.Address';
+</script>
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Scripts/timeline.js"></script>
 
@@ -70,7 +74,7 @@
                     <div class="item active" data-tab="timeline">Bài đăng
                         <div class="ui teal   label">@postCount</div>
                     </div>
-                    <div class="item" data-tab="profile">Giới thiệu</div>
+                    <div class="item" data-tab="profile" onclick="showUserMarkerOnMap(x,y,address);">Giới thiệu</div>
                     @if (Model.Id.Equals(User.Identity.GetUserId()))
                     {
                         <div class="item" data-tab="setting">Cài đặt</div>
@@ -94,7 +98,7 @@
                         }
                     }
                 </div>
-                <div class="ui tab" data-tab="profile">
+                <div class="ui tab" data-tab="profile" >
                     <div id="EditProfileForm">
                         @Html.Partial("_EditProfile", Model.Profile)
                     </div>
