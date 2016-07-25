@@ -9,12 +9,50 @@
             @Html.ActionLink(User.Identity.GetUserName(), "Timeline", "Timeline", routeValues: new {userId = User.Identity.GetUserId()}, htmlAttributes: new { id = "txtHeaderUserName" })
         }
     </div>
-    <div class="ui item">        
-        <div>
-            <i class="talk icon" id="chatchat"></i>
+    <div class="item">        
+        <div>            
+            <i class="talk icon" data-content="Tin Nhắn" data-variation="small" id="messageIcon"></i>            
         </div>
-        <div class="segment" id="messagechat" style="display: block">
-            <p>Hello world</p>
+        <div class="ui items messages" style="display: none" id="messages">
+            <a role="button" href="">
+                <div class="item">
+                    @*<a class="ui avatar image">
+                        <img src="~/Content/DemoAvatar.png" />
+                    </a>*@
+                    @*<img src="~/Content/DemoAvatar.png" />*@
+                    <div class="content">
+                        @*<a href="">MinhTai</a>*@
+                        <div class="description">
+                            <p>Xin Chao Moi nguoi</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a role="button" href="">
+                <div class="item">
+                    @*<a class="ui avatar image">
+                    <img src="~/Content/DemoAvatar.png" />
+                </a>*@
+                    @*<img src="~/Content/DemoAvatar.png" />*@
+                    <div class="content">
+                        @*<a href="">MinhTai</a>*@
+                        <div class="description">
+                            <p>Xin Chao Moi nguoi</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            @*<div class="item">
+                <a class="ui avatar image">
+                    <img src="~/Content/DemoAvatar.png"/>
+                </a>
+                <div class="content">
+                    <a href="">MinhTai</a>
+                    <div class="description">
+                        <p>Xin Chao Moi nguoi</p>
+                    </div>
+                </div>
+            </div>*@            
         </div>
     </div>
     <div class="item">
