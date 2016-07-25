@@ -1,6 +1,9 @@
 ﻿$(document)
     .ready(function () {
-        
+        $("#locationDr").dropdown({
+            allowCategorySelection: true
+        })
+        ;
     //function createUploader() {
     //    var uploader = new qq.FineUploader({
     //        element: document.getElementById('fine-uploader'),
@@ -125,10 +128,6 @@
     
             });
 
-        $("#dvComment").click(function () {
-            $grid.isotope('layout');
-            alert("chi tham");
-    });
 
     //ToanLM
 
@@ -149,7 +148,7 @@
         var $this = $(this).parent();
         $(this).parent().find('.marker').toggleClass("hides");
        
-      
+     
 //        $(this).parent().parent().toggleClass('gigante');
         // trigger layout after item size changes
         $grid.isotope('layout');
@@ -162,14 +161,11 @@ $('.stamp-button').on('click', function () {
         scrollTop: 0                       // Scroll to top of body
     }, 500);
     $(".stamp").toggleClass("hides");
+    $(".stamp").toggleClass("n-invi");
     $(".edits").toggleClass("edits-cl");
     $(".plus").toggleClass("plus-cl");
   // stamp or unstamp element
-            if (isStamped) {
-      $grid.isotope('unstamp', $stamp);
-  } else {
-      $grid.isotope('stamp', $stamp);
-  }
+          
   // trigger layout
   $grid.isotope('layout');
   // set flag

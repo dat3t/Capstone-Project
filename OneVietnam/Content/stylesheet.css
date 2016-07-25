@@ -542,3 +542,7 @@ body {
     box-shadow: 0px 2px 4px 0px rgba(34, 36, 38, 0.12), 0px 2px 10px 0px rgba(34, 36, 38, 0.15);
     border-radius: 0.28571429rem;
 }
+
+.n-invi {
+    z-index: 400;
+}
