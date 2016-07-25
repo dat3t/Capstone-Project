@@ -1,5 +1,6 @@
 ﻿
-$(document).ready(function () {
+$(document)
+    .ready(function() {
     //function createUploader() {
     //    var uploader = new qq.FineUploader({
     //        element: document.getElementById('fine-uploader'),
@@ -9,21 +10,17 @@ $(document).ready(function () {
     //    });
     //}
     //window.onload = createUploader;
-    $(".ui.toggle.button").state({
+        $(".ui.toggle.button")
+            .state({
         text: {
             inactive: 'Bật',
             active: 'Tắt'
         }
-    })
-    ;
-  //  $('.icon')
-  //.popup()
-  //  ;
-    //(function (d, s, id) {
-    //    var fjs = d.getElementsByTagName(s)[0];
-    //    if (d.getElementById(id)) return;
-    //    var js = d.createElement(s);
+            });
 
+        $("#chatchat")
+            .click(function() {
+                $("#messagechat").slideToggle();
     //    js.id = id;
     //    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
     //    fjs.parentNode.insertBefore(js, fjs);
@@ -43,8 +40,9 @@ $(document).ready(function () {
         $(".ui.user").css("display", "inline-flex");
         $(".ui.post").css("display", "none");
     }
-    $(".searchType").dropdown({
-        onChange: function (value, text, $selectedItem) {            
+        $(".searchType")
+            .dropdown({
+                onChange: function(value, text, $selectedItem) {
             if (value === "SearchPosts") {                
                 $(".ui.user").css("display", "none");
                 $(".ui.post").css("display", "inline-flex");
@@ -55,15 +53,17 @@ $(document).ready(function () {
             }
         }
     });
-    $("div#myId").dropzone({ url: "/file/post" });
-    $(".right.menu.open").on("click", function (e) {
+        $(".right.menu.open")
+            .on("click",
+                function(e) {
         e.preventDefault();
         $(".ui.vertical.menu.open").toggle();
     });
     
 
     //SearchBox
-    $('.ui.search.post').search({
+        $('.ui.search.post')
+            .search({
         apiSettings: {
             url: '/Search/search?query={query}'
         },
@@ -74,9 +74,9 @@ $(document).ready(function () {
             url: 'Url'
         },
         minCharacters: 3
-    })
-    ;
-    $('#user').search({
+            });
+        $('#user')
+            .search({
       apiSettings: {
           url: '//api.github.com/search/repositories?q={query}'
       },
@@ -86,9 +86,9 @@ $(document).ready(function () {
           url: 'html_url'
       },
         minCharacters: 3
-    })
-    ;
-    $('.ui.search.user').search({
+            });
+        $('.ui.search.user')
+            .search({
         apiSettings: {
             url: '/Search/UsersSearch?query={query}'
         },
@@ -99,8 +99,7 @@ $(document).ready(function () {
             url: 'Url'
         },
         minCharacters: 2
-    })
-    ;
+            });
 
     //ThamDTH
     $('.clearing.star.rating').rating('setting', 'clearable', true);
@@ -109,27 +108,34 @@ $(document).ready(function () {
     $('.ui.multiple.dropdown')
       .dropdown({
           allowAdditions: true
-      })
-    ;
+            });
     $('#drPostType')
       .dropdown({
           
-      })
-    ;
+            });
     $("#drdGender").dropdown({});
 
-    $('.delete.icon.image-add').on('click', function () {
+        $('.delete.icon.image-add')
+            .on('click',
+                function() {
         $(this).parent().remove();;
     });
 
     $('.ui.edit.button')
-      .click(function () {
+            .click(function() {
           $('.ui.fullscreen.modal').modal('show');
       });
 
     $('.icon.link').popup({});    
    
-    $('.tabular.menu .item').tab({
+        $('.tabular.menu .item')
+            .tab({
+    
+            });
+
+        $("#dvComment").click( function(){
+            $grid.isotope('layout');
+            alert("chi tham");
     });
 
     //ToanLM
@@ -150,13 +156,6 @@ $(document).ready(function () {
         var $this = $(this).parent();
         $(this).parent().find('.marker').toggleClass("hides");
        
-     
-//        //like button
-        //$(e.currentTarget).parent().find('.socials').html(
-        //    "<div class='fb-comments' style='width: 100%' data-href='" +
-        //                   window.location.href +
-        //                    "' data-numposts='3' ></div>");
-        //FB.XFBML.parse($this.attr('id'));
       
 //        $(this).parent().parent().toggleClass('gigante');
         // trigger layout after item size changes
@@ -169,7 +168,7 @@ $('.stamp-button').on('click', function () {
     $('body,html').animate({
         scrollTop: 0                       // Scroll to top of body
     }, 500);
-    $stamp.toggleClass("hides");
+    $(".stamp").toggleClass("hides");
     $(".edits").toggleClass("edits-cl");
     $(".plus").toggleClass("plus-cl");
   // stamp or unstamp element
