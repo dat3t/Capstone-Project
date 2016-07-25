@@ -30,7 +30,7 @@ function accommodationEnlarge(){
 }
 
 function jobEnlarge() {
-    document.getElementById("filterJob").style.background = "url(../Content/Icon/job.png)";
+    document.getElementById("filterJob").style.background = "url(../Content/Icon/job5.png)";
     document.getElementById("filterJob").style.backgroundSize = "100%";
     document.getElementById("filterJob").style.backgroundRepeat = "no-repeat";
     document.getElementById("filterJob").className += "disabled";
