@@ -101,58 +101,55 @@ namespace OneVietnam.Controllers
             return View();
         }
 
-        [HttpGet]
-        [System.Web.Mvc.Authorize]
+        [HttpGet]        
         public async Task<PartialViewResult> EditProfile()
         {
             ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             UserProfileViewModel profile = new UserProfileViewModel(user);
             return PartialView("_EditProfile", profile);
-        }
+        }        
 
         [HttpPost]
-        public async Task<PartialViewResult> EditProfile(int gender, string phone, string address)
+        [System.Web.Mvc.Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<PartialViewResult> EditProfile(UserProfileViewModel profile)
         {
-            ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            if (user != null)
-            {                
-                user.Gender = gender;
-                if (user.Location != null)
-                {
-                    user.Location.Address = address;
-                }
-                else
-                {
-                    user.Location = new Location {Address = address};
-                }
-
-                user.PhoneNumber = phone;
-                await UserManager.UpdateAsync(user);
-                await SignInAsync(user, isPersistent: false);
-                UserProfileViewModel profile = new UserProfileViewModel(user);
-                return PartialView("_ShowProfile", profile);
+            if (!ModelState.IsValid)
+            {
+                return PartialView("_EditProfile", profile);
             }
-            return null;
-        }
-
-        [HttpGet]
-        public async Task<PartialViewResult> ShowProfile(string userId)
-        {
-            ApplicationUser user = await UserManager.FindByIdAsync(userId);
-            UserProfileViewModel profile = new UserProfileViewModel(user);
-            return PartialView("_ShowProfile", profile);
-        }
-
-        [HttpGet]       
-        public async Task<PartialViewResult> ShowTwoFactorAuthen(string userId)
-        {
-            ApplicationUser user = await UserManager.FindByIdAsync(userId);
-            TwoFacterViewModel setting = new TwoFacterViewModel(user);
-            return PartialView("_ShowTwoFactorAuthen", setting);
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user != null)
+            {
+                if (profile.UserName != null)
+                {
+                    user.UserName = profile.UserName;
+                }
+                user.Gender = profile.Gender;
+                user.Email = profile.Email;
+                user.Location.Address = profile.Location;
+                if(profile.DateOfBirth != null)
+                {
+                    user.DateOfBirth = profile.DateOfBirth;
+                }
+                
+                if(profile.PhoneNumber != null)
+                {
+                    user.PhoneNumber = profile.PhoneNumber;
+                }                
+                var result = await UserManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    await SignInAsync(user, isPersistent: false);                                        
+                }
+                AddErrors(result);                
+            }
+            return PartialView("_EditProfile", profile);
         }
 
         [HttpPost]
-        public async Task<PartialViewResult> EnableTwoFactorAuthentication(string value)
+        [System.Web.Mvc.Authorize]
+        public async Task ChangeTwoFactorAuthentication(string value)
         {
             if (value == "Bật")
             {
@@ -167,33 +164,19 @@ namespace OneVietnam.Controllers
             if (user != null)
             {
                 await SignInAsync(user, isPersistent: false);
-                TwoFacterViewModel setting = new TwoFacterViewModel(user);
-                return PartialView("_ShowTwoFactorAuthen", setting);
-            }
-            return null;
+                TwoFacterViewModel setting = new TwoFacterViewModel(user);                
+            }            
         }
-        
-        [HttpPost]        
-        public async Task<PartialViewResult> DisableTwoFactorAuthentication()
-        {
-            await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), false);
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            if (user != null)
-            {
-                await SignInAsync(user, isPersistent: false);
-                TwoFacterViewModel setting = new TwoFacterViewModel(user);
-                return PartialView("_ShowTwoFactorAuthen", setting);
-            }
-            return null;
-        }
-
+               
         [HttpGet]
+        [System.Web.Mvc.Authorize]
         public ActionResult ChangePassword()
         {            
             return PartialView("_ChangePassword", new ChangePasswordViewModel());
         }       
 
         [HttpPost]
+        [System.Web.Mvc.Authorize]
         [ValidateAntiForgeryToken]
         public async Task<PartialViewResult> ChangePassword(ChangePasswordViewModel model)
         {
