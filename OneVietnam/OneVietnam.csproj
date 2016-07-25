@@ -557,6 +557,7 @@
     <Content Include="Views\Timeline\Timeline.cshtml" />
     <Content Include="Views\Timeline\_ChangePassword.cshtml" />
     <Content Include="Views\Timeline\_EditProfile.cshtml" />
+    <Content Include="Views\Timeline\_SetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -118,26 +118,43 @@
 
                             </div>
 
-                            @if (Model.Setting.HasPassWord)
-                            {
-                                <div class="ui item" style="width: 100%; padding: 0">
-                                    <div class="ui horizontal list" style="width: 100%; padding: 0">
-                                        <div class="ui item">
-                                            <div class="ui medium header">
-                                                <i class="privacy icon"></i>
-                                                <div class="content">
-                                                    Mật khẩu
-                                                    <div class="sub header" id="ShowPassword">Thay đổi mật khẩu thường xuyên để nâng cao bảo mật hơn</div>                                                    
-                                                </div>
+
+                            <div class="ui item" style="width: 100%; padding: 0">
+                                <div class="ui horizontal list" style="width: 100%; padding: 0">
+                                    <div class="ui item">
+                                        <div class="ui medium header">
+                                            <i class="privacy icon"></i>
+                                            <div class="content">
+                                                Mật khẩu
+                                                @if (Model.Setting.HasPassWord)
+                                                {
+                                                    <div class="sub header" id="ShowPassword">Thay đổi mật khẩu thường xuyên để nâng cao bảo mật hơn</div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="sub header" id="ShowPassword">Tạo mật khẩu mới đê đăng nhập bằng email</div>
+                                                }
+                                                
                                             </div>
                                         </div>
-                                        <div class="ui right floated middle aligned item">
-                                            <input type="button" class="ui right floated teal button" id="btnChangePass" value="Đổi mật khẩu" onclick="showChangePasswordForm('@User.Identity.GetUserId()')" />
-                                        </div>
                                     </div>
-                                    <div id="ChangePasswordForm"></div>
+                                    <div class="ui right floated middle aligned item">
+                                        @if (Model.Setting.HasPassWord)
+                                        {
+                                            <input type="button" class="ui right floated teal button" id="btnChangePass" value="Đổi mật khẩu" onclick="showChangePasswordForm()"/>
+                                        }
+                                        else
+                                        {
+                                            <input type="button" class="ui right floated teal button" id="btnChangePass" value="Thêm mật khẩu" onclick="showSetPasswordForm()" />
+                                        }
+
+                                    </div>
                                 </div>
-                            }
+                                <div id="ChangePasswordForm"></div>
+                            </div>
+
+
+
                         </div>
                     </div>
                 </div>
