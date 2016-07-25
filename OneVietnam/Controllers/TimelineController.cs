@@ -233,7 +233,18 @@ namespace OneVietnam.Controllers
             return PartialView("_SetPassword", model);
         }
 
-
+        [HttpPost]
+        public Task<ActionResult> ChangeAvatar()
+        {
+            HttpFileCollectionBase file = Request.Files;
+            string user = User.Identity.GetUserId();
+            if (file.Count > 0)
+            {
+                //return RedirectToAction("NewFeeds", "Post", new { userId = user});
+            }
+            //return RedirectToAction("Timeline", "Timeline", new { userId = user});
+            return null;
+        }
 
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 

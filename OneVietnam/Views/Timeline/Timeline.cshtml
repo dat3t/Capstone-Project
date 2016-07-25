@@ -11,26 +11,40 @@
 @if (Model != null) //TODO them dieu kien user chua bi lock
 {
     <div class="containers">
-
-    @{
-        //var avatarLink = "/Content/Images/no-avatar.png";
-        var avatarLink = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/hobbit_cover.jpg";
-        if (Model.AvatarLink != null)
+       
+        <a href="#"><img src="@Model.AvatarLink" alt="cover" class="cover"/></a>
+        @if (Model.Id.Equals(User.Identity.GetUserId()))
         {
-            avatarLink = Model.AvatarLink;
-        }
-    }                
-        <a href="#"><img src="@avatarLink" alt="cover" class="cover" /></a>
+            <i class="large inverted grey camera icon edit-avatar"></i>
+            <div id="avatarUpload" class="hides">
+                @Ajax.BeginForm("ChangeAvatar", "Timeline", new AjaxOptions {HttpMethod = "POST"})
+                {
+                <input type="file" id="avatarUp" onchange="submitImage()"/>
+                <input type="submit" id="btnUpload"/>
+                }
+            </div>
+            <script>
+                $(".camera.icon")
+                    .click(function() {
+                        $("#avatarUp").trigger('click');
+                    });
 
+                function submitImage() {                   
+                    $("#btnUpload").trigger('click');                   
+                }               
+            </script>
+
+        }
         <div class="hero">
 
             <div class="details">
 
-                <div class="title1" id="lblTimeLineUserName">@if(Model.UserName != null) {@Model.UserName}</div>
+                <div class="title1" id="lblTimeLineUserName">@if (Model.UserName != null)
+                                                             {@Model.UserName
+                                                             }</div>
 
                 <div class="title2">The Battle of the Five Armies</div>
 
-                <span class="likes">109 likes</span>
 
             </div> <!-- end details -->
 
@@ -77,10 +91,10 @@
                                     }
                                 }
                             </div>
-                         }
+                        }
                     }
                 </div>
-                <div class="ui tab" data-tab="profile">                    
+                <div class="ui tab" data-tab="profile">
                     <div id="EditProfileForm">
                         @Html.Partial("_EditProfile", Model.Profile)
                     </div>
@@ -89,75 +103,75 @@
 
                 @if (Model.Id.Equals(User.Identity.GetUserId()))
                 {
-                <div class="ui tab" data-tab="setting">
-                    <div class="ui segment">
-                        <div class="ui middle aligned selection list">
-                            @{
-                                string value = "Tắt";
-                                if (Model.Setting.TwoFacterEnabled == false)
-                                {
-                                    value = "Bật";
+                    <div class="ui tab" data-tab="setting">
+                        <div class="ui segment">
+                            <div class="ui middle aligned selection list">
+                                @{
+                                    string value = "Tắt";
+                                    if (Model.Setting.TwoFacterEnabled == false)
+                                    {
+                                        value = "Bật";
+                                    }
                                 }
-                            }
-                            <div class="ui item" style="width: 100%; padding: 0">
-                                <div class="ui horizontal list" style="width: 100%; padding: 0">
-                                    <div class="ui item">
-                                        <div class="ui medium header">
-                                            <i class="protect icon"></i>
-                                            <div class="content">
-                                                Bảo mật hai lớp
-                                                <div class="sub header">Bật bảo mât hai lớp để nâng cao bảo mật</div>
-                                            </div>                                           
-                                        </div>
-                                    </div>
-                                    <div class="ui right floated item">
-                                        <button class="ui toggle button" onclick="changeTwoFactorAuthentication()">@value</button>
-                                    </div>
-                                </div>
-                                
-
-                            </div>
-
-
-                            <div class="ui item" style="width: 100%; padding: 0">
-                                <div class="ui horizontal list" style="width: 100%; padding: 0">
-                                    <div class="ui item">
-                                        <div class="ui medium header">
-                                            <i class="privacy icon"></i>
-                                            <div class="content">
-                                                Mật khẩu
-                                                @if (Model.Setting.HasPassWord)
-                                                {
-                                                    <div class="sub header" id="ShowPassword">Thay đổi mật khẩu thường xuyên để nâng cao bảo mật hơn</div>
-                                                }
-                                                else
-                                                {
-                                                    <div class="sub header" id="ShowPassword">Tạo mật khẩu mới đê đăng nhập bằng email</div>
-                                                }
-                                                
+                                <div class="ui item" style="width: 100%; padding: 0">
+                                    <div class="ui horizontal list" style="width: 100%; padding: 0">
+                                        <div class="ui item">
+                                            <div class="ui medium header">
+                                                <i class="protect icon"></i>
+                                                <div class="content">
+                                                    Bảo mật hai lớp
+                                                    <div class="sub header">Bật bảo mât hai lớp để nâng cao bảo mật</div>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="ui right floated item">
+                                            <button class="ui toggle button" onclick="changeTwoFactorAuthentication()">@value</button>
+                                        </div>
                                     </div>
-                                    <div class="ui right floated middle aligned item">
-                                        @if (Model.Setting.HasPassWord)
-                                        {
-                                            <input type="button" class="ui right floated teal button" id="btnChangePass" value="Đổi mật khẩu" onclick="showChangePasswordForm()"/>
-                                        }
-                                        else
-                                        {
-                                            <input type="button" class="ui right floated teal button" id="btnChangePass" value="Thêm mật khẩu" onclick="showSetPasswordForm()" />
-                                        }
 
-                                    </div>
+
                                 </div>
-                                <div id="ChangePasswordForm"></div>
+
+
+                                <div class="ui item" style="width: 100%; padding: 0">
+                                    <div class="ui horizontal list" style="width: 100%; padding: 0">
+                                        <div class="ui item">
+                                            <div class="ui medium header">
+                                                <i class="privacy icon"></i>
+                                                <div class="content">
+                                                    Mật khẩu
+                                                    @if (Model.Setting.HasPassWord)
+                                                    {
+                                                        <div class="sub header" id="ShowPassword">Thay đổi mật khẩu thường xuyên để nâng cao bảo mật hơn</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="sub header" id="ShowPassword">Tạo mật khẩu mới đê đăng nhập bằng email</div>
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ui right floated middle aligned item">
+                                            @if (Model.Setting.HasPassWord)
+                                            {
+                                                <input type="button" class="ui right floated teal button" id="btnChangePass" value="Đổi mật khẩu" onclick="showChangePasswordForm()"/>
+                                            }
+                                            else
+                                            {
+                                                <input type="button" class="ui right floated teal button" id="btnChangePass" value="Thêm mật khẩu" onclick="showSetPasswordForm()"/>
+                                            }
+
+                                        </div>
+                                    </div>
+                                    <div id="ChangePasswordForm"></div>
+                                </div>
+
+
+
                             </div>
-
-
-
                         </div>
                     </div>
-                </div>
                 }
 
 

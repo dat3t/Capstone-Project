@@ -57,6 +57,7 @@ function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
                     var $items = $(data);
 
                     $('.grids').append($items).isotope('appended', $items);
+                    $('.grids').isotope('layout');
                  
                    
                 }
