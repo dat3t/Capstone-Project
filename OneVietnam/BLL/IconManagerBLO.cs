@@ -43,7 +43,7 @@ namespace OneVietnam.BLL
 
                 foreach (var icon in list.Result)
                 {
-                    if (string.Equals(icon.IconType, Constant.IconTypeGender) | string.Equals(icon.IconType, Constant.IconTypeSos))
+                    if (string.Equals(icon.IconType, Constants.IconTypeGender) | string.Equals(icon.IconType, Constants.IconTypeSos))
                     {
                         genderAndSos.Add(icon);
                     }
@@ -62,7 +62,7 @@ namespace OneVietnam.BLL
 
                 foreach (var icon in list.Result)
                 {
-                    if (string.Equals(icon.IconType, Constant.IconTypePost))
+                    if (string.Equals(icon.IconType, Constants.IconTypePost))
                     {
                         postTypes.Add(icon);
                     }

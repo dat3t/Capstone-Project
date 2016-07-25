@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using AspNet.Identity.MongoDB;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.SignalR.Hubs;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using OneVietnam.DTL;
@@ -12,11 +13,12 @@ using OneVietnam.DTL;
 namespace OneVietnam.BLL
 {
     public partial class ApplicationUserManager
-    {
+    {        
         public async Task<List<ApplicationUser>> AllUsersAsync()
         {
             return await _userStore.AllUsersAsync();
         }
+        
         /// <summary>
         /// Method to add user to multiple roles
         /// </summary>
@@ -88,5 +90,59 @@ namespace OneVietnam.BLL
         {
             return await _userStore.TextSearchUsers(query);
         }
+
+        public async Task<List<ApplicationUser>> TextSearchUsers(string query, BaseFilter baseFilter)
+        {
+            return await _userStore.TextSearchUsers(query, baseFilter);
+        }
+        public async Task<ICollection<Connection>> GetConnectionsById(string id)
+        {
+
+            var user = await _userStore.FindByIdAsync(id).ConfigureAwait(false);            
+            return user.Connections;
+        }
+        public async Task AddConnection(string userId, Connection connection)
+        {
+            var user = await _userStore.FindByIdAsync(userId);
+            if (user.Connections == null)
+            {
+                user.Connections = new List<Connection> {connection};
+            }
+            else
+            {
+                var conn = user.Connections.FirstOrDefault(c => c.ConnectionId == connection.ConnectionId);
+                if (conn != null)
+                {
+                    conn.Connected = true;
+                }
+                else
+                {
+                    user.Connections.Add(connection);
+                }
+            }
+            await _userStore.UpdateAsync(user).ConfigureAwait(false);
+        }
+
+        public async Task DisConnection(string userId, string connectionId)
+        {
+            var user = await _userStore.FindByIdAsync(userId);            
+            var conn = user.Connections.FirstOrDefault(c => c.ConnectionId == connectionId);
+            if (conn == null)
+            {
+                throw new Exception("Không tồn tại kết nối");
+            }
+            else
+            {
+                conn.Connected = false;
+            }
+            await _userStore.UpdateAsync(user);
+        }
+
+        //public async Task AddMessage(string userId, Message message)
+        //{
+        //    var user = await _userStore.FindByIdAsync(userId);
+        //    user.AddMessage(message);
+        //    await _userStore.UpdateAsync(user).ConfigureAwait(false);           
+        //}
     }
 }

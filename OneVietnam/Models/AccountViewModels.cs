@@ -131,14 +131,14 @@ namespace OneVietnam.Models
     public class UserViewModel
     {
         public string UserName { get; set; }
-
-        public string SecurityStamp { get; set; }
-
-        public string Email { get; set; }
-
-        public bool EmailConfirmed { get; set; }
+        
+        public string Email { get; set; }        
 
         public string PhoneNumber { get; set; }
+
+        public Location Location { get; set; }
+
+        public int Gender { get; set; }
 
         public UserViewModel()
         {
@@ -149,8 +149,8 @@ namespace OneVietnam.Models
         {
             UserName = appUser.UserName;
             Email = appUser.Email;
-            EmailConfirmed = appUser.EmailConfirmed;
-            SecurityStamp = appUser.SecurityStamp;
+            Location = appUser.Location;
+            Gender = appUser.Gender;
             PhoneNumber = appUser.PhoneNumber;
         }
     }    

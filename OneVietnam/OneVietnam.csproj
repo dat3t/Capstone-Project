@@ -89,35 +89,11 @@
       <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Data.Edm, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.Edm.5.6.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Data.OData, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.OData.5.6.4\lib\net40\Microsoft.Data.OData.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Data.Services.Client, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.1\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAzure.Storage.7.1.2\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="MongoDB.AspNet.Identity, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.AspNet.Identity.1.0.5\lib\net45\MongoDB.AspNet.Identity.dll</HintPath>
       <Private>True</Private>
@@ -140,6 +116,10 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.3-unstable-012\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="RestSharp, Version=105.2.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -167,16 +147,20 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.Owin, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.3\lib\net45\System.Web.Http.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -280,18 +264,27 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="BLL\MessageManagerBLO.cs" />
     <Compile Include="BLL\ReportManagerBLO.cs" />
-    <Compile Include="BLL\Common\BaseFilter.cs" />
-    <Compile Include="BLL\Common\Constants.cs" />
-    <Compile Include="BLL\Common\Enums.cs" />
+    <Compile Include="Common\BaseFilter.cs" />
+    <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\NinjectSignalRDependencyResolver .cs" />
+    <Compile Include="Common\OneHub.cs" />
+    <Compile Include="Common\SimpleInjectorHubActivator.cs" />
+    <Compile Include="BLL\AbstractManager.cs" />
     <Compile Include="Controllers\TimelineController.cs" />
+    <Compile Include="DAL\AbstractStore.cs" />
+    <Compile Include="DAL\MessageStore.cs" />
     <Compile Include="DAL\PostStore.cs" />
     <Compile Include="DAL\ReportStore.cs" />
+    <Compile Include="DTL\BaseMongoDocument.cs" />
+    <Compile Include="DTL\ConnectionDTO.cs" />
+    <Compile Include="DTL\MessageDTO.cs" />
     <Compile Include="Models\PostInfoWindowModel.cs" />
     <Compile Include="Models\ReportViewModal.cs" />
     <Compile Include="Models\TimelineViewModel.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="BLL\Constant.cs" />
     <Compile Include="BLL\CountryManager.cs" />
     <Compile Include="BLL\IconManagerBLO.cs" />
     <Compile Include="BLL\MapManagerBLO.cs" />
@@ -360,11 +353,11 @@
     <Content Include="Content\Icon\free.png" />
     <Content Include="Content\Icon\help.png" />
     <Content Include="Content\Icon\home.png" />
-    <Content Include="Content\Icon\icon-gg.png" />
     <Content Include="Content\Icon\job.png" />
     <Content Include="Content\Icon\LGBT.png" />
     <Content Include="Content\Icon\location.png" />
     <Content Include="Content\Icon\male.png" />
+    <Content Include="Content\Icon\myhome.png" />
     <Content Include="Content\Icon\sale.png" />
     <Content Include="Content\Icon\ship.png" />
     <Content Include="Content\Icon\Users.png" />
@@ -374,6 +367,7 @@
     <Content Include="Content\Images\m3.png" />
     <Content Include="Content\Images\m4.png" />
     <Content Include="Content\Images\m5.png" />
+    <Content Include="Content\Images\no-avatar.png" />
     <Content Include="Content\Images\no-image.png" />
     <Content Include="Content\Images\poke_celebi.png" />
     <Content Include="Content\Images\rua.png" />
@@ -413,7 +407,6 @@
     <Content Include="fonts\helveticaneuecyr-roman.svg" />
     <Content Include="Content\Map\infoWindow.css" />
     <Content Include="Content\Map\map.css" />
-    <Content Include="Content\Map\searchbox.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\deleteImage.png" />
@@ -457,6 +450,7 @@
     <Content Include="Scripts\jquery.scrollstop.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -465,8 +459,10 @@
     <Content Include="Scripts\map.js" />
     <Content Include="Scripts\MapElements.js" />
     <Content Include="Scripts\markerclusterer.js" />
+    <Content Include="Scripts\masonry.pkgd.min.js" />
     <Content Include="Scripts\minimal-slide.js" />
     <Content Include="Scripts\OverlappingMarkerSpiderfier.js" />
+    <Content Include="Scripts\packery.pkgd.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\searchboxCreatePost.js" />
@@ -488,9 +484,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -557,14 +551,16 @@
     <Content Include="Views\Post\NewFeeds.cshtml" />
     <Content Include="Views\Post\Index.cshtml" />
     <Content Include="Views\Post\_Report.cshtml" />
-    <Content Include="Views\Timeline\Timeline.cshtml" />
-    <Content Include="Views\Timeline\_ShowProfile.cshtml" />
-    <Content Include="Views\Timeline\_EditProfile.cshtml" />
-    <Content Include="Views\Timeline\_ShowTwoFactorAuthen.cshtml" />
-    <Content Include="Views\Timeline\_ChangePassword.cshtml" />
     <Content Include="Views\Map\SidenavPost.cshtml" />
     <Content Include="Views\Map\UserAndPostInfo.cshtml" />
+    <Content Include="Views\Home\Chat.cshtml" />
     <Content Include="Views\Map\_UserModal.cshtml" />
+    <Content Include="Views\Post\_ShowPostDetail.cshtml" />
+    <Content Include="Views\Shared\_UserInfo.cshtml" />
+    <Content Include="Views\Post\NewFeeds.cshtml" />
+    <Content Include="Views\Timeline\Timeline.cshtml" />
+    <Content Include="Views\Timeline\_ChangePassword.cshtml" />
+    <Content Include="Views\Timeline\_EditProfile.cshtml" />
     <Content Include="Views\Shared\_ShowPostDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>

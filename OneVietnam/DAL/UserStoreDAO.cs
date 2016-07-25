@@ -38,5 +38,24 @@ namespace OneVietnam.DAL
             return await _users.Find(filter).ToListAsync();            
         }
 
+        public async Task<List<ApplicationUser>> TextSearchUsers(string query, BaseFilter baseFilter)
+        {
+            if (baseFilter.IsNeedPaging)
+            {
+                var builder = Builders<ApplicationUser>.Filter;
+                var filter = builder.Regex("UserName", new BsonRegularExpression(query, "i")) | builder.Regex("Email", new BsonRegularExpression(query, "i"));
+                return
+                    await
+                        _users.Find(filter)
+                            .Skip(baseFilter.Skip)
+                            .Limit(baseFilter.Limit)
+                            .ToListAsync()
+                            .ConfigureAwait(false);
+            }
+            else
+            {
+                return await TextSearchUsers(query).ConfigureAwait(false);
+            }
+        }
     }
 }

@@ -10,23 +10,17 @@ using OneVietnam.Models;
 
 namespace OneVietnam.DTL
 {
-    public class Post
-    {
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; private set;}
+    public class Post : BaseMongoDocument
+    {        
         public string UserId { get; set; }        
         public string Title { get; set; }
         [BsonIgnoreIfNull]
-        public string Description { get; set; }
-        public DateTimeOffset? PublishDate { get; set; }
+        public string Description { get; set; }        
         [BsonIgnoreIfNull]
         public List<Illustration> Illustrations { get; set; }
-        public int PostType { get; set; }
-        public bool DeletedFlag { get; set; }
+        public int PostType { get; set; }        
         public bool Status { get; set; }
-
         public bool LockedFlag { get; set; }
-
         [BsonIgnoreIfNull]
         public Location PostLocation { get; set; }                
         [BsonIgnoreIfNull]
@@ -61,7 +55,7 @@ namespace OneVietnam.DTL
             Title = pView.Title;
             UserId = pView.UserId;
             Description = pView.Description;
-            PublishDate = pView.PublishDate;
+            CreatedDate = pView.CreatedDate;
             PostType = pView.PostType;
             DeletedFlag = pView.DeletedFlag;
             Status = pView.Status;

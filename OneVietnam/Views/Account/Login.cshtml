@@ -6,12 +6,12 @@
 <div class="ui center middle aligned segment two column stackable grid shrink">
     <div class="ui horizontal divider">
         <h2>Đăng Nhập</h2>
+        @Html.ValidationSummary("")
     </div>
     <div class="column">
         @using (Html.BeginForm("Login", "Account", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {@class = "ui form", role = "form"}))
         {
-            @Html.AntiForgeryToken()
-            //@Html.ValidationSummary("")
+            @Html.AntiForgeryToken()            
             <div class="field">
                 @Html.ValidationMessageFor(m => m.Email, "",new {@class= "input-error-message" })
                 <div class="ui left icon input">

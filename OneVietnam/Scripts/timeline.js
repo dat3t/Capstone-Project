@@ -1,128 +1,69 @@
-﻿
-function showProfileForm(pUserId) {
-
-    var param = {
-        userId: pUserId
-    };
-    $.ajax({
-        type: 'GET',
-        url: 'EditProfile',
-        data: param,
-        success: function (partialResult) {
-            $("#EditProfile").html(partialResult);
-        }
-
-    });
-}
-
-
-    
+﻿    
 function editableForm() {
    $('.tog').toggleClass('disabled');
-    $('#btnSave').toggleClass('hides');
+   $('#btnSave').toggleClass('hides');
+   $('#btnCancel').toggleClass('hides');
+   $("#btnEditProfile").hide();
+   $("#lblGender").hide();
+   $("#drdGender").show();
+   $("#drdGender").dropdown({});
 }
 
 function submitEditProfile() {
-    var param = {        
-        gender: $("#Gender").val(),
-        email: $("#Email").val(),
-        phone: $("#PhoneNumber").val(),
-        address: $("#Address_Address").val()
-};
-    $.ajax({
-        type: 'POST',
-        url: 'EditProfile',
-        data: param,
-        success: function (partialResult) {
-//            $("#EditProfile").html(partialResult);
-//            $("#btnEdit").show();
-        }
-    });
+    var oldName = document.getElementById("lblTimeLineUserName");
+    var oldHeaderName = document.getElementById("txtHeaderUserName");
+    var currentName = document.getElementById("UserName");
+    
+    oldName.innerText = currentName.value;
+    oldHeaderName.innerText = currentName.value;
 }
 
-function showTwoFactorAuthen(pUserId) {
-    var param = {
-        userId: pUserId
-    };
+function cancelEditProfile() {
     $.ajax({
         type: 'GET',
-        url: 'ShowTwoFactorAuthen',
-        data: param,
-        success: function (partialResult) {
-            $("#ShowTwoFactorAuthen").html(partialResult);
-            $("#EditTwoFactorAuthen").html("");            
+        url: 'EditProfile',        
+        success: function (partialResult) {            
+            $("#EditProfileForm").html("");
+            $("#EditProfileForm").html(partialResult);
         }
     });
 }
 
-function enableTwoFactorAuthentication() {
+function changeTwoFactorAuthentication() {
     var param = $(".ui.toggle.button").text();
     $.ajax({
         type: 'POST',
-        url: 'EnableTwoFactorAuthentication',
+        url: 'ChangeTwoFactorAuthentication',
         data:{'value':param},
-        success: function(partialResult) {
-            if (partialResult !== null | partialResult !== "") {
-//                $("#ShowTwoFactorAuthen").html("");
-//                $("#ShowTwoFactorAuthen").html(partialResult);
-            }                
+        success: function() {                           
         }
     });
 }
 
-function disableTwoFactorAuthentication() {
-    $.ajax({
-        type: 'POST',
-        url: 'DisableTwoFactorAuthentication',
-        success: function (partialResult) {
-            if (partialResult !== null | partialResult !== "") {
-                $("#ShowTwoFactorAuthen").html("");
-                $("#ShowTwoFactorAuthen").html(partialResult);
-            }
-        }
-    });
-}
-
-function showChangePasswordForm() {    
+function showChangePasswordForm(userId) {
+    var auth = btoa("userId : " + userId);
     $.ajax({
         type: 'GET',
-        url: 'ChangePassword',        
+        url: 'ChangePassword',
+        headers: {
+            "Authorization": "Basic " + auth
+        },
+        //beforeSend: function (xhr) {
+        //    xhr.setRequestHeader('Authorization', make_base_auth());
+        //},
         success: function (partialResult) {
-            $("#ChangePassword").html(partialResult);
+            $("#ChangePasswordForm").html(partialResult);
             $("#ShowPassword").html("");
             $("#btnChangePass").hide();
+        },
+        error: function(errorMessage) {
+            alert(errorMessage);
         }
     });
 }
 
 function cancelChangePassword() {
-    $("#ChangePassword").html("");
-    $("#ShowPassword").html("<div>Thay đổi mật khẩu thường xuyên để nâng cao bảo mật hơn</div>");
+    $("#ChangePasswordForm").html("");
+    $("#ShowPassword").html("<div class='sub header'>Thay đổi mật khẩu thường xuyên để nâng cao bảo mật hơn</div>");
     $("#btnChangePass").show();
-}
-
-function changePassword() {
-    var param = {
-        oldPass: $("#OldPassword").val(),
-        newPass: $("#NewPassword").val(),
-        confirmPass: $("#ConfirmPassword").val()
-    };
-    $.ajax({
-        type: 'POST',
-        url: 'ChangePassword',
-        data: param,
-        success: function (partialResult) {
-            if (partialResult === null | partialResult === "") {
-                $("#ShowPassword").html("<div>Thay đổi mật khẩu thường xuyên để nâng cao bảo mật hơn</div>");
-                $("#ChangePassword").html("");                
-                $("#btnChangePass").show();                
-            } else {
-                $("#ChangePassword").html(partialResult);
-                $("#ShowPassword").html("");
-                $("#btnChangePass").hide();
-            }
-            
-            
-       }
-    });
 }

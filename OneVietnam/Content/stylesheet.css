@@ -99,7 +99,7 @@ a:hover {
 
 
 
-.description {
+/*.description {
   
   bottom: 0px;
   height: 200px;
@@ -107,7 +107,7 @@ a:hover {
   line-height: 26px;
   color: #B1B0AC;
   
-}
+}*/
 
 .column1 {
   padding-left: 50px;
@@ -291,6 +291,7 @@ body {
 }
 .input-error-message {
     color: #DB2828;
+    text-align: left !important;
 }
 .ui.main.menu {
     width: 100%;
@@ -482,7 +483,7 @@ body {
 
 .ui.dropdown.searchType {
     min-width: 0em !important;
-    width: 7em !important;
+    width: 8em !important;
     border-right-style: none;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;

@@ -22,14 +22,14 @@
             yCoordinateExternal = Model.YCoordinateExternal
         }, FormMethod.Post, new { id = "ExternalForm",@class="ui form" }))
         {
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary()
+            @Html.AntiForgeryToken()            
             @Html.TextBoxFor(m => m.XCoordinateExternal, new { style = "display: none;", id = "XCoordinateExternal" })
             @Html.TextBoxFor(m => m.YCoordinateExternal, new { style = "display: none;", id = "YCoordinateExternal" })
             <div class="field">
+                @Html.ValidationMessageFor(m => m.LocationExternal, "", new { @class = "input-error-message" })
                 <div class="ui left icon corner labeled disabled input">
                     <i class="location arrow icon"></i>
-                    @Html.TextBoxFor(m => m.LocationExternal, new { id = "LocationExternal", @placeholder = "Địa chỉ hiện tại của bạn",@readonly=true })
+                    @Html.TextBoxFor(m => m.LocationExternal, new {id = "LocationExternal", @placeholder = "Địa chỉ hiện tại của bạn", @readonly = true})
                     <div class="ui corner label">
                         <i class="asterisk icon"></i>
                     </div>

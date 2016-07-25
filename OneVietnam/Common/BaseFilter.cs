@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace OneVietnam.Common
+namespace OneVietnam
 {
     public class BaseFilter
     {

@@ -1,66 +1,148 @@
 ﻿
 @using Microsoft.AspNet.Identity
+@using OneVietnam.Common
 @model OneVietnam.Models.UserProfileViewModel
 
-<div class="ui segment">
-    @if (Model.Id.Equals(User.Identity.GetUserId()))
-    {
-        <div class="ui right floated teal icon buttons" data-content="Sửa thông tin" >
-            <button class="ui  button" onclick="editableForm()"  ><i class="small edit icon"  ></i></button>
-        </div>
+
+<script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+<style>
+    .disabled {
+        opacity: 1 !important;
     }
-    <p> </p>
-    <div class="ui selection list">
+</style>
 
-        <div class="ui item">
+@using (Ajax.BeginForm("EditProfile", "Timeline", new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "EditProfileForm",
+    OnSuccess = "submitEditProfile"
+}))
+{
+    <div class="ui segment">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(false)
 
-            <div class="ui selection dropdown tog disabled">
-                <input type="hidden" name="Gender" id="Gender" value="@Model.Gender">
-                <i class="dropdown icon"></i>
-                <div class="default text">Giới tính</div>
-                <div class="menu">
-                    <div class="item" data-value="0"><i class="woman icon"></i> Nữ</div>
-                    <div class="item" data-value="1"><i class="man icon"></i> Nam</div>
-                    <div class="item" data-value="2"><i class="genderless icon"></i>Khác</div>
+        @if (Model.Id.Equals(User.Identity.GetUserId()))
+        {
+            <div class="ui right floated teal icon buttons" data-content="Sửa thông tin">
+                <div class="ui vertical animated button" id="btnEditProfile" onclick="editableForm()">
+                    <div class="hidden content">Sửa</div>
+                    <div class="visible content">
+                        <i class="edit icon"></i>
+                    </div>
                 </div>
             </div>
-            <script>
-                $('.ui.dropdown').dropdown({});
-            </script>
-        </div>
-        <div class="ui item">
-            <div class="ui big fluid transparent tog disabled input">
-               <i class="large world icon"></i>
-                
-                @Html.EditorFor(model => model.Address.Address)
+        }
+        <p> </p>
+        <div class="ui selection list">
+            <div class="ui item">
+                <div class="ui big fluid transparent tog disabled input">
+                    <i class="large user icon"></i>
+                    @Html.EditorFor(model => model.UserName)
+                </div>
             </div>
-        </div>
-        <div class="ui item">
-         
-            <div class="ui big fluid transparent tog disabled input">
-                <i class="large mail outline icon"></i>
-                @Html.EditorFor(model => model.Email)
+            <div class="ui item">
+                <div class="ui item">
+
+                    <div class="ui big fluid transparent tog disabled input" id="lblGender">
+                        @if (Model.Gender == (int)Gender.female)
+                        {
+                            <i class="large woman icon"></i>
+                            <input class="text-box single-line valid" type="text" value="Nữ">
+                        }
+                        else if (Model.Gender == (int)Gender.male)
+                        {
+                            <i class="large man icon"></i>
+                            <input class="text-box single-line valid" type="text" value="Nam">
+                        }
+                        else
+                        {
+                            <i class="large genderless icon"></i>
+                            <input class="text-box single-line valid" type="text" value="Khác">
+                        }
+
+                    </div>
+
+                    <div class="ui selection dropdown" id="drdGender" style="display: none">
+                        <input type="hidden" name="Gender" id="Gender" value="@Model.Gender">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Giới tính</div>
+                        <div class="menu">
+                            <div class="item" data-value="0">
+                                <i class="woman icon"></i> Nữ
+                            </div>
+                            <div class="item" data-value="1">
+                                <i class="man icon"></i> Nam
+                            </div>
+                            <div class="item" data-value="2">
+                                <i class="genderless icon"></i>Khác
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
-        </div>
-        <div class="ui item">
 
-            <div class="ui big fluid tog transparent disabled input">
-                <i class="large mobile icon"></i>
-                @Html.EditorFor(model => model.PhoneNumber)
+            <div class="ui item">
+                <div class="ui big fluid transparent tog disabled input">
+                    <i class="large birthday icon"></i>
+                    @*@Html.EditorFor(model => model.DateOfBirth)*@
+                    @*<script>
+                        $(function () {
+                            $("#DateOfBirth")
+                                .datepicker({
+                                    dateFormat: "dd/mm/yy"
+                                });
+                        });
+                    </script>*@
+                    @{
+                        var strDate = "____/__/__";
+                        if (Model.DateOfBirth != null)
+                        {
+                            strDate = $"{Model.DateOfBirth:yyyy-MM-dd}";
+                        }
+                    }
+                    <input class="text-box single-line" id="DateOfBirth" name="DateOfBirth" type="date" value="@strDate">
+
+                </div>
             </div>
+            <div class="ui item">
+                <div class="ui big fluid transparent tog disabled input">
+                    <i class="large world icon"></i>
+
+                    @Html.EditorFor(model => model.Location)
+                </div>
+            </div>
+            <div class="ui item">
+
+                <div class="ui big fluid transparent tog disabled input">
+                    <i class="large mail outline icon"></i>
+                    @Html.EditorFor(model => model.Email)
+
+                </div>
+            </div>
+            <div class="ui item">
+
+                <div class="ui big fluid tog transparent disabled input">
+                    <i class="large mobile icon"></i>
+                    @Html.EditorFor(model => model.PhoneNumber)
+
+                </div>
+            </div>
+
+            <div class="ui item" style="display: none">
+                @Html.EditorFor(model => model.Id)
+            </div>
+
+            <div class="ui item" style="text-align: center">
+                <input class="hides ui cancel button" type="button" value="Hủy" id="btnCancel" onclick="cancelEditProfile()" />
+                <input class="hides ui positive button" type="submit" value="Lưu" id="btnSave" />
+            </div>
+
         </div>
-
-            <button class="hides ui  teal fluid button " id="btnSave" onclick="submitEditProfile()">
-                <i class="save user"></i>
-                Lưu
-            </button>
-
-
-        <div class="ui item" style="display: none">
-            @Html.EditorFor(model => model.Id)
-        </div>
-
     </div>
-</div>
-
-
+}

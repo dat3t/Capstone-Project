@@ -23,5 +23,224 @@
     left:30% !important;
  }
 
+ #userModal{
+     width:300px !important;
+     height:400px !important;
+     left:55% !important;
+     /*overflow-y:scroll;*/
+ }
+
 }
 
+  /*Map icon*/
+
+    #wrapper {
+            margin: 0px;
+            border-bottom: 1px solid #E2E2E2;
+            /*padding-top: 2px;*/
+            background-color: white;
+            padding: 3px 5px 3px 5px;
+        }
+
+        #filterHome {
+            background: url(../Icon/home.png);
+            width: 40px;
+            height: 40px;
+            border: 3px;
+            background-size: 100%; /* To fill the dimensions of container (button), or */
+            background-size: 40px auto; /* to specify dimensions explicitly */
+            transition: transform .5s;
+            background-repeat: no-repeat;
+        }
+
+            #filterHome:hover {
+                transform: scale(2);
+            }
+
+        #filterHelp {
+            background: url(../Icon/help.png);
+            width: 40px;
+            height: 40px;
+            border: 3px;
+            background-size: 100%; /* To fill the dimensions of container (button), or */
+            background-size: 40px auto; /* to specify dimensions explicitly */
+            transition: transform .5s;
+            background-repeat: no-repeat;
+        }
+
+            #filterHelp:hover {
+                transform: scale(2);
+            }
+
+        #filterJob {
+            background: url(../Icon/job.png);
+            width: 40px;
+            height: 40px;
+            border: 3px;
+            background-size: 100%; /* To fill the dimensions of container (button), or */
+            background-size: 40px auto; /* to specify dimensions explicitly */
+            transition: transform .5s;
+            background-repeat: no-repeat;
+        }
+
+            #filterJob:hover {
+                transform: scale(2);
+            }
+
+
+        #filterFurnitureOffer {
+            background: url(../Icon/free.png);
+            width: 40px;
+            height: 40px;
+            border: 3px;
+            background-size: 100%; /* To fill the dimensions of container (button), or */
+            background-size: 40px auto; /* to specify dimensions explicitly */
+            transition: transform .5s;
+            background-repeat: no-repeat;
+        }
+
+            #filterFurnitureOffer:hover {
+                transform: scale(2);
+            }
+
+        #filterHandGoodsOffer {
+            background: url(../Icon/ship.png);
+            width: 40px;
+            height: 40px;
+            border: 3px;
+            background-size: 100%; /* To fill the dimensions of container (button), or */
+            background-size: 40px auto; /* to specify dimensions explicitly */
+            transition: transform .5s;
+            background-repeat: no-repeat;
+        }
+
+            #filterHandGoodsOffer:hover {
+                transform: scale(2);
+            }
+
+        #filterSalesOffer {
+            background: url(../Icon/sale.png);
+            width: 40px;
+            height: 40px;
+            border: 3px;
+            background-size: 100%; /* To fill the dimensions of container (button), or */
+            background-size: 40px auto; /* to specify dimensions explicitly */
+            transition: transform .5s;
+            background-repeat: no-repeat;
+        }
+
+            #filterSalesOffer:hover {
+                transform: scale(2);
+            }
+
+        #filterUsers {
+            background: url(../Icon/Users.png);
+            width: 40px;
+            height: 40px;
+            border: 3px;
+            background-size: 100%; /* To fill the dimensions of container (button), or */
+            background-size: 40px auto; /* to specify dimensions explicitly */
+            transition: transform .5s;
+            background-repeat: no-repeat;
+        }
+
+            #filterUsers:hover {
+                transform: scale(2);
+            }
+
+        #filterMale {
+            background: url(../Icon/male.png);
+            width: 40px;
+            height: 40px;
+            border: 3px;
+            background-size: 100%; /* To fill the dimensions of container (button), or */
+            background-size: 40px auto; /* to specify dimensions explicitly */
+            transition: transform .5s;
+            background-repeat: no-repeat;
+        }
+
+            #filterMale:hover {
+                transform: scale(2);
+            }
+
+        #filterFemale {
+            background: url(../Icon/female.png);
+            width: 40px;
+            height: 40px;
+            border: 3px;
+            background-size: 100%; /* To fill the dimensions of container (button), or */
+            background-size: 40px auto; /* to specify dimensions explicitly */
+            transition: transform .5s;
+            background-repeat: no-repeat;
+        }
+
+            #filterFemale:hover {
+                transform: scale(2);
+            }
+
+        #filterLGBT {
+            background: url(../Icon/LGBT.png);
+            width: 40px;
+            height: 40px;
+            border: 3px;
+            background-size: 100%; /* To fill the dimensions of container (button), or */
+            background-size: 40px auto; /* to specify dimensions explicitly */
+            transition: transform .5s;
+            background-repeat: no-repeat;
+        }
+
+            #filterLGBT:hover {
+                transform: scale(2);
+            }
+
+        #location {
+            background: url(../Icon/location.png);
+            width: 40px;
+            height: 40px;
+            border: 3px;
+            background-size: 100%; /* To fill the dimensions of container (button), or */
+            background-size: 40px auto; /* to specify dimensions explicitly */
+            transition: transform .5s;
+            background-repeat: no-repeat;
+        }
+
+            #location:hover {
+                transform: scale(2);
+            }
+
+                #myLocation {
+            background: url(../Icon/myhome.png);
+            width: 40px;
+            height: 40px;
+            border: 3px;
+            background-size: 100%; /* To fill the dimensions of container (button), or */
+            background-size: 40px auto; /* to specify dimensions explicitly */
+            transition: transform .5s;
+            background-repeat: no-repeat;
+        }
+
+            #myLocation:hover {
+                transform: scale(2);
+            }
+        /* Popup */
+
+        [data-tooltip]:after {
+            pointer-events: none;
+            content: attr(data-tooltip);
+            position: absolute;
+            text-transform: none;
+            text-align: left;
+            white-space: nowrap;
+            font-size: 0.5rem !important;
+            border: 1px solid #D4D4D5;
+            line-height: 1em;
+            max-width: none;
+            background: #FFFFFF;
+            padding: 1em 2em 2em 2em;
+            font-weight: normal;
+            font-style: normal;
+            color: rgba(0, 0, 0, 0.87);
+            border-radius: 0.28571429rem;
+            box-shadow: 0px 2px 4px 0px rgba(34, 36, 38, 0.12), 0px 2px 10px 0px rgba(34, 36, 38, 0.15);
+            z-index: 1;
+        }
