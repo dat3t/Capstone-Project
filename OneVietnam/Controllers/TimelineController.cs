@@ -127,7 +127,7 @@ namespace OneVietnam.Controllers
                 }
                 user.Gender = profile.Gender;
                 user.Email = profile.Email;
-                user.Location.Address = profile.Location;
+                user.Location = profile.Location;
                 if(profile.DateOfBirth != null)
                 {
                     user.DateOfBirth = profile.DateOfBirth;
@@ -196,6 +196,54 @@ namespace OneVietnam.Controllers
             }
             AddErrors(result);            
             return PartialView("_ChangePassword", model);
+        }
+
+        [HttpGet]
+        [System.Web.Mvc.Authorize]
+        public ActionResult SetPassword()
+        {
+            return PartialView("_SetPassword", new SetPasswordViewModel());
+        }
+
+        [HttpPost]
+        [System.Web.Mvc.Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<PartialViewResult> SetPassword(SetPasswordViewModel model)
+        {           
+            if (ModelState.IsValid)
+            {
+                var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+                if (result.Succeeded)
+                {
+                    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                    if (user != null)
+                    {
+                        result = await UserManager.SetEmailConfirmed(user);
+                        if (result.Succeeded)
+                        {
+                            await SignInAsync(user, isPersistent: false);
+                            return null;
+                        }
+                        AddErrors(result);
+                    }
+                    return PartialView("_SetPassword", model);
+                }
+                AddErrors(result);
+            }
+            return PartialView("_SetPassword", model);
+        }
+
+        [HttpPost]
+        public Task<ActionResult> ChangeAvatar()
+        {
+            HttpFileCollectionBase file = Request.Files;
+            string user = User.Identity.GetUserId();
+            if (file.Count > 0)
+            {
+                //return RedirectToAction("NewFeeds", "Post", new { userId = user});
+            }
+            //return RedirectToAction("Timeline", "Timeline", new { userId = user});
+            return null;
         }
 
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;

@@ -1,12 +1,13 @@
 ﻿    
 function editableForm() {
-   $('.tog').toggleClass('disabled');
-   $('#btnSave').toggleClass('hides');
-   $('#btnCancel').toggleClass('hides');
-   $("#btnEditProfile").hide();
-   $("#lblGender").hide();
-   $("#drdGender").show();
-   $("#drdGender").dropdown({});
+    $('.tog').toggleClass('disabled');
+    $('#btnSave').toggleClass('hides');
+    $('#btnCancel').toggleClass('hides');
+    $("#btnEditProfile").hide();
+    $("#lblGender").hide();
+    $("#drdGender").show();
+    $("#btnUpdateLocation").toggleClass('hides');
+    $("#drdGender").dropdown({});
 }
 
 function submitEditProfile() {
@@ -40,30 +41,76 @@ function changeTwoFactorAuthentication() {
     });
 }
 
-function showChangePasswordForm(userId) {
-    var auth = btoa("userId : " + userId);
+function showChangePasswordForm() {    
     $.ajax({
         type: 'GET',
-        url: 'ChangePassword',
-        headers: {
-            "Authorization": "Basic " + auth
-        },
-        //beforeSend: function (xhr) {
-        //    xhr.setRequestHeader('Authorization', make_base_auth());
-        //},
+        url: 'ChangePassword',       
         success: function (partialResult) {
             $("#ChangePasswordForm").html(partialResult);
             $("#ShowPassword").html("");
             $("#btnChangePass").hide();
-        },
-        error: function(errorMessage) {
-            alert(errorMessage);
-        }
+        }        
     });
 }
 
 function cancelChangePassword() {
     $("#ChangePasswordForm").html("");
-    $("#ShowPassword").html("<div class='sub header'>Thay đổi mật khẩu thường xuyên để nâng cao bảo mật hơn</div>");
+    $("#ShowPassword").html("Thay đổi mật khẩu thường xuyên để nâng cao bảo mật hơn");
     $("#btnChangePass").show();
+}
+
+
+function closeChangePasswordForm() {
+    var errorMsg = document.querySelector(".validation-summary-errors");
+    if (errorMsg === null)
+    {
+        $("#ChangePasswordForm").html("");
+        $("#ShowPassword").html("Thay đổi mật khẩu thường xuyên để nâng cao bảo mật hơn");
+        $("#btnChangePass").show();
+    }
+    
+}
+
+function updateCurrentLocation() {
+    var addr = document.getElementById("Location_Address");
+    var xcoordinate = document.getElementById("Location_XCoordinate");
+    var ycoordinate = document.getElementById("Location_YCoordinate");
+
+    //TODO DatTTT, add map in divShowMap
+    addr.value = "";
+    xcoordinate.value = "";
+    ycoordinate.value = "";
+
+}
+
+function showSetPasswordForm() {    
+    $.ajax({
+        type: 'GET',
+        url: 'SetPassword',               
+        success: function (partialResult) {
+            $("#ChangePasswordForm").html(partialResult);
+            $("#ShowPassword").html("");
+            $("#btnChangePass").hide();
+        }        
+    });
+}
+
+function cancelSetPassword() {
+    $("#ChangePasswordForm").html("");
+    $("#ShowPassword").html("Tạo mật khẩu mới đê đăng nhập bằng email");
+    $("#btnChangePass").show();
+}
+
+function closeSetPasswordForm() {  
+    var errorMsg = document.querySelector(".validation-summary-errors");
+    if (errorMsg === null) {
+        $("#ChangePasswordForm").html("");
+        $("#ShowPassword").html("Thay đổi mật khẩu thường xuyên để nâng cao bảo mật hơn");
+        $("#btnChangePass").show();
+        $("#btnChangePass").val('Đổi mật khẩu');
+        $("#btnChangePass")
+            .click(function () {
+                showChangePasswordForm();
+            });
+    }
 }

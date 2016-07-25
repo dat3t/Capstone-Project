@@ -60,18 +60,34 @@ a:hover {
 .cover {
   position: absolute;
   top: 160px;
+    height: 182px;
+    width: 180px;
   left: 40px;
   z-index: 2;
 }
-
+.edit-avatar {
+    cursor: pointer;
+    opacity: 0.3;
+    position: absolute;
+  top: 165px;
+  left: 184px;
+  z-index: 3;
+}
+.edit-avatar:hover {
+    opacity: 1;
+    position: absolute;
+  top: 165px;
+  left: 184px;
+  z-index: 3;
+}
 .details {
     padding: 190px 0 0 280px;
 }
   
 .title1{
     color: white;
-    font-size: 44px;
-    margin-bottom: 13px;
+    font-size: 30px;
+    margin-bottom: 8px;
     position: relative;
 }
     
@@ -139,15 +155,9 @@ a:hover {
   float: left;
 }
 
-.avatars {
-    margin-top: 23px;
-}
+
   img {
     cursor: pointer;
-  }
-  
-  img:hover {
-    opacity: 0.6;
   }
   
   a:hover {

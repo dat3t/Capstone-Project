@@ -350,11 +350,7 @@
     <Content Include="Content\CountryImage\kr.png" />
     <Content Include="Content\CountryImage\us.png" />
     <Content Include="Content\CountryImage\vi.png" />
-    <Content Include="Content\dropzone.css" />
-    <Content Include="Content\edit.gif" />
     <Content Include="Content\fine-uploader-gallery.min.css" />
-    <Content Include="Content\fine-uploader-new.min.css" />
-    <Content Include="Content\fine-uploader.min.css" />
     <Content Include="Content\flickity.css" />
     <Content Include="Content\icon.min.css" />
     <Content Include="Content\Icon\female.png" />
@@ -379,7 +375,6 @@
     <Content Include="Content\Images\no-image.png" />
     <Content Include="Content\Images\poke_celebi.png" />
     <Content Include="Content\Images\rua.png" />
-    <Content Include="Content\loader.css" />
     <Content Include="Content\Map\mappagecustom.css" />
     <Content Include="Content\Map\scrollbar.css" />
     <Content Include="Content\minimal-slide.css" />
@@ -399,7 +394,6 @@
     <Content Include="Content\Images\pikachu.jpg" />
     <Content Include="Content\Images\poke_celebi.png" />
     <Content Include="Content\Images\rua.png" />
-    <Content Include="Content\loader.css" />
     <Content Include="Content\minimal-slide.css" />
     <Content Include="Content\semantic.min.css" />
     <Content Include="Content\SlideImages\HA.jpg" />
@@ -437,9 +431,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\azure.jquery.fine-uploader.min.js" />
     <Content Include="Scripts\docs.js" />
-    <Content Include="Scripts\dropzone.js" />
     <Content Include="Scripts\fine-uploader.js" />
     <Content Include="Scripts\flickity.pkgd.min.js" />
     <Content Include="Scripts\getAddressRegister.js" />
@@ -470,7 +462,6 @@
     <Content Include="Scripts\masonry.pkgd.min.js" />
     <Content Include="Scripts\minimal-slide.js" />
     <Content Include="Scripts\OverlappingMarkerSpiderfier.js" />
-    <Content Include="Scripts\packery.pkgd.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\searchboxCreatePost.js" />
@@ -563,12 +554,11 @@
     <Content Include="Views\Map\UserAndPostInfo.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
     <Content Include="Views\Map\_UserModal.cshtml" />
-    <Content Include="Views\Post\_ShowPostDetail.cshtml" />
     <Content Include="Views\Shared\_UserInfo.cshtml" />
-    <Content Include="Views\Post\NewFeeds.cshtml" />
     <Content Include="Views\Timeline\Timeline.cshtml" />
     <Content Include="Views\Timeline\_ChangePassword.cshtml" />
     <Content Include="Views\Timeline\_EditProfile.cshtml" />
+    <Content Include="Views\Timeline\_SetPassword.cshtml" />
     <Content Include="Views\Shared\_ShowPostDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
