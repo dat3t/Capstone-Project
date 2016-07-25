@@ -343,7 +343,6 @@
     <Content Include="Content\CountryImage\kr.png" />
     <Content Include="Content\CountryImage\us.png" />
     <Content Include="Content\CountryImage\vi.png" />
-    <Content Include="Content\DemoAvatar.png" />
     <Content Include="Content\dropzone.css" />
     <Content Include="Content\fine-uploader-gallery.min.css" />
     <Content Include="Content\flickity.css" />
@@ -361,7 +360,9 @@
     <Content Include="Content\Icon\sale.png" />
     <Content Include="Content\Icon\ship.png" />
     <Content Include="Content\Icon\Users.png" />
+    <Content Include="Content\Images\Avatar_Default.jpg" />
     <Content Include="Content\Images\chov.png" />
+    <Content Include="Content\Images\Cover_default.jpg" />
     <Content Include="Content\Images\m1.png" />
     <Content Include="Content\Images\m2.png" />
     <Content Include="Content\Images\m3.png" />
