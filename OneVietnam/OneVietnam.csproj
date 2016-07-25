@@ -563,6 +563,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="BLL\Common\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
