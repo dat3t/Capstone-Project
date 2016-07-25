@@ -105,7 +105,7 @@
             <div class="ui item">
                 <div class="ui fields" style="padding: 0; width: 100%">
                     <div class="field" style="padding: 0; float: right">
-                        <input style="float: right" class="hides ui teal button" value="Cập nhập" id="btnUpdateLocation" type="button" onclick="updateCurrentLocation()" />
+                        <input style="float: right" class="hides ui teal button" value="Cập nhập" id="btnUpdateLocation" type="button" onclick="updateCurrentLocation(@Model.Location.XCoordinate,@Model.Location.YCoordinate,@Model.Location.Address)" />
                     </div>
                     <div class="field" style="padding: 0">
                 <div class="ui big fluid transparent tog disabled input">
@@ -142,7 +142,7 @@
                 <input class="hides ui cancel button" type="button" value="Hủy" id="btnCancel" onclick="cancelEditProfile()" />
                 <input class="hides ui teal button" type="submit" value="Lưu" id="btnSave" />
             </div>
-            <div class="ui item" id="divShowMap" style="max-width: 100%; height: auto">               
+            <div class="ui item" id="divShowMap" style="max-width: 400px; height: 500px;">               
             </div>
         </div>
     </div>

@@ -71,12 +71,36 @@ function closeChangePasswordForm() {
     
 }
 
-function updateCurrentLocation() {
+function updateCurrentLocation(x,y,address) {
     var addr = document.getElementById("Location_Address");
     var xcoordinate = document.getElementById("Location_XCoordinate");
     var ycoordinate = document.getElementById("Location_YCoordinate");
 
-    //TODO DatTTT, add map in divShowMap
+    //Declare icon for userLocationmarker
+    var icon = {
+        url: "../Content/Icon/location.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+    };
+
+    // Declare a myLocation marker using icon declared above, and bind it to the map
+    userLocationMarker = new google.maps.Marker({
+        title: address,
+        icon: icon
+    });
+
+    map = new google.maps.Map(document.getElementById('divShowMap'), {
+        center: { lat: x, lng: y },
+        zoom: 13,
+        minZoom: 4,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    userLocationMarker.setPosition({ lat: x, lng: y });
+    userLocationMarker.setMap(map);
+
     addr.value = "";
     xcoordinate.value = "";
     ycoordinate.value = "";
