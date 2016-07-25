@@ -6,7 +6,7 @@
             <i class="icon male" style="width:100%;text-align:left"> </i>
         </a>
     </div>
-    <a  href='@Url.Action("Timeline", "Post")'>@Model.UserName</a>
+    <a  href='@Url.Action("Timeline", "Timeline",new { userId = @Model.UserId })'>@Model.UserName</a>
 </div>
 
 
