@@ -148,7 +148,6 @@ function updateCurrentLocation() {
                 if (status === window.google.maps.GeocoderStatus.OK) {           // if geocode success
                     var detailedLocation = results[0].formatted_address;         // if address found, pass to processing function
                     addr.value = detailedLocation;
-                    //document.getElementById("Location_Address").value = detailedLocation;
                     xcoordinate.value = pos.lat;
                     ycoordinate.value = pos.lng;
                     userLocationMarker.setTitle(addr);
