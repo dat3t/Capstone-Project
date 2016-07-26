@@ -85,10 +85,6 @@ function initialize() {
     //Declare a bound
     bounds = new google.maps.LatLngBounds();
 
-
-
-    //alert(bounds);
-
     google.maps.event.addListener(map, 'bounds_changed', function () {
 
         bounds = map.getBounds();
@@ -240,7 +236,7 @@ function initialize() {
             //    scaledSize: new google.maps.Size(25, 25)
             //};
 
-            // Create a marker for each place.
+            //// Create a marker for each place.
             //marker2.push(new google.maps.Marker({
             //    map: map,
             //    icon: icon,
