@@ -5,12 +5,12 @@
     ViewBag.Title = "Timeline";
 }
 <script>
-    var x =  @Model.Profile.Location.XCoordinate;
+    @*var x =  @Model.Profile.Location.XCoordinate;
     var y = @Model.Profile.Location.YCoordinate;
     var address = '@Model.Profile.Location.Address';
     var icon;
     var userLocationMarker;
-    var map;
+    var map;*@
 </script>
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Scripts/timeline.js"></script>
@@ -35,7 +35,7 @@
                         $("#fileInput").trigger('click');
                     });
                 function submitImage() {
-                    $("#btnUpload").trigger('click');
+                    $("#btnUpload").trigger('click');                    
                 }
                 window.onload = function () {
                     document.getElementById('uploader').onsubmit = function () {
@@ -48,8 +48,7 @@
                         xhr.open('POST', '/Timeline/ChangeAvatar');
                         xhr.send(formdata);
                         xhr.onreadystatechange = function () {
-                            if (xhr.readyState === 4 && xhr.status === 200) {
-                                alert(xhr.responseText);
+                            if (xhr.readyState === 4 && xhr.status === 200) {                               
                             }
                         }
                         return false;
