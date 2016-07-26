@@ -17,6 +17,7 @@ function submitEditProfile() {
 
     oldName.innerText = currentName.value;
     oldHeaderName.innerText = currentName.value;
+    showUserMarkerOnMap(x, y, address);
 }
 
 function cancelEditProfile() {
