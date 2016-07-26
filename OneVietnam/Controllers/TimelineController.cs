@@ -280,7 +280,8 @@ namespace OneVietnam.Controllers
                     AddErrors(result);                    
                 }                
             }
-            return RedirectToAction("Timeline", "Timeline", new {userId = User.Identity.GetUserId()});
+            return RedirectToAction("Timeline", "Timeline", new { userId = User.Identity.GetUserId() });
+
         }
         private string GetRandomBlobName(string filename)
         {
