@@ -258,7 +258,7 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
-        
+        [System.Web.Mvc.Authorize]
         public async Task<ActionResult> ChangeAvatar()
         {
             HttpFileCollectionBase file = Request.Files;

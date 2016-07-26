@@ -18,15 +18,15 @@
 @if (Model != null) //TODO them dieu kien user chua bi lock
 {
     <div class="containers">
-       
-        <a href="#"><img src="@Model.AvatarLink" alt="cover" class="cover"/></a>
+
+        <a href="#"><img src="@Model.AvatarLink" alt="cover" class="cover" /></a>
         @if (Model.Id.Equals(User.Identity.GetUserId()))
         {
             <i class="large inverted grey camera icon edit-avatar"></i>
             <div id="avatarUpload" class="hides">
                 <form id="uploader">
                     <input type="file" id="fileInput" name="fileInput" onchange="submitImage()" />
-                    <input type="submit" id="btnUpload" name="btnUpload" />
+                    <input type="submit" id="btnUpload" name="btnUpload" accept=".jpg,.jpeg,.png" />
                 </form>
             </div>
             <script>
@@ -35,12 +35,12 @@
                         $("#fileInput").trigger('click');
                     });
                 function submitImage() {
-                    $("#btnUpload").trigger('click');                    
+                    $("#btnUpload").trigger('click');
                 }
                 var thisLocation = window.location.href;
                 window.onload = function () {
                     document.getElementById('uploader').onsubmit = function () {
-                        
+
                         var formdata = new FormData();
                         var fileInput = document.getElementById('fileInput');
                         for (var i = 0; i < fileInput.files.length; i++) {
@@ -55,7 +55,7 @@
                             }
                         }
                         return false;
-                    }                    
+                    }
                 }
 
             </script>
@@ -65,9 +65,7 @@
 
             <div class="details">
 
-                <div class="title1" id="lblTimeLineUserName">@if (Model.UserName != null)
-                                                             {@Model.UserName
-                                                             }</div>
+                <div class="title1" id="lblTimeLineUserName">@Model.UserName</div>
 
                 <div class="title2">The Battle of the Five Armies</div>
 
@@ -93,7 +91,8 @@
                             postCount = Model.PostList.Count;
                         }
                     }
-                    <div class="item active" data-tab="timeline">Bài đăng
+                    <div class="item active" data-tab="timeline">
+                        Bài đăng
                         <div class="ui teal   label">@postCount</div>
                     </div>
                     <div class="item" data-tab="profile" onclick="showUserMarkerOnMap(x,y,address);">Giới thiệu</div>
@@ -117,10 +116,10 @@
                                     }
                                 }
                             </div>
-                        }
+                                    }
                     }
                 </div>
-                <div class="ui tab" data-tab="profile" >
+                <div class="ui tab" data-tab="profile">
                     <div id="EditProfileForm">
                         @Html.Partial("_EditProfile", Model.Profile)
                     </div>
@@ -181,11 +180,11 @@
                                         <div class="ui right floated middle aligned item">
                                             @if (Model.Setting.HasPassWord)
                                             {
-                                                <input type="button" class="ui right floated teal button" id="btnChangePass" value="Đổi mật khẩu" onclick="showChangePasswordForm()"/>
+                                                <input type="button" class="ui right floated teal button" id="btnChangePass" value="Đổi mật khẩu" onclick="showChangePasswordForm()" />
                                             }
                                             else
                                             {
-                                                <input type="button" class="ui right floated teal button" id="btnChangePass" value="Thêm mật khẩu" onclick="showSetPasswordForm()"/>
+                                                <input type="button" class="ui right floated teal button" id="btnChangePass" value="Thêm mật khẩu" onclick="showSetPasswordForm()" />
                                             }
 
                                         </div>
@@ -198,7 +197,7 @@
                             </div>
                         </div>
                     </div>
-                }
+                                    }
 
 
                 <!-- end avatars -->
@@ -210,16 +209,9 @@
 
 
     </div> <!-- end container -->
-                            }
-                            else
-                            {
-                                <div style="margin: auto; width: 40%">
-                                    <div class="ui segment">
-                                        <div class="ui centered header">
-                                            <i class="warning circle icon"></i>
-                                            Trang bạn tìm kiếm đã bị xóa hoặc không tồn tại
-                                        </div>
-                                    </div>
-                                </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.Partial("../Shared/_NoSearchResult")
 
-                            }
+                                    }
