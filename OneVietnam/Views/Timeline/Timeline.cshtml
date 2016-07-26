@@ -4,7 +4,14 @@
 @{
     ViewBag.Title = "Timeline";
 }
-
+<script>
+    var x =  @Model.Profile.Location.XCoordinate;
+    var y = @Model.Profile.Location.YCoordinate;
+    var address = '@Model.Profile.Location.Address';
+    var icon;
+    var userLocationMarker;
+    var map;
+</script>
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Scripts/timeline.js"></script>
 
@@ -16,27 +23,27 @@
         @if (Model.Id.Equals(User.Identity.GetUserId()))
         {
             <i class="large inverted grey camera icon edit-avatar"></i>
-            <div id="avatarUpload" class="hides">               
+            <div id="avatarUpload" class="hides">
                 <form id="uploader">
                     <input type="file" id="fileInput" name="fileInput" onchange="submitImage()" />
                     <input type="submit" id="btnUpload" name="btnUpload" />
-                </form>                
+                </form>
             </div>
             <script>
                 $(".camera.icon")
                     .click(function() {
                         $("#fileInput").trigger('click');
                     });
-                function submitImage() {
-                    $("#btnUpload").trigger('click');
-                }
+                function submitImage() {                   
+                    $("#btnUpload").trigger('click');                   
+                }               
                 window.onload = function () {
                     document.getElementById('uploader').onsubmit = function () {
-                        var formdata = new FormData(); 
-                        var fileInput = document.getElementById('fileInput');                       
-                        for (var i = 0; i < fileInput.files.length; i++) {                            
+                        var formdata = new FormData();
+                        var fileInput = document.getElementById('fileInput');
+                        for (var i = 0; i < fileInput.files.length; i++) {
                             formdata.append(fileInput.files[i].name, fileInput.files[i]);
-                        }                        
+                        }
                         var xhr = new XMLHttpRequest();
                         xhr.open('POST', '/Timeline/ChangeAvatar');
                         xhr.send(formdata);
@@ -87,7 +94,7 @@
                     <div class="item active" data-tab="timeline">Bài đăng
                         <div class="ui teal   label">@postCount</div>
                     </div>
-                    <div class="item" data-tab="profile">Giới thiệu</div>
+                    <div class="item" data-tab="profile" onclick="showUserMarkerOnMap(x,y,address);">Giới thiệu</div>
                     @if (Model.Id.Equals(User.Identity.GetUserId()))
                     {
                         <div class="item" data-tab="setting">Cài đặt</div>
@@ -111,7 +118,7 @@
                         }
                     }
                 </div>
-                <div class="ui tab" data-tab="profile">
+                <div class="ui tab" data-tab="profile" >
                     <div id="EditProfileForm">
                         @Html.Partial("_EditProfile", Model.Profile)
                     </div>

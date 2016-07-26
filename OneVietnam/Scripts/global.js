@@ -1,6 +1,19 @@
-﻿
-$(document)
-    .ready(function() {
+﻿$(document)
+    .ready(function () {
+        $("#locationDr").dropdown({
+            allowCategorySelection: true
+        })
+        ;
+    //function createUploader() {
+    //    var uploader = new qq.FineUploader({
+    //        element: document.getElementById('fine-uploader'),
+    //        request: {
+    //            endpoint: '@Url.Action("UploadBatchDataFile")'
+    //        }
+    //    });
+    //}
+    //window.onload = createUploader;
+       
         $(".ui.toggle.button")
             .state({
                 text: {
@@ -10,7 +23,7 @@ $(document)
             });
 
         $("#chatchat")
-            .click(function() {
+            .click(function () {
                 $("#messagechat").slideToggle();
             });
 
@@ -23,7 +36,7 @@ $(document)
         }
         $(".searchType")
             .dropdown({
-                onChange: function(value, text, $selectedItem) {
+                onChange: function (value, text, $selectedItem) {
                     if (value === "SearchPosts") {
                         $(".ui.user").css("display", "none");
                         $(".ui.post").css("display", "inline-flex");
@@ -36,7 +49,7 @@ $(document)
             });
         $(".right.menu.open")
             .on("click",
-                function(e) {
+                function (e) {
                     e.preventDefault();
                     $(".ui.vertical.menu.open").toggle();
                 });
@@ -98,12 +111,12 @@ $(document)
 
         $('.delete.icon.image-add')
             .on('click',
-                function() {
+                function () {
                     $(this).parent().remove();;
                 });
 
         $('.ui.edit.button')
-            .click(function() {
+            .click(function () {
                 $('.ui.fullscreen.modal').modal('show');
             });
 
@@ -113,6 +126,7 @@ $(document)
             .tab({
     
             });
+
 
     //ToanLM
 
@@ -129,6 +143,7 @@ $(document)
     
     // change size of item by toggling gigante class
     $grid.on('click', '.content', function (e) {
+
         var $this = $(this).parent();
         $(this).parent().find('.marker').toggleClass("hides");
        
@@ -145,14 +160,11 @@ $('.stamp-button').on('click', function () {
         scrollTop: 0                       // Scroll to top of body
     }, 500);
     $(".stamp").toggleClass("hides");
+    $(".stamp").toggleClass("n-invi");
     $(".edits").toggleClass("edits-cl");
     $(".plus").toggleClass("plus-cl");
   // stamp or unstamp element
-  if ( isStamped ) {
-      $grid.isotope('unstamp', $stamp);
-  } else {
-      $grid.isotope('stamp', $stamp);
-  }
+          
   // trigger layout
   $grid.isotope('layout');
   // set flag

@@ -5,7 +5,7 @@ var userInfoWindow;
 var infowindow;
 var infowindowContent;
 var isFirstTime = true;
-var myCurrentLocationMarker;
+var myCurrentLocationMarker, myHomeMarker;
 var markerCluster;
 
 var listUserMarkers = [], listMaleMarkers = [], listFemaleMarkers = [], listLGBTMarkers = [];
@@ -30,11 +30,11 @@ function checkAuthenticated() {
     };
 
     var myhomeicon = {
-        url: "../Content/Icon/myhome.png",
+        url: "../Content/Icon/myhome2.png",
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
 
 
@@ -45,7 +45,7 @@ function checkAuthenticated() {
         icon: icon
     });
 
-    var myHomeMarker = new google.maps.Marker({
+    myHomeMarker = new google.maps.Marker({
         title: "Vị trí của tôi",
         icon: myhomeicon
     });
@@ -92,7 +92,7 @@ function initialize() {
     google.maps.event.addListener(map, 'bounds_changed', function () {
 
         bounds = map.getBounds();
-       // var centerOfCurrentBound = bounds.getCenter();
+        // var centerOfCurrentBound = bounds.getCenter();
         //alert(bounds);
         //alert(bounds.getCenter());
         //alert(bounds.getCenter().lat());
@@ -277,7 +277,7 @@ function initialize() {
         //content: '@Html.Partial("CustomInfoWindow")',
         // Assign a maximum value for the width of the infowindow allows
         // greater control over the various content elements
-        map:map,
+        map: map,
         maxWidth: 350
     });
     //google.maps.event.addListener(infowindow, 'domready', function () {
@@ -350,7 +350,7 @@ function initialize() {
     //    //$.each(markers, function () {
     //    //    content += this.get('content');
     //    //});
-       
+
     //    var info = new google.maps.MVCObject;
     //    info.set('position', cluster.getCenter());
 
@@ -360,12 +360,12 @@ function initialize() {
     //   // infowindow.setContent("");
     //    infowindow.open(map, info);
     //    $(".gm-style-iw").next("div").hide();
-     
+
     //    // Event that closes the Info Window with a click on the map
     //    //google.maps.event.addListener(infowindow, 'mouseout', function () {
     //    //    infowindow.close();
     //    //});
-         
+
     //    //google.maps.event.addListener(infowindow, "mouseover", function () {
     //        //infowindow.open(map, this);
     //    //});
@@ -383,7 +383,7 @@ function initialize() {
     //    setTimeout(function () { infowindow.close(); }, 3000);
 
     //});
- 
+
     //$(document).on('mouseenter', '.cluster', function (cluster) {
     //    alert(1);
     //    var markers = markerCluster.getMarkers();
@@ -392,7 +392,7 @@ function initialize() {
     //    //    content += this.get('content');
     //    //});
     //   var  marke = new google.maps.Marker();
-        
+
     //   marke = markerCluster.getMarkers
     //    var info = new google.maps.MVCObject;
     //    info.set('position', cluster.getCenter());
@@ -422,20 +422,20 @@ function initialize() {
     //    //    infowindow.close();
     //    //});
     //});
-   
+
 
     //google.maps.event.addListener(map, 'mousemove', function (event) {
     //    infowindow.close();
     //});
     //google.maps.event.addListener(markerCluster, "mouseout", function () {
 
-       
+
     //    infowindow.close();
-      
+
 
     //});
-    
-        // Automatically center the map fitting all markers on the screen
+
+    // Automatically center the map fitting all markers on the screen
     //    map.fitBounds(bounds);
     //}
 
@@ -469,7 +469,7 @@ function showCurrentLocation() {
     var p2 = { lat: 36.238666, lng: 137.96902209999996 };
 
     //document.getElementById('cal').innerHTML = getDistance(p1,p2);
-
+    myHomeMarker.setMap(null);
     //Identify current user's location and bind it to the map
     //Using HTML5 geolocation.
     if (navigator.geolocation) {
@@ -480,6 +480,7 @@ function showCurrentLocation() {
             };
 
             myCurrentLocationMarker.setPosition(pos);
+            myCurrentLocationMarker.setMap(map);
             // addMarker(pos);
             map.setZoom(12);
             map.setCenter(pos);
@@ -495,6 +496,9 @@ function showCurrentLocation() {
 }
 
 function showMyLocation() {
+    myCurrentLocationMarker.setMap(null);
+    myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
+    myHomeMarker.setMap(map);
     map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
     map.setZoom(14);
 }
@@ -542,10 +546,10 @@ function showLGBT() {
 
 function showAccommodation() {
     setMapToAMarkerCluster(type0MarkerCluster);
-   
+
     bounds.extend(calculateNearestMarker(postType0));
     map.fitBounds(bounds);
-    
+
 }
 
 function calculateNearestMarker(listLocation) {
@@ -567,7 +571,7 @@ function calculateNearestMarker(listLocation) {
 
     return position;
 
-  
+
 }
 function showJobOffer() {
     setMapToAMarkerCluster(type1MarkerCluster);
@@ -583,7 +587,7 @@ function showFurnitureOffer() {
 
 function showHandGoodsOffer() {
     setMapToAMarkerCluster(type3MarkerCluster);
-    bounds.extend(calculateNearestMarker(postType03));
+    bounds.extend(calculateNearestMarker(postType3));
     map.fitBounds(bounds);
 }
 
@@ -606,7 +610,7 @@ function createListUserMarkers() {
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(allUsers[i].x, allUsers[i].y);
@@ -647,7 +651,7 @@ function createListMaleMarkers() {
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     var length = males.length;
     for (var i = 0; i < length; i++) {
@@ -679,7 +683,7 @@ function createListFemaleMarkers() {
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     var length = females.length;
     for (var i = 0; i < length; i++) {
@@ -710,7 +714,7 @@ function createListLGBTMarkers() {
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     var length = LGBT.length;
     for (var i = 0; i < length; i++) {
@@ -774,11 +778,11 @@ function createListType0Markers() {
 
 function createListType1Markers() {
     var icon = {
-        url: "../Content/Icon/job.png",
+        url: "../Content/Icon/job5.png",
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     var length = postType1.length;
     for (var i = 0; i < length; i++) {
@@ -809,11 +813,11 @@ function createListType1Markers() {
 
 function createListType2Markers() {
     var icon = {
-        url: "../Content/Icon/free.png",
-        size: new google.maps.Size(71, 71),
+        url: "../Content/Icon/free5.png",
+        size: new google.maps.Size(50, 50),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     var length = postType2.length;
     for (var i = 0; i < length; i++) {
@@ -844,11 +848,11 @@ function createListType2Markers() {
 
 function createListType3Markers() {
     var icon = {
-        url: "../Content/Icon/ship.png",
+        url: "../Content/Icon/ship4.jpg",
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     var length = postType3.length;
     for (var i = 0; i < length; i++) {
@@ -883,7 +887,7 @@ function createListType4Markers() {
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     var length = postType4.length;
     for (var i = 0; i < length; i++) {
@@ -914,11 +918,11 @@ function createListType4Markers() {
 
 function createListType5Markers() {
     var icon = {
-        url: "../Content/Icon/help.png",
+        url: "../Content/Icon/help3.png",
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     var length = postType5.length;
     for (var i = 0; i < length; i++) {
@@ -1131,7 +1135,7 @@ function getUserInfo(userId) {
             alert(xhr.responseText);
         }
     });
-  
+
 }
 
 function getPostInfo(postID) {
@@ -1168,56 +1172,20 @@ function getPostInfo(postID) {
     });
 }
 
-//function getPostInfo2(postID) {
-//    $.ajax({
-//        url: '/Map/UserAndPostInfo?postId=' + postID,
-//        type: 'GET',
-//        dataType: 'text',
-//        success: function (result) {
-//            // createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
-//            // alert(1);
-//            if (result != '') {
-//                $("#userModal").empty();
+function showSelectedPostOnMap(Lat, Lng, PostId, PostType) {
 
-//                $("#userModal").html(result);
-//                //$("#zzz").find("script").each(function (i) {
-//                //    eval($(this).text());
-//                //    //alert(a);
-//                //});
-//                //alert(result);
-//            }
+    switch (PostType) {
+        case 0: showAccommodation(); break;
+        case 1: showJobOffer(); break;
+        case 2: showFurnitureOffer(); break;
+        case 3: showHandGoodsOffer(); break;
+        case 4: showTradeOffer(); break;
+        case 5: showSOS(); break;
+    }
 
-//            // alert(result);
-//        },
-//        error: function (xhr, status, error) {
-//            alert(xhr.responseText);
-//        }
-//    });
-
-//    $("#userModal").modal('show');
-
-
-//}
-
-function callInfo(postID) {
-    $.ajax({
-        url: 'GetPostInfo?postId=' + postID,
-        type: 'GET',
-        context: document.body,
-        success: function (json) {
-            // createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
-            $('.ui.modal')
-            .modal('show')
-            ;
-
-
-            //document.getElementById("abc").innerText = json.UserName;
-        },
-        error: function (arg) {
-            alert("Error");
-        }
-    });
-
+    map.setZoom(14);
+    map.setCenter({ lat: Lat, lng: Lng });
+    setTimeout(function () { getPostInfo(PostId); }, 1000);
 }
 
 //window.onload = initialize;

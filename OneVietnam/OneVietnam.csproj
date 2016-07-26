@@ -291,6 +291,7 @@
     <Compile Include="DTL\MessageDTO.cs" />
     <Compile Include="Models\PostInfoWindowModel.cs" />
     <Compile Include="Models\ReportViewModal.cs" />
+    <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\TimelineViewModel.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="BLL\CountryManager.cs" />
@@ -355,23 +356,39 @@
     <Content Include="Content\icon.min.css" />
     <Content Include="Content\Icon\female.png" />
     <Content Include="Content\Icon\free.png" />
+    <Content Include="Content\Icon\free2.png" />
+    <Content Include="Content\Icon\free3.png" />
+    <Content Include="Content\Icon\free4.png" />
+    <Content Include="Content\Icon\free5.png" />
     <Content Include="Content\Icon\help.png" />
+    <Content Include="Content\Icon\help2.png" />
+    <Content Include="Content\Icon\help3.png" />
     <Content Include="Content\Icon\home.png" />
-    <Content Include="Content\Icon\job.png" />
+    <Content Include="Content\Icon\job2.png" />
+    <Content Include="Content\Icon\job3.png" />
+    <Content Include="Content\Icon\job4.png" />
+    <Content Include="Content\Icon\job5.png" />
     <Content Include="Content\Icon\LGBT.png" />
     <Content Include="Content\Icon\location.png" />
     <Content Include="Content\Icon\male.png" />
     <Content Include="Content\Icon\myhome.png" />
+    <Content Include="Content\Icon\myhome2.png" />
+    <Content Include="Content\Icon\plane2.png" />
+    <Content Include="Content\Icon\plane3.png" />
     <Content Include="Content\Icon\sale.png" />
     <Content Include="Content\Icon\ship.png" />
+    <Content Include="Content\Icon\ship2.png" />
+    <Content Include="Content\Icon\ship3.png" />
+    <Content Include="Content\Icon\ship4.jpg" />
     <Content Include="Content\Icon\Users.png" />
+    <Content Include="Content\Images\Avatar_Default.jpg" />
     <Content Include="Content\Images\chov.png" />
+    <Content Include="Content\Images\Cover_default.jpg" />
     <Content Include="Content\Images\m1.png" />
     <Content Include="Content\Images\m2.png" />
     <Content Include="Content\Images\m3.png" />
     <Content Include="Content\Images\m4.png" />
     <Content Include="Content\Images\m5.png" />
-    <Content Include="Content\Images\no-avatar.png" />
     <Content Include="Content\Images\no-image.png" />
     <Content Include="Content\Images\poke_celebi.png" />
     <Content Include="Content\Images\rua.png" />
@@ -553,7 +570,6 @@
     <Content Include="Views\Map\SidenavPost.cshtml" />
     <Content Include="Views\Map\UserAndPostInfo.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
-    <Content Include="Views\Map\_UserModal.cshtml" />
     <Content Include="Views\Shared\_UserInfo.cshtml" />
     <Content Include="Views\Timeline\Timeline.cshtml" />
     <Content Include="Views\Timeline\_ChangePassword.cshtml" />
@@ -563,6 +579,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="BLL\Common\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

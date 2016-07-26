@@ -27,6 +27,8 @@ namespace OneVietnam.DTL
         [BsonIgnoreIfNull]
         public string Avatar { get; set; }
         [BsonIgnoreIfNull]
+        public string Cover { get; set; }
+        [BsonIgnoreIfNull]
         public List<Connection> Connections { get; set; }
 
         [BsonIgnoreIfNull]

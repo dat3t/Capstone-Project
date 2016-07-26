@@ -1,12 +1,12 @@
 ﻿@model OneVietnam.Models.UserViewModel
 
-<div class="header">
+<div class="header" style="cursor:pointer;" onclick="location.href='@Url.Action("Timeline", "Timeline", new { userId = @Model.UserId })'" >
     <div>
         <a class="item" style="float:left;">
             <i class="icon male" style="width:100%;text-align:left"> </i>
         </a>
     </div>
-    <a  href='@Url.Action("Timeline", "Post")'>@Model.UserName</a>
+    <a  href='@Url.Action("Timeline", "Timeline",new { userId = @Model.UserId })'>@Model.UserName</a>
 </div>
 
 
@@ -17,9 +17,20 @@
         <div class="description">
             <div class="userInfoModal" style="position:relative;">
                 <div>
-                    <a class="item">
-                        <i class="small icon marker" style="width:100%;text-align:left"> @Model.Location.Address</i>
+                    <a class="item" title="@Model.Location.Address">
+                        <i class="small icon marker" style="width:100%;text-align:left">
+                            @if (@Model.Location.Address.Length > 65)
+                            {
+                               @Model.Location.Address.Substring(0, 60);
+                            }
+                            else
+                            {
+                              @Model.Location.Address
+                            }
+                            ...
+                       </i>
                     </a>
+
                 </div>
                 <div>
                     <a class="item">
@@ -49,3 +60,19 @@
             </div>
 
     </div>
+
+<script>
+    function redirectToTimeLine(userId) {
+        $.ajax({
+            url: '/Map/RedirectToTimeLine?userId=' + userId,
+            type: 'GET',
+            dataType: 'text',
+            success: function (result) {
+                alert(1);
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        });
+    }
+</script>
