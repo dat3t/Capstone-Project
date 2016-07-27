@@ -91,12 +91,10 @@
     <div class="ten wide column">
         <div class="stamp  hides">
             @using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "CreatePostForm" }))
-            {
-
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(false)
+            {                
                 <div class="ui segment">
-
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(false)
                     <!-- Title -->
                     <div class="field">
                         <h2 class="ui medium header" style="margin-bottom: 0">* Tiêu đề</h2>
@@ -190,7 +188,7 @@
                             </div>
                         </div>
                         
-                        @Html.EditorFor(model => model.PostLocation.Address)
+                        @Html.EditorFor(model => model.PostLocation.Address, new { htmlAttributes = new { placeholder = "Địa chỉ của bạn" } })
                         @Html.EditorFor(model => model.PostLocation.XCoordinate, new { htmlAttributes = new { style = "display: none" } })
                         @Html.EditorFor(model => model.PostLocation.YCoordinate, new { htmlAttributes = new { style = "display: none" } })                        
                                                 
@@ -215,8 +213,16 @@
 
                     <!-- Button Create and Cancel -->
                     <div class="field" style="text-align: center">
-                        <input id="btnCancel" type="button" value="Hủy" class="ui cancel button" />
+                        <input id="btnCancel" type="button" value="Hủy" class="ui cancel button" onclick="resetForm()" />
                         <input id="btnCreate" type="submit" tabindex="6" value="Đăng bài" name="createpost" class="ui teal button"/>
+                        <script>
+                            function resetForm() {
+                                $("#CreatePostForm").data('validator').resetForm();                                
+                                $(".validation-summary-errors ul li").remove();
+                                $(".validation-summary-errors").addClass('validation-summary-valid').removeClass('validation-summary-errors');
+                                $('.stamp-button').click();
+                            }
+                        </script>
                     </div>
                 </div>
 
