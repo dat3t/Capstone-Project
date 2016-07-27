@@ -161,7 +161,6 @@ $('.stamp-button').on('click', function () {
         scrollTop: 0                       // Scroll to top of body
     }, 500);
     $(".stamp").toggleClass("hides");
-    $(".stamp").toggleClass("n-invi");
     $(".edits").toggleClass("edits-cl");
     $(".plus").toggleClass("plus-cl");
   // stamp or unstamp element
