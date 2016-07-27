@@ -6,7 +6,7 @@
 
 @{
     ViewBag.Title = "ShowPostDetail";
-    List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;    
+    List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
 
 }
 <link rel="stylesheet" href="~/Content/image-slider.css">
@@ -91,36 +91,36 @@
                     </table>
                     <script>
 
-                            var slideIndex = 1;
-                            showSlides(slideIndex);
+                        var slideIndex = 1;
+                        showSlides(slideIndex);
 
-                            function plusSlides(n) {
-                                showSlides(slideIndex += n);
-                            }
+                        function plusSlides(n) {
+                            showSlides(slideIndex += n);
+                        }
 
-                            function currentSlide(n) {
-                                showSlides(slideIndex = n);
-                            }
+                        function currentSlide(n) {
+                            showSlides(slideIndex = n);
+                        }
 
-                            function showSlides(n) {
-                                var i;
-                                var slides = document.getElementsByClassName("side");
-                                var dots = document.getElementsByClassName("dot");
-                                if (n > slides.length) {
-                                    slideIndex = 1;
-                                }
-                                if (n < 1) {
-                                    slideIndex = slides.length;
-                                }
-                                for (i = 0; i < slides.length; i++) {
-                                    slides[i].style.display = "none";
-                                }
-                                for (i = 0; i < dots.length; i++) {
-                                    dots[i].className = dots[i].className.replace("active", "");
-                                }
-                                slides[slideIndex - 1].style.display = "block";
-                                dots[slideIndex - 1].className += " active";
+                        function showSlides(n) {
+                            var i;
+                            var slides = document.getElementsByClassName("side");
+                            var dots = document.getElementsByClassName("dot");
+                            if (n > slides.length) {
+                                slideIndex = 1;
                             }
+                            if (n < 1) {
+                                slideIndex = slides.length;
+                            }
+                            for (i = 0; i < slides.length; i++) {
+                                slides[i].style.display = "none";
+                            }
+                            for (i = 0; i < dots.length; i++) {
+                                dots[i].className = dots[i].className.replace("active", "");
+                            }
+                            slides[slideIndex - 1].style.display = "block";
+                            dots[slideIndex - 1].className += " active";
+                        }
                     </script>
                 </div>
             }
@@ -152,20 +152,20 @@
 
             <script>
                 FB=null;
-                    (function (d, s, id) {
-                        var js, fjs = d.getElementsByTagName(s)[0];                       
-                        js = d.createElement(s);
-                        js.id = id;
-                        js.src =
+                (function (d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src =
 
-    "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
-                        fjs.parentNode.insertBefore(js, fjs);
-                    }(document, 'script', 'facebook-jssdk'));                   
+"//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));
             </script>
-            
+
             @{
                 string url = "http://localhost:51801/Post/ShowPostDetail?postId=" + Model.Id;
-                string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";               
+                string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";
             }
 
             <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
@@ -180,33 +180,33 @@
                 {
                 <i class="icon remove circle link" id="deletePost" data-
                    content="Xóa" style="float: right"></i>
-                    <i class="icon edit link" data-content="Sửa" style="float: right"
-                       onclick="document.location.href = '@Url.Action("EditPost", "Post", new {postId =Model.Id})';"></i>
+                <i class="icon edit link" data-content="Sửa" style="float: right"
+                   onclick="document.location.href = '@Url.Action("EditPost", "Post", new {postId =Model.Id})';"></i>
 
                 //Delete Popup Modal
                 <script>
-                        $("#deletePost")
-                            .click(function () {
-                                $('.ui.small.delete.modal').modal('show');
-                            });
+                    $("#deletePost")
+                        .click(function () {
+                            $('.ui.small.delete.modal').modal('show');
+                        });
                 </script>
 
-                    <div class="ui small delete modal">
-                        <div class="header">
-                            Xóa bài đăng
+                <div class="ui small delete modal">
+                    <div class="header">
+                        Xóa bài đăng
+                    </div>
+                    <div class="content">
+                        <p>Bạn có chắc chắn xóa bài đăng này?</p>
+                    </div>
+                    <div class="actions">
+                        <div class="ui cancel button">
+                            Hủy
                         </div>
-                        <div class="content">
-                            <p>Bạn có chắc chắn xóa bài đăng này?</p>
-                        </div>
-                        <div class="actions">
-                            <div class="ui cancel button">
-                                Hủy
-                            </div>
-                            <div class="ui green button" onclick="document.location.href= '@Url.Action("DeletePost", "Post", new {postId = Model.Id})';">
-                                Xóa
-                            </div>
+                        <div class="ui green button" onclick="document.location.href= '@Url.Action("DeletePost", "Post", new {postId = Model.Id})';">
+                            Xóa
                         </div>
                     </div>
+                </div>
             }
             else
             {
@@ -216,19 +216,19 @@
                 @Html.Partial("../Post/_Report", new ReportViewModal(Model.Id, Model.UserId))
 
                 <script type="text/javascript">
-                        $("#reportPost")
-                            .click(function () {
-                                $('.small.modal').modal({
-                                    allowMultiple: false
-                                });
-                                $('.second.modal').modal('attach events', '.report.modal .green.button')
-                                ;
-                                $('.report.modal').modal('show');
+                    $("#reportPost")
+                        .click(function () {
+                            $('.small.modal').modal({
+                                allowMultiple: false
                             });
+                            $('.second.modal').modal('attach events', '.report.modal .green.button')
+                            ;
+                            $('.report.modal').modal('show');
+                        });
                 </script>
             }
             <i class="icon home"></i>
-            <a class="item" href="">@Model.PostLocation.Address</a>
+            <a class="item" href="" >@Model.PostLocation.Address</a>
             @{
                 if (postTypes != null)
                 {
@@ -258,21 +258,9 @@
             <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts=""></div>
         </div>
 
-        @*Related Tags*@
-    @{
-//baochi tham
-@*            if (Model.Tags.Count!=0)*@
-@*            {*@
-@*                <div class="ui segment" style="width: 100%; border: 0 !important;padding-top: 0">*@
-@*                    <i class="tags icon" style="float: left"></i>Thẻ liên quan:*@
-@*                    @foreach (var tag in Model.Tags)*@
-@*                    {*@
-@*                        <a href="" style="text-decoration:underline;">@tag.TagText</a>*@
-@*                    }*@
-@*                </div>*@
-@**@
-@*            }*@
-        }
+   
+
+        
 
     </div>
             }
@@ -287,3 +275,19 @@
                 </div>
             }
 
+<script>
+    function redirectToMapPage(x,y,address,postyType) {
+        $.ajax({
+            url: '/Map/ShowMap',
+            type: 'GET',
+            dataType: 'text',
+            success: function (result) {
+               
+                alert(123);
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        });
+    }
+</script>

@@ -1157,7 +1157,6 @@ function getPostInfo(postID) {
                 $("#postModal").html(result);
 
                 $("#postModal").modal('show');
-
                 // alert(result);
             }
 
@@ -1169,7 +1168,6 @@ function getPostInfo(postID) {
 }
 
 function showSelectedPostOnMap(Lat, Lng, PostId, PostType) {
-
     switch (PostType) {
         case 0: showAccommodation(); break;
         case 1: showJobOffer(); break;
@@ -1181,7 +1179,7 @@ function showSelectedPostOnMap(Lat, Lng, PostId, PostType) {
 
     map.setZoom(14);
     map.setCenter({ lat: Lat, lng: Lng });
-    setTimeout(function () { getPostInfo(PostId); }, 1000);
+    setTimeout(function () { getPostInfo(PostId); }, 10000);
 }
 
 //window.onload = initialize;

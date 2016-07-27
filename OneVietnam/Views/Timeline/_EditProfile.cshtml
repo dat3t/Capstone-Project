@@ -13,6 +13,16 @@
     }
 </style>
 
+<script>
+  
+     x =  @Model.Location.XCoordinate;
+     y = @Model.Location.YCoordinate;
+     address = '@Model.Location.Address';
+     icon;
+    //var userLocationMarker;
+    //var map;
+</script>
+
 @using (Ajax.BeginForm("EditProfile", "Timeline", new AjaxOptions
 {
     HttpMethod = "POST",
