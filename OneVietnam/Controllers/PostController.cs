@@ -112,34 +112,33 @@ namespace OneVietnam.Controllers
                 ViewData["PostTypes"] = IconList;
             }            
         }
-          
+
         [HttpPost]
-        [AllowAnonymous]
+        [System.Web.Mvc.Authorize]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreatePost(CreatePostViewModel p)
         {
-            ViewData.Clear();            
-            var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
-            var illList = await PostManager.SaveAndGetIllustration(Request, "createPost");
-            if (tagList != null)
-            {
-                p.Tags = tagList;
-            }
-
-            if (illList != null)
-            {
-                p.Illustrations = illList;
-            }
+            ViewData.Clear();
             var post = new Post(p)
             {
                 CreatedDate = System.DateTime.Now,
                 UserId = User.Identity.GetUserId()
             };
+            var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
+            var illList = await PostManager.GetIllustration(Request, "createPost", post.Id);
+            if (tagList != null)
+            {
+                post.Tags = tagList;
+            }
 
+            if (illList != null)
+            {
+                post.Illustrations = illList;
+            }            
             await PostManager.CreateAsync(post);
             CreatedPost = true;
             PostView = new PostViewModel(post);
-            return RedirectToAction("NewFeeds", "Post", new { postId = post.Id });
+            return RedirectToAction("NewFeeds", "Post");
         }        
 
         public const int RecordsPerPage = 60;
@@ -289,7 +288,7 @@ namespace OneVietnam.Controllers
             }
             ViewData.Clear();
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
-            var illList = await PostManager.SaveAndGetIllustration(Request, "createPost");
+            var illList = await PostManager.GetIllustration(Request, "createPost", pPostView.Id);
             if (tagList != null)
             {
                 pPostView.Tags = tagList;

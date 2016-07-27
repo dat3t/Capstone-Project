@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using OneVietnam.Models
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>      
@@ -96,7 +97,7 @@
     </div>
 </div>
 <div class="ui fluid container" style="height: 100%;">
-    <div class="ten wide column">@Html.Partial("_CreatePost")</div>
+    <div class="ten wide column">@Html.Partial("_CreatePost", new CreatePostViewModel())</div>
     <div id="floating-button" class="stamp-button" data-toggle="tooltip" data-original-title="Create">
         <p class="plus"><i class="write icon"></i>
         </p>
