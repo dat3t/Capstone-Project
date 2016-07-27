@@ -1,27 +1,19 @@
 ﻿
-@using Microsoft.AspNet.Identity
-@using OneVietnam.DTL
-
 @model OneVietnam.Models.PostViewModel
 
 @{
-    ViewBag.Title = "ShowPostDetail";   
+    ViewBag.Title = "ShowPostDetail";
 }
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <div style="margin: auto; width: 40%">
     @if (Model != null && (Model.DeletedFlag == false) && (Model.LockedFlag == false))
     {
         @Html.Partial("../Post/_ShowPostDetail", Model)
-                }
-                else
+    }
+    else
 
-                {
-                    <div class="ui segment">
-                        <div class="ui centered header">
-                            <i class="warning circle icon"></i>
-                            Trang bạn tìm kiếm đã bị xóa hoặc không tồn tại
-                        </div>
-                    </div>
-                }
+    {
+        @Html.Partial("../Shared/_NoSearchResult")
+    }
 
 </div>

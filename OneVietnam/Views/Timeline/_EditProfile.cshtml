@@ -13,6 +13,16 @@
     }
 </style>
 
+<script>
+  
+     x =  @Model.Location.XCoordinate;
+     y = @Model.Location.YCoordinate;
+     address = '@Model.Location.Address';
+     icon;
+    //var userLocationMarker;
+    //var map;
+</script>
+
 @using (Ajax.BeginForm("EditProfile", "Timeline", new AjaxOptions
 {
     HttpMethod = "POST",
@@ -110,7 +120,7 @@
                     <div class="field" style="padding: 0">
                 <div class="ui big fluid transparent tog disabled input">
                     <i class="large world icon"></i>
-                            <input class="text-box single-line valid" disabled="disabled" style="opacity: 1" id="Location_Address" name="Location.Address" type="text" value="@Model.Location.Address">
+                            <input class="text-box single-line valid" readonly="true" style="opacity: 1" id="Location_Address" name="Location.Address" type="text" value="@Model.Location.Address">
                             <input data-val="true" data-val-number="The field XCoordinate must be a number." data-val-required="The XCoordinate field is required." id="Location_XCoordinate" name="Location.XCoordinate" type="hidden" value="@Model.Location.XCoordinate">
                             <input data-val="true" data-val-number="The field YCoordinate must be a number." data-val-required="The YCoordinate field is required." id="Location_YCoordinate" name="Location.YCoordinate" type="hidden" value="@Model.Location.YCoordinate">
                         </div>

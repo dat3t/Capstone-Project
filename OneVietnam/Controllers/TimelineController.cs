@@ -92,6 +92,7 @@ namespace OneVietnam.Controllers
         }
 
         //ThamDTH 
+        
         public async Task<ActionResult> Timeline(string userId)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
@@ -257,19 +258,30 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
-        public Task<ActionResult> ChangeAvatar()
+        [System.Web.Mvc.Authorize]
+        public async Task<ActionResult> ChangeAvatar()
         {
             HttpFileCollectionBase file = Request.Files;
-            string user = User.Identity.GetUserId();
-            if (file.Count > 0)
-            {
-                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(GetRandomBlobName(file[0].FileName));
-
-
-
+            
+            if (file != null && file.Count > 0)
+            {                
+                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(User.Identity.GetUserId() + Path.GetExtension(file[0].FileName));
+                await blob.DeleteIfExistsAsync();
                 blob.UploadFromStream(file[0].InputStream);
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user != null)
+                {
+                    user.Avatar = blob.Uri.ToString();
+                    var result = await UserManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        await SignInAsync(user, isPersistent: false);                        
+                    }
+                    AddErrors(result);                    
+                }                
             }
-            return null;
+            return RedirectToAction("Timeline", "Timeline", new { userId = User.Identity.GetUserId() });
+
         }
         private string GetRandomBlobName(string filename)
         {

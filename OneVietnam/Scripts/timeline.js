@@ -17,6 +17,7 @@ function submitEditProfile() {
 
     oldName.innerText = currentName.value;
     oldHeaderName.innerText = currentName.value;
+    showUserMarkerOnMap(x, y, address);
 }
 
 function cancelEditProfile() {
@@ -124,11 +125,16 @@ function showUserMarkerOnMap(x, y, address) {
         minZoom: 4,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     });
-
+    
     userLocationMarker.setPosition({ lat: x, lng: y });
     userLocationMarker.setMap(map);
+   
+    google.maps.event.addListenerOnce(map, 'idle', function () {
+        google.maps.event.trigger(map, 'resize');
+        map.setCenter({ lat: x, lng: y });
+        map.setZoom(10);
+    });
 }
-
 
 function updateCurrentLocation() {
     var addr = document.getElementById("Location_Address");
