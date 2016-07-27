@@ -128,6 +128,8 @@
     
             });
 
+        
+
 
     //ToanLM
 
@@ -160,6 +162,9 @@ $('.stamp-button').on('click', function () {
     $('body,html').animate({
         scrollTop: 0                       // Scroll to top of body
     }, 500);
+    $("#CreatePostForm").data('validator').resetForm();
+    $(".validation-summary-errors ul li").remove();
+    $(".validation-summary-errors").addClass('validation-summary-valid').removeClass('validation-summary-errors');
     $(".stamp").toggleClass("hides");
     $(".edits").toggleClass("edits-cl");
     $(".plus").toggleClass("plus-cl");
