@@ -25,10 +25,48 @@ namespace OneVietnam.Controllers
             {
                 _userManager = value;
             }
-        }        
+        }
+
+        private TagManager _tagManager;
+        public TagManager TagManager
+        {
+            get
+            {
+                return _tagManager ?? HttpContext.GetOwinContext().Get<TagManager>();
+            }
+            private set { _tagManager = value; }
+        }
+
+        private IconManager _iconManager;
+        public IconManager IconManager
+        {
+            get
+            {
+                return _iconManager ?? HttpContext.GetOwinContext().Get<IconManager>();
+            }
+            private set { _iconManager = value; }
+        }
+        public List<Tag> TagList => TagManager.FindAllAsync().Result;
+
+        public List<Icon> IconList
+        {
+            get
+            {
+                var icons = IconManager.GetIconPostAsync();
+                return icons;
+            }
+        }
+
         public ActionResult Index()
         {
-
+            if (TagList != null)
+            {
+                ViewData["TagList"] = TagList;
+            }
+            if (IconList != null)
+            {
+                ViewData["PostTypes"] = IconList;
+            }
             return View();
         }
 

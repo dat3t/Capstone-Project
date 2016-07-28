@@ -11,13 +11,15 @@
 
         // For each place, get the icon, name and location.
         places.forEach(function (place) {
-            document.getElementById("address").innerText = place.name;
-            document.getElementById("Xcoordinate").innerText = place.geometry.location.lat();
-            document.getElementById("Xcoordinate").innerText = place.geometry.location.lng();
+            document.getElementById("PostLocation_Address").value = place.name;
+            document.getElementById("PostLocation_XCoordinate").value = place.geometry.location.lat();
+            document.getElementById("PostLocation_YCoordinate").value = place.geometry.location.lng();
+            
         });
     });
 }
 
+$("getloc").click();
 function getCurrentLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -31,9 +33,9 @@ function getCurrentLocation() {
             geocoder.geocode({ 'latLng': location }, function (results, status) {
                 if (status === window.google.maps.GeocoderStatus.OK) {           // if geocode success
                     var detailedLocation = results[0].formatted_address;         // if address found, pass to processing function
-                    document.getElementById("address").innerText = detailedLocation;
-                    document.getElementById("Xcoordinate").innerText = pos.lat;
-                    document.getElementById("Xcoordinate").innerText = pos.lng;
+                    document.getElementById("PostLocation_Address").value = detailedLocation;
+                    document.getElementById("PostLocation_XCoordinate").value = pos.lat;
+                    document.getElementById("PostLocation_YCoordinate").value = pos.lng;
                 } else {
                 }
             })

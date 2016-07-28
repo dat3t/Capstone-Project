@@ -112,34 +112,33 @@ namespace OneVietnam.Controllers
                 ViewData["PostTypes"] = IconList;
             }            
         }
-          
+
         [HttpPost]
-        [AllowAnonymous]
+        [System.Web.Mvc.Authorize]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreatePost(CreatePostViewModel p)
         {
-            ViewData.Clear();            
-            var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
-            var illList = await PostManager.SaveAndGetIllustration(Request, "createPost");
-            if (tagList != null)
-            {
-                p.Tags = tagList;
-            }
-
-            if (illList != null)
-            {
-                p.Illustrations = illList;
-            }
+            ViewData.Clear();
             var post = new Post(p)
             {
                 CreatedDate = System.DateTime.Now,
                 UserId = User.Identity.GetUserId()
             };
+            var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
+            var illList = await PostManager.GetIllustration(Request, "createPost", post.Id);
+            if (tagList != null)
+            {
+                post.Tags = tagList;
+            }
 
+            if (illList != null)
+            {
+                post.Illustrations = illList;
+            }            
             await PostManager.CreateAsync(post);
             CreatedPost = true;
             PostView = new PostViewModel(post);
-            return RedirectToAction("NewFeeds", "Post", new { postId = post.Id });
+            return RedirectToAction("NewFeeds", "Post");
         }        
 
         public const int RecordsPerPage = 60;
@@ -206,14 +205,23 @@ namespace OneVietnam.Controllers
             var filter = new BaseFilter {CurrentPage = pageNum};
             return await PostManager.FindAllAsync(filter);
         }
-        [HttpPost]
 
-        public async Task<ActionResult> ShowPost()
+        public async Task<ActionResult> _ShowPost(string postId)
         {
             //List<Post> list = await PostManager.FindByUserId(User.Identity.GetUserId());
-            List<Post> list = await PostManager.FindAllAsync(false);
-            List<PostViewModel> pViewList = list.Select(post => new PostViewModel(post)).ToList();
-            return View(pViewList);
+            Post post = await PostManager.FindByIdAsync(postId);
+            if (post != null)
+            {
+                ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
+                if (postUser != null)
+                {
+
+                    PostViewModel showPost = new PostViewModel(post, postUser.UserName);
+
+                    return PartialView(showPost);
+                }
+            }
+            return PartialView();
         }
 
         public async Task<ActionResult> ShowPostDetail(string postId)
@@ -289,7 +297,7 @@ namespace OneVietnam.Controllers
             }
             ViewData.Clear();
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
-            var illList = await PostManager.SaveAndGetIllustration(Request, "createPost");
+            var illList = await PostManager.GetIllustration(Request, "createPost", pPostView.Id);
             if (tagList != null)
             {
                 pPostView.Tags = tagList;

@@ -1,55 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using OneVietnam.DTL;
 using System.ComponentModel.DataAnnotations;
+using OneVietnam.Common;
+
 namespace OneVietnam.Models
 {
     public class CreatePostViewModel
     {
-        
+
+        [Required(ErrorMessage = "{0} chưa được điền.")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Tiêu đề")]
         public string Title { get; set; }
-        
+
+        [Required(ErrorMessage = "{0} chưa được điền.")]        
+        [Display(Name = "Người đăng")]
         public string UserId { get; set; }
 
-        public int PostType { get; set; }        
+        [Required(ErrorMessage = "{0} chưa được chọn.")]
+        [Range((int)PostTypeEnum.Accommodation, (int)PostTypeEnum.Sos, ErrorMessage = "{0} chưa được chọn.")]
+        [Display(Name = "Loại bài đăng")]
+        public int PostType { get; set; }
 
+        [Required(ErrorMessage = "{0} chưa được điền.")]
+        [Display(Name = "Địa chỉ bài đăng")]
         public Location PostLocation { get; set; }
-                
+
+        [Required(ErrorMessage = "{0} chưa được điền.")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Mô tả")]
         public string Description { get; set; }
 
         public List<Illustration> Illustrations { get; set; }
 
-        public List<Tag> Tags { get; set; }
-
-        public CreatePostViewModel()
-        {
-        }
-
-        public CreatePostViewModel(List<Illustration> pIllustrations, List<Tag> pTags)
-        {
-            Illustrations = pIllustrations;
-            Tags = pTags;
-        }        
-
-        public void AddIllustration(Illustration pIllustration)
-        {
-            if (Illustrations == null)
-            {
-                Illustrations = new List<Illustration>();
-            }
-            Illustrations.Add(pIllustration);
-        }
-
-        public void AddTags(Tag pTag)
-        {
-            if (Tags == null)
-            {
-                Tags = new List<Tag>();
-            }
-            Tags.Add(pTag);
-        }
+        public List<Tag> Tags { get; set; }    
 
     }
     public class PostViewModel
