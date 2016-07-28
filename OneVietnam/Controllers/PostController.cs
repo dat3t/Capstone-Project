@@ -125,7 +125,7 @@ namespace OneVietnam.Controllers
                 UserId = User.Identity.GetUserId()
             };
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
-            var illList = await PostManager.GetIllustration(Request, "createPost", post.Id);
+            var illList = await PostManager.GetIllustration(Request, "selectFiles", post.Id);
             if (tagList != null)
             {
                 post.Tags = tagList;
