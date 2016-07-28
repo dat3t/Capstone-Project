@@ -75,9 +75,9 @@ function getRegisteredLocation() {
     document.getElementById("PostLocation_XCoordinate").value = authenticatedUser.x;
     document.getElementById("PostLocation_YCoordinate").value = authenticatedUser.y;
 
-    document.getElementById("Address_Edit").value = authenticatedUser.address;
-    document.getElementById("XCoordinate_Edit").value = authenticatedUser.x
-    document.getElementById("YCoordinate_Edit").value = authenticatedUser.y;
+    //document.getElementById("Address_Edit").value = authenticatedUser.address;
+    //document.getElementById("XCoordinate_Edit").value = authenticatedUser.x
+    //document.getElementById("YCoordinate_Edit").value = authenticatedUser.y;
 }
 $("getloc").click();
 
