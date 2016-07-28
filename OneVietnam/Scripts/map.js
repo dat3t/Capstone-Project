@@ -727,7 +727,6 @@ function createListLGBTMarkers() {
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                // infowindow.setContent(infoWindowContent[i][0]);
                 AjaxDisplayString(userInfoWindow, marker)
                 // infowindow.open(map, marker);
             }
@@ -758,13 +757,7 @@ function createListType0Markers() {
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                // infowindow.setContent(infoWindowContent[i][0]);
-                // AjaxDisplayString(userInfoWindow, marker)
-                //getPostInfo(postType0[i].postID, 0);
-                //getPostInfo2(postType0[i].postID);
                 getPostInfo(postType0[i].postID);
-                //callInfo(postType0[i].postID);
-                //infowindow.open(map, marker);
             }
         })(marker, i));
 
@@ -1135,15 +1128,6 @@ function getUserInfo(userId) {
 }
 
 function getPostInfo(postID) {
-    //$.ajax({
-    //    url: 'GetPostInfo?postId=' + postID,
-    //    type: 'GET',
-    //    contentType: 'application/json;',
-    //    dataType: 'json',
-    //    success: function (json) {
-    //        createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
-    //    }
-    //});
     $.ajax({
         url: '/Map/GetPostPartialView?postId=' + postID,
         type: 'GET',
@@ -1167,7 +1151,7 @@ function getPostInfo(postID) {
     });
 }
 
-function showSelectedPostOnMap(Lat, Lng, PostId, PostType) {
+function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail) {
     switch (PostType) {
         case 0: showAccommodation(); break;
         case 1: showJobOffer(); break;
@@ -1176,10 +1160,13 @@ function showSelectedPostOnMap(Lat, Lng, PostId, PostType) {
         case 4: showTradeOffer(); break;
         case 5: showSOS(); break;
     }
-
     map.setZoom(14);
     map.setCenter({ lat: Lat, lng: Lng });
-    setTimeout(function () { getPostInfo(PostId); }, 10000);
+    if (isCallFromPostDetail != 1) {
+        setTimeout(function () { getPostInfo(PostId); }, 1000);
+    }
+   
+
 }
 
 //window.onload = initialize;

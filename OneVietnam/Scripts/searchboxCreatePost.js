@@ -14,7 +14,6 @@
             document.getElementById("address").innerText = place.name;
             document.getElementById("Xcoordinate").innerText = place.geometry.location.lat();
             document.getElementById("Xcoordinate").innerText = place.geometry.location.lng();
-            
         });
     });
 }
