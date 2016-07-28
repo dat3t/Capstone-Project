@@ -14,9 +14,27 @@
             document.getElementById("PostLocation_Address").value = place.name;
             document.getElementById("PostLocation_XCoordinate").value = place.geometry.location.lat();
             document.getElementById("PostLocation_YCoordinate").value = place.geometry.location.lng();
-            
         });
     });
+
+    var input2 = document.getElementById("search-location2");
+    var searchBox2 = new google.maps.places.SearchBox(input2);
+
+    searchBox2.addListener('places_changed', function () {
+        var places = searchBox2.getPlaces();
+        if (places.length == 0) {
+            return;
+        }
+
+        // For each place, get the icon, name and location.
+        places.forEach(function (place) {
+            document.getElementById("Address_Edit").value = place.name;
+            document.getElementById("XCoordinate_Edit").value = place.geometry.location.lat();
+            document.getElementById("YCoordinate_Edit").value = place.geometry.location.lng();
+        });
+    });
+
+    
 }
 
 function getCurrentLocation() {
@@ -35,6 +53,9 @@ function getCurrentLocation() {
                     document.getElementById("PostLocation_Address").value = detailedLocation;
                     document.getElementById("PostLocation_XCoordinate").value = pos.lat;
                     document.getElementById("PostLocation_YCoordinate").value = pos.lng;
+                    document.getElementById("Address_Edit").value = detailedLocation;
+                    document.getElementById("XCoordinate_Edit").value = pos.lat;
+                    document.getElementById("YCoordinate_Edit").value = pos.lng;
                 } else {
                 }
             })
@@ -53,6 +74,10 @@ function getRegisteredLocation() {
     document.getElementById("PostLocation_Address").value = authenticatedUser.address;
     document.getElementById("PostLocation_XCoordinate").value = authenticatedUser.x;
     document.getElementById("PostLocation_YCoordinate").value = authenticatedUser.y;
+
+    document.getElementById("Address_Edit").value = authenticatedUser.address;
+    document.getElementById("XCoordinate_Edit").value = authenticatedUser.x
+    document.getElementById("YCoordinate_Edit").value = authenticatedUser.y;
 }
 $("getloc").click();
 
