@@ -4,19 +4,21 @@
 @{
     ViewBag.Title = "Timeline";
 }
-<script>
-    var x =  @Model.Profile.Location.XCoordinate;
-    var y = @Model.Profile.Location.YCoordinate;
-    var address = '@Model.Profile.Location.Address';
-    var icon;
-    var userLocationMarker;
-    var map;
-</script>
-<script src="~/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Scripts/timeline.js"></script>
+
+
 
 @if (Model != null) //TODO them dieu kien user chua bi lock
 {
+    <script>
+        var x = @Model.Profile.Location.XCoordinate;
+        var y = @Model.Profile.Location.YCoordinate;
+        var address = '@Model.Profile.Location.Address';
+        var icon;
+        var userLocationMarker;
+        var map;
+    </script>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/timeline.js"></script>
     <div class="containers">
 
         <a href="#"><img src="@Model.AvatarLink" alt="cover" class="cover" /></a>
@@ -28,7 +30,7 @@
                 {
                     <input type="file" id="fileInput" name="fileInput" onchange="submitAvatar()" />
                     <input type="submit" id="btnUpload" name="btnUpload" />
-                }                
+                }
             </div>
             <script>
                 $(".camera.icon")
@@ -37,7 +39,7 @@
                     });
                 function submitAvatar() {
                     $("#btnUpload").trigger('click');
-                }                
+                }
             </script>
 
             <i class="large inverted grey edit icon edit-cover"></i>
@@ -46,7 +48,7 @@
                 {
                     <input type="file" id="fileInputs" name="fileInput" onchange="submitCover()" />
                     <input type="submit" id="btnUploads" name="btnUploads" />
-                }                  
+                }
             </div>
             <script>
                 $(".edit.icon")

@@ -27,7 +27,6 @@
             .click(function () {
                 $("#messagechat").slideToggle();
     });
-    //$('.icon').popup();
 
     if ($(".searchType").val() === "SearchPosts") {
         $(".ui.user").css("display", "none");
@@ -147,8 +146,8 @@
     
     // change size of item by toggling gigante class
     $grid.on('click', '.content', function (e) {
-  
-                $(this).parent().find('.marker').toggleClass("hides");
+
+        $(this).parent().find('.marker').toggleClass("hides");
                 var id = $(this).parent().find('#postId').val();
        
         $.ajax({
@@ -207,11 +206,4 @@ $('.filter-group').on('click', 'a', function () {
     // use filterFn if matches value
     $grid.isotope({ filter: filterValue });
 });
-
-//$(document).ajaxComplete(function () {
-//    try {
-//        FB.XFBML.parse(document.getElementsByClassName("grid-item"));
-//        alert("fasfasf");
-//    } catch (ex) { }
-//});
 });
