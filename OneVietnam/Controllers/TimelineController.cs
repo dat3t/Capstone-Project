@@ -99,14 +99,7 @@ namespace OneVietnam.Controllers
 
             // Create a blob client for interacting with the blob service.
             blobClient = storageAccount.CreateCloudBlobClient();
-            blobContainer = blobClient.GetContainerReference(blobContainerName);
-            await blobContainer.CreateIfNotExistsAsync();
-
-            // To view the uploaded blob in a browser, you have two options. The first option is to use a Shared Access Signature (SAS) token to delegate  
-            // access to the resource. See the documentation links at the top for more information on SAS. The second approach is to set permissions  
-            // to allow public access to blobs in this container. Comment the line below to not use this approach and to use SAS. Then you can view the image  
-            // using: https://[InsertYourStorageAccountNameHere].blob.core.windows.net/webappstoragedotnet-imagecontainer/FileName 
-            await blobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
+           
             ApplicationUser user = await UserManager.FindByIdAsync(userId);
             if (user != null)
             {
@@ -261,6 +254,14 @@ namespace OneVietnam.Controllers
         [System.Web.Mvc.Authorize]
         public async Task<ActionResult> ChangeAvatar()
         {
+            blobContainer = blobClient.GetContainerReference("avatar");
+            await blobContainer.CreateIfNotExistsAsync();
+
+            // To view the uploaded blob in a browser, you have two options. The first option is to use a Shared Access Signature (SAS) token to delegate  
+            // access to the resource. See the documentation links at the top for more information on SAS. The second approach is to set permissions  
+            // to allow public access to blobs in this container. Comment the line below to not use this approach and to use SAS. Then you can view the image  
+            // using: https://[InsertYourStorageAccountNameHere].blob.core.windows.net/webappstoragedotnet-imagecontainer/FileName 
+            await blobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
             HttpFileCollectionBase file = Request.Files;
             
             if (file != null && file.Count > 0)
@@ -283,11 +284,42 @@ namespace OneVietnam.Controllers
             return RedirectToAction("Timeline", "Timeline", new { userId = User.Identity.GetUserId() });
 
         }
-        private string GetRandomBlobName(string filename)
+
+        [HttpPost]
+        [System.Web.Mvc.Authorize]
+        public async Task<ActionResult> ChangeCover()
         {
-            string ext = Path.GetExtension(filename);
-            return string.Format("{0:10}_{1}{2}", DateTime.Now.Ticks, Guid.NewGuid(), ext);
+            blobContainer = blobClient.GetContainerReference("cover");
+            await blobContainer.CreateIfNotExistsAsync();
+
+            // To view the uploaded blob in a browser, you have two options. The first option is to use a Shared Access Signature (SAS) token to delegate  
+            // access to the resource. See the documentation links at the top for more information on SAS. The second approach is to set permissions  
+            // to allow public access to blobs in this container. Comment the line below to not use this approach and to use SAS. Then you can view the image  
+            // using: https://[InsertYourStorageAccountNameHere].blob.core.windows.net/webappstoragedotnet-imagecontainer/FileName 
+            await blobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
+            HttpFileCollectionBase file = Request.Files;
+            
+            if (file != null && file.Count > 0)
+            {                
+                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(User.Identity.GetUserId() + Path.GetExtension(file[0].FileName));
+                await blob.DeleteIfExistsAsync();
+                blob.UploadFromStream(file[0].InputStream);
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user != null)
+                {
+                    user.Avatar = blob.Uri.ToString();
+                    var result = await UserManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        await SignInAsync(user, isPersistent: false);                        
+                    }
+                    AddErrors(result);                    
+                }                
+            }
+            return RedirectToAction("Timeline", "Timeline", new { userId = User.Identity.GetUserId() });
+
         }
+     
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         private async Task SignInAsync(ApplicationUser user, bool isPersistent)

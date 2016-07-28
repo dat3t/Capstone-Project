@@ -47,10 +47,13 @@ a:hover {
   position:absolute;
   overflow: hidden;
   top:0; left:0;
-  background:red;
-  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/hobbit_bg.jpg");
+  background:#00bfff;
+  background-repeat:no-repeat;
+background-position: center center
   z-index:-1;
- 
+ -moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
   transform-origin:0 0;
   
   -webkit-backface-visibility: hidden; 
@@ -65,6 +68,7 @@ a:hover {
   left: 40px;
   z-index: 2;
 }
+
 .edit-avatar {
     cursor: pointer;
     opacity: 0.3;
@@ -78,6 +82,21 @@ a:hover {
     position: absolute;
   top: 165px;
   left: 184px;
+  z-index: 3;
+}
+.edit-cover {
+    cursor: pointer;
+    opacity: 0.3;
+    position: absolute;
+  top: 5px;
+  right: 0px;
+  z-index: 3;
+}
+.edit-cover:hover {
+    opacity: 1;
+    position: absolute;
+  top: 5px;
+  left: 0px;
   z-index: 3;
 }
 .details {
@@ -476,7 +495,7 @@ body {
 /* 5 columns, percentage width */
 .grid-item,
 .grid-sizer {
-  width: 48%;
+  width: 32%;
 }
 
 .grid-item {
@@ -486,9 +505,9 @@ body {
 }
 
 
-.gutter-sizer { width: 4%; }
+.gutter-sizer { width: 3%; }
 
- .gigante { width:48%; }
+
 
 
 .ui.dropdown.searchType {

@@ -1,5 +1,6 @@
 ﻿$(document)
     .ready(function () {
+        $("#getloc").click();
         $("#locationDr").dropdown({
             allowCategorySelection: true
         })
@@ -146,10 +147,21 @@
     
     // change size of item by toggling gigante class
     $grid.on('click', '.content', function (e) {
-
-        var $this = $(this).parent();
-        $(this).parent().find('.marker').toggleClass("hides");
+  
+                $(this).parent().find('.marker').toggleClass("hides");
+                var id = $(this).parent().find('#postId').val();
        
+        $.ajax({
+            type: 'GET',
+            data:{"postId":id},
+            url: '_ShowPost',
+            success: function (partialResult) {
+                $("#forModal").empty();
+                $("#forModal").html(partialResult);
+                $('#forModal').modal('show')
+                ;
+            }
+        });
      
 //        $(this).parent().parent().toggleClass('gigante');
         // trigger layout after item size changes
@@ -175,6 +187,7 @@ $('.stamp-button').on('click', function () {
   // set flag
   isStamped = !isStamped;
 });
+
     // ===== Scroll to Top ==== 
 $(window).scroll(function () {
     if ($(this).scrollTop() >= 50) {        // If page is scrolled more than 50px

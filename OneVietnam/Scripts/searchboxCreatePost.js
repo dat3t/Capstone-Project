@@ -19,6 +19,7 @@
     });
 }
 
+$("getloc").click();
 function getCurrentLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {

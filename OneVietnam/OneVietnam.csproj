@@ -576,6 +576,7 @@
     <Content Include="Views\Timeline\_SetPassword.cshtml" />
     <Content Include="Views\Shared\_ShowPostDetail.cshtml" />
     <Content Include="Views\Shared\_NoSearchResult.cshtml" />
+    <Content Include="Views\Post\_ShowPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

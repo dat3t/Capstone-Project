@@ -25,7 +25,7 @@
             <i class="large inverted grey camera icon edit-avatar"></i>
             <div id="avatarUpload" class="hides">
                 <form id="uploader">
-                    <input type="file" id="fileInput" name="fileInput" onchange="submitImage()" />
+                    <input type="file" id="fileInput" name="fileInput" onchange="submitAvatar()" />
                     <input type="submit" id="btnUpload" name="btnUpload" accept=".jpg,.jpeg,.png" />
                 </form>
             </div>
@@ -34,7 +34,7 @@
                     .click(function() {
                         $("#fileInput").trigger('click');
                     });
-                function submitImage() {
+                function submitAvatar() {
                     $("#btnUpload").trigger('click');
                 }
                 var thisLocation = window.location.href;
@@ -60,8 +60,46 @@
 
             </script>
 
+            <i class="large inverted grey edit icon edit-cover"></i>
+            <div id="coverUpload" class="hides">
+                <form id="uploaders">
+                    <input type="file" id="fileInputs" name="fileInput" onchange="submitCover()" />
+                    <input type="submit" id="btnUploads" name="btnUpload" accept=".jpg,.jpeg,.png" />
+                </form>
+            </div>
+            <script>
+                $(".edit.icon")
+                    .click(function() {
+                        $("#fileInputs").trigger('click');
+                    });
+                function submitCover() {
+                    $("#btnUploads").trigger('click');
+                }
+                var thisLocation = window.location.href;
+                window.onload = function () {
+                    document.getElementById('uploaders').onsubmit = function () {
+
+                        var formdata = new FormData();
+                        var fileInput = document.getElementById('fileInput');
+                        for (var i = 0; i < fileInput.files.length; i++) {
+                            formdata.append(fileInput.files[i].name, fileInput.files[i]);
+                        }
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', '/Timeline/ChangeCover');
+                        xhr.send(formdata);
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                window.location.href = thisLocation;
+                            }
+                        }
+                        return false;
+                    }
+                }
+
+            </script>
+
         }
-        <div class="hero">
+        <div class="hero" style="background-image: url(@Model.CoverLink)">
 
             <div class="details">
 
