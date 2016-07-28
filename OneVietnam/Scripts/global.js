@@ -1,7 +1,7 @@
 ﻿$(document)
     .ready(function () {
         $("#getloc").click();
-        $("#locationDr").dropdown({
+        $(".ui.floating.dropdown.button").dropdown({
             allowCategorySelection: true
         })
         ;
@@ -174,7 +174,7 @@ $('.stamp-button').on('click', function () {
     $('body,html').animate({
         scrollTop: 0                       // Scroll to top of body
     }, 500);
-    $("#CreatePostForm").data('validator').resetForm();
+//    $("#CreatePostForm").data('validator').resetForm();
     $(".validation-summary-errors ul li").remove();
     $(".validation-summary-errors").addClass('validation-summary-valid').removeClass('validation-summary-errors');
     $(".stamp").toggleClass("hides");

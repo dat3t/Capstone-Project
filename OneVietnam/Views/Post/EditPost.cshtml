@@ -95,10 +95,39 @@
 
                 @*Address*@
                 <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
-                    <div class="ui left icon input" style="width: 100%;">
-                        <input placeholder="Nhập địa chỉ" id="PostLocation_Address" name="PostLocation.Address" type="text" value="@Model.PostLocation.Address" />
-                        <i class="home icon"></i>
+                   
+                        <label>* Địa chỉ liên hệ</label>
+                        <div class="ui floating labeled icon dropdown button" id="locationDr" style="float: left">
+                            <i class="blue world icon"></i>
+                            <span class="text"> Địa chỉ nhà của bạn</span>
+                            <div class="menu">
+                                <div class="item" onclick="getRegisteredLocation();" id="getloc">
+                                    <div class="ui red empty circular label"></div>
+                                    Địa chỉ nhà của bạn
+                                </div>
+                                <div class="item" onclick="getCurrentLocation();">
+                                    <div class="ui blue empty circular label"></div>
+                                    Địa điểm hiện tại của bạn
+                                </div>
+
+                                <div class="divider"></div>
+
+                                <div class="header">
+                                    Tìm kiếm địa điểm khác
+                                </div>
+                                <div class="ui left icon input">
+                                    <i class="search icon"></i>
+                                    <input type="text" id="search-location" name="search" placeholder="Tìm kiếm địa điểm...">
+                                </div>
+                            </div>
+                        </div>
+                    <div class="ui transparent input">
+                        @Html.EditorFor(model => model.PostLocation.Address )
                     </div>
+                        @Html.EditorFor(model => model.PostLocation.XCoordinate, new { htmlAttributes = new { style = "display: none" } })
+                        @Html.EditorFor(model => model.PostLocation.YCoordinate, new { htmlAttributes = new { style = "display: none" } })
+
+                   
 
                 </div>
 

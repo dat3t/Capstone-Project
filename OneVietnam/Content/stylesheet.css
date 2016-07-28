@@ -501,11 +501,10 @@ body {
 .grid-item {
      
     margin-bottom :22px;
-  float: left;
 }
 
 
-.gutter-sizer { width: 3%; }
+.gutter-sizer { width: 2%; }
 
 
 
@@ -534,22 +533,8 @@ body {
 }
 
 
-/* position dots up a bit */
-.flickity-page-dots {
-  bottom: 0px;
-}
-/* white circles */
-.flickity-page-dots .dot {
-  width: 12px;
-  height: 12px;
-  opacity: 1;
-  background: transparent;
-  border: 2px solid white;
-}
 /* fill-in selected dot */
-.flickity-page-dots .dot.is-selected {
-  background: white;
-}
+
 .messages {
     position: absolute !important;
     background: white;
@@ -562,6 +547,3 @@ body {
     border-radius: 0.28571429rem;
 }
 
-.n-invi {
-    z-index: 400;
-}
