@@ -41,57 +41,66 @@
         @{
             if (Model.Illustrations != null && Model.Illustrations.Count > 0)
             {
-                <div class="image ">
-                    <div class="carousel" data-flickity='{ "adaptiveHeight": true  }'>
-                        @foreach (var ill in Model.Illustrations)
-                        {
-                            <div class="carousel-cell"><img src="@ill.PhotoLink" /></div>
-                        }
+                <div class="ui slide masked reveal image">
+                   
+                   
+                        <img src="@Model.Illustrations[0].PhotoLink" class="visible content"/>
+                        @*<img src="@Model.Illustrations[1].PhotoLink" class="hidden content" style="size: cover"/>*@
+                   
 
-
-                    </div>
                 </div>
+@*                <div class="image ">*@
+@*                    <div class="carousel" data-flickity='{ "adaptiveHeight": true  }'>*@
+@*                        @foreach (var ill in Model.Illustrations)*@
+@*                        {*@
+@*                            <div class="carousel-cell"><img src="@ill.PhotoLink" /></div>*@
+@*                        }*@
+@**@
+@**@
+@*                    </div>*@
+@*                </div>*@
 
             }
         }
         <div class="content">
             <h4 class="ui sub header">@Model.Title</h4>
-            <div class="description marker hides">
+            <div class="marker hides description ">
                 <p>@Model.Description</p>
             </div>
-            <div class="marker hides"  id="dvComment">
-                <script>
-                (function (d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id)) return;
-                    js = d.createElement(s);
-                    js.id = id;
-                    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
-                    fjs.parentNode.insertBefore(js, fjs);
-                
-                }(document, 'script', 'facebook-jssdk'));
-                $(".grids").isotope("layout");
-                </script>
-                @{
-                    string url = "http://localhost:51801/Post/ShowPostDetail?postId=" + Model.Id;
-                    string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";
-                }
+            <input type="text" class="hides" id="postId" value="@Model.Id"/> 
 
-                <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
-                <div class="fb-share-button" data-href="@url" data-layout="button_count" data-size="small" data-mobile-iframe="true">
-                    <a class="fb-xfbml-parse-ignore" target="_blank" href="@iframeUrl">Chia sẻ</a>
-                </div>
-                <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts="3" ></div>
-                
-                <script>
-                 
-              
-                    // In your onload handler
-                 
-                  
-                </script>
-            </div>
-            
+@*            <div class="marker hides"  id="dvComment">*@
+@*                <script>*@
+@*                (function (d, s, id) {*@
+@*                    var js, fjs = d.getElementsByTagName(s)[0];*@
+@*                    if (d.getElementById(id)) return;*@
+@*                    js = d.createElement(s);*@
+@*                    js.id = id;*@
+@*                    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";*@
+@*                    fjs.parentNode.insertBefore(js, fjs);*@
+@*                *@
+@*                }(document, 'script', 'facebook-jssdk'));*@
+@*                $(".grids").isotope("layout");*@
+@*                </script>*@
+@*                @{*@
+@*                    string url = "http://localhost:51801/Post/ShowPostDetail?postId=" + Model.Id;*@
+@*                    string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";*@
+@*                }*@
+@**@
+@*                <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>*@
+@*                <div class="fb-share-button" data-href="@url" data-layout="button_count" data-size="small" data-mobile-iframe="true">*@
+@*                    <a class="fb-xfbml-parse-ignore" target="_blank" href="@iframeUrl">Chia sẻ</a>*@
+@*                </div>*@
+@*                <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts="3" ></div>*@
+@*                *@
+@*                <script>*@
+@*                 *@
+@*              *@
+@*                    // In your onload handler*@
+@*                 *@
+@*                  *@
+@*                </script>*@
+@*            </div>*@
         </div>
 
     </div>

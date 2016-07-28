@@ -125,7 +125,7 @@ namespace OneVietnam.Controllers
                 UserId = User.Identity.GetUserId()
             };
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
-            var illList = await PostManager.GetIllustration(Request, "createPost", post.Id);
+            var illList = await PostManager.GetIllustration(Request, "selectFiles", post.Id);
             if (tagList != null)
             {
                 post.Tags = tagList;
@@ -205,14 +205,23 @@ namespace OneVietnam.Controllers
             var filter = new BaseFilter {CurrentPage = pageNum};
             return await PostManager.FindAllAsync(filter);
         }
-        [HttpPost]
 
-        public async Task<ActionResult> ShowPost()
+        public async Task<ActionResult> _ShowPost(string postId)
         {
             //List<Post> list = await PostManager.FindByUserId(User.Identity.GetUserId());
-            List<Post> list = await PostManager.FindAllAsync(false);
-            List<PostViewModel> pViewList = list.Select(post => new PostViewModel(post)).ToList();
-            return View(pViewList);
+            Post post = await PostManager.FindByIdAsync(postId);
+            if (post != null)
+            {
+                ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
+                if (postUser != null)
+                {
+
+                    PostViewModel showPost = new PostViewModel(post, postUser.UserName);
+
+                    return PartialView(showPost);
+                }
+            }
+            return PartialView();
         }
 
         public async Task<ActionResult> ShowPostDetail(string postId)

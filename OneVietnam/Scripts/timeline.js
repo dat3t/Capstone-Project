@@ -1,8 +1,8 @@
 ﻿
 function editableForm() {
     $('.tog').toggleClass('disabled');
-    $('#btnSave').toggleClass('hides');
-    $('#btnCancel').toggleClass('hides');
+    $('#btnSaveEditProfile').toggleClass('hides');
+    $('#btnCancelEditProfile').toggleClass('hides');
     $("#btnEditProfile").hide();
     $("#lblGender").hide();
     $("#drdGender").show();

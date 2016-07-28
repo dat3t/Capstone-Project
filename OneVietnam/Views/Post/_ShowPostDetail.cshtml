@@ -7,8 +7,10 @@
 @{
     ViewBag.Title = "ShowPostDetail";
     List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
-
 }
+<script>
+    var postId = '@Model.Id';
+</script>
 <link rel="stylesheet" href="~/Content/image-slider.css">
 
 @if (Model != null && (Model.DeletedFlag == false) && (Model.LockedFlag == false))
@@ -151,7 +153,7 @@
             }
 
             <script>
-                FB=null;
+                FB = null;
                 (function (d, s, id) {
                     var js, fjs = d.getElementsByTagName(s)[0];
                     js = d.createElement(s);
@@ -213,22 +215,25 @@
                 <i class="icon announcement link" id="reportPost" data-content="Báocáo" style="float: right"></i>
                 //Report Popup Modal
 
-                @Html.Partial("../Post/_Report", new ReportViewModal(Model.Id, Model.UserId))
+                @Html.Partial("../Post/_Report", new ReportViewModal(Model.Id, Model.UserId));
 
-                <script type="text/javascript">
+                @*<script type="text/javascript">
+
+                    </script>*@
+                <script>
                     $("#reportPost")
-                        .click(function () {
-                            $('.small.modal').modal({
-                                allowMultiple: false
-                            });
-                            $('.second.modal').modal('attach events', '.report.modal .green.button')
-                            ;
-                            $('.report.modal').modal('show');
-                        });
+                      .click(function () {
+                          $('.small.modal').modal({
+                              allowMultiple: false
+                          });
+                          $('.second.modal').modal('attach events', '.report.modal .green.button')
+                          ;
+                          $('.report.modal').modal('show');
+                      });
                 </script>
             }
             <i class="icon home"></i>
-            <a class="item" href="" >@Model.PostLocation.Address</a>
+            <a class="item" onclick="location.href='@Url.Action("ShowMap", "Map", new { @Model.PostLocation.XCoordinate, @Model.PostLocation.YCoordinate, @Model.PostType,postId = @Model.Id})'">@Model.PostLocation.Address</a>
             @{
                 if (postTypes != null)
                 {
@@ -258,32 +263,32 @@
             <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts=""></div>
         </div>
 
-   
 
-        
+
+
 
     </div>
-            }
-            else
+                }
+                else
 
-            {
-                <div class="ui segment">
-                    <div class="ui centered header">
-                        <i class="warning circle icon"></i>
-                        Trang bạn tìm kiếm đã bị xóa hoặc không tồn tại
+                {
+                    <div class="ui segment">
+                        <div class="ui centered header">
+                            <i class="warning circle icon"></i>
+                            Trang bạn tìm kiếm đã bị xóa hoặc không tồn tại
+                        </div>
                     </div>
-                </div>
-            }
+                }
 
 <script>
-    function redirectToMapPage(x,y,address,postyType) {
+    function redirectToMapPage(x, y, postType, postId) {
         $.ajax({
             url: '/Map/ShowMap',
             type: 'GET',
             dataType: 'text',
+            data: { "XCoordinate": x , "YCoordinate" : y, "PostType" : postType, "postId" : postId },
             success: function (result) {
-               
-                alert(123);
+                location.href = '@Url.Action("ShowMap", "Map")';
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);

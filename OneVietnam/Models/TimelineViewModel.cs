@@ -14,6 +14,7 @@ namespace OneVietnam.Models
         [DataType(DataType.ImageUrl)]
         [Display(Name = "Ảnh đại diện")]
         public string AvatarLink { get; set; }
+        public string CoverLink { get; set; }
         public string UserName { get; set; }
         public List<PostViewModel> PostList { get; set; }
         public TwoFacterViewModel Setting { get; set; }
@@ -32,6 +33,10 @@ namespace OneVietnam.Models
             if (user.Avatar != null)
             {
                 AvatarLink = user.Avatar;
+            }
+            if (user.Cover != null)
+            {
+                CoverLink = user.Cover;
             }                    
             if (posts != null)
             {

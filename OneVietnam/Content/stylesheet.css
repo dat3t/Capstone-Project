@@ -47,10 +47,13 @@ a:hover {
   position:absolute;
   overflow: hidden;
   top:0; left:0;
-  background:red;
-  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/hobbit_bg.jpg");
+  background:#00bfff;
+  background-repeat:no-repeat;
+background-position: center center
   z-index:-1;
- 
+ -moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
   transform-origin:0 0;
   
   -webkit-backface-visibility: hidden; 
@@ -65,6 +68,7 @@ a:hover {
   left: 40px;
   z-index: 2;
 }
+
 .edit-avatar {
     cursor: pointer;
     opacity: 0.3;
@@ -73,13 +77,28 @@ a:hover {
   left: 184px;
   z-index: 3;
 }
-.edit-avatar:hover {
+/*.edit-avatar:hover {
     opacity: 1;
     position: absolute;
   top: 165px;
   left: 184px;
   z-index: 3;
+}*/
+.edit-cover {
+    cursor: pointer;
+    opacity: 0.3;
+    position: absolute;
+  top: 5px;
+  right: 0px;
+  z-index: 3;
 }
+/*.edit-cover:hover {
+    opacity: 1;
+    position: absolute;
+  top: 5px;
+  left: 0px;
+  z-index: 3;
+}*/
 .details {
     padding: 190px 0 0 280px;
 }
@@ -476,19 +495,18 @@ body {
 /* 5 columns, percentage width */
 .grid-item,
 .grid-sizer {
-  width: 48%;
+  width: 32%;
 }
 
 .grid-item {
      
     margin-bottom :22px;
-  float: left;
 }
 
 
-.gutter-sizer { width: 4%; }
+.gutter-sizer { width: 2%; }
 
- .gigante { width:48%; }
+
 
 
 .ui.dropdown.searchType {
@@ -515,22 +533,8 @@ body {
 }
 
 
-/* position dots up a bit */
-.flickity-page-dots {
-  bottom: 0px;
-}
-/* white circles */
-.flickity-page-dots .dot {
-  width: 12px;
-  height: 12px;
-  opacity: 1;
-  background: transparent;
-  border: 2px solid white;
-}
 /* fill-in selected dot */
-.flickity-page-dots .dot.is-selected {
-  background: white;
-}
+
 .messages {
     position: absolute !important;
     background: white;
@@ -543,6 +547,3 @@ body {
     border-radius: 0.28571429rem;
 }
 
-.n-invi {
-    z-index: 400;
-}
