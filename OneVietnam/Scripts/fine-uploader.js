@@ -10,8 +10,20 @@
 * Repository: git://github.com/FineUploader/fine-uploader.git
 *
 * Licensed only under the MIT license (http://fineuploader.com/licensing).
-*/ 
+*/
 
+var imgList = [];
+var RemoveIndex = 0;
+File.prototype.convertToBase64 = function (callback) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        callback(e.target.result);
+    };
+    reader.onerror = function (e) {
+        callback(null);
+    };
+    reader.readAsDataURL(this);
+};
 
 (function(global) {
 /*globals window, navigator, document, FormData, File, HTMLInputElement, XMLHttpRequest, Blob, Storage, ActiveXObject */
@@ -3012,7 +3024,17 @@ qq.status = {
             }
         },
 
-        _onInputChange: function(input) {
+        _onInputChange: function (input) {
+
+            //ThamDTH Add Start
+            if (input.files.length > 0) {
+                for (var index = 0; index < input.files.length; index++) {
+                    imgList.push(input.files[index]);
+                }
+            }
+            //ThamDTH Add End
+
+
             var fileIndex;
 
             if (qq.supportedFeatures.ajaxUploading) {
@@ -7471,7 +7493,23 @@ qq.Templating = function(spec) {
             fileBatch.map = {};
         },
 
-        removeFile: function(id) {
+        removeFile: function (id) {
+            //ThamDTH Add Start
+            var imgContainer = getFile(id);
+            var img = imgContainer.childNodes[5].childNodes[1];            
+            for (var i = 0; i < imgList.length; i++) {
+                var selectedFile = imgList[i];
+                RemoveIndex = i;
+                selectedFile.convertToBase64(function (base64) {
+                    if (base64 === img.src) {
+                        imgList.splice(RemoveIndex, 1);
+                    }
+                });
+            }
+            
+
+            //ThamDTH Add End
+
             qq(getFile(id)).remove();
         },
 
