@@ -41,14 +41,14 @@
         @{
             if (Model.Illustrations != null && Model.Illustrations.Count > 0)
             {
-                <div class="ui slide masked reveal image">
-                   
-                   
-                        <img src="@Model.Illustrations[0].PhotoLink" class="visible content"/>
-                        <img src="@Model.Illustrations[1].PhotoLink" class="hidden content" style="size: cover"/>
-                   
+                <div class="ui fluid slide masked reveal image">
+
+
+                    <img src="@Model.Illustrations[0].PhotoLink" class="visible content"/>
+
 
                 </div>
+                
 @*                <div class="image ">*@
 @*                    <div class="carousel" data-flickity='{ "adaptiveHeight": true  }'>*@
 @*                        @foreach (var ill in Model.Illustrations)*@

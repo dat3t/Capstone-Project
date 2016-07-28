@@ -6,6 +6,11 @@
 *, *:before, *:after {
   box-sizing: border-box;
 }
+.center-cropped {
+  object-fit: none; /* Do not scale the image */
+  object-position: center; /* Center the image within the element */
+ 
+}
 
 body {
   background: #43423E;

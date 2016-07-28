@@ -1,5 +1,6 @@
 ﻿$(document)
     .ready(function () {
+     
         $("#getloc").click();
         $(".ui.floating.dropdown.button").dropdown({
             allowCategorySelection: true
