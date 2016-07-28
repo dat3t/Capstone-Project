@@ -307,7 +307,7 @@ namespace OneVietnam.Controllers
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
-                    user.Avatar = blob.Uri.ToString();
+                    user.Cover = blob.Uri.ToString();               
                     var result = await UserManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {
