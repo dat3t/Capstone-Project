@@ -19,7 +19,6 @@
     });
 }
 
-$("getloc").click();
 function getCurrentLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -49,6 +48,13 @@ function getCurrentLocation() {
         alert("Trình duyệt của bạn không hỗ trợ định vị GPS. Vui lòng nâng cấp phiên bản mới nhất của trình duyệt và thử lại sau.");
     }
 }
+
+function getRegisteredLocation() {
+    document.getElementById("PostLocation_Address").value = authenticatedUser.address;
+    document.getElementById("PostLocation_XCoordinate").value = authenticatedUser.x;
+    document.getElementById("PostLocation_YCoordinate").value = authenticatedUser.y;
+}
+$("getloc").click();
 
 google.maps.event.addDomListener(window, 'load', getAddressFromSearchBox);
 
