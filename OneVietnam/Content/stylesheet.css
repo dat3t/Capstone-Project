@@ -82,13 +82,13 @@ background-size: cover;
   left: 184px;
   z-index: 3;
 }
-.edit-avatar:hover {
+/*.edit-avatar:hover {
     opacity: 1;
     position: absolute;
   top: 165px;
   left: 184px;
   z-index: 3;
-}
+}*/
 .edit-cover {
     cursor: pointer;
     opacity: 0.3;
@@ -97,13 +97,13 @@ background-size: cover;
   right: 0px;
   z-index: 3;
 }
-.edit-cover:hover {
+/*.edit-cover:hover {
     opacity: 1;
     position: absolute;
   top: 5px;
   left: 0px;
   z-index: 3;
-}
+}*/
 .details {
     padding: 190px 0 0 280px;
 }
