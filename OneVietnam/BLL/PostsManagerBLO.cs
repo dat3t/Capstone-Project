@@ -50,46 +50,42 @@ namespace OneVietnam.BLL
         }
 
 
-        public async Task<List<Illustration>> GetIllustration(HttpRequestBase pRequestBase, string pInputFile, string pBlobContainerName)
-        {            
-            
-            if (pRequestBase.Form[pInputFile] != null)
+        public async Task<List<Illustration>> GetIllustration(HttpFileCollectionBase pFiles, string pBlobContainerName)
+        {
+            try
             {
-                try
+                int fileCount = pFiles.Count;
+                if (fileCount > 0)
                 {
-                    HttpFileCollectionBase files = pRequestBase.Files;
-                    int fileCount = files.Count;
+                    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                    CloudBlobContainer blobContainer = blobClient.GetContainerReference(pBlobContainerName);
+                    await blobContainer.DeleteIfExistsAsync();
+                    await blobContainer.CreateAsync();
+                    await blobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
 
-                    if (fileCount > 0)
+                    for (int i = 0; i < fileCount; i++)
                     {
-                        CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                        CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-                        CloudBlobContainer blobContainer = blobClient.GetContainerReference(pBlobContainerName);
-                        await blobContainer.DeleteIfExistsAsync();
-                        await blobContainer.CreateAsync();
-                        await blobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
-
-                        for (int i = 0; i < fileCount; i++)
+                        if (pFiles[i] != null)
                         {
-                            CloudBlockBlob blob = blobContainer.GetBlockBlobReference(files[i].FileName);
+                            CloudBlockBlob blob = blobContainer.GetBlockBlobReference(GetRandomBlobName(pFiles[i].FileName));
                             await blob.DeleteIfExistsAsync();
-                            blob.UploadFromStream(files[i].InputStream);
-
-                        }
-                        var blobList = blobContainer.ListBlobs();
-                        List<Illustration> illList = new List<Illustration>();
-                        foreach (var blob in blobList)
-                        {
-                            Illustration newIll = new Illustration(blob.Uri.ToString());
-                            illList.Add(newIll);
-                        }
-                        return illList;
+                            blob.UploadFromStream(pFiles[i].InputStream);
+                        }                        
                     }
+                    var blobList = blobContainer.ListBlobs();
+                    List<Illustration> illList = new List<Illustration>();
+                    foreach (var blob in blobList)
+                    {
+                        Illustration newIll = new Illustration(blob.Uri.ToString());
+                        illList.Add(newIll);
+                    }
+                    return illList;
                 }
-                catch (Exception ex)
-                {                    
-                    return null;
-                }
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
             return null;
         }

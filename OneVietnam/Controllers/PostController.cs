@@ -113,6 +113,15 @@ namespace OneVietnam.Controllers
             }            
         }
 
+        private HttpFileCollectionBase _illustrationList;
+
+        public void GetIllustrations()
+        {
+            _illustrationList = Request.Files;
+            Session["Illustrations"] = _illustrationList;
+        }
+
+
         [HttpPost]
         [System.Web.Mvc.Authorize]
         [ValidateAntiForgeryToken]
@@ -125,7 +134,10 @@ namespace OneVietnam.Controllers
                 UserId = User.Identity.GetUserId()
             };
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
-            var illList = await PostManager.GetIllustration(Request, "selectFiles", post.Id);
+            _illustrationList = (HttpFileCollectionBase) Session["Illustrations"];
+            var illList = await PostManager.GetIllustration(_illustrationList,  post.Id);
+            Session["Illustrations"] = null;
+            _illustrationList = null;
             if (tagList != null)
             {
                 post.Tags = tagList;
@@ -297,7 +309,7 @@ namespace OneVietnam.Controllers
             }
             ViewData.Clear();
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
-            var illList = await PostManager.GetIllustration(Request, "createPost", pPostView.Id);
+            var illList = await PostManager.GetIllustration(_illustrationList, pPostView.Id);
             if (tagList != null)
             {
                 pPostView.Tags = tagList;

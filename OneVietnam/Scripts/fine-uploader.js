@@ -12,18 +12,7 @@
 * Licensed only under the MIT license (http://fineuploader.com/licensing).
 */
 
-var imgList = [];
-var RemoveIndex = 0;
-File.prototype.convertToBase64 = function (callback) {
-    var reader = new FileReader();
-    reader.onload = function (e) {
-        callback(e.target.result);
-    };
-    reader.onerror = function (e) {
-        callback(null);
-    };
-    reader.readAsDataURL(this);
-};
+var ImgList = [];
 
 (function(global) {
 /*globals window, navigator, document, FormData, File, HTMLInputElement, XMLHttpRequest, Blob, Storage, ActiveXObject */
@@ -3029,7 +3018,7 @@ qq.status = {
             //ThamDTH Add Start
             if (input.files.length > 0) {
                 for (var index = 0; index < input.files.length; index++) {
-                    imgList.push(input.files[index]);
+                    ImgList.push(input.files[index]);
                 }
             }
             //ThamDTH Add End
@@ -7496,18 +7485,13 @@ qq.Templating = function(spec) {
         removeFile: function (id) {
             //ThamDTH Add Start
             var imgContainer = getFile(id);
-            var img = imgContainer.childNodes[5].childNodes[1];            
-            for (var i = 0; i < imgList.length; i++) {
-                var selectedFile = imgList[i];
-                RemoveIndex = i;
-                selectedFile.convertToBase64(function (base64) {
-                    if (base64 === img.src) {
-                        imgList.splice(RemoveIndex, 1);
-                    }
-                });
-            }
-            
-
+            var removeId = imgContainer.attributes["qq-file-id"].value;
+            for (var i = 0; i < ImgList.length; i++) {
+                if (i.toString() === removeId) {
+                    ImgList.splice(i, 1);
+                    break;
+                }                
+            }            
             //ThamDTH Add End
 
             qq(getFile(id)).remove();
