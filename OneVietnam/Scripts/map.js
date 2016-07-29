@@ -79,7 +79,7 @@ function checkAuthenticated() {
 }
 
 function initialize() {
-
+    alert(1);
     checkAuthenticated();
 
     //Declare a bound
@@ -167,37 +167,18 @@ function initialize() {
         content: "",
         maxWidth: 350
     });
-    //google.maps.event.addListener(markerCluster, "clusterover", function (mCluster) {
-    //    //infowindow.content += "aa";
-    //    //infowindow.setPosition(mCluster.getCenter());
-    //    //infowindow.open(map);
-    //    alert(10);
-    //});
-
-    // *
-    // START INFOWINDOW CUSTOMIZE.
-    // The google.maps.event.addListener() event expects
-    // the creation of the infowindow HTML structure 'domready'
-    // and before the opening of the infowindow, defined styles are applied.
-    // *
+  
 
     // Create the search box and link it to the UI element.
     var input = document.getElementById("pac-input2");
     var searchBox = new google.maps.places.SearchBox(input);
-    //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-    // Bias the SearchBox results towards current map's viewport.
-    map.addListener('bounds_changed', function () {
-        //searchBox.setBounds(map.getBounds());
-        // map.setZoom(14);
-    });
 
     var markers2 = [];
 
     //var p1 = { lat: 36.23081510000001, lng: 137.9643552 };
 
     //var p2 = { lat: 36.238666, lng: 137.96902209999996 };
-
+    
     for (var i = 0; i < 1000; i++) {
         // var dataPhoto = data.photos[i];
         var latLng = new google.maps.LatLng(Math.floor(Math.random() * 50), Math.floor(Math.random() * 100));
@@ -360,23 +341,25 @@ function calculateNearestMarker(listLocation) {
 
     //bounds = map.getBounds();
     var centerOfCurrentBound = bounds.getCenter();
-
-    var position = new google.maps.LatLng(listLocation[0].x, listLocation[0].y);
-    var min = getDistance(centerOfCurrentBound, position);
-    var length = listLocation.length;
-    for (var i = 1; i < length; i++) {
-        var position2 = new google.maps.LatLng(listLocation[i].x, listLocation[i].y);
-        var distance2 = getDistance(centerOfCurrentBound, position2)
-        if (min > distance2) {
-            min = distance2;
-            position = position2;
+    var k;
+    if(listLocation.length > 0){
+        var position = new google.maps.LatLng(listLocation[0].x, listLocation[0].y);
+        var min = getDistance(centerOfCurrentBound, position);
+        var length = listLocation.length;
+        for (var i = 1; i < length; i++) {
+            var position2 = new google.maps.LatLng(listLocation[i].x, listLocation[i].y);
+            var distance2 = getDistance(centerOfCurrentBound, position2)
+            if (min > distance2) {
+                min = distance2;
+                position = position2;
+            }
         }
+        return position;
     }
-
-    return position;
-
+   
 
 }
+
 function showJobOffer() {
     setMapToAMarkerCluster(type1MarkerCluster);
     bounds.extend(calculateNearestMarker(postType1));
@@ -400,7 +383,6 @@ function showTradeOffer() {
     bounds.extend(calculateNearestMarker(postType4));
     map.fitBounds(bounds);
 }
-
 function showSOS() {
     setMapToAMarkerCluster(type5MarkerCluster);
     bounds.extend(calculateNearestMarker(postType5));
@@ -410,7 +392,7 @@ function showSOS() {
 function createListUserMarkers() {
     var length = allUsers.length;
     var icon = {
-        url: "../Content/Icon/Users.png",
+        url: "/Content/Icon/Users.png",
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),

@@ -1,10 +1,10 @@
 ﻿function getAddressFromSearchBox() {
     // Create the search box and link it to the UI element.
-    var input = document.getElementById("search-location");
-    var searchBox = new google.maps.places.SearchBox(input);
+    var input1 = document.getElementById("search-location");
+    var searchBox1 = new google.maps.places.SearchBox(input1);
 
-    searchBox.addListener('places_changed', function () {
-        var places = searchBox.getPlaces();
+    searchBox1.addListener('places_changed', function () {
+        var places = searchBox1.getPlaces();
         if (places.length == 0) {
             return;
         }
@@ -34,7 +34,7 @@
         });
     });
 
-    
+
 }
 
 function getCurrentLocation() {
@@ -53,9 +53,19 @@ function getCurrentLocation() {
                     document.getElementById("PostLocation_Address").value = detailedLocation;
                     document.getElementById("PostLocation_XCoordinate").value = pos.lat;
                     document.getElementById("PostLocation_YCoordinate").value = pos.lng;
-                    document.getElementById("Address_Edit").value = detailedLocation;
-                    document.getElementById("XCoordinate_Edit").value = pos.lat;
-                    document.getElementById("YCoordinate_Edit").value = pos.lng;
+
+                    var address_edit = document.getElementById("Address_Edit");
+                    if (address_edit != null) {
+                        document.getElementById("Address_Edit").value = detailedLocation;
+                        document.getElementById("XCoordinate_Edit").value = pos.lat;
+                        document.getElementById("YCoordinate_Edit").value = pos.lng;
+
+
+
+
+
+                    };
+                   
                 } else {
                 }
             })
@@ -71,20 +81,23 @@ function getCurrentLocation() {
 }
 
 function getRegisteredLocation() {
-    document.getElementById("PostLocation_Address").value = authenticatedUser.address;
-    document.getElementById("PostLocation_XCoordinate").value = authenticatedUser.x;
-    document.getElementById("PostLocation_YCoordinate").value = authenticatedUser.y;
+    var address_Post = document.getElementById("Address_Edit");
+    if (address_Post != null) {
+        document.getElementById("PostLocation_Address").value = authenticatedUser.address;
+        document.getElementById("PostLocation_XCoordinate").value = authenticatedUser.x;
+        document.getElementById("PostLocation_YCoordinate").value = authenticatedUser.y;
+    }
+
     var address_edit = document.getElementById("Address_Edit");
     if (address_edit != null) {
         document.getElementById("Address_Edit").value = authenticatedUser.address;
         document.getElementById("XCoordinate_Edit").value = authenticatedUser.x
         document.getElementById("YCoordinate_Edit").value = authenticatedUser.y;
     };
-  
+
 }
 $("getloc").click();
 
 google.maps.event.addDomListener(window, 'load', getAddressFromSearchBox);
-
 
 
