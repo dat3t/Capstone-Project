@@ -63,50 +63,80 @@
                 <span class="date"><i class="calendar icon"></i>@Model.CreatedDate</span>
                 <span class="right floated date"><i class="history icon"></i> Modified 8/4/2014</span>
             </div>
-            <div class="description" style="font-size: 20px">
+            <div class="description" style="font-size: 18px">
                 @Model.Description
             </div>
             <div class="extra content">
-@*                <script>*@
-@*</script>*@
-@*                @{*@
-@*                    string url = "http://localhost:51801/Post/ShowPostDetail?postId=" + Model.Id;*@
-@*                    string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";*@
-@*                }*@
-@**@
-@*                <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>*@
-@*                <div class="fb-share-button" data-href="@url" data-layout="button_count" data-size="small" data-mobile-iframe="true">*@
-@*                    <a class="fb-xfbml-parse-ignore" target="_blank" href="@iframeUrl">Chia sẻ</a>*@
-@*                </div>*@
-@*                <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts="3"></div>*@
-@**@
-                @*                <script>*@
-@*                <div id="fb-root"></div>*@
-@*                <script>*@
-@*    window.fbAsyncInit = function() {*@
-@*        FB.init({*@
-@*            appId: '1615798268744410',*@
-@*            status: true,*@
-@*            cookie: true,*@
-@*            xfbml:  true*@
-@*        });*@
-@**@
-@*        FB.Event.subscribe('comment.create', function(response) {*@
-@*            alert(response.commentID);*@
-@*        });*@
-@**@
-@*    };*@
-@*    (function() {*@
-@*        var e = document.createElement('script'); e.async = true;*@
-@*        e.src = document.location.protocol + '//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.7';*@
-@*        document.getElementById('fb-root').appendChild(e);*@
-@*    }());*@
-@*                </script>*@
-@*                <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-numposts="5"></div>*@
-@**@
-@**@
+                <script>
+                (function (d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
+                    fjs.parentNode.insertBefore(js, fjs);
+                    FB.Event.subscribe('comment.create', function (response) {
+                        alert(response.commentID);
+                    });
 
-               
+                }(document, 'script', 'facebook-jssdk'));
+                </script>
+                @{
+                    string url = "http://localhost:51801/Post/ShowPostDetail?postId=" + Model.Id;
+                    string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";
+                }
+
+                <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+                <div class="fb-share-button" data-href="@url" data-layout="button_count" data-size="small" data-mobile-iframe="true">
+                    <a class="fb-xfbml-parse-ignore" target="_blank" href="@iframeUrl">Chia sẻ</a>
+                </div>
+                <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts=""></div>
+
+                <script>
+                    FB.XFBML.parse();
+                    FB.Event.subscribe('comment.create', function(response) {
+                        alert(response.commentID);
+                    });
+                       
+                </script>
+                @*                <script>*@
+                @*</script>*@
+                @*                @{*@
+                @*                    string url = "http://localhost:51801/Post/ShowPostDetail?postId=" + Model.Id;*@
+                @*                    string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";*@
+                @*                }*@
+                @**@
+                @*                <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>*@
+                @*                <div class="fb-share-button" data-href="@url" data-layout="button_count" data-size="small" data-mobile-iframe="true">*@
+                @*                    <a class="fb-xfbml-parse-ignore" target="_blank" href="@iframeUrl">Chia sẻ</a>*@
+                @*                </div>*@
+                @*                <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts="3"></div>*@
+                @**@
+                @*                <script>*@
+                @*                <div id="fb-root"></div>*@
+                @*                <script>*@
+                @*    window.fbAsyncInit = function() {*@
+                @*        FB.init({*@
+                @*            appId: '1615798268744410',*@
+                @*            status: true,*@
+                @*            cookie: true,*@
+                @*            xfbml:  true*@
+                @*        });*@
+                @**@
+
+                @**@
+                @*    };*@
+                @*    (function() {*@
+                @*        var e = document.createElement('script'); e.async = true;*@
+                @*        e.src = document.location.protocol + '//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.7';*@
+                @*        document.getElementById('fb-root').appendChild(e);*@
+                @*    }());*@
+                @*                </script>*@
+                @*                <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-numposts="5"></div>*@
+                @**@
+                @**@
+
+
             </div>
         </div>
 

@@ -7,7 +7,7 @@
     ViewBag.Tiltel = "EditPost";
     List<Tag> tagList = ViewData["TagList"] as List<Tag>;
     List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
-
+    List<Uri> blobs = ViewData["Blobs"] as List<Uri>;
 }
 
 <div style="margin: auto; width: 40%">
@@ -103,18 +103,18 @@
                     <div class="field">
                         <label>Thẻ liên quan</label>
                         <div class="ui fluid multiple search selection dropdown">
-                            @{
-                                string tagValue = "";
-                                if (Model.Tags != null)
-                                {
-                                    foreach (var tag in Model.Tags)
-                                    {
-                                        tagValue = string.IsNullOrEmpty(tagValue) ? tag.TagValue : string.Concat(tagValue + ",", tag.TagValue);
-                                    }
-                                }
-
-                            }
-                            <input name="TagsInput" id="TagsInput" type="hidden" value="@tagValue">
+@*                            @{*@
+@*                                string tagValue = "";*@
+@*                                if (Model.Tags != null)*@
+@*                                {*@
+@*                                    foreach (var tag in Model.Tags)*@
+@*                                    {*@
+@*                                        tagValue = string.IsNullOrEmpty(tagValue) ? tag.TagValue : string.Concat(tagValue + ",", tag.TagValue);*@
+@*                                    }*@
+@*                                }*@
+@**@
+@*                            }*@
+@*                            <input name="TagsInput" id="TagsInput" type="hidden" value="@tagValue">*@
                             <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Chọn hoặc thêm thẻ mới</div>
                             <div class="menu transition hidden" tabindex="-1">
 
@@ -213,8 +213,27 @@
                 <div class="field">
                     <label>Ảnh minh họa</label>
                     <div id="fine-uploader-gallery"></div>
-
+                    <p>@blobs.Count</p>
+                    @{
+                        if (blobs != null)
+                        {
+                            foreach (Uri link in blobs)
+                            {
+                             
+                                <div class="imageBlock">
+                                    <a href="@link" target="_blank"><img class="thumb" src="@link" alt="images" /></a><br />
+                                    <div class="deleteDiv"><img class="deleteIcon" src="~/Images/deleteImage.png" title="Delete Image" onclick="deleteImage('@link');" /></div>
+                                </div>
+                            }
+                        }
+                    }
                     <script>
+                        function deleteImage(item) {
+                            var url = "/Post/DeleteImage";
+                            $.post(url, { Name: item }, function (data) {
+                                window.location.href = "/Post/EditPost";
+                            });
+                        }
                         var uploader = new qq.FineUploader({
                             element: document.getElementById('fine-uploader-gallery'),
                             template: 'qq-template-gallery',
@@ -228,6 +247,7 @@
                     </script>
                 </div>
 
+               
                 <!-- Button Create and Cancel -->
                 <div class="field" style="text-align: center">
                     @Html.ActionLink("Hủy", "ShowPostDetail", "Post", new {postId = Model.Id}, new {@class = "ui cancel button"})

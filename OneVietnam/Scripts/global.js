@@ -147,10 +147,9 @@
     
     
     // change size of item by toggling gigante class
-    $grid.on('click', '.content', function (e) {
+    $grid.on('click', '.grid-item', function (e) {
 
-        $(this).parent().find('.marker').toggleClass("hides");
-                var id = $(this).parent().find('#postId').val();
+                var id = $(this).find('#postId').val();
        
         $.ajax({
             type: 'GET',

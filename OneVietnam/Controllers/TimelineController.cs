@@ -266,7 +266,7 @@ namespace OneVietnam.Controllers
             
             if (file != null && file.Count > 0)
             {                
-                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(User.Identity.GetUserId() + Path.GetExtension(file[0].FileName));
+                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(User.Identity.GetUserId() );
                 await blob.DeleteIfExistsAsync();
                 blob.UploadFromStream(file[0].InputStream);
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -301,7 +301,7 @@ namespace OneVietnam.Controllers
             
             if (file != null && file.Count > 0)
             {                
-                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(User.Identity.GetUserId() + Path.GetExtension(file[0].FileName));
+                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(User.Identity.GetUserId() );
                 await blob.DeleteIfExistsAsync();
                 blob.UploadFromStream(file[0].InputStream);
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());

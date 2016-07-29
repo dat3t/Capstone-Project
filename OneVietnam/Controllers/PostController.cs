@@ -174,6 +174,7 @@ namespace OneVietnam.Controllers
                 {
                 filter = new BaseFilter {CurrentPage = pageNum.Value};
                 posts = await PostManager.FindAllAsync(filter);
+
                 if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
                 list = posts.Select(p => new PostViewModel(p)).ToList();                
                 //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
@@ -193,6 +194,10 @@ namespace OneVietnam.Controllers
             filter = new BaseFilter { CurrentPage = pageNum.Value };
             posts = await PostManager.FindAllAsync(filter);
             if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
+            foreach (var post in posts)
+            {
+                
+            }
             list = posts.Select(p => new PostViewModel(p)).ToList();
             ViewBag.Posts = list;
             return View();
@@ -285,7 +290,21 @@ namespace OneVietnam.Controllers
         [System.Web.Mvc.Authorize]        
         public async Task<ActionResult> EditPost(string postId)
         {
-                    if (TagList != null)
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            CloudBlobContainer blobContainer = blobClient.GetContainerReference(postId);
+            await blobContainer.CreateIfNotExistsAsync();
+
+            List<Uri> allBlobs = new List<Uri>();
+
+            foreach (IListBlobItem blob in blobContainer.ListBlobs())
+            {
+                if (blob.GetType() == typeof(CloudBlockBlob))
+                    allBlobs.Add(blob.Uri);
+            }
+            ViewData["Blobs"] = allBlobs;
+
+            if (TagList != null)
                     {
                         ViewData["TagList"] = TagList;
                     }
@@ -329,7 +348,27 @@ namespace OneVietnam.Controllers
             await PostManager.UpdateAsync(post);
             return RedirectToAction("Newfeeds", "Post");
         }
+        [HttpPost]
+        public async Task<ActionResult> DeleteImage(string name)
+        {
+            try
+            {
+                Uri uri = new Uri(name);
+                string filename = Path.GetFileName(uri.LocalPath);
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                CloudBlobContainer blobContainer = blobClient.GetContainerReference(filename);
+                await blobContainer.DeleteIfExistsAsync();
 
+                return RedirectToAction("EditPost");
+            }
+            catch (Exception ex)
+            {
+                ViewData["message"] = ex.Message;
+                ViewData["trace"] = ex.StackTrace;
+                return View("Error");
+            }
+        }
         public class MyHub : Hub
         {
             public override Task OnConnected()

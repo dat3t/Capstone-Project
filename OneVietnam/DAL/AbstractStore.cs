@@ -294,6 +294,7 @@ namespace OneVietnam.DAL
 
         public virtual async Task<List<T>> FindAllAsync(BaseFilter baseFilter)
         {
+            
             if (baseFilter.IsNeedPaging)
             {
                 return await FindAllAsync(baseFilter,false).ConfigureAwait(false);
