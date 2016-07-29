@@ -7,9 +7,16 @@
   box-sizing: border-box;
 }
 
-body {
-  background: #43423E;
 }
+
+
+.fileUpload { position: relative; overflow: hidden; margin-bottom: 5px; margin-top:5px; }
+.fileUpload input.upload { position: absolute; top: 0; right: 0; margin: 0; padding: 0; font-size: 20px; cursor: pointer; opacity: 0; filter: alpha(opacity=0); }
+.deleteDiv{ position:relative; top:-160px; left:130px; width:30px;height:30px;}
+.imageBlock{display: inline-block;}
+.thumb{width:159px; height:159px;}
+.deleteIcon{width:30px; height:30px;}
+
 
 a {
   text-decoration: none;
@@ -24,7 +31,6 @@ a:hover {
 
 .containers {
   margin: 0 auto;
-    width: 90%;
   background: #F0F0ED;
   border-radius: 5px;
   position: relative;
@@ -47,7 +53,7 @@ a:hover {
   position:absolute;
   overflow: hidden;
   top:0; left:0;
-  background:#00bfff;
+
   background-repeat:no-repeat;
 background-position: center center
   z-index:-1;
@@ -62,10 +68,15 @@ background-size: cover;
 
 .cover {
   position: absolute;
-  top: 160px;
+  top: 240px;
     height: 182px;
     width: 180px;
   left: 40px;
+  border-style: solid;
+    border-width: 5px;
+    border-color: #fff;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
   z-index: 2;
 }
 
@@ -73,7 +84,7 @@ background-size: cover;
     cursor: pointer;
     opacity: 0.3;
     position: absolute;
-  top: 165px;
+  top: 245px;
   left: 184px;
   z-index: 3;
 }
@@ -105,9 +116,10 @@ background-size: cover;
   
 .title1{
     color: white;
-    font-size: 30px;
-    margin-bottom: 8px;
-    position: relative;
+    font-size: 25px;
+    top: 290px;
+    left: 230px;
+    position: absolute;
 }
     
 
@@ -294,10 +306,10 @@ a[data-tooltip][data-placement="top"]::after {
 }
 
 body {
-    /*background-image: url("Images/background.jpg");
+    background-image: url("Images/background.jpg");
     background-repeat: no-repeat;
-    background-size: cover;*/
-    background: #43423E;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 .validation-summary-errors {

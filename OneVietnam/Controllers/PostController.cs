@@ -101,6 +101,15 @@ namespace OneVietnam.Controllers
             }            
         }
 
+        public List<Icon> GenderIcon
+        {
+            get
+            {
+                var gender = IconManager.GetIconGender();
+                return gender;
+            }
+        }
+
         public void _CreatePost()
         {            
             if (TagList != null)
@@ -111,6 +120,14 @@ namespace OneVietnam.Controllers
             {
                 ViewData["PostTypes"] = IconList;
             }            
+        }
+
+        private HttpFileCollectionBase _illustrationList;
+
+        public void GetIllustrations()
+        {
+            _illustrationList = Request.Files;
+            Session["Illustrations"] = _illustrationList;
         }
 
         [HttpPost]
@@ -125,7 +142,10 @@ namespace OneVietnam.Controllers
                 UserId = User.Identity.GetUserId()
             };
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
-            var illList = await PostManager.GetIllustration(Request, "selectFiles", post.Id);
+            _illustrationList = (HttpFileCollectionBase)Session["Illustrations"];
+            var illList = await PostManager.GetIllustration(_illustrationList, post.Id);
+            Session["Illustrations"] = null;
+            _illustrationList = null;
             if (tagList != null)
             {
                 post.Tags = tagList;
@@ -161,8 +181,9 @@ namespace OneVietnam.Controllers
             List<PostViewModel> list;
             if (Request.IsAjaxRequest())
                 {
-                filter = new BaseFilter {CurrentPage = pageNum.Value};
+                filter = new BaseFilter { CurrentPage = pageNum.Value };
                 posts = await PostManager.FindAllAsync(filter);
+
                 if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
                 list = posts.Select(p => new PostViewModel(p)).ToList();                
                 //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
@@ -182,6 +203,10 @@ namespace OneVietnam.Controllers
             filter = new BaseFilter { CurrentPage = pageNum.Value };
             posts = await PostManager.FindAllAsync(filter);
             if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
+            foreach (var post in posts)
+            {
+                
+            }
             list = posts.Select(p => new PostViewModel(p)).ToList();
             ViewBag.Posts = list;
             return View();
@@ -202,7 +227,7 @@ namespace OneVietnam.Controllers
             //    .Where(x => x.Key > from && x.Key <= to)
             //    .OrderBy(x => x.Key)
             //    .ToDictionary(x => x.Key, x => x.Value);
-            var filter = new BaseFilter {CurrentPage = pageNum};
+            var filter = new BaseFilter { CurrentPage = pageNum };
             return await PostManager.FindAllAsync(filter);
         }
 
@@ -216,7 +241,7 @@ namespace OneVietnam.Controllers
                 if (postUser != null)
                 {
 
-                    PostViewModel showPost = new PostViewModel(post, postUser.UserName);
+                    PostViewModel showPost = new PostViewModel(post, postUser.UserName,postUser.Avatar);
 
                     return PartialView(showPost);
                 }
@@ -241,7 +266,7 @@ namespace OneVietnam.Controllers
                     if (postUser != null)
                     {
 
-                        PostViewModel showPost = new PostViewModel(post, postUser.UserName);
+                        PostViewModel showPost = new PostViewModel(post, postUser.UserName,postUser.Avatar);
 
                         return View(showPost);
                     }
@@ -271,8 +296,23 @@ namespace OneVietnam.Controllers
             //TODO send notification to Mod
         }
 
+        [System.Web.Mvc.Authorize]        
         public async Task<ActionResult> EditPost(string postId)
         {
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            CloudBlobContainer blobContainer = blobClient.GetContainerReference(postId);
+            await blobContainer.CreateIfNotExistsAsync();
+
+            List<Uri> allBlobs = new List<Uri>();
+
+            foreach (IListBlobItem blob in blobContainer.ListBlobs())
+            {
+                if (blob.GetType() == typeof(CloudBlockBlob))
+                    allBlobs.Add(blob.Uri);
+            }
+            ViewData["Blobs"] = allBlobs;
+
                     if (TagList != null)
                     {
                         ViewData["TagList"] = TagList;
@@ -287,17 +327,13 @@ namespace OneVietnam.Controllers
                 }
 
         [HttpPost]
+        [System.Web.Mvc.Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditPost(PostViewModel pPostView)
-        {                        
-            ViewData.Clear();
-            string strPostId = "";
-            if (Request.Form.Count > 0)
-            {
-                strPostId = Request.Form["PostId"];
-            }
+        {                                                
             ViewData.Clear();
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
-            var illList = await PostManager.GetIllustration(Request, "createPost", pPostView.Id);
+            var illList = await PostManager.GetIllustration(_illustrationList, pPostView.Id);
             if (tagList != null)
             {
                 pPostView.Tags = tagList;
@@ -309,17 +345,39 @@ namespace OneVietnam.Controllers
             }
             Post post = new Post(pPostView);           
             await PostManager.UpdateAsync(post);
-            return RedirectToAction("ShowPostDetail", "Post", new { postId = strPostId });
+            return RedirectToAction("ShowPostDetail", "Post", new { postId = pPostView.Id });
         }
-
+        
+        [System.Web.Mvc.Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeletePost(string postId)
         {
             Post post = await PostManager.FindByIdAsync(postId);
             post.DeletedFlag = true;                                             
             await PostManager.UpdateAsync(post);
-            return RedirectToAction("CreatePost", "Post");
+            return RedirectToAction("Newfeeds", "Post");
         }
+        [HttpPost]
+        public async Task<ActionResult> DeleteImage(string name)
+        {
+            try
+            {
+                Uri uri = new Uri(name);
+                string filename = Path.GetFileName(uri.LocalPath);
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                CloudBlobContainer blobContainer = blobClient.GetContainerReference(filename);
+                await blobContainer.DeleteIfExistsAsync();
 
+                return RedirectToAction("EditPost");
+            }
+            catch (Exception ex)
+            {
+                ViewData["message"] = ex.Message;
+                ViewData["trace"] = ex.StackTrace;
+                return View("Error");
+            }
+        }
         public class MyHub : Hub
         {
             public override Task OnConnected()

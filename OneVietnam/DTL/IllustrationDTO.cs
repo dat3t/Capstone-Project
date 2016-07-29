@@ -9,8 +9,6 @@ namespace OneVietnam.DTL
 {
     public class Illustration
     {
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; private set; }
         public string PhotoLink { get; set; }
         [BsonIgnoreIfNull]
         public string Description { get; set; }

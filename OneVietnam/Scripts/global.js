@@ -1,19 +1,12 @@
 ﻿$(document)
     .ready(function () {
+       
         $("#getloc").click();
         $(".ui.floating.dropdown.button").dropdown({
             allowCategorySelection: true
         })
         ;
-    //function createUploader() {
-    //    var uploader = new qq.FineUploader({
-    //        element: document.getElementById('fine-uploader'),
-    //        request: {
-    //            endpoint: '@Url.Action("UploadBatchDataFile")'
-    //        }
-    //    });
-    //}
-    //window.onload = createUploader;
+       
        
         $(".ui.toggle.button")
             .state({
@@ -21,12 +14,19 @@
             inactive: 'Bật',
             active: 'Tắt'
         }
-            });
+    })
+    ;
+  //  $('.icon')
+  //.popup()
+  //  ;
 
-        $("#chatchat")
-            .click(function () {
-                $("#messagechat").slideToggle();
+    $("#messageIcon").click(function () {
+        //var div = document.getElementById("messagechat");
+        //div.innerHTML = div.innerHTML + 'Hello World';
+        $("#messages").slideToggle();
+
     });
+    //$('.icon').popup();
 
     if ($(".searchType").val() === "SearchPosts") {
         $(".ui.user").css("display", "none");
@@ -70,8 +70,7 @@
         },
         minCharacters: 3
             });
-        $('#user')
-            .search({
+    $('#user').search({
       apiSettings: {
           url: '//api.github.com/search/repositories?q={query}'
       },
@@ -98,16 +97,15 @@
 
     //ThamDTH
     $('.clearing.star.rating').rating('setting', 'clearable', true);
-
-
     $('.ui.multiple.dropdown')
       .dropdown({
           allowAdditions: true
             });
     $('#drPostType')
-      .dropdown({
-          
-            });
+      .dropdown({});
+
+        $("#drPostTypeEditPost").dropdown();
+
     $("#drdGender").dropdown({});
 
         $('.delete.icon.image-add')
@@ -145,10 +143,9 @@
     
     
     // change size of item by toggling gigante class
-    $grid.on('click', '.content', function (e) {
+    $grid.on('click', '.grid-item', function (e) {
 
-        $(this).parent().find('.marker').toggleClass("hides");
-                var id = $(this).parent().find('#postId').val();
+                var id = $(this).find('#postId').val();
        
         $.ajax({
             type: 'GET',
@@ -157,8 +154,15 @@
             success: function (partialResult) {
                 $("#forModal").empty();
                 $("#forModal").html(partialResult);
-                $('#forModal').modal('show')
+                $('#forModal').modal({
+                    inverted: true
+                }).modal('show')
                 ;
+                $('.carousel').flickity({
+                    // options
+                    cellAlign: 'left',
+                    contain: true
+                });
             }
         });
      
@@ -173,7 +177,7 @@ $('.stamp-button').on('click', function () {
     $('body,html').animate({
         scrollTop: 0                       // Scroll to top of body
     }, 500);
-//    $("#CreatePostForm").data('validator').resetForm();
+    $("#CreatePostForm").data('validator').resetForm();
     $(".validation-summary-errors ul li").remove();
     $(".validation-summary-errors").addClass('validation-summary-valid').removeClass('validation-summary-errors');
     $(".stamp").toggleClass("hides");
@@ -206,4 +210,8 @@ $('.filter-group').on('click', 'a', function () {
     // use filterFn if matches value
     $grid.isotope({ filter: filterValue });
 });
+});
+$('#MessageButton').dropdown({
+});
+$('.ui.pointing.dropdown').dropdown({    
 });

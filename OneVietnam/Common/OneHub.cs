@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.SignalR;
 using OneVietnam.BLL;
+using OneVietnam.Common;
 using OneVietnam.DAL;
 using OneVietnam.DTL;
 
@@ -16,37 +17,28 @@ namespace OneVietnam
     public class OneHub : Hub
     {        
         public ApplicationUserManager UserManager { get; private set; }
-        public MessageManager MessageManager { get; set; }
 
-        public OneHub(ApplicationUserManager userManager,MessageManager messageManager)
+        public OneHub(ApplicationUserManager userManager)
         {
-            UserManager = userManager;
-            MessageManager = messageManager;
+            UserManager = userManager;            
         }
-        public async Task SendChatMessage(string receiveId, string message)
-        {            
-
-            var sendName = Context.User.Identity.Name;
-            var receiveUser = await UserManager.FindByIdAsync(receiveId);
-            var connecting = receiveUser.Connections.Any(c => c.Connected == true);
-            var connection = receiveUser.Connections;
+        public async Task SendChatMessage(string friendId, string message)
+        {
+            var name = Context.User.Identity.Name;
+            var id = Context.User.Identity.GetUserId();  
+            var friend = await UserManager.FindByIdAsync(friendId);
+            var connecting = friend.Connections.Any(c => c.Connected == true);
+            var connection = friend.Connections;
             if (connection != null)
             {
                 foreach (var conn in connection.Where(conn => conn.Connected == true))
                 {
                     // call client's javascript function 
-                    Clients.Client(conn.ConnectionId).addChatMessage(sendName + ": " + message);
+                    Clients.Client(conn.ConnectionId).addChatMessage(id,name,message);
                 }
-            }            
-            //Add Messages to database
-            var mes = new Message
-            {
-                ReceiverId = receiveId,
-                SenderId = Context.User.Identity.GetUserId(),
-                Content = message,
-                CreatedDate = DateTimeOffset.UtcNow
-            };
-             await MessageManager.CreateAsync(mes).ConfigureAwait(false);
+            }
+            // Store Message To Database
+            await UserManager.AddMessage(Context.User.Identity.GetUserId(), friendId, message);            
         }
         public override async Task OnConnected()
         {            

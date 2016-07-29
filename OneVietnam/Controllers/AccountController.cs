@@ -154,8 +154,7 @@ namespace OneVietnam.Controllers
             var result = await SignInHelper.PasswordSignIn(model.Email, model.Password, model.RememberMe, shouldLockout: true);
             switch (result)
             {
-                case SignInStatus.Success:
-
+                case SignInStatus.Success:                    
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     ViewBag.LockedDuration =
@@ -436,7 +435,7 @@ namespace OneVietnam.Controllers
             var result = await SignInHelper.ExternalSignIn(loginInfo, isPersistent: false);
             switch (result)
             {
-                case SignInStatus.Success:
+                case SignInStatus.Success:                    
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

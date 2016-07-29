@@ -62,7 +62,7 @@
             </script>
 
         }
-        <div class="hero" style="background-image: url(@Model.CoverLink)">
+        <div class="hero" style="background: url(@Model.CoverLink); background-repeat: no-repeat; background-position: center center;background-size: cover">
 
             <div class="details">
 
@@ -77,11 +77,11 @@
 
         <div class="ui grid">
 
-            <div class="three wide column">
+            <div style="width: 260px">
 
             </div> <!-- end column1 -->
 
-            <div class="eleven wide column">
+            <div class="nine wide column">
 
 
                 <div class="ui pointing secondary tabular menu">
@@ -101,6 +101,12 @@
                     {
                         <div class="item" data-tab="setting">Cài đặt</div>
                     }
+                    <div class="right menu">
+                        <button class="ui  icon button">
+                            <i class="blue large send icon"></i>
+                        </button>
+                    </div>
+                   
 
                 </div>
                 <div class="ui tab active" data-tab="timeline">
@@ -181,11 +187,11 @@
                                         <div class="ui right floated middle aligned item">
                                             @if (Model.Setting.HasPassWord)
                                             {
-                                                <input type="button" class="ui right floated teal button" id="btnChangePass" value="Đổi mật khẩu" onclick="showChangePasswordForm()" />
+                                                <input type="button" class="ui right floated teal button" id="btnChangePass" value="Đổi" onclick="showChangePasswordForm()" />
                                             }
                                             else
                                             {
-                                                <input type="button" class="ui right floated teal button" id="btnChangePass" value="Thêm mật khẩu" onclick="showSetPasswordForm()" />
+                                                <input type="button" class="ui right floated teal button" id="btnChangePass" value="Thêm" onclick="showSetPasswordForm()" />
                                             }
 
                                         </div>

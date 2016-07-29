@@ -34,21 +34,21 @@ namespace OneVietnam.BLL
         }
 
 
-        public List<Icon> GetIconGenderAndSosAsync()
+        public List<Icon> GetIconGender()
         {
             var list = GetIconsAsync();
             if (list != null)
             {
-                List<Icon> genderAndSos = new List<Icon>();
+                List<Icon> gender = new List<Icon>();
 
                 foreach (var icon in list.Result)
                 {
-                    if (string.Equals(icon.IconType, Constants.IconTypeGender) | string.Equals(icon.IconType, Constants.IconTypeSos))
+                    if (string.Equals(icon.IconType, Constants.IconTypeGender))
                     {
-                        genderAndSos.Add(icon);
+                        gender.Add(icon);
                     }
                 }
-                return genderAndSos;
+                return gender;
             }
             return null;
         }

@@ -212,7 +212,7 @@
             }
             else
             {
-                <i class="icon announcement link" id="reportPost" data-content="Báocáo" style="float: right"></i>
+                <i class="icon announcement link" id="reportPost" data-content="Báo cáo" style="float: right"></i>
                 //Report Popup Modal
 
                 @Html.Partial("../Post/_Report", new ReportViewModal(Model.Id, Model.UserId));
@@ -263,22 +263,34 @@
             <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts=""></div>
         </div>
 
-
+        <!-- Related Tags -->
+        @{
+            if (Model.Tags != null && Model.Tags.Count != 0)
+            {
+                <div class="ui segment" style="width: 100%; border: 0 !important;padding-top: 0">
+                    <i class="tags icon" style="float: left"></i>Thẻ liên quan:
+                    @foreach (var tag in Model.Tags)
+                    {
+                        <a href="" style="text-decoration:underline;">@tag.TagText</a>
+                    }
+                </div>
+            }
+        }
 
 
 
     </div>
-                }
-                else
+            }
+            else
 
-                {
-                    <div class="ui segment">
-                        <div class="ui centered header">
-                            <i class="warning circle icon"></i>
-                            Trang bạn tìm kiếm đã bị xóa hoặc không tồn tại
-                        </div>
+            {
+                <div class="ui segment">
+                    <div class="ui centered header">
+                        <i class="warning circle icon"></i>
+                        Trang bạn tìm kiếm đã bị xóa hoặc không tồn tại
                     </div>
-                }
+                </div>
+            }
 
 <script>
     function redirectToMapPage(x, y, postType, postId) {
@@ -286,7 +298,7 @@
             url: '/Map/ShowMap',
             type: 'GET',
             dataType: 'text',
-            data: { "XCoordinate": x , "YCoordinate" : y, "PostType" : postType, "postId" : postId },
+            data: { "XCoordinate": x, "YCoordinate": y, "PostType": postType, "postId": postId },
             success: function (result) {
                 location.href = '@Url.Action("ShowMap", "Map")';
             },
