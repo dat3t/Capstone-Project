@@ -354,6 +354,7 @@
     <Content Include="Content\CountryImage\vi.png" />
     <Content Include="Content\fine-uploader-gallery.min.css" />
     <Content Include="Content\flickity.css" />
+    <Content Include="Content\flickity.min.css" />
     <Content Include="Content\icon.min.css" />
     <Content Include="Content\Icon\female.png" />
     <Content Include="Content\Icon\free.png" />
@@ -503,7 +504,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Post\NewFeeds.cshtml" />    
+    <Content Include="Views\Post\NewFeeds.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
