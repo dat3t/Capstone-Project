@@ -21,12 +21,11 @@ namespace OneVietnam
                       "~/semantic/dist/semantic.js"));
             bundles.Add(new ScriptBundle("~/bundles/Scripts").Include(
                 "~/Scripts/flickity.pkgd.min.js",
-
                 "~/Scripts/global.js",
                 "~/Scripts/infiniteScroll.js",
                 "~/Scripts/dropzone.js",
-//                "~/Scripts/azure.jquery.fine-uploader.min.js",
-//                "~/Scripts/fine-uploader.js",
+                //                "~/Scripts/azure.jquery.fine-uploader.min.js",
+                //                "~/Scripts/fine-uploader.js",
                 "~/Scripts/masonry.pkgd.min.js",
                 "~/Scripts/packery.pkgd.min.js",
                 "~/Scripts/isotope.pkgd.min.js"));
@@ -34,10 +33,11 @@ namespace OneVietnam
                       "~/semantic/dist/semantic.css"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/StyleSheet.css",
+                "~/Content/chatbox.css",
                 "~/Content/dropzone.css",
-//                "~/Content/fine-uploader-gallery.min.css",
-//                "~/Content/fine-uploader-new.min.css",
-//                "~/Content/fine-uploader.min.css",
+                //                "~/Content/fine-uploader-gallery.min.css",
+                //                "~/Content/fine-uploader-new.min.css",
+                //                "~/Content/fine-uploader.min.css",
                 "~/Content/flickity.css",
                   "~/Content/Map/map.css",
                 "~/Content/Map/searchbox.css",
@@ -48,6 +48,9 @@ namespace OneVietnam
                 "~/Scripts/markerclusterer.js",
                 "~/Scripts/searchboxCreatePost"
                 ));
+            bundles.Add(new StyleBundle("~/signalR.js").Include(
+                "~/Scripts/jquery.signalR-2.2.0.min.js"));
+
         }
     }
 }

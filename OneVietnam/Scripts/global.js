@@ -14,8 +14,8 @@ $(document).ready(function () {
             inactive: 'Bật',
             active: 'Tắt'
         }
-    })
-    ;
+    });
+
   //  $('.icon')
   //.popup()
   //  ;
@@ -27,15 +27,8 @@ $(document).ready(function () {
     //    js.id = id;
     //    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
     //    fjs.parentNode.insertBefore(js, fjs);
-    //}(document, 'script', 'facebook-jssdk'));
-    $("#messageIcon").click(function () {
-        //var div = document.getElementById("messagechat");
-        //div.innerHTML = div.innerHTML + 'Hello World';
-        $("#messages").slideToggle();
-
-    });
+    //}(document, 'script', 'facebook-jssdk'));    
     //$('.icon').popup();
-
     if ($(".searchType").val() === "SearchPosts") {
         $(".ui.user").css("display", "none");
         $(".ui.post").css("display", "inline-flex");
@@ -54,14 +47,7 @@ $(document).ready(function () {
                 $(".ui.post").css("display", "none");
             }
         }
-    });
-    $("div#myId").dropzone({ url: "/file/post" });
-    $(".right.menu.open").on("click", function (e) {
-        e.preventDefault();
-        $(".ui.vertical.menu.open").toggle();
-    });
-    
-
+    });       
     //SearchBox
     $('.ui.search.post').search({
         apiSettings: {
@@ -74,8 +60,7 @@ $(document).ready(function () {
             url: 'Url'
         },
         minCharacters: 3
-    })
-    ;
+    });
     $('#user').search({
       apiSettings: {
           url: '//api.github.com/search/repositories?q={query}'
@@ -86,8 +71,7 @@ $(document).ready(function () {
           url: 'html_url'
       },
         minCharacters: 3
-    })
-    ;
+    });
     $('.ui.search.user').search({
         apiSettings: {
             url: '/Search/UsersSearch?query={query}'
@@ -99,21 +83,15 @@ $(document).ready(function () {
             url: 'Url'
         },
         minCharacters: 2
-    })
-    ;
-
+    });
     //ThamDTH
     $('.clearing.star.rating').rating('setting', 'clearable', true);
-
-
     $('.ui.multiple.dropdown')
       .dropdown({
-          allowAdditions: true
-      })
-    ;
+          allowAdditions: true  
+      });
     $('#drPostType')
-      .dropdown({
-          
+      .dropdown({          
       })
     ;
     $("#drdGender").dropdown({});
@@ -208,4 +186,8 @@ $('.filter-group').on('click', 'a', function () {
 //        alert("fasfasf");
 //    } catch (ex) { }
 //});
+});
+$('#MessageButton').dropdown({
+});
+$('.ui.pointing.dropdown').dropdown({    
 });

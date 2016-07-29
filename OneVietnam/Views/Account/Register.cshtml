@@ -38,19 +38,19 @@
             <div class="inline fields">
                 <div class="field">
                     <div class="ui radio checkbox">
-                        <input type="radio" name="Gender" value=@Gender.male checked="checked">
+                        <input type="radio" name="Gender" value=@Convert.ToInt32(Gender.male) checked="checked">
                         <label>Nam</label>
                     </div>
                 </div>
                 <div class="field">
                     <div class="ui radio checkbox">
-                        <input type="radio" name="Gender" value=@Gender.female>
+                        <input type="radio" name="Gender" value=@Convert.ToInt32(Gender.female)>
                         <label>Nữ</label>
                     </div>
                 </div>
                 <div class="field">
                     <div class="ui radio checkbox">
-                        <input type="radio" name="Gender" value=@Gender.Other>
+                        <input type="radio" name="Gender" value=@Convert.ToInt32(Gender.Other)>
                         <label>Others</label>
                     </div>
                 </div>

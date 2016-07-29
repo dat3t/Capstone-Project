@@ -1,55 +1,75 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
-{
+{    
     <div class="item">
-        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "ui form"}))
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "ui form" }))
         {
             @Html.AntiForgeryToken()
-            @*@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new {title = "Manage"})*@
-            @Html.ActionLink(User.Identity.GetUserName(), "Timeline", "Timeline", routeValues: new {userId = User.Identity.GetUserId()}, htmlAttributes: new { id = "txtHeaderUserName" })
+            <a href="/Timeline/Timeline?userId=@User.Identity.GetUserId()" id="txtHeaderUserName" style="color: white">
+                <img class="ui avatar image" src="~/Content/Images/Avatar_Default.jpg" />
+                <span>@User.Identity.GetUserName()&nbsp;</span>
+            </a>
         }
-    </div>
-    <div class="item">        
-        <div>            
-            <i class="talk icon" data-content="Tin Nhắn" data-variation="small" id="messageIcon"></i>            
-        </div>
-        <div class="ui items messages" style="display: none" id="messages">
-            <img src="~/Content/Images/Cover_default.jpg"/>
-            <a role="button" href="">
-                <div class="item">
-                    @*<a class="ui avatar image">
-                        <img src="~/Content/DemoAvatar.png" />
-                    </a>*@
-                    @*<img src="~/Content/DemoAvatar.png" />*@
-                    <div class="content">
-                        @*<a href="">MinhTai</a>*@
-                        <div class="description">
-                            <p>Xin Chao Moi nguoi</p>
-                        </div>
+        <div class="ui icon buttons">
+            <div class="ui top right pointing dropdown button" style="background: rgba(0, 0, 0, 0); color: white" id="myConversations">
+                <i class="comments icon"></i>
+                <div class="floating ui tiny teal label" id="MessageNotification"></div>
+                <div class="menu" id="Conversations">                   
+                    <div class="item conversations">
+                        <a class="item" href="javascript:register_popup('579648952af61a09a8789924','Lê Minh Tài','/Content/Images/Avatar_Default.jpg');" style="padding: 0 !important">
+                            <div class="item">
+                                <div class="ui mini image" style="margin-right: 1em !important">
+                                    <img class="ui mini image" src="/Content/Images/Avatar_Default.jpg"/>
+                                </div>
+                                <div class="content">
+                                    <div class="header">MinhTaiLe</div>
+                                    <div class="description" style="width: 15em !important">
+                                        <p>
+                                            Chi?u nay tôi mu?n di choi nhé...
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="">
+                            <i class="minus circle red icon"></i>
+                        </a>
                     </div>
+                    <div class="item conversations">
+                        <a class="item" href="javascript:register_popup('57964a492af61a09a8789949','Trần Trọng Tiến Đạt','/Content/Images/Avatar_Default.jpg');" style="padding: 0 !important">
+                            <div class="item">
+                                <div class="ui mini image" style="margin-right: 1em !important">
+                                    <img class="ui mini image" src="~/Content/Images/Avatar_Default.jpg"/>
+                                </div>
+                                <div class="content">
+                                    <div class="header">MinhTaiLe</div>
+                                    <div class="description" style="width: 15em !important">
+                                        <p>
+                                            Chi?u nay tôi mu?n di choi nhé...
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="">
+                            <i class="minus circle red icon"></i>
+                        </a>
+                    </div>                   
                 </div>
-            </a>
-            <a role="button" href="">
-                <div class="item">
-                    @*<a class="ui avatar image">
-                    <img src="~/Content/DemoAvatar.png" />
-                </a>*@
-                    @*<img src="~/Content/DemoAvatar.png" />*@
-                    <div class="content">
-                        @*<a href="">MinhTai</a>*@
-                        <div class="description">
-                            <p>Xin Chao Moi nguoi</p>
-                        </div>
-                    </div>
+            </div>
+            <div class="ui top right pointing dropdown button" style="background: rgba(0, 0, 0, 0); color: white">
+                <i class="alarm icon"></i>
+                <div class="floating ui tiny teal label">3</div>
+                <div class="menu">                    
                 </div>
-            </a>
+            </div>
+            <div class="ui top right button" style="background: rgba(0, 0, 0, 0); color: white">
+                <a href="javascript:document.getElementById('logoutForm').submit()" style="color: white">
+                    <i class="power icon"></i>
+                </a>
+            </div>
         </div>
-    </div>
-    <div class="item">
-        <a href="javascript:document.getElementById('logoutForm').submit()">
-            <i class="power icon"></i>
-        </a>
-    </div>
+    </div>    
 }
 else
 {

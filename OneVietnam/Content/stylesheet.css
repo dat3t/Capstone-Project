@@ -6,10 +6,6 @@
   box-sizing: border-box;
 }
 
-body {
-  background: #43423E;
-}
-
 a {
   text-decoration: none;
   color: #5C7FB8
@@ -264,10 +260,10 @@ a[data-tooltip][data-placement="top"]::after {
 }
 
 body {
-    /*background-image: url("Images/background.jpg");
+    background-image: url("Images/background.jpg");
     background-repeat: no-repeat;
-    background-size: cover;*/
-    background: #43423E;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 .validation-summary-errors {
