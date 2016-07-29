@@ -302,13 +302,7 @@ namespace OneVietnam.Controllers
         [System.Web.Mvc.Authorize]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditPost(PostViewModel pPostView)
-        {                        
-            ViewData.Clear();
-            string strPostId = "";
-            if (Request.Form.Count > 0)
-            {
-                strPostId = Request.Form["PostId"];
-            }
+        {                                                
             ViewData.Clear();
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
             var illList = await PostManager.GetIllustration(_illustrationList, pPostView.Id);
@@ -323,7 +317,7 @@ namespace OneVietnam.Controllers
             }
             Post post = new Post(pPostView);           
             await PostManager.UpdateAsync(post);
-            return RedirectToAction("ShowPostDetail", "Post", new { postId = strPostId });
+            return RedirectToAction("ShowPostDetail", "Post", new { postId = pPostView.Id });
         }
         
         [System.Web.Mvc.Authorize]

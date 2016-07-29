@@ -105,9 +105,10 @@
           allowAdditions: true
             });
     $('#drPostType')
-      .dropdown({
-          
-            });
+      .dropdown({});
+
+        $("#drPostTypeEditPost").dropdown();
+
     $("#drdGender").dropdown({});
 
         $('.delete.icon.image-add')
