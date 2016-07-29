@@ -66,9 +66,7 @@
         </ul>
     </div>
 </script>
-<div class="ui grid">
-    <div class="two wide column"></div>
-    <div class="ten wide column">
+
         <div class="stamp  hides">
             @using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "CreatePostForm" }))
             {                
@@ -226,5 +224,3 @@
             }
 
         </div>
-    </div>
-</div>

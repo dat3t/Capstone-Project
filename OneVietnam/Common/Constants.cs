@@ -9,6 +9,7 @@ namespace OneVietnam
     {
         public const int ResultMaximumNumber = 7;
         public const int DescriptionMaxLength = 200;
+        public const int MessagePreviewMaxLength = 25;
         public const int TitleMaxLength = 100;
         public const int LimitedNumberDisplayUsers = 5;
         public const int LimitedNumberOfPost = 5;

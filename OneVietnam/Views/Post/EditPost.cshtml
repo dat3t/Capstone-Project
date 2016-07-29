@@ -7,21 +7,21 @@
     ViewBag.Tiltel = "EditPost";
     List<Tag> tagList = ViewData["TagList"] as List<Tag>;
     List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
-
+    List<Uri> blobs = ViewData["Blobs"] as List<Uri>;
 }
 
 <div class="ui grid">
     <div class="two wide column"></div>
 
     <div class="ten wide column">
-        @using (Html.BeginForm("EditPost", "Post", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "EditPostForm" }))
-        {
+    @using (Html.BeginForm("EditPost", "Post", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "EditPostForm" }))
+    {
 
-            if (Model != null && (Model.DeletedFlag == false) && (Model.LockedFlag == false))
+        if (Model != null && (Model.DeletedFlag == false) && (Model.LockedFlag == false))
+        {
+            if (Request.IsAuthenticated)
             {
-                if (Request.IsAuthenticated)
-                {
-                    <script>
+                <script>
                     isAuthenticated = true;
 
                     $.ajax({
@@ -33,227 +33,247 @@
                             authenticatedUser = { x: json.Location.XCoordinate, y: json.Location.YCoordinate, address: json.Location.Address };
                         }
                     });
-                    </script>
-                }
-                <script src="~/Scripts/jquery-1.10.2.js"></script>
-                <script type="text/template" id="qq-template-gallery">
-                    <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="Kéo thả ảnh vào đây">
-                        <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
-                            <span class="qq-upload-drop-area-text-selector"></span>
-                        </div>
-                        <div class="qq-upload-button-selector qq-upload-button">
-                            <div>Tải ảnh lên</div>
-                        </div>
-                        <ul class="qq-upload-list-selector qq-upload-list" role="region" aria-live="polite" aria-relevant="additions removals">
-                            <li>
-                                <div class="qq-progress-bar-container-selector qq-progress-bar-container">
-                                    <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
-                                </div>
-                                <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
-                                <div class="qq-thumbnail-wrapper">
-                                    <img class="qq-thumbnail-selector" qq-max-size="120" qq-server-scale>
-                                </div>
-                                <button type="button" class="qq-upload-cancel-selector qq-upload-cancel">X</button>
-                                <div class="qq-file-info">
-                                    <div class="qq-file-name">
-                                        <span class="qq-upload-file-selector qq-upload-file"></span>
-                                        <span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Edit filename"></span>
-                                    </div>
-                                    <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
                 </script>
-
-                <div class="ui segment">
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(false)
-                    <!-- Title -->
-                    <div class="field">
-                        <h2 class="ui medium header" style="margin-bottom: 0">* Tiêu đề</h2>
-                        <div class="ui input  focus">
-                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { placeholder = "Nhâp tiêu đề..." } })
-                        </div>
+            }
+            <script src="~/Scripts/jquery-1.10.2.js"></script>
+            <script type="text/template" id="qq-template-gallery">
+                <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="Kéo thả ảnh vào đây">
+                    <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+                        <span class="qq-upload-drop-area-text-selector"></span>
                     </div>
-
-                    <!-- Post Type and Tags -->
-                    <div class="two fields">
-                        <!-- Post Type -->
-                        <div class="field">
-                            <label>* Loại bài đăng</label>
-                            <div class="ui  selection dropdown" id="drPostTypeEditPost">
-                                @{
-                                    if (postTypes != null && postTypes.Count > 0)
-                                    {
-                                        <input type="hidden" id="PostType" name="PostType" value="@Model.PostType">
-                                        <i class="dropdown icon"></i>
-                                        <div class="text">@postTypes[0].IconText</div>
-                                        <div class="menu">
-                                            @foreach (Icon icon in postTypes)
-                                            {
-                                                <div class="item" data-value="@icon.IconId">
-                                                    @icon.IconText
-                                                </div>
-                                            }
-                                        </div>
-                                    }
-                                }
-
+                    <div class="qq-upload-button-selector qq-upload-button">
+                        <div>Tải ảnh lên</div>
+                    </div>
+                    <ul class="qq-upload-list-selector qq-upload-list" role="region" aria-live="polite" aria-relevant="additions removals">
+                        <li>
+                            <div class="qq-progress-bar-container-selector qq-progress-bar-container">
+                                <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
                             </div>
-                        </div>
-                        <!-- Tags -->
-                        <div class="field">
-                            <label>Thẻ liên quan</label>
-                            <div class="ui fluid multiple search selection dropdown">
-                                @{
-                                    string tagValue = "";
-                                    if (Model.Tags != null)
-                                    {
-                                        foreach (var tag in Model.Tags)
-                                        {
-                                            tagValue = string.IsNullOrEmpty(tagValue) ? tag.TagValue : string.Concat(tagValue + ",", tag.TagValue);
-                                        }
-                                    }
-
-                                }
-                                <input name="TagsInput" id="TagsInput" type="hidden" value="@tagValue">
-                                <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Chọn hoặc thêm thẻ mới</div>
-                                <div class="menu transition hidden" tabindex="-1">
-
-                                    @{
-                                        if (tagList != null)
-                                        {
-                                            foreach (Tag tag in tagList)
-                                            {
-                                                <div class="item" data-value="@tag.TagValue">@tag.TagText</div>
-                                            }
-                                        }
-                                    }
-
-                                </div>
+                            <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+                            <div class="qq-thumbnail-wrapper">
+                                <img class="qq-thumbnail-selector" qq-max-size="120" qq-server-scale>
                             </div>
-
-                        </div>
-
-                    </div>
-
-                    <!-- Post Status -->
-                    <div class="field">
-                        <label>* Tình trạng bài đăng</label>
-                        <div class="ui toggle checkbox">
-                            <input data-val="true" checked="@Model.Status" id="Status" name="Status" type="checkbox" value="true" onchange="ChangeStatus()" />
-                            <input name="Status" type="hidden" value="@Model.Status" />
-                            @if (Model.Status)
-                            {
-                                <label id="LblStatus">Đang hoạt động</label>
-                            }
-                            else
-                            {
-                                <label id="LblStatus">Đã đóng</label>
-                            }
-                        </div>
-                        <script>
-                            function ChangeStatus() {
-                                var chkStt = document.getElementById("Status");
-                                var lblStt = document.getElementById("LblStatus");
-                                if (chkStt.checked) {
-                                    lblStt.innerText = "Đang hoạt động";
-                                } else {
-                                    lblStt.innerText = "Đã đóng";
-                                }
-                            };
-                        </script>
-                    </div>
-
-                    <!-- Description -->
-                    <div class="field">
-                        <label>* Mô tả </label>
-                        @Html.TextAreaFor(model => model.Description, new { placeholder = "Thêm mô tả cho bài đăng", onkeydown = "setHeight()", onkeyup = "setHeight()", style = "text-align: justify; width: 100%; max-width: 100%;" })
-                        <script type="text/javascript">
-                            function setHeight() {
-                                document.getElementById('Description').style.height = document.getElementById('Description').scrollHeight + 'px';
-                            }
-                            setHeight();
-                        </script>
-                    </div>
-
-                    <!-- Post Location -->
-                    <div class="field">
-                        <label>* Địa chỉ liên hệ</label>
-                        <div class="ui floating labeled icon dropdown button" id="locationDr" style="float: left">
-                            <i class="blue world icon"></i>
-                            <span class="text"> Địa chỉ nhà của bạn</span>
-                            <div class="menu">
-                                <div class="item" onclick="getRegisteredLocation();" id="getloc">
-                                    <div class="ui red empty circular label"></div>
-                                    Địa chỉ nhà của bạn
+                            <button type="button" class="qq-upload-cancel-selector qq-upload-cancel">X</button>
+                            <div class="qq-file-info">
+                                <div class="qq-file-name">
+                                    <span class="qq-upload-file-selector qq-upload-file"></span>
+                                    <span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Edit filename"></span>
                                 </div>
-                                <div class="item" onclick="getCurrentLocation();">
-                                    <div class="ui blue empty circular label"></div>
-                                    Địa điểm hiện tại của bạn
-                                </div>
-
-                                <div class="divider"></div>
-
-                                <div class="header">
-                                    Tìm kiếm địa điểm khác
-                                </div>
-                                <div class="ui left icon input">
-                                    <i class="search icon"></i>
-                                    <input type="text" id="search-location" name="search" placeholder="Tìm kiếm địa điểm...">
-                                </div>
+                                <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
                             </div>
-                        </div>
+                        </li>
+                    </ul>
+                </div>
+            </script>
 
-                        @Html.EditorFor(model => model.PostLocation.Address, new { htmlAttributes = new { placeholder = "Địa chỉ của bạn" } })
-                        @Html.EditorFor(model => model.PostLocation.XCoordinate, new { htmlAttributes = new { style = "display: none" } })
-                        @Html.EditorFor(model => model.PostLocation.YCoordinate, new { htmlAttributes = new { style = "display: none" } })
-
-                    </div>
-
-                    <!-- Illustration -->
-                    <div class="field">
-                        <label>Ảnh minh họa</label>
-                        <div id="fine-uploader-gallery"></div>
-
-                        <script>
-                            var uploader = new qq.FineUploader({
-                                element: document.getElementById('fine-uploader-gallery'),
-                                template: 'qq-template-gallery',
-                                callbacks: {
-                                    onError: function () {
-                                        $(".grids").isotope("layout");
-                                    }
-                                }
-                            });
-
-                        </script>
-                    </div>
-
-                    <!-- Button Create and Cancel -->
-                    <div class="field" style="text-align: center">
-                        @Html.ActionLink("Hủy", "ShowPostDetail", "Post", new { postId = Model.Id }, new { @class = "ui cancel button" })
-                        <input id="btnSaveEditPost" type="submit" value="Lưu" class="ui teal button" />
-                    </div>
-
-                    <!-- User ID, Post ID, Create Date -->
-                    <div class="field" style="display: none">
-                        @Html.EditorFor(model => model.Id)
-                        @Html.EditorFor(model => model.UserId)
-                        @Html.EditorFor(model => model.CreatedDate)
-                        @Html.EditorFor(model => model.LockedFlag)
+            <div class="ui segment">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(false)
+                <!-- Title -->
+                <div class="field">
+                    <h2 class="ui medium header" style="margin-bottom: 0">* Tiêu đề</h2>
+                    <div class="ui input  focus">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { placeholder = "Nhâp tiêu đề..." } })
                     </div>
                 </div>
 
-                                        }
-                                        else
+                <!-- Post Type and Tags -->                
+                <div class="two fields">
+                    <!-- Post Type -->
+                    <div class="field">
+                        <label>* Loại bài đăng</label>
+                        <div class="ui  selection dropdown" id="drPostTypeEditPost">
+                            @{
+                                    if (postTypes != null && postTypes.Count > 0)
+                                {
+                                    <input type="hidden" id="PostType" name="PostType" value="@Model.PostType">
+                                    <i class="dropdown icon"></i>
+                                    <div class="text">@postTypes[0].IconText</div>
+                                    <div class="menu">
+                                        @foreach (Icon icon in postTypes)
                                         {
-                                            @Html.Partial("../Shared/_NoSearchResult");
-                                            }
-
+                                            <div class="item" data-value="@icon.IconId">
+                                                @icon.IconText
+                                            </div>
                                         }
-    </div>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                    <!-- Tags -->
+                    <div class="field">
+                        <label>Thẻ liên quan</label>
+                        <div class="ui fluid multiple search selection dropdown">
+                            @{
+                                string tagValue = "";
+                                if (Model.Tags != null)
+                                {
+                                    foreach (var tag in Model.Tags)
+                                    {
+                                        tagValue = string.IsNullOrEmpty(tagValue) ? tag.TagValue : string.Concat(tagValue + ",", tag.TagValue);
+                                    }
+                                }
+
+                            }
+                            <input name="TagsInput" id="TagsInput" type="hidden" value="@tagValue">
+                            <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Chọn hoặc thêm thẻ mới</div>
+                            <div class="menu transition hidden" tabindex="-1">
+
+                                @{
+                                    if (tagList != null)
+                                    {
+                                        foreach (Tag tag in tagList)
+                                        {
+                                            <div class="item" data-value="@tag.TagValue">@tag.TagText</div>
+                                        }
+                                    }
+                                }
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Post Status -->
+                <div class="field">
+                    <label>* Tình trạng bài đăng</label>
+                    <div class="ui toggle checkbox">
+                        <input data-val="true" checked="@Model.Status" id="Status" name="Status" type="checkbox" value="true" onchange="ChangeStatus()" />
+                        <input name="Status" type="hidden" value="@Model.Status" />
+                        @if (Model.Status)
+                        {
+                            <label id="LblStatus">Đang hoạt động</label>
+                        }
+                        else
+                        {
+                            <label id="LblStatus">Đã đóng</label>
+                        }
+                    </div>
+                    <script>
+                        function ChangeStatus() {
+                            var chkStt = document.getElementById("Status");
+                            var lblStt = document.getElementById("LblStatus");
+                            if (chkStt.checked) {
+                                lblStt.innerText = "Đang hoạt động";
+                            } else {
+                                lblStt.innerText = "Đã đóng";
+                            }
+                        };
+                    </script>
+                </div>
+
+                <!-- Description -->
+                <div class="field">
+                    <label>* Mô tả </label>
+                    @Html.TextAreaFor(model => model.Description, new { placeholder = "Thêm mô tả cho bài đăng", onkeydown = "setHeight()", onkeyup = "setHeight()", style = "text-align: justify; width: 100%; max-width: 100%;" })
+                    <script type="text/javascript">
+                        function setHeight() {
+                            document.getElementById('Description').style.height = document.getElementById('Description').scrollHeight + 'px';
+                        }
+                        setHeight();
+                    </script>
+                </div>
+
+                <!-- Post Location -->
+                <div class="field">
+                    <label>* Địa chỉ liên hệ</label>
+                    <div class="ui floating labeled icon dropdown button" id="locationDr" style="float: left">
+                        <i class="blue world icon"></i>
+                        <span class="text"> Địa chỉ nhà của bạn</span>
+                        <div class="menu">
+                            <div class="item" onclick="getRegisteredLocation();" id="getloc">
+                                <div class="ui red empty circular label"></div>
+                                Địa chỉ nhà của bạn
+                            </div>
+                            <div class="item" onclick="getCurrentLocation();">
+                                <div class="ui blue empty circular label"></div>
+                                Địa điểm hiện tại của bạn
+                            </div>
+
+                            <div class="divider"></div>
+
+                            <div class="header">
+                                Tìm kiếm địa điểm khác
+                            </div>
+                            <div class="ui left icon input">
+                                <i class="search icon"></i>
+                                <input type="text" id="search-location" name="search" placeholder="Tìm kiếm địa điểm...">
+                            </div>
+                        </div>
+                    </div>
+
+                    @Html.EditorFor(model => model.PostLocation.Address, new { htmlAttributes = new { placeholder = "Địa chỉ của bạn" } })
+                    @Html.EditorFor(model => model.PostLocation.XCoordinate, new { htmlAttributes = new { style = "display: none" } })
+                    @Html.EditorFor(model => model.PostLocation.YCoordinate, new { htmlAttributes = new { style = "display: none" } })
+
+                </div>
+
+                <!-- Illustration -->
+                <div class="field">
+                    <label>Ảnh minh họa</label>
+                    <div id="fine-uploader-gallery"></div>
+                    <p>@blobs.Count</p>
+                    @{
+                        if (blobs != null)
+                        {
+                            foreach (Uri link in blobs)
+                            {
+
+                                <div class="imageBlock">
+                                    <a href="@link" target="_blank"><img class="thumb" src="@link" alt="images" /></a><br />
+                                    <div class="deleteDiv"><img class="deleteIcon" src="~/Images/deleteImage.png" title="Delete Image" onclick="deleteImage('@link');" /></div>
+                                </div>
+                            }
+                        }
+                    }
+                    <script>
+                        function deleteImage(item) {
+                            var url = "/Post/DeleteImage";
+                            $.post(url, { Name: item }, function (data) {
+                                window.location.href = "/Post/EditPost";
+                            });
+                        }
+                        var uploader = new qq.FineUploader({
+                            element: document.getElementById('fine-uploader-gallery'),
+                            template: 'qq-template-gallery',
+                            callbacks: {
+                                onError: function () {
+                                    $(".grids").isotope("layout");
+                                }
+                            }
+                        });
+
+                    </script>
+                </div>
+
+               
+                <!-- Button Create and Cancel -->
+                <div class="field" style="text-align: center">
+                        @Html.ActionLink("Hủy", "ShowPostDetail", "Post", new { postId = Model.Id }, new { @class = "ui cancel button" })
+                    <input id="btnSaveEditPost" type="submit" value="Lưu" class="ui teal button" />
+                </div>
+
+                <!-- User ID, Post ID, Create Date -->
+                <div class="field" style="display: none">
+                    @Html.EditorFor(model => model.Id)
+                    @Html.EditorFor(model => model.UserId)
+                    @Html.EditorFor(model => model.CreatedDate)
+                    @Html.EditorFor(model => model.LockedFlag)
+                </div>
+            </div>
+
+                                    }
+                                    else
+                                    {
+                                        @Html.Partial("../Shared/_NoSearchResult");
+                                        }
+
+                                    }
+</div>
 
     <div class="four wide column">
 

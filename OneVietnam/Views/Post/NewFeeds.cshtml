@@ -2,9 +2,7 @@
 @using OneVietnam.Models
 
 
-
-<div class="ui grid">
- 
+<div class="ui grid" style="background-color: whitesmoke">
         <div class="two wide column">
 
 
@@ -42,7 +40,7 @@
             @*            </div>*@
             @*        </div>*@
             @*    </div>*@
-          
+
 
             <nav>
                 <ul class="filter-group">
@@ -58,7 +56,9 @@
             </div>
 
         </div>
-    <div class="ten wide column">    
+    <div class="ten wide column">
+        @Html.Partial("_CreatePost");
+        
         <div class="grids">
             <div class="grid-sizer"></div>
             <div class="gutter-sizer"></div>
@@ -67,7 +67,7 @@
             </div>
             <div class="container infinite-scroll" id="gohere"></div>
 
-            <div id="forModal" class="ui basic modal"></div>
+            <div id="forModal" class="ui basic modal" style="position: absolute !important; left: 80% !important; height: 1000px; width: 600px"></div>
 
 
 
@@ -79,7 +79,7 @@
 
     <div class="four wide column">
         <a href="javascript:" id="return-to-top"><i class="chevron up icon"></i></a>
-        
+
         <div class="ui card">
             <div class="content">
                 <div class="header">Admin post</div>

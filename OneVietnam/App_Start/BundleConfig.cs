@@ -23,13 +23,14 @@ namespace OneVietnam
                 "~/Scripts/flickity.pkgd.min.js",
                 "~/Scripts/global.js",
                 "~/Scripts/infiniteScroll.js",
-                "~/Scripts/masonry.pkgd.min.js",                
+                "~/Scripts/masonry.pkgd.min.js",
                 "~/Scripts/searchboxCreatePost.js",
                 "~/Scripts/isotope.pkgd.min.js"));
             bundles.Add(new StyleBundle("~/semantic/css").Include(
                       "~/semantic/dist/semantic.css"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/StyleSheet.css",
+                "~/Content/chatbox.css",
                 "~/Content/flickity.css",
                   "~/Content/Map/map.css",
                 "~/Content/Map/searchbox.css",
@@ -40,6 +41,9 @@ namespace OneVietnam
                 "~/Scripts/markerclusterer.js",
                 "~/Scripts/searchboxCreatePost"
                 ));
+            bundles.Add(new StyleBundle("~/signalR.js").Include(
+                "~/Scripts/jquery.signalR-2.2.0.min.js"));
+
         }
     }
 }

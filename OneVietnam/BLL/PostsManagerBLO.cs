@@ -134,5 +134,12 @@ namespace OneVietnam.BLL
             return null;
         }
 
+        public async Task<List<Post>> FindAllDescenderAsync(BaseFilter basefilter)
+        {
+            var filter = Builders<Post>.Filter.Eq("DeletedFlag", false);
+            var sort = Builders<Post>.Sort.Descending("CreatedDate");
+            return await Store.FindAllAsync(basefilter, filter, sort);
+        }
+
     }
 }

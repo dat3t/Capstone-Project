@@ -39,7 +39,7 @@ namespace OneVietnam.Models
     }
     public class PostViewModel
     {
-        public string Id { get; set; }
+        public string Id { get; set; }     
 
         [Required(ErrorMessage = "{0} chưa được điền.")]
         [DataType(DataType.Text)]
@@ -59,6 +59,8 @@ namespace OneVietnam.Models
         [Required(ErrorMessage = "{0} chưa được điền.")]
         [DataType(DataType.Text)]
         [Display(Name = "Mô tả")]
+        public string AvartarLink { get; set; }
+       
         public string Description { get; set; }
 
         [Required(ErrorMessage = "{0} chưa được điền.")]
@@ -87,7 +89,7 @@ namespace OneVietnam.Models
         [Display(Name = "Địa chỉ bài đăng")]
         public Location PostLocation { get; set; }
         public List<Illustration> Illustrations { get; set; }
-        public List<Tag> Tags { get; set; }     
+        public List<Tag> Tags { get; set; }
 
         public PostViewModel()
         {
@@ -104,11 +106,12 @@ namespace OneVietnam.Models
             Status = post.Status;
             LockedFlag = post.LockedFlag;           
             PostLocation = post.PostLocation;
-            Tags = post.Tags;            
+            Tags = post.Tags;
             Illustrations = post.Illustrations;
         }
-        public PostViewModel(Post post, string pUserName)
+        public PostViewModel(Post post, string pUserName,string postUserAvatar)
         {
+            AvartarLink = postUserAvatar;
             Id = post.Id;
             UserId = post.UserId;
             UserName = pUserName;
@@ -120,7 +123,7 @@ namespace OneVietnam.Models
             Status = post.Status;
             LockedFlag = post.LockedFlag;
             PostLocation = post.PostLocation;
-            Tags = post.Tags;            
+            Tags = post.Tags;
             Illustrations = post.Illustrations;
         }
     }

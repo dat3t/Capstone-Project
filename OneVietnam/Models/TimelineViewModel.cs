@@ -47,7 +47,7 @@ namespace OneVietnam.Models
                 PostList = new List<PostViewModel>();
                 foreach (var post in posts)
                 {
-                    PostViewModel postView = new PostViewModel(post, user.UserName);
+                    PostViewModel postView = new PostViewModel(post, user.UserName,user.Avatar);
                     PostList.Add(postView);
                 }
             }
