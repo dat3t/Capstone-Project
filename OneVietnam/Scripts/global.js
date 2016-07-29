@@ -6,15 +6,7 @@
             allowCategorySelection: true
         })
         ;
-    //function createUploader() {
-    //    var uploader = new qq.FineUploader({
-    //        element: document.getElementById('fine-uploader'),
-    //        request: {
-    //            endpoint: '@Url.Action("UploadBatchDataFile")'
-    //        }
-    //    });
-    //}
-    //window.onload = createUploader;
+       
        
         $(".ui.toggle.button")
             .state({
@@ -22,12 +14,19 @@
             inactive: 'Bật',
             active: 'Tắt'
         }
-            });
+    })
+    ;
+  //  $('.icon')
+  //.popup()
+  //  ;
 
-        $("#chatchat")
-            .click(function () {
-                $("#messagechat").slideToggle();
+    $("#messageIcon").click(function () {
+        //var div = document.getElementById("messagechat");
+        //div.innerHTML = div.innerHTML + 'Hello World';
+        $("#messages").slideToggle();
+
     });
+    //$('.icon').popup();
 
     if ($(".searchType").val() === "SearchPosts") {
         $(".ui.user").css("display", "none");
@@ -71,8 +70,7 @@
         },
         minCharacters: 3
             });
-        $('#user')
-            .search({
+    $('#user').search({
       apiSettings: {
           url: '//api.github.com/search/repositories?q={query}'
       },
@@ -99,8 +97,6 @@
 
     //ThamDTH
     $('.clearing.star.rating').rating('setting', 'clearable', true);
-
-
     $('.ui.multiple.dropdown')
       .dropdown({
           allowAdditions: true
@@ -214,4 +210,8 @@ $('.filter-group').on('click', 'a', function () {
     // use filterFn if matches value
     $grid.isotope({ filter: filterValue });
 });
+});
+$('#MessageButton').dropdown({
+});
+$('.ui.pointing.dropdown').dropdown({    
 });

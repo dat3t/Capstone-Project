@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR.Hubs;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using OneVietnam.Common;
 using OneVietnam.DTL;
 
 namespace OneVietnam.BLL
@@ -138,11 +139,42 @@ namespace OneVietnam.BLL
             await _userStore.UpdateAsync(user);
         }
 
-        //public async Task AddMessage(string userId, Message message)
-        //{
-        //    var user = await _userStore.FindByIdAsync(userId);
-        //    user.AddMessage(message);
-        //    await _userStore.UpdateAsync(user).ConfigureAwait(false);           
-        //}
+        public async Task AddMessage(string userId, string friendId, string content)
+        {
+            var sendMes = new Message(content,(int)MessageType.Send);
+            var receiveMes = new Message(content,(int)MessageType.Receive);
+
+            var user = await _userStore.FindByIdAsync(userId).ConfigureAwait(false);            
+            // add message to sender user
+            if(user.Conversations==null) user.Conversations = new SortedList<string, Conversation>();
+            if (user.Conversations.ContainsKey(friendId))
+            {
+                user.Conversations[friendId].MessageList.Add(sendMes);                
+            }
+            else
+            {
+                var messages = new Conversation {MessageList = new List<Message> {sendMes}};
+                user.Conversations.Add(friendId,messages);
+            }
+            user.Conversations[friendId].Seen = true;            
+
+            var friend = await _userStore.FindByIdAsync(friendId).ConfigureAwait(false);
+
+            if(friend.Conversations==null) friend.Conversations = new SortedList<string, Conversation>();
+            if (friend.Conversations.ContainsKey(userId))
+            {
+                friend.Conversations[userId].MessageList.Add(receiveMes);
+            }
+            else
+            {
+                var messages = new Conversation { MessageList = new List<Message> { receiveMes } };
+                friend.Conversations.Add(userId, messages);
+            }
+            friend.Conversations[userId].Seen = false;
+            // add message to receiver user            
+            // Update To Database     
+            await _userStore.UpdateAsync(user).ConfigureAwait(false);
+            await _userStore.UpdateAsync(friend).ConfigureAwait(false);
+        }
     }
 }

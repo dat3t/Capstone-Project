@@ -1,30 +1,71 @@
-﻿@using OneVietnam.Models
+﻿@using Microsoft.AspNet.Identity
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8"/>      
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - One Vietnam</title>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBiPDMBCKXsusl5-BgCw1nIyHwu5u3j8xw&libraries=places,geometry"></script>
     @Scripts.Render("~/bundles/jquery")
     @Styles.Render("~/semantic/css")
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")      
+    @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
 
-<div class="ui grid">
-    <div class="computer only row">
-        <div class="ui main menu">
-            <a href="@Url.Action("Index", "Home")" class="ui item brand">
-                <img src="~/Content/Images/logo.png"/>
-                One Vietnam
-            </a>
-            @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new {@class = "ui item"})
-            <a href="" class="ui item">Bảng Tin</a>
-            <div class="right menu">
-                <div class="item">
-                    <select class="ui dropdown searchType">
+    <div class="ui grid">
+        <div class="computer only row">
+            <div class="ui main menu" style="background: rgba(2, 35, 20, 0.7)">
+                <a href="@Url.Action("Index", "Home")" class="ui active item button">
+                    <img class="ui mini image" src="~/Content/Images/Logo.png" />
+                    <span style="color: white">One Vietnam</span>
+                </a>
+                @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item", @style = "color: white" })
+                <a href="" class="ui item" style="color: white">Bảng Tin</a>
+                <div class="right menu">
+                    <div class="item">
+                        <select class="ui dropdown searchType">
+                            <option value="SearchPosts" selected="selected">
+                                Bài Viết
+                            </option>
+                            <option value="SearchUsers">
+                                Bạn Bè
+                            </option>
+                        </select>
+                        <div class="ui search post" id="SearchPosts">
+                            <div class="ui left icon input" style="width: 300px !important">
+                                <i class="newspaper icon"></i>
+                                <input class="prompt" id="textPostSearch" type="text" placeholder="Tìm Kiếm...">
+                            </div>
+                            <div class="force100 results"></div>
+                        </div>
+                        <div class="ui search user " id="SearchUsers">
+                            <div class="ui left icon input" style="width: 300px !important">
+                                <i class="users icon"></i>
+                                <input class="prompt" id="textUsersSearch" type="text" placeholder="Tìm Kiếm...">
+                            </div>
+                            <div class="force100 results"></div>
+                        </div>
+                    </div>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </div>
+        <div class="tablet mobile only row" style="padding-bottom: 0em !important;">
+            <div class="ui main menu">
+                <a href="@Url.Action("Index", "Home")" class="ui item brand">
+                    <img src="~/Content/Images/logo.png" />
+                    One Vietnam
+                </a>
+                <div class="right menu open">
+                    <a href="" class="menu item">
+                        <i class="sidebar icon"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ui fluid vertical menu open">
+                <div class="ui inline">
+                    <select class="ui dropdown searchType ">
                         <option value="SearchPosts" selected="selected">
                             Bài Viết
                         </option>
@@ -32,84 +73,81 @@
                             Bạn Bè
                         </option>
                     </select>
-                    <div class="ui search post" id="SearchPosts">
+                    <div class="ui search post" id="SearchPostsM">
                         <div class="ui left icon input" style="width: 300px !important">
                             <i class="newspaper icon"></i>
-                            <input class="prompt" id="textPostSearch" type="text" placeholder="Tìm Kiếm...">
+                            <input class="prompt" id="textPostSearch1" type="text" placeholder="Tìm Kiếm...">
                         </div>
                         <div class="force100 results"></div>
                     </div>
-                    <div class="ui search user " id="SearchUsers">
+                    <div class="ui search user " id="SearchUsersM">
                         <div class="ui left icon input" style="width: 300px !important">
                             <i class="users icon"></i>
-                            <input class="prompt" id="textUsersSearch" type="text" placeholder="Tìm Kiếm...">
+                            <input class="prompt" id="textUsersSearch1" type="text" placeholder="Tìm Kiếm...">
                         </div>
                         <div class="force100 results"></div>
                     </div>
                 </div>
+                @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item" })
+                <a href="" class="ui item">Bảng Tin</a>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-    <div class="tablet mobile only row" style="padding-bottom: 0em !important;">
-        <div class="ui main menu">
-            <a href="@Url.Action("Index", "Home")" class="ui item brand">
-                <img src="~/Content/Images/logo.png"/>
-                One Vietnam
-            </a>
-            <div class="right menu open">
-                <a href="" class="menu item">
-                    <i class="sidebar icon"></i>
-                </a>
-            </div>
-        </div>
-        <div class="ui fluid vertical menu open">
-            <div class="ui inline">
-                <select class="ui dropdown searchType ">
-                    <option value="SearchPosts" selected="selected">
-                        Bài Viết
-                    </option>
-                    <option value="SearchUsers">
-                        Bạn Bè
-                    </option>
-                </select>
-                <div class="ui search post" id="SearchPostsM">
-                    <div class="ui left icon input" style="width: 300px !important">
-                        <i class="newspaper icon"></i>
-                        <input class="prompt" id="textPostSearch1" type="text" placeholder="Tìm Kiếm...">
-                    </div>
-                    <div class="force100 results"></div>
-                </div>
-                <div class="ui search user " id="SearchUsersM">
-                    <div class="ui left icon input" style="width: 300px !important">
-                        <i class="users icon"></i>
-                        <input class="prompt" id="textUsersSearch1" type="text" placeholder="Tìm Kiếm...">
-                    </div>
-                    <div class="force100 results"></div>
-                </div>
-            </div>
-            @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new {@class = "ui item"})
-            <a href="" class="ui item">Bảng Tin</a>
-            @Html.Partial("_LoginPartial")
-           
-          
-        </div>
+    <div class="ui fluid container" style="height: 100%;" id="bodypage">
+        @RenderBody()
+        @if (Request.IsAuthenticated)
+        {
+            <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+            <script src="~/signalr/hubs"></script>
+            <script type="text/javascript" src="~/Scripts/Chat.js"></script>
+            <script>
+                var chat;
+                $(function () {
+                    // Reference the auto-generated proxy for the hub.
+                    if (typeof (chat) === "undefined") {
+                        chat = $.connection.oneHub;
+                    }
+                    //Create a function that the hub can call back to display messages.
+                    chat.client.addChatMessage = function (id, name, message) {
+                        register_popup(id, name);
+                        // Add the message to the page.
+                        $("#" + id + "Conversation").append('<div class="item"><div class="content" style="margin-left:0.5em"><p class="receiveMessage">' + htmlEncode(message) + '</p></div></div>');
+                        $("#" + id + "Conversation").scrollTop(document.getElementById(id + "Conversation").scrollHeight);
+
+                    };
+                    // Start the connection.
+                    $.connection.hub.start().done(function () {
+                    });
+                });
+                $(function () {
+                    var controller = "/Home/GetMessageNo";
+                    var data = {
+                        id: '@User.Identity.GetUserId()'
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        url: controller,
+                        data: data,
+                        success: function (data, textstatus) {
+                            if (data == '') {
+                                $('#MessageNotification').hide();
+                            } else {
+                                $('#MessageNotification').show();
+                                $('#MessageNotification').text(data);
+                            }                            
+                        }
+                    });
+                });
+            </script>
+        }
+
+
     </div>
-</div>
-<div class="ui fluid container" style="height: 100%;">
-    <div class="ten wide column">@Html.Partial("_CreatePost", new CreatePostViewModel())</div>
-   
-    @RenderBody()
-    <hr/>
-    <footer>
-        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-    </footer>
-</div>
+    @Scripts.Render("~/bundles/semantic")
+    @Scripts.Render("~/bundles/Scripts")
+    @Scripts.Render("~/Scripts/Map")
+    @RenderSection("scripts", required: false)
 
-
-@Scripts.Render("~/bundles/semantic")
-@Scripts.Render("~/bundles/Scripts")
-@Scripts.Render("~/Scripts/Map")
-@RenderSection("scripts", required: false)
 </body>
 </html>
