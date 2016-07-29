@@ -16,6 +16,7 @@ using Ninject.Activation;
 using OneVietnam.Common;
 using OneVietnam.DAL;
 using OneVietnam.DTL;
+using OneVietnam.Models;
 using Tag = OneVietnam.DTL.Tag;
 
 namespace OneVietnam.BLL

@@ -90,7 +90,7 @@
                             <label>* Loại bài đăng</label>
                             <div class="ui  selection dropdown" id="drPostType">
                                 @{
-                                    if (postTypes != null)
+                                    if (postTypes != null && postTypes.Count > 0)
                                     {
                                         <input type="hidden" id="PostType" name="PostType" value="@postTypes[0].IconId">
                                         <i class="dropdown icon"></i>

@@ -4,16 +4,23 @@
 @{
     ViewBag.Title = "ShowPostDetail";
 }
-<script src="~/Scripts/jquery-1.10.2.js"></script>
-<div style="margin: auto; width: 40%">
-    @if (Model != null && (Model.DeletedFlag == false) && (Model.LockedFlag == false))
-    {
-        @Html.Partial("../Post/_ShowPostDetail", Model)
-    }
-    else
 
-    {
-        @Html.Partial("../Shared/_NoSearchResult")
-    }
+@if (Model != null && (Model.DeletedFlag == false) && (Model.LockedFlag == false))
+{
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <div class="ui grid">
+        <div class="two wide column"></div>
+        <div class="ten wide column">
+            @Html.Partial("../Post/_ShowPostDetail", Model)
+        </div>
+        <div class="four wide column"></div>
+    </div>           
+}
+else
+{
+    @Html.Partial("../Shared/_NoSearchResult")
+}
 
-</div>
+
+
+
