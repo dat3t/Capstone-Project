@@ -30,11 +30,11 @@ function checkAuthenticated() {
     };
 
     var myhomeicon = {
-        url: "../Content/Icon/myhome.png",
+        url: "../Content/Icon/myhome2.png",
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
 
 
@@ -85,14 +85,10 @@ function initialize() {
     //Declare a bound
     bounds = new google.maps.LatLngBounds();
 
-
-
-    //alert(bounds);
-
     google.maps.event.addListener(map, 'bounds_changed', function () {
 
         bounds = map.getBounds();
-       // var centerOfCurrentBound = bounds.getCenter();
+        // var centerOfCurrentBound = bounds.getCenter();
         //alert(bounds);
         //alert(bounds.getCenter());
         //alert(bounds.getCenter().lat());
@@ -240,7 +236,7 @@ function initialize() {
             //    scaledSize: new google.maps.Size(25, 25)
             //};
 
-            // Create a marker for each place.
+            //// Create a marker for each place.
             //marker2.push(new google.maps.Marker({
             //    map: map,
             //    icon: icon,
@@ -258,198 +254,6 @@ function initialize() {
         //map.setZoom(12);
         map.fitBounds(bounds);
     });
-
-
-    //// Event that closes the Info Window with a click on the map
-    //google.maps.event.addListener(map, 'click', function () {
-    //    infowindow.close();
-    //});
-
-    // *
-    // START INFOWINDOW CUSTOMIZE.
-    // The google.maps.event.addListener() event expects
-    // the creation of the infowindow HTML structure 'domready'
-    // and before the opening of the infowindow, defined styles are applied.
-    // *
-    // A new Info Window is created and set content
-    infowindow = new google.maps.InfoWindow({
-        //content: content,
-        //content: '@Html.Partial("CustomInfoWindow")',
-        // Assign a maximum value for the width of the infowindow allows
-        // greater control over the various content elements
-        map:map,
-        maxWidth: 350
-    });
-    //google.maps.event.addListener(infowindow, 'domready', function () {
-    //    alert(1);
-    //    // Reference to the DIV that wraps the bottom of infowindow--
-    //    var iwOuter = $('.gm-style-iw');
-
-    //    /* Since this div is in a position prior to .gm-div style-iw.
-    //     * We use jQuery and create a iwBackground variable,
-    //     * and took advantage of the existing reference .gm-style-iw for the previous div with .prev().
-    //    */
-    //    iwOuter.children(':nth-child(1)').css({ 'max-width': '350px' });
-    //    var iwBackground = iwOuter.prev();
-
-    //    //iwBackground.parent().css({ height: '218px' });
-    //    iwBackground.parent().css({ width: '350px' });
-    //    //iwBackground.parent().css({ bottom: '218px' });
-
-    //    // Removes background shadow DIV
-    //    iwBackground.children(':nth-child(2)').css({ 'display': 'none' });
-
-    //    // Removes white background DIV
-    //    //iwBackground.children(':nth-child(4)').css({ width: '350px !important' });
-    //    //iwBackground.children(':nth-child(4)').css({ height: '218px !important' });
-    //    iwBackground.children(':nth-child(4)').css({ 'display': 'none' });
-
-    //    // Moves the infowindow 115px to the right.
-    //    iwOuter.parent().parent().css({ left: '115px' });
-
-    //    // Moves the shadow of the arrow 76px to the left margin.
-    //    iwBackground.children(':nth-child(1)').attr('style', function (i, s) { return s + 'left: 76px !important;' });
-
-    //    // Moves the arrow 76px to the left margin.
-    //    iwBackground.children(':nth-child(3)').attr('style', function (i, s) { return s + 'left: 76px !important;' });
-
-    //    // Changes the desired tail shadow color.
-    //    iwBackground.children(':nth-child(3)').find('div').children().css({ 'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index': '1' });
-
-    //    // Reference to the div that groups the close button elements.
-    //    var iwCloseBtn = iwOuter.next();
-
-    //    // Apply the desired effect to the close button
-    //    iwCloseBtn.css({ opacity: '1', right: '38px', top: '3px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9' });
-
-    //    // If the content of infowindow not exceed the set maximum height, then the gradient is removed.
-    //    //if ($('.iw-content').height() < 140) {
-    //    //    $('.iw-bottom-gradient').css({ display: 'none' });
-    //    //}
-
-    //    //// The API automatically applies 0.7 opacity to the button after the mouseout event. This function reverses this event to the desired value.
-    //    //iwCloseBtn.mouseout(function () {
-    //    //    $(this).css({ opacity: '1' });
-    //    //});
-    //    iwCloseBtn.css({ 'display': 'none' });
-    //});
-
-    marker6.addListener('mouseover', function () {
-        infowindow.open(map, this);
-    });
-
-    // assuming you also want to hide the infowindow when user mouses-out
-    marker6.addListener('mouseout', function () {
-        infowindow.close();
-    });
-
-    //google.maps.event.addListener(markerCluster, "mouseover", function (cluster) {
-
-    //    var markers = markerCluster.getMarkers();
-    //    var content = '';
-    //    //$.each(markers, function () {
-    //    //    content += this.get('content');
-    //    //});
-       
-    //    var info = new google.maps.MVCObject;
-    //    info.set('position', cluster.getCenter());
-
-    //    //infowindow = new google.maps.InfoWindow();
-    //   // infowindow.close();
-    //    infowindow.setContent("<div style='width:100px;height:100px;' id='contentInsideMap' class='ui avatar image'>");
-    //   // infowindow.setContent("");
-    //    infowindow.open(map, info);
-    //    $(".gm-style-iw").next("div").hide();
-     
-    //    // Event that closes the Info Window with a click on the map
-    //    //google.maps.event.addListener(infowindow, 'mouseout', function () {
-    //    //    infowindow.close();
-    //    //});
-         
-    //    //google.maps.event.addListener(infowindow, "mouseover", function () {
-    //        //infowindow.open(map, this);
-    //    //});
-    //    $(document).on('mouseenter', '#contentInsideMap', function () {
-    //        // do something
-    //          infowindow.open(map, info);
-    //    });
-
-    //    $(document).on('mouseleave', '#contentInsideMap', function () {
-    //        // do something
-    //        infowindow.close();
-    //    });
-    //});
-    //google.maps.event.addListener(markerCluster, 'mouseout', function () {
-    //    setTimeout(function () { infowindow.close(); }, 3000);
-
-    //});
- 
-    //$(document).on('mouseenter', '.cluster', function (cluster) {
-    //    alert(1);
-    //    var markers = markerCluster.getMarkers();
-    //    var content = '';
-    //    //$.each(markers, function () {
-    //    //    content += this.get('content');
-    //    //});
-    //   var  marke = new google.maps.Marker();
-        
-    //   marke = markerCluster.getMarkers
-    //    var info = new google.maps.MVCObject;
-    //    info.set('position', cluster.getCenter());
-
-    //    //infowindow = new google.maps.InfoWindow();
-    //    // infowindow.close();
-    //    infowindow.setContent("<div style='width:100px;height:100px;' id='contentInsideMap' class='ui avatar image'>");
-    //    // infowindow.setContent("");
-    //    infowindow.open(map, info);
-    //    $(".gm-style-iw").next("div").hide();
-
-    //    // Event that closes the Info Window with a click on the map
-    //    //google.maps.event.addListener(infowindow, 'mouseout', function () {
-    //    //    infowindow.close();
-    //    //});
-
-    //    //google.maps.event.addListener(infowindow, "mouseover", function () {
-    //    //infowindow.open(map, this);
-    //    //});
-    //    //$(document).on('mouseenter', '#contentInsideMap', function () {
-    //    //    // do something
-    //    //    infowindow.open(map, info);
-    //    //});
-
-    //    //$(document).on('mouseleave', '#contentInsideMap', function () {
-    //    //    // do something
-    //    //    infowindow.close();
-    //    //});
-    //});
-   
-
-    //google.maps.event.addListener(map, 'mousemove', function (event) {
-    //    infowindow.close();
-    //});
-    //google.maps.event.addListener(markerCluster, "mouseout", function () {
-
-       
-    //    infowindow.close();
-      
-
-    //});
-    
-        // Automatically center the map fitting all markers on the screen
-    //    map.fitBounds(bounds);
-    //}
-
-    //google.maps.event.addListenerOnce(map, 'bounds_changed', function () {
-    //  //  map.setZoom(14);
-
-    //    map.setCenter({ lat: 36.238666, lng: 137.96902209999996 });
-    //});
-
-    // This event expects a click on a marker
-    // When this event is fired the Info Window is opened.
-    //google.maps.event.addListener(marker, 'click', function () {
-    //    infowindow.open(map, marker);
-    //});
 
 
 }
@@ -546,10 +350,10 @@ function showLGBT() {
 
 function showAccommodation() {
     setMapToAMarkerCluster(type0MarkerCluster);
-   
+
     bounds.extend(calculateNearestMarker(postType0));
     map.fitBounds(bounds);
-    
+
 }
 
 function calculateNearestMarker(listLocation) {
@@ -571,7 +375,7 @@ function calculateNearestMarker(listLocation) {
 
     return position;
 
-  
+
 }
 function showJobOffer() {
     setMapToAMarkerCluster(type1MarkerCluster);
@@ -587,7 +391,7 @@ function showFurnitureOffer() {
 
 function showHandGoodsOffer() {
     setMapToAMarkerCluster(type3MarkerCluster);
-    bounds.extend(calculateNearestMarker(postType03));
+    bounds.extend(calculateNearestMarker(postType3));
     map.fitBounds(bounds);
 }
 
@@ -610,7 +414,7 @@ function createListUserMarkers() {
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(allUsers[i].x, allUsers[i].y);
@@ -618,7 +422,7 @@ function createListUserMarkers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            title: allUsers[i].userID,
+            title: "Nhấp để xem chi tiết",
             icon: icon
         });
         listUserMarkers.push(marker);
@@ -632,16 +436,6 @@ function createListUserMarkers() {
             }
         })(marker, i));
 
-        // add the double-click event listener
-        //google.maps.event.addListener(marker, 'dblclick', function (event) {
-        //    map = marker.getMap();
-        //    map.setCenter(marker.getPosition()); // set map center to marker position
-        //    smoothZoom(map, 10, map.getZoom()); // call smoothZoom, parameters map, final zoomLevel, and starting zoom level
-        //});
-
-        // Automatically center the map fitting all markers on the screen
-        //    map.fitBounds(bounds);
-
     }
 }
 
@@ -651,7 +445,7 @@ function createListMaleMarkers() {
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     var length = males.length;
     for (var i = 0; i < length; i++) {
@@ -660,7 +454,7 @@ function createListMaleMarkers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            // title: array[i].address,
+            title: "Nhấp để xem chi tiết",
             icon: icon
         });
         listMaleMarkers.push(marker);
@@ -683,7 +477,7 @@ function createListFemaleMarkers() {
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     var length = females.length;
     for (var i = 0; i < length; i++) {
@@ -692,7 +486,7 @@ function createListFemaleMarkers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            //  title: array[i].address,
+            title: "Nhấp để xem chi tiết",
             icon: icon
         });
         listFemaleMarkers.push(marker);
@@ -714,7 +508,7 @@ function createListLGBTMarkers() {
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     var length = LGBT.length;
     for (var i = 0; i < length; i++) {
@@ -723,7 +517,7 @@ function createListLGBTMarkers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            //   title: array[i].address,
+            title: "Nhấp để xem chi tiết",
             icon: icon
         });
         listLGBTMarkers.push(marker);
@@ -731,7 +525,6 @@ function createListLGBTMarkers() {
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                // infowindow.setContent(infoWindowContent[i][0]);
                 AjaxDisplayString(userInfoWindow, marker)
                 // infowindow.open(map, marker);
             }
@@ -754,7 +547,7 @@ function createListType0Markers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            // title: postType0[i].address,
+            title: "Nhấp để xem chi tiết",
             icon: icon
         });
         listType0Markers.push(marker);
@@ -762,13 +555,7 @@ function createListType0Markers() {
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                // infowindow.setContent(infoWindowContent[i][0]);
-                // AjaxDisplayString(userInfoWindow, marker)
-                //getPostInfo(postType0[i].postID, 0);
-                //getPostInfo2(postType0[i].postID);
                 getPostInfo(postType0[i].postID);
-                //callInfo(postType0[i].postID);
-                //infowindow.open(map, marker);
             }
         })(marker, i));
 
@@ -778,11 +565,11 @@ function createListType0Markers() {
 
 function createListType1Markers() {
     var icon = {
-        url: "../Content/Icon/job.png",
+        url: "../Content/Icon/job5.png",
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     var length = postType1.length;
     for (var i = 0; i < length; i++) {
@@ -791,7 +578,7 @@ function createListType1Markers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            //title: postType1[i].address,
+            title: "Nhấp để xem chi tiết",
             icon: icon
         });
         listType1Markers.push(marker);
@@ -799,10 +586,7 @@ function createListType1Markers() {
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                // infowindow.setContent(infoWindowContent[i][0]);
-                //AjaxDisplayString(userInfoWindow, marker)
-                //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
-                infowindow.open(map, marker);
+                getPostInfo(postType1[i].postID);
             }
         })(marker, i));
 
@@ -813,11 +597,11 @@ function createListType1Markers() {
 
 function createListType2Markers() {
     var icon = {
-        url: "../Content/Icon/free.png",
-        size: new google.maps.Size(71, 71),
+        url: "../Content/Icon/free5.png",
+        size: new google.maps.Size(50, 50),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     var length = postType2.length;
     for (var i = 0; i < length; i++) {
@@ -826,7 +610,7 @@ function createListType2Markers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            //title: postType1[i].address,
+            title: "Nhấp để xem chi tiết",
             icon: icon
         });
         listType2Markers.push(marker);
@@ -834,10 +618,7 @@ function createListType2Markers() {
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                // infowindow.setContent(infoWindowContent[i][0]);
-                //AjaxDisplayString(userInfoWindow, marker)
-                //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
-                infowindow.open(map, marker);
+                getPostInfo(postType2[i].postID);
             }
         })(marker, i));
 
@@ -848,11 +629,11 @@ function createListType2Markers() {
 
 function createListType3Markers() {
     var icon = {
-        url: "../Content/Icon/ship.png",
+        url: "../Content/Icon/ship4.jpg",
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     var length = postType3.length;
     for (var i = 0; i < length; i++) {
@@ -861,7 +642,7 @@ function createListType3Markers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            //title: postType1[i].address,
+            title: "Nhấp để xem chi tiết",
             icon: icon
         });
         listType3Markers.push(marker);
@@ -869,10 +650,7 @@ function createListType3Markers() {
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                // infowindow.setContent(infoWindowContent[i][0]);
-                //AjaxDisplayString(userInfoWindow, marker)
-                //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
-                infowindow.open(map, marker);
+                getPostInfo(postType3[i].postID);
             }
         })(marker, i));
 
@@ -887,7 +665,7 @@ function createListType4Markers() {
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     var length = postType4.length;
     for (var i = 0; i < length; i++) {
@@ -904,10 +682,7 @@ function createListType4Markers() {
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                // infowindow.setContent(infoWindowContent[i][0]);
-                //AjaxDisplayString(userInfoWindow, marker)
-                //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
-                infowindow.open(map, marker);
+                getPostInfo(postType4[i].postID);
             }
         })(marker, i));
 
@@ -918,11 +693,11 @@ function createListType4Markers() {
 
 function createListType5Markers() {
     var icon = {
-        url: "../Content/Icon/help.png",
+        url: "../Content/Icon/help3.png",
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     var length = postType5.length;
     for (var i = 0; i < length; i++) {
@@ -939,9 +714,7 @@ function createListType5Markers() {
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                //   createPostInfoWindowContent(postType1[i].username, postType1[i].postType, "Giới thiệu arubaito", postType1[i].address);
-                //    map2 = marker.getMap();
-                infowindow.open(map, marker);
+                getPostInfo(postType5[i].postID);
             }
         })(marker, i));
 
@@ -949,7 +722,6 @@ function createListType5Markers() {
 }
 
 function handleLocationError(browserHasGeolocation, message, pos) {
-    //infoWindow.setPosition(pos);
     alert(message);
 }
 
@@ -1135,19 +907,10 @@ function getUserInfo(userId) {
             alert(xhr.responseText);
         }
     });
-  
+
 }
 
 function getPostInfo(postID) {
-    //$.ajax({
-    //    url: 'GetPostInfo?postId=' + postID,
-    //    type: 'GET',
-    //    contentType: 'application/json;',
-    //    dataType: 'json',
-    //    success: function (json) {
-    //        createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
-    //    }
-    //});
     $.ajax({
         url: '/Map/GetPostPartialView?postId=' + postID,
         type: 'GET',
@@ -1161,7 +924,6 @@ function getPostInfo(postID) {
                 $("#postModal").html(result);
 
                 $("#postModal").modal('show');
-
                 // alert(result);
             }
 
@@ -1172,55 +934,21 @@ function getPostInfo(postID) {
     });
 }
 
-//function getPostInfo2(postID) {
-//    $.ajax({
-//        url: '/Map/UserAndPostInfo?postId=' + postID,
-//        type: 'GET',
-//        dataType: 'text',
-//        success: function (result) {
-//            // createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
-//            // alert(1);
-//            if (result != '') {
-//                $("#userModal").empty();
-
-//                $("#userModal").html(result);
-//                //$("#zzz").find("script").each(function (i) {
-//                //    eval($(this).text());
-//                //    //alert(a);
-//                //});
-//                //alert(result);
-//            }
-
-//            // alert(result);
-//        },
-//        error: function (xhr, status, error) {
-//            alert(xhr.responseText);
-//        }
-//    });
-
-//    $("#userModal").modal('show');
-
-
-//}
-
-function callInfo(postID) {
-    $.ajax({
-        url: 'GetPostInfo?postId=' + postID,
-        type: 'GET',
-        context: document.body,
-        success: function (json) {
-            // createPostInfoWindowContent(json.UserName, postType, json.Title, json.Address);
-            $('.ui.modal')
-            .modal('show')
-            ;
-
-
-            //document.getElementById("abc").innerText = json.UserName;
-        },
-        error: function (arg) {
-            alert("Error");
-        }
-    });
+function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail) {
+    switch (PostType) {
+        case 0: showAccommodation(); break;
+        case 1: showJobOffer(); break;
+        case 2: showFurnitureOffer(); break;
+        case 3: showHandGoodsOffer(); break;
+        case 4: showTradeOffer(); break;
+        case 5: showSOS(); break;
+    }
+    map.setZoom(14);
+    map.setCenter({ lat: Lat, lng: Lng });
+    if (isCallFromPostDetail != 1) {
+        setTimeout(function () { getPostInfo(PostId); }, 1000);
+    }
+   
 
 }
 

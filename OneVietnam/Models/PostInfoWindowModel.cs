@@ -15,7 +15,7 @@ namespace OneVietnam.Models
         public string Address { get; set; }
         public string Description { get; set; }
         public Location PostLocation { get; set; }
-
+        public int PostType { get; set; }
          
     }
 }

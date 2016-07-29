@@ -1,5 +1,7 @@
 ﻿
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -8,6 +10,8 @@ using System.Web.Script.Serialization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.SignalR;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using OneVietnam.BLL;
 using OneVietnam.Common;
 using OneVietnam.DTL;
@@ -17,10 +21,12 @@ namespace OneVietnam.Controllers
 {
     public class PostController : Controller
     {
+
         public ActionResult Index()
         {
             return View();
         }
+
         public static bool CreatedPost = false;
         public static PostViewModel PostView;        
 
@@ -73,8 +79,18 @@ namespace OneVietnam.Controllers
                 return _iconManager ?? HttpContext.GetOwinContext().Get<IconManager>();
             }
             private set { _iconManager = value; }
-        }           
+        }
         public List<Tag> TagList => TagManager.FindAllAsync().Result;
+
+        private ReportManager _reportManager;
+        public ReportManager ReportManager
+        {
+            get
+            {
+                return _reportManager ?? HttpContext.GetOwinContext().Get<ReportManager>();
+            }
+            private set { _reportManager = value; }
+        }
 
         public List<Icon> IconList
         {
@@ -85,7 +101,6 @@ namespace OneVietnam.Controllers
             }            
         }
 
-
         public void _CreatePost()
         {            
             if (TagList != null)
@@ -95,59 +110,52 @@ namespace OneVietnam.Controllers
             if (IconList != null)
             {
                 ViewData["PostTypes"] = IconList;
-            }
-            
+            }            
         }
-        [System.Web.Mvc.Authorize]
-        public ActionResult CreatePost()
-        {            
-            if (TagList != null)
-            {
-                ViewData["TagList"] = TagList;
-            }                                               
-            if (IconList != null)
-            {
-                ViewData["PostTypes"] = IconList;
-            }
-            return View();
-        }        
+
+        private HttpFileCollectionBase _illustrationList;
+
+        public void GetIllustrations()
+        {
+            _illustrationList = Request.Files;
+            Session["Illustrations"] = _illustrationList;
+        }
+
         [HttpPost]
-        [AllowAnonymous]
+        [System.Web.Mvc.Authorize]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreatePost(CreatePostViewModel p)
         {
-            ViewData.Clear();                  
-            var tagList = await AddAndGetAddedTags(Request, TagManager, "TagsInput");
-            var illList = GetAddedImage(Request, "Img", "Des");
-            if (tagList != null)
-            {
-                p.Tags = tagList;
-            }
-
-            if (illList != null)
-            {
-                p.Illustrations = illList;
-            }
-            var post = new Post(p)  
+            ViewData.Clear();
+            var post = new Post(p)
             {
                 CreatedDate = System.DateTime.Now,
                 UserId = User.Identity.GetUserId()
             };
+            var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
+            _illustrationList = (HttpFileCollectionBase) Session["Illustrations"];
+            var illList = await PostManager.GetIllustration(_illustrationList,  post.Id);
+            Session["Illustrations"] = null;
+            _illustrationList = null;
+            if (tagList != null)
+            {
+                post.Tags = tagList;
+            }
 
+            if (illList != null)
+            {
+                post.Illustrations = illList;
+            }            
             await PostManager.CreateAsync(post);
             CreatedPost = true;
             PostView = new PostViewModel(post);
-            return RedirectToAction("ShowPostDetail", "Post", new { postId = post.Id });
-        }
-        //public async Task<ActionResult> TimeLine()
-        //{
-        //    return RedirectToAction("GetPosts");
-        //}
+            return RedirectToAction("NewFeeds", "Post");
+        }        
 
         public const int RecordsPerPage = 60;
 
         public async Task<ActionResult> Newfeeds(int? pageNum)
-        {
+        {            
             if (TagList != null)
             {
                 ViewData["TagList"] = TagList;
@@ -163,14 +171,14 @@ namespace OneVietnam.Controllers
             List<Post> posts;
             List<PostViewModel> list;
             if (Request.IsAjaxRequest())
-            {                
+                {
                 filter = new BaseFilter {CurrentPage = pageNum.Value};
                 posts = await PostManager.FindAllAsync(filter);
                 if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
                 list = posts.Select(p => new PostViewModel(p)).ToList();                
                 //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
                 return PartialView("_PostRow", list);
-            }
+                }
             //else
             //{
             //    // LoadAllPostsToSession
@@ -178,7 +186,7 @@ namespace OneVietnam.Controllers
             //    var posts = list;
             //    int postIndex = 1;
             //    Session["Posts"] = posts.ToDictionary(x => postIndex++, x => x);
-
+            
             //    ViewBag.Posts = GetRecordsForPage(pageNum.Value);
             //    return View();
             //}
@@ -193,7 +201,7 @@ namespace OneVietnam.Controllers
         /// Get posts for pagenum
         /// </summary>
         /// <param name="pageNum"></param>
-        /// <returns>List<Post></returns>
+        /// <returns>List Post></returns>
         public async Task<List<Post>> GetRecordsForPage(int pageNum)
         {
             //Dictionary<int, Post> posts = (Session["Posts"] as Dictionary<int, Post>);
@@ -208,51 +216,10 @@ namespace OneVietnam.Controllers
             var filter = new BaseFilter {CurrentPage = pageNum};
             return await PostManager.FindAllAsync(filter);
         }
-        public async Task<ActionResult> ShowPost()
+
+        public async Task<ActionResult> _ShowPost(string postId)
         {
             //List<Post> list = await PostManager.FindByUserId(User.Identity.GetUserId());
-            List<Post> list = await PostManager.FindAllAsync(false);
-            List<PostViewModel> pViewList = list.Select(post => new PostViewModel(post)).ToList();
-            return View(pViewList);
-        }
-        //ThamDTH Create
-        [HttpGet]
-        public async Task<ActionResult> _ShowPostDetail(string postId)
-        {
-            if (!string.IsNullOrEmpty(postId))
-            {
-                Post post = await PostManager.FindByIdAsync(postId);
-                if (post != null)
-                {
-                    if (TagList != null)
-                    {
-                        ViewData["TagList"] = TagList;
-                    }
-                    if (IconList != null)
-                    {
-                        ViewData["PostTypes"] = IconList;
-                    }
-                    ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
-                    if (postUser != null)
-                    {
-                        PostViewModel showPost = new PostViewModel(post, postUser.UserName);
-                        return PartialView("../Post/_ShowPostDetail", showPost);
-                    }
-                }
-            }
-            return View();
-        }
-        //ThamDTH Create
-        public async Task<ActionResult> ShowPostDetail(string postId)
-        {
-            if (TagList != null)
-            {
-                ViewData["TagList"] = TagList;
-            }
-            if (IconList != null)
-            {
-                ViewData["PostTypes"] = IconList;
-            }
             Post post = await PostManager.FindByIdAsync(postId);
             if (post != null)
             {
@@ -262,65 +229,83 @@ namespace OneVietnam.Controllers
 
                     PostViewModel showPost = new PostViewModel(post, postUser.UserName);
 
-                    return View(showPost);
+                    return PartialView(showPost);
                 }
             }
+            return PartialView();
+        }
+
+        public async Task<ActionResult> ShowPostDetail(string postId)
+        {
+                    if (TagList != null)
+                    {
+                        ViewData["TagList"] = TagList;
+                    }
+                    if (IconList != null)
+                    {
+                        ViewData["PostTypes"] = IconList;
+                    }
+            Post post = await PostManager.FindByIdAsync(postId);
+            if (post != null)
+            {
+                    ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
+                    if (postUser != null)
+                    {
+
+                        PostViewModel showPost = new PostViewModel(post, postUser.UserName);
+
+                        return View(showPost);
+                    }
+                }
             return View();
         }
 
-        //ThamDTH Create
         [HttpPost]
         public ActionResult ShowPostDetail(PostViewModel pPostView)
 
-        {
+        {            
             ViewData.Clear();
             string strPostId = "";
             if (Request.Form.Count > 0)
             {
                 strPostId = Request.Form["PostId"];
 
-            }
+            }                                    
             return RedirectToAction("DeletePost", "Post", new { postId = strPostId });
         }
-
-        //ThamDTH Create        
+  
         [HttpPost]
         public async Task ReportPost(string userId, string postId, string description)
         {
-            Post post = await PostManager.FindByIdAsync(postId);
             Report report = new Report(userId, postId, description);
-            post.AddReport(report);
-            await PostManager.UpdateAsync(post);
+            await ReportManager.CreateAsync(report);
             //TODO send notification to Mod
         }
 
+        [System.Web.Mvc.Authorize]        
         public async Task<ActionResult> EditPost(string postId)
         {
-            if (TagList != null)
-            {
-                ViewData["TagList"] = TagList;
-            }
-            if (IconList != null)
-            {
-                ViewData["PostTypes"] = IconList;
-            }
+                    if (TagList != null)
+                    {
+                        ViewData["TagList"] = TagList;
+                    }
+                    if (IconList != null)
+                    {
+                        ViewData["PostTypes"] = IconList;
+                    }
             Post post = await PostManager.FindByIdAsync(postId);
-            PostViewModel showPost = new PostViewModel(post);            
-            return View(showPost);
-        }
+                    PostViewModel showPost = new PostViewModel(post);
+                    return View(showPost);
+                }
 
         [HttpPost]
+        [System.Web.Mvc.Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditPost(PostViewModel pPostView)
-        {
+        {                                                
             ViewData.Clear();
-            string strPostId = "";
-            if (Request.Form.Count > 0)
-            {
-                strPostId = Request.Form["PostId"];
-            }
-            ViewData.Clear();
-            var tagList = await AddAndGetAddedTags(Request, TagManager, "TagsInput");
-            var illList = GetAddedImage(Request, "Img", "Des");
+            var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
+            var illList = await PostManager.GetIllustration(_illustrationList, pPostView.Id);
             if (tagList != null)
             {
                 pPostView.Tags = tagList;
@@ -332,16 +317,17 @@ namespace OneVietnam.Controllers
             }
             Post post = new Post(pPostView);           
             await PostManager.UpdateAsync(post);
-            return RedirectToAction("ShowPostDetail", "Post", new { postId = strPostId });
+            return RedirectToAction("ShowPostDetail", "Post", new { postId = pPostView.Id });
         }
-
+        
+        [System.Web.Mvc.Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeletePost(string postId)
         {
             Post post = await PostManager.FindByIdAsync(postId);
-            post.DeletedFlag = true;
-            //await PostManager.DeleteByIdAsync(postId);            
+            post.DeletedFlag = true;                                             
             await PostManager.UpdateAsync(post);
-            return RedirectToAction("CreatePost", "Post");
+            return RedirectToAction("Newfeeds", "Post");
         }
 
         public class MyHub : Hub
@@ -356,67 +342,6 @@ namespace OneVietnam.Controllers
                 }
                 return base.OnConnected();
             }
-        }
-
-        public async Task<List<Tag>> AddAndGetAddedTags(HttpRequestBase pRequestBase, TagManager pTagManager, string pFormId)
-        {
-            if (pRequestBase.Form.Count > 0)
-            {
-                var addedTagValueList = pRequestBase.Form[pFormId];
-                if (!string.IsNullOrEmpty(addedTagValueList))
-                {
-                    List<Tag> newList = new List<Tag>();
-                    var tagsInDb = await pTagManager.GetTagsValueAsync();                    
-                    int numberTags = 0;
-                    if (tagsInDb != null)
-                    {
-                        numberTags = tagsInDb.Count;
-                    }
-
-                    foreach (var tag in addedTagValueList.Split(','))
-                    {
-                        if (tagsInDb == null | (tagsInDb != null && !tagsInDb.Contains(tag)))
-                        {
-                            Tag newTag = new Tag(string.Concat("Tag_", numberTags.ToString()), tag);
-                            await pTagManager.CreateAsync(newTag);
-                            numberTags = numberTags + 1;
-                            newList.Add(newTag);
-                        }
-                        else
-                        {
-                            var existTag = await pTagManager.FindTagByValueAsync(tag);
-                            newList.Add(existTag[0]);
-                        }
-                    }
-                    return newList;
-                }
-                return null;
-            }
-            return null;
-        }
-        
-        public List<Illustration> GetAddedImage(HttpRequestBase pRequestBase, string pImgSrc, string pImgDes)
-        {
-            List<Illustration> illList = new List<Illustration>();
-            if (pRequestBase.Form.Count > 0)
-            {
-                var addedImgSrcList = pRequestBase.Form[pImgSrc];
-                var addedImgDesList = pRequestBase.Form[pImgDes];
-                if (!string.IsNullOrEmpty(addedImgSrcList))
-                {
-                    var imgSrcs = addedImgSrcList.Split(',');
-                    var imgDes = addedImgDesList.Split(',');                                        
-                    for (int index = 0; index < imgDes.Length; index++)
-                    {
-
-                        Illustration newIll = new Illustration(string.Concat(imgSrcs[2 * index] + ",",imgSrcs[2 * index + 1]), imgDes[index]);
-                        illList.Add(newIll);
-                    }                    
-                }
-            }
-            return illList;
-        }
-
-
+        }                
     }
 }

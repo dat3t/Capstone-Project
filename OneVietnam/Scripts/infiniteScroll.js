@@ -57,6 +57,7 @@ function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
                     var $items = $(data);
 
                     $('.grids').append($items).isotope('appended', $items);
+                    $('.grids').isotope('layout');
                  
                    
                 }
@@ -64,7 +65,6 @@ function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
                     page = -1;
                 }
                 inCallback = false;
-                $("#loading").hide();
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
             }

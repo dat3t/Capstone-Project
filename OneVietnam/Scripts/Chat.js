@@ -80,8 +80,12 @@ function register_popup(id, name, avatarSrc) {
 
 }
 function seenConversation(id) {    
-    if (document.getElementById(id + "Conversations").style.background != "") {
-        $('#MessageNotification').text(parseInt($('#MessageNotification').text()) - 1);
+    if (document.getElementById(id + "Conversations").style.background != "") {        
+        if (parseInt($('#MessageNotification').text()) == 1) {
+            $('#MessageNotification').hide();
+        } else {
+            $('#MessageNotification').text(parseInt($('#MessageNotification').text()) - 1);            
+        }
         document.getElementById(id + "Conversations").style.background = "";
     }
 }

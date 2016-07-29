@@ -1,34 +1,32 @@
-﻿
-$(document).ready(function () {
-    //function createUploader() {
-    //    var uploader = new qq.FineUploader({
-    //        element: document.getElementById('fine-uploader'),
-    //        request: {
-    //            endpoint: '@Url.Action("UploadBatchDataFile")'
-    //        }
-    //    });
-    //}
-    //window.onload = createUploader;
-    $(".ui.toggle.button").state({
+﻿$(document)
+    .ready(function () {
+        $("#getloc").click();
+        $(".ui.floating.dropdown.button").dropdown({
+            allowCategorySelection: true
+        })
+        ;
+
+       
+        $(".ui.toggle.button")
+            .state({
         text: {
             inactive: 'Bật',
             active: 'Tắt'
         }
-    });
-
+    })
+    ;
   //  $('.icon')
   //.popup()
   //  ;
-    //(function (d, s, id) {
-    //    var fjs = d.getElementsByTagName(s)[0];
-    //    if (d.getElementById(id)) return;
-    //    var js = d.createElement(s);
 
-    //    js.id = id;
-    //    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
-    //    fjs.parentNode.insertBefore(js, fjs);
-    //}(document, 'script', 'facebook-jssdk'));    
+    $("#messageIcon").click(function () {
+        //var div = document.getElementById("messagechat");
+        //div.innerHTML = div.innerHTML + 'Hello World';
+        $("#messages").slideToggle();
+
+    });
     //$('.icon').popup();
+
     if ($(".searchType").val() === "SearchPosts") {
         $(".ui.user").css("display", "none");
         $(".ui.post").css("display", "inline-flex");
@@ -36,7 +34,8 @@ $(document).ready(function () {
         $(".ui.user").css("display", "inline-flex");
         $(".ui.post").css("display", "none");
     }
-    $(".searchType").dropdown({
+        $(".searchType")
+            .dropdown({
         onChange: function (value, text, $selectedItem) {            
             if (value === "SearchPosts") {                
                 $(".ui.user").css("display", "none");
@@ -47,9 +46,18 @@ $(document).ready(function () {
                 $(".ui.post").css("display", "none");
             }
         }
-    });       
+    });
+        $(".right.menu.open")
+            .on("click",
+                function (e) {
+        e.preventDefault();
+        $(".ui.vertical.menu.open").toggle();
+    });
+    
+
     //SearchBox
-    $('.ui.search.post').search({
+        $('.ui.search.post')
+            .search({
         apiSettings: {
             url: '/Search/search?query={query}'
         },
@@ -71,8 +79,9 @@ $(document).ready(function () {
           url: 'html_url'
       },
         minCharacters: 3
-    });
-    $('.ui.search.user').search({
+            });
+        $('.ui.search.user')
+            .search({
         apiSettings: {
             url: '/Search/UsersSearch?query={query}'
         },
@@ -83,20 +92,24 @@ $(document).ready(function () {
             url: 'Url'
         },
         minCharacters: 2
-    });
+            });
+
     //ThamDTH
     $('.clearing.star.rating').rating('setting', 'clearable', true);
     $('.ui.multiple.dropdown')
       .dropdown({
-          allowAdditions: true  
-      });
+          allowAdditions: true
+            });
     $('#drPostType')
-      .dropdown({          
-      })
-    ;
+      .dropdown({});
+
+        $("#drPostTypeEditPost").dropdown();
+
     $("#drdGender").dropdown({});
 
-    $('.delete.icon.image-add').on('click', function () {
+        $('.delete.icon.image-add')
+            .on('click',
+                function () {
         $(this).parent().remove();;
     });
 
@@ -107,8 +120,13 @@ $(document).ready(function () {
 
     $('.icon.link').popup({});    
    
-    $('.tabular.menu .item').tab({
+        $('.tabular.menu .item')
+            .tab({
+    
     });
+
+        
+
 
     //ToanLM
 
@@ -125,16 +143,21 @@ $(document).ready(function () {
     
     // change size of item by toggling gigante class
     $grid.on('click', '.content', function (e) {
-        var $this = $(this).parent();
+
         $(this).parent().find('.marker').toggleClass("hides");
-       
+                var id = $(this).parent().find('#postId').val();
      
-//        //like button
-        //$(e.currentTarget).parent().find('.socials').html(
-        //    "<div class='fb-comments' style='width: 100%' data-href='" +
-        //                   window.location.href +
-        //                    "' data-numposts='3' ></div>");
-        //FB.XFBML.parse($this.attr('id'));
+        $.ajax({
+            type: 'GET',
+            data:{"postId":id},
+            url: '_ShowPost',
+            success: function (partialResult) {
+                $("#forModal").empty();
+                $("#forModal").html(partialResult);
+                $('#forModal').modal('show')
+                ;
+            }
+        });
       
 //        $(this).parent().parent().toggleClass('gigante');
         // trigger layout after item size changes
@@ -147,20 +170,20 @@ $('.stamp-button').on('click', function () {
     $('body,html').animate({
         scrollTop: 0                       // Scroll to top of body
     }, 500);
-    $stamp.toggleClass("hides");
+    $("#CreatePostForm").data('validator').resetForm();
+    $(".validation-summary-errors ul li").remove();
+    $(".validation-summary-errors").addClass('validation-summary-valid').removeClass('validation-summary-errors');
+    $(".stamp").toggleClass("hides");
     $(".edits").toggleClass("edits-cl");
     $(".plus").toggleClass("plus-cl");
   // stamp or unstamp element
-  if ( isStamped ) {
-      $grid.isotope('unstamp', $stamp);
-  } else {
-      $grid.isotope('stamp', $stamp);
-  }
+          
   // trigger layout
   $grid.isotope('layout');
   // set flag
   isStamped = !isStamped;
 });
+
     // ===== Scroll to Top ==== 
 $(window).scroll(function () {
     if ($(this).scrollTop() >= 50) {        // If page is scrolled more than 50px
@@ -180,12 +203,6 @@ $('.filter-group').on('click', 'a', function () {
     // use filterFn if matches value
     $grid.isotope({ filter: filterValue });
 });
-//$(document).ajaxComplete(function () {
-//    try {
-//        FB.XFBML.parse(document.getElementsByClassName("grid-item"));
-//        alert("fasfasf");
-//    } catch (ex) { }
-//});
 });
 $('#MessageButton').dropdown({
 });

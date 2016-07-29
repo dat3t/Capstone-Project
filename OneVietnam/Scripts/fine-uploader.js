@@ -10,8 +10,9 @@
 * Repository: git://github.com/FineUploader/fine-uploader.git
 *
 * Licensed only under the MIT license (http://fineuploader.com/licensing).
-*/ 
+*/
 
+var ImgList = [];
 
 (function(global) {
 /*globals window, navigator, document, FormData, File, HTMLInputElement, XMLHttpRequest, Blob, Storage, ActiveXObject */
@@ -3012,7 +3013,17 @@ qq.status = {
             }
         },
 
-        _onInputChange: function(input) {
+        _onInputChange: function (input) {
+
+            //ThamDTH Add Start
+            if (input.files.length > 0) {
+                for (var index = 0; index < input.files.length; index++) {
+                    ImgList.push(input.files[index]);
+                }
+            }
+            //ThamDTH Add End
+
+
             var fileIndex;
 
             if (qq.supportedFeatures.ajaxUploading) {
@@ -7471,7 +7482,18 @@ qq.Templating = function(spec) {
             fileBatch.map = {};
         },
 
-        removeFile: function(id) {
+        removeFile: function (id) {
+            //ThamDTH Add Start
+            var imgContainer = getFile(id);
+            var removeId = imgContainer.attributes["qq-file-id"].value;
+            for (var i = 0; i < ImgList.length; i++) {
+                if (i.toString() === removeId) {
+                    ImgList.splice(i, 1);
+                    break;
+                }                
+            }            
+            //ThamDTH Add End
+
             qq(getFile(id)).remove();
         },
 

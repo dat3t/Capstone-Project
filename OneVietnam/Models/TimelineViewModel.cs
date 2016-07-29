@@ -14,7 +14,11 @@ namespace OneVietnam.Models
         [DataType(DataType.ImageUrl)]
         [Display(Name = "Ảnh đại diện")]
         public string AvatarLink { get; set; }
+        public string CoverLink { get; set; }
         public string UserName { get; set; }
+
+        public bool LockedFlag { get; set; }
+
         public List<PostViewModel> PostList { get; set; }
         public TwoFacterViewModel Setting { get; set; }
 
@@ -28,10 +32,15 @@ namespace OneVietnam.Models
             if (user.UserName != null)
             {
                 UserName = user.UserName;
-            }            
+            }
+            LockedFlag = user.LockedFlag;        
             if (user.Avatar != null)
             {
                 AvatarLink = user.Avatar;
+            }
+            if (user.Cover != null)
+            {
+                CoverLink = user.Cover;
             }                    
             if (posts != null)
             {
@@ -80,7 +89,7 @@ namespace OneVietnam.Models
 
         [Required(ErrorMessage = "{0} không được để trống.")]        
         [Display(Name = "Địa chỉ")]
-        public string Location { get; set; }
+        public Location Location { get; set; }
         public UserProfileViewModel()
         {
         }
@@ -94,7 +103,7 @@ namespace OneVietnam.Models
             }              
             Gender = user.Gender;            
             Email = user.Email;
-            Location = user.Location.Address;
+            Location = user.Location;
             if (user.PhoneNumber != null)
             {
                 PhoneNumber = user.PhoneNumber;
@@ -145,6 +154,20 @@ namespace OneVietnam.Models
         public string ConfirmPassword { get; set; }
 
         public ChangePasswordViewModel(){}        
+    }
+
+    public class SetPasswordViewModel
+    {
+        [Required(ErrorMessage = "{0} không được để trống")]
+        [StringLength(100, ErrorMessage = "{0} phải chứa ít nhất {2} ký tự.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Mật khẩu mới")]
+        public string NewPassword { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Xác nhận lại mật khẩu")]
+        [Compare("NewPassword", ErrorMessage = "Mật khẩu mới và xác nhận lại mật khẩu không khớp nhau.")]
+        public string ConfirmPassword { get; set; }
     }
 
 }

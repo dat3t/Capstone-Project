@@ -1,9 +1,5 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using AspNet.Identity.MongoDB;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using OneVietnam.Models;
@@ -13,18 +9,14 @@ namespace OneVietnam.DTL
     public class Post : BaseMongoDocument
     {        
         public string UserId { get; set; }        
-        public string Title { get; set; }
-        [BsonIgnoreIfNull]
+        public string Title { get; set; }        
         public string Description { get; set; }        
         [BsonIgnoreIfNull]
         public List<Illustration> Illustrations { get; set; }
         public int PostType { get; set; }        
         public bool Status { get; set; }
-        public bool LockedFlag { get; set; }
-        [BsonIgnoreIfNull]
+        public bool LockedFlag { get; set; }        
         public Location PostLocation { get; set; }                
-        [BsonIgnoreIfNull]
-        public List<Report> Reports { get; set; }
         [BsonIgnoreIfNull]
         public List<Tag> Tags { get; set; }
         [BsonIgnoreIfNull]
@@ -61,35 +53,7 @@ namespace OneVietnam.DTL
             Status = pView.Status;
             PostLocation = pView.PostLocation;
             Illustrations = pView.Illustrations;
-            Tags = pView.Tags;
-            Reports = pView.Reports;
-        }
-
-        public void AddReport(Report pReport)
-        {
-            if (Reports == null)
-            {
-                Reports = new List<Report>();
-            }
-            Reports.Add(pReport);
-        }
-
-        public void AddIllustration(Illustration pIllustration)
-        {
-            if (Illustrations == null)
-            {
-                Illustrations = new List<Illustration>();
-            }
-            Illustrations.Add(pIllustration);
-        }
-
-        public void AddTags(Tag pTag)
-        {
-            if (Tags == null)
-            {
-                Tags = new List<Tag>();
-            }
-            Tags.Add(pTag);
-        }
+            Tags = pView.Tags;            
+        }        
     }
 }

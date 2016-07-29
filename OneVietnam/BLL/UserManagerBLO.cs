@@ -170,7 +170,7 @@ namespace OneVietnam.BLL
                 var messages = new Conversation { MessageList = new List<Message> { receiveMes } };
                 friend.Conversations.Add(userId, messages);
             }
-            friend.Conversations[friendId].Seen = false;
+            friend.Conversations[userId].Seen = false;
             // add message to receiver user            
             // Update To Database     
             await _userStore.UpdateAsync(user).ConfigureAwait(false);

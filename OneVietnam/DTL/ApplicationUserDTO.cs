@@ -34,6 +34,7 @@ namespace OneVietnam.DTL
         public List<Connection> Connections { get; set; }
         [BsonIgnoreIfNull]
         public DateTimeOffset? DateOfBirth { get; set; }
+        public bool LockedFlag { get; set; }
         public int CountUnReadConversations()
         {
             return Conversations.Where((t, i) => !Conversations.ElementAt(i).Value.Seen).Count();

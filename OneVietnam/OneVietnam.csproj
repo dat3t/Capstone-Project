@@ -94,6 +94,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.1\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.7.1.2\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MongoDB.AspNet.Identity, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.AspNet.Identity.1.0.5\lib\net45\MongoDB.AspNet.Identity.dll</HintPath>
       <Private>True</Private>
@@ -344,22 +352,35 @@
     <Content Include="Content\CountryImage\kr.png" />
     <Content Include="Content\CountryImage\us.png" />
     <Content Include="Content\CountryImage\vi.png" />
-    <Content Include="Content\dropzone.css" />
     <Content Include="Content\fine-uploader-gallery.min.css" />
     <Content Include="Content\flickity.css" />
-    <Content Include="Content\flickity.min.css" />
     <Content Include="Content\icon.min.css" />
     <Content Include="Content\Icon\female.png" />
     <Content Include="Content\Icon\free.png" />
+    <Content Include="Content\Icon\free2.png" />
+    <Content Include="Content\Icon\free3.png" />
+    <Content Include="Content\Icon\free4.png" />
+    <Content Include="Content\Icon\free5.png" />
     <Content Include="Content\Icon\help.png" />
+    <Content Include="Content\Icon\help2.png" />
+    <Content Include="Content\Icon\help3.png" />
     <Content Include="Content\Icon\home.png" />
-    <Content Include="Content\Icon\job.png" />
+    <Content Include="Content\Icon\job2.png" />
+    <Content Include="Content\Icon\job3.png" />
+    <Content Include="Content\Icon\job4.png" />
+    <Content Include="Content\Icon\job5.png" />
     <Content Include="Content\Icon\LGBT.png" />
     <Content Include="Content\Icon\location.png" />
     <Content Include="Content\Icon\male.png" />
     <Content Include="Content\Icon\myhome.png" />
+    <Content Include="Content\Icon\myhome2.png" />
+    <Content Include="Content\Icon\plane2.png" />
+    <Content Include="Content\Icon\plane3.png" />
     <Content Include="Content\Icon\sale.png" />
     <Content Include="Content\Icon\ship.png" />
+    <Content Include="Content\Icon\ship2.png" />
+    <Content Include="Content\Icon\ship3.png" />
+    <Content Include="Content\Icon\ship4.jpg" />
     <Content Include="Content\Icon\Users.png" />
     <Content Include="Content\Images\Avatar_Default.jpg" />
     <Content Include="Content\Images\chov.png" />
@@ -373,7 +394,6 @@
     <Content Include="Content\Images\no-image.png" />
     <Content Include="Content\Images\poke_celebi.png" />
     <Content Include="Content\Images\rua.png" />
-    <Content Include="Content\loader.css" />
     <Content Include="Content\Map\mappagecustom.css" />
     <Content Include="Content\Map\scrollbar.css" />
     <Content Include="Content\minimal-slide.css" />
@@ -392,7 +412,6 @@
     <Content Include="Content\Images\pikachu.jpg" />
     <Content Include="Content\Images\poke_celebi.png" />
     <Content Include="Content\Images\rua.png" />
-    <Content Include="Content\loader.css" />
     <Content Include="Content\minimal-slide.css" />
     <Content Include="Content\semantic.min.css" />
     <Content Include="Content\SlideImages\HA.jpg" />
@@ -410,6 +429,7 @@
     <Content Include="Content\Map\map.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\deleteImage.png" />
     <Content Include="Images\elliot.jpg" />
     <Content Include="Images\image.png" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
@@ -432,7 +452,6 @@
     <Content Include="Scripts\azure.jquery.fine-uploader.min.js" />
     <Content Include="Scripts\Chat.js" />
     <Content Include="Scripts\docs.js" />
-    <Content Include="Scripts\dropzone.js" />
     <Content Include="Scripts\fine-uploader.js" />
     <Content Include="Scripts\flickity.pkgd.min.js" />
     <Content Include="Scripts\getAddressRegister.js" />
@@ -463,7 +482,6 @@
     <Content Include="Scripts\masonry.pkgd.min.js" />
     <Content Include="Scripts\minimal-slide.js" />
     <Content Include="Scripts\OverlappingMarkerSpiderfier.js" />
-    <Content Include="Scripts\packery.pkgd.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\searchboxCreatePost.js" />
@@ -485,6 +503,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Post\NewFeeds.cshtml" />    
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -539,7 +558,6 @@
     <Content Include="Views\NewFeed\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Post\CreatePost.cshtml" />
     <Content Include="Views\Post\EditPost.cshtml" />
     <Content Include="Views\Post\ShowPostDetail.cshtml" />
     <Content Include="Views\Post\ShowPost.cshtml" />
@@ -549,21 +567,21 @@
     <Content Include="Views\Map\ShowMap.cshtml" />
     <Content Include="Views\Map\CustomInfoWindow.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
-    <Content Include="Views\Shared\_ShowPostDetail.cshtml" />
-    <Content Include="Views\Post\_CreatePost.cshtml" />
-    <Content Include="Views\Post\TimeLine.cshtml" />
+    <Content Include="Views\Post\_ShowPostDetail.cshtml" />
+    <Content Include="Views\Shared\_CreatePost.cshtml" />
     <Content Include="Views\Post\Index.cshtml" />
     <Content Include="Views\Post\_Report.cshtml" />
     <Content Include="Views\Map\SidenavPost.cshtml" />
     <Content Include="Views\Map\UserAndPostInfo.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
-    <Content Include="Views\Map\_UserModal.cshtml" />
-    <Content Include="Views\Post\_ShowPostDetail.cshtml" />
     <Content Include="Views\Shared\_UserInfo.cshtml" />
-    <Content Include="Views\Post\NewFeeds.cshtml" />
     <Content Include="Views\Timeline\Timeline.cshtml" />
     <Content Include="Views\Timeline\_ChangePassword.cshtml" />
     <Content Include="Views\Timeline\_EditProfile.cshtml" />
+    <Content Include="Views\Timeline\_SetPassword.cshtml" />
+    <Content Include="Views\Shared\_ShowPostDetail.cshtml" />
+    <Content Include="Views\Shared\_NoSearchResult.cshtml" />
+    <Content Include="Views\Post\_ShowPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
