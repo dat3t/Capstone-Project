@@ -121,7 +121,6 @@ namespace OneVietnam.Controllers
             Session["Illustrations"] = _illustrationList;
         }
 
-
         [HttpPost]
         [System.Web.Mvc.Authorize]
         [ValidateAntiForgeryToken]
@@ -283,6 +282,7 @@ namespace OneVietnam.Controllers
             //TODO send notification to Mod
         }
 
+        [System.Web.Mvc.Authorize]        
         public async Task<ActionResult> EditPost(string postId)
         {
                     if (TagList != null)
@@ -299,6 +299,8 @@ namespace OneVietnam.Controllers
                 }
 
         [HttpPost]
+        [System.Web.Mvc.Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditPost(PostViewModel pPostView)
         {                        
             ViewData.Clear();
@@ -323,13 +325,15 @@ namespace OneVietnam.Controllers
             await PostManager.UpdateAsync(post);
             return RedirectToAction("ShowPostDetail", "Post", new { postId = strPostId });
         }
-
+        
+        [System.Web.Mvc.Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeletePost(string postId)
         {
             Post post = await PostManager.FindByIdAsync(postId);
             post.DeletedFlag = true;                                             
             await PostManager.UpdateAsync(post);
-            return RedirectToAction("CreatePost", "Post");
+            return RedirectToAction("Newfeeds", "Post");
         }
 
         public class MyHub : Hub
