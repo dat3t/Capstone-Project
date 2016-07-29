@@ -216,7 +216,7 @@ namespace OneVietnam.Controllers
                 if (postUser != null)
                 {
 
-                    PostViewModel showPost = new PostViewModel(post, postUser.UserName);
+                    PostViewModel showPost = new PostViewModel(post, postUser.UserName,postUser.Avatar);
 
                     return PartialView(showPost);
                 }
@@ -241,7 +241,7 @@ namespace OneVietnam.Controllers
                     if (postUser != null)
                     {
 
-                        PostViewModel showPost = new PostViewModel(post, postUser.UserName);
+                        PostViewModel showPost = new PostViewModel(post, postUser.UserName,postUser.Avatar);
 
                         return View(showPost);
                     }

@@ -1,6 +1,6 @@
 ﻿$(document)
     .ready(function () {
-     
+       
         $("#getloc").click();
         $(".ui.floating.dropdown.button").dropdown({
             allowCategorySelection: true
@@ -158,8 +158,15 @@
             success: function (partialResult) {
                 $("#forModal").empty();
                 $("#forModal").html(partialResult);
-                $('#forModal').modal('show')
+                $('#forModal').modal({
+                    inverted: true
+                }).modal('show')
                 ;
+                $('.carousel').flickity({
+                    // options
+                    cellAlign: 'left',
+                    contain: true
+                });
             }
         });
      

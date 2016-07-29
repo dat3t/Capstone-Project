@@ -43,6 +43,8 @@ namespace OneVietnam.Models
         public string UserId { get; set; }
         public string UserName { get; set; }
         public string Title { get; set; }
+        public string AvartarLink { get; set; }
+       
         public string Description { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
         public int PostType { get; set; }
@@ -76,8 +78,9 @@ namespace OneVietnam.Models
             Reports = post.Reports;
             Illustrations = post.Illustrations;
         }
-        public PostViewModel(Post post, string pUserName)
+        public PostViewModel(Post post, string pUserName,string postUserAvatar)
         {
+            AvartarLink = postUserAvatar;
             Id = post.Id;
             UserId = post.UserId;
             UserName = pUserName;

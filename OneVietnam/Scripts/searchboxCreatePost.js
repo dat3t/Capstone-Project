@@ -74,7 +74,6 @@ function getRegisteredLocation() {
     document.getElementById("PostLocation_Address").value = authenticatedUser.address;
     document.getElementById("PostLocation_XCoordinate").value = authenticatedUser.x;
     document.getElementById("PostLocation_YCoordinate").value = authenticatedUser.y;
-    alert(authenticatedUser.address);
     var address_edit = document.getElementById("Address_Edit");
     if (address_edit != null) {
         document.getElementById("Address_Edit").value = authenticatedUser.address;
