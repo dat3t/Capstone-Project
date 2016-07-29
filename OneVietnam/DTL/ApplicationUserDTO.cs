@@ -33,5 +33,6 @@ namespace OneVietnam.DTL
 
         [BsonIgnoreIfNull]
         public DateTimeOffset? DateOfBirth { get; set; }
+        public bool LockedFlag { get; set; }
     }
 }

@@ -113,6 +113,14 @@ namespace OneVietnam.Controllers
             }            
         }
 
+        private HttpFileCollectionBase _illustrationList;
+
+        public void GetIllustrations()
+        {
+            _illustrationList = Request.Files;
+            Session["Illustrations"] = _illustrationList;
+        }
+
         [HttpPost]
         [System.Web.Mvc.Authorize]
         [ValidateAntiForgeryToken]
@@ -125,7 +133,10 @@ namespace OneVietnam.Controllers
                 UserId = User.Identity.GetUserId()
             };
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
-            var illList = await PostManager.GetIllustration(Request, "selectFiles", post.Id);
+            _illustrationList = (HttpFileCollectionBase) Session["Illustrations"];
+            var illList = await PostManager.GetIllustration(_illustrationList,  post.Id);
+            Session["Illustrations"] = null;
+            _illustrationList = null;
             if (tagList != null)
             {
                 post.Tags = tagList;
@@ -271,6 +282,7 @@ namespace OneVietnam.Controllers
             //TODO send notification to Mod
         }
 
+        [System.Web.Mvc.Authorize]        
         public async Task<ActionResult> EditPost(string postId)
         {
                     if (TagList != null)
@@ -287,17 +299,13 @@ namespace OneVietnam.Controllers
                 }
 
         [HttpPost]
+        [System.Web.Mvc.Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditPost(PostViewModel pPostView)
-        {                        
-            ViewData.Clear();
-            string strPostId = "";
-            if (Request.Form.Count > 0)
-            {
-                strPostId = Request.Form["PostId"];
-            }
+        {                                                
             ViewData.Clear();
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
-            var illList = await PostManager.GetIllustration(Request, "createPost", pPostView.Id);
+            var illList = await PostManager.GetIllustration(_illustrationList, pPostView.Id);
             if (tagList != null)
             {
                 pPostView.Tags = tagList;
@@ -309,15 +317,17 @@ namespace OneVietnam.Controllers
             }
             Post post = new Post(pPostView);           
             await PostManager.UpdateAsync(post);
-            return RedirectToAction("ShowPostDetail", "Post", new { postId = strPostId });
+            return RedirectToAction("ShowPostDetail", "Post", new { postId = pPostView.Id });
         }
-
+        
+        [System.Web.Mvc.Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeletePost(string postId)
         {
             Post post = await PostManager.FindByIdAsync(postId);
             post.DeletedFlag = true;                                             
             await PostManager.UpdateAsync(post);
-            return RedirectToAction("CreatePost", "Post");
+            return RedirectToAction("Newfeeds", "Post");
         }
 
         public class MyHub : Hub
