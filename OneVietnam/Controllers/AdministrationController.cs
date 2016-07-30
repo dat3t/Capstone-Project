@@ -14,7 +14,6 @@ namespace OneVietnam.Controllers
     //[Authorize(Roles = "Admin")]
     public class AdministrationController : Controller
     {
-
         public AdministrationController(){}
 
         public AdministrationController(ApplicationUserManager userManager, ApplicationRoleManager roleManager)
