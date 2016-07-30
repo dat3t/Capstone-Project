@@ -14,6 +14,7 @@ namespace OneVietnam
         public const int LimitedNumberDisplayUsers = 5;
         public const int LimitedNumberOfPost = 5;
         public const string IconTypeGender = "gender";
-        public const string IconTypePost = "postType";        
+        public const string IconTypePost = "postType";
+        public const string DefaultAvatarLink = "/Content/Images/Avatar_Default.jpg";
     }
 }

@@ -30,6 +30,7 @@ namespace OneVietnam.DTL
         public string Cover { get; set; }
         [BsonIgnoreIfNull]
         public SortedList<string, Conversation> Conversations { get; set; }
+        public List<Notification> Notifications { get; set; }
         [BsonIgnoreIfNull]
         public List<Connection> Connections { get; set; }
         [BsonIgnoreIfNull]
