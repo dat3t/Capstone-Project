@@ -11,7 +11,7 @@ using OneVietnam.Models;
 
 namespace OneVietnam.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    
     public class AdministrationController : Controller
     {
         public AdministrationController(){}
@@ -48,17 +48,17 @@ namespace OneVietnam.Controllers
             }
         }
 
-
-
         public async Task<ActionResult> ShowAdminPanel()
         {
             var users = await UserManager.AllUsersAsync();
             var roles = await RoleManager.AllRolesAsync();
+            
             AdministrationViewModel administrationView = new AdministrationViewModel(users, roles);
             return View(administrationView);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddRole(RoleViewModel roleViewModel)
         {
@@ -77,6 +77,7 @@ namespace OneVietnam.Controllers
                 
             }
             var roleList = await RoleManager.AllRolesAsync();
+            
             List<RoleViewModel> roles = new List<RoleViewModel>();
             if (roleList != null && roleList.Count > 0)
             {
@@ -90,6 +91,7 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> RemoveRole(string roleId)
         {
 
@@ -101,6 +103,7 @@ namespace OneVietnam.Controllers
             }
 
             var roleList = await RoleManager.AllRolesAsync();
+            
             List<RoleViewModel> roles = new List<RoleViewModel>();
             if (roleList != null && roleList.Count > 0)
             {
@@ -111,6 +114,126 @@ namespace OneVietnam.Controllers
                 }
             }
             return PartialView("_RoleManagementPanel", roles);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> GetOtherRoles(string userId)
+        {
+            var roleList = await RoleManager.AllRolesAsync();
+            var user = await UserManager.FindByIdAsync(userId);
+
+            List<IdentityRole> roles = new List<IdentityRole>();
+            if(roleList != null && roleList.Count > 0)
+            {
+                foreach (var role in roleList)
+                {
+                    if (user?.Roles != null && user.Roles.Count > 0)
+                    {
+                        if (!user.Roles.Contains(role.Name))
+                        {                           
+                            roles.Add(role);
+                        }
+                    }
+                    else
+                    {                        
+                        roles.Add(role);
+                    }                   
+                }                
+            }
+            ViewData["OtherRole"] = roles;
+            UserManagementViewModel userView = new UserManagementViewModel(user);
+            return PartialView("_AddUserRole", userView);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> RemoveUserRole(string userId, string role)
+        {
+            var user = await UserManager.FindByIdAsync(userId);
+            if (ModelState.IsValid)
+            {
+                if (user?.Roles != null && user.Roles.Count > 0)
+                {
+                    user.Roles.Remove(role);
+                }
+                var result = await UserManager.UpdateAsync(user);
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError("", result.Errors.First());
+                }                
+            }
+            UserManagementViewModel userView = new UserManagementViewModel(user);
+            return PartialView("_UserRoles", userView);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> AddUserRole(string userId)
+        {
+            var user = await UserManager.FindByIdAsync(userId);
+            if (ModelState.IsValid)
+            {
+                if (user != null)
+                {
+                    if(user.Roles == null)
+                    {
+                        user.Roles = new List<string>();
+                    }
+                    if(Request.Form.Count > 0)
+                    {
+                        string roleAdded = Request.Form["txtUserRole"];
+                        if (string.IsNullOrEmpty(roleAdded))
+                        {
+                            ModelState.AddModelError("", "Chưa chọn quyền.");
+                        }
+                        else
+                        {
+                            user.Roles.Add(roleAdded);
+                            var result = await UserManager.UpdateAsync(user);
+                            if (!result.Succeeded)
+                            {
+                                ModelState.AddModelError("", result.Errors.First());
+                            }
+                        }
+                    }
+                }
+                
+            }
+            UserManagementViewModel userView = new UserManagementViewModel();
+            if (user != null)
+            {
+                userView = new UserManagementViewModel(user);
+            }            
+            
+            return PartialView("_UserRoles", userView);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> ChangeLockedStatus(string userId)
+        {
+            var user = await UserManager.FindByIdAsync(userId);
+            if (ModelState.IsValid)
+            {
+                if (user != null)
+                {
+                    user.LockedFlag = !user.LockedFlag;
+                    var result = await UserManager.UpdateAsync(user);
+                    if (!result.Succeeded)
+                    {
+                        ModelState.AddModelError("", result.Errors.First());
+                    }
+                }
+
+            }
+            UserManagementViewModel userView = new UserManagementViewModel();
+            if (user != null)
+            {
+                userView = new UserManagementViewModel(user);
+            }
+
+            return PartialView("_UserLockedStatus", userView);
         }
 
     }

@@ -28,67 +28,9 @@
 
                 <!-- Users Managament -->
                 <div class="ui tab active" data-tab="users">
-
-                    <!-- Users Search Box -->
-                    <div class="ui grid">
-
-                        <div class="four wide column">
-                            <div class="item" style="width: 100%">
-                                <div class="ui right icon input" style="width: 100%">
-                                    <input class="prompt" id="txtSearchUser" style="width: 100%" type="text" placeholder="Tìm kiếm..." autocomplete="off">
-                                    <i class="search link icon"></i>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-
-                    <!-- Users List -->
-
-                    @if (Model?.Users != null && Model.Users.Count > 0)
-                    {
-                        <div class="ui grid">
-                            <div class="sixteen wide column">
-                                <div id="tbUsersDefault">
-                                    <table class="ui celled table">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>STT</th>
-                                                <th>ID</th>
-                                                <th>Tên người dùng</th>
-                                                <th>Ngày đăng ký</th>
-                                                <th>Quyền truy cập</th>
-                                                <th>Có bị cấm?</th>
-                                                <th>Có bị xóa?</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                @for (int index = 0; index < Model.Users.Count; index++)
-                                            {
-                                            <td>Jamie</td>
-                                            <td>@(index + 1)</td>
-                                            <td>@Model.Users[index].Id</td>
-                                            <td>@Model.Users[index].UserName</td>
-                                            <td>@Model.Users[index].CreatedDate</td>
-                                            <td>@Model.Users[index].Roles.ToString()</td>
-                                            <td>@Model.Users[index].LockedFlag</td>
-                                            <td>@Model.Users[index].DeletedFlag</td>
-                                            }
-
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                            </div>
-                        </div>
-                    }
-
-
+                    <div id="UsersManagement">
+                        @(Model?.Users != null ? Html.Partial("_UsersManagementPanel", Model.Users) : Html.Partial("_UsersManagementPanel", new List<UserManagementViewModel>()))
+                    </div>                  
                 </div>
 
                 <!-- Posts Managament -->

@@ -93,4 +93,19 @@ namespace OneVietnam.Models
         }
     }
 
+    public class UserRoleViewModel
+    {
+        public string Id { get; set; }
+        public string Role { get; set; }
+
+        public UserRoleViewModel() { }
+
+        public UserRoleViewModel(string pUserId, string pRole)
+        {
+            Id = pUserId;
+            Role = pRole;
+        }
+    }
+
+
 }

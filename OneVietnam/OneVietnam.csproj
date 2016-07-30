@@ -592,6 +592,11 @@
     <Content Include="Views\Administration\_AddRole.cshtml" />
     <Content Include="Views\Administration\_RoleManagementPanel.cshtml" />
     <Content Include="Views\Administration\_RemoveRole.cshtml" />
+    <Content Include="Views\Administration\_UsersManagementPanel.cshtml" />
+    <Content Include="Views\Administration\_RemoveUserRole.cshtml" />
+    <Content Include="Views\Administration\_UserRoles.cshtml" />
+    <Content Include="Views\Administration\_AddUserRole.cshtml" />
+    <Content Include="Views\Administration\_UserLockedStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
