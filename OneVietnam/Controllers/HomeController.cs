@@ -61,7 +61,7 @@ namespace OneVietnam.Controllers
             {
                 friendConversation.Seen = true;
                 await UserManager.UpdateAsync(user);
-            }            
+            }
             var messagesList = friendConversation.MessageList;
             return Json(messagesList, JsonRequestBehavior.AllowGet);
         }
@@ -70,29 +70,35 @@ namespace OneVietnam.Controllers
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             var conversations = user.Conversations.OrderByDescending(c => c.Value).ToList();
-            var conversationList = new List<ConversationModel>();            
+            var conversationList = new List<ConversationModel>();
             for (var i = 0; i < conversations.Count(); i++)
             {
-                var friend = await UserManager.FindByIdAsync(conversations[i].Key);                
-                var con = new ConversationModel
+                var friend = await UserManager.FindByIdAsync(conversations[i].Key);
+                var con = new ConversationModel();
+                con.Id = conversations[i].Key;
+                con.FriendName = friend.UserName;
+                con.Avatar = friend.Avatar;
+                if (DateTimeOffset.UtcNow.Year == conversations[i].Value.UpdatedDate.Year &&
+                    DateTimeOffset.UtcNow.Day == conversations[i].Value.UpdatedDate.Day)
                 {
-                    Id = conversations[i].Key,
-                    FriendName = friend.UserName,
-                    Avatar = friend.Avatar,
-                    UpdatedDate = conversations[i].Value.UpdatedDate,
-                    LastestMessage = conversations[i].Value.LastestMessage.Truncate(Constants.MessagePreviewMaxLength),
-                    LastestType = conversations[i].Value.LastestType,
-                    Seen= conversations[i].Value.Seen
-                };
+                    con.UpdatedDate = conversations[i].Value.UpdatedDate.LocalDateTime.ToShortTimeString();
+                }
+                else
+                {
+                    con.UpdatedDate = conversations[i].Value.UpdatedDate.LocalDateTime.ToString();
+                }
+                con.LastestMessage = conversations[i].Value.LastestMessage.Truncate(Constants.MessagePreviewMaxLength);
+                con.LastestType = conversations[i].Value.LastestType;
+                con.Seen = conversations[i].Value.Seen;
                 conversationList.Add(con);
             }
 
             return Json(conversationList, JsonRequestBehavior.AllowGet);
-        }        
+        }
 
         public async Task<JsonResult> GetMessageNo(string id)
         {
-            var user = await UserManager.FindByIdAsync(id);            
+            var user = await UserManager.FindByIdAsync(id);
             int count = user.CountUnReadConversations();
             return Json(count, JsonRequestBehavior.AllowGet);
         }
@@ -100,7 +106,7 @@ namespace OneVietnam.Controllers
         public async Task<bool> RemoveConversationById(string id)
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            var result =  user.Conversations.Remove(id);
+            var result = user.Conversations.Remove(id);
             await UserManager.UpdateAsync(user);
             return result;
         }
