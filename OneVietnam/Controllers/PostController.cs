@@ -348,8 +348,7 @@ namespace OneVietnam.Controllers
             return RedirectToAction("ShowPostDetail", "Post", new { postId = pPostView.Id });
         }
         
-        [System.Web.Mvc.Authorize]
-        [ValidateAntiForgeryToken]
+        [System.Web.Mvc.Authorize]        
         public async Task<ActionResult> DeletePost(string postId)
         {
             Post post = await PostManager.FindByIdAsync(postId);

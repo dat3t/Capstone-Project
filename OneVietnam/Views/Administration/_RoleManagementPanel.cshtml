@@ -1,0 +1,32 @@
+﻿
+@using OneVietnam.Models
+@model List<OneVietnam.Models.RoleViewModel>
+
+
+
+<div class="ui grid" >
+    <div class="eight wide column" style="text-align: center">
+        @Html.Partial("_AddRole", new RoleViewModel())
+    </div>
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="eight wide column">
+            <h2 class="ui mini header" style="text-align: center">
+                Các quyền truy cập hiện có
+            </h2>
+            <div class="ui grid">
+                <div class="three wide column"></div>
+                <div class="ten wide column">
+                    @foreach (RoleViewModel role in Model)
+                    {
+                        @Html.Partial("_RemoveRole", role)
+                    }
+                </div>
+                <div class="three wide column"></div>
+                
+            </div>
+            
+        </div>
+    }
+</div>
