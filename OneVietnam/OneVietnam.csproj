@@ -292,6 +292,7 @@
     <Compile Include="DTL\Notification.cs" />
     <Compile Include="Models\AdministrationViewModel.cs" />
     <Compile Include="Models\ConversationModel.cs" />
+    <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Models\PostInfoWindowModel.cs" />
     <Compile Include="Models\ReportViewModal.cs" />
     <Compile Include="Models\SearchModel.cs" />
