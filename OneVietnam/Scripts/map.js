@@ -79,7 +79,6 @@ function checkAuthenticated() {
 }
 
 function initialize() {
-    alert(1);
     checkAuthenticated();
 
     //Declare a bound
