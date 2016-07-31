@@ -35,10 +35,10 @@
 
     </div>
     <div class="ui centered  card" style="width: 95%;border-color: #fff">
-        <div class="blurring dimmable image">
+        <div class="image">
 
             @{
-                if (Model.Illustrations != null && Model.Illustrations.Count > 0)
+                if (Model.Illustrations != null && Model.Illustrations.Count > 1)
                 {
 
                     <div class="carousel" data-flickity>
@@ -53,6 +53,16 @@
                     </div>
 
                 }
+                else if (Model.Illustrations != null)
+                {
+
+                    
+                            
+                                <img src="@Model.Illustrations[0].PhotoLink" />
+                        
+                      
+
+                }
             }
         </div>
 
@@ -60,29 +70,14 @@
             <div id="rate" class="ui star rating right floated" data-rating="3"></div>
             <div class="header">@Model.Title</div>
             <div class="meta">
-                <span class="date"><i class="calendar icon"></i>@Model.CreatedDate</span>
-                <span class="right floated date"><i class="history icon"></i> Modified 8/4/2014</span>
             </div>
             <div class="description" style="font-size: 18px">
                 @Model.Description
             </div>
             <div class="extra content">
-                <script>
-                (function (d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id)) return;
-                    js = d.createElement(s);
-                    js.id = id;
-                    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
-                    fjs.parentNode.insertBefore(js, fjs);
-                    FB.Event.subscribe('comment.create', function (response) {
-                        alert(response.commentID);
-                    });
-
-                }(document, 'script', 'facebook-jssdk'));
-                </script>
+              
                 @{
-                    string url = "http://localhost:51801/Post/ShowPostDetail?postId=" + Model.Id;
+                    string url = "http://www.phimmoi.net/phim/nguoi-vo-tuyet-voi-3976/";
                     string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";
                 }
 
@@ -93,10 +88,14 @@
                 <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts=""></div>
 
                 <script>
+                   
                     FB.XFBML.parse();
-                    FB.Event.subscribe('comment.create', function(response) {
-                        alert(response.commentID);
-                    });
+                    var finished_rendering = function () {
+                        alert("@url");
+                    }
+
+                    // In your onload handler
+                    FB.Event.subscribe('comment.create', finished_rendering);
                        
                 </script>
                 @*                <script>*@
@@ -147,7 +146,4 @@
 
     </div>
     
-    <script>
-
-    </script>
-
+   

@@ -1,11 +1,19 @@
 ﻿@using OneVietnam.DTL
 @using OneVietnam.Models
 
+<script>
+                (function (d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
+                    fjs.parentNode.insertBefore(js, fjs);
 
+                }(document, 'script', 'facebook-jssdk'));
+</script>
 <div class="ui grid" style="background-color: whitesmoke">
         <div class="two wide column">
-
-
 
             @*    <div class="ui vertical menu right floated">*@
             @*        <div class="item">*@
@@ -44,10 +52,12 @@
 
             <nav>
                 <ul class="filter-group">
-                    <li><a href="#1" data-filter=".0">Đi đâu?</a></li>
-                    <li><a href="#2" data-filter=".4">Ăn gì?</a></li>
-                    <li><a href="#3" data-filter=".6">Làm thêm</a></li>
-                    <li><a href="#4">Nhận xách tay</a></li>
+                    <li><a data-filter=".3">Nhà ở</a></li>
+                    <li><a  data-filter=".4">Việc làm</a></li>
+                    <li><a  data-filter=".5">Đồ dùng</a></li>
+                    <li><a  data-filter=".6">Nhận/nhờ xách tay</a></li>
+                    <li><a  data-filter=".7">Mua bán</a></li>
+                    <li><a  data-filter=".8">Cần giúp đỡ</a></li>
                 </ul>
             </nav>
             <div id="floating-button" class="stamp-button" data-toggle="tooltip" data-original-title="Create">
@@ -67,7 +77,32 @@
             </div>
             <div class="container infinite-scroll" id="gohere"></div>
 
-            <div id="forModal" class="ui basic modal" style="position: absolute !important; left: 80% !important; height: 1000px; width: 600px"></div>
+            <div id="forModal" class="ui basic modal" style="position: absolute !important; left: 80% !important; height: 1000px; width: 600px">
+                <i class="close icon"></i>
+                <div class="header">
+                    Archive Old Messages
+                </div>
+                <div class="image content">
+                    <div class="image">
+                        <i class="archive icon"></i>
+                    </div>
+                    <div class="description">
+                        <p>Your inbox is getting full, would you like us to enable automatic archiving of old messages?</p>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="two fluid ui inverted buttons">
+                        <div class="ui cancel red basic inverted button">
+                            <i class="remove icon"></i>
+                            No
+                        </div>
+                        <div class="ui ok green basic inverted button">
+                            <i class="checkmark icon"></i>
+                            Yes
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
 

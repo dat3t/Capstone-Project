@@ -32,8 +32,8 @@
 }
 
 
-<link href="~/Content/fine-uploader-gallery.min.css" rel="stylesheet">
-<script src="~/Scripts/fine-uploader.js"></script>
+@*<link href="~/Content/fine-uploader-gallery.min.css" rel="stylesheet">*@
+@*<script src="~/Scripts/fine-uploader.js"></script>*@
 <script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
@@ -70,7 +70,7 @@
 
         <div class="stamp  hides">
             @using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "CreatePostForm" }))
-            {                
+            {
                 <div class="ui segment">
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(false)
@@ -85,7 +85,7 @@
                     <!-- Post Type and Tags -->
                     <div class="two fields">
                         <!-- Post Type -->
-                         <div class="field">
+                        <div class="field">
                             <label>* Loại bài đăng</label>
                             <div class="ui  selection dropdown" id="drPostType">
                                 @{
@@ -145,11 +145,11 @@
                             <i class="blue world icon"></i>
                             <span class="text"> Địa chỉ nhà của bạn</span>
                             <div class="menu">
-                                <div class="item" onclick="getRegisteredLocation();" id="getloc" >
+                                <div class="item" onclick="getRegisteredLocation();" id="getloc">
                                     <div class="ui red empty circular label"></div>
                                     Địa chỉ nhà của bạn
                                 </div>
-                                <div class="item" onclick="getCurrentLocation();" >
+                                <div class="item" onclick="getCurrentLocation();">
                                     <div class="ui blue empty circular label"></div>
                                     Địa điểm hiện tại của bạn
                                 </div>
@@ -165,57 +165,198 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        @Html.EditorFor(model => model.PostLocation.Address, new { htmlAttributes = new { placeholder = "Địa chỉ của bạn" } })
-                        @Html.EditorFor(model => model.PostLocation.XCoordinate, new { htmlAttributes = new { style = "display: none" } })
-                        @Html.EditorFor(model => model.PostLocation.YCoordinate, new { htmlAttributes = new { style = "display: none" } })                        
-                                                
+
+                        @Html.EditorFor(model => model.PostLocation.Address, new {htmlAttributes = new {placeholder = "Địa chỉ của bạn"}})
+                        @Html.EditorFor(model => model.PostLocation.XCoordinate, new {htmlAttributes = new {style = "display: none"}})
+                        @Html.EditorFor(model => model.PostLocation.YCoordinate, new {htmlAttributes = new {style = "display: none"}})
+
                     </div>
 
                     <!-- Illustration -->
+                    <i class="large inverted blue camera icon"></i>Thêm ảnh
                     <div class="field">
-                        <label>Ảnh minh họa</label>                                             
-                        <div id="fine-uploader-gallery"></div>
+                        <div id="filediv">
+                            <input type="file" id="file" name="files[]" multiple="multiple" accept="image/*" title="Select Images To Be Uploaded">
+                            <br>
+                        </div>
+                        <input type="button" id="add_more" class="upload" value="Add More Images" />
+                        <input type="submit" name="submit" value="Add Product" class="upload" id="upload" title="Add Product To The Inventory">
+@*                        <input type="file" id="files" name="files" class="upload hides" multiple />*@
+@*                        <output id="result"></output>*@
 
                         <script>
-                            var uploader = new qq.FineUploader({
-                                element: document.getElementById('fine-uploader-gallery'),
-                                template: 'qq-template-gallery',
-                                callbacks: {
-                                    onError: function() {
-                                        $(".grids").isotope("layout");
-                                    }
-                                }
+                            $(".camera.icon")
+                     .click(function () {
+                         $("#files").trigger('click');
+                     });
+                            $('#add_more').click(function () {
+                                "use strict";
+                                $(this).before($("<div/>", {
+                                    id: 'filediv'
+                                }).fadeIn('slow').append(
+                                  $("<input/>", {
+                                      name: 'file[]',
+                                      type: 'file',
+                                      id: 'file',
+                                      multiple: 'multiple',
+                                      accept: 'image/*'
+                                  })
+                                ));
                             });
-                            window.onload = function () {
-                                document.getElementById('CreatePostForm').onsubmit = function () {
 
-                                    var formdata = new FormData();                                   
-                                    for (var i = 0; i < ImgList.length; i++) {
-                                        formdata.append(ImgList[i].name, ImgList[i]);
-                                    }
-                                    var xhr = new XMLHttpRequest();
-                                    xhr.open('POST', '/Post/GetIllustrations');
-                                    xhr.send(formdata);
-                                    xhr.onreadystatechange = function () {
-                                        if (xhr.readyState === 4 && xhr.status === 200) {
-                                            ImgList.splice(0, ImgList.length);
-                                            document.getElementById("CreatePostForm").submit();
-                                        }
-                                    }
+                            $('#upload').click(function (e) {
+                                "use strict";
+                                e.preventDefault();
+
+                                if (window.filesToUpload.length === 0 || typeof window.filesToUpload === "undefined") {
+                                    alert("No files are selected.");
                                     return false;
+                                }
+
+                                // Now, upload the files below...
+                                // https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications#Handling_the_upload_process_for_a_file.2C_asynchronously
+                            });
+
+                            function deletePreview(ele, i) {
+                                "use strict";
+                                try {
+                                    $(ele).parent().remove();
+                                    window.filesToUpload.splice(i, 1);
+                                } catch (e) {
+                                    console.log(e.message);
                                 }
                             }
 
+                            $("#file").on('change', function () {
+                                "use strict";
+
+                                // create an empty array for the files to reside.
+                                window.filesToUpload = [];
+
+                                if (this.files.length >= 1) {
+                                    $("[id^=previewImg]").remove();
+                                    $.each(this.files, function (i, img) {
+                                        var reader = new FileReader(),
+                                          newElement = $("<div id='previewImg" + i + "' class='abcd'><img /></div>"),
+                                          deleteBtn = $("<span class='delete' onClick='deletePreview(this, " + i + ")'>delete</span>").prependTo(newElement),
+                                          preview = newElement.find("img");
+
+                                        reader.onloadend = function () {
+                                            preview.attr("src", reader.result);
+                                            preview.attr("alt", img.name);
+                                        };
+
+                                        try {
+                                            window.filesToUpload.push(document.getElementById("file").files[i]);
+                                        } catch (e) {
+                                            console.log(e.message);
+                                        }
+
+                                        if (img) {
+                                            reader.readAsDataURL(img);
+                                        } else {
+                                            preview.src = "";
+                                        }
+
+                                        newElement.appendTo("#filediv");
+                                    });
+                                }
+                            });
+//                            window.onload = function () {
+//
+//                                //Check File API support
+//                                if (window.File && window.FileList && window.FileReader) {
+//                                    var filesInput = document.getElementById("files");
+//
+//                                    filesInput.addEventListener("change", function (event) {
+//
+//                                        var files = event.target.files; //FileList object
+//                                        var output = document.getElementById("result");
+//
+//                                        for (var i = 0; i < files.length; i++) {
+//                                            var file = files[i];
+//
+//                                            //Only pics
+//                                            if (!file.type.match('image'))
+//                                                continue;
+//
+//                                            var picReader = new FileReader();
+//
+//                                            picReader.addEventListener("load", function (event) {
+//
+//                                                var picFile = event.target;
+//
+//                                                var div = document.createElement("span");
+//
+//                                                div.innerHTML = "<img class='thumb' src='" + picFile.result + "'" +
+//                                                        "title='" + picFile.name + "'/> <a href='#' class='remove_pict'>X</a>";
+//
+//                                                output.insertBefore(div, null);
+//                                                div.children[1].addEventListener("click", function () {
+//                                                    div.parentNode.removeChild(div);
+//                                                });
+//
+//                                            });
+//
+//                                            //Read the image
+//                                            picReader.readAsDataURL(file);
+//                                        }
+//
+//                                    });
+//                                }
+//                                else {
+//                                    console.log("Your browser does not support File API");
+//                                }
+//                            }
+
+
+                          
                         </script>
+                        @*                        <div id="fine-uploader-gallery"></div>*@
+
+@*                                                <script>*@
+                        @*                            var uploader = new qq.FineUploader({*@
+                        @*                                element: document.getElementById('fine-uploader-gallery'),*@
+                        @*                                template: 'qq-template-gallery',*@
+                        @*                                validation: {*@
+                        @*                                    allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],*@
+                        @*                                    sizeLimit: 10*1024*1024 // 200 kB = 200 * 1024 bytes*@
+                        @*                                },*@
+                        @*                                callbacks: {*@
+                        @*                                    onError: function() {*@
+                        @*                                        $(".grids").isotope("layout");*@
+                        @*                                    }*@
+                        @*                                }*@
+                        @*                            });*@
+@*                                                    window.onload = function () {*@
+@*                                                        document.getElementById('CreatePostForm').onsubmit = function () {*@
+@*                        *@
+@*                                                            var formdata = new FormData();                                   *@
+@*                                                            for (var i = 0; i < ImgList.length; i++) {*@
+@*                                                                formdata.append(ImgList[i].name, ImgList[i]);*@
+@*                                                            }*@
+@*                                                            var xhr = new XMLHttpRequest();*@
+@*                                                            xhr.open('POST', '/Post/GetIllustrations');*@
+@*                                                            xhr.send(formdata);*@
+@*                                                            xhr.onreadystatechange = function () {*@
+@*                                                                if (xhr.readyState === 4 && xhr.status === 200) {*@
+@*                                                                    ImgList.splice(0, ImgList.length);*@
+@*                                                                    document.getElementById("CreatePostForm").submit();*@
+@*                                                                }*@
+@*                                                            }*@
+@*                                                            return false;*@
+@*                                                        }*@
+@*                                                    }*@
+@*                        *@
+@*                                                </script>*@
                     </div>
 
                     <!-- Button Create and Cancel -->
                     <div class="field" style="text-align: center">
-                        <input id="btnCancel" type="button" value="Hủy" class="ui cancel button" onclick="resetForm()" />
+                        <input id="btnCancel" type="button" value="Hủy" class="ui cancel button" onclick="resetForm()"/>
                         <input id="btnCreate" type="submit" tabindex="6" value="Đăng bài" name="createpost" class="ui teal button"/>
                         <script>
-                            function resetForm() {                               
+                            function resetForm() {
                                 $('.stamp-button').click();
                             }
                         </script>

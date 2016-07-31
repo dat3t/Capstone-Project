@@ -140,7 +140,7 @@
             gutter: '.gutter-sizer'
         }
     });
-    
+     
     
     // change size of item by toggling gigante class
     $grid.on('click', '.grid-item', function (e) {
@@ -152,8 +152,9 @@
             data:{"postId":id},
             url: '_ShowPost',
             success: function (partialResult) {
-                $("#forModal").empty();
+                $("#forModal").html("");
                 $("#forModal").html(partialResult);
+               
                 $('#forModal').modal({
                     inverted: true
                 }).modal('show')
@@ -163,14 +164,16 @@
                     cellAlign: 'left',
                     contain: true
                 });
+               
             }
         });
      
+    
+
 //        $(this).parent().parent().toggleClass('gigante');
         // trigger layout after item size changes
         $grid.isotope('layout');
     });
-    var $stamp = $grid.find('.stamp');
 var isStamped = false;
    
 $('.stamp-button').on('click', function () {
