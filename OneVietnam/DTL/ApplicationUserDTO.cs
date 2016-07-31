@@ -30,11 +30,15 @@ namespace OneVietnam.DTL
         public string Cover { get; set; }
         [BsonIgnoreIfNull]
         public SortedList<string, Conversation> Conversations { get; set; }
+        public List<Notification> Notifications { get; set; }
         [BsonIgnoreIfNull]
         public List<Connection> Connections { get; set; }
         [BsonIgnoreIfNull]
         public DateTimeOffset? DateOfBirth { get; set; }
         public bool LockedFlag { get; set; }
+
+        public bool DeletedFlag { get; set; }
+
         public int CountUnReadConversations()
         {
             return Conversations.Where((t, i) => !Conversations.ElementAt(i).Value.Seen).Count();

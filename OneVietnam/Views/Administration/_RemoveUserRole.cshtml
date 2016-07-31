@@ -1,0 +1,31 @@
+﻿
+@model OneVietnam.Models.UserRoleViewModel
+
+
+@using (Ajax.BeginForm("RemoveUserRole", "Administration", new { userId = Model.Id, role = Model.Role }, new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "Role_" + Model.Id
+}))
+{
+    if (Model?.Role != null)
+    {
+        <div style="width: 100%; text-align: left;">
+            <div class="ui content">
+                <i class="link remove icon" style="float: right" onclick="submitRemoveRole()"></i>@Model.Role                
+            </div>
+            @{
+                string btnId = "btnRemoveRole" + Model.Role;
+            }
+            <input class="ui small button" style="display: none" id="@btnId" value="Xóa" type="submit">
+            <script>
+                function submitRemoveRole() {
+                    $("#btnRemoveRole" + "@Model.Role").click();
+                }
+            </script>
+        </div>
+                    }
+
+
+                }

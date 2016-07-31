@@ -289,6 +289,8 @@
     <Compile Include="DTL\BaseMongoDocument.cs" />
     <Compile Include="DTL\ConnectionDTO.cs" />
     <Compile Include="DTL\MessageDTO.cs" />
+    <Compile Include="DTL\Notification.cs" />
+    <Compile Include="Models\AdministrationViewModel.cs" />
     <Compile Include="Models\ConversationModel.cs" />
     <Compile Include="Models\PostInfoWindowModel.cs" />
     <Compile Include="Models\ReportViewModal.cs" />
@@ -587,6 +589,14 @@
     <Content Include="Views\Shared\_NoSearchResult.cshtml" />
     <Content Include="Views\Post\_ShowPost.cshtml" />
     <Content Include="Views\Administration\ShowAdminPanel.cshtml" />
+    <Content Include="Views\Administration\_AddRole.cshtml" />
+    <Content Include="Views\Administration\_RoleManagementPanel.cshtml" />
+    <Content Include="Views\Administration\_RemoveRole.cshtml" />
+    <Content Include="Views\Administration\_UsersManagementPanel.cshtml" />
+    <Content Include="Views\Administration\_RemoveUserRole.cshtml" />
+    <Content Include="Views\Administration\_UserRoles.cshtml" />
+    <Content Include="Views\Administration\_AddUserRole.cshtml" />
+    <Content Include="Views\Administration\_UserLockedStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

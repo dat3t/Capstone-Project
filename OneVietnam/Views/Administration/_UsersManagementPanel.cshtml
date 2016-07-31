@@ -1,0 +1,79 @@
+﻿
+@using OneVietnam.Models
+@model List<OneVietnam.Models.UserManagementViewModel>
+
+
+<!-- Users Search Box -->
+<div class="ui grid">
+
+    <div class="four wide column">
+        <div class="ui input" style="width: 100%">
+            <input class="promt" id="txtSearchUser" name="txtSearchUser" placeholder="Tên người dùng" type="text">
+            <input class="ui teal button" value="Tìm kiếm" type="button">
+        </div>
+    </div>
+
+
+</div>
+
+<!-- Users List -->
+
+@if (Model != null && Model.Count > 0)
+{
+    <div class="ui grid">
+        <div class="sixteen wide column">
+            <div id="tbUsersDefault">
+                <table class="ui celled table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>STT</th>
+                            <th>ID</th>
+                            <th>Tên người dùng</th>
+                            <th>Ngày đăng ký</th>
+                            <th>Quyền truy cập</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            @for (int index = 0; index < Model.Count; index++)
+                            {
+                                <td>
+                                    <div class="ui fitted checkbox">
+                                        <input type="checkbox">
+                                        <label></label>
+                                    </div>
+                                </td>
+                                <td>@(index + 1)</td>
+                                <td>@Model[index].Id</td>
+                                <td>@Model[index].UserName</td>
+                                <td>@($"{Model[index].CreatedDate:dd/MM/yyyy}")</td>
+                                <td style="padding: 0">
+                                    <div id="Role_@Model[index].Id" style="width: 100%; height: 100%">
+                                        @if (Model[index]?.Roles != null)
+                                        {
+                                            @Html.Partial("_UserRoles", Model[index])
+                                        }
+                                    </div>                                    
+                                </td>
+                                <td>
+                                    <div id="ShowLockedStatus">
+                                        @Html.Partial("_UserLockedStatus", Model[index])
+                                    </div>
+
+                                </td>
+                                <td>@(Model[index].DeletedFlag ? "Đã bị xóa" : "Chưa bị xóa")</td>
+                            }
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+}
+

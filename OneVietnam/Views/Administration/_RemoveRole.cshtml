@@ -1,0 +1,25 @@
+﻿
+@model OneVietnam.Models.RoleViewModel   
+
+
+@using (Ajax.BeginForm("RemoveRole", "Administration", new { roleId = Model.Id }, new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "RoleManagement"
+}))
+{
+    if (Model != null)
+    {
+        <div class="item" style="width: 100%; text-align: center; padding-bottom: 1rem !important">
+            <div class="ui left labeled button" style="width: 100%">
+                <div class="ui basic right pointing label" style="width: 70%">
+                    @Model.Name
+                </div>
+                <input class="ui button" value="Xóa" type="submit">  
+            </div>
+        </div>             
+    }
+
+
+}
