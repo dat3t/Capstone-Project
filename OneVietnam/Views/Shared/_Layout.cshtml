@@ -13,7 +13,7 @@
 </head>
 <body>
 
-    <div class="ui grid">
+    <div class="ui grid" >
         <div class="computer only row">
             <div class="ui main menu" style="background: rgba(2, 35, 20, 0.7)">
                 <a href="@Url.Action("Index", "Home")" class="ui active item button">
@@ -94,7 +94,7 @@
             </div>
         </div>
     </div>
-    <div class="ui fluid container" style="height: 100%;" id="bodypage">
+    <div class="ui fluid container" style="height: 90%;overflow:hidden;" id="bodypage">
         @RenderBody()
         @if (Request.IsAuthenticated)
         {
