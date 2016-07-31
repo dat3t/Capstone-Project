@@ -26,8 +26,9 @@ a {
 a:hover {
   text-decoration: underline;
 }
-
-
+.thumb{width:159px; height:159px;border: 1px solid #000;
+    margin-right: 20px;}
+   
 
 .containers {
   margin: 0 auto;

@@ -2754,7 +2754,6 @@ qq.status = {
 
             r("{file}", this._options.formatFileName(name));
             r("{extensions}", extensionsForMessage);
-            r("{sizeLimit}", this._formatSize(validationBase.sizeLimit));
             r("{minSizeLimit}", this._formatSize(validationBase.minSizeLimit));
 
             placeholderMatch = message.match(/(\{\w+\})/g);
@@ -3391,10 +3390,10 @@ qq.status = {
                 return validityChecker.failure();
             }
 
-            if (size > 0 && validationBase.sizeLimit && size > validationBase.sizeLimit) {
-                this._itemError("sizeError", name, file);
-                return validityChecker.failure();
-            }
+//            if (size > 0 && validationBase.sizeLimit && size > validationBase.sizeLimit) {
+//                this._itemError("sizeError", name, file);
+//                return validityChecker.failure();
+//            }
 
             if (size > 0 && size < validationBase.minSizeLimit) {
                 this._itemError("minSizeError", name, file);

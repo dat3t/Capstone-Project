@@ -70,8 +70,8 @@ namespace OneVietnam.BLL
                         if (pFiles[i] != null)
                         {
                             CloudBlockBlob blob = blobContainer.GetBlockBlobReference(GetRandomBlobName(pFiles[i].FileName));
-                            await blob.DeleteIfExistsAsync();
-                            blob.UploadFromStream(pFiles[i].InputStream);
+                            
+                         await   blob.UploadFromStreamAsync(pFiles[i].InputStream);
                         }                        
                     }
                     var blobList = blobContainer.ListBlobs();
