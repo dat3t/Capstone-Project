@@ -174,14 +174,14 @@
                     <!-- Illustration -->
                     <i class="large inverted blue camera icon"></i>Thêm ảnh
                     <div class="field">
-                        <div id="filediv">
-                            <input type="file" id="file" name="files[]" multiple="multiple" accept="image/*" title="Select Images To Be Uploaded">
-                            <br>
-                        </div>
-                        <input type="button" id="add_more" class="upload" value="Add More Images" />
-                        <input type="submit" name="submit" value="Add Product" class="upload" id="upload" title="Add Product To The Inventory">
-@*                        <input type="file" id="files" name="files" class="upload hides" multiple />*@
-@*                        <output id="result"></output>*@
+@*                        <div id="filediv">*@
+@*                            <input type="file" id="file" name="files[]" multiple="multiple" accept="image/*" title="Select Images To Be Uploaded">*@
+@*                            <br>*@
+@*                        </div>*@
+@*                        <input type="button" id="add_more" class="upload" value="Add More Images" />*@
+@*                        <input type="submit" name="submit" value="Add Product" class="upload" id="upload" title="Add Product To The Inventory">*@
+                        <input type="file" id="files" name="files" class="upload hides" multiple />
+                        <output id="result"></output>
 
                         <script>
                             $(".camera.icon")
@@ -202,111 +202,111 @@
                                   })
                                 ));
                             });
-
-                            $('#upload').click(function (e) {
-                                "use strict";
-                                e.preventDefault();
-
-                                if (window.filesToUpload.length === 0 || typeof window.filesToUpload === "undefined") {
-                                    alert("No files are selected.");
-                                    return false;
-                                }
-
-                                // Now, upload the files below...
-                                // https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications#Handling_the_upload_process_for_a_file.2C_asynchronously
-                            });
-
-                            function deletePreview(ele, i) {
-                                "use strict";
-                                try {
-                                    $(ele).parent().remove();
-                                    window.filesToUpload.splice(i, 1);
-                                } catch (e) {
-                                    console.log(e.message);
-                                }
-                            }
-
-                            $("#file").on('change', function () {
-                                "use strict";
-
-                                // create an empty array for the files to reside.
-                                window.filesToUpload = [];
-
-                                if (this.files.length >= 1) {
-                                    $("[id^=previewImg]").remove();
-                                    $.each(this.files, function (i, img) {
-                                        var reader = new FileReader(),
-                                          newElement = $("<div id='previewImg" + i + "' class='abcd'><img /></div>"),
-                                          deleteBtn = $("<span class='delete' onClick='deletePreview(this, " + i + ")'>delete</span>").prependTo(newElement),
-                                          preview = newElement.find("img");
-
-                                        reader.onloadend = function () {
-                                            preview.attr("src", reader.result);
-                                            preview.attr("alt", img.name);
-                                        };
-
-                                        try {
-                                            window.filesToUpload.push(document.getElementById("file").files[i]);
-                                        } catch (e) {
-                                            console.log(e.message);
-                                        }
-
-                                        if (img) {
-                                            reader.readAsDataURL(img);
-                                        } else {
-                                            preview.src = "";
-                                        }
-
-                                        newElement.appendTo("#filediv");
-                                    });
-                                }
-                            });
-//                            window.onload = function () {
 //
-//                                //Check File API support
-//                                if (window.File && window.FileList && window.FileReader) {
-//                                    var filesInput = document.getElementById("files");
+//                            $('#upload').click(function (e) {
+//                                "use strict";
+//                                e.preventDefault();
 //
-//                                    filesInput.addEventListener("change", function (event) {
-//
-//                                        var files = event.target.files; //FileList object
-//                                        var output = document.getElementById("result");
-//
-//                                        for (var i = 0; i < files.length; i++) {
-//                                            var file = files[i];
-//
-//                                            //Only pics
-//                                            if (!file.type.match('image'))
-//                                                continue;
-//
-//                                            var picReader = new FileReader();
-//
-//                                            picReader.addEventListener("load", function (event) {
-//
-//                                                var picFile = event.target;
-//
-//                                                var div = document.createElement("span");
-//
-//                                                div.innerHTML = "<img class='thumb' src='" + picFile.result + "'" +
-//                                                        "title='" + picFile.name + "'/> <a href='#' class='remove_pict'>X</a>";
-//
-//                                                output.insertBefore(div, null);
-//                                                div.children[1].addEventListener("click", function () {
-//                                                    div.parentNode.removeChild(div);
-//                                                });
-//
-//                                            });
-//
-//                                            //Read the image
-//                                            picReader.readAsDataURL(file);
-//                                        }
-//
-//                                    });
+//                                if (window.filesToUpload.length === 0 || typeof window.filesToUpload === "undefined") {
+//                                    alert("No files are selected.");
+//                                    return false;
 //                                }
-//                                else {
-//                                    console.log("Your browser does not support File API");
+//
+//                                // Now, upload the files below...
+//                                // https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications#Handling_the_upload_process_for_a_file.2C_asynchronously
+//                            });
+//
+//                            function deletePreview(ele, i) {
+//                                "use strict";
+//                                try {
+//                                    $(ele).parent().remove();
+//                                    window.filesToUpload.splice(i, 1);
+//                                } catch (e) {
+//                                    console.log(e.message);
 //                                }
 //                            }
+//
+//                            $("#file").on('change', function () {
+//                                "use strict";
+//
+//                                // create an empty array for the files to reside.
+//                                window.filesToUpload = [];
+//
+//                                if (this.files.length >= 1) {
+//                                    $("[id^=previewImg]").remove();
+//                                    $.each(this.files, function (i, img) {
+//                                        var reader = new FileReader(),
+//                                          newElement = $("<div id='previewImg" + i + "' class='abcd'><img /></div>"),
+//                                          deleteBtn = $("<span class='delete' onClick='deletePreview(this, " + i + ")'>delete</span>").prependTo(newElement),
+//                                          preview = newElement.find("img");
+//
+//                                        reader.onloadend = function () {
+//                                            preview.attr("src", reader.result);
+//                                            preview.attr("alt", img.name);
+//                                        };
+//
+//                                        try {
+//                                            window.filesToUpload.push(document.getElementById("file").files[i]);
+//                                        } catch (e) {
+//                                            console.log(e.message);
+//                                        }
+//
+//                                        if (img) {
+//                                            reader.readAsDataURL(img);
+//                                        } else {
+//                                            preview.src = "";
+//                                        }
+//
+//                                        newElement.appendTo("#filediv");
+//                                    });
+//                                }
+//                            });
+                            window.onload = function () {
+
+                                //Check File API support
+                                if (window.File && window.FileList && window.FileReader) {
+                                    var filesInput = document.getElementById("files");
+
+                                    filesInput.addEventListener("change", function (event) {
+
+                                        var files = event.target.files; //FileList object
+                                        var output = document.getElementById("result");
+
+                                        for (var i = 0; i < files.length; i++) {
+                                            var file = files[i];
+
+                                            //Only pics
+                                            if (!file.type.match('image'))
+                                                continue;
+
+                                            var picReader = new FileReader();
+
+                                            picReader.addEventListener("load", function (event) {
+
+                                                var picFile = event.target;
+
+                                                var div = document.createElement("span");
+
+                                                div.innerHTML = "<img class='thumb' src='" + picFile.result + "'" +
+                                                        "title='" + picFile.name + "'/> <a href='#' class='remove_pict'>X</a>";
+
+                                                output.insertBefore(div, null);
+                                                div.children[1].addEventListener("click", function () {
+                                                    div.parentNode.removeChild(div);
+                                                });
+
+                                            });
+
+                                            //Read the image
+                                            picReader.readAsDataURL(file);
+                                        }
+
+                                    });
+                                }
+                                else {
+                                    console.log("Your browser does not support File API");
+                                }
+                            }
 
 
                           

@@ -85,18 +85,14 @@ function initialize() {
     bounds = new google.maps.LatLngBounds();
 
     google.maps.event.addListener(map, 'bounds_changed', function () {
-
         bounds = map.getBounds();
-        // var centerOfCurrentBound = bounds.getCenter();
-        //alert(bounds);
-        //alert(bounds.getCenter());
-        //alert(bounds.getCenter().lat());
-        //alert(bounds.getCenter().lng());
     });
 
     google.maps.event.addListener(map, 'idle', function () {
         bounds = map.getBounds();
     });
+
+    //Delcare overlapping, markerClusterer
     overlappingUsers = new OverlappingMarkerSpiderfier(map);
     overlappingMale = new OverlappingMarkerSpiderfier(map);
     overlappingLGBT = new OverlappingMarkerSpiderfier(map);
@@ -130,99 +126,38 @@ function initialize() {
     type4MarkerCluster = new MarkerClusterer(map, listType4Markers);
     type5MarkerCluster = new MarkerClusterer(map, listType5Markers);
 
+    //Init user makers first load
     userMarkerCluster.setMaxZoom(9);
     showUsers();
 
-    var markers = [];
-    var marker5 = new google.maps.Marker({
-        position: { lat: 16.0544068, lng: 108.20216670000002 },
-        map: map,
-        title: 'First Marker'
-    });
-    var marker6 = new google.maps.Marker({
-        position: { lat: 16.0544068, lng: 108.20216670000002 },
-        map: map,
-        title: 'Second Marker'
-    });
-    var marker7 = new google.maps.Marker({
-        // position: { lat: 15.8800584, lng: 108.3380469 },
-        position: { lat: 16.0544068, lng: 108.20216670000002 },
-        map: map,
-        title: 'Second Marker'
-    });
-    markers.push(marker5);
-    markers.push(marker6);
-    markers.push(marker7);
-
-    var oms = new OverlappingMarkerSpiderfier(map);
-
-    oms.addMarker(marker5);
-    oms.addMarker(marker6);
-    oms.addMarker(marker7);
-    markerCluster = new MarkerClusterer(map, markers);
-    markerCluster.setMaxZoom(11);
-
-    userInfoWindow = new google.maps.InfoWindow({
-        content: "",
-        maxWidth: 350
-    });
-  
 
     // Create the search box and link it to the UI element.
     var input = document.getElementById("pac-input2");
     var searchBox = new google.maps.places.SearchBox(input);
 
-    var markers2 = [];
+    //marker2 = [];
+    //for (var i = 0; i < 1000; i++) {
+    //    // var dataPhoto = data.photos[i];
+    //    var latLng = new google.maps.LatLng(Math.floor(Math.random() * 50), Math.floor(Math.random() * 100));
+    //    var marker = new google.maps.Marker({
+    //        position: latLng
+    //    });
+    //    markers2.push(marker);
+    //}
 
-    //var p1 = { lat: 36.23081510000001, lng: 137.9643552 };
-
-    //var p2 = { lat: 36.238666, lng: 137.96902209999996 };
-    
-    for (var i = 0; i < 1000; i++) {
-        // var dataPhoto = data.photos[i];
-        var latLng = new google.maps.LatLng(Math.floor(Math.random() * 50), Math.floor(Math.random() * 100));
-        var marker = new google.maps.Marker({
-            position: latLng
-        });
-        markers2.push(marker);
-    }
-
-    markerCluster2 = new MarkerClusterer(map, null);
-    markerCluster2.addMarkers(markers2);
+    //markerCluster2 = new MarkerClusterer(map, null);
+    //markerCluster2.addMarkers(markers2);
 
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
-    var marker2 = [];
     searchBox.addListener('places_changed', function () {
         var places = searchBox.getPlaces();
         if (places.length == 0) {
             return;
         }
-
-        // Clear out the old markers.
-        //marker2.forEach(function (marker) {
-        //    marker.setMap(null);
-        //});
-        //marker2 = [];
-
         // For each place, get the icon, name and location.
         var bounds = new google.maps.LatLngBounds();
         places.forEach(function (place) {
-            //var icon = {
-            //    url: place.icon,
-            //    size: new google.maps.Size(71, 71),
-            //    origin: new google.maps.Point(0, 0),
-            //    anchor: new google.maps.Point(17, 34),
-            //    scaledSize: new google.maps.Size(25, 25)
-            //};
-
-            //// Create a marker for each place.
-            //marker2.push(new google.maps.Marker({
-            //    map: map,
-            //    icon: icon,
-            //    title: place.name,
-            //    position: place.geometry.location
-            //}));
 
             if (place.geometry.viewport) {
                 // Only geocodes have viewport.
@@ -246,13 +181,7 @@ function loadScript() {
 }
 
 function showCurrentLocation() {
-    //alert(aa);
-    // alert(array[0].x);
-    var p1 = { lat: 36.23081510000001, lng: 137.9643552 };
 
-    var p2 = { lat: 36.238666, lng: 137.96902209999996 };
-
-    //document.getElementById('cal').innerHTML = getDistance(p1,p2);
     myHomeMarker.setMap(null);
     //Identify current user's location and bind it to the map
     //Using HTML5 geolocation.
@@ -265,7 +194,6 @@ function showCurrentLocation() {
 
             myCurrentLocationMarker.setPosition(pos);
             myCurrentLocationMarker.setMap(map);
-            // addMarker(pos);
             map.setZoom(12);
             map.setCenter(pos);
 
@@ -341,7 +269,7 @@ function calculateNearestMarker(listLocation) {
     //bounds = map.getBounds();
     var centerOfCurrentBound = bounds.getCenter();
     var k;
-    if(listLocation.length > 0){
+    if (listLocation.length > 0) {
         var position = new google.maps.LatLng(listLocation[0].x, listLocation[0].y);
         var min = getDistance(centerOfCurrentBound, position);
         var length = listLocation.length;
@@ -355,8 +283,6 @@ function calculateNearestMarker(listLocation) {
         }
         return position;
     }
-   
-
 }
 
 function showJobOffer() {
@@ -755,124 +681,6 @@ function deleteMarkers(listMarkers) {
     listMarkers = [];
 }
 
-function createUserInfoWindowContent(name, age, gender, address) {
-
-    var genderOfInfoWindow;
-
-    if (gender == 0) {
-        genderOfInfoWindow = "Nữ";
-    } else if (gender == 1) {
-        genderOfInfoWindow = "Nam";
-    } else if (gender == 2) {
-        genderOfInfoWindow = "LGBT";
-    }
-
-    // InfoWindow content
-    var content = '<div style="overflow:hidden;">' +
-        '<div id="iw-container">' +
-                      '<div class="iw-title">' + name + '</div>' +
-                      '<div class="iw-content">' +
-                        '<div id="navInfo">' +
-                            '<img src="../Content/Images/dat.jpg" alt="Trần Trọng Tiến Đạt" height="115" width="115">' +
-                            '</div>' +
-                        '<div id="sectionInfo" stype="padding:10px;">' +
-                            '<table style="width:220px;height:115px;">' +
-                            '<tr>' +
-                            '<td><b>Tuổi:</b></td>' +
-                            '<td>' + age + '</td> ' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><b>Facebook:</b></td>' +
-                            '<td><a href="https://www.facebook.com/Dat3T">Dat3T</a></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><b>Giới tính:</b></td>' +
-                            '<td>' + genderOfInfoWindow + '</td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><b>Địa chỉ:</b></td>' +
-                            '<td>' + address + '</td>' +
-                            '</tr>' +
-                            '</table>' +
-                            '</div>' +
-                      '</div>' + '</div>' +
-                      '<div class="iw-bottom-gradient"></div>' +
-            '</div>';
-
-    infowindow.setContent(content);
-}
-
-function createPostInfoWindowContent(username, postType, postTitle, address) {
-
-    var postTypeInfoWindow;
-
-    if (postType == 0) {
-        postTypeInfoWindow = "Nhà ở";
-    } else if (postType == 1) {
-        postTypeInfoWindow = "Việc làm";
-    } else if (postType == 2) {
-        postTypeInfoWindow = "Cho đồ";
-    }
-    var content2 = '<div class="ui modal">' +
-        '<div class="header">' +
-            'Profile Picture'
-    '</div>' +
-        '<div class="image content">' +
-            '<div class="ui medium image">' +
-                '<img src="">' +
-            '</div>' +
-            '<div class="description">' +
-                '<div class="ui header">Weve auto-chosen a profile image for you.</div>' +
-                '<p>Weve grabbed the following image from the <a href="https://www.gravatar.com" target="_blank">gravatar</a> image associated with your registered e-mail address.</p>' +
-                '<p>Is it okay to use this photo?</p>' +
-            '</div>' +
-        '</div>' +
-        '<div class="actions">' +
-            '<div class="ui black deny button">' +
-                'Nope'
-    '</div>' +
-            '<div class="ui positive right labeled icon button">' +
-                'Yep, thats me'
-    ' <i class="checkmark icon"></i>' +
-            '</div>' +
-        '</div>' +
-    '</div>';
-
-    // InfoWindow content
-    var content = '<div style="overflow:hidden;">' +
-        '<div id="iw-container">' +
-                      '<div class="iw-title">' + 'Bài đăng' + '</div>' +
-                      '<div class="iw-content">' +
-                        '<div id="navInfo">' +
-                            '<img src="../Content/Images/pikachu.jpg" alt="Trần Trọng Tiến Đạt" height="115" width="115">' +
-                            '</div>' +
-                        '<div id="sectionInfo" stype="padding:10px;">' +
-                            '<table style="width:220px;height:115px;">' +
-                            '<tr>' +
-                            '<td><b>Người đăng:</b></td>' +
-                            '<td>' + username + '</td> ' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><b>Mục:</b></td>' +
-                            '<td>' + postTypeInfoWindow + '</td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><b>Nội dung:</b></td>' +
-                            '<td>' + postTitle + '</td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><b>Nơi đăng:</b></td>' +
-                            '<td>' + address + '</td>' +
-                            '</tr>' +
-                            '</table>' +
-                            '</div>' +
-                      '</div>' + '</div>' +
-                      '<div class="iw-bottom-gradient"></div>' +
-            '</div>';
-
-    infowindow.setContent(content);
-}
-
 function getUserInfo(userId) {
     $.ajax({
         url: 'GetUserPartialView?userId=' + userId,
@@ -929,7 +737,7 @@ function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail)
     if (isCallFromPostDetail != 1) {
         setTimeout(function () { getPostInfo(PostId); }, 1000);
     }
-   
+
 
 }
 
