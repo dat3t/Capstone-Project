@@ -88,15 +88,13 @@
                 <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts=""></div>
 
                 <script>
-                   
-                    FB.XFBML.parse();
-                    var finished_rendering = function () {
-                        alert("@url");
-                    }
 
-                    // In your onload handler
-                    FB.Event.subscribe('comment.create', finished_rendering);
-                       
+                    FB.Event.subscribe('comment.create',
+                        function(response) {
+                            alert(response.from);
+                        });
+                    FB.XFBML.parse();
+
                 </script>
                 @*                <script>*@
                 @*</script>*@
