@@ -101,6 +101,7 @@
             <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
             <script src="~/signalr/hubs"></script>
             <script type="text/javascript" src="~/Scripts/Chat.js"></script>
+            <script type="text/javascript" src="~/Scripts/Notification.js"></script>
             <script>
                 var chat;
                 $(function () {
@@ -121,7 +122,7 @@
                             $('#NotificationsNo').show();
                             $('#NotificationsNo').text('1');
                         } else {
-                            $('#NotificationsNo').text(parseInt($('#MessageNotification').text()) + 1);
+                            $('#NotificationsNo').text(parseInt($('#NotificationsNo').text()) + 1);
                             $('#NotificationsNo').show();                            
                         }                        
                     }

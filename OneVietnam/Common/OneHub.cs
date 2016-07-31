@@ -53,6 +53,15 @@ namespace OneVietnam
                     Clients.Client(conn.ConnectionId).pushNotification();
                 }
             }
+            var description = Constants.CommentDescription + title;
+            var notice = new Notification(url, description);
+            if (friend.Notifications == null)
+            {
+                friend.Notifications = new SortedList<string, Notification>();
+            }            
+            friend.Notifications.Add(notice.Id,notice);
+            await UserManager.UpdateAsync(friend);
+
         }
         public override async Task OnConnected()
         {            

@@ -91,7 +91,7 @@
 
                     FB.XFBML.parse();
                     var finished_rendering = function () {
-                        pushNotification("@url", "@Model.Title","@User.Identity.GetUserId()");
+                        pushNotification("@url", "@Model.Title","@Model.UserId");
                     }
 
                     // In your onload handler
