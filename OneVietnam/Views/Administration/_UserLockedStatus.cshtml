@@ -1,0 +1,18 @@
+﻿@model  OneVietnam.Models.UserManagementViewModel
+
+
+
+@using (Ajax.BeginForm("ChangeLockedStatus", "Administration",new { userId = Model.Id}, new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "ShowLockedStatus"
+}))
+{
+    if(Model != null)
+    {
+        <label>@(Model.LockedFlag ? "Đã bị khóa" : "Chưa bị khóa")</label>
+        <input type="submit" class="ui mini button" value="@(Model.LockedFlag ? "Mở" : "Khóa")"/>
+    }
+    @Html.ValidationSummary(false)
+}

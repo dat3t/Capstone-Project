@@ -124,7 +124,7 @@ function showUserMarkerOnMap(x, y, address) {
         title: address,
         icon: icon
     });
-    map = new google.maps.Map(document.getElementById('divShowMap'), {
+    map2= new google.maps.Map(document.getElementById('divShowMap'), {
         center: { lat: x, lng: y },
         zoom: 10,
         minZoom: 4,
@@ -132,12 +132,12 @@ function showUserMarkerOnMap(x, y, address) {
     });
     
     userLocationMarker.setPosition({ lat: x, lng: y });
-    userLocationMarker.setMap(map);
+    userLocationMarker.setMap(map2);
    
-    google.maps.event.addListenerOnce(map, 'idle', function () {
-        google.maps.event.trigger(map, 'resize');
-        map.setCenter({ lat: x, lng: y });
-        map.setZoom(10);
+    google.maps.event.addListenerOnce(map2, 'idle', function () {
+        google.maps.event.trigger(map2, 'resize');
+        map2.setCenter({ lat: x, lng: y });
+        map2.setZoom(10);
     });
 }
 

@@ -8,10 +8,10 @@
             document.getElementById("XCoordinate").value = pos.lat;
             document.getElementById("YCoordinate").value = pos.lng;
             document.getElementById("XCoordinateExternal").value = pos.lat;
-            document.getElementById("YCoordinateExternal").value = pos.lat;
+            document.getElementById("YCoordinateExternal").value = pos.lng;
         } else {
             document.getElementById("XCoordinateExternal").value = pos.lat;
-            document.getElementById("YCoordinateExternal").value = pos.lat;
+            document.getElementById("YCoordinateExternal").value = pos.lng;
         }
         
         //  alert(pos.lat+'aa'+pos.lng);

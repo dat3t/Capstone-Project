@@ -164,14 +164,17 @@ function getConversations() {
                 con = con + '</div>';
                 con = con + '<div class="content">';
                 con = con + '<div class="header">' + htmlEncode(conversations[i]["FriendName"]) + '</div>';
-                con = con + '<div class="description messagePreview">';
-                con = con + '<p>';
+                con = con + '<div class="description messagePreview">';                
                 if (conversations[i]["LastestType"] == '0') {
                     con = con + '<i class="mini reply icon"></i>';
                 }
-                con = con + htmlEncode(conversations[i]["LastestMessage"]);
-                con = con + '</p>';
+                con = con + htmlEncode(conversations[i]["LastestMessage"]);                
                 con = con + '</div>';
+                con = con + '<div class="extra">';
+                con = con + '<i>';
+                con = con + conversations[i]["UpdatedDate"].toString();
+                con = con + '</i>';
+                con= con + '</div>'
                 con = con + '</div>';
                 con = con + '</div>';
                 con = con + '</a>';

@@ -353,7 +353,15 @@ namespace OneVietnam.Controllers
             await PostManager.UpdateAsync(post);
             return RedirectToAction("ShowPostDetail", "Post", new { postId = pPostView.Id });
         }
-       
+        
+        [System.Web.Mvc.Authorize]        
+        public async Task<ActionResult> DeletePost(string postId)
+        {
+            Post post = await PostManager.FindByIdAsync(postId);
+            post.DeletedFlag = true;                                             
+            await PostManager.UpdateAsync(post);
+            return RedirectToAction("Newfeeds", "Post");
+        }
         [HttpPost]
         public async Task<ActionResult> DeleteImage(string name,string id)
         {

@@ -126,6 +126,12 @@
     
             });
 
+        $('#AdministrationsMenu .menu .item')
+  .tab({
+      context: $('#AdministrationsMenu')
+  })
+        ;
+
         
 
 

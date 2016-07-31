@@ -1,0 +1,54 @@
+﻿
+@using System.Web.UI.WebControls
+@using OneVietnam.Models
+@model OneVietnam.Models.UserManagementViewModel
+
+@if (Model != null)
+{
+    <div class="ui grid">
+        <div class="three wide column" style="vertical-align: top">
+            <button class="ui compact icon button" onclick="showOtherRoles()">
+                <i class="icon add"></i>
+            </button>
+        </div>
+        <div class="thirteen wide column">
+            @if (Model?.Roles != null && Model.Roles.Count > 0)
+            {
+                <div class="ui list" style="padding-left: 1rem">
+                    @foreach (var role in Model.Roles)
+                    {
+                        <div class="item">
+                            @Html.Partial("_RemoveUserRole", new UserRoleViewModel(Model.Id, role))
+                        </div>                       
+                    }
+                </div>
+
+
+            }
+        </div>
+
+
+    </div>
+
+    <script>
+        function showOtherRoles() {
+            var id = '@Model.Id';
+            $.ajax({
+                type: 'GET',
+                url: 'GetOtherRoles',
+                data: { "userId": id },
+                success: function (partialResult) {
+                    $("#divAddRole").empty();
+                    $("#divAddRole").html(partialResult);
+                    $("#drAddUserRole").dropdown({});
+                }
+            });
+        }
+    </script>
+    <div id="divAddRole" class="item"></div>
+    @Html.ValidationSummary(false)
+
+}
+
+
+

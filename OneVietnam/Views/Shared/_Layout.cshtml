@@ -135,7 +135,22 @@
                             } else {
                                 $('#MessageNotification').show();
                                 $('#MessageNotification').text(data);
-                            }                            
+                            }
+                        }
+                    });
+                });
+                $(function () {
+                    var controller = "/Home/GetNotificationsNo";
+                    $.ajax({
+                        type: 'POST',
+                        url: controller,
+                        success: function (data) {
+                            if (data == '') {
+                                $('#NotificationsNo').hide();
+                            } else {
+                                $('#NotificationsNo').show();
+                                $('#NotificationsNo').text(data);
+                            }
                         }
                     });
                 });
