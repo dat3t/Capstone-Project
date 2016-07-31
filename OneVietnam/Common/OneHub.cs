@@ -40,6 +40,20 @@ namespace OneVietnam
             // Store Message To Database
             await UserManager.AddMessage(Context.User.Identity.GetUserId(), friendId, message);            
         }
+
+        public async Task PushNotification(string url, string title, string id)
+        {
+            var friend = await UserManager.FindByIdAsync(id);
+            var connection = friend.Connections;
+            if (connection != null)
+            {
+                foreach (var conn in connection.Where(conn => conn.Connected == true))
+                {
+                    // call client's javascript function 
+                    Clients.Client(conn.ConnectionId).pushNotification();
+                }
+            }
+        }
         public override async Task OnConnected()
         {            
             var userId = Context.User.Identity.GetUserId();

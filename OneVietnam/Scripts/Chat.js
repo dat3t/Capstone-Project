@@ -79,7 +79,8 @@ function register_popup(id, name, avatarSrc) {
     getConversationById(id);
 
 }
-function seenConversation(id) {    
+function seenConversation(id) {
+    if (document.getElementById(id + "Conversations") == null) return;
     if (document.getElementById(id + "Conversations").style.background != "") {        
         if (parseInt($('#MessageNotification').text()) == 1) {
             $('#MessageNotification').hide();

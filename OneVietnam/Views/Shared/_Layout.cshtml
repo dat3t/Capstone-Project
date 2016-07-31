@@ -116,6 +116,15 @@
                         $("#" + id + "Conversation").scrollTop(document.getElementById(id + "Conversation").scrollHeight);
 
                     };
+                    chat.client.pushNotification = function () {
+                        if ($('#NotificationsNo').text() == '') {
+                            $('#NotificationsNo').show();
+                            $('#NotificationsNo').text('1');
+                        } else {
+                            $('#NotificationsNo').text(parseInt($('#MessageNotification').text()) + 1);
+                            $('#NotificationsNo').show();                            
+                        }                        
+                    }
                     // Start the connection.
                     $.connection.hub.start().done(function () {
                     });
@@ -131,6 +140,7 @@
                         data: data,
                         success: function (data, textstatus) {
                             if (data == '') {
+                                $('#NotificationsNo').text('');
                                 $('#MessageNotification').hide();
                             } else {
                                 $('#MessageNotification').show();
