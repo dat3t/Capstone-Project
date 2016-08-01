@@ -125,5 +125,48 @@ namespace OneVietnam.Controllers
             };
             return Json(searchResult, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> SearchUserMultipleQuery()
+        {
+            string userName = "";
+            DateTimeOffset? createdDateFrom = null;
+            DateTimeOffset? createdDateTo = null;
+            string role = "";
+            bool? isConnection = null;
+
+            if (Request.Form.Count > 0)
+            {
+                userName = Request.Form["txtSearchUserName"];
+                string dateFrom = Request.Form["dtCreatedDateFrom"];
+                if (!string.IsNullOrWhiteSpace(dateFrom))
+                {
+                    createdDateFrom = Convert.ToDateTime(dateFrom).ToUniversalTime();
+                }
+                string dateTo = Request.Form["dtCreatedDateTo"];
+                if (!string.IsNullOrWhiteSpace(dateTo))
+                {                    
+                    createdDateTo = Convert.ToDateTime(dateTo).AddHours(12).ToUniversalTime();
+                }
+                role = Request.Form["txtSearchUserRole"];
+                var connection = Request.Form["chkIsOnline"];
+                if (!string.IsNullOrWhiteSpace(connection) && string.Equals(connection, "on"))
+                {
+                    isConnection = true;
+                }
+            }
+            var users = await UserManager.TextSearchMultipleQuery(userName, createdDateFrom, createdDateTo, role, isConnection);
+            List<UserManagementViewModel> userViews = new List<UserManagementViewModel>();
+            if (users != null && users.Count > 0)
+            {
+                foreach (var item in users)
+                {
+                    UserManagementViewModel model = new UserManagementViewModel(item);
+                    userViews.Add(model);
+                }
+
+            }
+            return PartialView("../Administration/_UsersManagementPanel", userViews);
+        }                
     }
 }

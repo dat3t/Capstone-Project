@@ -48,6 +48,17 @@ namespace OneVietnam.Controllers
             }
         }
 
+
+        private PostManager _postManager;
+        public PostManager PostManager
+        {
+            get
+            {
+                return _postManager ?? HttpContext.GetOwinContext().Get<PostManager>();
+            }
+            private set { _postManager = value; }
+        }
+
         public async Task<ActionResult> ShowAdminPanel()
         {
             var users = await UserManager.AllUsersAsync();
@@ -94,7 +105,7 @@ namespace OneVietnam.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> RemoveRole(string roleId)
         {
-
+            //Remove role in roles document
             var role = await RoleManager.FindByIdAsync(roleId);
             var roleresult = await RoleManager.DeleteAsync(role);
             if (!roleresult.Succeeded)
@@ -102,8 +113,20 @@ namespace OneVietnam.Controllers
                 ModelState.AddModelError("", roleresult.Errors.First());                
             }
 
-            var roleList = await RoleManager.AllRolesAsync();
-            
+            //Remove role if user has this role
+            var users = await UserManager.FindUsersByRoleAsync(role);
+            foreach (var user in users)
+            {
+                user.Roles.Remove(role.Name);
+                var userResult = await UserManager.UpdateAsync(user);
+                if (!userResult.Succeeded)
+                {
+                    ModelState.AddModelError("", userResult.Errors.First());
+                }
+            }
+
+            //Return new role list after remove this role
+            var roleList = await RoleManager.AllRolesAsync();            
             List<RoleViewModel> roles = new List<RoleViewModel>();
             if (roleList != null && roleList.Count > 0)
             {
@@ -218,12 +241,12 @@ namespace OneVietnam.Controllers
             {
                 if (user != null)
                 {
-                    user.LockedFlag = !user.LockedFlag;
+                    user.LockedFlag = !user.LockedFlag;                    
                     var result = await UserManager.UpdateAsync(user);
                     if (!result.Succeeded)
                     {
                         ModelState.AddModelError("", result.Errors.First());
-                    }
+                    }                                        
                 }
 
             }

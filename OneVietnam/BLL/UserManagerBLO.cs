@@ -92,6 +92,69 @@ namespace OneVietnam.BLL
             return await _userStore.TextSearchUsers(query);
         }
 
+        public async Task<List<ApplicationUser>> TextSearchMultipleQuery(string userName, DateTimeOffset? createdDateFrom, DateTimeOffset? createdDateTo, string role, bool? isConnection)
+        {
+            var builder = Builders<ApplicationUser>.Filter;
+            FilterDefinition<ApplicationUser> filter = null;
+            if (!string.IsNullOrWhiteSpace(userName))
+            {
+                var textFilter = builder.Regex("UserName", new BsonRegularExpression(userName, "i"));                
+                filter = textFilter;
+            }
+            if (createdDateFrom != null)
+            {                
+                var dateFrpm = builder.Gte("CreatedDate", createdDateFrom);
+                if (filter == null)
+                {
+                    filter = dateFrpm;
+                }
+                else
+                {
+                    filter = filter & dateFrpm;
+                }
+            }
+
+            if (createdDateTo != null)
+            {
+                var dateTo = builder.Lte("CreatedDate", createdDateTo);
+                if (filter == null)
+                {
+                    filter = dateTo;
+                }
+                else
+                {
+                    filter = filter & dateTo;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(role))
+            {
+                var roleFilter = builder.Eq("Roles", role);
+                if (filter == null)
+                {
+                    filter = roleFilter;
+                }
+                else
+                {
+                    filter = filter & roleFilter;
+                }
+            }
+
+            if (isConnection != null)
+            {
+                var connectionFilter = builder.Eq("Connections.Connected", isConnection);
+                if (filter == null)
+                {
+                    filter = connectionFilter;
+                }
+                else
+                {
+                    filter = filter & connectionFilter;
+                }
+            }
+            return await _userStore.TextSearchMultipleQuery(filter);
+        }
+
         public async Task<List<ApplicationUser>> TextSearchUsers(string query, BaseFilter baseFilter)
         {
             return await _userStore.TextSearchUsers(query, baseFilter);
