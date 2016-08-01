@@ -164,8 +164,13 @@
         $("#dtCreatedDateTo").change(function () {
             $("#UserSearchAdminPanel").submit();
         });
-
         //Admin panel search user end
+
+        //Create admin post begin
+
+        
+
+        //Create admin post end
 
     //ToanLM
 

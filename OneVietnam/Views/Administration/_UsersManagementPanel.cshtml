@@ -30,7 +30,7 @@
                                 <td style="width: 3%;">@(index + 1)</td>
                                 <td style="width: 10%;"><a href="@Url.Action("Timeline","Timeline", new {userId = Model[index].Id})">@Model[index].Id</a></td>
                                 <td style="width: 15%;">@Model[index].UserName</td>
-                                <td style="width: 10%;">@($"{Model[index].CreatedDate:dd/MM/yyyy}")</td>
+                                <td style="width: 10%;">@($"{Model[index].CreatedDate.LocalDateTime:dd/MM/yyyy}")</td>
                                 <td style="width: 28%;padding: 0">
                                     <div id="Role_@Model[index].Id" style="width: 100%; height: 100%">
                                         @if (Model[index]?.Roles != null)

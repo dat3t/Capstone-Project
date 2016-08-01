@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -54,6 +55,23 @@ namespace OneVietnam.DTL
             PostLocation = pView.PostLocation;
             Illustrations = pView.Illustrations;
             Tags = pView.Tags;            
-        }        
+        }
+
+
+        public Post(CreateAdminPostViewModel pView)
+        {
+            Id = ObjectId.GenerateNewId().ToString();
+            Title = pView.Title;            
+            Description = pView.Description;
+            CreatedDate = DateTimeOffset.UtcNow;
+            PostType = 0;
+            DeletedFlag = false;
+            Status = true;
+            LockedFlag = false;
+            if (pView.Illustrations != null && pView.Illustrations.Count > 0)
+            {
+                Illustrations = pView.Illustrations;
+            }            
+        }
     }
 }
