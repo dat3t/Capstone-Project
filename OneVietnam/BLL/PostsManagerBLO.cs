@@ -56,7 +56,7 @@ namespace OneVietnam.BLL
             try
             {
                 int fileCount = pFiles.Count;
-                if (fileCount > 0)
+                if (fileCount > 0 && !string.IsNullOrEmpty(pFiles[0]?.FileName))
                 {
                     CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
                     CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();

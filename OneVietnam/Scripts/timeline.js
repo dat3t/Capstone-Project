@@ -1,9 +1,4 @@
-﻿$('.scrolling.menu').on('click', '.item', function () {
-    alert("vao");
-    var filterValue = $(this).attr('data-filter');
-    // use filterFn if matches value
-    $('.grids').isotope({ filter: filterValue });
-});
+﻿
 function editableForm() {
     $('.tog').toggleClass('disabled');
     $('#btnSaveEditProfile').toggleClass('hides');
@@ -155,19 +150,21 @@ function updateCurrentLocation() {
 
             var geocoder = new window.google.maps.Geocoder();             // create a geocoder object
             var location = new window.google.maps.LatLng(pos.lat, pos.lng);    // turn coordinates into an object          
-            geocoder.geocode({ 'latLng': location }, function (results, status) {
-                if (status === window.google.maps.GeocoderStatus.OK) {           // if geocode success
-                    var detailedLocation = results[0].formatted_address;         // if address found, pass to processing function
-                    addr.value = detailedLocation;
-                    xcoordinate.value = pos.lat;
-                    ycoordinate.value = pos.lng;
-                    userLocationMarker.setTitle(addr);
-                    userLocationMarker.setPosition({ lat: pos.lat, lng: pos.lng });
-                    userLocationMarker.setMap(map);
-                    map.setCenter({ lat: pos.lat, lng: pos.lng });
-                } else {
-                }
-            })
+            geocoder.geocode({ 'latLng': location },
+                function(results, status) {
+                    if (status === window.google.maps.GeocoderStatus.OK) { // if geocode success
+                        var detailedLocation = results[0]
+                            .formatted_address; // if address found, pass to processing function
+                        addr.value = detailedLocation;
+                        xcoordinate.value = pos.lat;
+                        ycoordinate.value = pos.lng;
+                        userLocationMarker.setTitle(addr);
+                        userLocationMarker.setPosition({ lat: pos.lat, lng: pos.lng });
+                        userLocationMarker.setMap(map);
+                        map.setCenter({ lat: pos.lat, lng: pos.lng });
+                    } else {
+                    }
+                });
         }, function () {
             // handleLocationError(true, myLocationMarker, map.getCenter());
             alert("Không thể định vị được vị trí của bạn. Bạn cần cho phép trình duyệt sử dụng định vị GPS.");

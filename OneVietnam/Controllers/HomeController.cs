@@ -69,8 +69,10 @@ namespace OneVietnam.Controllers
         public async Task<JsonResult> GetConversations()
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            var conversations = user.Conversations.OrderByDescending(c => c.Value).ToList();
             var conversationList = new List<ConversationModel>();
+            if(user.Conversations==null) return Json(conversationList, JsonRequestBehavior.AllowGet);
+            var conversations = user.Conversations.OrderByDescending(c => c.Value).ToList();            
+
             for (var i = 0; i < conversations.Count(); i++)
             {
                 var friend = await UserManager.FindByIdAsync(conversations[i].Key);
@@ -99,10 +101,11 @@ namespace OneVietnam.Controllers
         public async Task<JsonResult> GetNotifications()
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            var notifications = user.Notifications;
-            int updatedCount = 0;
             List<NotificationModel> list = new List<NotificationModel>();
-            for (int i = 0; i < notifications.Count - 1; i++)
+            var notifications = user.Notifications;
+            if (notifications == null) return Json(list, JsonRequestBehavior.AllowGet);
+            int updatedCount = 0;            
+            for (int i = 0; i < notifications.Count; i++)
             {
                 var not = new NotificationModel
                 {

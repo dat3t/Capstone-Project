@@ -53,7 +53,7 @@ namespace OneVietnam
                     Clients.Client(conn.ConnectionId).pushNotification();
                 }
             }
-            var description = Constants.CommentDescription + title;
+            var description = Constants.CommentDescription+"\"" + title+"\"";
             var notice = new Notification(url, description);
             if (friend.Notifications == null)
             {

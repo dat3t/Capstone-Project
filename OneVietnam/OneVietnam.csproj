@@ -308,9 +308,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\NewFeedController.cs" />
     <Compile Include="Controllers\MapController.cs" />
-    <Compile Include="Controllers\PostController.cs" />
+    <Compile Include="Controllers\NewsfeedController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
@@ -653,7 +652,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Post\NewFeeds.cshtml" />
+    <Content Include="Views\Newsfeed\Index.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -702,33 +701,31 @@
     <Content Include="Views\Account\ShowAllUsers.cshtml" />
     <Content Include="Views\Account\CreateCountry.cshtml" />
     <Content Include="Views\Account\SelectCountry.cshtml" />
-    <Content Include="Views\NewFeed\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Post\EditPost.cshtml" />
-    <Content Include="Views\Post\ShowPostDetail.cshtml" />
-    <Content Include="Views\Post\ShowPost.cshtml" />
+    <Content Include="Views\Newsfeed\EditPost.cshtml" />
+    <Content Include="Views\Newsfeed\ShowPostDetail.cshtml" />
+    <Content Include="Views\Newsfeed\ShowPost.cshtml" />
     <Content Include="Views\Manage\TimeLine.cshtml" />
     <Content Include="Views\Shared\_PostRow.cshtml" />
     <Content Include="Views\Shared\_Loading.cshtml" />
     <Content Include="Views\Map\ShowMap.cshtml" />
     <Content Include="Views\Map\CustomInfoWindow.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
-    <Content Include="Views\Post\_ShowPostDetail.cshtml" />
+    <Content Include="Views\Newsfeed\_ShowPostDetail.cshtml" />
     <Content Include="Views\Shared\_CreatePost.cshtml" />
-    <Content Include="Views\Post\Index.cshtml" />
-    <Content Include="Views\Post\_Report.cshtml" />
+    <Content Include="Views\Newsfeed\_Report.cshtml" />
     <Content Include="Views\Map\SidenavPost.cshtml" />
     <Content Include="Views\Map\UserAndPostInfo.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
     <Content Include="Views\Shared\_UserInfo.cshtml" />
-    <Content Include="Views\Timeline\Timeline.cshtml" />
+    <Content Include="Views\Timeline\Index.cshtml" />
     <Content Include="Views\Timeline\_ChangePassword.cshtml" />
     <Content Include="Views\Timeline\_EditProfile.cshtml" />
     <Content Include="Views\Timeline\_SetPassword.cshtml" />
     <Content Include="Views\Shared\_ShowPostDetail.cshtml" />
     <Content Include="Views\Shared\_NoSearchResult.cshtml" />
-    <Content Include="Views\Post\_ShowPost.cshtml" />
+    <Content Include="Views\Newsfeed\_ShowPost.cshtml" />
     <Content Include="Views\Administration\ShowAdminPanel.cshtml" />
     <Content Include="Views\Administration\_AddRole.cshtml" />
     <Content Include="Views\Administration\_RoleManagementPanel.cshtml" />
@@ -740,6 +737,7 @@
     <Content Include="Views\Administration\_UserLockedStatus.cshtml" />
     <Content Include="Views\Administration\_PostsManagementPanel.cshtml" />
     <Content Include="Views\Administration\_CreateAdminPost.cshtml" />
+    <Content Include="Views\Shared\_UserCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

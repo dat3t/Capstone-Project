@@ -133,23 +133,21 @@ function getConversationById(friendId) {
 $('#myConversations').click(function () {
     getConversations();
 });
-
+var noConversation = "Bạn không có tin nhắn nào";
 function getConversations() {
     var controller = "/Home/GetConversations";
     $.ajax({
         type: 'POST',
         url: controller,
         success: function (conversations, textstatus) {
-            if (conversations == '') {
+            if (conversations.length == 0) {
+                var not;
+                not = '<div class="item conversations" style="padding:0em!important">';
+                not = not + '<div style="width: 300px; height: 30px; margin-top: 10px;text-align: center">' + noConversation + '</div>';
                 document.getElementById('Conversations').innerHTML = "";
-                var noCon;
-                noCon = '<div class="item conversations" style="padding:0em!important">';
-                noCon = noCon + '<div class="content"><p>Bạn Không Có Tin Nhắn Nào</p></div>';
-                noCon = noCon + '</div>';
-                $("#Conversations").append(noCon);
+                $("#Conversations").append(not);                
                 return;
-            };
-            $("#loading").show();
+            };            
             document.getElementById('Conversations').innerHTML = "";
             for (var i = 0; i < conversations.length; i++) {
                 var con;
@@ -184,10 +182,10 @@ function getConversations() {
                 con = con + '</a>';
                 con = con + '</div>';
                 $("#Conversations").append(con);
-            }
-            $("#loading").hide();
+            }            
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Can not load conversations");
         }
     });
 }
