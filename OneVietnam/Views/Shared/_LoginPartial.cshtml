@@ -5,7 +5,7 @@
         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "ui form" }))
         {
             @Html.AntiForgeryToken()
-            <a href="/Timeline?userId=@User.Identity.GetUserId()" id="txtHeaderUserName" style="color: white">
+            <a href="@Url.Action("Index","Timeline",new {userId=User.Identity.GetUserId()})" id="txtHeaderUserName" style="color: white">
                 <img class="ui avatar image" src="~/Content/Images/Avatar_Default.jpg" />
                 <span>@User.Identity.GetUserName()&nbsp;</span>                                                
             </a>
