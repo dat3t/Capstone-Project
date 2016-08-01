@@ -46,15 +46,7 @@ namespace OneVietnam.DTL
 
         public int CountUnReadNotifications()
         {
-            var count = 0;
-            for (var i = 0; i < this.Notifications.Count-1; i++)
-            {
-                if (Notifications.Values[i].Seen == false)
-                {
-                    count++;
-                }
-            }
-            return count;
+            return this.Notifications.Where((t, i) => Notifications.Values[i].Seen == false).Count();
         }
     }
 }

@@ -141,7 +141,7 @@
                         data: data,
                         success: function (data, textstatus) {
                             if (data == '') {
-                                $('#NotificationsNo').text('');
+                                $('#MessageNotification').text('');
                                 $('#MessageNotification').hide();
                             } else {
                                 $('#MessageNotification').show();
@@ -156,7 +156,8 @@
                         type: 'POST',
                         url: controller,
                         success: function (data) {
-                            if (data == '') {
+                            if (data == '' || data == '0') {
+                                $('#NotificationsNo').text('0');
                                 $('#NotificationsNo').hide();
                             } else {
                                 $('#NotificationsNo').show();
