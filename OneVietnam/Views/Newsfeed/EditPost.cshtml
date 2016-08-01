@@ -22,7 +22,7 @@
             if (Request.IsAuthenticated)
             {
                 <script>
-                    isAuthenticated = true;
+                    //isAuthenticated = true;
 
                     $.ajax({
                         url: '/Map/GetUserInfo?userId=' + "@User.Identity.GetUserId()",

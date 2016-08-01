@@ -773,6 +773,7 @@ function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail)
         case 3: showHandGoodsOffer(); break;
         case 4: showTradeOffer(); break;
         case 5: showSOS(); break;
+        case 8: showWarning(); break;
     }
     map.setZoom(14);
     map.setCenter({ lat: Lat, lng: Lng });
