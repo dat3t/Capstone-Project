@@ -21,7 +21,7 @@
                     <span style="color: white">One Vietnam</span>
                 </a>
                 @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item", @style = "color: white" })
-                <a href="" class="ui item" style="color: white">Bảng Tin</a>
+                <a href="@Url.Action("Index","Newsfeed")" class="ui item" style="color: white">Bảng Tin</a>
                 <div class="right menu">
                     <div class="item">
                         <select class="ui dropdown searchType">
@@ -141,7 +141,7 @@
                         data: data,
                         success: function (data, textstatus) {
                             if (data == '') {
-                                $('#NotificationsNo').text('');
+                                $('#MessageNotification').text('');
                                 $('#MessageNotification').hide();
                             } else {
                                 $('#MessageNotification').show();
@@ -156,7 +156,8 @@
                         type: 'POST',
                         url: controller,
                         success: function (data) {
-                            if (data == '') {
+                            if (data == '' || data == '0') {
+                                $('#NotificationsNo').text('0');
                                 $('#NotificationsNo').hide();
                             } else {
                                 $('#NotificationsNo').show();

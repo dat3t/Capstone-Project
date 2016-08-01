@@ -102,7 +102,7 @@ namespace OneVietnam.Controllers
             var notifications = user.Notifications;
             int updatedCount = 0;
             List<NotificationModel> list = new List<NotificationModel>();
-            for (int i = 0; i < notifications.Count - 1; i++)
+            for (int i = 0; i < notifications.Count; i++)
             {
                 var not = new NotificationModel
                 {

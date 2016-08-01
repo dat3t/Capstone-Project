@@ -35,8 +35,7 @@ namespace OneVietnam.DTL
             Avatar = Constants.DefaultAvatarLink;
             Seen = false;
             CreatedDate = DateTimeOffset.UtcNow;            
-        }
-
+        }        
         public int CompareTo(Notification other)
         {
             if (this.CreatedDate < other.CreatedDate)
