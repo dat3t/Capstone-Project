@@ -6,6 +6,10 @@
             allowCategorySelection: true
         })
         ;
+        $("#locationDr").dropdown({
+            allowCategorySelection: true
+        })
+        ;
        
        
         $(".ui.toggle.button")
@@ -200,8 +204,14 @@
                
                 $('#forModal').modal({
                     inverted: true
+                }).modal({
+                    duration: 400,
+                    onHide: function () {
+                        history.pushState(null, null, "../Newsfeed");
+                    }
                 }).modal('show')
                 ;
+                history.pushState("../Newsfeed", null, "../Newsfeed/ShowPost?postId="+id);
                 $('.carousel').flickity({
                     // options
                     cellAlign: 'left',
@@ -210,7 +220,9 @@
                
             }
         });
-     
+        window.addEventListener('popstate', function (e) {
+            $("#forModal").modal("hide");
+        });
     
 
 //        $(this).parent().parent().toggleClass('gigante');
@@ -218,7 +230,6 @@
         $grid.isotope('layout');
     });
 var isStamped = false;
-   
 $('.stamp-button').on('click', function () {
     $('body,html').animate({
         scrollTop: 0                       // Scroll to top of body
