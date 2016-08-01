@@ -1,6 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
 @model OneVietnam.Models.PostViewModel
- <link href="~/Content/flickity.css" rel="stylesheet">
 <div class="ui  raised  segment " style="width: 600px !important">
     <div class="header">
 
@@ -74,7 +73,7 @@
                     <div class="carousel" data-flickity>
                         @foreach (var ill in Model.Illustrations)
                         {
-                            <div class="carousel-cell"><img src="@ill.PhotoLink"/>
+                            <div class="carousel-cell"><img src="@ill.PhotoLink" class="center-cropped"/>
                             </div>
                         }
 

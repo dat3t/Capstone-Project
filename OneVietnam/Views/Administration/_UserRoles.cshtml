@@ -6,7 +6,7 @@
 {
     <div class="ui grid">
         <div class="three wide column" style="vertical-align: top">
-            <button class="ui compact icon button" onclick="showOtherRoles()">
+            <button class="ui compact icon button" id="btnAddUserRole_@Model.Id">
                 <i class="icon add"></i>
             </button>
         </div>
@@ -30,21 +30,21 @@
     </div>
 
     <script>
-        function showOtherRoles() {
+        $("#btnAddUserRole_@Model.Id").on('click', function() {
             var id = '@Model.Id';
             $.ajax({
                 type: 'GET',
                 url: 'GetOtherRoles',
                 data: { "userId": id },
                 success: function (partialResult) {
-                    $("#divAddRole").empty();
-                    $("#divAddRole").html(partialResult);
-                    $("#drAddUserRole").dropdown({});
+                    $("#divAddRole_@Model.Id").empty();
+                    $("#divAddRole_@Model.Id").html(partialResult);
+                    $("#drAddUserRole_@Model.Id").dropdown({});
                 }
             });
-        }
+        });        
     </script>
-    <div id="divAddRole" class="item" style="margin: auto; width: 90%"></div>
+    <div id="divAddRole_@Model.Id" class="item" style="margin: auto; width: 90%"></div>
     @Html.ValidationSummary(false)
 
 }

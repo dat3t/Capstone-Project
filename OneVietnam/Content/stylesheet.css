@@ -6,7 +6,19 @@
 *, *:before, *:after {
   box-sizing: border-box;
 }
-
+.carousel-cell {
+  width: 600px; /* full width */
+  height: 600px; /* height of carousel */
+}
+.center-cropped {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    margin: auto;
+  max-height: 100%;
+  max-width: 100%;
 }
 
 
