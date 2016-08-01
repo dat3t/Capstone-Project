@@ -1,5 +1,4 @@
 ﻿@using OneVietnam.DTL
-@using Microsoft.AspNet.Identity
 
 @model OneVietnam.Models.CreatePostViewModel
 
@@ -15,19 +14,7 @@
 </script>
 @if (Request.IsAuthenticated)
 {
-    <script>
-        isAuthenticated = true;
-
-        $.ajax({
-            url: '/Map/GetUserInfo?userId=' + "@User.Identity.GetUserId()",
-            type: 'GET',
-            contentType: 'application/json;',
-            dataType: 'json',
-            success: function (json) {
-                authenticatedUser = {x:json.Location.XCoordinate,y:json.Location.YCoordinate,address:json.Location.Address}
-            }
-        });
-    </script>
+    
 }
 
 
