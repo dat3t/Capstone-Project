@@ -1,16 +1,28 @@
 ﻿@model IEnumerable<OneVietnam.Models.AddLocationViewModel>
+@using OneVietnam.DTL
 
 @{
     ViewBag.Title = "ShowMap";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    //List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
 }
 
 <script>
     var isAuthenticated;
     var authenticatedUser;
     var top5PostList;
+    //ViewData["PostTypes"] = IconList;
 
+    $(window).load(function() {
+        @if (@ViewBag.XCoordinate != null)
+        {
+            @:setTimeout(function() {  showSelectedPostOnMap(@ViewBag.XCoordinate , @ViewBag.YCoordinate, @ViewBag.PostType, '@ViewBag.PostId', 1); }, 1000);
+
+            @*@:alert('@ViewBag.PostId');*@
+                }
+    });
 </script>
+
 @using Microsoft.AspNet.Identity
 @using OneVietnam.Models;
 @if (Request.IsAuthenticated)
@@ -369,9 +381,9 @@ else
         </style>*@
 </head>
 
-<div class="ui stackable container" style="width:100%;height:85%;position:relative;">
+<div class="ui stackable container" style="width:100%;height:100%;position:relative;overflow:hidden;">
 
-    <div id="map_canvas" style="width:100%;height:100%;margin-top:0px !important;margin-left:0px!important;margin-right:0px!important;"></div>
+    <div id="map_canvas" style="width:100%;height:100%;margin-top:0px !important;margin-left:0px!important;margin-right:0px!important; overflow:hidden;"></div>
     <div class="ui icon input" style=" position: absolute; left: 40% !important; top: 8px !important;">
         <input id="pac-input2" type="text" placeholder="Tìm kiếm địa điểm...">
         <i class="search icon"></i>
@@ -430,26 +442,62 @@ else
         </button>
     </div>
     <div id="dat">
-        <div id="mySidenav" class="sidenav scrollbar" style="position:absolute;left:0px;top:0px;">
-            @{ List<PostInfoWindowModel> list = new List<PostInfoWindowModel>();
-            list = ViewBag.topPostModel;
+        <div id="mySidenav" class="sidenav scrollbar" style="position:absolute;left:0px;top:0px;overflow-y:auto;">
+            @{
+                List<PostInfoWindowModel> list = new List<PostInfoWindowModel>();
+                list = ViewBag.topPostModel;
+                @Html.Partial("SidenavPost", (list));
+
             }
-            @Html.Partial("SidenavPost", (list));
+
         </div>
 
         <div id="aa" onclick="toggle()" class="ui blue big centered launch right attached fixed button" style="position: absolute; left: 0px; margin-left:380px;top:40%;transition: margin-left .5s;width:60px;">
             <div style="position:relative;">
                 <i id="button" class="arrow left icon"></i>
-                @*  <span class="text" id="button2">Bài đăng</span>*@
             </div>
         </div>
-        <div class="ui modal scrollbar" id="postModal" style="height:500px;overflow-y:scroll;">
-        </div>
-
-        <div class="ui modal" id="userModal" style="height:250px ;width:500px ;position: absolute; left:65%;">
-        </div>
-
+    </div>
+    <div class="ui modal scrollbar" id="postModal" style="height:500px;overflow-y:scroll;">
     </div>
 
-    <script defer src="~/Scripts/OverlappingMarkerSpiderfier.js"></script>
+    <div class="ui modal" id="userModal" style="height:250px ;width:500px ;position: absolute; left:65%;">
+    </div>
+</div>
+<script defer src="~/Scripts/OverlappingMarkerSpiderfier.js"></script>
 
+
+<script>
+    var moreRowsUrl = '/Map/GetMorePost';
+    var page = 1;
+
+    $("#mySidenav").scroll(function () {
+        if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+            loadMorePost(moreRowsUrl);
+        }
+    });
+
+
+    function loadMorePost(loadMoreRowsUrl) {
+        if (page > -1) {
+            page++;
+            $.ajax({
+                type: 'GET',
+                url: loadMoreRowsUrl + '?pageNum=' + page,
+                //data: "pageNum=" + page,
+                success: function (data, textstatus) {
+                    if (data != '') {
+                        $('#mySidenav').append(data);
+                    }
+                    else {
+                        page = -1;
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+        }
+    }
+
+</script>
