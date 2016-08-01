@@ -2,7 +2,7 @@
     .ready(function () {
        
         $("#getloc").click();
-        $(".ui.floating.dropdown.button").dropdown({
+        $(".filter-post").dropdown({
             allowCategorySelection: true
         })
         ;
@@ -178,17 +178,17 @@
             gutter: '.gutter-sizer'
         }
     });
-    
+     
     
     // change size of item by toggling gigante class
-    $grid.on('click', '.grid-item', function (e) {
+    $grid.on('click', '.clickable', function (e) {
 
-                var id = $(this).find('#postId').val();
+                var id = $(this).parent().find('#postId').val();
        
         $.ajax({
             type: 'GET',
-                data: { "postId": id },
-            url: '_ShowPost',
+            data:{"postId":id},
+            url: '/Newsfeed/_ShowPost',
             success: function (partialResult) {
                 $("#forModal").html("");
                 $("#forModal").html(partialResult);
@@ -245,13 +245,14 @@ $('#return-to-top').click(function () {      // When arrow is clicked
         scrollTop: 0                       // Scroll to top of body
     }, 300);
 });
-
-$('.filter-group').on('click', 'a', function () {
+$('.filter-items').on('click', '.item', function () {
     var filterValue = $(this).attr('data-filter');
     // use filterFn if matches value
-    $grid.isotope({ filter: filterValue });
+    $('.grids').isotope({ filter: filterValue });
 });
+
 });
+
 $('#MessageButton').dropdown({
 });
 $('.ui.pointing.dropdown').dropdown({    

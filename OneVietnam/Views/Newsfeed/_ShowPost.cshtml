@@ -5,14 +5,14 @@
     <div class="header">
 
         <img class="ui mini avatar image" src="@Model.AvartarLink">
+        <a href="@Url.Action("Index","Timeline",new {userID=@Model.UserId})">@Model.UserName</a>
 
-        <span class="ui blue header" style="font-size: 17px">@Model.UserName</span>
         <div class="right align meta">
             @if (User.Identity.IsAuthenticated && (User.Identity.GetUserId() == Model.UserId))
             {
-                <i class="icon remove circle link" data-content="Xóa" style="float: right" onclick="document.location.href = '@Url.Action("DeletePost", "Post", new {postId = Model.Id})';"></i>
+                <i class="icon remove circle link" data-content="Xóa" style="float: right" onclick="document.location.href = '@Url.Action("DeletePost", "Newsfeed", new {postId = Model.Id})';"></i>
                 <i class="icon edit link" data-content="Sửa" style="float: right" onclick="document.location.href =
-    '@Url.Action("EditPost", "Post", new {postId = Model.Id})';"></i>
+    '@Url.Action("EditPost", "Newsfeed", new {postId = Model.Id})';"></i>
             }
             else
             {
@@ -22,7 +22,37 @@
         </div>
 
         <div class="meta">
-            <span style="color: grey; margin-left: 40px">2 days ago</span>
+                @{
+                    DateTime start = DateTime.Now;
+                    // Do some work
+                    TimeSpan timeDiff = DateTime.Now - @Model.CreatedDate;
+
+                }
+                @{
+
+                    if (timeDiff.TotalDays >= 30)
+                    {
+                        <span  style="color: grey; margin-left: 40px">  Tạo ngày @Model.CreatedDate.Date </span>
+                    }
+                    else if (timeDiff.TotalHours >= 24)
+                    {
+                        <span  style="color: grey; margin-left: 40px">@Math.Round(timeDiff.TotalDays) ngày trước </span>
+                    }
+                    else if (timeDiff.TotalMinutes >= 60)
+                    {
+                        <span style="color: grey; margin-left: 40px">@Math.Round(timeDiff.TotalHours) giờ trước </span>
+                    }
+                    else if (timeDiff.TotalSeconds >= 60)
+                    {
+                        <span style="color: grey; margin-left: 40px">@Math.Round(timeDiff.TotalMinutes) phút trước </span>
+                    }
+                    else
+                    {
+                        <span style="color: grey; margin-left: 40px">Vừa xong </span>
+                    }
+
+                }
+
          
 
         </div>
@@ -89,13 +119,18 @@
 
                 <script>
 
+                    FB.Event.subscribe('comment.create',
+                        function (response) {
+                            FB.api(
+    response.commentID,
+    function (responses) {
+        if (responses && !responses.error) {
+            alert(responses[from]);
+        }
+    }
+);
+                        });
                     FB.XFBML.parse();
-                    var finished_rendering = function () {
-                        pushNotification("@url", "@Model.Title","@Model.UserId");
-                    }
-
-                    // In your onload handler
-                    FB.Event.subscribe('comment.create', finished_rendering);
 
                 </script>
                 @*                <script>*@

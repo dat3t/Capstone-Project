@@ -6,7 +6,7 @@
         @{
             if (Model.Illustrations != null && Model.Illustrations.Count > 0)
             {
-                <div class="ui  image">
+                <div class="ui  image clickable">
 
 
                     <img src="@Model.Illustrations[0].PhotoLink" class="visible content"/>
@@ -18,7 +18,7 @@
 
             }
         }
-        <div class="content ">
+        <div class="content clickable ">
             <div class="meta">
 
                 @{
@@ -74,7 +74,6 @@
             @*                    {*@
             @*                        <i class="icon remove circle link" data-content="Xóa" style="float: right" onclick="document.location.href = '@Url.Action("DeletePost", "Post", new {postId = Model.Id})';"></i>*@
             @*                        <i class="icon edit link" data-content="Sửa" style="float: right" onclick="document.location.href =*@
-            @*    '@Url.Action("EditPost", "Post", new {postId = Model.Id})';"></i>*@
             @*                    }*@
             @*                    else*@
             @*                    {*@
@@ -90,7 +89,8 @@
 
         </div>
     <div class="extra content">
-        <img class="ui avatar image" src="@Model.AvartarLink"> @Model.UserName
+        <img class="ui avatar image" src="@Model.AvartarLink">
+        <a href="@Url.Action("Index","Timeline",new {userID=@Model.UserId})">@Model.UserName</a> 
     </div>
      
     </div>
