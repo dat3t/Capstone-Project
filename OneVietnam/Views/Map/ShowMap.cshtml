@@ -6,7 +6,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     //List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
 }
+<script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6&appId=1615798268744410";
+        fjs.parentNode.insertBefore(js, fjs);
 
+    }(document, 'script', 'facebook-jssdk'));
+</script>
 <script>
     var isAuthenticated;
     var authenticatedUser;
@@ -458,7 +468,7 @@ else
             </div>
         </div>
     </div>
-    <div class="ui modal scrollbar" id="postModal" style="height:500px;overflow-y:scroll;">
+    <div class="ui basic modal" id="postModal" style="position: absolute !important; left: 80% !important; height: 1000px; width: 600px">
     </div>
 
     <div class="ui modal" id="userModal" style="height:250px ;width:500px ;position: absolute; left:65%;">
