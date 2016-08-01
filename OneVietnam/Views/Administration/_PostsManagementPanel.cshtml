@@ -27,7 +27,7 @@
                         {
                             <tr id="Post_@Model[index].Id" style="width: 100%">
                                 <td style="width: 3%;">@(index + 1)</td>
-                                <td style="width: 10%;"><a href="@Url.Action("ShowPostDetail","Newsfeed", new {userId = Model[index].Id})">@Model[index].Id</a></td>
+                                <td style="width: 10%;"><a href="@Url.Action("ShowPostDetail","Newsfeed", new {postId = Model[index].Id})">@Model[index].Id</a></td>
                                 <td style="width: 15%;">@Model[index].Title</td>                                
                                 <td style="width: 10%;">@($"{Model[index].CreatedDate.AddDays(-7).LocalDateTime:dd/MM/yyyy}")</td>
                                 <td style="width: 28%;padding: 0">

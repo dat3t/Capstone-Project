@@ -65,7 +65,7 @@ namespace OneVietnam.Controllers
         public async Task<ActionResult> ShowAdminPanel()
         {
             
-            var users = await UserManager.TextSearchMultipleQuery("", DateTimeOffset.UtcNow.Date.ToUniversalTime(), DateTimeOffset.UtcNow.Date.AddDays(1).ToUniversalTime(), "",null);
+            var users = await UserManager.TextSearchMultipleQuery("", DateTimeOffset.Now.Date.ToUniversalTime(), DateTimeOffset.Now.Date.AddDays(1).ToUniversalTime(), "",null);
             var roles = await RoleManager.AllRolesAsync();
             var posts = await PostManager.FindAllAsync();
             AdministrationViewModel administrationView = new AdministrationViewModel(users, roles, posts);
