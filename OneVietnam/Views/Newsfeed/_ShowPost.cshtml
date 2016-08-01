@@ -121,14 +121,7 @@
 
                     FB.Event.subscribe('comment.create',
                         function (response) {
-                            FB.api(
-    response.commentID,
-    function (responses) {
-        if (responses && !responses.error) {
-            alert(responses[from]);
-        }
-    }
-);
+                            pushNotification("/Newsfeed/_ShowPost?postId=@Model.Id", "@Model.Title", "@Model.UserId");
                         });
                     FB.XFBML.parse();
 
