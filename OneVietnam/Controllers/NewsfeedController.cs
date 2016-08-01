@@ -161,6 +161,7 @@ namespace OneVietnam.Controllers
 
         public const int RecordsPerPage = 60;
 
+        
         public async Task<ActionResult> Index(int? pageNum)
         {            
             if (TagList != null)
@@ -219,6 +220,41 @@ namespace OneVietnam.Controllers
         /// </summary>
         /// <param name="pageNum"></param>
         /// <returns>List Post></returns>
+        [HttpPost]
+        public async Task<ActionResult> Index(string postId)
+
+        { //List<Post> list = await PostManager.FindByUserId(User.Identity.GetUserId());
+            Post post = await PostManager.FindByIdAsync(postId);
+           
+                ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
+                if (postUser != null)
+                {
+
+                    PostViewModel showPost = new PostViewModel(post, postUser.UserName, postUser.Avatar);
+
+                    return PartialView("../Newsfeed/_ShowPost",showPost);
+                }
+            
+            PostViewModel result = new PostViewModel(post);
+            return PartialView();
+        }
+
+        public async Task<ActionResult> ShowPost(string postId)
+        {
+            Post post = await PostManager.FindByIdAsync(postId);
+            if (post != null)
+            {
+                ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
+                if (postUser != null)
+                {
+
+                    PostViewModel showPost = new PostViewModel(post, postUser.UserName, postUser.Avatar);
+
+                    return View(showPost);
+                }
+            }
+            return View();
+        }
         public async Task<List<Post>> GetRecordsForPage(int pageNum)
         {
             //Dictionary<int, Post> posts = (Session["Posts"] as Dictionary<int, Post>);

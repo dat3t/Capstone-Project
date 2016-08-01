@@ -14,6 +14,7 @@ namespace OneVietnam.Models
 
         public List<RoleViewModel> Roles { get; set; }
 
+        public List<PostViewModel> Posts { get; set; }
         public AdministrationViewModel() { }
 
         public AdministrationViewModel(List<ApplicationUser> pUsers, List<IdentityRole> pRoles)
@@ -30,6 +31,40 @@ namespace OneVietnam.Models
 
             if (pRoles != null && pRoles.Count > 0)
             {                
+                Roles = new List<RoleViewModel>();
+                foreach (var role in pRoles)
+                {
+                    RoleViewModel roleView = new RoleViewModel(role);
+                    Roles.Add(roleView);
+                }
+            }
+
+        }
+
+        public AdministrationViewModel(List<ApplicationUser> pUsers, List<IdentityRole> pRoles, List<Post> pPosts)
+        {
+            if (pUsers != null && pUsers.Count > 0)
+            {
+                Users = new List<UserManagementViewModel>();
+                foreach (var user in pUsers)
+                {
+                    UserManagementViewModel userView = new UserManagementViewModel(user);
+                    Users.Add(userView);
+                }
+            }
+
+            if (pPosts != null && pPosts.Count > 0)
+            {
+                Posts = new List<PostViewModel>();
+                foreach (var post in pPosts)
+                {
+                    PostViewModel postView = new PostViewModel(post);
+                    Posts.Add(postView);
+                }
+            }
+
+            if (pRoles != null && pRoles.Count > 0)
+            {
                 Roles = new List<RoleViewModel>();
                 foreach (var role in pRoles)
                 {
@@ -106,6 +141,5 @@ namespace OneVietnam.Models
             Role = pRole;
         }
     }
-
-
+    
 }

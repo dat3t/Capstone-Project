@@ -149,7 +149,7 @@ namespace OneVietnam.Controllers
                 string dateTo = Request.Form["dtCreatedDateTo"];
                 if (!string.IsNullOrWhiteSpace(dateTo))
                 {                    
-                    createdDateTo = Convert.ToDateTime(dateTo).AddHours(12).ToUniversalTime();
+                    createdDateTo = Convert.ToDateTime(dateTo).AddHours(24).ToUniversalTime();
                 }
                 role = Request.Form["txtSearchUserRole"];
                 var connection = Request.Form["chkIsOnline"];
@@ -170,6 +170,26 @@ namespace OneVietnam.Controllers
 
             }
             return PartialView("../Administration/_UsersManagementPanel", userViews);
-        }                
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SearchPostMultipleQuery()
+        {
+
+            var posts = await PostManager.FindAllAsync();
+            List<PostViewModel> postViews = new List<PostViewModel>();
+            if (posts != null && posts.Count > 0)
+            {
+                foreach (var item in posts)
+                {
+                    PostViewModel model = new PostViewModel(item);
+                    postViews.Add(model);
+                }
+
+            }
+            return PartialView("../Administration/_PostsManagementPanel", postViews);
+        }
+
+
     }
 }

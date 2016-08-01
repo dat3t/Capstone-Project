@@ -116,7 +116,7 @@ namespace OneVietnam.BLL
 
             if (createdDateTo != null)
             {
-                var dateTo = builder.Lte("CreatedDate", createdDateTo);
+                var dateTo = builder.Lt("CreatedDate", createdDateTo);
                 if (filter == null)
                 {
                     filter = dateTo;

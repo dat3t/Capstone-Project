@@ -119,8 +119,8 @@ function getRegisteredLocation() {
     }
 
     var address_edit = document.getElementById("Address_Edit");
-    if (address_edit != null && isAuthenticated == true) {
-        document.getElementById("Address_Edit").value = autzhenticatedUser.address;
+    if (address_edit != null) {
+        document.getElementById("Address_Edit").value = authenticatedUser.address;
         document.getElementById("XCoordinate_Edit").value = authenticatedUser.x
         document.getElementById("YCoordinate_Edit").value = authenticatedUser.y;
     };

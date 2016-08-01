@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AspNet.Identity.MongoDB;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using MongoDB.Driver;
 using OneVietnam.BLL;
+using OneVietnam.DTL;
 using OneVietnam.Models;
 
 namespace OneVietnam.Controllers
@@ -61,10 +64,11 @@ namespace OneVietnam.Controllers
 
         public async Task<ActionResult> ShowAdminPanel()
         {
-            var users = await UserManager.AllUsersAsync();
-            var roles = await RoleManager.AllRolesAsync();
             
-            AdministrationViewModel administrationView = new AdministrationViewModel(users, roles);
+            var users = await UserManager.TextSearchMultipleQuery("", DateTimeOffset.Now.Date.ToUniversalTime(), DateTimeOffset.Now.Date.AddDays(1).ToUniversalTime(), "",null);
+            var roles = await RoleManager.AllRolesAsync();
+            var posts = await PostManager.FindAllAsync();
+            AdministrationViewModel administrationView = new AdministrationViewModel(users, roles, posts);
             return View(administrationView);
         }
 
@@ -257,6 +261,40 @@ namespace OneVietnam.Controllers
             }
 
             return PartialView("_UserLockedStatus", userView);
+        }
+
+        [HttpPost]
+        public void GetUploadImage()
+        {
+            Session["IllustrationList"] = Request.Files;
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateAdminPost(CreateAdminPostViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Post post = new Post(model) { UserId = User.Identity.GetUserId() };
+                HttpFileCollectionBase files = (HttpFileCollectionBase)Session["IllustrationList"];
+                var illList = await PostManager.GetIllustration(files, post.Id);
+                Session["Illustrations"] = null;
+                if(illList != null)
+                {
+                    post.Illustrations = illList;
+                }
+                try
+                {
+                    await PostManager.CreateAsync(post);
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", ex.Message);
+                    return PartialView("../Administration/_CreateAdminPost", model);
+                }
+            }               
+                 
+            return PartialView("../Administration/_CreateAdminPost", new CreateAdminPostViewModel());
         }
 
     }
