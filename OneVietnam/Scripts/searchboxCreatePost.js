@@ -111,19 +111,19 @@ function getCurrentLocation() {
 }
 
 function getRegisteredLocation() {
-    var address_Post = document.getElementById("PostLocation_Address");
-    if (address_Post != null) {
-        document.getElementById("PostLocation_Address").value = authenticatedUser.address;
-        document.getElementById("PostLocation_XCoordinate").value = authenticatedUser.x;
-        document.getElementById("PostLocation_YCoordinate").value = authenticatedUser.y;
-    }
-
-    var address_edit = document.getElementById("Address_Edit");
-    if (address_edit != null) {
-        document.getElementById("Address_Edit").value = autzhenticatedUser.address;
-        document.getElementById("XCoordinate_Edit").value = authenticatedUser.x
-        document.getElementById("YCoordinate_Edit").value = authenticatedUser.y;
-    };
+//    var address_Post = document.getElementById("PostLocation_Address");
+//    if (address_Post != null) {
+//        document.getElementById("PostLocation_Address").value = authenticatedUser.address;
+//        document.getElementById("PostLocation_XCoordinate").value = authenticatedUser.x;
+//        document.getElementById("PostLocation_YCoordinate").value = authenticatedUser.y;
+//    }
+//
+//    var address_edit = document.getElementById("Address_Edit");
+//    if (address_edit != null) {
+//        document.getElementById("Address_Edit").value = autzhenticatedUser.address;
+//        document.getElementById("XCoordinate_Edit").value = authenticatedUser.x
+//        document.getElementById("YCoordinate_Edit").value = authenticatedUser.y;
+//    };
 
 }
 $("getloc").click();
