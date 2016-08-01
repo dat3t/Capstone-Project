@@ -369,6 +369,7 @@
     <Content Include="Content\Icon\help2.png" />
     <Content Include="Content\Icon\help3.png" />
     <Content Include="Content\Icon\home.png" />
+    <Content Include="Content\Icon\iWarning.png" />
     <Content Include="Content\Icon\job2.png" />
     <Content Include="Content\Icon\job3.png" />
     <Content Include="Content\Icon\job4.png" />
@@ -386,6 +387,7 @@
     <Content Include="Content\Icon\ship3.png" />
     <Content Include="Content\Icon\ship4.jpg" />
     <Content Include="Content\Icon\Users.png" />
+    <Content Include="Content\Icon\Warning.png" />
     <Content Include="Content\Images\Avatar_Default.jpg" />
     <Content Include="Content\Images\chov.png" />
     <Content Include="Content\Images\Cover_default.jpg" />

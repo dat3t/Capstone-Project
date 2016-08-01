@@ -10,13 +10,13 @@ var markerCluster;
 
 var listUserMarkers = [], listMaleMarkers = [], listFemaleMarkers = [], listLGBTMarkers = [];
 
-var listType0Markers = [], listType1Markers = [], listType2Markers = [], listType3Markers = [], listType4Markers = [], listType5Markers = [];
+var listType0Markers = [], listType1Markers = [], listType2Markers = [], listType3Markers = [], listType4Markers = [], listType5Markers = [], listType8Markers = [];
 
 var userMarkerCluster = [], maleMarkerCluster = [], femaleMarkerCluster = [], LGBTMarkerCluster = [];
 
-var type0MarkerCluster = [], type1MarkerCluster = [], type2MarkerCluster = [], type3MarkerCluster = [], type4MarkerCluster = [], type5MarkerCluster = [];
+var type0MarkerCluster = [], type1MarkerCluster = [], type2MarkerCluster = [], type3MarkerCluster = [], type4MarkerCluster = [], type5MarkerCluster = [], type8MarkerCluster = [];
 
-var overlappingType0 = [], overlappingType1 = [], overlappingType2 = [], overlappingType3 = [], overlappingType4 = [], overlappingType5 = [];
+var overlappingType0 = [], overlappingType1 = [], overlappingType2 = [], overlappingType3 = [], overlappingType4 = [], overlappingType5 = [], overlappingType8 = [];
 
 var overlappingMale = [], overlappingFemale = [], overlappingLGBT = [], overlappingUsers = [];
 
@@ -103,6 +103,7 @@ function initialize() {
     overlappingType3 = new OverlappingMarkerSpiderfier(map);
     overlappingType4 = new OverlappingMarkerSpiderfier(map);
     overlappingType5 = new OverlappingMarkerSpiderfier(map);
+    overlappingType8 = new OverlappingMarkerSpiderfier(map)
 
     createListUserMarkers();
     createListMaleMarkers();
@@ -114,6 +115,7 @@ function initialize() {
     createListType3Markers();
     createListType4Markers();
     createListType5Markers();
+    createListType8Markers();
 
     userMarkerCluster = new MarkerClusterer(map, listUserMarkers);
     maleMarkerCluster = new MarkerClusterer(map, listMaleMarkers);
@@ -125,6 +127,7 @@ function initialize() {
     type3MarkerCluster = new MarkerClusterer(map, listType3Markers);
     type4MarkerCluster = new MarkerClusterer(map, listType4Markers);
     type5MarkerCluster = new MarkerClusterer(map, listType5Markers);
+    type8MarkerCluster = new MarkerClusterer(map, listType8Markers);
 
     //Init user makers first load
     userMarkerCluster.setMaxZoom(9);
@@ -225,8 +228,32 @@ function setMapToAMarkerCluster(markerCluster) {
     type3MarkerCluster.setMap(null);
     type4MarkerCluster.setMap(null);
     type5MarkerCluster.setMap(null);
+    type8MarkerCluster.setMap(null);
+    myCurrentLocationMarker.setMap(null);
+    myHomeMarker.setMap(null);
 
     markerCluster.setMap(map);
+}
+
+function calculateNearestMarker(listLocation) {
+
+    //bounds = map.getBounds();
+    var centerOfCurrentBound = bounds.getCenter();
+    var k;
+    if (listLocation.length > 0) {
+        var position = new google.maps.LatLng(listLocation[0].x, listLocation[0].y);
+        var min = getDistance(centerOfCurrentBound, position);
+        var length = listLocation.length;
+        for (var i = 1; i < length; i++) {
+            var position2 = new google.maps.LatLng(listLocation[i].x, listLocation[i].y);
+            var distance2 = getDistance(centerOfCurrentBound, position2)
+            if (min > distance2) {
+                min = distance2;
+                position = position2;
+            }
+        }
+        return position;
+    }
 }
 
 function showUsers() {
@@ -264,27 +291,6 @@ function showAccommodation() {
 
 }
 
-function calculateNearestMarker(listLocation) {
-
-    //bounds = map.getBounds();
-    var centerOfCurrentBound = bounds.getCenter();
-    var k;
-    if (listLocation.length > 0) {
-        var position = new google.maps.LatLng(listLocation[0].x, listLocation[0].y);
-        var min = getDistance(centerOfCurrentBound, position);
-        var length = listLocation.length;
-        for (var i = 1; i < length; i++) {
-            var position2 = new google.maps.LatLng(listLocation[i].x, listLocation[i].y);
-            var distance2 = getDistance(centerOfCurrentBound, position2)
-            if (min > distance2) {
-                min = distance2;
-                position = position2;
-            }
-        }
-        return position;
-    }
-}
-
 function showJobOffer() {
     setMapToAMarkerCluster(type1MarkerCluster);
     bounds.extend(calculateNearestMarker(postType1));
@@ -313,6 +319,12 @@ function showSOS() {
     bounds.extend(calculateNearestMarker(postType5));
     map.fitBounds(bounds);
 }
+function showWarning() {
+    setMapToAMarkerCluster(type8MarkerCluster);
+    bounds.extend(calculateNearestMarker(postType8));
+    map.fitBounds(bounds);
+}
+
 
 function createListUserMarkers() {
     var length = allUsers.length;
@@ -622,6 +634,36 @@ function createListType5Markers() {
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 getPostInfo(postType5[i].postID);
+            }
+        })(marker, i));
+
+    }
+}
+
+function createListType8Markers() {
+    var icon = {
+        url: "../Content/Icon/Warning.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 50)
+    };
+    var length = postType8.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(postType8[i].x, postType8[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            //title: postType1[i].address,
+            icon: icon
+        });
+        listType8Markers.push(marker);
+        overlappingType8.addMarker(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                getPostInfo(postType8[i].postID);
             }
         })(marker, i));
 
