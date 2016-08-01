@@ -2,116 +2,125 @@
 @using OneVietnam.Models
 @using Microsoft.AspNet.Identity
 <script>
-                (function (d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id)) return;
-                    js = d.createElement(s);
-                    js.id = id;
-                    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6&appId=1615798268744410";
-                    fjs.parentNode.insertBefore(js, fjs);
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6&appId=1615798268744410";
+        fjs.parentNode.insertBefore(js, fjs);
 
-                }(document, 'script', 'facebook-jssdk'));
+    }(document, 'script', 'facebook-jssdk'));
 </script>
 <script>
-        isAuthenticated = true;
-
-        $.ajax({
-            url: '/Map/GetUserInfo?userId=' + "@User.Identity.GetUserId()",
-            type: 'GET',
-            contentType: 'application/json;',
-            dataType: 'json',
-            success: function (json) {
-                authenticatedUser = {x:json.Location.XCoordinate,y:json.Location.YCoordinate,address:json.Location.Address}
-            }
-        });
+    var isAuthenticated = false;
 </script>
-<div class="ui grid" >
-        <div class="two wide column">
-     <div class="ui inline dropdown filter-post">
-                <div class="text">
+@if (Request.IsAuthenticated)
+{
+    <script>
+    var authenticatedUser;
+    isAuthenticated = true;
+
+    $.ajax({
+        url: '/Map/GetUserInfo?userId=' + "@User.Identity.GetUserId()",
+        type: 'GET',
+        contentType: 'application/json;',
+        dataType: 'json',
+        success: function (json) {
+            authenticatedUser = { x: json.Location.XCoordinate, y: json.Location.YCoordinate, address: json.Location.Address }
+        }
+    });
+    </script>
+}
+
+
+<div class="ui grid">
+    <div class="three wide column">
+        <div class="ui inline dropdown filter-post">
+            <div class="text">
+                <div class="ui blue empty circular label"></div>
+                Tất cả
+                <div class="ui red label">42+</div>
+
+            </div>
+            <i class="dropdown icon"></i>
+            <div class="menu filter-items">
+                <div class="item" data-filter="*">
                     <div class="ui blue empty circular label"></div>
                     Tất cả
                     <div class="ui red label">42+</div>
+                </div>
+
+                <div class="item" data-filter=".4">
+                    <div class="ui yellow empty circular label"></div>
+                    Việc làm
+                    <div class="ui red label">22+</div>
+                </div>
+                <div class="item" data-filter=".5">
+                    <div class="ui black empty circular label"></div>
+                    Đồ dùng
+                    <div class="ui red label">10+</div>
 
                 </div>
-                <i class="dropdown icon"></i>
-                <div class="menu filter-items">
-                    <div class="item" data-filter="*">
-                        <div class="ui blue empty circular label"></div>
-                        Tất cả
-                        <div class="ui red label">42+</div>
-                    </div>
-                    
-                    <div class="item" data-filter=".4">
-                        <div class="ui yellow empty circular label"></div>
-                        Việc làm
-                        <div class="ui red label">22+</div>
-                    </div>
-                    <div class="item" data-filter=".5">
-                        <div class="ui black empty circular label"></div>
-                        Đồ dùng
-                        <div class="ui red label">10+</div>
-
-                    </div>
-                    <div class="item" data-filter=".6">
-                        <div class="ui purple empty circular label"></div>
-                        Nhờ/Nhận xách tay
-                    </div>
-                    <div class="item" data-filter=".7">
-                        <div class="ui orange empty circular label"></div>
-                        Mua bán
-                    </div>
-                    <div class="item" data-filter=".8">
-                        <div class="ui empty circular label"></div>
-                        Cần giúp đỡ
-                    </div>
-
+                <div class="item" data-filter=".6">
+                    <div class="ui purple empty circular label"></div>
+                    Nhờ/Nhận xách tay
                 </div>
+                <div class="item" data-filter=".7">
+                    <div class="ui orange empty circular label"></div>
+                    Mua bán
+                </div>
+                <div class="item" data-filter=".8">
+                    <div class="ui empty circular label"></div>
+                    Cần giúp đỡ
+                </div>
+
             </div>
-            @*    <div class="ui vertical menu right floated">*@
-            @*        <div class="item">*@
-            @*            <div class="ui input"><input type="text" placeholder="Search...">*@
-            @*            </div>*@
-            @*        </div>*@
-            @*        <div class="item">*@
-            @*            Home*@
-            @*            <div class="menu">*@
-            @*                <a class="active item">Search</a>*@
-            @*                @{*@
-            @*                    ((PostController)ViewContext.Controller)._CreatePost();*@
-            @*                }*@
-            @*                <a class="item write"  ><i class="write icon"></i>Write Post</a>*@
-            @*                <a class="item">Remove</a>*@
-            @*            </div>*@
-            @*        </div>*@
-            @*        <a class="browse item">*@
-            @*            <i class="grid layout icon"></i> Filter*@
-            @*        </a>*@
-            @**@
-            @*        <a class="item">*@
-            @*            Messages*@
-            @*        </a>*@
-            @*        <div class="ui dropdown item">*@
-            @*            More*@
-            @*            <i class="dropdown icon"></i>*@
-            @*            <div class="menu">*@
-            @*                <a class="item"><i class="edit icon"></i> Edit Profile</a>*@
-            @*                <a class="item"><i class="globe icon"></i> Choose Language</a>*@
-            @*                <a class="item"><i class="settings icon"></i> Account AppSettings.Settings</a>*@
-            @*            </div>*@
-            @*        </div>*@
-            @*    </div>*@
-
-
-     
-            <div id="floating-button" class="stamp-button" data-toggle="tooltip" data-original-title="Create">
-                <p class="plus"><i class="write icon"></i></p>
-                <p class="edits"><i class="remove icon"></i></p>
-            </div>
-
         </div>
+        @*    <div class="ui vertical menu right floated">*@
+        @*        <div class="item">*@
+        @*            <div class="ui input"><input type="text" placeholder="Search...">*@
+        @*            </div>*@
+        @*        </div>*@
+        @*        <div class="item">*@
+        @*            Home*@
+        @*            <div class="menu">*@
+        @*                <a class="active item">Search</a>*@
+        @*                @{*@
+        @*                    ((PostController)ViewContext.Controller)._CreatePost();*@
+        @*                }*@
+        @*                <a class="item write"  ><i class="write icon"></i>Write Post</a>*@
+        @*                <a class="item">Remove</a>*@
+        @*            </div>*@
+        @*        </div>*@
+        @*        <a class="browse item">*@
+        @*            <i class="grid layout icon"></i> Filter*@
+        @*        </a>*@
+        @**@
+        @*        <a class="item">*@
+        @*            Messages*@
+        @*        </a>*@
+        @*        <div class="ui dropdown item">*@
+        @*            More*@
+        @*            <i class="dropdown icon"></i>*@
+        @*            <div class="menu">*@
+        @*                <a class="item"><i class="edit icon"></i> Edit Profile</a>*@
+        @*                <a class="item"><i class="globe icon"></i> Choose Language</a>*@
+        @*                <a class="item"><i class="settings icon"></i> Account AppSettings.Settings</a>*@
+        @*            </div>*@
+        @*        </div>*@
+        @*    </div>*@
+
+
+
+        <div id="floating-button" class="stamp-button" data-toggle="tooltip" data-original-title="Create">
+            <p class="plus"><i class="write icon"></i></p>
+            <p class="edits"><i class="remove icon"></i></p>
+        </div>
+
+    </div>
     <div class="ten wide column">
-  
+
         @Html.Partial("_CreatePost");
 
         <div class="grids">
@@ -124,30 +133,7 @@
             </div>
 
             <div id="forModal" class="ui basic modal" style="position: absolute !important; left: 80% !important; height: 1000px; width: 600px">
-                <i class="close icon"></i>
-                <div class="header">
-                    Archive Old Messages
-                </div>
-                <div class="image content">
-                    <div class="image">
-                        <i class="archive icon"></i>
-                    </div>
-                    <div class="description">
-                        <p>Your inbox is getting full, would you like us to enable automatic archiving of old messages?</p>
-                    </div>
-                </div>
-                <div class="actions">
-                    <div class="two fluid ui inverted buttons">
-                        <div class="ui cancel red basic inverted button">
-                            <i class="remove icon"></i>
-                            No
-                        </div>
-                        <div class="ui ok green basic inverted button">
-                            <i class="checkmark icon"></i>
-                            Yes
-                        </div>
-                    </div>
-                </div>
+               
             </div>
 
 
@@ -158,7 +144,7 @@
 
 
 
-    <div class="four wide column">
+    <div class="three wide column">
         <a href="javascript:" id="return-to-top"><i class="chevron up icon"></i></a>
 
         <div class="ui card">
@@ -196,7 +182,7 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 
 @section scripts{
     <script src="~/Scripts/infiniteScroll.js"></script>

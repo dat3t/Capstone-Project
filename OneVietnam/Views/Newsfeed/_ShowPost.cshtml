@@ -1,6 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
 @model OneVietnam.Models.PostViewModel
- <link href="~/Content/flickity.css" rel="stylesheet">
 <div class="ui  raised  segment " style="width: 600px !important">
     <div class="header">
 
@@ -121,14 +120,7 @@
 
                     FB.Event.subscribe('comment.create',
                         function (response) {
-                            FB.api(
-    response.commentID,
-    function (responses) {
-        if (responses && !responses.error) {
-            alert(responses[from]);
-        }
-    }
-);
+                            pushNotification("/Newsfeed/_ShowPost?postId=@Model.Id", "@Model.Title", "@Model.UserId");
                         });
                     FB.XFBML.parse();
 

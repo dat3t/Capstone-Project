@@ -9,9 +9,7 @@
     List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
 
 }
-<script>
-    var authenticatedUser;
-</script>
+
 @if (Request.IsAuthenticated)
 {
     
@@ -167,8 +165,8 @@
 @*                        </div>*@
 @*                        <input type="button" id="add_more" class="upload" value="Add More Images" />*@
 @*                        <input type="submit" name="submit" value="Add Product" class="upload" id="upload" title="Add Product To The Inventory">*@
-                        <input type="file" id="files" name="files" class="upload " multiple />
-@*                        <output id="result"></output>*@
+                        <input type="file" id="files" name="files" class="upload hides" multiple />
+                        <output id="result"></output>
 
                         <script>
                             $(".camera.icon")

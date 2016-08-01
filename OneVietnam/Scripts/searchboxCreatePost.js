@@ -1,7 +1,7 @@
 ﻿function getAddressFromSearchBox() {
     // Create the search box and link it to the UI element.
     var input1 = document.getElementById("search-location");
-    if(input1 !=null){
+    if(input1 !=null && isAuthenticated == true){
         var searchBox1 = new google.maps.places.SearchBox(input1);
 
         searchBox1.addListener('places_changed', function () {
@@ -33,7 +33,7 @@
   
 
     var input2 = document.getElementById("search-location2");
-    if (input2 != null) {
+    if (input2 != null && isAuthenticated == true) {
         var searchBox2 = new google.maps.places.SearchBox(input2);
 
         searchBox2.addListener('places_changed', function () {
