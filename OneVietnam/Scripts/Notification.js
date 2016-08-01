@@ -42,13 +42,29 @@ function getNotifications() {
                 not = not + '</div>';
                 not = not + '</div>';
                 not = not + '</a>';
-                not = not + '<a>';
+                not = not + '<a href="javascript:remove_notification(\'' + notifications[i]["Id"] + '\');">';
                 not = not + '<i class="minus circle red icon"></i>';
                 not = not + '</a>';
                 not = not + '</div>';
                 $("#Notifications").append(not);
             }
             
+        }
+    });
+}
+function remove_notification(id) {
+    var controller = "/Home/RemoveNotificationById";
+    var data = {
+        id: id
+    }
+    $.ajax({
+        type: 'POST',
+        url: controller,
+        data: data,
+        success: function (data) {
+            if (data == true) {                
+                $("#" + id +"").remove();                
+            }
         }
     });
 }
