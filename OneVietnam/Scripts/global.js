@@ -108,32 +108,64 @@
 
     $("#drdGender").dropdown({});
 
+        
+
         $('.delete.icon.image-add')
             .on('click',
                 function () {
         $(this).parent().remove();;
     });
 
-    $('.ui.edit.button')
-            .click(function () {
+        $('.ui.edit.button').click(function () {
           $('.ui.fullscreen.modal').modal('show');
       });
 
     $('.icon.link').popup({});    
    
-        $('.tabular.menu .item')
-            .tab({
-    
+        $('.tabular.menu .item').tab({});
+
+        $('#AdministrationsMenu .menu .item').tab({ context: $('#AdministrationsMenu') });
+
+        $("#dvSearchUsers")
+            .search({
+                apiSettings: {
+                    url: '/Search/UsersSearch?query={query}'
+                },
+                fields: {
+                    results: 'Result',
+                    title: 'Title',
+                    description: 'Description'                    
+                },
+                minCharacters: 2
             });
 
-        $('#AdministrationsMenu .menu .item')
-  .tab({
-      context: $('#AdministrationsMenu')
-  })
-        ;
+        //Admin panel search user Begin
+        $("#drSearchUserRole").dropdown({});        
 
+        $("#txtSearchUserName").on('keypress', function (event) {            
+            if (event.keyCode === 13) {                
+                $("#UserSearchAdminPanel").submit();                
+            }
+        });
+    
+        $("#chkIsOnline").on('change',function() {
+            $("#UserSearchAdminPanel").submit();
+            });
+
+        $("#txtSearchUserRole").on('change', function() {
+            $("#UserSearchAdminPanel").submit();
+        });
+
+        $("#dtCreatedDateFrom").change(function()
+        {
+            $("#UserSearchAdminPanel").submit();
+        });
         
+        $("#dtCreatedDateTo").change(function () {
+            $("#UserSearchAdminPanel").submit();
+        });
 
+        //Admin panel search user end
 
     //ToanLM
 
@@ -219,7 +251,7 @@ $('.filter-items').on('click', '.item', function () {
     $('.grids').isotope({ filter: filterValue });
 });
 
-    });
+});
 
 $('#MessageButton').dropdown({
 });

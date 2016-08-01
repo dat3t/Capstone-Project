@@ -12,7 +12,19 @@
 
             // For each place, get the icon, name and location.
             places.forEach(function (place) {
-                document.getElementById("PostLocation_Address").value = place.name;
+                var address = '';
+                if (place.address_components) {
+                    address = [
+                      (place.address_components[0] && place.address_components[0].short_name || ''),
+                      (place.address_components[1] && place.address_components[1].short_name || ''),
+                      (place.address_components[2] && place.address_components[2].short_name || ''),
+                      (place.address_components[3] && place.address_components[3].short_name || ''),
+                      (place.address_components[4] && place.address_components[4].short_name || ''),
+                      (place.address_components[5] && place.address_components[5].short_name || ''),
+                      (place.address_components[6] && place.address_components[6].short_name || '')
+                    ].join(' ');
+                }
+                document.getElementById("PostLocation_Address").value = address;
                 document.getElementById("PostLocation_XCoordinate").value = place.geometry.location.lat();
                 document.getElementById("PostLocation_YCoordinate").value = place.geometry.location.lng();
             });
@@ -32,7 +44,19 @@
 
             // For each place, get the icon, name and location.
             places.forEach(function (place) {
-                document.getElementById("Address_Edit").value = place.name;
+                var address = '';
+                if (place.address_components) {
+                    address = [
+                     (place.address_components[0] && place.address_components[0].short_name || ''),
+                      (place.address_components[1] && place.address_components[1].short_name || ''),
+                      (place.address_components[2] && place.address_components[2].short_name || ''),
+                      (place.address_components[3] && place.address_components[3].short_name || ''),
+                      (place.address_components[4] && place.address_components[4].short_name || ''),
+                      (place.address_components[5] && place.address_components[5].short_name || ''),
+                      (place.address_components[6] && place.address_components[6].short_name || '')
+                    ].join(' ');
+                }
+                document.getElementById("Address_Edit").value = address;
                 document.getElementById("XCoordinate_Edit").value = place.geometry.location.lat();
                 document.getElementById("YCoordinate_Edit").value = place.geometry.location.lng();
             });

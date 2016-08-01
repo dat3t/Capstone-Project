@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 
 namespace OneVietnam
@@ -16,5 +17,6 @@ namespace OneVietnam
         public const string IconTypeGender = "gender";
         public const string IconTypePost = "postType";
         public const string DefaultAvatarLink = "/Content/Images/Avatar_Default.jpg";
+        public const string CommentDescription = "Có một bạn bình luật bài đăng";
     }
 }

@@ -20,9 +20,9 @@ namespace OneVietnam.DAL
             _users = users;
         }
 
-        public Task<List<ApplicationUser>> AllUsersAsync()
+        public async Task<List<ApplicationUser>> AllUsersAsync()
         {
-            return _users.Find(u => true).ToListAsync();
+            return await _users.Find(u => true).ToListAsync();
         }
 
         public async Task<List<ApplicationUser>> FindUsersByRoleAsync(IdentityRole role)
@@ -57,5 +57,23 @@ namespace OneVietnam.DAL
                 return await TextSearchUsers(query).ConfigureAwait(false);
             }
         }
+
+        public async Task<List<ApplicationUser>> TextSearchMultipleQuery(FilterDefinition<ApplicationUser> filter)
+        {
+            if (filter != null)
+            {
+                return
+                    await
+                        _users.Find(filter)
+                            .ToListAsync()
+                            .ConfigureAwait(false);
+            }
+            else
+            {
+                return await _users.Find(u => true).ToListAsync();
+            }
+            
+        }
+
     }
 }
