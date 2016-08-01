@@ -1,7 +1,7 @@
 ﻿function getAddressFromSearchBox() {
     // Create the search box and link it to the UI element.
     var input1 = document.getElementById("search-location");
-    if(input1 !=null){
+    if(input1 !=null && isAuthenticated == true){
         var searchBox1 = new google.maps.places.SearchBox(input1);
 
         searchBox1.addListener('places_changed', function () {
@@ -33,7 +33,7 @@
   
 
     var input2 = document.getElementById("search-location2");
-    if (input2 != null) {
+    if (input2 != null && isAuthenticated == true) {
         var searchBox2 = new google.maps.places.SearchBox(input2);
 
         searchBox2.addListener('places_changed', function () {
@@ -112,14 +112,14 @@ function getCurrentLocation() {
 
 function getRegisteredLocation() {
     var address_Post = document.getElementById("PostLocation_Address");
-    if (address_Post != null) {
+    if (address_Post != null && isAuthenticated == true) {
         document.getElementById("PostLocation_Address").value = authenticatedUser.address;
         document.getElementById("PostLocation_XCoordinate").value = authenticatedUser.x;
         document.getElementById("PostLocation_YCoordinate").value = authenticatedUser.y;
     }
 
     var address_edit = document.getElementById("Address_Edit");
-    if (address_edit != null) {
+    if (address_edit != null && isAuthenticated == true) {
         document.getElementById("Address_Edit").value = autzhenticatedUser.address;
         document.getElementById("XCoordinate_Edit").value = authenticatedUser.x
         document.getElementById("YCoordinate_Edit").value = authenticatedUser.y;
