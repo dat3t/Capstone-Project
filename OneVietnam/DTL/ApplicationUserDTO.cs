@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using AspNet.Identity.MongoDB;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using OneVietnam.Models;
 
 namespace OneVietnam.DTL
 {
@@ -41,12 +42,12 @@ namespace OneVietnam.DTL
 
         public int CountUnReadConversations()
         {
-            return Conversations.Where((t, i) => !Conversations.ElementAt(i).Value.Seen).Count();
+            return Conversations?.Where((t, i) => !Conversations.ElementAt(i).Value.Seen).Count() ?? 0;
         }
 
         public int CountUnReadNotifications()
         {
-            return this.Notifications.Where((t, i) => Notifications.Values[i].Seen == false).Count();
+            return this.Notifications?.Where((t, i) => Notifications.Values[i].Seen == false).Count() ?? 0;
         }
     }
 }
