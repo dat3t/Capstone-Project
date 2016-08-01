@@ -28,9 +28,69 @@
 
                 <!-- Users Managament -->
                 <div class="ui tab active" data-tab="users">
+                    <!-- Users Search Box -->
+                    @using (Ajax.BeginForm("SearchUserMultipleQuery", "Search", null, new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "UsersManagement"
+                    }, new { id= "UserSearchAdminPanel" }))
+                    {
+                        <div class="ui grid">
+
+                            <!-- Search by User Name -->
+                            <div class="four wide column">
+                                <div class="ui search" id="dvSearchUsers">
+                                    <div class="ui left icon input" style="width: 100% !important">
+                                        <i class="users icon"></i>
+                                        <input class="prompt" id="txtSearchUserName" name="txtSearchUserName" type="text" placeholder="Tên người dùng" autocomplete="off">
+                                    </div>
+                                    <div class="force100 results"></div>
+                                </div>
+                            </div>
+
+                            <!-- Search by Created Date -->
+                            <div class="six wide column">
+                                <label>Ngày đăng ký</label>
+                                <input type="date" style="width: 37%" id="dtCreatedDateFrom" name="dtCreatedDateFrom" value="@($"{System.DateTimeOffset.UtcNow:yyyy-MM-dd}")"/>
+                                <label>～</label>
+                                <input type="date" style="width: 37%" id="dtCreatedDateTo" name="dtCreatedDateTo" value="@($"{System.DateTimeOffset.UtcNow:yyyy-MM-dd}")" />
+                            </div>
+
+                            <!-- Search by User Role-->
+                            <div class="three wide column">                                
+                                @if (Model?.Roles != null && Model.Roles.Count > 0)
+                                {
+                                    <div class="ui selection dropdown" id="drSearchUserRole" style="width: 100%; min-width: 150px; max-width: 100%;">
+                                        <input type="hidden" name="txtSearchUserRole" id="txtSearchUserRole">
+                                        <i class="dropdown icon"></i>
+                                        <div class="default text">Quyền truy cập</div>
+                                        <div class="menu">
+                                            <div class="item" data-value="">Quyền truy cập</div>
+                                            @foreach (var role in Model.Roles)
+                                            {
+                                                <div class="item" data-value="@role.Name">@role.Name</div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <!-- Search by Connection -->
+                            <div class="three wide column">                                
+                                <div class="ui toggle checkbox">
+                                    <input type="checkbox" id="chkIsOnline" name="chkIsOnline">
+                                    <label>Đang online</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+
+                    <!--Show search users result-->
                     <div id="UsersManagement">
-                        @(Model?.Users != null ? Html.Partial("_UsersManagementPanel", Model.Users) : Html.Partial("_UsersManagementPanel", new List<UserManagementViewModel>()))
-                    </div>                  
+                        @(Model?.Users != null ? Html.Partial("../Administration/_UsersManagementPanel", Model.Users) : Html.Partial("../Administration/_UsersManagementPanel", new List<UserManagementViewModel>()))
+                    </div>
                 </div>
 
                 <!-- Posts Managament -->
@@ -72,4 +132,3 @@
 
     </div>
 </div>
-

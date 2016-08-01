@@ -93,7 +93,7 @@ namespace OneVietnam.Controllers
 
         //ThamDTH 
         
-        public async Task<ActionResult> Timeline(string userId)
+        public async Task<ActionResult> Index(string userId)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
 
@@ -281,7 +281,7 @@ namespace OneVietnam.Controllers
                     AddErrors(result);                    
                 }                
             }
-            return RedirectToAction("Timeline", "Timeline", new { userId = User.Identity.GetUserId() });
+            return RedirectToAction("Index", "Timeline", new { userId = User.Identity.GetUserId() });
 
         }
 
@@ -316,7 +316,7 @@ namespace OneVietnam.Controllers
                     AddErrors(result);                    
                 }                
             }
-            return RedirectToAction("Timeline", "Timeline", new { userId = User.Identity.GetUserId() });
+            return RedirectToAction("Index", "Timeline", new { userId = User.Identity.GetUserId() });
 
         }
      

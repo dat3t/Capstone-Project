@@ -19,22 +19,19 @@ using OneVietnam.Models;
 
 namespace OneVietnam.Controllers
 {
-    public class PostController : Controller
+    public class NewsfeedController : Controller
     {
 
-        public ActionResult Index()
-        {
-            return View();
-        }
+       
 
         public static bool CreatedPost = false;
         public static PostViewModel PostView;        
 
-        public PostController()
+        public NewsfeedController()
         {
         }
 
-        public PostController(ApplicationUserManager userManager)
+        public NewsfeedController(ApplicationUserManager userManager)
         {
             UserManager = userManager;
         }
@@ -159,12 +156,12 @@ namespace OneVietnam.Controllers
             await PostManager.CreateAsync(post);
             CreatedPost = true;
             PostView = new PostViewModel(post);
-            return RedirectToAction("NewFeeds", "Post");
+            return RedirectToAction("Index", "Newsfeed");
         }        
 
         public const int RecordsPerPage = 60;
 
-        public async Task<ActionResult> Newfeeds(int? pageNum)
+        public async Task<ActionResult> Index(int? pageNum)
         {            
             if (TagList != null)
             {
@@ -291,7 +288,7 @@ namespace OneVietnam.Controllers
                 strPostId = Request.Form["PostId"];
 
             }                                    
-            return RedirectToAction("DeletePost", "Post", new { postId = strPostId });
+            return RedirectToAction("DeletePost", "Newsfeed", new { postId = strPostId });
         }
   
         [HttpPost]
@@ -351,7 +348,7 @@ namespace OneVietnam.Controllers
             }
             Post post = new Post(pPostView);           
             await PostManager.UpdateAsync(post);
-            return RedirectToAction("ShowPostDetail", "Post", new { postId = pPostView.Id });
+            return RedirectToAction("ShowPostDetail", "Newsfeed", new { postId = pPostView.Id });
         }
         
         [System.Web.Mvc.Authorize]        
@@ -360,7 +357,7 @@ namespace OneVietnam.Controllers
             Post post = await PostManager.FindByIdAsync(postId);
             post.DeletedFlag = true;                                             
             await PostManager.UpdateAsync(post);
-            return RedirectToAction("Newfeeds", "Post");
+            return RedirectToAction("Index", "Newsfeed");
         }
         [HttpPost]
         public async Task<ActionResult> DeleteImage(string name,string id)
@@ -375,7 +372,7 @@ namespace OneVietnam.Controllers
 
                 var blob = blobContainer.GetBlockBlobReference(filename);
                 await blob.DeleteIfExistsAsync();
-                return RedirectToAction("EditPost", "Post", new { postId = id });
+                return RedirectToAction("EditPost", "Newsfeed", new { postId = id });
 
 
 
@@ -391,10 +388,10 @@ namespace OneVietnam.Controllers
         {
             public override Task OnConnected()
             {
-                if (PostController.CreatedPost)
+                if (NewsfeedController.CreatedPost)
                 {
                     var javaScriptSerializer = new JavaScriptSerializer();
-                    string jsonString = javaScriptSerializer.Serialize(PostController.PostView);
+                    string jsonString = javaScriptSerializer.Serialize(NewsfeedController.PostView);
                     Clients.Others.loadNewPost(jsonString);
                 }
                 return base.OnConnected();

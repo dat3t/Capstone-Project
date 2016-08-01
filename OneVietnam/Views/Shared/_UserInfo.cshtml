@@ -1,12 +1,12 @@
 ﻿@model OneVietnam.Models.UserViewModel
 
-<div class="header" style="cursor:pointer;" onclick="location.href='@Url.Action("Timeline", "Timeline", new { userId = @Model.UserId })'" >
+<div class="header" style="cursor:pointer;" onclick="location.href = '@Url.Action("Index", "Timeline", new { userId = @Model.UserId })'" >
     <div>
         <a class="item" style="float:left;">
             <i class="icon male" style="width:100%;text-align:left"> </i>
         </a>
     </div>
-    <a  href='@Url.Action("Timeline", "Timeline",new { userId = @Model.UserId })'>@Model.UserName</a>
+    <a  href='@Url.Action("Index", "Timeline",new { userId = @Model.UserId })'>@Model.UserName</a>
 </div>
 
 

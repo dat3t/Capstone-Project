@@ -1,5 +1,4 @@
 ﻿
-@using System.Web.UI.WebControls
 @using OneVietnam.Models
 @model OneVietnam.Models.UserManagementViewModel
 
@@ -18,7 +17,7 @@
                     @foreach (var role in Model.Roles)
                     {
                         <div class="item">
-                            @Html.Partial("_RemoveUserRole", new UserRoleViewModel(Model.Id, role))
+                            @Html.Partial("../Administration/_RemoveUserRole", new UserRoleViewModel(Model.Id, role))
                         </div>                       
                     }
                 </div>
@@ -45,7 +44,7 @@
             });
         }
     </script>
-    <div id="divAddRole" class="item"></div>
+    <div id="divAddRole" class="item" style="margin: auto; width: 90%"></div>
     @Html.ValidationSummary(false)
 
 }

@@ -2,7 +2,7 @@
     .ready(function () {
        
         $("#getloc").click();
-        $(".ui.floating.dropdown.button").dropdown({
+        $(".filter-post").dropdown({
             allowCategorySelection: true
         })
         ;
@@ -108,32 +108,64 @@
 
     $("#drdGender").dropdown({});
 
+        
+
         $('.delete.icon.image-add')
             .on('click',
                 function () {
         $(this).parent().remove();;
     });
 
-    $('.ui.edit.button')
-            .click(function () {
+        $('.ui.edit.button').click(function () {
           $('.ui.fullscreen.modal').modal('show');
       });
 
     $('.icon.link').popup({});    
    
-        $('.tabular.menu .item')
-            .tab({
-    
+        $('.tabular.menu .item').tab({});
+
+        $('#AdministrationsMenu .menu .item').tab({ context: $('#AdministrationsMenu') });
+
+        $("#dvSearchUsers")
+            .search({
+                apiSettings: {
+                    url: '/Search/UsersSearch?query={query}'
+                },
+                fields: {
+                    results: 'Result',
+                    title: 'Title',
+                    description: 'Description'                    
+                },
+                minCharacters: 2
             });
 
-        $('#AdministrationsMenu .menu .item')
-  .tab({
-      context: $('#AdministrationsMenu')
-  })
-        ;
+        //Admin panel search user Begin
+        $("#drSearchUserRole").dropdown({});        
 
+        $("#txtSearchUserName").on('keypress', function (event) {            
+            if (event.keyCode === 13) {                
+                $("#UserSearchAdminPanel").submit();                
+            }
+        });
+    
+        $("#chkIsOnline").on('change',function() {
+            $("#UserSearchAdminPanel").submit();
+            });
+
+        $("#txtSearchUserRole").on('change', function() {
+            $("#UserSearchAdminPanel").submit();
+        });
+
+        $("#dtCreatedDateFrom").change(function()
+        {
+            $("#UserSearchAdminPanel").submit();
+        });
         
+        $("#dtCreatedDateTo").change(function () {
+            $("#UserSearchAdminPanel").submit();
+        });
 
+        //Admin panel search user end
 
     //ToanLM
 
@@ -149,14 +181,14 @@
      
     
     // change size of item by toggling gigante class
-    $grid.on('click', '.grid-item', function (e) {
+    $grid.on('click', '.clickable', function (e) {
 
-                var id = $(this).find('#postId').val();
+                var id = $(this).parent().find('#postId').val();
        
         $.ajax({
             type: 'GET',
             data:{"postId":id},
-            url: '_ShowPost',
+            url: '/Newsfeed/_ShowPost',
             success: function (partialResult) {
                 $("#forModal").html("");
                 $("#forModal").html(partialResult);
@@ -213,13 +245,14 @@ $('#return-to-top').click(function () {      // When arrow is clicked
         scrollTop: 0                       // Scroll to top of body
     }, 300);
 });
-
-$('.filter-group').on('click', 'a', function () {
+$('.filter-items').on('click', '.item', function () {
     var filterValue = $(this).attr('data-filter');
     // use filterFn if matches value
-    $grid.isotope({ filter: filterValue });
+    $('.grids').isotope({ filter: filterValue });
 });
+
 });
+
 $('#MessageButton').dropdown({
 });
 $('.ui.pointing.dropdown').dropdown({    

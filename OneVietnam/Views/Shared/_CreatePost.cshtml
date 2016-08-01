@@ -68,7 +68,7 @@
 </script>
 
         <div class="stamp  hides">
-            @using (Html.BeginForm("CreatePost", "Post", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "CreatePostForm" }))
+            @using (Html.BeginForm("CreatePost", "Newsfeed", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "CreatePostForm" }))
             {
                 <div class="ui segment">
                     @Html.AntiForgeryToken()
@@ -180,28 +180,28 @@
 @*                        </div>*@
 @*                        <input type="button" id="add_more" class="upload" value="Add More Images" />*@
 @*                        <input type="submit" name="submit" value="Add Product" class="upload" id="upload" title="Add Product To The Inventory">*@
-                        <input type="file" id="files" name="files" class="upload hides" multiple />
-                        <output id="result"></output>
+                        <input type="file" id="files" name="files" class="upload " multiple />
+@*                        <output id="result"></output>*@
 
                         <script>
                             $(".camera.icon")
                      .click(function () {
                          $("#files").trigger('click');
                      });
-                            $('#add_more').click(function () {
-                                "use strict";
-                                $(this).before($("<div/>", {
-                                    id: 'filediv'
-                                }).fadeIn('slow').append(
-                                  $("<input/>", {
-                                      name: 'file[]',
-                                      type: 'file',
-                                      id: 'file',
-                                      multiple: 'multiple',
-                                      accept: 'image/*'
-                                  })
-                                ));
-                            });
+//                            $('#add_more').click(function () {
+//                                "use strict";
+//                                $(this).before($("<div/>", {
+//                                    id: 'filediv'
+//                                }).fadeIn('slow').append(
+//                                  $("<input/>", {
+//                                      name: 'file[]',
+//                                      type: 'file',
+//                                      id: 'file',
+//                                      multiple: 'multiple',
+//                                      accept: 'image/*'
+//                                  })
+//                                ));
+//                            });
 //
 //                            $('#upload').click(function (e) {
 //                                "use strict";
