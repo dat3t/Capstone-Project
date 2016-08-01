@@ -12,7 +12,7 @@
         }
         <div class="ui icon buttons">
             <div class="ui top right pointing dropdown button" style="background: rgba(0, 0, 0, 0); color: white" id="myConversations">
-                <i class="comments icon"></i>
+                <i class="comments large icon"></i>
                 <div class="floating ui tiny red label" id="MessageNotification" style="display: none"></div>
                 <div class="menu" id="Conversations">
                     <div class="item conversations">
@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="ui top right pointing dropdown button" id="myNotifications" style="background: rgba(0, 0, 0, 0); color: white">
-                <i class="alarm icon"></i>
+                <i class="alarm large icon"></i>
                 <div class="floating ui tiny teal label" id="NotificationsNo" style="display: none"></div>
                 <div class="menu" id="Notifications">
                     <div class="item notifications" style="padding:0em!important">
@@ -31,7 +31,7 @@
             </div>
             <div class="ui top right button" style="background: rgba(0, 0, 0, 0); color: white">
                 <a href="javascript:document.getElementById('logoutForm').submit()" style="color: white">
-                    <i class="power icon"></i>
+                    <i class="power large icon"></i>
                 </a>
             </div>
         </div>
@@ -40,9 +40,9 @@
 else
 {
     <div class="item">
-        @Html.ActionLink("Đăng Nhập", "Login", "Account", routeValues: null, htmlAttributes: new { @class = "ui fluid primary button" })
+        @Html.ActionLink("Đăng Nhập", "Login", "Account", routeValues: null, htmlAttributes: new { @class = "ui fluid teal button" })
     </div>
     <div class="item">
-        @Html.ActionLink("Đăng Ký", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "ui fluid primary button" })
+        @Html.ActionLink("Đăng Ký", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "ui fluid teal button" })
     </div>
 }
