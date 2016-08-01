@@ -128,5 +128,75 @@ namespace OneVietnam.Models
         }
     }
 
+    public class CreateAdminPostViewModel
+    {
+        [Required(ErrorMessage = "{0} chưa được điền.")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Tiêu đề")]
+        public string Title { get; set; }
 
+        [Required(ErrorMessage = "{0} chưa được điền.")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Mô tả")]
+        public string Description { get; set; }
+
+        public List<Illustration> Illustrations { get; set; }
+    }
+
+    public class AdminPostViewModel
+    {
+        public string Id { get; set; }
+
+        [Required(ErrorMessage = "{0} chưa được điền.")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Người đăng")]
+        public string UserId { get; set; }
+
+        [Required(ErrorMessage = "{0} chưa được điền.")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Tiêu đề")]
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        [Required(ErrorMessage = "{0} chưa được điền.")]
+        [DataType(DataType.DateTime, ErrorMessage = "{0} không đúng định dạng thời gian")]
+        [Display(Name = "Ngày tạo")]
+        public DateTimeOffset CreatedDate { get; set; }
+
+        [Required(ErrorMessage = "{0} chưa được chọn.")]        
+        [Display(Name = "Loại bài đăng")]
+        public int PostType { get; set; }
+
+        [Required(ErrorMessage = "{0} chưa được chỉ định.")]
+        [Display(Name = "Cờ xác nhận xóa bài")]
+        public bool DeletedFlag { get; set; }
+
+        [Required(ErrorMessage = "{0} chưa được chỉ định.")]
+        [Display(Name = "Tình trạng bài đăng")]
+        public bool Status { get; set; }
+       
+        public List<Illustration> Illustrations { get; set; }
+
+        public AdminPostViewModel()
+        {
+
+        }
+        public AdminPostViewModel(Post pPost)
+        {
+            Id = pPost.Id;
+            UserId = pPost.UserId;
+            Title = pPost.Title;
+            PostType = pPost.PostType;
+            Description = pPost.Description;
+            CreatedDate = pPost.CreatedDate;
+            Status = pPost.Status;
+            DeletedFlag = pPost.DeletedFlag;
+            if(pPost.Illustrations != null && pPost.Illustrations.Count > 0)
+            {
+                Illustrations = pPost.Illustrations;
+            }
+            
+        }
+    }
 }

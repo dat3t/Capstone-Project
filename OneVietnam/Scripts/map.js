@@ -743,3 +743,4 @@ function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail)
 
 //window.onload = initialize;
 google.maps.event.addDomListener(window, 'load', initialize);
+//$(document).ready(initialize);

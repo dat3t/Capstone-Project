@@ -120,7 +120,7 @@
 
                     FB.Event.subscribe('comment.create',
                         function (response) {
-                            pushNotification("/Newsfeed/_ShowPost?postId=@Model.Id", "@Model.Title", "@Model.UserId");
+                            pushNotification("@Url.Action("ShowPostDetail","Newsfeed",new {postId=Model.Id})", "@Model.Title", "@Model.UserId");
                         });
                     FB.XFBML.parse();
 

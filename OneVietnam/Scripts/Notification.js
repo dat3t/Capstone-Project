@@ -1,4 +1,5 @@
-﻿function pushNotification(url, title,id) {
+﻿var noNotification = "Bạn không có thông báo nào";
+function pushNotification(url, title, id) {
     $.connection.hub.start().done(function () {                
         chat.server.pushNotification(url,title,id);        
     });
@@ -14,7 +15,12 @@ function getNotifications() {
         type: 'POST',
         url: controller,
         success: function(notifications) {
-            if (notifications == '') {
+            if (notifications.length==0) {                
+                var not;
+                not = '<div class="item notifications" style="padding:0em!important">';
+                not = not + '<div style="width: 300px; height: 30px; margin-top: 10px;text-align: center">' + noNotification + '</div>';
+                document.getElementById('Notifications').innerHTML = "";
+                $("#Notifications").append(not);
                 return;
             }
             document.getElementById('Notifications').innerHTML = "";
@@ -47,8 +53,10 @@ function getNotifications() {
                 not = not + '</a>';
                 not = not + '</div>';
                 $("#Notifications").append(not);
-            }
-            
+            }            
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Can not load notifications");
         }
     });
 }
