@@ -24,16 +24,19 @@ namespace OneVietnam.Controllers
             {                
                 Limit = Constants.LimitedNumberDisplayUsers
             };
-            var userResult = await UserManager.TextSearchUsers(query, usersBaseFilter);
-            var postsBaseFilter = new BaseFilter();
-            var postResult = await PostManager.FullTextSearch(query, postsBaseFilter);
-            //List<PostViewModel> postViewModels = new List<PostViewModel>();
-            //foreach (var post in result)
-            //{
-            //    postViewModels.Add(new PostViewModel(post));
-            //}
-            //return View(postViewModels);
-            return View();
+            ApplicationUser postUser = await UserManager.FindByIdAsync("5786665d59b07a1e205bfd48");
+            UserViewModel user=new UserViewModel(postUser);
+            //            var userResult = await UserManager.TextSearchUsers(query, usersBaseFilter);
+            //            var postsBaseFilter = new BaseFilter();
+            //            var postResult = await PostManager.FullTextSearch(query, postsBaseFilter);
+            //            List<PostViewModel> postViewModels = new List<PostViewModel>();
+            //            foreach (var post in postResult)
+            //            {
+            //                postViewModels.Add(new PostViewModel(post));
+            //            }
+            //            return View(postViewModels);
+
+            return View(user);
         }
         //todo
         //public async Task<ActionResult> UsersResult(string query)

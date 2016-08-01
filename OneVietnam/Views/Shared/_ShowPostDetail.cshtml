@@ -25,11 +25,29 @@
                     DateTime start = DateTime.Now;
                     // Do some work
                     TimeSpan timeDiff = DateTime.Now - @Model.CreatedDate;
-                  
+
                 }
-                <span>@timeDiff.TotalHours</span>
-                <span>@DateTime.Now</span>
-                <span>@Model.CreatedDate</span>
+                @{
+
+                   if (timeDiff.TotalDays >= 30)
+                   {
+                    <span>  Tạo ngày @Model.CreatedDate.Date </span>
+                   }
+                   else if (timeDiff.TotalHours >=24 )
+                   {
+                    <span>@Math.Round(timeDiff.TotalDays) ngày trước </span>
+                   }else if (timeDiff.TotalMinutes >=60 )
+                   {
+                    <span>@Math.Round(timeDiff.TotalHours) giờ trước </span>
+                   }else if (timeDiff.TotalSeconds >=60 )
+                   {
+                    <span>@Math.Round(timeDiff.TotalMinutes) phút trước </span>
+                   }else 
+                   {
+                    <span>Vừa xong </span>
+                   }
+
+            }
 
             </div>
             <div class="header ">
@@ -71,9 +89,9 @@
 
 
         </div>
-    <diNv class="extra content">
-@*        <img class="ui avatar image" src="@Model.AvartarLink"> @Model.UserName*@
-    </diNv>
+    <div class="extra content">
+        <img class="ui avatar image" src="@Model.AvartarLink"> @Model.UserName
+    </div>
      
     </div>
 </div>

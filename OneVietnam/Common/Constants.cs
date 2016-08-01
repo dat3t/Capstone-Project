@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 
 namespace OneVietnam
@@ -9,12 +10,13 @@ namespace OneVietnam
     {
         public const int ResultMaximumNumber = 7;
         public const int DescriptionMaxLength = 200;
-        public const int MessagePreviewMaxLength = 25;
+        public const int MessagePreviewMaxLength = 35;
         public const int TitleMaxLength = 100;
         public const int LimitedNumberDisplayUsers = 5;
         public const int LimitedNumberOfPost = 5;
         public const string IconTypeGender = "gender";
         public const string IconTypePost = "postType";
         public const string DefaultAvatarLink = "/Content/Images/Avatar_Default.jpg";
+        public const string CommentDescription = "Có một bạn bình luật bài đăng";
     }
 }

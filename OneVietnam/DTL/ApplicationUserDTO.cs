@@ -30,7 +30,7 @@ namespace OneVietnam.DTL
         public string Cover { get; set; }
         [BsonIgnoreIfNull]
         public SortedList<string, Conversation> Conversations { get; set; }
-        public List<Notification> Notifications { get; set; }
+        public SortedList<string,Notification> Notifications { get; set; }
         [BsonIgnoreIfNull]
         public List<Connection> Connections { get; set; }
         [BsonIgnoreIfNull]
@@ -42,6 +42,19 @@ namespace OneVietnam.DTL
         public int CountUnReadConversations()
         {
             return Conversations.Where((t, i) => !Conversations.ElementAt(i).Value.Seen).Count();
+        }
+
+        public int CountUnReadNotifications()
+        {
+            var count = 0;
+            for (var i = 0; i < this.Notifications.Count-1; i++)
+            {
+                if (Notifications.Values[i].Seen == false)
+                {
+                    count++;
+                }
+            }
+            return count;
         }
     }
 }

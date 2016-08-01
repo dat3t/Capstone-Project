@@ -1,21 +1,36 @@
 ﻿function getAddressFromSearchBox() {
     // Create the search box and link it to the UI element.
     var input1 = document.getElementById("search-location");
-    var searchBox1 = new google.maps.places.SearchBox(input1);
+    if(input1 !=null){
+        var searchBox1 = new google.maps.places.SearchBox(input1);
 
-    searchBox1.addListener('places_changed', function () {
-        var places = searchBox1.getPlaces();
-        if (places.length == 0) {
-            return;
-        }
+        searchBox1.addListener('places_changed', function () {
+            var places = searchBox1.getPlaces();
+            if (places.length == 0) {
+                return;
+            }
 
-        // For each place, get the icon, name and location.
-        places.forEach(function (place) {
-            document.getElementById("PostLocation_Address").value = place.name;
-            document.getElementById("PostLocation_XCoordinate").value = place.geometry.location.lat();
-            document.getElementById("PostLocation_YCoordinate").value = place.geometry.location.lng();
+            // For each place, get the icon, name and location.
+            places.forEach(function (place) {
+                var address = '';
+                if (place.address_components) {
+                    address = [
+                      (place.address_components[0] && place.address_components[0].short_name || ''),
+                      (place.address_components[1] && place.address_components[1].short_name || ''),
+                      (place.address_components[2] && place.address_components[2].short_name || ''),
+                      (place.address_components[3] && place.address_components[3].short_name || ''),
+                      (place.address_components[4] && place.address_components[4].short_name || ''),
+                      (place.address_components[5] && place.address_components[5].short_name || ''),
+                      (place.address_components[6] && place.address_components[6].short_name || '')
+                    ].join(' ');
+                }
+                document.getElementById("PostLocation_Address").value = address;
+                document.getElementById("PostLocation_XCoordinate").value = place.geometry.location.lat();
+                document.getElementById("PostLocation_YCoordinate").value = place.geometry.location.lng();
+            });
         });
-    });
+    }
+  
 
     var input2 = document.getElementById("search-location2");
     if (input2 != null) {
@@ -29,7 +44,19 @@
 
             // For each place, get the icon, name and location.
             places.forEach(function (place) {
-                document.getElementById("Address_Edit").value = place.name;
+                var address = '';
+                if (place.address_components) {
+                    address = [
+                     (place.address_components[0] && place.address_components[0].short_name || ''),
+                      (place.address_components[1] && place.address_components[1].short_name || ''),
+                      (place.address_components[2] && place.address_components[2].short_name || ''),
+                      (place.address_components[3] && place.address_components[3].short_name || ''),
+                      (place.address_components[4] && place.address_components[4].short_name || ''),
+                      (place.address_components[5] && place.address_components[5].short_name || ''),
+                      (place.address_components[6] && place.address_components[6].short_name || '')
+                    ].join(' ');
+                }
+                document.getElementById("Address_Edit").value = address;
                 document.getElementById("XCoordinate_Edit").value = place.geometry.location.lat();
                 document.getElementById("YCoordinate_Edit").value = place.geometry.location.lng();
             });
@@ -53,10 +80,14 @@ function getCurrentLocation() {
             geocoder.geocode({ 'latLng': location }, function (results, status) {
                 if (status === window.google.maps.GeocoderStatus.OK) {           // if geocode success
                     var detailedLocation = results[0].formatted_address;         // if address found, pass to processing function
-                    document.getElementById("PostLocation_Address").value = detailedLocation;
-                    document.getElementById("PostLocation_XCoordinate").value = pos.lat;
-                    document.getElementById("PostLocation_YCoordinate").value = pos.lng;
-
+                    
+                    var address_Post = document.getElementById("PostLocation_Address");
+                    if(address_Post != null){
+                        document.getElementById("PostLocation_Address").value = detailedLocation;
+                        document.getElementById("PostLocation_XCoordinate").value = pos.lat;
+                        document.getElementById("PostLocation_YCoordinate").value = pos.lng;
+                    }
+                 
                     var address_edit = document.getElementById("Address_Edit");
                     if (address_edit != null) {
                         document.getElementById("Address_Edit").value = detailedLocation;
@@ -80,7 +111,7 @@ function getCurrentLocation() {
 }
 
 function getRegisteredLocation() {
-    var address_Post = document.getElementById("Address_Edit");
+    var address_Post = document.getElementById("PostLocation_Address");
     if (address_Post != null) {
         document.getElementById("PostLocation_Address").value = authenticatedUser.address;
         document.getElementById("PostLocation_XCoordinate").value = authenticatedUser.x;
@@ -89,7 +120,7 @@ function getRegisteredLocation() {
 
     var address_edit = document.getElementById("Address_Edit");
     if (address_edit != null) {
-        document.getElementById("Address_Edit").value = authenticatedUser.address;
+        document.getElementById("Address_Edit").value = autzhenticatedUser.address;
         document.getElementById("XCoordinate_Edit").value = authenticatedUser.x
         document.getElementById("YCoordinate_Edit").value = authenticatedUser.y;
     };

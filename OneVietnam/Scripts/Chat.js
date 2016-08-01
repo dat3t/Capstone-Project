@@ -79,7 +79,8 @@ function register_popup(id, name, avatarSrc) {
     getConversationById(id);
 
 }
-function seenConversation(id) {    
+function seenConversation(id) {
+    if (document.getElementById(id + "Conversations") == null) return;
     if (document.getElementById(id + "Conversations").style.background != "") {        
         if (parseInt($('#MessageNotification').text()) == 1) {
             $('#MessageNotification').hide();
@@ -164,14 +165,17 @@ function getConversations() {
                 con = con + '</div>';
                 con = con + '<div class="content">';
                 con = con + '<div class="header">' + htmlEncode(conversations[i]["FriendName"]) + '</div>';
-                con = con + '<div class="description messagePreview">';
-                con = con + '<p>';
+                con = con + '<div class="description messagePreview">';                
                 if (conversations[i]["LastestType"] == '0') {
                     con = con + '<i class="mini reply icon"></i>';
                 }
-                con = con + htmlEncode(conversations[i]["LastestMessage"]);
-                con = con + '</p>';
+                con = con + htmlEncode(conversations[i]["LastestMessage"]);                
                 con = con + '</div>';
+                con = con + '<div class="extra">';
+                con = con + '<i>';
+                con = con + conversations[i]["UpdatedDate"].toString();
+                con = con + '</i>';
+                con= con + '</div>'
                 con = con + '</div>';
                 con = con + '</div>';
                 con = con + '</a>';

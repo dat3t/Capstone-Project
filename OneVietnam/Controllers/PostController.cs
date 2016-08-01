@@ -135,6 +135,7 @@ namespace OneVietnam.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreatePost(CreatePostViewModel p)
         {
+            HttpFileCollectionBase files = Request.Files;
             ViewData.Clear();
             var post = new Post(p)
             {
@@ -143,7 +144,7 @@ namespace OneVietnam.Controllers
             };
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
             _illustrationList = (HttpFileCollectionBase)Session["Illustrations"];
-            var illList = await PostManager.GetIllustration(_illustrationList, post.Id);
+            var illList = await PostManager.GetIllustration(files, post.Id);
             Session["Illustrations"] = null;
             _illustrationList = null;
             if (tagList != null)
@@ -178,14 +179,19 @@ namespace OneVietnam.Controllers
 
             BaseFilter filter;
             List<Post> posts;
-            List<PostViewModel> list;
+            List<PostViewModel> list=new List<PostViewModel>();
             if (Request.IsAjaxRequest())
                 {
                 filter = new BaseFilter { CurrentPage = pageNum.Value };
-                posts = await PostManager.FindAllAsync(filter);
+                posts = await PostManager.FindAllDescenderAsync(filter);
 
                 if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
-                list = posts.Select(p => new PostViewModel(p)).ToList();                
+                    foreach (var post in posts)
+                    {
+                        ApplicationUser user = await UserManager.FindByIdAsync(post.UserId);
+                    list.Add(new PostViewModel(post,user.UserName,user.Avatar));
+
+                    }
                 //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
                 return PartialView("_PostRow", list);
                 }
@@ -201,13 +207,13 @@ namespace OneVietnam.Controllers
             //    return View();
             //}
             filter = new BaseFilter { CurrentPage = pageNum.Value };
-            posts = await PostManager.FindAllAsync(filter);
+            posts = await PostManager.FindAllDescenderAsync(filter);
             if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
             foreach (var post in posts)
             {
-                
+                ApplicationUser user = await UserManager.FindByIdAsync(post.UserId);
+                list.Add(new PostViewModel(post, user.UserName, user.Avatar));
             }
-            list = posts.Select(p => new PostViewModel(p)).ToList();
             ViewBag.Posts = list;
             return View();
         }
@@ -357,7 +363,7 @@ namespace OneVietnam.Controllers
             return RedirectToAction("Newfeeds", "Post");
         }
         [HttpPost]
-        public async Task<ActionResult> DeleteImage(string name)
+        public async Task<ActionResult> DeleteImage(string name,string id)
         {
             try
             {
@@ -365,10 +371,14 @@ namespace OneVietnam.Controllers
                 string filename = Path.GetFileName(uri.LocalPath);
                 CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-                CloudBlobContainer blobContainer = blobClient.GetContainerReference(filename);
-                await blobContainer.DeleteIfExistsAsync();
+                CloudBlobContainer blobContainer = blobClient.GetContainerReference(id);
 
-                return RedirectToAction("EditPost");
+                var blob = blobContainer.GetBlockBlobReference(filename);
+                await blob.DeleteIfExistsAsync();
+                return RedirectToAction("EditPost", "Post", new { postId = id });
+
+
+
             }
             catch (Exception ex)
             {

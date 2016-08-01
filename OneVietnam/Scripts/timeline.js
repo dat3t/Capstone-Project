@@ -1,4 +1,9 @@
-﻿
+﻿$('.scrolling.menu').on('click', '.item', function () {
+    alert("vao");
+    var filterValue = $(this).attr('data-filter');
+    // use filterFn if matches value
+    $('.grids').isotope({ filter: filterValue });
+});
 function editableForm() {
     $('.tog').toggleClass('disabled');
     $('#btnSaveEditProfile').toggleClass('hides');

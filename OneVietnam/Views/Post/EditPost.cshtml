@@ -216,7 +216,6 @@
                 <div class="field">
                     <label>Ảnh minh họa</label>
                     <div id="fine-uploader-gallery"></div>
-                    <p>@blobs.Count</p>
                     @{
                         if (blobs != null)
                         {
@@ -225,31 +224,20 @@
 
                                 <div class="imageBlock">
                                     <a href="@link" target="_blank"><img class="thumb" src="@link" alt="images" /></a><br />
-                                    <div class="deleteDiv"><img class="deleteIcon" src="~/Images/deleteImage.png" title="Delete Image" onclick="deleteImage('@link');" /></div>
+                                    <div class="deleteDiv"><img class="deleteIcon" src="~/Images/deleteImage.png" title="Delete Image" onclick="deleteImage('@link','@Model.Id');" /></div>
                                 </div>
                             }
                         }
                     }
-                    <script>
-                        function deleteImage(item) {
-                            var url = "/Post/DeleteImage";
-                            $.post(url, { Name: item }, function (data) {
-                                window.location.href = "/Post/EditPost";
-                            });
-                        }
-                        var uploader = new qq.FineUploader({
-                            element: document.getElementById('fine-uploader-gallery'),
-                            template: 'qq-template-gallery',
-                            callbacks: {
-                                onError: function () {
-                                    $(".grids").isotope("layout");
-                                }
-                            }
-                        });
-
-                    </script>
+                
                 </div>
-
+                <script>
+                    function deleteImage(item, postid) {
+                var url = "/Post/DeleteImage";
+                $.post(url, { Name: item,id:postid }, function (data) {
+                });
+                }
+                </script>
                
                 <!-- Button Create and Cancel -->
                 <div class="field" style="text-align: center">
