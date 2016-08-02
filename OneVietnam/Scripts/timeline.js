@@ -34,11 +34,17 @@ function cancelEditProfile() {
 
 function changeTwoFactorAuthentication() {
     var param = $(".ui.toggle.button").text();
+    if (param === "Bật" && $("#txtMobilePhone").val() === "") {
+        $('.message')[0].className = "ui negative message";
+        $(".ui.toggle.button")[0].click();
+        return;
+    }               
     $.ajax({
         type: 'POST',
         url: 'ChangeTwoFactorAuthentication',
         data: { 'value': param },
         success: function () {
+            $('.message .close').click();
         }
     });
 }

@@ -345,6 +345,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\chatbox.css" />
     <Content Include="Content\CountryImage\jp.png" />
     <Content Include="Content\CountryImage\kr.png" />
     <Content Include="Content\CountryImage\us.png" />
@@ -379,7 +380,7 @@
     <Content Include="Content\Icon\ship2.png" />
     <Content Include="Content\Icon\ship3.png" />
     <Content Include="Content\Icon\ship4.jpg" />
-    <Content Include="Content\Icon\Users.png" />
+    <Content Include="Content\Icon\users.ico" />
     <Content Include="Content\Icon\Warning.png" />
     <Content Include="Content\Images\Avatar_Default.jpg" />
     <Content Include="Content\Images\background.png" />
@@ -722,7 +723,7 @@
     <Content Include="Views\Shared\_ShowPostDetail.cshtml" />
     <Content Include="Views\Shared\_NoSearchResult.cshtml" />
     <Content Include="Views\Newsfeed\_ShowPost.cshtml" />
-    <Content Include="Views\Administration\ShowAdminPanel.cshtml" />
+    <Content Include="Views\Administration\Index.cshtml" />
     <Content Include="Views\Administration\_AddRole.cshtml" />
     <Content Include="Views\Administration\_RoleManagementPanel.cshtml" />
     <Content Include="Views\Administration\_RemoveRole.cshtml" />
@@ -737,6 +738,8 @@
     <Content Include="Views\Shared\_AdminPostDetail.cshtml" />
     <Content Include="Views\Administration\_ReportsManagementPanel.cshtml" />
     <Content Include="Views\Administration\_ShowReportStatus.cshtml" />
+    <Content Include="Views\Newsfeed\_EditUserPost.cshtml" />
+    <Content Include="Views\Newsfeed\_EditAdminPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

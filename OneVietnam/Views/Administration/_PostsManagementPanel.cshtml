@@ -31,7 +31,15 @@
                                 <td style="width: 15%;">@Model[index].Title</td>                                
                                 <td style="width: 10%;">@($"{Model[index].CreatedDate.LocalDateTime:dd/MM/yyyy}")</td>
                                 <td style="width: 28%;padding: 0">
-                                    @Model[index].Status.ToString()
+                                    @if (Model[index].Status)
+                                    {
+                                        <label>Đang hoạt động</label>
+                                    }
+                                    else
+                                    {
+                                        <label>Đã đóng</label>
+                                    }
+
                                 </td>                   
                             </tr>
                         }

@@ -11,12 +11,12 @@
 
 
 <div class="image content" style="clear:left;">
-    <div class="ui medium image">
+    <div class="ui medium image" style="width:208px;height:208px;object-fit: cover;overflow:hidden">
         @*<img src="../Content/Images/dat.jpg">*@
-        <img src="@Model.Avatar">
+        <img src="@Model.Avatar" style="object-fit: cover;overflow:hidden">
     </div>
     <div class="description">
-        <div class="userInfoModal" style="position:relative;">
+        <div class="userInfoModal" style="position:relative;height:100%;">
             <div>
                 <a class="item" title="@Model.Location.Address">
                     <i class="small icon marker" style="width:100%;text-align:left">
@@ -58,7 +58,7 @@
                     Trò chuyện
                 </div>*@
             <a class="item">
-                <i class="big comments outline icon" style="position:absolute !important; right:0px !important;" title="Trò chuyện"></i>
+                <i class="big comments outline icon" style="position:absolute !important; right:0px !important;bottom:0px !important;" title="Trò chuyện"></i>
             </a>
         </div>
     </div>

@@ -134,26 +134,20 @@ namespace OneVietnam.Controllers
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
-                if (profile.UserName != null)
-                {
-                    user.UserName = profile.UserName;
-                }
+                user.UserName = profile.UserName;
                 user.Gender = profile.Gender;
                 user.Email = profile.Email;
                 user.Location = profile.Location;
                 if (profile.DateOfBirth != null)
                 {
-                    user.DateOfBirth = profile.DateOfBirth;
+                    
                 }
                 else
                 {
                     user.DateOfBirth = null;
                 }
 
-                if (profile.PhoneNumber != null)
-                {
-                    user.PhoneNumber = profile.PhoneNumber;
-                }
+                user.PhoneNumber = profile.PhoneNumber;
                 var result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {

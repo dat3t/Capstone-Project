@@ -7,7 +7,7 @@
 
 
 
-@if (Model != null) //TODO them dieu kien user chua bi lock
+@if (Model != null && !Model.LockedFlag)
 {
     <script>
         var x = @Model.Profile.Location.XCoordinate;
@@ -183,7 +183,7 @@
                 {
                     <div class="ui tab" data-tab="setting">
                         <div class="ui segment">
-                            <div class="ui middle aligned selection list">
+                            <div class="ui middle aligned selection list">                                
                                 @{
                                     string value = "Tắt";
                                     if (Model.Setting.TwoFacterEnabled == false)
@@ -192,6 +192,11 @@
                                     }
                                 }
                                 <div class="ui item" style="width: 100%; padding: 0">
+                                    <div class="ui negative message transition hidden">
+                                        <i class="close icon"></i>                                        
+                                        <p>Cần thêm số điện thoại đê bât bảo mât hai lớp</p>
+                                    </div>
+                                    
                                     <div class="ui horizontal list" style="width: 100%; padding: 0">
                                         <div class="ui item">
                                             <div class="ui medium header">

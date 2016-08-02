@@ -37,9 +37,15 @@ namespace OneVietnam.DTL
             DeletedFlag = false;
             Status = true;
             LockedFlag = false;
-            PostLocation = pView.PostLocation;                     
-            Illustrations = pView.Illustrations;
-            Tags = pView.Tags;
+            PostLocation = pView.PostLocation;
+            if (pView.Illustrations != null && pView.Illustrations.Count > 0)
+            {
+                Illustrations = pView.Illustrations;
+            }
+            if (pView.Tags != null && pView.Tags.Count > 0)
+            {
+                Tags = pView.Tags;
+            }
         }
 
         public Post(PostViewModel pView)
@@ -53,8 +59,15 @@ namespace OneVietnam.DTL
             DeletedFlag = pView.DeletedFlag;
             Status = pView.Status;
             PostLocation = pView.PostLocation;
-            Illustrations = pView.Illustrations;
-            Tags = pView.Tags;            
+            if (pView.Illustrations != null && pView.Illustrations.Count > 0)
+            {
+                Illustrations = pView.Illustrations;
+            }
+            if (pView.Tags != null && pView.Tags.Count > 0)
+            {
+                Tags = pView.Tags;
+            }
+                       
         }
 
 
@@ -72,6 +85,22 @@ namespace OneVietnam.DTL
             {
                 Illustrations = pView.Illustrations;
             }            
+        }
+
+        public Post(AdminPostViewModel pView)
+        {
+            Id = pView.Id;
+            Title = pView.Title;
+            UserId = pView.UserId;
+            Description = pView.Description;
+            CreatedDate = pView.CreatedDate;
+            PostType = pView.PostType;
+            DeletedFlag = pView.DeletedFlag;
+            Status = pView.Status;
+            if (pView.Illustrations != null && pView.Illustrations.Count > 0)
+            {
+                Illustrations = pView.Illustrations;
+            }
         }
     }
 }
