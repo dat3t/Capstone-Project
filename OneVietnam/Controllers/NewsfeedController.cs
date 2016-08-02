@@ -20,11 +20,7 @@ using OneVietnam.Models;
 namespace OneVietnam.Controllers
 {
     public class NewsfeedController : Controller
-    {
-
-       
-
-        public static bool CreatedPost = false;
+    {              
         public static PostViewModel PostView;        
 
         public NewsfeedController()
@@ -125,42 +121,7 @@ namespace OneVietnam.Controllers
         {
             _illustrationList = Request.Files;
             Session["Illustrations"] = _illustrationList;
-        }
-
-        [HttpPost]
-        [System.Web.Mvc.Authorize]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreatePost(CreatePostViewModel p)
-        {
-            HttpFileCollectionBase files = Request.Files;
-            ViewData.Clear();
-            var post = new Post(p)
-            {
-                CreatedDate = System.DateTime.Now,
-                UserId = User.Identity.GetUserId()
-            };
-            var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
-            _illustrationList = (HttpFileCollectionBase)Session["Illustrations"];
-            var illList = await PostManager.GetIllustration(files, post.Id);
-            Session["Illustrations"] = null;
-            _illustrationList = null;
-            if (tagList != null)
-            {
-                post.Tags = tagList;
-            }
-
-            if (illList != null)
-            {
-                post.Illustrations = illList;
-            }            
-            await PostManager.CreateAsync(post);
-            CreatedPost = true;
-            PostView = new PostViewModel(post);
-            return RedirectToAction("Index", "Newsfeed");
-        }        
-
-        public const int RecordsPerPage = 60;
-
+        }                       
         
         public async Task<ActionResult> Index(int? pageNum)
         {            
@@ -419,19 +380,6 @@ namespace OneVietnam.Controllers
                 ViewData["trace"] = ex.StackTrace;
                 return View("Error");
             }
-        }
-        public class MyHub : Hub
-        {
-            public override Task OnConnected()
-            {
-                if (NewsfeedController.CreatedPost)
-                {
-                    var javaScriptSerializer = new JavaScriptSerializer();
-                    string jsonString = javaScriptSerializer.Serialize(NewsfeedController.PostView);
-                    Clients.Others.loadNewPost(jsonString);
-                }
-                return base.OnConnected();
-            }
-        }                
+        }                       
     }
 }
