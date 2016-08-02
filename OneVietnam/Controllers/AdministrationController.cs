@@ -286,6 +286,7 @@ namespace OneVietnam.Controllers
                 try
                 {
                     await PostManager.CreateAsync(post);
+                    return PartialView("../Administration/_CreateAdminPost", new CreateAdminPostViewModel(post));
                 }
                 catch (Exception ex)
                 {

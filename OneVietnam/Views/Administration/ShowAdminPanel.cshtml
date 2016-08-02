@@ -127,7 +127,7 @@
                                 <!-- Search by Created Date -->
                                 <div class="six wide column">
                                     <label>Ngày tạo</label>
-                                    <input type="date" style="width: 37%" id="dtPostCreatedDateFrom" name="dtPostCreatedDateFrom" value="@($"{System.DateTimeOffset.Now:yyyy-MM-dd}")"/>
+                                    <input type="date" style="width: 37%" id="dtPostCreatedDateFrom" name="dtPostCreatedDateFrom" value="@($"{System.DateTimeOffset.Now.AddDays(-7):yyyy-MM-dd}")"/>
                                     <label>～</label>
                                     <input type="date" style="width: 37%" id="dtPostCreatedDateTo" name="dtPostCreatedDateTo" value="@($"{System.DateTimeOffset.Now:yyyy-MM-dd}")"/>
                                 </div>
@@ -139,19 +139,19 @@
                                             <label>Tình trạng</label>
                                             <div class="field">
                                                 <div class="ui radio checkbox">
-                                                    <input type="radio" name="rdStatus">
+                                                    <input type="radio" name="rdStatus" value="true">
                                                     <label>Đang hoạt động</label>
                                                 </div>
                                             </div>
                                             <div class="field">
                                                 <div class="ui radio checkbox">
-                                                    <input type="radio" name="rdStatus">
+                                                    <input type="radio" name="rdStatus" value="false">
                                                     <label>Đã đóng</label>
                                                 </div>
                                             </div>
                                             <div class="field">
                                                 <div class="ui radio checkbox">
-                                                    <input type="radio" name="rdStatus">
+                                                    <input type="radio" name="rdStatus" value="all" checked="">
                                                     <label>Tất cả</label>
                                                 </div>
                                             </div>
@@ -164,7 +164,7 @@
 
                         <!--Show search users result-->
                         <div id="PostsManagement">
-                            @(Model?.Posts != null ? Html.Partial("../Administration/_PostsManagementPanel", Model.Posts) : Html.Partial("../Administration/_PostsManagementPanel", new List<PostViewModel>()))
+                            @(Model?.Posts != null ? Html.Partial("../Administration/_PostsManagementPanel", Model.Posts) : Html.Partial("../Administration/_PostsManagementPanel", new List<AdminPostViewModel>()))
                         </div>
 
                     </div>
