@@ -105,12 +105,15 @@
                         {
                             <div class="item" data-tab="setting">Cài đặt</div>
                         }
-                        <div class="right menu">
-                            <a class="ui icon teal button" href="javascript: register_popup('@Model.Id','@Model.UserName','@Model.AvatarLink')">
-                                Trò Chuyện
-                                <i class="comments large icon"></i>
-                            </a>
-                        </div>
+                        else
+                        {
+                            <div class="right menu" style="z-index: 2">
+                                <a class="ui icon teal button" href="javascript: register_popup('@Model.Id','@Model.UserName','@Model.AvatarLink')">
+                                    Trò Chuyện
+                                    <i class="comments large icon"></i>
+                                </a>
+                            </div>
+                        }
                     }
                 </div>
 
