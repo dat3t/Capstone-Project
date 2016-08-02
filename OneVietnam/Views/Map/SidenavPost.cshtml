@@ -25,12 +25,12 @@
 
 @foreach (var post in Model)
 {
-    <div id="wrapper" class="segment" style="height:150px; cursor:pointer ; border-bottom: 1px solid #E2E2E2;"  onclick="showSelectedPostOnMap(@post.PostLocation.XCoordinate,@post.PostLocation.YCoordinate,@post.PostType,'@post.postId',0);">
+    <div id="wrapper" class="segment" style="height:150px; cursor:pointer ; border-bottom: 1px solid #E2E2E2;"  onclick="showSelectedPostOnMap(@post.PostLocation.XCoordinate,@post.PostLocation.YCoordinate,@post.PostType,'@post.postId',2);">
         <div class="iw-content2" style="padding:5px;">
             <div id="navInfo2" style="margin-left:3px;">
                 @if (post.Illustrations != null && post.Illustrations.Count > 0)
                 {
-                    <img src="@post.Illustrations[0].PhotoLink" alt="" height="115" width="115">
+                    <img src="@post.Illustrations[0].PhotoLink" alt="" style="height:115px;width:115px; object-fit: cover;overflow:hidden " >
                 }else
                 {
                     //<img src="@post.Illustrations[0]" alt="" height="115" width="115"> DEFAULT IMAMGE
@@ -40,7 +40,7 @@
             <div id="sectionInfo2" style="position:absolute;margin-left:120px;margin-top:0px !important;">
                 <div style="margin-top:3px;" title="@post.Title"><b>@post.Title</b></div>
                 <div style="margin-left:3px;text-align:left!important;font-size:20px;">
-                    <a  href="" class="item" title="@post.Address">
+                    <a   class="item" title="@post.Address">
                         <i class="small icon marker" style="width:100%;text-align:left"> @post.Address</i>
                     </a>
                 </div>

@@ -350,6 +350,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\chatbox.css" />
     <Content Include="Content\CountryImage\jp.png" />
     <Content Include="Content\CountryImage\kr.png" />
     <Content Include="Content\CountryImage\us.png" />
@@ -384,7 +385,7 @@
     <Content Include="Content\Icon\ship2.png" />
     <Content Include="Content\Icon\ship3.png" />
     <Content Include="Content\Icon\ship4.jpg" />
-    <Content Include="Content\Icon\Users.png" />
+    <Content Include="Content\Icon\users.ico" />
     <Content Include="Content\Icon\Warning.png" />
     <Content Include="Content\Images\Avatar_Default.jpg" />
     <Content Include="Content\Images\chov.png" />
