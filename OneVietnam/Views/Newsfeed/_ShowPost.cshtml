@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
+@using OneVietnam.Models
 @model OneVietnam.Models.PostViewModel
 <div class="ui  raised  segment " style="width: 600px !important">
     <div class="header">
@@ -15,8 +16,20 @@
             }
             else
             {
-                <i class='icon announcement link' data-content='Báo cáo' style='float: right'></i>
+                <i class='icon announcement link' id="reportPost" data-content='Báo cáo' style='float: right'></i>
+                @Html.Partial("../Newsfeed/_Report", new ReportViewModal(Model.Id, Model.UserId));
 
+                <script>
+                    $("#reportPost")
+                      .click(function () {
+                          $('.small.modal').modal({
+                              allowMultiple: false
+                          });
+                          $('.second.modal').modal('attach events', '.report.modal .green.button')
+                          ;
+                          $('.report.modal').modal('show');
+                      });
+                </script>
             }
         </div>
 

@@ -29,4 +29,12 @@
         RequiresTwoFactorAuthentication,
         Failure
     }
+
+    public enum ReportStatus
+    {
+        Open,
+        Pending,
+        Closed,
+        Canceled
+    }
 }

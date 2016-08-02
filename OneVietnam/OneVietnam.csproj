@@ -741,6 +741,7 @@
     <Content Include="Views\Administration\_CreateAdminPost.cshtml" />
     <Content Include="Views\Shared\_UserCard.cshtml" />
     <Content Include="Views\Shared\_AdminPostDetail.cshtml" />
+    <Content Include="Views\Administration\_ReportsManagementPanel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

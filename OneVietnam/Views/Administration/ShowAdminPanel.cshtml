@@ -1,4 +1,5 @@
 ﻿
+@using OneVietnam.Common
 @using OneVietnam.Models
 @model OneVietnam.Models.AdministrationViewModel
 
@@ -52,7 +53,7 @@
                         <!-- Search by Created Date -->
                         <div class="six wide column">
                             <label>Ngày đăng ký</label>
-                            <input type="date" style="width: 37%" id="dtCreatedDateFrom" name="dtCreatedDateFrom" value="@($"{System.DateTimeOffset.Now:yyyy-MM-dd}")" />
+                            <input type="date" style="width: 37%" id="dtCreatedDateFrom" name="dtCreatedDateFrom" value="@($"{System.DateTimeOffset.Now.AddDays(-7):yyyy-MM-dd}")" />
                             <label>~</label>
                             <input type="date" style="width: 37%" id="dtCreatedDateTo" name="dtCreatedDateTo" value="@($"{System.DateTimeOffset.Now:yyyy-MM-dd}")" />
                         </div>
@@ -179,7 +180,77 @@
 
                 <!-- Reports Managament -->
                 <div class="ui tab segment" data-tab="reports">
+                    <!-- Users Search Box -->
+                    @using (Ajax.BeginForm("SearchReportMultipleQuery", "Search", null, new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "ReportsManagement"
+                    }, new { id = "ReportSearchAdminPanel" }))
+                    {
+                        <div class="ui grid">
 
+                            <!-- Search by Created Date -->
+                            <div class="six wide column">
+                                <label>Ngày tạo</label>
+                                <input type="date" style="width: 37%" id="dtReportCreatedDateFrom" name="dtReportCreatedDateFrom" value="@($"{System.DateTimeOffset.Now.AddDays(-7):yyyy-MM-dd}")"/>
+                                <label>~</label>
+                                <input type="date" style="width: 37%" id="dtReportCreatedDateTo" name="dtReportCreatedDateTo" value="@($"{System.DateTimeOffset.Now:yyyy-MM-dd}")"/>
+                            </div>
+
+                            <!-- Search by Status -->
+                            <div class="ten wide column">
+                                <div class="ui form">
+                                    <div class="inline fields">
+                                        <label>Tình trạng</label>
+
+                                        @{                                            
+                                            foreach (string status in Enum.GetNames(typeof(ReportStatus)))
+                                            {
+                                                <div class="field">
+                                                    <div class="ui radio checkbox">
+                                                        <input type="radio" name="rdReportStatus" value="@status">
+                                                        @if (string.Equals(status, ReportStatus.Open.ToString()))
+                                                        {
+                                                            <label>Đang mở</label>
+                                                        }
+                                                        else if (string.Equals(status, ReportStatus.Pending.ToString()))
+                                                        {
+                                                            <label>Đang chờ xử lý</label>
+                                                        }
+                                                        else if (string.Equals(status, ReportStatus.Closed.ToString()))
+                                                        {
+                                                            <label>Đã đóng </label>
+                                                        }
+                                                        else if (string.Equals(status, ReportStatus.Canceled.ToString()))
+                                                        {
+                                                            <label>Đã hủy</label>
+                                                        }
+                                                        else
+                                                        {
+                                                            <label>@status</label>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }                                            
+                                        }                                        
+                                        <div class="field">
+                                            <div class="ui radio checkbox">
+                                                <input type="radio" name="rdReportStatus" value="all" checked="">
+                                                <label>Tất cả</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                                            }
+
+                    <!--Show search users result-->
+                    <div id="ReportsManagement">
+                        @(Model?.Reports != null ? Html.Partial("../Administration/_ReportsManagementPanel", Model.Reports) : Html.Partial("../Administration/_ReportsManagementPanel", new List<ReportViewModal>()))
+                    </div>
                 </div>
 
                 <!-- Roles Managament -->
