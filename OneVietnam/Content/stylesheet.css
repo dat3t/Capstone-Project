@@ -54,10 +54,7 @@ a:hover {
   margin:0;
   position: relative;
   overflow: hidden;
-  z-index:1;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-    
+  z-index:1;    
 }
 
 .hero:before {

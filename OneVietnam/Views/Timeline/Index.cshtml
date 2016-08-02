@@ -99,18 +99,21 @@
                         <div class="ui teal   label">@postCount</div>
                     </div>
                     <div class="item" data-tab="profile" onclick="showUserMarkerOnMap(x, y, address);">Giới thiệu</div>
-                    @if (Model.Id.Equals(User.Identity.GetUserId()))
+                    @if (Request.IsAuthenticated)
                     {
-                        <div class="item" data-tab="setting">Cài đặt</div>
+                        if (Model.Id.Equals(User.Identity.GetUserId()))
+                        {
+                            <div class="item" data-tab="setting">Cài đặt</div>
+                        }
+                        <div class="right menu">
+                            <a class="ui icon teal button" href="javascript: register_popup('@Model.Id','@Model.UserName','@Model.AvatarLink')">
+                                Trò Chuyện
+                                <i class="comments large icon"></i>
+                            </a>
+                        </div>
                     }
-                    <div class="right menu">
-                        <a class="ui icon teal button" href="javascript: register_popup('@Model.Id','@Model.UserName','@Model.AvatarLink')">
-                            Trò Chuyện
-                            <i class="comments large icon"></i>
-                        </a>
-                    </div>
                 </div>
-          
+
                 <div class="ui tab active" data-tab="timeline">
                     <div class="ui inline dropdown filter-post">
                         <div class="text">
@@ -149,7 +152,7 @@
 
                         </div>
                     </div>
-              <p> </p>
+                    <p> </p>
                     @{
                         if (Model.PostList != null && Model.PostList.Count > 0)
                         {
@@ -163,7 +166,7 @@
                                     }
                                 }
                             </div>
-                        }
+                                    }
                     }
                 </div>
                 <div class="ui tab" data-tab="profile" id="mapTab">
