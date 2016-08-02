@@ -166,6 +166,9 @@ namespace OneVietnam.Models
         [Display(Name = "Tiêu đề")]
         public string Title { get; set; }
 
+        [Required(ErrorMessage = "{0} chưa được điền.")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Nội dung")]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "{0} chưa được điền.")]
@@ -206,6 +209,22 @@ namespace OneVietnam.Models
                 Illustrations = pPost.Illustrations;
             }
             
+        }
+
+        public AdminPostViewModel(PostViewModel pPost)
+        {
+            Id = pPost.Id;
+            UserId = pPost.UserId;
+            Title = pPost.Title;
+            PostType = pPost.PostType;
+            Description = pPost.Description;
+            CreatedDate = pPost.CreatedDate;
+            Status = pPost.Status;
+            DeletedFlag = pPost.DeletedFlag;
+            if (pPost.Illustrations != null && pPost.Illustrations.Count > 0)
+            {
+                Illustrations = pPost.Illustrations;
+            }
         }
     }
 }
