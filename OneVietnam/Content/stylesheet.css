@@ -7,7 +7,7 @@
   box-sizing: border-box;
 }
 .carousel-cell {
-  width: 600px; /* full width */
+  width: 800px; /* full width */
   height: 600px; /* height of carousel */
 }
 .center-cropped {

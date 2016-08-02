@@ -463,6 +463,7 @@ namespace OneVietnam.Controllers
                             return View("ExternalLoginFailure");
                         }
                         var access_token = claimsIdentity.FindAll("FacebookAccessToken").First().Value;
+                        ViewBag.Accesstoken = access_token;
                         var fb = new FacebookClient(access_token);                        
                         dynamic userInfo = fb.Get("me?fields=name,email,gender,picture.width(800)");                        
                         string name = userInfo["name"];
