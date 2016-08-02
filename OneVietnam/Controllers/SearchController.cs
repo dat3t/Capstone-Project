@@ -82,7 +82,7 @@ namespace OneVietnam.Controllers
             {
                 var searchItem = new SearchResultItem
                 {
-                    Url = Url.Action("ShowPostDetail", "Post", new { postId = item["_id"].ToString() })
+                    Url = Url.Action("ShowPostDetail", "Newsfeed", new { postId = item["_id"].ToString() })
                 };
                 //searchItem.Description = item["Description"].AsString.Substring(0,Math.Min(200, item["Description"].AsString.Length));
                 if (item["Description"].AsString.Length > Constants.DescriptionMaxLength)
@@ -119,7 +119,7 @@ namespace OneVietnam.Controllers
             {
                 Description = user.Email,
                 Title = user.UserName,
-                Url = ""
+                Url = Url.Action("Index","Timeline",new {userId=user.Id})
             }).ToList();
             var searchResult = new SearchResultModel
             {
