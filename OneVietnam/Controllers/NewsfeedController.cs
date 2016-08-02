@@ -400,7 +400,7 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
-        [System.Web.Mvc.Authorize]
+        [System.Web.Mvc.Authorize(Roles = "Admin")]        
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditAdminPost(AdminPostViewModel pPostView)
         {

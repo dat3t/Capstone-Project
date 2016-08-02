@@ -15,7 +15,7 @@ using OneVietnam.Models;
 
 namespace OneVietnam.Controllers
 {
-    
+    [Authorize(Roles = CustomRoles.Admin + "," + CustomRoles.Mod)]
     public class AdministrationController : Controller
     {
         public AdministrationController(){}
@@ -356,7 +356,7 @@ namespace OneVietnam.Controllers
                 ReportViewModal viewModal = new ReportViewModal(report);
                 return PartialView("../Administration/_ShowReportStatus", viewModal);
             }
-            catch (Exception ex)
+            catch
             {
                 ReportViewModal viewModal = new ReportViewModal(report);
                 return PartialView("../Administration/_ShowReportStatus", viewModal);
