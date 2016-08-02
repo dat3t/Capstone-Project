@@ -357,7 +357,6 @@
     <Content Include="Content\CountryImage\vi.png" />
     <Content Include="Content\fine-uploader-gallery.min.css" />
     <Content Include="Content\flickity.css" />
-    <Content Include="Content\flickity.min.css" />
     <Content Include="Content\icon.min.css" />
     <Content Include="Content\Icon\female.png" />
     <Content Include="Content\Icon\free.png" />
@@ -740,6 +739,8 @@
     <Content Include="Views\Administration\_PostsManagementPanel.cshtml" />
     <Content Include="Views\Administration\_CreateAdminPost.cshtml" />
     <Content Include="Views\Shared\_UserCard.cshtml" />
+    <Content Include="Views\Shared\_AdminPostDetail.cshtml" />
+    <Content Include="Views\Administration\_ReportsManagementPanel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

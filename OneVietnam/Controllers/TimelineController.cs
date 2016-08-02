@@ -92,14 +92,14 @@ namespace OneVietnam.Controllers
         }
 
         //ThamDTH 
-        
+
         public async Task<ActionResult> Index(string userId)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
 
             // Create a blob client for interacting with the blob service.
             blobClient = storageAccount.CreateCloudBlobClient();
-           
+
             ApplicationUser user = await UserManager.FindByIdAsync(userId);
             if (user != null)
             {
@@ -114,13 +114,13 @@ namespace OneVietnam.Controllers
             return View();
         }
 
-        [HttpGet]        
+        [HttpGet]
         public async Task<PartialViewResult> EditProfile()
         {
             ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             UserProfileViewModel profile = new UserProfileViewModel(user);
             return PartialView("_EditProfile", profile);
-        }        
+        }
 
         [HttpPost]
         [System.Web.Mvc.Authorize]
@@ -141,7 +141,7 @@ namespace OneVietnam.Controllers
                 user.Gender = profile.Gender;
                 user.Email = profile.Email;
                 user.Location = profile.Location;
-                if(profile.DateOfBirth != null)
+                if (profile.DateOfBirth != null)
                 {
                     user.DateOfBirth = profile.DateOfBirth;
                 }
@@ -149,17 +149,17 @@ namespace OneVietnam.Controllers
                 {
                     user.DateOfBirth = null;
                 }
-                
-                if(profile.PhoneNumber != null)
+
+                if (profile.PhoneNumber != null)
                 {
                     user.PhoneNumber = profile.PhoneNumber;
-                }                
+                }
                 var result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    await SignInAsync(user, isPersistent: false);                                        
+                    await SignInAsync(user, isPersistent: false);
                 }
-                AddErrors(result);                
+                AddErrors(result);
             }
             return PartialView("_EditProfile", profile);
         }
@@ -181,16 +181,16 @@ namespace OneVietnam.Controllers
             if (user != null)
             {
                 await SignInAsync(user, isPersistent: false);
-                TwoFacterViewModel setting = new TwoFacterViewModel(user);                
-            }            
+                TwoFacterViewModel setting = new TwoFacterViewModel(user);
+            }
         }
-               
+
         [HttpGet]
         [System.Web.Mvc.Authorize]
         public ActionResult ChangePassword()
-        {            
+        {
             return PartialView("_ChangePassword", new ChangePasswordViewModel());
-        }       
+        }
 
         [HttpPost]
         [System.Web.Mvc.Authorize]
@@ -211,7 +211,7 @@ namespace OneVietnam.Controllers
                 }
                 return null;
             }
-            AddErrors(result);            
+            AddErrors(result);
             return PartialView("_ChangePassword", model);
         }
 
@@ -226,7 +226,7 @@ namespace OneVietnam.Controllers
         [System.Web.Mvc.Authorize]
         [ValidateAntiForgeryToken]
         public async Task<PartialViewResult> SetPassword(SetPasswordViewModel model)
-        {           
+        {
             if (ModelState.IsValid)
             {
                 var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
@@ -263,12 +263,12 @@ namespace OneVietnam.Controllers
             // using: https://[InsertYourStorageAccountNameHere].blob.core.windows.net/webappstoragedotnet-imagecontainer/FileName 
             await blobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
             HttpFileCollectionBase file = Request.Files;
-            
+
             if (file != null && file.Count > 0)
-            {                
-                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(User.Identity.GetUserId() );
+            {
+                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(User.Identity.GetUserId());
                 await blob.DeleteIfExistsAsync();
-                blob.UploadFromStream(file[0].InputStream);
+                await blob.UploadFromStreamAsync(file[0].InputStream);
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
@@ -276,10 +276,10 @@ namespace OneVietnam.Controllers
                     var result = await UserManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {
-                        await SignInAsync(user, isPersistent: false);                        
+                        await SignInAsync(user, isPersistent: false);
                     }
-                    AddErrors(result);                    
-                }                
+                    AddErrors(result);
+                }
             }
             return RedirectToAction("Index", "Timeline", new { userId = User.Identity.GetUserId() });
 
@@ -298,28 +298,28 @@ namespace OneVietnam.Controllers
             // using: https://[InsertYourStorageAccountNameHere].blob.core.windows.net/webappstoragedotnet-imagecontainer/FileName 
             await blobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
             HttpFileCollectionBase file = Request.Files;
-            
+
             if (file != null && file.Count > 0)
-            {                
-                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(User.Identity.GetUserId() );
+            {
+                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(User.Identity.GetUserId());
                 await blob.DeleteIfExistsAsync();
-                blob.UploadFromStream(file[0].InputStream);
+                await blob.UploadFromStreamAsync(file[0].InputStream);
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
-                    user.Cover = blob.Uri.ToString();               
+                    user.Cover = blob.Uri.ToString();
                     var result = await UserManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {
-                        await SignInAsync(user, isPersistent: false);                        
+                        await SignInAsync(user, isPersistent: false);
                     }
-                    AddErrors(result);                    
-                }                
+                    AddErrors(result);
+                }
             }
             return RedirectToAction("Index", "Timeline", new { userId = User.Identity.GetUserId() });
 
         }
-     
+
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         private async Task SignInAsync(ApplicationUser user, bool isPersistent)

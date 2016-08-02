@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.Identity;
@@ -25,7 +26,8 @@ namespace OneVietnam
         public async Task SendChatMessage(string friendId, string message)
         {
             var name = Context.User.Identity.Name;
-            var id = Context.User.Identity.GetUserId();  
+            var id = Context.User.Identity.GetUserId();            
+            var avatar = ((ClaimsIdentity)Context.User.Identity).FindFirst("Avatar").Value;
             var friend = await UserManager.FindByIdAsync(friendId);
             var connecting = friend.Connections.Any(c => c.Connected == true);
             var connection = friend.Connections;
@@ -34,7 +36,7 @@ namespace OneVietnam
                 foreach (var conn in connection.Where(conn => conn.Connected == true))
                 {
                     // call client's javascript function 
-                    Clients.Client(conn.ConnectionId).addChatMessage(id,name,message);
+                    Clients.Client(conn.ConnectionId).addChatMessage(id,name,message,avatar);
                 }
             }
             // Store Message To Database

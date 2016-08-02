@@ -130,6 +130,8 @@ namespace OneVietnam.Models
 
     public class CreateAdminPostViewModel
     {
+        public string Id { get; set; }
+
         [Required(ErrorMessage = "{0} chưa được điền.")]
         [DataType(DataType.Text)]
         [Display(Name = "Tiêu đề")]
@@ -141,6 +143,13 @@ namespace OneVietnam.Models
         public string Description { get; set; }
 
         public List<Illustration> Illustrations { get; set; }
+
+        public CreateAdminPostViewModel() { }
+
+        public CreateAdminPostViewModel(Post post)
+        {
+            Id = post.Id;
+        }
     }
 
     public class AdminPostViewModel

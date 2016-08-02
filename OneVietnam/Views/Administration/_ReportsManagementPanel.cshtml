@@ -1,0 +1,90 @@
+﻿
+@using OneVietnam.Common
+@model List<OneVietnam.Models.ReportViewModal>
+
+
+
+
+<!-- Posts List -->
+
+@if (Model != null && Model.Count > 0)
+{
+    <div class="ui grid">
+        <div class="sixteen wide column">
+            <div id="tbPostsDefault" style="width: 100%">
+                <table class="ui celled table" style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th style="width: 3%;">STT</th>                            
+                            <th style="width: 15%;">Người/bài bị báo cáo</th>
+                            <th style="width: 15%;">Nội dung</th>
+                            <th style="width: 8%;">Ngày tạo</th>
+                            <th style="width: 10%;">Ngày xử lý</th>
+                            <th style="width: 10%;">Người xử lý</th>                            
+                            <th style="width: 38%;">Tình trạng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @for (int index = 0; index < Model.Count; index++)
+                        {
+                            <tr id="Post_@Model[index].Id" style="width: 100%">
+                                <td style="width: 3%;">@(index + 1)</td>                                
+                                <td style="width: 15%;">
+                                    @(Model[index].PostId != null ? Model[index].PostTile : Model[index].UserName)
+                                </td>
+                                <td style="width: 15%;">@Model[index].ReportDescription</td>
+                                <td style="width: 10%;">@($"{Model[index].CreatedDate.LocalDateTime:dd/MM/yyyy}")</td>
+                                <td style="width: 10%; padding: 0">
+                                    @if (Model[index].CloseDate != null)
+                                    {
+                                        @($"{Model[index].CloseDate.Value.LocalDateTime:dd/MM/yyyy}")
+                                    }
+                                </td>
+                                <td style="width: 8%; padding: 0">
+                                    @if (Model[index].HandlerId != null)
+                                    {
+                                        @Model[index].HandlerName
+                                    }
+                                </td>
+
+                                <td style="width: 38%; padding: 0">
+                                    @if (Model[index].Status == ReportStatus.Open.ToString())
+                                    {
+                                        <label>Chưa xử lý</label>
+                                        <div style="float: right">
+                                            <input type="button" class="ui button" value="Xử lý" />
+                                            <input type="button" class="ui button" value="Chờ xử lý" />
+                                            <input type="button" class="ui button" value="Hủy" />
+                                        </div>                                        
+                                    }
+                                    else if (Model[index].Status == ReportStatus.Pending.ToString())
+                                    {
+                                        <label>Đang chờ xử lý</label>
+                                        <div style="float: right">
+                                            <input type="button" class="ui button" value="Xử lý" />
+                                            <input type="button" class="ui button" value="Hủy" />
+                                        </div>
+                                        
+                                    }
+                                    else if (Model[index].Status == ReportStatus.Closed.ToString())
+                                    {
+                                        <label>Đã xử lý xong</label>
+                                    }
+                                    else
+                                    {
+                                        <label>Đã hủy</label>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+}
+
+
+

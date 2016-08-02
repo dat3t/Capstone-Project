@@ -5,35 +5,29 @@
 @model OneVietnam.Models.PostViewModel
 
 @{
-    ViewBag.Title = "ShowPostDetail";
-    List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
+    ViewBag.Title = "AdminPostDetail";    
 }
 <script>
     var postId = '@Model.Id';
 </script>
 <link rel="stylesheet" href="~/Content/image-slider.css">
 
-@if (Model != null && (Model.DeletedFlag == false) && (Model.LockedFlag == false))
+@if (Model != null && (Model.DeletedFlag == false) && (Model.LockedFlag == false) &&(Model.PostType ==0) &&(Model.Status == true))
 {
     <div class="ui segments" style="width: 100%; border: 0 !important;">
         @*Title area*@
         <div class="ui segment" style="width: 100%; border: 0 !important;">
-            <div class="ui huge header">
+            <div class="ui huge header" style="text-align: center">
                 @Model.Title
             </div>
         </div>
 
-        @*User post*@
-        <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
-            <span style="float: right">
+        @*Created Date*@
+        <div class="ui segment" style="width: 100%; border: 0 !important;">
+            
+            <div class="ui content" style="text-align: right">
                 Tạo ngày @($"{Model.CreatedDate:dd/MM/yyyy}")
-            </span>
-            <a href="@Url.Action("Index", "Timeline", new { userId = Model.UserId})">
-                <img class="ui middle aligned avatar image"
-                     src="/Content/Images/dat.JPG">
-                <span>@Model.UserName </span>
-            </a>
-
+            </div>            
         </div>
 
         @*Illustration Area*@
@@ -130,37 +124,16 @@
 
         @*Like and Share Area*@
         <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
-            <div id="fb-root"></div>
-            @if (Model.Status)
-                {
-                <div class="ui right floated green sub header">
-                    <i class="heartbeat icon"></i>
-                    <div class="content">
-                        Đang hoạt động
-                    </div>
-                </div>
-
-            }
-            else
-            {
-                <div class="ui right floated red sub header">
-                    <i class="heartbeat icon"></i>
-                    <div class="content">
-                        Đã đóng
-                    </div>
-                </div>
-
-            }
+            <div id="fb-root"></div>            
 
             <script>
                 FB = null;
-                (function (d, s, id) {
+                (function(d, s, id) {
                     var js, fjs = d.getElementsByTagName(s)[0];
                     js = d.createElement(s);
                     js.id = id;
                     js.src =
-
-"//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
+                        "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
                     fjs.parentNode.insertBefore(js, fjs);
                 }(document, 'script', 'facebook-jssdk'));
             </script>
@@ -175,82 +148,7 @@
                 <a class="fb-xfbml-parse-ignore" target="_blank" href="@iframeUrl">Chia sẻ</a>
             </div>
         </div>
-
-        @*Address and Post Type*@
-        <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
-            @if ((User.Identity.IsAuthenticated && (User.Identity.GetUserId() == Model.UserId)))
-                {
-                <i class="icon remove circle link" id="deletePost" data-
-                   content="Xóa" style="float: right"></i>
-                <i class="icon edit link" data-content="Sửa" style="float: right"
-                   onclick="document.location.href = '@Url.Action("EditPost", "Newsfeed", new {postId =Model.Id})';"></i>
-
-                //Delete Popup Modal
-                <script>
-                    $("#deletePost")
-                        .click(function () {
-                            $('.ui.small.delete.modal').modal('show');
-                        });
-                </script>
-
-                <div class="ui small delete modal">
-                    <div class="header">
-                        Xóa bài đăng
-                    </div>
-                    <div class="content">
-                        <p>Bạn có chắc chắn xóa bài đăng này?</p>
-                    </div>
-                    <div class="actions">
-                        <div class="ui cancel button">
-                            Hủy
-                        </div>
-                        <div class="ui green button" onclick="document.location.href= '@Url.Action("DeletePost", "Newsfeed", new {postId = Model.Id})';">
-                            Xóa
-                        </div>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <i class="icon announcement link" id="reportPost" data-content="Báo cáo" style="float: right"></i>
-                //Report Popup Modal
-
-                @Html.Partial("../Newsfeed/_Report", new ReportViewModal(Model.Id, Model.UserId));
-
-                @*<script type="text/javascript">
-
-                    </script>*@
-                <script>
-                    $("#reportPost")
-                      .click(function () {
-                          $('.small.modal').modal({
-                              allowMultiple: false
-                          });
-                          $('.second.modal').modal('attach events', '.report.modal .green.button')
-                          ;
-                          $('.report.modal').modal('show');
-                      });
-                </script>
-            }
-            <i class="icon home"></i>
-            <a class="item" onclick="location.href='@Url.Action("ShowMap", "Map", new { @Model.PostLocation.XCoordinate, @Model.PostLocation.YCoordinate, @Model.PostType,postId = @Model.Id})'">@Model.PostLocation.Address</a>
-            @{
-                if (postTypes != null)
-                {
-                    foreach (Icon icon in postTypes)
-                    {
-                        if (icon.IconId == Model.PostType)
-                        {
-                            <a class="item" style="color: #000000">
-                                <i class="icon filter"></i> @icon.IconText
-                            </a>
-                        }
-                    }
-                }
-            }
-
-        </div>
-
+                
         @*Description Area*@
         <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
             <div class="content" style="text-align: justify">
@@ -261,50 +159,11 @@
         @*Comment Area*@
         <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
             <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts=""></div>
-        </div>
-
-        <!-- Related Tags -->
-        @{
-            if (Model.Tags != null && Model.Tags.Count != 0)
-            {
-                <div class="ui segment" style="width: 100%; border: 0 !important;padding-top: 0">
-                    <i class="tags icon" style="float: left"></i>Thẻ liên quan:
-                    @foreach (var tag in Model.Tags)
-                    {
-                        <a href="" style="text-decoration:underline;">@tag.TagText</a>
-                    }
-                </div>
-            }
-        }
-
-
-
+        </div>        
     </div>
             }
             else
 
             {
-                <div class="ui segment">
-                    <div class="ui centered header">
-                        <i class="warning circle icon"></i>
-                        Trang bạn tìm kiếm đã bị xóa hoặc không tồn tại
-                    </div>
-                </div>
+                @Html.Partial("../Shared/_NoSearchResult")
             }
-
-<script>
-    function redirectToMapPage(x, y, postType, postId) {
-        $.ajax({
-            url: '/Map/ShowMap',
-            type: 'GET',
-            dataType: 'text',
-            data: { "XCoordinate": x, "YCoordinate": y, "PostType": postType, "postId": postId },
-            success: function (result) {
-                location.href = '@Url.Action("ShowMap", "Map")';
-            },
-            error: function (xhr, status, error) {
-                alert(xhr.responseText);
-            }
-        });
-    }
-</script>
