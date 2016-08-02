@@ -1,65 +1,68 @@
 ﻿@model OneVietnam.Models.UserViewModel
 
-<div class="header" style="cursor:pointer;" onclick="location.href = '@Url.Action("Index", "Timeline", new { userId = @Model.UserId })'" >
+<div class="header" style="cursor:pointer;" onclick="location.href = '@Url.Action("Index", "Timeline", new { userId = @Model.UserId })'">
     <div>
         <a class="item" style="float:left;">
             <i class="icon male" style="width:100%;text-align:left"> </i>
         </a>
     </div>
-    <a  href='@Url.Action("Index", "Timeline",new { userId = @Model.UserId })'>@Model.UserName</a>
+    <a href='@Url.Action("Index", "Timeline",new { userId = @Model.UserId })'>@Model.UserName</a>
 </div>
 
 
-    <div class="image content" style="clear:left;">
-        <div class="ui medium image">
-            <img src="../Content/Images/dat.jpg">
-        </div>
-        <div class="description">
-            <div class="userInfoModal" style="position:relative;">
-                <div>
-                    <a class="item" title="@Model.Location.Address">
-                        <i class="small icon marker" style="width:100%;text-align:left">
-                            @if (@Model.Location.Address.Length > 65)
-                            {
-                               @Model.Location.Address.Substring(0, 60);
-                            }
-                            else
-                            {
-                              @Model.Location.Address
-                            }
-                            ...
-                       </i>
-                    </a>
-
-                </div>
-                <div>
-                    <a class="item">
-                        <i class="small icon birthday" style="width:100%;text-align:left"> 26/02/1993</i>
-                    </a>
-                </div>
-                <div>
-                    <a class="item">
-                        <i class="small icon mobile" style="width:100%;text-align:left"> 0971046525</i>
-                    </a>
-                </div>
-                <div>
-                    <a class="item">
-                        <i class="small icon mail" style="width:100%;text-align:left"> @Model.Email</i>
-                    </a>
-                </div>
-                @*<div >
-                <a class="item">
-                    <i class="small icon calendar" style="width:100%;text-align:left"> @($"{@Model.PublishDate:dd/MM/yyyy}")</i>
-                </a>
-            </div>*@
-
-                <div class="ui blue right small icon button" style="position:absolute !important; right:0px !important;">
-                    Trò chuyện
-                </div>
-            </div>
-            </div>
-
+<div class="image content" style="clear:left;">
+    <div class="ui medium image">
+        <img src="../Content/Images/dat.jpg">
     </div>
+    <div class="description">
+        <div class="userInfoModal" style="position:relative;">
+            <div>
+                <a class="item" title="@Model.Location.Address">
+                    <i class="small icon marker" style="width:100%;text-align:left">
+                        @if (@Model.Location.Address.Length > 65)
+                        {
+                            @Model.Location.Address.Substring(0, 60);
+                        }
+                        else
+                        {
+                            @Model.Location.Address
+                        }
+                        ...
+                    </i>
+                </a>
+
+            </div>
+            <div>
+                <a class="item">
+                    <i class="small icon birthday" style="width:100%;text-align:left"> 26/02/1993</i>
+                </a>
+            </div>
+            <div>
+                <a class="item">
+                    <i class="small icon mobile" style="width:100%;text-align:left"> 0971046525</i>
+                </a>
+            </div>
+            <div>
+                <a class="item">
+                    <i class="small icon mail" style="width:100%;text-align:left"> @Model.Email</i>
+                </a>
+            </div>
+            @*<div >
+                    <a class="item">
+                        <i class="small icon calendar" style="width:100%;text-align:left"> @($"{@Model.PublishDate:dd/MM/yyyy}")</i>
+                    </a>
+                </div>*@
+
+            @*<div class="ui blue right talk outline icon button" style="position:absolute !important; right:0px !important;">
+                    Trò chuyện
+                </div>*@
+            <a class="item">
+                <i class="big comments outline icon" style="position:absolute !important; right:0px !important;" title="Trò chuyện"></i>
+            </a>
+        </div>
+    </div>
+
+</div>
 
 <script>
     function redirectToTimeLine(userId) {

@@ -357,7 +357,6 @@
     <Content Include="Content\CountryImage\vi.png" />
     <Content Include="Content\fine-uploader-gallery.min.css" />
     <Content Include="Content\flickity.css" />
-    <Content Include="Content\flickity.min.css" />
     <Content Include="Content\icon.min.css" />
     <Content Include="Content\Icon\female.png" />
     <Content Include="Content\Icon\free.png" />
