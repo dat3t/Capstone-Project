@@ -727,7 +727,7 @@
     <Content Include="Views\Shared\_ShowPostDetail.cshtml" />
     <Content Include="Views\Shared\_NoSearchResult.cshtml" />
     <Content Include="Views\Newsfeed\_ShowPost.cshtml" />
-    <Content Include="Views\Administration\ShowAdminPanel.cshtml" />
+    <Content Include="Views\Administration\Index.cshtml" />
     <Content Include="Views\Administration\_AddRole.cshtml" />
     <Content Include="Views\Administration\_RoleManagementPanel.cshtml" />
     <Content Include="Views\Administration\_RemoveRole.cshtml" />
@@ -742,6 +742,8 @@
     <Content Include="Views\Shared\_AdminPostDetail.cshtml" />
     <Content Include="Views\Administration\_ReportsManagementPanel.cshtml" />
     <Content Include="Views\Administration\_ShowReportStatus.cshtml" />
+    <Content Include="Views\Newsfeed\_EditUserPost.cshtml" />
+    <Content Include="Views\Newsfeed\_EditAdminPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

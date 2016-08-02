@@ -73,7 +73,7 @@ namespace OneVietnam.Controllers
         }
 
 
-        public async Task<ActionResult> ShowAdminPanel()
+        public async Task<ActionResult> Index()
         {
             
             var users = await UserManager.TextSearchMultipleQuery("", DateTimeOffset.Now.Date.AddDays(-7).ToUniversalTime(), DateTimeOffset.Now.Date.AddDays(1).ToUniversalTime(), "",null);
