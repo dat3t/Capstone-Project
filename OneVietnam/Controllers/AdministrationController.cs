@@ -51,7 +51,6 @@ namespace OneVietnam.Controllers
             }
         }
 
-
         private PostManager _postManager;
         public PostManager PostManager
         {
@@ -62,13 +61,55 @@ namespace OneVietnam.Controllers
             private set { _postManager = value; }
         }
 
+        private ReportManager _reportManager;
+        public ReportManager ReportManager
+        {
+            get
+            {
+                return _reportManager ?? HttpContext.GetOwinContext().Get<ReportManager>();
+            }
+            private set { _reportManager = value; }
+        }
+
+
         public async Task<ActionResult> ShowAdminPanel()
         {
             
-            var users = await UserManager.TextSearchMultipleQuery("", DateTimeOffset.Now.Date.ToUniversalTime(), DateTimeOffset.Now.Date.AddDays(1).ToUniversalTime(), "",null);
+            var users = await UserManager.TextSearchMultipleQuery("", DateTimeOffset.Now.Date.AddDays(-7).ToUniversalTime(), DateTimeOffset.Now.Date.AddDays(1).ToUniversalTime(), "",null);
             var roles = await RoleManager.AllRolesAsync();
-            var posts = await PostManager.FindAllAsync();
-            AdministrationViewModel administrationView = new AdministrationViewModel(users, roles, posts);
+            var posts = await PostManager.SearchPostMultipleQuery("", DateTimeOffset.Now.Date.AddDays(-7).ToUniversalTime(), DateTimeOffset.Now.Date.AddDays(1).ToUniversalTime(), null);
+            var reports = await ReportManager.FindAllAsync();
+            List<ReportViewModal> reportViewList = new List<ReportViewModal>();
+            foreach (var report in reports)
+            {
+                ReportViewModal reportView = new ReportViewModal(report);
+                if (!string.IsNullOrWhiteSpace(report.HandlerId))
+                {
+                    var handlerUser = await UserManager.FindByIdAsync(report.HandlerId);
+                    if (handlerUser != null)
+                    {
+                        reportView.HandlerName = handlerUser.UserName;
+                    }                    
+                }
+                if (!string.IsNullOrWhiteSpace(report.PostId))
+                {
+                    var reportedPost = await PostManager.FindByIdAsync(report.PostId);
+                    if (reportedPost != null)
+                    {
+                        reportView.PostTile = reportedPost.Title;
+                    }
+                }
+                var reportedUser = await UserManager.FindByIdAsync(report.UserId);
+                if (!string.IsNullOrWhiteSpace(reportedUser.UserName))
+                {
+                    reportView.UserName = reportedUser.UserName;
+                }
+
+                reportViewList.Add(reportView);
+
+            }
+
+            AdministrationViewModel administrationView = new AdministrationViewModel(users, roles, posts, reportViewList);
             return View(administrationView);
         }
 

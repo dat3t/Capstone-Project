@@ -3,12 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+
 using Microsoft.AspNet.SignalR;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -16,11 +19,17 @@ using OneVietnam.BLL;
 using OneVietnam.Common;
 using OneVietnam.DTL;
 using OneVietnam.Models;
+using Facebook;
+using Microsoft.Owin.Security;
 
 namespace OneVietnam.Controllers
 {
     public class NewsfeedController : Controller
-    {              
+    {
+        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
+
+
+        public static bool CreatedPost = false;
         public static PostViewModel PostView;        
 
         public NewsfeedController()
@@ -121,7 +130,42 @@ namespace OneVietnam.Controllers
         {
             _illustrationList = Request.Files;
             Session["Illustrations"] = _illustrationList;
-        }                       
+        }
+
+        [HttpPost]
+        [System.Web.Mvc.Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreatePost(CreatePostViewModel p)
+        {
+            HttpFileCollectionBase files = Request.Files;
+            ViewData.Clear();
+            var post = new Post(p)
+            {
+                CreatedDate = System.DateTime.Now,
+                UserId = User.Identity.GetUserId()
+            };
+            var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
+            _illustrationList = (HttpFileCollectionBase)Session["Illustrations"];
+            var illList = await PostManager.GetIllustration(files, post.Id);
+            Session["Illustrations"] = null;
+            _illustrationList = null;
+            if (tagList != null)
+            {
+                post.Tags = tagList;
+            }
+
+            if (illList != null)
+            {
+                post.Illustrations = illList;
+            }            
+            await PostManager.CreateAsync(post);
+            CreatedPost = true;
+            PostView = new PostViewModel(post);
+            return RedirectToAction("Index", "Newsfeed");
+        }        
+
+        public const int RecordsPerPage = 60;
+
         
         public async Task<ActionResult> Index(int? pageNum)
         {            
@@ -274,6 +318,13 @@ namespace OneVietnam.Controllers
             return View();
         }
 
+        public async  Task<dynamic> getCommentor(string commentid)
+        {     
+            var fb = new FacebookClient("EAAW9j1nWUtoBAMdZBJTMkLD3kctB5h96LQTD3IOEzSvCRtDs3QZB0wz0SfEv0FZC6qnM3tqOSWbgt08xdTZCxC5TzH5IoM4sopyoZCmJrZCsjO7l9g0ZAbs0vTGkQVjwx1IfXkt7mflD1K4CtGzZAxQk6eOLHLlENpDlir4PybkPoQZDZD");
+            dynamic userInfo = fb.Get(commentid);
+            string name = userInfo["from"]["name"];
+            return name;
+        }
         [HttpPost]
         public ActionResult ShowPostDetail(PostViewModel pPostView)
 
@@ -380,6 +431,19 @@ namespace OneVietnam.Controllers
                 ViewData["trace"] = ex.StackTrace;
                 return View("Error");
             }
-        }                       
+        }
+        public class MyHub : Hub
+        {
+            public override Task OnConnected()
+            {
+                if (NewsfeedController.CreatedPost)
+                {
+                    var javaScriptSerializer = new JavaScriptSerializer();
+                    string jsonString = javaScriptSerializer.Serialize(NewsfeedController.PostView);
+                    Clients.Others.loadNewPost(jsonString);
+                }
+                return base.OnConnected();
+            }
+        }                
     }
 }

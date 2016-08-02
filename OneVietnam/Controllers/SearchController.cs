@@ -68,6 +68,16 @@ namespace OneVietnam.Controllers
             private set { _postManager = value; }
         }
 
+        private ReportManager _repostManager;
+        public ReportManager ReportManager
+        {
+            get
+            {
+                return _repostManager ?? HttpContext.GetOwinContext().Get<ReportManager>();
+            }
+            private set { _repostManager = value; }
+        }
+
         public async Task<ActionResult> Search(string query)
         {
             //var result = await PostManager.FullTextSearch(query);
@@ -213,6 +223,61 @@ namespace OneVietnam.Controllers
             return PartialView("../Administration/_PostsManagementPanel", postViews);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> SearchReportMultipleQuery()
+        {            
+            DateTimeOffset? createdDateFrom = null;
+            DateTimeOffset? createdDateTo = null;
+            string repostStatus = "";
+            if (Request.Form.Count > 0)
+            {               
+                string dateFrom = Request.Form["dtReportCreatedDateFrom"];
+                if (!string.IsNullOrWhiteSpace(dateFrom))
+                {
+                    createdDateFrom = Convert.ToDateTime(dateFrom).ToUniversalTime();
+                }
+                string dateTo = Request.Form["dtReportCreatedDateTo"];
+                if (!string.IsNullOrWhiteSpace(dateTo))
+                {
+                    createdDateTo = Convert.ToDateTime(dateTo).AddHours(24).ToUniversalTime();
+                }
+                var status = Request.Form["rdReportStatus"];
+                if (!string.IsNullOrWhiteSpace(status) && !string.Equals(status, "all"))
+                {
+                    repostStatus = status;
+                }
+            }
+            var reports = await ReportManager.SearchRepostMultipleQuery(createdDateFrom, createdDateTo, repostStatus);
+            List<ReportViewModal> reportViewList = new List<ReportViewModal>();
+            foreach (var report in reports)
+            {
+                ReportViewModal reportView = new ReportViewModal(report);
+                if (!string.IsNullOrWhiteSpace(report.HandlerId))
+                {
+                    var handlerUser = await UserManager.FindByIdAsync(report.HandlerId);
+                    if (handlerUser != null)
+                    {
+                        reportView.HandlerName = handlerUser.UserName;
+                    }
+                }
+                if (!string.IsNullOrWhiteSpace(report.PostId))
+                {
+                    var reportedPost = await PostManager.FindByIdAsync(report.PostId);
+                    if (reportedPost != null)
+                    {
+                        reportView.PostTile = reportedPost.Title;
+                    }
+                }
+                var reportedUser = await UserManager.FindByIdAsync(report.UserId);
+                if (!string.IsNullOrWhiteSpace(reportedUser.UserName))
+                {
+                    reportView.UserName = reportedUser.UserName;
+                }
 
+                reportViewList.Add(reportView);
+
+            }
+            return PartialView("../Administration/_ReportsManagementPanel", reportViewList);
+        }
     }
 }

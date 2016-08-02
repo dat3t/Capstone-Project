@@ -193,6 +193,22 @@
 
         //Search admin post end
 
+        //Search report begin
+
+        $("#dtReportCreatedDateFrom").change(function () {
+            $("#ReportSearchAdminPanel").submit();
+        });
+        $("#dtReportCreatedDateTo").change(function () {
+            $("#ReportSearchAdminPanel").submit();
+        });
+
+        $('[name="rdReportStatus"]').on('click', function () {
+            $("#ReportSearchAdminPanel").submit();
+        });
+
+        //Search report end
+
+
     //ToanLM
 
 

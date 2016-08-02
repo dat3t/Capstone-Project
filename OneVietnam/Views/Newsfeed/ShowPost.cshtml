@@ -1,16 +1,24 @@
-﻿<div class="ui grid">
-    <div class="four wide column"></div>
-    <script>
-        (function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6&appId=1615798268744410";
-            fjs.parentNode.insertBefore(js, fjs);
+﻿<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '1615798268744410',
+            xfbml: true,
+            version: 'v2.6'
+        });
+    };
 
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/vi_VN/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+        FB.Event.subscribe('comment.remove', comment_callback);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+<div class="ui grid">
+    <div class="four wide column"></div>
+  
     @using Microsoft.AspNet.Identity
     @model OneVietnam.Models.PostViewModel
         <div class="eight wide column">
@@ -129,51 +137,30 @@
                     </div>
                     <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts=""></div>
 
-                    <script>
+                    <script>                        
+                     
 
-                        FB.Event.subscribe('comment.create',
-                            function(response) {
-                                pushNotification("/Newsfeed/_ShowPost?postId=@Model.Id", "@Model.Title", "@Model.UserId");
+                        // In your JavaScript
+                        var comment_callback = function (response) {
+                            alert("comment_callback");
+                        }
+
+                        function onCommentCreate(commentID) {
+                            $.ajax({
+                                type: 'GET',
+                                url: '/Newsfeed/getCommentor',
+                                data: { commentid: commentID },
+                                success: function (result) {
+                                    alert(result);
+                                    pushNotification("@Url.Action("ShowPost","Newsfeed",new {postId=Model.Id})", "@Model.Title", "@Model.UserId");
+
+                                }
                             });
+                        }
                         FB.XFBML.parse();
 
                     </script>
-                    @*                <script>*@
-                    @*</script>*@
-                    @*                @{*@
-                    @*                    string url = "http://localhost:51801/Post/ShowPostDetail?postId=" + Model.Id;*@
-                    @*                    string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";*@
-                    @*                }*@
-                    @**@
-                    @*                <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>*@
-                    @*                <div class="fb-share-button" data-href="@url" data-layout="button_count" data-size="small" data-mobile-iframe="true">*@
-                    @*                    <a class="fb-xfbml-parse-ignore" target="_blank" href="@iframeUrl">Chia sẻ</a>*@
-                    @*                </div>*@
-                    @*                <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts="3"></div>*@
-                    @**@
-                    @*                <script>*@
-                    @*                <div id="fb-root"></div>*@
-                    @*                <script>*@
-                    @*    window.fbAsyncInit = function() {*@
-                    @*        FB.init({*@
-                    @*            appId: '1615798268744410',*@
-                    @*            status: true,*@
-                    @*            cookie: true,*@
-                    @*            xfbml:  true*@
-                    @*        });*@
-                    @**@
-
-                    @**@
-                    @*    };*@
-                    @*    (function() {*@
-                    @*        var e = document.createElement('script'); e.async = true;*@
-                    @*        e.src = document.location.protocol + '//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.7';*@
-                    @*        document.getElementById('fb-root').appendChild(e);*@
-                    @*    }());*@
-                    @*                </script>*@
-                    @*                <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-numposts="5"></div>*@
-                    @**@
-                    @**@
+                  
 
 
                 </div>
