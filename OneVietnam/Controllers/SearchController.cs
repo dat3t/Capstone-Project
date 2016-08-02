@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using MongoDB.Driver;
 using OneVietnam.BLL;
 using OneVietnam.DTL;
 using OneVietnam.Models;
@@ -82,7 +83,7 @@ namespace OneVietnam.Controllers
             {
                 var searchItem = new SearchResultItem
                 {
-                    Url = Url.Action("ShowPostDetail", "Post", new { postId = item["_id"].ToString() })
+                    Url = Url.Action("ShowPostDetail", "Newsfeed", new { postId = item["_id"].ToString() })
                 };
                 //searchItem.Description = item["Description"].AsString.Substring(0,Math.Min(200, item["Description"].AsString.Length));
                 if (item["Description"].AsString.Length > Constants.DescriptionMaxLength)
@@ -175,14 +176,36 @@ namespace OneVietnam.Controllers
         [HttpPost]
         public async Task<ActionResult> SearchPostMultipleQuery()
         {
-
-            var posts = await PostManager.FindAllAsync();
-            List<PostViewModel> postViews = new List<PostViewModel>();
+            string postTitle = "";
+            DateTimeOffset? createdDateFrom = null;
+            DateTimeOffset? createdDateTo = null;            
+            bool? postStatus = null;            
+            if (Request.Form.Count > 0)
+            {
+                postTitle = Request.Form["txtSearchPostTitle"];                
+                string dateFrom = Request.Form["dtPostCreatedDateFrom"];
+                if (!string.IsNullOrWhiteSpace(dateFrom))
+                {
+                    createdDateFrom = Convert.ToDateTime(dateFrom).ToUniversalTime();
+                }
+                string dateTo = Request.Form["dtPostCreatedDateTo"];
+                if (!string.IsNullOrWhiteSpace(dateTo))
+                {
+                    createdDateTo = Convert.ToDateTime(dateTo).AddHours(24).ToUniversalTime();
+                }                
+                var status = Request.Form["rdStatus"];
+                if (!string.IsNullOrWhiteSpace(status) && !string.Equals(status, "all"))
+                {
+                    postStatus = Convert.ToBoolean(status);
+                }
+            }
+            var posts = await PostManager.SearchPostMultipleQuery(postTitle, createdDateFrom, createdDateTo, postStatus);
+            List<AdminPostViewModel> postViews = new List<AdminPostViewModel>();
             if (posts != null && posts.Count > 0)
             {
                 foreach (var item in posts)
                 {
-                    PostViewModel model = new PostViewModel(item);
+                    AdminPostViewModel model = new AdminPostViewModel(item);
                     postViews.Add(model);
                 }
 

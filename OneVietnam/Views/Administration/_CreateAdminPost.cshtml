@@ -17,8 +17,8 @@
         @Html.ValidationSummary(false)
 
         <div class="field" style="text-align: center">
-            <div class="ui transparent input">
-                <input value="" id="txtCreateAdminPostSuccessMsg" disabled="" style="opacity: 1;" />
+            <div class="ui transparent input">                
+                <a id="linkReferToPostDetail"></a>                
             </div>
         </div>
 
@@ -100,17 +100,16 @@
                 }
 
                 function createSuccess() {
-                    var error = $(".validation-summary-errors ul li");
-                    var txt;
-                    if (error !== null && error !== undefined && error.length > 1) {
-                        txt = document.getElementById("txtCreateAdminPostSuccessMsg");
-                        txt.value = "";
+                    var error = $(".validation-summary-errors ul li");                    
+                    var newUrl = document.getElementById("linkReferToPostDetail");
+                    if (error !== null && error !== undefined && error.length > 1) {                        
                         return;
                     }
                     $("#CreateAdminPostForm").find('input:text, input:file, select, textarea').val('');
-                    $("#CreateAdminPostForm").find('input:text, input:file, select, textarea').removeClass('input-validation-error');;
-                    txt = document.getElementById("txtCreateAdminPostSuccessMsg");
-                    txt.value = "Ban vua tao thanh cong bai dang admin.";
+                    $("#CreateAdminPostForm").find('input:text, input:file, select, textarea').removeClass('input-validation-error');;                    
+
+                    newUrl.innerText = "Bạn vừa tạo thành công bài đăng, bấm vào đây đê xem chi tiết";
+                    newUrl.href = '@Url.Action("ShowPostDetail", "Newsfeed", new { postId = Model.Id})';
                 }
 
                 function submitCreateAdminPost() {
@@ -123,9 +122,9 @@
                     xhr.send(formdata);
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState === 4 && xhr.status === 200) {
-                            ImgList.splice(0, ImgList.length);                            
+                            ImgList.splice(0, ImgList.length);
                         }
-                    }                    
+                    }
                 }
 
             </script>

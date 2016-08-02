@@ -23,7 +23,7 @@ namespace OneVietnam.BLL
 {
     public partial class PostManager : AbstractManager<Post>
     {
-        
+
         public static PostManager Create(IdentityFactoryOptions<PostManager> options,
             IOwinContext context)
         {
@@ -139,6 +139,56 @@ namespace OneVietnam.BLL
             var filter = Builders<Post>.Filter.Eq("DeletedFlag", false);
             var sort = Builders<Post>.Sort.Descending("CreatedDate");
             return await Store.FindAllAsync(basefilter, filter, sort);
+        }
+
+        public async Task<List<Post>> SearchPostMultipleQuery(string title, DateTimeOffset? createdDateFrom, DateTimeOffset? createdDateTo, bool? status)
+        {
+            var builder = Builders<Post>.Filter;
+            FilterDefinition<Post> filter = null;
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                var textFilter = builder.Regex("Title", new BsonRegularExpression(title, "i"));
+                filter = textFilter;
+            }
+            if (createdDateFrom != null)
+            {
+                var dateFrpm = builder.Gte("CreatedDate", createdDateFrom);
+                if (filter == null)
+                {
+                    filter = dateFrpm;
+                }
+                else
+                {
+                    filter = filter & dateFrpm;
+                }
+            }
+
+            if (createdDateTo != null)
+            {
+                var dateTo = builder.Lt("CreatedDate", createdDateTo);
+                if (filter == null)
+                {
+                    filter = dateTo;
+                }
+                else
+                {
+                    filter = filter & dateTo;
+                }
+            }
+
+            if (status != null)
+            {
+                var statusFilter = builder.Eq("Status", status);
+                if (filter == null)
+                {
+                    filter = statusFilter;
+                }
+                else
+                {
+                    filter = filter & statusFilter;
+                }
+            }
+            return await Store.FindAllAsync(filter);
         }
 
     }

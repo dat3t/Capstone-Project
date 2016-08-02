@@ -14,7 +14,7 @@ namespace OneVietnam.Models
 
         public List<RoleViewModel> Roles { get; set; }
 
-        public List<PostViewModel> Posts { get; set; }
+        public List<AdminPostViewModel> Posts { get; set; }
         public AdministrationViewModel() { }
 
         public AdministrationViewModel(List<ApplicationUser> pUsers, List<IdentityRole> pRoles)
@@ -55,10 +55,10 @@ namespace OneVietnam.Models
 
             if (pPosts != null && pPosts.Count > 0)
             {
-                Posts = new List<PostViewModel>();
+                Posts = new List<AdminPostViewModel>();
                 foreach (var post in pPosts)
                 {
-                    PostViewModel postView = new PostViewModel(post);
+                    AdminPostViewModel postView = new AdminPostViewModel(post);
                     Posts.Add(postView);
                 }
             }
