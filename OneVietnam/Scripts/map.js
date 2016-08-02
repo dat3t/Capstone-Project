@@ -131,6 +131,7 @@ function initialize() {
 
     //Init user makers first load
     userMarkerCluster.setMaxZoom(9);
+
     showUsers();
 
 
@@ -268,25 +269,28 @@ function showUsers() {
 
 function showMales() {
     setMapToAMarkerCluster(maleMarkerCluster);
+    maleMarkerCluster.setMaxZoom(9);
     bounds.extend(calculateNearestMarker(males));
     map.fitBounds(bounds);
 }
 
 function showFemales() {
     setMapToAMarkerCluster(femaleMarkerCluster);
+    femaleMarkerCluster.setMaxZoom(9);
     bounds.extend(calculateNearestMarker(females));
     map.fitBounds(bounds);
 }
 
 function showLGBT() {
     setMapToAMarkerCluster(LGBTMarkerCluster);
+    LGBTMarkerCluster.setMaxZoom(9);
     bounds.extend(calculateNearestMarker(LGBT));
     map.fitBounds(bounds);
 }
 
 function showAccommodation() {
     setMapToAMarkerCluster(type0MarkerCluster);
-
+    type0MarkerCluster.setMaxZoom(9);
     bounds.extend(calculateNearestMarker(postType0));
     map.fitBounds(bounds);
 
@@ -294,34 +298,40 @@ function showAccommodation() {
 
 function showJobOffer() {
     setMapToAMarkerCluster(type1MarkerCluster);
+    type1MarkerCluster.setMaxZoom(9);
     bounds.extend(calculateNearestMarker(postType1));
     map.fitBounds(bounds);
 }
 
 function showFurnitureOffer() {
     setMapToAMarkerCluster(type2MarkerCluster);
+    type2MarkerClustersetMaxZoom(9);
     bounds.extend(calculateNearestMarker(postType2));
     map.fitBounds(bounds);
 }
 
 function showHandGoodsOffer() {
     setMapToAMarkerCluster(type3MarkerCluster);
+    type3MarkerClustersetMaxZoom(9);
     bounds.extend(calculateNearestMarker(postType3));
     map.fitBounds(bounds);
 }
 
 function showTradeOffer() {
     setMapToAMarkerCluster(type4MarkerCluster);
+    type4MarkerCluster.setMaxZoom(9);
     bounds.extend(calculateNearestMarker(postType4));
     map.fitBounds(bounds);
 }
 function showSOS() {
     setMapToAMarkerCluster(type5MarkerCluster);
+    type5MarkerCluster.setMaxZoom(9);
     bounds.extend(calculateNearestMarker(postType5));
     map.fitBounds(bounds);
 }
 function showWarning() {
     setMapToAMarkerCluster(type8MarkerCluster);
+    type8MarkerCluster.setMaxZoom(9);
     bounds.extend(calculateNearestMarker(postType8));
     map.fitBounds(bounds);
 }
@@ -459,7 +469,7 @@ function createListType0Markers() {
         url: "../Content/Icon/home.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(postType0[i].x, postType0[i].y);
