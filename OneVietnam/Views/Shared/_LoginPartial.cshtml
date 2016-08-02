@@ -1,12 +1,14 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using System.Security.Claims
+@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
     <div class="item">
         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "ui form" }))
         {
+            var avatar = ((ClaimsIdentity)User.Identity).FindFirst("Avatar").Value;
             @Html.AntiForgeryToken()
             <a href="@Url.Action("Index","Timeline",new {userId=User.Identity.GetUserId()})" id="txtHeaderUserName" style="color: white">
-                <img class="ui avatar image" src="~/Content/Images/Avatar_Default.jpg" />
+                <img class="ui avatar image" src="@avatar" />
                 <span>@User.Identity.GetUserName()&nbsp;</span>
             </a>
         }
@@ -40,9 +42,9 @@
 else
 {
     <div class="item">
-        @Html.ActionLink("Đăng Nhập", "Login", "Account", routeValues: null, htmlAttributes: new { @class = "ui fluid teal button" })
+        @Html.ActionLink("Đăng Nhập", "Login", "Account", routeValues: null, htmlAttributes: new { @class = "ui fluid primary button" })
     </div>
     <div class="item">
-        @Html.ActionLink("Đăng Ký", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "ui fluid teal button" })
+        @Html.ActionLink("Đăng Ký", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "ui fluid primary button" })
     </div>
 }

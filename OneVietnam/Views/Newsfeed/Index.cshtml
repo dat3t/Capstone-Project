@@ -111,13 +111,14 @@
         @*        </div>*@
         @*    </div>*@
 
-
+@if (User.Identity.IsAuthenticated )
+{
 
         <div id="floating-button" class="stamp-button" data-toggle="tooltip" data-original-title="Create">
             <p class="plus"><i class="write icon"></i></p>
             <p class="edits"><i class="remove icon"></i></p>
         </div>
-
+}
     </div>
     <div class="ten wide column">
 

@@ -73,18 +73,7 @@
             url: 'Url'
         },
         minCharacters: 3
-            });
-    $('#user').search({
-      apiSettings: {
-          url: '//api.github.com/search/repositories?q={query}'
-      },
-      fields: {
-          results: 'items',
-          title: 'name',
-          url: 'html_url'
-      },
-        minCharacters: 3
-            });
+            });  
         $('.ui.search.user')
             .search({
         apiSettings: {
