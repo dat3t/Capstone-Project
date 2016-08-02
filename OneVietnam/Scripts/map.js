@@ -329,7 +329,7 @@ function showWarning() {
 function createListUserMarkers() {
     var length = allUsers.length;
     var icon = {
-        url: "/Content/Icon/Users.png",
+        url: "/Content/Icon/users.ico",
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
@@ -755,7 +755,6 @@ function getPostInfo(postID) {
                 $("#postModal").html(result);
 
                 $("#postModal").modal('show');
-                // alert(result);
             }
 
         },
