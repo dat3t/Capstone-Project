@@ -8,13 +8,27 @@
 @if (Model != null && (Model.DeletedFlag == false) && (Model.LockedFlag == false))
 {
     <script src="~/Scripts/jquery-1.10.2.js"></script>
-    <div class="ui grid">
-        <div class="two wide column"></div>
-        <div class="ten wide column">
-            @Html.Partial("../Newsfeed/_ShowPostDetail", Model)
+    if (Model.PostType == 0)
+    {
+        <div class="ui grid">
+            <div class="three wide column"></div>
+            <div class="ten wide column">
+                @Html.Partial("../Shared/_AdminPostDetail", Model)
+            </div>
+            <div class="three wide column"></div>
         </div>
-        <div class="four wide column"></div>
-    </div>           
+    }
+    else
+    {
+        <div class="ui grid">
+            <div class="three wide column"></div>
+            <div class="ten wide column">
+                @Html.Partial("../Newsfeed/_ShowPostDetail", Model)
+            </div>
+            <div class="three wide column"></div>
+        </div>
+    }
+
 }
 else
 {

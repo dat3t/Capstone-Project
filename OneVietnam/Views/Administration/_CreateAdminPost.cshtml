@@ -17,8 +17,8 @@
         @Html.ValidationSummary(false)
 
         <div class="field" style="text-align: center">
-            <div class="ui transparent input">
-                <input value="" id="txtCreateAdminPostSuccessMsg" disabled="" style="opacity: 1;" />
+            <div class="ui transparent input">                
+                <a id="linkReferToPostDetail"></a>                
             </div>
         </div>
 
@@ -39,54 +39,41 @@
         <!-- Illustration -->
         <i class="large inverted blue camera link icon" id="uploadIcon"></i>Thêm ảnh
         <div class="field">
-            <input type="file" id="btnImageUpAdminPost" name="btnImageUpAdminPost" class="upload hides" multiple />
+            <input type="file" id="btnImageUpAdminPost" name="btnImageUpAdminPost" onchange="previewImg()" class="upload hides" multiple />
             <output id="result"></output>
             <script>
-                var ImgList = [];
-                var id = 0;
-                window.onload = function () {
-                    //Check File API support
-                    if (window.File && window.FileList && window.FileReader) {
-                        var filesInput = document.getElementById("btnImageUpAdminPost");
+                var ImgList = [];                                
+                function previewImg() {
+                    var filesInput = document.getElementById("btnImageUpAdminPost");
+                    var files = filesInput.files;
+                    var output = document.getElementById("result");
+                    var i = 0,
+                      len = files.length;
+                    (function readFile(n) {
+                        var reader = new FileReader();
+                        var f = files[n];
+                        reader.onload = function (e) {
+                            var div = document.createElement("span");
+                            div.innerHTML = "<img class='thumb' src='" + e.target.result + "'" +
+                                "title='" + f.name + "'/> <a href='#' class='remove_pict'>X</a>";
 
-                        filesInput.addEventListener("change", function (event) {
-
-                            var files = event.target.files;
-                            var output = document.getElementById("result");
-                            var i = 0,
-                              len = files.length;
-                            (function readFile(n) {
-                                var reader = new FileReader();
-                                var f = files[n];
-                                reader.onload = function (e) {                                    
-                                    var div = document.createElement("span");
-                                    div.innerHTML = "<img class='thumb' src='" + e.target.result + "'" +
-                                        "title='" + f.name + "'/> <a href='#' class='remove_pict'>X</a>";
-
-                                    output.insertBefore(div, null);
-                                    div.children[1].addEventListener("click", function () {
-                                        div.parentNode.removeChild(div);
-                                        var removeId = div.children[0].title;
-                                        for (var index = 0; index < ImgList.length; index++) {
-                                            if (ImgList[index].name === removeId) {
-                                                ImgList.splice(index, 1);
-                                                break;
-                                            }
-                                        }
-                                    });
-                                    ImgList.push(f);
-                                    if (n < len - 1) readFile(++n);
-                                };
-                                reader.readAsDataURL(f);
-                            }(i));
-                            
-                        });
-                    }
-                    else {
-                        console.log("Your browser does not support File API");
-                    }
+                            output.insertBefore(div, null);
+                            div.children[1].addEventListener("click", function () {
+                                div.parentNode.removeChild(div);
+                                var removeId = div.children[0].title;
+                                for (var index = 0; index < ImgList.length; index++) {
+                                    if (ImgList[index].name === removeId) {
+                                        ImgList.splice(index, 1);
+                                        break;
+                                    }
+                                }
+                            });
+                            ImgList.push(f);
+                            if (n < len - 1) readFile(++n);
+                        };
+                        reader.readAsDataURL(f);
+                    }(i));
                 }
-
 
             </script>
         </div>
@@ -96,12 +83,9 @@
             <input id="btnCancelAdminPost" type="button" value="Hủy" class="ui cancel button" onclick="resetAdminPostForm()" />
             <input id="btnCreateAdminPost" type="submit" onclick="submitCreateAdminPost()" value="Đăng bài" name="createpost" class="ui teal button" />
             <script>
-                $(document)
-                    .ready(function () {
-                        $("#uploadIcon").on('click', function () {
-                            $("#btnImageUpAdminPost").click();
-                        });
-                    });
+                $("#uploadIcon").on('click', function () {
+                    $("#btnImageUpAdminPost").click();
+                });
 
                 function resetAdminPostForm() {
                     var validated = $("#CreateAdminPostForm").data('validator');
@@ -116,17 +100,16 @@
                 }
 
                 function createSuccess() {
-                    var error = $(".validation-summary-errors ul li");
-                    var txt;
-                    if (error !== null && error !== undefined && error.length > 1) {
-                        txt = document.getElementById("txtCreateAdminPostSuccessMsg");
-                        txt.value = "";
+                    var error = $(".validation-summary-errors ul li");                    
+                    var newUrl = document.getElementById("linkReferToPostDetail");
+                    if (error !== null && error !== undefined && error.length > 1) {                        
                         return;
                     }
                     $("#CreateAdminPostForm").find('input:text, input:file, select, textarea').val('');
-                    $("#CreateAdminPostForm").find('input:text, input:file, select, textarea').removeClass('input-validation-error');;
-                    txt = document.getElementById("txtCreateAdminPostSuccessMsg");
-                    txt.value = "Ban vua tao thanh cong bai dang admin.";
+                    $("#CreateAdminPostForm").find('input:text, input:file, select, textarea').removeClass('input-validation-error');;                    
+
+                    newUrl.innerText = "Bạn vừa tạo thành công bài đăng, bấm vào đây đê xem chi tiết";
+                    newUrl.href = '@Url.Action("ShowPostDetail", "Newsfeed", new { postId = Model.Id})';
                 }
 
                 function submitCreateAdminPost() {
@@ -139,9 +122,9 @@
                     xhr.send(formdata);
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState === 4 && xhr.status === 200) {
-                            ImgList.splice(0, ImgList.length);                            
+                            ImgList.splice(0, ImgList.length);
                         }
-                    }                    
+                    }
                 }
 
             </script>

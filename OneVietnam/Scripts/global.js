@@ -73,18 +73,7 @@
             url: 'Url'
         },
         minCharacters: 3
-            });
-    $('#user').search({
-      apiSettings: {
-          url: '//api.github.com/search/repositories?q={query}'
-      },
-      fields: {
-          results: 'items',
-          title: 'name',
-          url: 'html_url'
-      },
-        minCharacters: 3
-            });
+            });  
         $('.ui.search.user')
             .search({
         apiSettings: {
@@ -137,8 +126,7 @@
                 },
                 fields: {
                     results: 'Result',
-                    title: 'Title',
-                    description: 'Description'                    
+                    title: 'Title'                                      
                 },
                 minCharacters: 2
             });
@@ -170,11 +158,39 @@
         });
         //Admin panel search user end
 
-        //Create admin post begin
+        //Search admin post begin
+        $("#dvSearchPostTitle")
+            .search({
+                apiSettings: {
+                    url: '/Search/Search?query={query}'
+                },
+                fields: {
+                    results: 'Result',
+                    title: 'Title'                    
+                },
+                minCharacters: 2
+            });
 
-        
+        $("#txtSearchPostTitle").on('keypress', function (event) {
+            if (event.keyCode === 13) {                
+                $("#PostSearchAdminPanel").submit();
+                $("#dvSearchPostTitle").find('.force100').removeClass('visible').addClass('hidden').removeAttr('style');                
+            }
+        });
 
-        //Create admin post end
+        $('[name="rdStatus"]').on('click', function () {
+            $("#PostSearchAdminPanel").submit();
+        });
+
+        $("#dtPostCreatedDateFrom").change(function () {
+            $("#PostSearchAdminPanel").submit();
+        });
+
+        $("#dtPostCreatedDateTo").change(function () {
+            $("#PostSearchAdminPanel").submit();
+        });
+
+        //Search admin post end
 
     //ToanLM
 

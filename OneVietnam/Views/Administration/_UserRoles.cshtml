@@ -39,7 +39,7 @@
                 success: function (partialResult) {
                     $("#divAddRole_@Model.Id").empty();
                     $("#divAddRole_@Model.Id").html(partialResult);
-                    $("#drAddUserRole").dropdown({});
+                    $("#drAddUserRole_@Model.Id").dropdown({});
                 }
             });
         });        

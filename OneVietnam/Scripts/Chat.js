@@ -64,7 +64,7 @@ function register_popup(id, name, avatarSrc) {
 
     var textInput = '<div class="ui fluid input"><textarea onkeypress="if (event.keyCode === 13) { sendMessage(\'' + id + '\'); return false;}" rows="2" style="max-height : 45px;width:100%;border-left-style: none;border-right-style:none" id="' + id + 'Input"></textarea></div>';
     var conversation = '<div style="height:238px; margin-bottom:10px!important ;overflow-y:scroll " id="' + id + 'Conversation" class="ui items"></div>';
-    var element = '<div class="popup-box chat-popup" id="' + id + '">';
+    var element = '<div class="popup-box chat-popup" id="' + id + '" style="z-index=1000!important">';
     element = element + '<div class="popup-head">';
     element = element + '<div class="popup-head-left"> <a href="" style="color:white"><img class="ui avatar image" src="' + avatarSrc + '"/><span>' + name + '</span></a></div>';
     element = element + '<div class="popup-head-right"><a href="javascript:close_popup(\'' + id + '\');">&#10005;</a></div>';
@@ -76,6 +76,7 @@ function register_popup(id, name, avatarSrc) {
 
     calculate_popups();
     seenConversation(id);
+    $("#" + id + "Conversation").text("");
     getConversationById(id);
 
 }

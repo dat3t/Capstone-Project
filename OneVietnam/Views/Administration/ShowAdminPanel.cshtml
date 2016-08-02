@@ -98,8 +98,10 @@
 
                     <div class="ui top attached tabular menu">
                         <a class="item active" data-tab="first">Các bài đăng</a>
-                        <a class="item" data-tab="second">Tạo bài đăng</a>                        
+                        <a class="item" data-tab="second">Tạo bài đăng</a>
                     </div>
+
+                    <!--Search post tab-->
                     <div class="ui bottom attached tab active" data-tab="first" style="padding-top: 1rem">
 
                         <!-- Admin Post Search Box -->
@@ -108,7 +110,7 @@
                             HttpMethod = "POST",
                             InsertionMode = InsertionMode.Replace,
                             UpdateTargetId = "PostsManagement"
-                        }, new { id = "PostSearchAdminPanel" }))
+                        }, new {id = "PostSearchAdminPanel"}))
                         {
                             <div class="ui grid">
                                 <!-- Search by Post Title -->
@@ -125,9 +127,9 @@
                                 <!-- Search by Created Date -->
                                 <div class="six wide column">
                                     <label>Ngày tạo</label>
-                                    <input type="date" style="width: 37%" id="dtPostCreatedDateFrom" name="dtPostCreatedDateFrom" value="@($"{System.DateTimeOffset.Now:yyyy-MM-dd}")" />
+                                    <input type="date" style="width: 37%" id="dtPostCreatedDateFrom" name="dtPostCreatedDateFrom" value="@($"{System.DateTimeOffset.Now.AddDays(-7):yyyy-MM-dd}")"/>
                                     <label>～</label>
-                                    <input type="date" style="width: 37%" id="dtPostCreatedDateTo" name="dtPostCreatedDateTo" value="@($"{System.DateTimeOffset.Now:yyyy-MM-dd}")" />
+                                    <input type="date" style="width: 37%" id="dtPostCreatedDateTo" name="dtPostCreatedDateTo" value="@($"{System.DateTimeOffset.Now:yyyy-MM-dd}")"/>
                                 </div>
 
                                 <!-- Search by Status -->
@@ -137,19 +139,19 @@
                                             <label>Tình trạng</label>
                                             <div class="field">
                                                 <div class="ui radio checkbox">
-                                                    <input type="radio" name="rdStatus">
+                                                    <input type="radio" name="rdStatus" value="true">
                                                     <label>Đang hoạt động</label>
                                                 </div>
                                             </div>
                                             <div class="field">
                                                 <div class="ui radio checkbox">
-                                                    <input type="radio" name="rdStatus">
+                                                    <input type="radio" name="rdStatus" value="false">
                                                     <label>Đã đóng</label>
                                                 </div>
                                             </div>
                                             <div class="field">
                                                 <div class="ui radio checkbox">
-                                                    <input type="radio" name="rdStatus">
+                                                    <input type="radio" name="rdStatus" value="all" checked="">
                                                     <label>Tất cả</label>
                                                 </div>
                                             </div>
@@ -162,10 +164,12 @@
 
                         <!--Show search users result-->
                         <div id="PostsManagement">
-                            @(Model?.Posts != null ? Html.Partial("../Administration/_PostsManagementPanel", Model.Posts) : Html.Partial("../Administration/_PostsManagementPanel", new List<PostViewModel>()))
+                            @(Model?.Posts != null ? Html.Partial("../Administration/_PostsManagementPanel", Model.Posts) : Html.Partial("../Administration/_PostsManagementPanel", new List<AdminPostViewModel>()))
                         </div>
 
                     </div>
+
+                    <!--Create post tab-->
                     <div class="ui bottom attached tab" style="padding-top: 1rem" data-tab="second">
                         <div id="CreateAdminPost" style="width: 60%; margin: auto">
                             @Html.Partial("../Administration/_CreateAdminPost", new CreateAdminPostViewModel())
