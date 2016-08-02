@@ -94,84 +94,85 @@
             </div>
         </div>
     </div>
-    <div class="ui fluid container" style="height: 90%;" id="bodypage">
-        @RenderBody()
-        @if (Request.IsAuthenticated)
-        {
-            <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
-            <script src="~/signalr/hubs"></script>
-            <script type="text/javascript" src="~/Scripts/Chat.js"></script>
-            <script type="text/javascript" src="~/Scripts/Notification.js"></script>
-            <script>
-                var chat;
-                $(function () {
-                    // Reference the auto-generated proxy for the hub.
-                    if (typeof (chat) === "undefined") {
-                        chat = $.connection.oneHub;
-                    }
-                    //Create a function that the hub can call back to display messages.
-                    chat.client.addChatMessage = function (id, name, message,avatar) {
-                        register_popup(id, name,avatar);
-                        // Add the message to the page.
-                        $("#" + id + "Conversation").append('<div class="item"><div class="content" style="margin-left:0.5em"><p class="receiveMessage">' + htmlEncode(message) + '</p></div></div>');
-                        $("#" + id + "Conversation").scrollTop(document.getElementById(id + "Conversation").scrollHeight);
+<div class="ui fluid container" style="height: 90%;" id="bodypage">
+    @RenderBody()
+    @if (Request.IsAuthenticated)
+    {
+        <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+        <script src="~/signalr/hubs"></script>
+        <script type="text/javascript" src="~/Scripts/Chat.js"></script>
+        <script type="text/javascript" src="~/Scripts/Notification.js"></script>
+        <script>
+            var chat;
+            $(function() {
+                // Reference the auto-generated proxy for the hub.
+                if (typeof (chat) === "undefined") {
+                    chat = $.connection.oneHub;
+                }
+                //Create a function that the hub can call back to display messages.
+                chat.client.addChatMessage = function(id, name, message, avatar) {
+                    register_popup(id, name, avatar);
+                    // Add the message to the page.
+                    $("#" + id + "Conversation").append('<div class="item"><div class="content" style="margin-left:0.5em"><p class="receiveMessage">' + htmlEncode(message) + '</p></div></div>');
+                    $("#" + id + "Conversation").scrollTop(document.getElementById(id + "Conversation").scrollHeight);
 
-                    };
-                    chat.client.pushNotification = function () {
-                        if ($('#NotificationsNo').text() == '') {
-                            $('#NotificationsNo').show();
-                            $('#NotificationsNo').text('1');
+                };
+                chat.client.pushNotification = function() {
+                    if ($('#NotificationsNo').text() == '') {
+                        $('#NotificationsNo').show();
+                        $('#NotificationsNo').text('1');
+                    } else {
+                        $('#NotificationsNo').text(parseInt($('#NotificationsNo').text()) + 1);
+                        $('#NotificationsNo').show();
+                    }
+                }
+                // Start the connection.
+                $.connection.hub.start().done(function() {
+                });
+            });
+            $(function() {
+                var controller = "/Home/GetMessageNo";
+                var data = {
+                    id: '@User.Identity.GetUserId()'
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: controller,
+                    data: data,
+                    success: function(data, textstatus) {
+                        if (data == '') {
+                            $('#MessageNotification').text('');
+                            $('#MessageNotification').hide();
                         } else {
-                            $('#NotificationsNo').text(parseInt($('#NotificationsNo').text()) + 1);
-                            $('#NotificationsNo').show();                            
-                        }                        
-                    }
-                    // Start the connection.
-                    $.connection.hub.start().done(function () {
-                    });
-                });
-                $(function () {
-                    var controller = "/Home/GetMessageNo";
-                    var data = {
-                        id: '@User.Identity.GetUserId()'
-                    }
-                    $.ajax({
-                        type: 'POST',
-                        url: controller,
-                        data: data,
-                        success: function (data, textstatus) {
-                            if (data == '') {
-                                $('#MessageNotification').text('');
-                                $('#MessageNotification').hide();
-                            } else {
-                                $('#MessageNotification').show();
-                                $('#MessageNotification').text(data);
-                            }
+                            $('#MessageNotification').show();
+                            $('#MessageNotification').text(data);
                         }
-                    });
+                    }
                 });
-                $(function () {
-                    var controller = "/Home/GetNotificationsNo";
-                    $.ajax({
-                        type: 'POST',
-                        url: controller,
-                        success: function (data) {
-                            if (data == '' || data == '0') {
-                                $('#NotificationsNo').text('0');
-                                $('#NotificationsNo').hide();
-                            } else {
-                                $('#NotificationsNo').show();
-                                $('#NotificationsNo').text(data);
-                            }
+            });
+            $(function() {
+                var controller = "/Home/GetNotificationsNo";
+                $.ajax({
+                    type: 'POST',
+                    url: controller,
+                    success: function(data) {
+                        if (data == '' || data == '0') {
+                            $('#NotificationsNo').text('0');
+                            $('#NotificationsNo').hide();
+                        } else {
+                            $('#NotificationsNo').show();
+                            $('#NotificationsNo').text(data);
                         }
-                    });
+                    }
                 });
-            </script>
-        }
+            });
+        </script>
+    }
 
 
-    </div>
-    @Scripts.Render("~/bundles/semantic")
+</div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.js"></script>
+    
     @Scripts.Render("~/bundles/Scripts")
     @Scripts.Render("~/Scripts/Map")
     @RenderSection("scripts", required: false)
