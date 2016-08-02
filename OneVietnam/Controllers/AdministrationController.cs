@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using MongoDB.Driver;
 using OneVietnam.BLL;
+using OneVietnam.Common;
 using OneVietnam.DTL;
 using OneVietnam.Models;
 
@@ -337,6 +338,29 @@ namespace OneVietnam.Controllers
             }               
                  
             return PartialView("../Administration/_CreateAdminPost", new CreateAdminPostViewModel());
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChangeReportStatus(string reportAction, string reportId)
+        {
+            var report = await ReportManager.FindByIdAsync(reportId);            
+            try
+            {
+                report.Status = reportAction;
+                report.HandlerId = User.Identity.GetUserId();
+                if (string.Equals(reportAction, ReportStatus.Closed.ToString()) || string.Equals(reportAction, ReportStatus.Canceled.ToString()))
+                {
+                    report.CloseDate = DateTimeOffset.UtcNow;
+                }
+                await ReportManager.UpdateAsync(report);
+                ReportViewModal viewModal = new ReportViewModal(report);
+                return PartialView("../Administration/_ShowReportStatus", viewModal);
+            }
+            catch (Exception ex)
+            {
+                ReportViewModal viewModal = new ReportViewModal(report);
+                return PartialView("../Administration/_ShowReportStatus", viewModal);
+            }                                    
         }
 
     }

@@ -36,45 +36,30 @@
                                 <td style="width: 15%;">@Model[index].ReportDescription</td>
                                 <td style="width: 10%;">@($"{Model[index].CreatedDate.LocalDateTime:dd/MM/yyyy}")</td>
                                 <td style="width: 10%; padding: 0">
-                                    @if (Model[index].CloseDate != null)
-                                    {
-                                        @($"{Model[index].CloseDate.Value.LocalDateTime:dd/MM/yyyy}")
-                                    }
+                                    <label id="lblShowClosedDate_@Model[index].Id">
+                                        @if (Model[index].CloseDate != null)
+                                        {
+                                            @($"{Model[index].CloseDate.Value.LocalDateTime:dd/MM/yyyy}")
+                                        }
+                                    </label>
+                                    
                                 </td>
                                 <td style="width: 8%; padding: 0">
-                                    @if (Model[index].HandlerId != null)
-                                    {
-                                        @Model[index].HandlerName
-                                    }
+                                    <label id="lblShowHandlerName_@Model[index].Id">
+                                        @if (Model[index].HandlerId != null)
+                                        {
+                                            @Model[index].HandlerName
+
+                                        }
+                                    </label>
+                                    
                                 </td>
 
                                 <td style="width: 38%; padding: 0">
-                                    @if (Model[index].Status == ReportStatus.Open.ToString())
-                                    {
-                                        <label>Chưa xử lý</label>
-                                        <div style="float: right">
-                                            <input type="button" class="ui button" value="Xử lý" />
-                                            <input type="button" class="ui button" value="Chờ xử lý" />
-                                            <input type="button" class="ui button" value="Hủy" />
-                                        </div>                                        
-                                    }
-                                    else if (Model[index].Status == ReportStatus.Pending.ToString())
-                                    {
-                                        <label>Đang chờ xử lý</label>
-                                        <div style="float: right">
-                                            <input type="button" class="ui button" value="Xử lý" />
-                                            <input type="button" class="ui button" value="Hủy" />
-                                        </div>
-                                        
-                                    }
-                                    else if (Model[index].Status == ReportStatus.Closed.ToString())
-                                    {
-                                        <label>Đã xử lý xong</label>
-                                    }
-                                    else
-                                    {
-                                        <label>Đã hủy</label>
-                                    }
+                                    <div id="dvShowReportStatus_@Model[index].Id">
+                                        @Html.Partial("../Administration/_ShowReportStatus", Model[index])
+                                    </div>
+                                    
                                 </td>
                             </tr>
                         }
