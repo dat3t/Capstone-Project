@@ -185,8 +185,9 @@ function loadScript() {
 }
 
 function showCurrentLocation() {
+    setMapToAMarkerCluster(null);
+   // myHomeMarker.setMap(null);
 
-    myHomeMarker.setMap(null);
     //Identify current user's location and bind it to the map
     //Using HTML5 geolocation.
     if (navigator.geolocation) {
@@ -212,7 +213,8 @@ function showCurrentLocation() {
 }
 
 function showMyLocation() {
-    myCurrentLocationMarker.setMap(null);
+    setMapToAMarkerCluster(null);
+  //  myCurrentLocationMarker.setMap(null);
     myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
     myHomeMarker.setMap(map);
     map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
@@ -234,7 +236,9 @@ function setMapToAMarkerCluster(markerCluster) {
     myCurrentLocationMarker.setMap(null);
     myHomeMarker.setMap(null);
 
-    markerCluster.setMap(map);
+    if (markerCluster != null) {
+        markerCluster.setMap(map);
+    }
 }
 
 function calculateNearestMarker(listLocation) {
