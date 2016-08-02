@@ -29,9 +29,16 @@
                         @for (int index = 0; index < Model.Count; index++)
                         {
                             <tr id="Post_@Model[index].Id" style="width: 100%">
-                                <td style="width: 3%;">@(index + 1)</td>                                
+                                <td style="width: 3%;">@(index + 1)</td>
                                 <td style="width: 15%;">
-                                    @(Model[index].PostId != null ? Model[index].PostTile : Model[index].UserName)
+                                    @if (!string.IsNullOrWhiteSpace(Model[index].PostId))
+                                    {
+                                        <a href="@Url.Action("ShowPostDetail", "Newsfeed", new {postId = Model[index].PostId})">Model[index].PostTile</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Index", "Timeline", new {userId = Model[index].UserId})">Model[index].UserName</a>
+                                    }                                    
                                 </td>
                                 <td style="width: 15%;">@Model[index].ReportDescription</td>
                                 <td style="width: 10%;">@($"{Model[index].CreatedDate.LocalDateTime:dd/MM/yyyy}")</td>
