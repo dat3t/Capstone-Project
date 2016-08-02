@@ -53,8 +53,7 @@ a:hover {
   height: 342px;  
   margin:0;
   position: relative;
-  overflow: hidden;
-  z-index:1;    
+  overflow: hidden;  
 }
 
 .hero:before {
