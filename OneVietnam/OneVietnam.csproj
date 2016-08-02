@@ -350,7 +350,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\chatbox.css" />
     <Content Include="Content\CountryImage\jp.png" />
     <Content Include="Content\CountryImage\kr.png" />
     <Content Include="Content\CountryImage\us.png" />
