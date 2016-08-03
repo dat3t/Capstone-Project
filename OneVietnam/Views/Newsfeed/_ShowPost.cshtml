@@ -1,13 +1,13 @@
 ﻿@using Microsoft.AspNet.Identity
 @using OneVietnam.Models
 @model OneVietnam.Models.PostViewModel
-<div class="ui  raised  segment " style="width: 600px !important">
+<div class="ui  raised  segment " style="width: 631px !important">
     <div class="header">
 
         <img class="ui mini avatar image" src="@Model.AvartarLink">
         <a href="@Url.Action("Index","Timeline",new {userID=@Model.UserId})">@Model.UserName</a>
 
-        <div class="right align meta">
+        <div class="right floated meta">
             @if (User.Identity.IsAuthenticated && (User.Identity.GetUserId() == Model.UserId))
             {
                 <i class="icon remove circle link" data-content="Xóa" style="float: right" onclick="document.location.href = '@Url.Action("DeletePost", "Newsfeed", new {postId = Model.Id})';"></i>
@@ -118,7 +118,8 @@
                 @Model.Description
             </div>
             <div class="extra content">
-              
+                <i class="icon home"></i>
+                <a class="item" onclick="location.href='@Url.Action("ShowMap", "Map", new { @Model.PostLocation.XCoordinate, @Model.PostLocation.YCoordinate, @Model.PostType,postId = @Model.Id})'">@Model.PostLocation.Address</a>
                 @{
                     string url = "http://www.phimmoi.net/phim/nguoi-vo-tuyet-voi-3976/";
                     string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";

@@ -48,69 +48,14 @@ namespace OneVietnam.Controllers
             {
                 _userManager = value;
             }
-        }
-
-        private CountryManager _countryManager;
-        public CountryManager CountryManager
-        {
-            get
-            {
-                return _countryManager ?? HttpContext.GetOwinContext().Get<CountryManager>();
-            }
-            private set { _countryManager = value; }
-        }
-
+        }        
 
         public Image byteArrayToImage(byte[] byteArrayIn)
         {
             MemoryStream ms = new MemoryStream(byteArrayIn);
             Image returnImage = Image.FromStream(ms);
             return returnImage;
-        }
-        public async Task<ActionResult> SelectCountry()
-        {
-
-            var countrieslist = await CountryManager.GetCountriesAsync();
-
-            var selectedCountry = Request.Form["CountryName"];
-
-            if (selectedCountry == null)
-            {
-                ViewBag.CountryIcon = countrieslist[0].CountryIcon;
-                ViewBag.SelectedCountry = countrieslist[0].CountryName;
-            }
-            else
-            {
-                Country c = countrieslist.Find(country => country.CountryName == selectedCountry.ToString());
-                ViewBag.CountryIcon = c.CountryIcon;
-                ViewBag.SelectedCountry = c.CountryName;
-            }
-
-            return View(countrieslist);
-        }
-        //DEMO
-        public ActionResult CreateCountry()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateCountry(AddCountryViewModel model, HttpPostedFileBase upload)
-        {
-
-            if (upload != null && upload.ContentLength > 0)
-            {
-                using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                {
-                    model.CountryIcon = reader.ReadBytes(upload.ContentLength);
-                }
-
-            }
-
-            await CountryManager.CreateAsync(new Country(model.CountryName, model.CountryCode, model.CountryIcon));
-            return RedirectToAction("Index", "Home");
-        }
+        }                
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -245,7 +190,7 @@ namespace OneVietnam.Controllers
 
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email,
                     Gender = model.Gender,Location = location, CreatedDate = DateTimeOffset.UtcNow,
-                    Avatar = "~/Content/Images/Avatar_Default.jpg",Cover = "~/Content/Images/Cover_default.jpg" };
+                    Avatar = Constants.DefaultAvatarLink,Cover = Constants.DefaultCoverLink };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

@@ -34,7 +34,7 @@
             var id = '@Model.Id';
             $.ajax({
                 type: 'GET',
-                url: '@Url.Action("GetOtherRoles", "Administration")',
+                url: '@Url.Action("GetOtherRoles","Administration")',
                 data: { "userId": id },
                 success: function (partialResult) {
                     $("#divAddRole_@Model.Id").empty();
@@ -42,7 +42,7 @@
                     $("#drAddUserRole_@Model.Id").dropdown({});
                 }
             });
-        });
+        });        
     </script>
     <div id="divAddRole_@Model.Id" class="item" style="margin: auto; width: 90%"></div>
     @Html.ValidationSummary(false)

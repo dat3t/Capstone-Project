@@ -18,18 +18,18 @@
 @if (Request.IsAuthenticated)
 {
     <script>
-    var authenticatedUser;
-    isAuthenticated = true;
+        var authenticatedUser;
+        isAuthenticated = true;
 
-    $.ajax({
-        url: '/Map/GetUserInfo?userId=' + "@User.Identity.GetUserId()",
-        type: 'GET',
-        contentType: 'application/json;',
-        dataType: 'json',
-        success: function (json) {
-            authenticatedUser = { x: json.Location.XCoordinate, y: json.Location.YCoordinate, address: json.Location.Address }
-        }
-    });
+        $.ajax({
+            url: '/Map/GetUserInfo?userId=' + "@User.Identity.GetUserId()",
+            type: 'GET',
+            contentType: 'application/json;',
+            dataType: 'json',
+            success: function (json) {
+                authenticatedUser = { x: json.Location.XCoordinate, y: json.Location.YCoordinate, address: json.Location.Address }
+            }
+        });
     </script>
 }
 
@@ -127,7 +127,7 @@
         <div class="grids">
             <div class="grid-sizer"></div>
             <div class="gutter-sizer"></div>
-            <div class="ui link cards">
+            <div class="ui link cards" id="postScroll">
                 @Html.Partial("_PostRow", (ViewBag.Posts as List<PostViewModel>))
                 <div class="container infinite-scroll" id="gohere"></div>
 
@@ -188,6 +188,8 @@
 @section scripts{
     <script src="~/Scripts/infiniteScroll.js"></script>
     <script type="text/javascript">
+        var forLoad = $(".ui.link.cards");
+        var grid = $(".grids");
         $(function () {
             $("div#loading").hide();
         });
