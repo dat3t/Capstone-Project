@@ -74,13 +74,13 @@ namespace OneVietnam.DTL
         public Post(CreateAdminPostViewModel pView)
         {
             Id = ObjectId.GenerateNewId().ToString();
-            Title = pView.Title;            
+            Title = pView.Title;
             Description = pView.Description;
             CreatedDate = DateTimeOffset.UtcNow;
             PostType = 0;
             DeletedFlag = false;
             Status = true;
-            LockedFlag = false;
+            LockedFlag = false;            
             if (pView.Illustrations != null && pView.Illustrations.Count > 0)
             {
                 Illustrations = pView.Illustrations;

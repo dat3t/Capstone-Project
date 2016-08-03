@@ -353,6 +353,21 @@ namespace OneVietnam.Controllers
                     report.CloseDate = DateTimeOffset.UtcNow;
                 }
                 await ReportManager.UpdateAsync(report);
+                if(string.Equals(reportAction, ReportStatus.Closed.ToString())){
+                    if (!string.IsNullOrWhiteSpace(report.PostId))
+                    {
+                        var post = await PostManager.FindByIdAsync(report.PostId);
+                        post.LockedFlag = true;
+                        await PostManager.UpdateAsync(post);
+                    }
+                    else
+                    {
+                        var user = await UserManager.FindByIdAsync(report.UserId);
+                        user.LockedFlag = true;
+                        await UserManager.UpdateAsync(user);
+                    }
+                }
+
                 ReportViewModal viewModal = new ReportViewModal(report);
                 return PartialView("../Administration/_ShowReportStatus", viewModal);
             }
