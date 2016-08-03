@@ -178,7 +178,15 @@ function initialize() {
     //    // (the 'map' here is the result of the created 'var map = ...' above)
     //    google.maps.event.trigger(map, "resize");
     //});
-
+    google.maps.event.addListener(map, 'zoom_changed', function () {
+        setTimeout(function () {
+            var cnt = map.getCenter();
+            cnt.e += 0.000001;
+            map.panTo(cnt);
+            cnt.e -= 0.000001;
+            map.panTo(cnt);
+        }, 400);
+    });
 
 }
 
@@ -325,11 +333,11 @@ function showFurnitureOffer() {
 }
 
 function showHandGoodsOffer() {
-    
-    bounds.extend(calculateNearestMarker(postType3));
-    map.fitBounds(bounds);
     setMapToAMarkerCluster(type3MarkerCluster);
     type3MarkerCluster.setMaxZoom(9);
+    bounds.extend(calculateNearestMarker(postType3));
+    map.fitBounds(bounds);
+  
 }
 
 function showTradeOffer() {
