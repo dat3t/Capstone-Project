@@ -277,8 +277,8 @@ function calculateNearestMarker(listLocation) {
 function showUsers() {
     setMapToAMarkerCluster(userMarkerCluster);
     if (isFirstTime == false) {
-        bounds.extend(calculateNearestMarker(allUsers));
-        map.fitBounds(bounds);
+        var pos = calculateNearestMarker(allUsers);
+        checkIfBoundContainPosition(pos);
     }
     isFirstTime = false;
 }
@@ -286,33 +286,35 @@ function showUsers() {
 function showMales() {
     setMapToAMarkerCluster(maleMarkerCluster);
     maleMarkerCluster.setMaxZoom(9);
-    bounds.extend(calculateNearestMarker(males));
-    map.fitBounds(bounds);
+    var pos = calculateNearestMarker(males);
+    checkIfBoundContainPosition(pos);
 }
 
 function showFemales() {
     setMapToAMarkerCluster(femaleMarkerCluster);
     femaleMarkerCluster.setMaxZoom(9);
-    bounds.extend(calculateNearestMarker(females));
-    map.fitBounds(bounds);
+    var pos = calculateNearestMarker(females);
+    checkIfBoundContainPosition(pos);
 }
 
 function showLGBT() {
     setMapToAMarkerCluster(LGBTMarkerCluster);
     LGBTMarkerCluster.setMaxZoom(9);
-    bounds.extend(calculateNearestMarker(LGBT));
-    map.fitBounds(bounds);
+    var pos = calculateNearestMarker(LGBT);
+    checkIfBoundContainPosition(pos);
 }
 
-function showAccommodation() {
-    setMapToAMarkerCluster(type0MarkerCluster);
-    type0MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType0);
-   
+function checkIfBoundContainPosition(pos) {
     if (map.getBounds().contains(pos) == false) {
         bounds.extend(pos);
         map.fitBounds(bounds);
     }
+}
+function showAccommodation() {
+    setMapToAMarkerCluster(type0MarkerCluster);
+    type0MarkerCluster.setMaxZoom(9);
+    var pos = calculateNearestMarker(postType0);
+    checkIfBoundContainPosition(pos);
    
 
 }
@@ -320,43 +322,45 @@ function showAccommodation() {
 function showJobOffer() {
     setMapToAMarkerCluster(type1MarkerCluster);
     type1MarkerCluster.setMaxZoom(9);
-    bounds.extend(calculateNearestMarker(postType1));
-    map.fitBounds(bounds);
+    var pos = calculateNearestMarker(postType1);
+    checkIfBoundContainPosition(pos);
 }
 
 function showFurnitureOffer() {
    
-    bounds.extend(calculateNearestMarker(postType2));
-    map.fitBounds(bounds);
+   
     setMapToAMarkerCluster(type2MarkerCluster);
     type2MarkerCluster.setMaxZoom(9);
+    var pos = calculateNearestMarker(postType2);
+    checkIfBoundContainPosition(pos);
 }
 
 function showHandGoodsOffer() {
     setMapToAMarkerCluster(type3MarkerCluster);
     type3MarkerCluster.setMaxZoom(9);
-    bounds.extend(calculateNearestMarker(postType3));
-    map.fitBounds(bounds);
+    var pos = calculateNearestMarker(postType3);
+    checkIfBoundContainPosition(pos);
   
 }
 
 function showTradeOffer() {
     setMapToAMarkerCluster(type4MarkerCluster);
     type4MarkerCluster.setMaxZoom(9);
-    bounds.extend(calculateNearestMarker(postType4));
-    map.fitBounds(bounds);
+    var pos = calculateNearestMarker(postType4);
+    checkIfBoundContainPosition(pos);
 }
 function showSOS() {
     setMapToAMarkerCluster(type5MarkerCluster);
     type5MarkerCluster.setMaxZoom(9);
-    bounds.extend(calculateNearestMarker(postType5));
-    map.fitBounds(bounds);
+    var pos = calculateNearestMarker(postType5);
+    checkIfBoundContainPosition(pos);
+
 }
 function showWarning() {
     setMapToAMarkerCluster(type8MarkerCluster);
     type8MarkerCluster.setMaxZoom(9);
-    bounds.extend(calculateNearestMarker(postType8));
-    map.fitBounds(bounds);
+    var pos = calculateNearestMarker(postType8);
+    checkIfBoundContainPosition(pos);
 }
 
 
