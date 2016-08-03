@@ -276,9 +276,7 @@
     <Compile Include="Common\BaseFilter.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\Enums.cs" />
-    <Compile Include="Common\NinjectSignalRDependencyResolver .cs" />
     <Compile Include="Common\OneHub.cs" />
-    <Compile Include="Common\SimpleInjectorHubActivator.cs" />
     <Compile Include="BLL\AbstractManager.cs" />
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Common\utilities.cs" />
