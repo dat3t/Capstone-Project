@@ -163,9 +163,21 @@ namespace OneVietnam.Controllers
             PostView = new PostViewModel(post);
             return RedirectToAction("Index", "Newsfeed");
         }        
-
+        
         public const int RecordsPerPage = 60;
 
+        public async Task<ActionResult> _AdminPost()
+        {
+            List<PostViewModel> list = new List<PostViewModel>();
+            var posts = await PostManager.FindAllActiveAdminPostAsync();
+            foreach (var post in posts)
+            {
+                ApplicationUser user = await UserManager.FindByIdAsync(post.UserId);
+                list.Add(new PostViewModel(post, user.UserName, user.Avatar));
+
+            }
+            return PartialView("_AdminPost", list);
+        }
         
         public async Task<ActionResult> Index(int? pageNum)
         {            

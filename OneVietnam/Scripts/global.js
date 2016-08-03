@@ -1,6 +1,6 @@
 ﻿$(document)
     .ready(function () {
-
+      
         $("#getloc").click();
         $(".filter-post").dropdown({
             allowCategorySelection: true
@@ -267,6 +267,7 @@
         });
         var isStamped = false;
         $('.stamp-button').on('click', function () {
+           
             $('body,html').animate({
                 scrollTop: 0                       // Scroll to top of body
             }, 500);
