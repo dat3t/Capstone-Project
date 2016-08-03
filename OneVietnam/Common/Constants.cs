@@ -17,6 +17,14 @@ namespace OneVietnam
         public const string IconTypeGender = "gender";
         public const string IconTypePost = "postType";
         public const string DefaultAvatarLink = "/Content/Images/Avatar_Default.jpg";
+        public const string DefaultCoverLink = "/Content/Images/Cover_default.jpg";
         public const string CommentDescription = "Có một bạn bình luật bài : ";        
+    }
+    public static class CustomRoles
+    {
+        public const string Admin = "Admin";
+        public const string Mod = "Mod";
+        public const string Authenticated = "Authenticated";
+
     }
 }

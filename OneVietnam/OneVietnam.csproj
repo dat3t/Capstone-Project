@@ -276,10 +276,8 @@
     <Compile Include="Common\BaseFilter.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\Enums.cs" />
-    <Compile Include="Common\NinjectSignalRDependencyResolver .cs" />
     <Compile Include="Common\OneHub.cs" />
-    <Compile Include="Common\SimpleInjectorHubActivator.cs" />
-    <Compile Include="BLL\AbstractManager.cs" />
+    <Compile Include="BLL\Abstract\AbstractManager.cs" />
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Common\utilities.cs" />
     <Compile Include="Controllers\TimelineController.cs" />
@@ -298,9 +296,7 @@
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\TimelineViewModel.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="BLL\CountryManager.cs" />
     <Compile Include="BLL\IconManagerBLO.cs" />
-    <Compile Include="BLL\MapManagerBLO.cs" />
     <Compile Include="BLL\PostsManagerBLO.cs" />
     <Compile Include="BLL\RolesManagerBLO.cs" />
     <Compile Include="BLL\TagManagerBLO.cs" />
@@ -313,13 +309,11 @@
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
-    <Compile Include="DAL\CountryStoreDAO.cs" />
     <Compile Include="DAL\IconStoreDAO.cs" />
     <Compile Include="DAL\RoleStoreDAO.cs" />
     <Compile Include="DAL\TagStoreDAO.cs" />
     <Compile Include="DAL\UserStoreDAO.cs" />
     <Compile Include="DTL\ApplicationUserDTO.cs" />
-    <Compile Include="DTL\CountryDTO.cs" />
     <Compile Include="DTL\IconDTO.cs" />
     <Compile Include="DTL\IllustrationDTO.cs" />
     <Compile Include="DTL\LocationDTO.cs" />
@@ -330,7 +324,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\AddCountryViewModel.cs" />
     <Compile Include="Models\AddLocationViewModel.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -357,7 +350,6 @@
     <Content Include="Content\CountryImage\vi.png" />
     <Content Include="Content\fine-uploader-gallery.min.css" />
     <Content Include="Content\flickity.css" />
-    <Content Include="Content\flickity.min.css" />
     <Content Include="Content\icon.min.css" />
     <Content Include="Content\Icon\female.png" />
     <Content Include="Content\Icon\free.png" />
@@ -386,9 +378,10 @@
     <Content Include="Content\Icon\ship2.png" />
     <Content Include="Content\Icon\ship3.png" />
     <Content Include="Content\Icon\ship4.jpg" />
-    <Content Include="Content\Icon\Users.png" />
+    <Content Include="Content\Icon\users.ico" />
     <Content Include="Content\Icon\Warning.png" />
     <Content Include="Content\Images\Avatar_Default.jpg" />
+    <Content Include="Content\Images\background.png" />
     <Content Include="Content\Images\chov.png" />
     <Content Include="Content\Images\Cover_default.jpg" />
     <Content Include="Content\Images\Logo.png" />
@@ -404,14 +397,6 @@
     <Content Include="Content\Map\scrollbar.css" />
     <Content Include="Content\minimal-slide.css" />
     <Content Include="Content\semantic.min.css" />
-    <Content Include="Content\SlideImages\HA.jpg" />
-    <Content Include="Content\SlideImages\Halong.jpg" />
-    <Content Include="Content\SlideImages\HL2.jpg" />
-    <Content Include="Content\SlideImages\hoian.jpg" />
-    <Content Include="Content\SlideImages\QB.jpg" />
-    <Content Include="Content\SlideImages\QuangBinh.jpg" />
-    <Content Include="Content\SlideImages\Sapa.jpg" />
-    <Content Include="Content\SlideImages\SP.jpg" />
     <Content Include="Content\image-slider.css" />
     <Content Include="Content\Images\background.jpg" />
     <Content Include="Content\Images\dat.JPG" />
@@ -420,14 +405,6 @@
     <Content Include="Content\Images\rua.png" />
     <Content Include="Content\minimal-slide.css" />
     <Content Include="Content\semantic.min.css" />
-    <Content Include="Content\SlideImages\HA.jpg" />
-    <Content Include="Content\SlideImages\Halong.jpg" />
-    <Content Include="Content\SlideImages\HL2.jpg" />
-    <Content Include="Content\SlideImages\hoian.jpg" />
-    <Content Include="Content\SlideImages\QB.jpg" />
-    <Content Include="Content\SlideImages\QuangBinh.jpg" />
-    <Content Include="Content\SlideImages\Sapa.jpg" />
-    <Content Include="Content\SlideImages\SP.jpg" />
     <Content Include="Content\stylesheet.css" />
     <Content Include="fonts\helveticaneuecyr-bold.svg" />
     <Content Include="fonts\helveticaneuecyr-roman.svg" />
@@ -728,7 +705,7 @@
     <Content Include="Views\Shared\_ShowPostDetail.cshtml" />
     <Content Include="Views\Shared\_NoSearchResult.cshtml" />
     <Content Include="Views\Newsfeed\_ShowPost.cshtml" />
-    <Content Include="Views\Administration\ShowAdminPanel.cshtml" />
+    <Content Include="Views\Administration\Index.cshtml" />
     <Content Include="Views\Administration\_AddRole.cshtml" />
     <Content Include="Views\Administration\_RoleManagementPanel.cshtml" />
     <Content Include="Views\Administration\_RemoveRole.cshtml" />
@@ -741,10 +718,14 @@
     <Content Include="Views\Administration\_CreateAdminPost.cshtml" />
     <Content Include="Views\Shared\_UserCard.cshtml" />
     <Content Include="Views\Shared\_AdminPostDetail.cshtml" />
-    <Content Include="Views\Search\_userResult.cshtml" />
+    <Content Include="Views\Administration\_ReportsManagementPanel.cshtml" />
+    <Content Include="Views\Administration\_ShowReportStatus.cshtml" />
+    <Content Include="Views\Newsfeed\_EditUserPost.cshtml" />
+    <Content Include="Views\Newsfeed\_EditAdminPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="DAL\Abstract\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

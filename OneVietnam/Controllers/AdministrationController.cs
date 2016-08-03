@@ -9,12 +9,13 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using MongoDB.Driver;
 using OneVietnam.BLL;
+using OneVietnam.Common;
 using OneVietnam.DTL;
 using OneVietnam.Models;
 
 namespace OneVietnam.Controllers
 {
-    
+    [Authorize(Roles = CustomRoles.Admin + "," + CustomRoles.Mod)]
     public class AdministrationController : Controller
     {
         public AdministrationController(){}
@@ -51,7 +52,6 @@ namespace OneVietnam.Controllers
             }
         }
 
-
         private PostManager _postManager;
         public PostManager PostManager
         {
@@ -62,18 +62,60 @@ namespace OneVietnam.Controllers
             private set { _postManager = value; }
         }
 
-        public async Task<ActionResult> ShowAdminPanel()
+        private ReportManager _reportManager;
+        public ReportManager ReportManager
+        {
+            get
+            {
+                return _reportManager ?? HttpContext.GetOwinContext().Get<ReportManager>();
+            }
+            private set { _reportManager = value; }
+        }
+
+
+        public async Task<ActionResult> Index()
         {
             
-            var users = await UserManager.TextSearchMultipleQuery("", DateTimeOffset.Now.Date.ToUniversalTime(), DateTimeOffset.Now.Date.AddDays(1).ToUniversalTime(), "",null);
+            var users = await UserManager.TextSearchMultipleQuery("", DateTimeOffset.Now.Date.AddDays(-7).ToUniversalTime(), DateTimeOffset.Now.Date.AddDays(1).ToUniversalTime(), "",null);
             var roles = await RoleManager.AllRolesAsync();
-            var posts = await PostManager.FindAllAsync();
-            AdministrationViewModel administrationView = new AdministrationViewModel(users, roles, posts);
+            var posts = await PostManager.SearchPostMultipleQuery("", DateTimeOffset.Now.Date.AddDays(-7).ToUniversalTime(), DateTimeOffset.Now.Date.AddDays(1).ToUniversalTime(), null);
+            var reports = await ReportManager.FindAllAsync();
+            List<ReportViewModal> reportViewList = new List<ReportViewModal>();
+            foreach (var report in reports)
+            {
+                ReportViewModal reportView = new ReportViewModal(report);
+                if (!string.IsNullOrWhiteSpace(report.HandlerId))
+                {
+                    var handlerUser = await UserManager.FindByIdAsync(report.HandlerId);
+                    if (handlerUser != null)
+                    {
+                        reportView.HandlerName = handlerUser.UserName;
+                    }                    
+                }
+                if (!string.IsNullOrWhiteSpace(report.PostId))
+                {
+                    var reportedPost = await PostManager.FindByIdAsync(report.PostId);
+                    if (reportedPost != null)
+                    {
+                        reportView.PostTile = reportedPost.Title;
+                    }
+                }
+                var reportedUser = await UserManager.FindByIdAsync(report.UserId);
+                if (!string.IsNullOrWhiteSpace(reportedUser.UserName))
+                {
+                    reportView.UserName = reportedUser.UserName;
+                }
+
+                reportViewList.Add(reportView);
+
+            }
+
+            AdministrationViewModel administrationView = new AdministrationViewModel(users, roles, posts, reportViewList);
             return View(administrationView);
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = CustomRoles.Admin)]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddRole(RoleViewModel roleViewModel)
         {
@@ -106,7 +148,7 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = CustomRoles.Admin)]
         public async Task<ActionResult> RemoveRole(string roleId)
         {
             //Remove role in roles document
@@ -144,7 +186,7 @@ namespace OneVietnam.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = CustomRoles.Admin)]
         public async Task<ActionResult> GetOtherRoles(string userId)
         {
             var roleList = await RoleManager.AllRolesAsync();
@@ -174,7 +216,7 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = CustomRoles.Admin)]
         public async Task<ActionResult> RemoveUserRole(string userId, string role)
         {
             var user = await UserManager.FindByIdAsync(userId);
@@ -195,7 +237,7 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = CustomRoles.Admin)]
         public async Task<ActionResult> AddUserRole(string userId)
         {
             var user = await UserManager.FindByIdAsync(userId);
@@ -237,7 +279,7 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = CustomRoles.Admin)]
         public async Task<ActionResult> ChangeLockedStatus(string userId)
         {
             var user = await UserManager.FindByIdAsync(userId);
@@ -296,6 +338,29 @@ namespace OneVietnam.Controllers
             }               
                  
             return PartialView("../Administration/_CreateAdminPost", new CreateAdminPostViewModel());
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChangeReportStatus(string reportAction, string reportId)
+        {
+            var report = await ReportManager.FindByIdAsync(reportId);            
+            try
+            {
+                report.Status = reportAction;
+                report.HandlerId = User.Identity.GetUserId();
+                if (string.Equals(reportAction, ReportStatus.Closed.ToString()) || string.Equals(reportAction, ReportStatus.Canceled.ToString()))
+                {
+                    report.CloseDate = DateTimeOffset.UtcNow;
+                }
+                await ReportManager.UpdateAsync(report);
+                ReportViewModal viewModal = new ReportViewModal(report);
+                return PartialView("../Administration/_ShowReportStatus", viewModal);
+            }
+            catch
+            {
+                ReportViewModal viewModal = new ReportViewModal(report);
+                return PartialView("../Administration/_ShowReportStatus", viewModal);
+            }                                    
         }
 
     }

@@ -370,7 +370,23 @@ namespace OneVietnam.Controllers
             await PostManager.UpdateAsync(post);
             return RedirectToAction("ShowPostDetail", "Newsfeed", new { postId = pPostView.Id });
         }
-        
+
+        [HttpPost]
+        [System.Web.Mvc.Authorize(Roles = "Admin")]        
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditAdminPost(AdminPostViewModel pPostView)
+        {
+            ViewData.Clear();            
+            var illList = await PostManager.GetIllustration(_illustrationList, pPostView.Id);
+            if (illList != null)
+            {
+                pPostView.Illustrations = illList;
+            }
+            Post post = new Post(pPostView);
+            await PostManager.UpdateAsync(post);
+            return RedirectToAction("ShowPostDetail", "Newsfeed", new { postId = pPostView.Id });
+        }
+
         [System.Web.Mvc.Authorize]        
         public async Task<ActionResult> DeletePost(string postId)
         {

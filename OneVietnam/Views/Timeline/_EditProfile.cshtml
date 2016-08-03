@@ -139,7 +139,7 @@
 
                 <div class="ui big fluid tog transparent disabled input">
                     <i class="large mobile icon"></i>
-                    @Html.EditorFor(model => model.PhoneNumber)
+                    @Html.EditorFor(model => model.PhoneNumber, new {htmlAttributes = new { @id = "txtMobilePhone"}})
 
                 </div>
             </div>

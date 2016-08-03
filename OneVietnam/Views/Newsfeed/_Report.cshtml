@@ -2,7 +2,7 @@
 @using OneVietnam.Models
 @model OneVietnam.Models.ReportViewModal
 <div class="ui small report modal">
-    @using (Html.BeginForm("ReportPost", "Post", FormMethod.Post, new {enctype = "multipart/form-data", id = "ReportSubmit"}))
+    @using (Html.BeginForm("ReportPost", "Newsfeed", FormMethod.Post, new {enctype = "multipart/form-data", id = "ReportSubmit"}))
     {
 
         <div class="header">
@@ -30,7 +30,7 @@
                     };
                     $.ajax({
                         type: 'POST',
-                        url: 'ReportPost',
+                        url: '/Newsfeed/ReportPost',
                         data: param,
                         success: function() {
                             $('.report.modal').find('textarea').val('');

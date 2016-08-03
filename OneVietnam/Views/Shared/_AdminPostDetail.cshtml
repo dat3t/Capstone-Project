@@ -24,7 +24,7 @@
 
         @*Created Date*@
         <div class="ui segment" style="width: 100%; border: 0 !important;">
-            <div class="ui content" style="text-align: right">
+            <div class="ui content">
                 Tạo ngày @($"{Model.CreatedDate:dd/MM/yyyy}")
             </div>            
         </div>
@@ -120,6 +120,59 @@
                 </div>
             }
         }
+
+        <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">
+            @if ((User.Identity.IsAuthenticated && (User.Identity.GetUserId() == Model.UserId)))
+                {
+                <i class="icon remove circle link" id="deletePost" data-
+                   content="Xóa" style="float: right"></i>
+                <i class="icon edit link" data-content="Sửa" style="float: right"
+                   onclick="document.location.href = '@Url.Action("EditPost", "Newsfeed", new {postId =Model.Id})';"></i>
+                
+                <script>
+                    $("#deletePost")
+                        .click(function () {
+                            $('.ui.small.delete.modal').modal('show');
+                        });
+                </script>
+
+                <div class="ui small delete modal">
+                    <div class="header">
+                        Xóa bài đăng
+                    </div>
+                    <div class="content">
+                        <p>Bạn có chắc chắn xóa bài đăng này?</p>
+                    </div>
+                    <div class="actions">
+                        <div class="ui cancel button">
+                            Hủy
+                        </div>
+                        <div class="ui green button" onclick="document.location.href= '@Url.Action("DeletePost", "Newsfeed", new {postId = Model.Id})';">
+                            Xóa
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <i class="icon announcement link" id="reportPost" data-content="Báo cáo" style="float: right"></i>
+                //Report Popup Modal
+
+                @Html.Partial("../Newsfeed/_Report", new ReportViewModal(Model.Id, Model.UserId));
+
+                <script>
+                    $("#reportPost")
+                      .click(function () {
+                          $('.small.modal').modal({
+                              allowMultiple: false
+                          });
+                          $('.second.modal').modal('attach events', '.report.modal .green.button')
+                          ;
+                          $('.report.modal').modal('show');
+                      });
+                </script>
+            }                        
+        </div>
 
         @*Like and Share Area*@
         <div class="ui segment" style="width: 100%; border: 0 !important; padding-top: 0">

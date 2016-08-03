@@ -67,6 +67,7 @@ function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
                 inCallback = false;
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("Can not load more data infiniteScroll");
             }
         });
     }

@@ -23,15 +23,13 @@ var overlappingMale = [], overlappingFemale = [], overlappingLGBT = [], overlapp
 function checkAuthenticated() {
     var icon = {
         url: "../Content/Icon/location.png",
-        size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
 
     var myhomeicon = {
         url: "../Content/Icon/myhome2.png",
-        size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -42,11 +40,13 @@ function checkAuthenticated() {
     // Declare a myLocation marker using icon declared above, and bind it to the map
     myCurrentLocationMarker = new google.maps.Marker({
         title: "Vị trí hiện tại của tôi",
+        optimized: false,
         icon: icon
     });
 
     myHomeMarker = new google.maps.Marker({
         title: "Vị trí của tôi",
+        optimized: false,
         icon: myhomeicon
     });
 
@@ -131,6 +131,7 @@ function initialize() {
 
     //Init user makers first load
     userMarkerCluster.setMaxZoom(9);
+
     showUsers();
 
 
@@ -184,8 +185,9 @@ function loadScript() {
 }
 
 function showCurrentLocation() {
+    setMapToAMarkerCluster(null);
+   // myHomeMarker.setMap(null);
 
-    myHomeMarker.setMap(null);
     //Identify current user's location and bind it to the map
     //Using HTML5 geolocation.
     if (navigator.geolocation) {
@@ -211,12 +213,14 @@ function showCurrentLocation() {
 }
 
 function showMyLocation() {
-    myCurrentLocationMarker.setMap(null);
+    setMapToAMarkerCluster(null);
+  //  myCurrentLocationMarker.setMap(null);
     myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
     myHomeMarker.setMap(map);
     map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
     map.setZoom(14);
 }
+
 function setMapToAMarkerCluster(markerCluster) {
     userMarkerCluster.setMap(null);
     maleMarkerCluster.setMap(null);
@@ -232,7 +236,9 @@ function setMapToAMarkerCluster(markerCluster) {
     myCurrentLocationMarker.setMap(null);
     myHomeMarker.setMap(null);
 
-    markerCluster.setMap(map);
+    if (markerCluster != null) {
+        markerCluster.setMap(map);
+    }
 }
 
 function calculateNearestMarker(listLocation) {
@@ -267,25 +273,28 @@ function showUsers() {
 
 function showMales() {
     setMapToAMarkerCluster(maleMarkerCluster);
+    maleMarkerCluster.setMaxZoom(9);
     bounds.extend(calculateNearestMarker(males));
     map.fitBounds(bounds);
 }
 
 function showFemales() {
     setMapToAMarkerCluster(femaleMarkerCluster);
+    femaleMarkerCluster.setMaxZoom(9);
     bounds.extend(calculateNearestMarker(females));
     map.fitBounds(bounds);
 }
 
 function showLGBT() {
     setMapToAMarkerCluster(LGBTMarkerCluster);
+    LGBTMarkerCluster.setMaxZoom(9);
     bounds.extend(calculateNearestMarker(LGBT));
     map.fitBounds(bounds);
 }
 
 function showAccommodation() {
     setMapToAMarkerCluster(type0MarkerCluster);
-
+    type0MarkerCluster.setMaxZoom(9);
     bounds.extend(calculateNearestMarker(postType0));
     map.fitBounds(bounds);
 
@@ -293,34 +302,40 @@ function showAccommodation() {
 
 function showJobOffer() {
     setMapToAMarkerCluster(type1MarkerCluster);
+    type1MarkerCluster.setMaxZoom(9);
     bounds.extend(calculateNearestMarker(postType1));
     map.fitBounds(bounds);
 }
 
 function showFurnitureOffer() {
     setMapToAMarkerCluster(type2MarkerCluster);
+    type2MarkerClustersetMaxZoom(9);
     bounds.extend(calculateNearestMarker(postType2));
     map.fitBounds(bounds);
 }
 
 function showHandGoodsOffer() {
     setMapToAMarkerCluster(type3MarkerCluster);
+    type3MarkerClustersetMaxZoom(9);
     bounds.extend(calculateNearestMarker(postType3));
     map.fitBounds(bounds);
 }
 
 function showTradeOffer() {
     setMapToAMarkerCluster(type4MarkerCluster);
+    type4MarkerCluster.setMaxZoom(9);
     bounds.extend(calculateNearestMarker(postType4));
     map.fitBounds(bounds);
 }
 function showSOS() {
     setMapToAMarkerCluster(type5MarkerCluster);
+    type5MarkerCluster.setMaxZoom(9);
     bounds.extend(calculateNearestMarker(postType5));
     map.fitBounds(bounds);
 }
 function showWarning() {
     setMapToAMarkerCluster(type8MarkerCluster);
+    type8MarkerCluster.setMaxZoom(9);
     bounds.extend(calculateNearestMarker(postType8));
     map.fitBounds(bounds);
 }
@@ -329,18 +344,19 @@ function showWarning() {
 function createListUserMarkers() {
     var length = allUsers.length;
     var icon = {
-        url: "/Content/Icon/Users.png",
-        size: new google.maps.Size(71, 71),
+        url: "/Content/Icon/users.ico",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
     };
+
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(allUsers[i].x, allUsers[i].y);
         bounds.extend(position);
         marker = new google.maps.Marker({
             position: position,
             map: null,
+            optimized: false,
             title: "Nhấp để xem chi tiết",
             icon: icon
         });
@@ -361,7 +377,6 @@ function createListUserMarkers() {
 function createListMaleMarkers() {
     var icon = {
         url: "../Content/Icon/male.png",
-        size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -373,6 +388,7 @@ function createListMaleMarkers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
+            optimized: false,
             title: "Nhấp để xem chi tiết",
             icon: icon
         });
@@ -393,7 +409,6 @@ function createListMaleMarkers() {
 function createListFemaleMarkers() {
     var icon = {
         url: "../Content/Icon/female.png",
-        size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -404,6 +419,7 @@ function createListFemaleMarkers() {
         bounds.extend(position);
         marker = new google.maps.Marker({
             position: position,
+            optimized: false,
             map: null,
             title: "Nhấp để xem chi tiết",
             icon: icon
@@ -424,7 +440,6 @@ function createListFemaleMarkers() {
 function createListLGBTMarkers() {
     var icon = {
         url: "../Content/Icon/LGBT.png",
-        size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -436,6 +451,7 @@ function createListLGBTMarkers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
+            optimized: false,
             title: "Nhấp để xem chi tiết",
             icon: icon
         });
@@ -455,10 +471,9 @@ function createListType0Markers() {
     var length = postType0.length;
     var icon = {
         url: "../Content/Icon/home.png",
-        size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(50, 50)
     };
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(postType0[i].x, postType0[i].y);
@@ -466,6 +481,7 @@ function createListType0Markers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
+            optimized: false,
             title: "Nhấp để xem chi tiết",
             icon: icon
         });
@@ -485,7 +501,6 @@ function createListType0Markers() {
 function createListType1Markers() {
     var icon = {
         url: "../Content/Icon/job5.png",
-        size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -497,6 +512,7 @@ function createListType1Markers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
+            optimized: false,
             title: "Nhấp để xem chi tiết",
             icon: icon
         });
@@ -517,7 +533,6 @@ function createListType1Markers() {
 function createListType2Markers() {
     var icon = {
         url: "../Content/Icon/free5.png",
-        size: new google.maps.Size(50, 50),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -529,6 +544,7 @@ function createListType2Markers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
+            optimized: false,
             title: "Nhấp để xem chi tiết",
             icon: icon
         });
@@ -549,7 +565,6 @@ function createListType2Markers() {
 function createListType3Markers() {
     var icon = {
         url: "../Content/Icon/ship4.jpg",
-        size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -561,6 +576,7 @@ function createListType3Markers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
+            optimized: false,
             title: "Nhấp để xem chi tiết",
             icon: icon
         });
@@ -581,7 +597,6 @@ function createListType3Markers() {
 function createListType4Markers() {
     var icon = {
         url: "../Content/Icon/sale.png",
-        size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -593,7 +608,7 @@ function createListType4Markers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            //title: postType1[i].address,
+            optimized: false,
             icon: icon
         });
         listType4Markers.push(marker);
@@ -613,7 +628,6 @@ function createListType4Markers() {
 function createListType5Markers() {
     var icon = {
         url: "../Content/Icon/help3.png",
-        size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -625,7 +639,7 @@ function createListType5Markers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
-            //title: postType1[i].address,
+            optimized: false,
             icon: icon
         });
         listType5Markers.push(marker);
@@ -643,7 +657,6 @@ function createListType5Markers() {
 function createListType8Markers() {
     var icon = {
         url: "../Content/Icon/Warning.png",
-        size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -655,6 +668,7 @@ function createListType8Markers() {
         marker = new google.maps.Marker({
             position: position,
             map: null,
+            optimized: false,
             //title: postType1[i].address,
             icon: icon
         });
@@ -755,7 +769,6 @@ function getPostInfo(postID) {
                 $("#postModal").html(result);
 
                 $("#postModal").modal('show');
-                // alert(result);
             }
 
         },

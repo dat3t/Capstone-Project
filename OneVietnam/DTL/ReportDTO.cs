@@ -1,6 +1,8 @@
 ﻿using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using OneVietnam.Common;
+
 namespace OneVietnam.DTL
 {
     public class Report :BaseMongoDocument
@@ -12,7 +14,7 @@ namespace OneVietnam.DTL
         [BsonIgnoreIfNull]
         public string HandlerId { get; set; }
 
-        public bool ReportStatus { get; set; }        
+        public string Status { get; set; }        
 
         [BsonIgnoreIfNull]
         public DateTimeOffset? CloseDate { get; set; }
@@ -27,8 +29,9 @@ namespace OneVietnam.DTL
             UserId = pUserId;
             PostId = pPostId;
             ReportDescription = pDescription;
-            ReportStatus = true;
-            CreatedDate = DateTime.Now;            
+            Status = ReportStatus.Open.ToString();
+            DeletedFlag = false;
+            CreatedDate = DateTimeOffset.UtcNow;            
         }
 
         public Report(Report pReport)
@@ -40,7 +43,7 @@ namespace OneVietnam.DTL
                 PostId = pReport.PostId;
             }            
             ReportDescription = pReport.ReportDescription;
-            ReportStatus = pReport.ReportStatus;
+            Status = pReport.Status;
             if(pReport.HandlerId != null)
             {
                 HandlerId = pReport.HandlerId;
@@ -50,6 +53,7 @@ namespace OneVietnam.DTL
             {
                 CloseDate = pReport.CloseDate;
             }
+            DeletedFlag = pReport.DeletedFlag;
         }
     }
 }
