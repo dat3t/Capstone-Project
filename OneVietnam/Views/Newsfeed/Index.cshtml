@@ -35,7 +35,7 @@
 
 
 <div class="ui grid">
-    <div class="three wide column">
+    <div class="two wide column">
         <div class="ui inline dropdown filter-post">
             <div class="text">
                 <div class="ui blue empty circular label"></div>
@@ -145,55 +145,32 @@
 
 
 
-    <div class="three wide column">
+    <div class="four wide column">
+        <div class="ui segment" id="forAdminPost" style="margin-right: 15px!important">
+      
+        </div>
         <a href="javascript:" id="return-to-top"><i class="chevron up icon"></i></a>
 
-        <div class="ui card">
-            <div class="content">
-                <div class="header">Admin post</div>
-            </div>
-            <div class="content">
-                <h4 class="ui sub header">Activity</h4>
-                <div class="ui small feed">
-                    <div class="event">
-                        <div class="content">
-                            <div class="summary">
-                                <a>cHI tHAWM</a> added <a>Jenny Hess</a> to the project
-                            </div>
-                        </div>
-                    </div>
-                    <div class="event">
-                        <div class="content">
-                            <div class="summary">
-                                <a>Stevie Feliciano</a> was added as an <a>Administrator</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="event">
-                        <div class="content">
-                            <div class="summary">
-                                <a>Helen Troy</a> added two pictures
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="extra content">
-                <button class="ui button">Join Project</button>
-            </div>
-        </div>
+
     </div>
 </div>
 
 @section scripts{
     <script src="~/Scripts/infiniteScroll.js"></script>
     <script type="text/javascript">
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("_AdminPost","Newsfeed")',
+            success: function (partialResult) {
+                $("#forAdminPost").html(partialResult);
+            }
+        });
         var forLoad = $(".ui.link.cards");
         var grid = $(".grids");
         $(function () {
             $("div#loading").hide();
         });
-        var moreRowsUrl = '/Newsfeed/Index';
+        var moreRowsUrl = '@Url.Action("Index","Newsfeed")';
         $(window).scroll(scrollHandler);
         @*var hasReachedEndOfInfiniteScroll = @ViewBag.IsEndOfRecords.ToString().ToLower();*@
     </script>

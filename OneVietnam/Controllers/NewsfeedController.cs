@@ -30,7 +30,7 @@ namespace OneVietnam.Controllers
 
 
         public static bool CreatedPost = false;
-        public static PostViewModel PostView;
+        public static PostViewModel PostView;        
 
         public NewsfeedController()
         {
@@ -71,7 +71,7 @@ namespace OneVietnam.Controllers
                 return _tagManager ?? HttpContext.GetOwinContext().Get<TagManager>();
             }
             private set { _tagManager = value; }
-        }
+        }        
 
         private IconManager _iconManager;
         public IconManager IconManager
@@ -113,17 +113,17 @@ namespace OneVietnam.Controllers
         }
 
         public async Task _CreatePost()
-        {
+        {            
             var tagList = await TagManager.FindAllAsync(false);
             if (tagList != null)
             {
                 ViewData["TagList"] = tagList;
-            }
+            }                                               
             var iconList = await IconManager.GetIconPostAsync();
             if (iconList != null)
             {
                 ViewData["PostTypes"] = iconList;
-            }
+            }            
         }
 
         private HttpFileCollectionBase _illustrationList;
@@ -148,7 +148,7 @@ namespace OneVietnam.Controllers
             };
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
             _illustrationList = (HttpFileCollectionBase)Session["Illustrations"];
-            var illList = await PostManager.GetIllustration(files, post.Id);
+            var illList = await PostManager.GetIllustration(_illustrationList, post.Id);
             Session["Illustrations"] = null;
             _illustrationList = null;
             if (tagList != null)
@@ -159,18 +159,30 @@ namespace OneVietnam.Controllers
             if (illList != null)
             {
                 post.Illustrations = illList;
-            }
+            }            
             await PostManager.CreateAsync(post);
             CreatedPost = true;
             PostView = new PostViewModel(post);
             return RedirectToAction("Index", "Newsfeed");
-        }
+        }        
 
         public const int RecordsPerPage = 60;
 
-
-        public async Task<ActionResult> Index(int? pageNum)
+        public async Task<ActionResult> _AdminPost()
         {
+            List<PostViewModel> list = new List<PostViewModel>();
+            var posts = await PostManager.FindAllActiveAdminPostAsync();
+            foreach (var post in posts)
+            {
+                ApplicationUser user = await UserManager.FindByIdAsync(post.UserId);
+                list.Add(new PostViewModel(post, user.UserName, user.Avatar));
+
+            }
+            return PartialView("_AdminPost", list);
+        }
+        
+        public async Task<ActionResult> Index(int? pageNum)
+        {            
             var tagList = await TagManager.FindAllAsync(false);
             if (tagList != null)
             {
@@ -188,21 +200,21 @@ namespace OneVietnam.Controllers
             List<Post> posts;
             List<PostViewModel> list = new List<PostViewModel>();
             if (Request.IsAjaxRequest())
-            {
+                {
                 filter = new BaseFilter { CurrentPage = pageNum.Value };
                 posts = await PostManager.FindAllDescenderAsync(filter);
 
                 if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
-                foreach (var post in posts)
-                {
-                    ApplicationUser user = await UserManager.FindByIdAsync(post.UserId);
+                    foreach (var post in posts)
+                    {
+                        ApplicationUser user = await UserManager.FindByIdAsync(post.UserId);
                     list.Add(new PostViewModel(post, user.UserName, user.Avatar));
 
-                }
+                    }
                 //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
                 return PartialView("_PostRow", list);
-            }
-
+                }
+        
             filter = new BaseFilter { CurrentPage = pageNum.Value };
             posts = await PostManager.FindAllDescenderAsync(filter);
             if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
@@ -219,7 +231,7 @@ namespace OneVietnam.Controllers
         /// </summary>
         /// <param name="pageNum"></param>
         /// <returns>List Post></returns>
-
+       
         public async Task<ActionResult> ShowPost(string postId)
         {
             Post post = await PostManager.FindByIdAsync(postId);
@@ -273,31 +285,31 @@ namespace OneVietnam.Controllers
         {
             var tagList = await TagManager.FindAllAsync(false);
             if (tagList != null)
-            {
+                    {
                 ViewData["TagList"] = tagList;
-            }
+                    }
             var iconList = await IconManager.GetIconPostAsync();
             if (iconList != null)
-            {
+                    {
                 ViewData["PostTypes"] = iconList;
-            }
+                    }
             Post post = await PostManager.FindByIdAsync(postId);
             if (post != null)
             {
-                ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
-                if (postUser != null)
-                {
+                    ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
+                    if (postUser != null)
+                    {
 
                     PostViewModel showPost = new PostViewModel(post, postUser.UserName, postUser.Avatar);
 
-                    return View(showPost);
+                        return View(showPost);
+                    }
                 }
-            }
             return View();
         }
 
         public async Task<dynamic> getCommentor(string commentid)
-        {
+        {     
             var fb = new FacebookClient("EAAW9j1nWUtoBAMdZBJTMkLD3kctB5h96LQTD3IOEzSvCRtDs3QZB0wz0SfEv0FZC6qnM3tqOSWbgt08xdTZCxC5TzH5IoM4sopyoZCmJrZCsjO7l9g0ZAbs0vTGkQVjwx1IfXkt7mflD1K4CtGzZAxQk6eOLHLlENpDlir4PybkPoQZDZD");
             dynamic userInfo = fb.Get(commentid);
             string name = userInfo["from"]["name"];
@@ -306,14 +318,14 @@ namespace OneVietnam.Controllers
         [HttpPost]
         public ActionResult ShowPostDetail(PostViewModel pPostView)
 
-        {
+        {            
             ViewData.Clear();
             string strPostId = "";
             if (Request.Form.Count > 0)
             {
                 strPostId = Request.Form["PostId"];
 
-            }
+            }                                    
             return RedirectToAction("DeletePost", "Newsfeed", new { postId = strPostId });
         }
 
@@ -333,7 +345,7 @@ namespace OneVietnam.Controllers
             return PartialView("../Newsfeed/_Report", new ReportViewModal(model.Id, model.UserId));
         }
 
-        [System.Web.Mvc.Authorize]
+        [System.Web.Mvc.Authorize]        
         public async Task<ActionResult> EditPost(string postId)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
@@ -351,24 +363,24 @@ namespace OneVietnam.Controllers
             ViewData["Blobs"] = allBlobs;
             var tagList = await TagManager.FindAllAsync(false);
             if (tagList != null)
-            {
+                    {
                 ViewData["TagList"] = tagList;
-            }
+                    }
             var iconList = await IconManager.GetIconPostAsync();
             if (iconList != null)
-            {
+                    {
                 ViewData["PostTypes"] = iconList;
-            }
+                    }
             Post post = await PostManager.FindByIdAsync(postId);
-            PostViewModel showPost = new PostViewModel(post);
-            return View(showPost);
-        }
+                    PostViewModel showPost = new PostViewModel(post);
+                    return View(showPost);
+                }
 
         [HttpPost]
         [System.Web.Mvc.Authorize]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditPost(PostViewModel pPostView)
-        {
+        {                                                
             ViewData.Clear();
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
             var illList = await PostManager.GetIllustration(_illustrationList, pPostView.Id);
@@ -381,17 +393,17 @@ namespace OneVietnam.Controllers
             {
                 pPostView.Illustrations = illList;
             }
-            Post post = new Post(pPostView);
+            Post post = new Post(pPostView);           
             await PostManager.UpdateAsync(post);
             return RedirectToAction("ShowPostDetail", "Newsfeed", new { postId = pPostView.Id });
         }
 
         [HttpPost]
-        [System.Web.Mvc.Authorize(Roles = "Admin")]
+        [System.Web.Mvc.Authorize(Roles = "Admin")]        
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditAdminPost(AdminPostViewModel pPostView)
         {
-            ViewData.Clear();
+            ViewData.Clear();            
             var illList = await PostManager.GetIllustration(_illustrationList, pPostView.Id);
             if (illList != null)
             {
@@ -402,11 +414,11 @@ namespace OneVietnam.Controllers
             return RedirectToAction("ShowPostDetail", "Newsfeed", new { postId = pPostView.Id });
         }
 
-        [System.Web.Mvc.Authorize]
+        [System.Web.Mvc.Authorize]        
         public async Task<ActionResult> DeletePost(string postId)
         {
             Post post = await PostManager.FindByIdAsync(postId);
-            post.DeletedFlag = true;
+            post.DeletedFlag = true;                                             
             await PostManager.UpdateAsync(post);
             return RedirectToAction("Index", "Newsfeed");
         }
@@ -447,6 +459,6 @@ namespace OneVietnam.Controllers
                 }
                 return base.OnConnected();
             }
-        }
+        }                
     }
 }
