@@ -146,7 +146,7 @@ namespace OneVietnam.Controllers
             };
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
             _illustrationList = (HttpFileCollectionBase)Session["Illustrations"];
-            var illList = await PostManager.GetIllustration(files, post.Id);
+            var illList = await PostManager.GetIllustration(_illustrationList, post.Id);
             Session["Illustrations"] = null;
             _illustrationList = null;
             if (tagList != null)
@@ -322,13 +322,21 @@ namespace OneVietnam.Controllers
             }                                    
             return RedirectToAction("DeletePost", "Newsfeed", new { postId = strPostId });
         }
-  
+
+        //[HttpPost]
+        //public async Task ReportPost(string userId, string postId, string description)
+        //{
+        //    Report report = new Report(userId, postId, description);
+        //    await ReportManager.CreateAsync(report);
+        //    //TODO send notification to Mod
+        //}
+
         [HttpPost]
-        public async Task ReportPost(string userId, string postId, string description)
+        public async Task<ActionResult> ReportPost(ReportViewModal model)
         {
-            Report report = new Report(userId, postId, description);
+            Report report = new Report(model);
             await ReportManager.CreateAsync(report);
-            //TODO send notification to Mod
+            return PartialView("../Newsfeed/_Report", new ReportViewModal(model.Id, model.UserId));
         }
 
         [System.Web.Mvc.Authorize]        

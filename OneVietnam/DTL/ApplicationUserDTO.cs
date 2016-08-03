@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -19,6 +20,9 @@ namespace OneVietnam.DTL
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
             userIdentity.AddClaim(new Claim("Avatar",this.Avatar));
+            userIdentity.AddClaim(new Claim("Adress",this.Location.Address));
+            userIdentity.AddClaim(new Claim("XCoordinate",this.Location.XCoordinate.ToString(CultureInfo.InvariantCulture)));
+            userIdentity.AddClaim(new Claim("YCoordinate", this.Location.XCoordinate.ToString(CultureInfo.InvariantCulture)));            
             return userIdentity;
         }
 

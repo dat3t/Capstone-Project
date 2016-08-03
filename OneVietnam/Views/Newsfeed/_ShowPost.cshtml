@@ -17,8 +17,9 @@
             else
             {
                 <i class='icon announcement link' id="reportPost" data-content='Báo cáo' style='float: right'></i>
-                @Html.Partial("../Newsfeed/_Report", new ReportViewModal(Model.Id, Model.UserId));
-
+                <div id="ShowReportPost">
+                    @Html.Partial("../Newsfeed/_Report", new ReportViewModal(Model.Id, Model.UserId));    
+                </div>                
                 <script>
                     $("#reportPost")
                       .click(function () {

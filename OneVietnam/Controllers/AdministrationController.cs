@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -317,7 +318,11 @@ namespace OneVietnam.Controllers
         {
             if (ModelState.IsValid)
             {
-                Post post = new Post(model) { UserId = User.Identity.GetUserId() };
+                var adress = ((ClaimsIdentity)User.Identity).FindFirst("Adress").Value;
+                var xCoordinate = Convert.ToDouble(((ClaimsIdentity)User.Identity).FindFirst("XCoordinate").Value);
+                var yCoordinate = Convert.ToDouble(((ClaimsIdentity)User.Identity).FindFirst("YCoordinate").Value);
+                var location = new Location(xCoordinate, yCoordinate, adress);
+                Post post = new Post(model) { UserId = User.Identity.GetUserId(),PostLocation = location};
                 HttpFileCollectionBase files = (HttpFileCollectionBase)Session["IllustrationList"];
                 var illList = await PostManager.GetIllustration(files, post.Id);
                 Session["Illustrations"] = null;
@@ -353,6 +358,21 @@ namespace OneVietnam.Controllers
                     report.CloseDate = DateTimeOffset.UtcNow;
                 }
                 await ReportManager.UpdateAsync(report);
+                if(string.Equals(reportAction, ReportStatus.Closed.ToString())){
+                    if (!string.IsNullOrWhiteSpace(report.PostId))
+                    {
+                        var post = await PostManager.FindByIdAsync(report.PostId);
+                        post.LockedFlag = true;
+                        await PostManager.UpdateAsync(post);
+                    }
+                    else
+                    {
+                        var user = await UserManager.FindByIdAsync(report.UserId);
+                        user.LockedFlag = true;
+                        await UserManager.UpdateAsync(user);
+                    }
+                }
+
                 ReportViewModal viewModal = new ReportViewModal(report);
                 return PartialView("../Administration/_ShowReportStatus", viewModal);
             }
