@@ -174,6 +174,11 @@ function initialize() {
         map.fitBounds(bounds);
     });
 
+    //$(window).resize(function () {
+    //    // (the 'map' here is the result of the created 'var map = ...' above)
+    //    google.maps.event.trigger(map, "resize");
+    //});
+
 
 }
 
@@ -185,7 +190,7 @@ function loadScript() {
 }
 
 function showCurrentLocation() {
-    setMapToAMarkerCluster(null);
+   // setMapToAMarkerCluster(null);
    // myHomeMarker.setMap(null);
 
     //Identify current user's location and bind it to the map
@@ -197,8 +202,8 @@ function showCurrentLocation() {
                 lng: position.coords.longitude
             };
 
-            myCurrentLocationMarker.setPosition(pos);
             myCurrentLocationMarker.setMap(map);
+            myCurrentLocationMarker.setPosition(pos);
             map.setZoom(12);
             map.setCenter(pos);
 
@@ -245,7 +250,6 @@ function calculateNearestMarker(listLocation) {
 
     //bounds = map.getBounds();
     var centerOfCurrentBound = bounds.getCenter();
-    var k;
     if (listLocation.length > 0) {
         var position = new google.maps.LatLng(listLocation[0].x, listLocation[0].y);
         var min = getDistance(centerOfCurrentBound, position);
@@ -295,8 +299,13 @@ function showLGBT() {
 function showAccommodation() {
     setMapToAMarkerCluster(type0MarkerCluster);
     type0MarkerCluster.setMaxZoom(9);
-    bounds.extend(calculateNearestMarker(postType0));
-    map.fitBounds(bounds);
+    var pos = calculateNearestMarker(postType0);
+   
+    if (map.getBounds().contains(pos) == false) {
+        bounds.extend(pos);
+        map.fitBounds(bounds);
+    }
+   
 
 }
 
@@ -308,17 +317,19 @@ function showJobOffer() {
 }
 
 function showFurnitureOffer() {
-    setMapToAMarkerCluster(type2MarkerCluster);
-    type2MarkerClustersetMaxZoom(9);
+   
     bounds.extend(calculateNearestMarker(postType2));
     map.fitBounds(bounds);
+    setMapToAMarkerCluster(type2MarkerCluster);
+    type2MarkerCluster.setMaxZoom(9);
 }
 
 function showHandGoodsOffer() {
-    setMapToAMarkerCluster(type3MarkerCluster);
-    type3MarkerClustersetMaxZoom(9);
+    
     bounds.extend(calculateNearestMarker(postType3));
     map.fitBounds(bounds);
+    setMapToAMarkerCluster(type3MarkerCluster);
+    type3MarkerCluster.setMaxZoom(9);
 }
 
 function showTradeOffer() {
