@@ -290,6 +290,7 @@
     <Compile Include="DTL\Notification.cs" />
     <Compile Include="Models\AdministrationViewModel.cs" />
     <Compile Include="Models\ConversationModel.cs" />
+    <Compile Include="Models\CreateIconModel.cs" />
     <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Models\PostInfoWindowModel.cs" />
     <Compile Include="Models\ReportViewModal.cs" />
@@ -706,6 +707,8 @@
     <Content Include="Views\Administration\_ShowReportStatus.cshtml" />
     <Content Include="Views\Newsfeed\_EditUserPost.cshtml" />
     <Content Include="Views\Newsfeed\_EditAdminPost.cshtml" />
+    <Content Include="Views\Administration\CreateIcon.cshtml" />
+    <Content Include="Views\Newsfeed\_AdminPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

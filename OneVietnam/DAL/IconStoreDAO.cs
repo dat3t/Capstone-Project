@@ -9,30 +9,44 @@ using OneVietnam.DTL;
 
 namespace OneVietnam.DAL
 {
-    public class IconStore
-    {
-        private readonly IMongoCollection<Icon> _icons;
-
-        public IconStore(IMongoCollection<Icon> pIcons)
+    public class IconStore:AbstractStore<Icon>
+    {                
+        public IconStore(IMongoCollection<Icon> collection) : base(collection)
         {
-            _icons = pIcons;
         }
 
-        public Task CreatAsync(Icon pIcons)
+        public override async Task UpdateAsync(Icon instance)
         {
-            return _icons.InsertOneAsync(pIcons);
+            try
+            {
+                await Collection.ReplaceOneAsync(p => p.Id == instance.Id, instance, null);
+            }
+            catch (MongoConnectionException ex)
+            {
+                throw new MongoConnectionException(ex.ConnectionId, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public virtual Task UpdateAsync(Icon pIcons)
+        public override async Task UpdateAsync(Icon instance, bool upsert)
         {
-            return _icons.ReplaceOneAsync(c => c.IconId == pIcons.IconId, null);
+            try
+            {
+                var option = new UpdateOptions() { IsUpsert = upsert };
+                await Collection.ReplaceOneAsync(p => p.Id == instance.Id, instance, option).ConfigureAwait(false);
+            }
+            catch (MongoConnectionException ex)
+            {
+                throw new MongoConnectionException(ex.ConnectionId, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
-
-        public Task<List<Icon>> GetIconsAsync()
-        {
-            return _icons.Find(u => true).ToListAsync();
-        }
-        
     }
 
 }

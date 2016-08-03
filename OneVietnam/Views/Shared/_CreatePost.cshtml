@@ -63,7 +63,7 @@
                     <div class="field">
                         <h2 class="ui medium header" style="margin-bottom: 0">* Tiêu đề</h2>
                         <div class="ui input  focus">
-                            @Html.EditorFor(model => model.Title, new {htmlAttributes = new {placeholder = "Nhâp tiêu đề..."}})
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { placeholder = "Nhâp tiêu đề..." } })
                         </div>
                     </div>
 
@@ -76,13 +76,13 @@
                                 @{
                                     if (postTypes != null && postTypes.Count > 0)
                                     {
-                                        <input type="hidden" id="PostType" name="PostType" value="@postTypes[0].IconId">
+                                        <input type="hidden" id="PostType" name="PostType" value="@postTypes[0].IconValue">
                                         <i class="dropdown icon"></i>
                                         <div class="text">@postTypes[0].IconText</div>
                                         <div class="menu">
                                             @foreach (Icon icon in postTypes)
                                             {
-                                                <div class="item" data-value="@icon.IconId">
+                                                <div class="item" data-value="@icon.IconValue">
                                                     @icon.IconText
                                                 </div>
                                             }
@@ -120,7 +120,7 @@
                     <!-- Description -->
                     <div class="field">
                         <label>* Mô tả </label>
-                        @Html.TextAreaFor(model => model.Description, new {placeholder = "Thêm mô tả cho bài đăng", rows = "4"})
+                    @Html.TextAreaFor(model => model.Description, new { placeholder = "Thêm mô tả cho bài đăng", rows = "4" })
                     </div>
 
                     <!-- Post Location -->
@@ -151,9 +151,9 @@
                             </div>
                         </div>
 
-                        @Html.EditorFor(model => model.PostLocation.Address, new {htmlAttributes = new {placeholder = "Địa chỉ của bạn"}})
-                        @Html.EditorFor(model => model.PostLocation.XCoordinate, new {htmlAttributes = new {style = "display: none"}})
-                        @Html.EditorFor(model => model.PostLocation.YCoordinate, new {htmlAttributes = new {style = "display: none"}})
+                    @Html.EditorFor(model => model.PostLocation.Address, new { htmlAttributes = new { placeholder = "Địa chỉ của bạn" } })
+                    @Html.EditorFor(model => model.PostLocation.XCoordinate, new { htmlAttributes = new { style = "display: none" } })
+                    @Html.EditorFor(model => model.PostLocation.YCoordinate, new { htmlAttributes = new { style = "display: none" } })
 
                     </div>
 
@@ -208,7 +208,20 @@
                     }(i));
                 }
 
-
+                        function submitCreatePost() {
+                            var formdata = new FormData();
+                            for (var i = 0; i < ImgList.length; i++) {
+                                formdata.append(ImgList[i].name, ImgList[i]);
+                            }
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('POST', '@Url.Action("GetIllustrations","Newsfeed")');
+                            xhr.send(formdata);
+                            xhr.onreadystatechange = function () {
+                                if (xhr.readyState === 4 && xhr.status === 200) {
+                                    ImgList.splice(0, ImgList.length);
+                                }
+                            }
+                        }
                           
                         </script>
                         @*                        <div id="fine-uploader-gallery"></div>*@
@@ -252,8 +265,8 @@
 
                     <!-- Button Create and Cancel -->
                     <div class="field" style="text-align: center">
-                        <input id="btnCancel" type="button" value="Hủy" class="ui cancel button" onclick="resetForm()"/>
-                        <input id="btnCreate" type="submit" tabindex="6" value="Đăng bài" name="createpost" class="ui teal button"/>
+                    <input id="btnCancel" type="button" value="Hủy" class="ui cancel button" onclick="resetForm()" />
+                    <input id="btnCreate" type="submit" tabindex="6" onclick="submitCreatePost()" value="Đăng bài" name="createpost" class="ui teal button" />
                         <script>
                             function resetForm() {
                                 $('.stamp-button').click();

@@ -50,7 +50,16 @@ namespace OneVietnam.BLL
         {
         }
 
-
+        public async Task<List<Post>> FindAllActiveAdminPostAsync()
+        {
+            var list = new List<Post>();
+            var builder = Builders<Post>.Filter;
+            var filter = builder.Eq("PostType", 0)&builder.Eq("DeletedFlag", false)& 
+                            builder.Eq("LockedFlag", false)&builder.Eq("Status",true);
+            var sort = Builders<Post>.Sort.Descending("CreatedDate");
+            var baseFilter = new BaseFilter {IsNeedPaging = false};
+            return await this.FindAllAsync(baseFilter,filter,sort);
+        }
         public async Task<List<Illustration>> GetIllustration(HttpFileCollectionBase pFiles, string pBlobContainerName)
         {
             try

@@ -52,7 +52,15 @@ namespace OneVietnam.Controllers
                 _roleManager = value;
             }
         }
-
+        private IconManager _iconManager;
+        public IconManager IconManager
+        {
+            get
+            {
+                return _iconManager ?? HttpContext.GetOwinContext().Get<IconManager>();
+            }
+            private set { _iconManager = value; }
+        }
         private PostManager _postManager;
         public PostManager PostManager
         {
@@ -358,6 +366,21 @@ namespace OneVietnam.Controllers
                     report.CloseDate = DateTimeOffset.UtcNow;
                 }
                 await ReportManager.UpdateAsync(report);
+                if(string.Equals(reportAction, ReportStatus.Closed.ToString())){
+                    if (!string.IsNullOrWhiteSpace(report.PostId))
+                    {
+                        var post = await PostManager.FindByIdAsync(report.PostId);
+                        post.LockedFlag = true;
+                        await PostManager.UpdateAsync(post);
+                    }
+                    else
+                    {
+                        var user = await UserManager.FindByIdAsync(report.UserId);
+                        user.LockedFlag = true;
+                        await UserManager.UpdateAsync(user);
+                    }
+                }
+
                 ReportViewModal viewModal = new ReportViewModal(report);
                 return PartialView("../Administration/_ShowReportStatus", viewModal);
             }
@@ -368,5 +391,16 @@ namespace OneVietnam.Controllers
             }                                    
         }
 
+        public ActionResult CreateIcon()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> CreateIcon(CreateIconModel model)
+        {            
+            var icon = new Icon(model);
+            await IconManager.CreateAsync(icon);
+            return RedirectToAction("Index", "Administration");
+        }
     }
 }
