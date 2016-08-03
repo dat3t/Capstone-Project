@@ -190,7 +190,7 @@ namespace OneVietnam.Controllers
 
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email,
                     Gender = model.Gender,Location = location, CreatedDate = DateTimeOffset.UtcNow,
-                    Avatar = "~/Content/Images/Avatar_Default.jpg",Cover = "~/Content/Images/Cover_default.jpg" };
+                    Avatar = Constants.DefaultAvatarLink,Cover = Constants.DefaultCoverLink };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

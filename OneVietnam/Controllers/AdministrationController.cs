@@ -115,7 +115,7 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = CustomRoles.Admin)]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddRole(RoleViewModel roleViewModel)
         {
@@ -148,7 +148,7 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = CustomRoles.Admin)]
         public async Task<ActionResult> RemoveRole(string roleId)
         {
             //Remove role in roles document
@@ -186,7 +186,7 @@ namespace OneVietnam.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = CustomRoles.Admin)]
         public async Task<ActionResult> GetOtherRoles(string userId)
         {
             var roleList = await RoleManager.AllRolesAsync();
@@ -216,7 +216,7 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = CustomRoles.Admin)]
         public async Task<ActionResult> RemoveUserRole(string userId, string role)
         {
             var user = await UserManager.FindByIdAsync(userId);
@@ -237,7 +237,7 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = CustomRoles.Admin)]
         public async Task<ActionResult> AddUserRole(string userId)
         {
             var user = await UserManager.FindByIdAsync(userId);
@@ -279,7 +279,7 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = CustomRoles.Admin)]
         public async Task<ActionResult> ChangeLockedStatus(string userId)
         {
             var user = await UserManager.FindByIdAsync(userId);

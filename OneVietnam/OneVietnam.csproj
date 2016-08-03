@@ -277,7 +277,7 @@
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\OneHub.cs" />
-    <Compile Include="BLL\AbstractManager.cs" />
+    <Compile Include="BLL\Abstract\AbstractManager.cs" />
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Common\utilities.cs" />
     <Compile Include="Controllers\TimelineController.cs" />
@@ -397,14 +397,6 @@
     <Content Include="Content\Map\scrollbar.css" />
     <Content Include="Content\minimal-slide.css" />
     <Content Include="Content\semantic.min.css" />
-    <Content Include="Content\SlideImages\HA.jpg" />
-    <Content Include="Content\SlideImages\Halong.jpg" />
-    <Content Include="Content\SlideImages\HL2.jpg" />
-    <Content Include="Content\SlideImages\hoian.jpg" />
-    <Content Include="Content\SlideImages\QB.jpg" />
-    <Content Include="Content\SlideImages\QuangBinh.jpg" />
-    <Content Include="Content\SlideImages\Sapa.jpg" />
-    <Content Include="Content\SlideImages\SP.jpg" />
     <Content Include="Content\image-slider.css" />
     <Content Include="Content\Images\background.jpg" />
     <Content Include="Content\Images\dat.JPG" />
@@ -413,14 +405,6 @@
     <Content Include="Content\Images\rua.png" />
     <Content Include="Content\minimal-slide.css" />
     <Content Include="Content\semantic.min.css" />
-    <Content Include="Content\SlideImages\HA.jpg" />
-    <Content Include="Content\SlideImages\Halong.jpg" />
-    <Content Include="Content\SlideImages\HL2.jpg" />
-    <Content Include="Content\SlideImages\hoian.jpg" />
-    <Content Include="Content\SlideImages\QB.jpg" />
-    <Content Include="Content\SlideImages\QuangBinh.jpg" />
-    <Content Include="Content\SlideImages\Sapa.jpg" />
-    <Content Include="Content\SlideImages\SP.jpg" />
     <Content Include="Content\stylesheet.css" />
     <Content Include="fonts\helveticaneuecyr-bold.svg" />
     <Content Include="fonts\helveticaneuecyr-roman.svg" />
@@ -741,6 +725,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="DAL\Abstract\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
