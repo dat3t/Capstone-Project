@@ -28,6 +28,7 @@
                 {
                     <a class="item active" data-tab="users"><i class="circular inverted users icon"></i>Người dùng</a>
                     <a class="item" data-tab="roles"><i class="circular inverted setting icon"></i>Quyền truy cập</a>
+                    <a class="item" data-tab="icons"><i class="circular inverted setting icon"></i>Icon</a>
                 }                
                 <a class="item" data-tab="posts"><i class="circular inverted newspaper icon"></i>Bài đăng</a>
                 <a class="item" data-tab="reports"><i class="circular inverted bookmark icon"></i>Báo cáo</a>
@@ -268,7 +269,12 @@
                     </div>
                 </div>
 
+                <div class="ui tab" data-tab="icons">
+                    <div id="IconManagement">
+                        @Html.Partial("CreateIcon", new CreateIconModel());
+                    </div>
 
+                </div>
             </div>
         </div>
 

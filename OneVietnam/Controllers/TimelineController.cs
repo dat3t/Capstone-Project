@@ -82,14 +82,14 @@ namespace OneVietnam.Controllers
                 return tags?.Result;
             }
         }
-        public List<Icon> IconList
-        {
-            get
-            {
-                var icons = IconManager.GetIconPostAsync();
-                return icons;
-            }
-        }
+        //public List<Icon> IconList
+        //{
+        //    get
+        //    {
+        //        var icons = IconManager.GetIconPostAsync().Result;
+        //        return icons;
+        //    }
+        //}
 
         //ThamDTH 
 
@@ -104,9 +104,10 @@ namespace OneVietnam.Controllers
             if (user != null)
             {
                 List<Post> posts = await PostManager.FindByUserId(userId);
-                if (IconList != null)
+                var iconList = await IconManager.GetIconPostAsync();
+                if (iconList != null)
                 {
-                    ViewData["PostTypes"] = IconList;
+                    ViewData["PostTypes"] = iconList;
                 }
                 TimelineViewModel timeLine = new TimelineViewModel(user, posts);
                 return View(timeLine);

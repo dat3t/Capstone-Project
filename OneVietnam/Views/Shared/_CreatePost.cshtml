@@ -76,13 +76,13 @@
                                 @{
                                     if (postTypes != null && postTypes.Count > 0)
                                     {
-                                        <input type="hidden" id="PostType" name="PostType" value="@postTypes[0].IconId">
+                                        <input type="hidden" id="PostType" name="PostType" value="@postTypes[0].IconValue">
                                         <i class="dropdown icon"></i>
                                         <div class="text">@postTypes[0].IconText</div>
                                         <div class="menu">
                                             @foreach (Icon icon in postTypes)
                                             {
-                                                <div class="item" data-value="@icon.IconId">
+                                                <div class="item" data-value="@icon.IconValue">
                                                     @icon.IconText
                                                 </div>
                                             }
