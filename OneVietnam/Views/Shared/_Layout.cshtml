@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using System.Web.Configuration
+@using Microsoft.AspNet.Identity
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +22,11 @@
                     <span style="color: white">One Vietnam</span>
                 </a>
                 @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item", @style = "color: white" })
-                <a href="@Url.Action("Index","Newsfeed")" class="ui item" style="color: white">Bảng Tin</a>
+                @Html.ActionLink("Bảng Tin", "Index","Newsfeed",routeValues:null,htmlAttributes:new {@class="ui item",@style="color: white"})
+                @if (Request.IsAuthenticated && (User.IsInRole(CustomRoles.Admin) || User.IsInRole(CustomRoles.Mod)))
+                {
+                    @Html.ActionLink("Quản Trị","Index","Administration",routeValues:null,htmlAttributes:new {@class="ui item",@style="color: white"})
+                }
                 <div class="right menu">
                     <div class="item">
                         <select class="ui dropdown searchType">

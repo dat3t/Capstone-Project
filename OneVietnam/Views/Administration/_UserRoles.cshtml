@@ -30,11 +30,11 @@
     </div>
 
     <script>
-        $("#btnAddUserRole_@Model.Id").on('click', function() {
+        $("#btnAddUserRole_@Model.Id").on('click', function () {
             var id = '@Model.Id';
             $.ajax({
                 type: 'GET',
-                url: 'GetOtherRoles',
+                url: '@Url.Action("GetOtherRoles","Administration")',
                 data: { "userId": id },
                 success: function (partialResult) {
                     $("#divAddRole_@Model.Id").empty();

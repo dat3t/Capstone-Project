@@ -23,9 +23,12 @@
             <div class="ui pointing secondary menu">
 
                 @*TODO Check user is admin or mode*@
-
-                <a class="item active" data-tab="users"><i class="circular inverted users icon"></i>Người dùng</a>
-                <a class="item" data-tab="roles"><i class="circular inverted setting icon"></i>Quyền truy cập</a>
+                
+                @if (User.IsInRole(CustomRoles.Admin))
+                {
+                    <a class="item active" data-tab="users"><i class="circular inverted users icon"></i>Người dùng</a>
+                    <a class="item" data-tab="roles"><i class="circular inverted setting icon"></i>Quyền truy cập</a>
+                }                
                 <a class="item" data-tab="posts"><i class="circular inverted newspaper icon"></i>Bài đăng</a>
                 <a class="item" data-tab="reports"><i class="circular inverted bookmark icon"></i>Báo cáo</a>
 

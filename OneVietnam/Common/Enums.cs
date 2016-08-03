@@ -2,12 +2,14 @@
 {
     public enum PostTypeEnum
     {
+        Administration=0,
         Accommodation = 3,
         Job = 4,        
         Furniture = 5,
         HandGoods = 6,
         Trade = 7,        
-        Sos = 8
+        Sos = 8,
+        Warning = 9
     }
 
     public enum MessageType

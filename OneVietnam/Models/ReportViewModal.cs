@@ -1,6 +1,7 @@
 ﻿
 
 using System;
+using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson.Serialization.Attributes;
 using OneVietnam.DTL;
 
@@ -18,6 +19,10 @@ namespace OneVietnam.Models
         public string UserId { get; set; }
 
         public string UserName { get; set; }
+
+        [Required(ErrorMessage = "{0} chưa được điền.")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Nội dung báo cáo")]
         public string ReportDescription { get; set; }
 
         public string Status { get; set; }

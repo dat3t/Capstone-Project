@@ -4,7 +4,7 @@
 
 var scrollHandler = function () {
     if (hasReachedEndOfInfiniteScroll === false &&
-            ($(window).scrollTop() === $(document).height() - $(window).height())) {
+            ($(window).scrollTop() >= ($(document).height() - $(window).height()-180))) {
         loadMoreToInfiniteScrollTable(moreRowsUrl);
     }
 }
@@ -47,7 +47,6 @@ function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
     if (page > -1 && !inCallback) {
         inCallback = true;
         page++;
-        $("#loading").show();
         $.ajax({
             type: 'GET',
             url: loadMoreRowsUrl,
@@ -56,9 +55,9 @@ function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
                 if (data != '') {
                     var $items = $(data);
 
-                    $('.ui.link.cards').append($items);
-                    $('.grids').isotope('appended', $items);
-                    $('.grids').isotope('layout');
+                    $(forLoad).append($items);
+                    grid.isotope('appended', $items);
+                    grid.isotope('layout');
                  
                    
                 }
