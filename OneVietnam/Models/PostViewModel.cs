@@ -19,7 +19,7 @@ namespace OneVietnam.Models
         public string UserId { get; set; }
 
         [Required(ErrorMessage = "{0} chưa được chọn.")]
-        [Range((int)PostTypeEnum.Accommodation, (int)PostTypeEnum.Sos, ErrorMessage = "{0} chưa được chọn.")]
+        [Range((int)PostTypeEnum.Accommodation, (int)PostTypeEnum.Warning, ErrorMessage = "{0} chưa được chọn.")]
         [Display(Name = "Loại bài đăng")]
         public int PostType { get; set; }
 
@@ -69,7 +69,7 @@ namespace OneVietnam.Models
         public DateTimeOffset CreatedDate { get; set; }
 
         [Required(ErrorMessage = "{0} chưa được chọn.")]
-        [Range((int)PostTypeEnum.Accommodation, (int)PostTypeEnum.Sos, ErrorMessage = "{0} chưa được chọn")]
+        [Range((int)PostTypeEnum.Accommodation, (int)PostTypeEnum.Warning, ErrorMessage = "{0} chưa được chọn")]
         [Display(Name = "Loại bài đăng")]
         public int PostType { get; set; }
 

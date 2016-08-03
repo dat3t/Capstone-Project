@@ -7,7 +7,8 @@
         Furniture = 5,
         HandGoods = 6,
         Trade = 7,        
-        Sos = 8
+        Sos = 8,
+        Warning = 9
     }
 
     public enum MessageType
