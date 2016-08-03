@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using OneVietnam.Common;
 using OneVietnam.Models;
 
 namespace OneVietnam.DTL
@@ -77,7 +78,7 @@ namespace OneVietnam.DTL
             Title = pView.Title;            
             Description = pView.Description;
             CreatedDate = DateTimeOffset.UtcNow;
-            PostType = 0;
+            PostType = (int)PostTypeEnum.Administration;
             DeletedFlag = false;
             Status = true;
             LockedFlag = false;
