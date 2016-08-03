@@ -1,4 +1,5 @@
-﻿@model  OneVietnam.Models.UserViewModel
+﻿@using OneVietnam.Models
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Index";
 }
@@ -7,66 +8,72 @@
         Tủ lạnh
     </div>
 </div>
-<div class="ui grid" style="background-color:#F0F0ED">
+<div class="ui grid" style="background-color: #F0F0ED">
     <div class="four wide column">
-@*        <div class="ui left fixed vertical text menu">*@
-@*            <div class="header item">Sort By</div>*@
-@*            <a class="active item">*@
-@*                Closest*@
-@*            </a>*@
-@*            <a class="item">*@
-@*                Most Comments*@
-@*            </a>*@
-@*            <a class="item">*@
-@*                Most Popular*@
-@*            </a>*@
-@*        </div>*@
+
     </div>
     <div class="nine wide column">
-        <div class="ui pointing secondary three item tabular menu">
-    <div class="item active" data-tab="popular">
-        Nổi Bật
-    </div>
-    <div class="item " data-tab="post">
-        Bài Viết
-    </div>
-    <div class="item" data-tab="friend">
-        Bạn Bè
-    </div>
-
-</div>
-        <div class="ui tab active" data-tab="popular">
-        </div>
-            <div class="ui tab" data-tab="post" >
-@*                @{*@
-@*                    if (Model.PostList != null && Model.PostList.Count > 0)*@
-@*                    {*@
-@*                        <div class="grids">*@
-@*                            <div class="grid-sizer"></div>*@
-@*                            <div class="gutter-sizer"></div>*@
-@*                            @{*@
-@*                                foreach (var postView in Model.PostList)*@
-@*                                {*@
-@*                                    @Html.Partial("../Shared/_ShowPostDetail", postView)*@
-@*                                }*@
-@*                            }*@
-@*                        </div>*@
-@*                                }*@
-@*                }*@
+        <div class="ui pointing secondary two item tabular menu">
+            <div class="item active" data-tab="post">
+                Bài Viết
             </div>
-        <div class="ui tab" data-tab="friend">
+            <div class="item" data-tab="friend">
+                Bạn Bè
+            </div>
+
+        </div>
+
+        <div class="ui tab active" data-tab="post">
+
+            <div class="post grids">
                 <div class="grid-sizer"></div>
                 <div class="gutter-sizer"></div>
-                @Html.Partial("_UserCard", @Model)
-          
-                
+                <div class="ui link cards" id="postScroll">
+                    @Html.Partial("_PostRow", (ViewBag.Posts as List<PostViewModel>))
+                </div>
             </div>
+        </div>
+        <div class="ui tab" data-tab="friend">
+            <div class="friend grids">
+                    <div class="grid-sizer"></div>
+                <div class="gutter-sizer"></div>
+                                <div class="ui link cards" id="friendScroll">
+                    @Html.Partial("_PostRow", (ViewBag.Users as List<PostViewModel>))
+                </div>
 
-        @*@Html.Action("_ShowPostDetail", "Post", new { postId = "123"})*@
-@*        @foreach (var post in Model)*@
-@*        {*@
-@*$1$            @Html.Partial("_ShowPostDetail", post)#1#*@
-@*        }*@
+            </div>
+        </div>
     </div>
+
     <div class="three wide column"></div>
 </div>
+<script src="~/Scripts/infiniteScroll.js"></script>
+<script type="text/javascript">
+    var forLoad = $("#postScroll");
+    var grid = $(".post.grids");
+    var moreRowsUrl = '@Url.Action("Index","Search")';
+    $(function () {
+        $(".tabular.menu")
+            .on("click",
+                ".item",
+                function e() {
+                    
+                    
+                    var currentTab = $(".ui.tab.active").attr("data-tab");
+                    if (currentTab == "friend") {
+                        grid = $(".friend.grids");
+                        moreRowsUrl = '@Url.Action("Index","Search")';
+                         forLoad = $("#friendScroll");
+                    } else {
+                        grid = $(".post.grids");
+                        moreRowsUrl = '@Url.Action("Index","Newsfeed")';
+                        forLoad = $("#postScroll");
+                    }
+                });
+
+    });
+
+ 
+
+    $(window).scroll(scrollHandler);
+</script>

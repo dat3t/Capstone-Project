@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -16,17 +17,17 @@ namespace OneVietnam.Controllers
     public class SearchController : Controller
     {
         // GET: Search
-        public async Task<ActionResult> Index(string query)
+        public async Task<ActionResult> Index(int? pageNum)
         {
             //todo
 
             // Hien top 5 users va 1 page row cac bai post, sau do thuc hien infiniti scroll giong trang timeline
-            var usersBaseFilter = new BaseFilter
-            {                
-                Limit = Constants.LimitedNumberDisplayUsers
-            };
-            ApplicationUser postUser = await UserManager.FindByIdAsync("5786665d59b07a1e205bfd48");
-            UserViewModel user=new UserViewModel(postUser);
+//            var usersBaseFilter = new BaseFilter
+//            {                
+//                Limit = Constants.LimitedNumberDisplayUsers
+//            };
+//            ApplicationUser postUser = await UserManager.FindByIdAsync("5786665d59b07a1e205bfd48");
+//            UserViewModel user=new UserViewModel(postUser);
             //            var userResult = await UserManager.TextSearchUsers(query, usersBaseFilter);
             //            var postsBaseFilter = new BaseFilter();
             //            var postResult = await PostManager.FullTextSearch(query, postsBaseFilter);
@@ -36,8 +37,50 @@ namespace OneVietnam.Controllers
             //                postViewModels.Add(new PostViewModel(post));
             //            }
             //            return View(postViewModels);
+            pageNum = pageNum ?? 1;
+            ViewBag.IsEndOfRecords = false;
 
-            return View(user);
+            BaseFilter filter;
+            List<Post> posts;
+            List<PostViewModel> list = new List<PostViewModel>();
+            if (Request.IsAjaxRequest())
+            {
+                filter = new BaseFilter { CurrentPage = pageNum.Value };
+                posts = await PostManager.FindAllDescenderAsync(filter);
+
+                if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
+                foreach (var post in posts)
+                {
+                    ApplicationUser user = await UserManager.FindByIdAsync(post.UserId);
+                    list.Add(new PostViewModel(post, user.UserName, user.Avatar));
+
+                }
+                //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
+                return PartialView("_PostRow", list);
+            }
+           
+            //else
+            //{
+            //    // LoadAllPostsToSession
+            //    List<Post> list = await PostManager.FindAllPostsAsync();
+            //    var posts = list;
+            //    int postIndex = 1;
+            //    Session["Posts"] = posts.ToDictionary(x => postIndex++, x => x);
+
+            //    ViewBag.Posts = GetRecordsForPage(pageNum.Value);
+            //    return View();
+            //}
+            filter = new BaseFilter { CurrentPage = pageNum.Value };
+            posts = await PostManager.FindAllDescenderAsync(filter);
+            if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
+            foreach (var post in posts)
+            {
+                ApplicationUser user = await UserManager.FindByIdAsync(post.UserId);
+                list.Add(new PostViewModel(post, user.UserName, user.Avatar));
+            }
+            ViewBag.Posts = list;
+            ViewBag.Users = list;
+            return View();
         }
         //todo
         //public async Task<ActionResult> UsersResult(string query)
@@ -68,6 +111,41 @@ namespace OneVietnam.Controllers
             private set { _postManager = value; }
         }
 
+        public async Task<ActionResult> _userResult(int? pageNum)
+        {
+            pageNum = pageNum ?? 1;
+            ViewBag.IsEndOfRecords = false;
+
+            BaseFilter filter;
+            List<Post> posts;
+            List<PostViewModel> list = new List<PostViewModel>();
+            if (Request.IsAjaxRequest())
+            {
+                filter = new BaseFilter { CurrentPage = pageNum.Value };
+                posts = await PostManager.FindAllDescenderAsync(filter);
+
+                if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
+                foreach (var post in posts)
+                {
+                    ApplicationUser user = await UserManager.FindByIdAsync(post.UserId);
+                    list.Add(new PostViewModel(post, user.UserName, user.Avatar));
+
+                }
+                //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
+                return PartialView("_PostRow", list);
+            }
+
+            filter = new BaseFilter { CurrentPage = pageNum.Value };
+            posts = await PostManager.FindAllDescenderAsync(filter);
+            if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
+            foreach (var post in posts)
+            {
+                ApplicationUser user = await UserManager.FindByIdAsync(post.UserId);
+                list.Add(new PostViewModel(post, user.UserName, user.Avatar));
+            }
+            ViewBag.Posts = list;
+            return View();
+        }
         public async Task<ActionResult> Search(string query)
         {
             //var result = await PostManager.FullTextSearch(query);
