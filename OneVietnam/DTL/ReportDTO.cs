@@ -2,6 +2,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using OneVietnam.Common;
+using OneVietnam.Models;
 
 namespace OneVietnam.DTL
 {
@@ -54,6 +55,17 @@ namespace OneVietnam.DTL
                 CloseDate = pReport.CloseDate;
             }
             DeletedFlag = pReport.DeletedFlag;
+        }
+
+        public Report(ReportViewModal pReport)
+        {
+            Id = ObjectId.GenerateNewId().ToString();
+            UserId = pReport.UserId;
+            PostId = pReport.PostId;
+            ReportDescription = pReport.ReportDescription;
+            Status = ReportStatus.Open.ToString();
+            DeletedFlag = false;
+            CreatedDate = DateTimeOffset.UtcNow;
         }
     }
 }

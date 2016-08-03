@@ -182,7 +182,7 @@ namespace OneVietnam.Controllers
 
             BaseFilter filter;
             List<Post> posts;
-            List<PostViewModel> list=new List<PostViewModel>();
+            List<PostViewModel> list=new List<PostViewModel>();            
             if (Request.IsAjaxRequest())
                 {
                 filter = new BaseFilter { CurrentPage = pageNum.Value };
@@ -198,17 +198,7 @@ namespace OneVietnam.Controllers
                 //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
                 return PartialView("_PostRow", list);
                 }
-            //else
-            //{
-            //    // LoadAllPostsToSession
-            //    List<Post> list = await PostManager.FindAllPostsAsync();
-            //    var posts = list;
-            //    int postIndex = 1;
-            //    Session["Posts"] = posts.ToDictionary(x => postIndex++, x => x);
-            
-            //    ViewBag.Posts = GetRecordsForPage(pageNum.Value);
-            //    return View();
-            //}
+        
             filter = new BaseFilter { CurrentPage = pageNum.Value };
             posts = await PostManager.FindAllDescenderAsync(filter);
             if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
@@ -225,25 +215,7 @@ namespace OneVietnam.Controllers
         /// </summary>
         /// <param name="pageNum"></param>
         /// <returns>List Post></returns>
-        [HttpPost]
-        public async Task<ActionResult> Index(string postId)
-
-        { //List<Post> list = await PostManager.FindByUserId(User.Identity.GetUserId());
-            Post post = await PostManager.FindByIdAsync(postId);
-           
-                ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
-                if (postUser != null)
-                {
-
-                    PostViewModel showPost = new PostViewModel(post, postUser.UserName, postUser.Avatar);
-
-                    return PartialView("../Newsfeed/_ShowPost",showPost);
-                }
-            
-            PostViewModel result = new PostViewModel(post);
-            return PartialView();
-        }
-
+       
         public async Task<ActionResult> ShowPost(string postId)
         {
             Post post = await PostManager.FindByIdAsync(postId);
@@ -338,13 +310,21 @@ namespace OneVietnam.Controllers
             }                                    
             return RedirectToAction("DeletePost", "Newsfeed", new { postId = strPostId });
         }
-  
+
+        //[HttpPost]
+        //public async Task ReportPost(string userId, string postId, string description)
+        //{
+        //    Report report = new Report(userId, postId, description);
+        //    await ReportManager.CreateAsync(report);
+        //    //TODO send notification to Mod
+        //}
+
         [HttpPost]
-        public async Task ReportPost(string userId, string postId, string description)
+        public async Task<ActionResult> ReportPost(ReportViewModal model)
         {
-            Report report = new Report(userId, postId, description);
+            Report report = new Report(model);
             await ReportManager.CreateAsync(report);
-            //TODO send notification to Mod
+            return PartialView("../Newsfeed/_Report", new ReportViewModal(model.Id, model.UserId));
         }
 
         [System.Web.Mvc.Authorize]        

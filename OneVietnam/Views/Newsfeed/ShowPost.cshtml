@@ -126,6 +126,8 @@
                     @Model.Description
                 </div>
                 <div class="extra content">
+                    <i class="icon home"></i>
+                    <a class="item" onclick="location.href='@Url.Action("ShowMap", "Map", new { @Model.PostLocation.XCoordinate, @Model.PostLocation.YCoordinate, @Model.PostType,postId = @Model.Id})'">@Model.PostLocation.Address</a>
                     @{
                         string url = "http://www.phimmoi.net/phim/nguoi-vo-tuyet-voi-3976/";
                         string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";
@@ -137,11 +139,11 @@
                     </div>
                     <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts=""></div>
 
-                    <script>                        
-                     
+                    <script>
+
 
                         // In your JavaScript
-                        var comment_callback = function (response) {
+                        var comment_callback = function(response) {
                             alert("comment_callback");
                         }
 
@@ -150,17 +152,20 @@
                                 type: 'GET',
                                 url: '/Newsfeed/getCommentor',
                                 data: { commentid: commentID },
-                                success: function (result) {
+                                success: function(result) {
                                     alert(result);
-                                    pushNotification("@Url.Action("ShowPost","Newsfeed",new {postId=Model.Id})", "@Model.Title", "@Model.UserId");
+                                    pushNotification("@Url.Action("ShowPost", "Newsfeed", new {postId = Model.Id})",
+                                        "@Model.Title",
+                                        "@Model.UserId");
 
                                 }
                             });
                         }
+
                         FB.XFBML.parse();
 
                     </script>
-                  
+
 
 
                 </div>

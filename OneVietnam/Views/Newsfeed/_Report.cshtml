@@ -2,27 +2,39 @@
 @using OneVietnam.Models
 @model OneVietnam.Models.ReportViewModal
 <div class="ui small report modal">
-    @using (Html.BeginForm("ReportPost", "Newsfeed", FormMethod.Post, new {enctype = "multipart/form-data", id = "ReportSubmit"}))
-    {
+    <div class="header">
+        Gửi báo cáo
+    </div>
+    @*@using (Html.BeginForm("ReportPost", "Newsfeed", FormMethod.Post, new {enctype = "multipart/form-data", id = "ReportSubmit"}))
+    {*@
+@using (Ajax.BeginForm("ReportPost", "Newsfeed", new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "ShowReportPost"
+}))
+{
 
-        <div class="header">
-            Gửi báo cáo
-        </div>
         <div class="content">
             <div class="field">
                 <div class="ui form">
-                    <textarea id="Descript" placeholder="Nội dung muốn báo cáo"></textarea>
+                    @Html.TextAreaFor(model => model.ReportDescription, new {placeholder = "Nội dung muốn báo cáo"})
+                </div>
+                <div style="display: none">
+                    @Html.EditorFor(model => model.PostId)
+                    @Html.EditorFor(model => model.UserId)
                 </div>
             </div>
         </div>
         <div class="actions">
             <div class="ui cancel button">Hủy</div>
-            <div class="ui green button" id="submitReport">Gửi</div>
+            <input class="ui green button" id="submitReport" value="Gửi" type="submit"/>
         </div>
-        <script>
+        @*<script>
             $("#submitReport")
                 .click(function() {
                     var desc = document.getElementById("Descript").value;
+                    alert(desc);
                     var param = {
                         userId: "@Model.UserId",
                         postId: "@Model.PostId",
@@ -34,12 +46,12 @@
                         data: param,
                         success: function() {
                             $('.report.modal').find('textarea').val('');
-                            $('.report.modal').modal('hide');                            
+                            $('.report.modal').modal('hide');
                         }
                     });
 
                 });
-        </script>
+        </script>*@
     }
 </div>
 
