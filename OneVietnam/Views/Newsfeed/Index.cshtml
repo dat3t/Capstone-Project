@@ -133,9 +133,8 @@
 
             </div>
 
-            <div id="forModal" class="ui basic modal" style="position: absolute !important; left: 80% !important; height: 1000px; width: 600px">
                
-            </div>
+           
 
 
 
@@ -146,8 +145,13 @@
 
 
     <div class="four wide column">
-        <div class="ui segment" id="forAdminPost" style="margin-right: 15px!important">
-      
+        <div class="ui segment"  style="margin-right: 15px!important">
+            <h3>
+                <div class="ui header">
+                    Từ người Quản trị
+                </div>
+            </h3>
+            <div id="forAdminPost"></div>
         </div>
         <a href="javascript:" id="return-to-top"><i class="chevron up icon"></i></a>
 
@@ -158,6 +162,7 @@
 @section scripts{
     <script src="~/Scripts/infiniteScroll.js"></script>
     <script type="text/javascript">
+        $("grids").isotope("layout");
         $.ajax({
             type: 'GET',
             url: '@Url.Action("_AdminPost","Newsfeed")',
