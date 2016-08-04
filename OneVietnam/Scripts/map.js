@@ -54,8 +54,8 @@ function checkAuthenticated() {
         //Declare a new map
         map = new google.maps.Map(document.getElementById('map_canvas'), {
             center: { lat: authenticatedUser.x, lng: authenticatedUser.y },
-            zoom: 13,
-            minZoom: 4,
+            zoom: 12,
+            minZoom: 2,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
         myCurrentLocationMarker.setMap(map);
@@ -198,7 +198,7 @@ function loadScript() {
 }
 
 function showCurrentLocation() {
-   // setMapToAMarkerCluster(null);
+    // setMapToAMarkerCluster(null);
     myHomeMarker.setMap(null);
 
     //Identify current user's location and bind it to the map
@@ -209,11 +209,16 @@ function showCurrentLocation() {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
-
+            var pos2 = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+            
             myCurrentLocationMarker.setMap(map);
             myCurrentLocationMarker.setPosition(pos);
             map.setZoom(12);
-            map.setCenter(pos);
+            checkIfBoundContainPosition(pos2);
+            //bounds.extend(pos);
+            //map.fitBounds(bounds);
+            //map.setCenter(pos);
+           // map.setCenter(pos);
 
         }, function () {
             handleLocationError(true, "Không thể định vị được vị trí của bạn. Bạn cần cho phép trình duyệt sử dụng định vị GPS.", map.getCenter());
@@ -228,10 +233,13 @@ function showCurrentLocation() {
 function showMyLocation() {
     //setMapToAMarkerCluster(null);
     myCurrentLocationMarker.setMap(null);
-    myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
+
     myHomeMarker.setMap(map);
-    map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
-    map.setZoom(14);
+    myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
+    var pos2 = new google.maps.LatLng(authenticatedUser.x, authenticatedUser.y)
+    map.setZoom(12);
+    checkIfBoundContainPosition(pos2);
+   // map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
 }
 
 function setMapToAMarkerCluster(markerCluster) {
@@ -304,6 +312,38 @@ function showLGBT() {
     checkIfBoundContainPosition(pos);
 }
 
+function smoothlyCenterPosition(pos) {
+    if (bounds) {
+        var sw = bounds.getSouthWest();
+        var ne = bounds.getNorthEast();
+
+        var lat1 = sw.lat();
+        var lng1 = sw.lng();
+        var lat2 = ne.lat();
+        var lng2 = ne.lng();
+
+        var dx = (lng1 - lng2) / 2.;
+        var dy = (lat1 - lat2) / 2.;
+        var cx = (lng1 + lng2) / 2.;
+        var cy = (lat1 + lat2) / 2.;
+
+        // work around a bug in google maps...///
+        lng1 = cx + dx / 1.5;
+        lng2 = cx - dx / 1.5;
+        lat1 = cy + dy / 1.5;
+        lat2 = cy - dy / 1.5;
+        /////////////////////////////////////////
+
+        sw = new google.maps.LatLng(lat1, lng1);
+        ne = new google.maps.LatLng(lat2, lng2);
+        bounds = new google.maps.LatLngBounds(sw, ne);
+        map.panTo(pos);
+        map.fitBounds(bounds);
+        map.setCenter(pos);
+
+    }
+}
+
 function checkIfBoundContainPosition(pos) {
     if (map.getBounds().contains(pos) == false) {
         bounds.extend(pos);
@@ -311,46 +351,17 @@ function checkIfBoundContainPosition(pos) {
         map.setCenter(pos);
     }
     else {
-     //   map.fitBounds(map.getBounds());
-        if (bounds) {
-            var sw = bounds.getSouthWest();
-            var ne = bounds.getNorthEast();
-
-            var lat1 = sw.lat();
-            var lng1 = sw.lng();
-            var lat2 = ne.lat();
-            var lng2 = ne.lng();
-
-            var dx = (lng1 - lng2) / 2.;
-            var dy = (lat1 - lat2) / 2.;
-            var cx = (lng1 + lng2) / 2.;
-            var cy = (lat1 + lat2) / 2.;
-
-            // work around a bug in google maps...///
-            lng1 = cx + dx / 1.5;
-            lng2 = cx - dx / 1.5;
-            lat1 = cy + dy / 1.5;
-            lat2 = cy - dy / 1.5;
-            /////////////////////////////////////////
-
-            sw = new google.maps.LatLng(lat1, lng1);
-            ne = new google.maps.LatLng(lat2, lng2);
-            bounds = new google.maps.LatLngBounds(sw, ne);
-            map.panTo(pos);
-            map.fitBounds(bounds);
-            map.setCenter(pos);
-
-        }
-
+        //   map.fitBounds(map.getBounds());
+        smoothlyCenterPosition(pos);
     }
-   
+
 }
 function showAccommodation() {
     setMapToAMarkerCluster(type0MarkerCluster);
     type0MarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(postType0);
     checkIfBoundContainPosition(pos);
-   
+
 
 }
 
@@ -362,8 +373,8 @@ function showJobOffer() {
 }
 
 function showFurnitureOffer() {
-   
-   
+
+
     setMapToAMarkerCluster(type2MarkerCluster);
     type2MarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(postType2);
@@ -375,7 +386,7 @@ function showHandGoodsOffer() {
     type3MarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(postType3);
     checkIfBoundContainPosition(pos);
-  
+
 }
 
 function showTradeOffer() {
