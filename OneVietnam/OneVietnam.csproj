@@ -289,7 +289,9 @@
     <Compile Include="DTL\MessageDTO.cs" />
     <Compile Include="DTL\Notification.cs" />
     <Compile Include="Models\AdministrationViewModel.cs" />
+    <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\ConversationModel.cs" />
+    <Compile Include="Models\CreateIconModel.cs" />
     <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Models\PostInfoWindowModel.cs" />
     <Compile Include="Models\ReportViewModal.cs" />
@@ -353,31 +355,15 @@
     <Content Include="Content\icon.min.css" />
     <Content Include="Content\Icon\female.png" />
     <Content Include="Content\Icon\free.png" />
-    <Content Include="Content\Icon\free2.png" />
-    <Content Include="Content\Icon\free3.png" />
-    <Content Include="Content\Icon\free4.png" />
-    <Content Include="Content\Icon\free5.png" />
     <Content Include="Content\Icon\help.png" />
-    <Content Include="Content\Icon\help2.png" />
-    <Content Include="Content\Icon\help3.png" />
     <Content Include="Content\Icon\home.png" />
-    <Content Include="Content\Icon\iWarning.png" />
-    <Content Include="Content\Icon\job2.png" />
-    <Content Include="Content\Icon\job3.png" />
-    <Content Include="Content\Icon\job4.png" />
-    <Content Include="Content\Icon\job5.png" />
+    <Content Include="Content\Icon\job.png" />
     <Content Include="Content\Icon\LGBT.png" />
     <Content Include="Content\Icon\location.png" />
     <Content Include="Content\Icon\male.png" />
     <Content Include="Content\Icon\myhome.png" />
-    <Content Include="Content\Icon\myhome2.png" />
-    <Content Include="Content\Icon\plane2.png" />
-    <Content Include="Content\Icon\plane3.png" />
     <Content Include="Content\Icon\sale.png" />
-    <Content Include="Content\Icon\ship.png" />
-    <Content Include="Content\Icon\ship2.png" />
-    <Content Include="Content\Icon\ship3.png" />
-    <Content Include="Content\Icon\ship4.jpg" />
+    <Content Include="Content\Icon\ship.jpg" />
     <Content Include="Content\Icon\users.ico" />
     <Content Include="Content\Icon\Warning.png" />
     <Content Include="Content\Images\Avatar_Default.jpg" />
@@ -722,6 +708,7 @@
     <Content Include="Views\Administration\_ShowReportStatus.cshtml" />
     <Content Include="Views\Newsfeed\_EditUserPost.cshtml" />
     <Content Include="Views\Newsfeed\_EditAdminPost.cshtml" />
+    <Content Include="Views\Administration\CreateIcon.cshtml" />
     <Content Include="Views\Newsfeed\_AdminPost.cshtml" />
   </ItemGroup>
   <ItemGroup>

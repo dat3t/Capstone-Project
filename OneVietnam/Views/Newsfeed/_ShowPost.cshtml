@@ -139,17 +139,21 @@
                     FB.Event.subscribe('comment.create',
                         function (response) {
                             onCommentCreate(response.commentID);
-                        });
-                
+                        });                    
                     function onCommentCreate(commentID) {
                         $.ajax({
                             type: 'GET',
-                            url: '/Newsfeed/getCommentor',
+                            url: '/Newsfeed/GetCommentor',
                             data: { commentid: commentID },
-                            success: function (result) {
-                                alert(result + "asdasd");
-//                                pushNotification("@Url.Action("ShowPost","Newsfeed",new {postId=Model.Id})", "@Model.Title", "@Model.UserId");
-
+                            success: function (commentor) {
+                                var comment= {
+                                    UserId: "@Model.UserId",
+                                    Commentor: commentor["Username"],
+                                    Url: "@Url.Action("ShowPost","Newsfeed", new { postId = Model.Id })",
+                                    Avatar: commentor["Avatar"],
+                                    Title : "@Model.Title"
+                                    }                    
+                                pushCommentNotification(comment);
                             }                            
                         });
                     }

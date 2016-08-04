@@ -29,7 +29,7 @@ function checkAuthenticated() {
     };
 
     var myhomeicon = {
-        url: "../Content/Icon/myhome2.png",
+        url: "../Content/Icon/myhome.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -66,7 +66,7 @@ function checkAuthenticated() {
     else {
         //Declare a new map
         map = new google.maps.Map(document.getElementById('map_canvas'), {
-            center: { lat: -34.397, lng: 150.644 },
+            center: { lat: 21.0277644, lng: 105.83415979999995 },
             zoom: 13,
             minZoom: 2,
             mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -199,7 +199,7 @@ function loadScript() {
 
 function showCurrentLocation() {
    // setMapToAMarkerCluster(null);
-   // myHomeMarker.setMap(null);
+    myHomeMarker.setMap(null);
 
     //Identify current user's location and bind it to the map
     //Using HTML5 geolocation.
@@ -227,7 +227,7 @@ function showCurrentLocation() {
 
 function showMyLocation() {
     setMapToAMarkerCluster(null);
-  //  myCurrentLocationMarker.setMap(null);
+    myCurrentLocationMarker.setMap(null);
     myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
     myHomeMarker.setMap(map);
     map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
@@ -523,7 +523,7 @@ function createListType0Markers() {
 
 function createListType1Markers() {
     var icon = {
-        url: "../Content/Icon/job5.png",
+        url: "../Content/Icon/job.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -555,7 +555,7 @@ function createListType1Markers() {
 
 function createListType2Markers() {
     var icon = {
-        url: "../Content/Icon/free5.png",
+        url: "../Content/Icon/free.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -587,7 +587,7 @@ function createListType2Markers() {
 
 function createListType3Markers() {
     var icon = {
-        url: "../Content/Icon/ship4.jpg",
+        url: "../Content/Icon/ship.jpg",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -650,7 +650,7 @@ function createListType4Markers() {
 
 function createListType5Markers() {
     var icon = {
-        url: "../Content/Icon/help3.png",
+        url: "../Content/Icon/help.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -792,8 +792,16 @@ function getPostInfo(postID) {
                 $("#postModal").html(result);
 
                 $("#postModal").modal('show');
+                history.pushState("../Newsfeed", null, "../Newsfeed/ShowPost?postId=" + postID);
+                $('.carousel').flickity({
+                    // options
+                    cellAlign: 'left',
+                    contain: true
+                });
             }
-
+            window.addEventListener('popstate', function (e) {
+                $("#postModal").modal("hide");
+            });
         },
         error: function (xhr, status, error) {
             alert(xhr.responseText);

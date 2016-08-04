@@ -58,7 +58,7 @@
             }
 
         #filterHelp {
-            background: url(../Icon/help3.png);
+            background: url(../Icon/help.png);
             width: 40px;
             height: 40px;
             border: 3px;
@@ -73,7 +73,7 @@
             }
 
         #filterJob {
-            background: url(../Icon/job5.png);
+            background: url(../Icon/job.png);
             width: 40px;
             height: 40px;
             border: 3px;
@@ -89,7 +89,7 @@
 
 
         #filterFurnitureOffer {
-            background: url(../Icon/free5.png);
+            background: url(../Icon/free.png);
             width: 40px;
             height: 40px;
             border: 3px;
@@ -104,7 +104,7 @@
             }
 
         #filterHandGoodsOffer {
-            background: url(../Icon/ship4.jpg);
+            background: url(../Icon/ship.jpg);
             width: 40px;
             height: 40px;
             border: 3px;
@@ -209,7 +209,7 @@
             }
 
                 #myLocation {
-            background: url(../Icon/myhome2.png);
+            background: url(../Icon/myhome.png);
             width: 40px;
             height: 40px;
             border: 3px;

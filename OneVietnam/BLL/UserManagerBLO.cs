@@ -189,16 +189,12 @@ namespace OneVietnam.BLL
 
         public async Task DisConnection(string userId, string connectionId)
         {
-            var user = await _userStore.FindByIdAsync(userId);            
-            var conn = user.Connections.FirstOrDefault(c => c.ConnectionId == connectionId);
-            if (conn == null)
+            var user = await _userStore.FindByIdAsync(userId);
+            var stuffToRemove = user.Connections.SingleOrDefault(c => c.ConnectionId == connectionId);
+            if (stuffToRemove!=null)
             {
-                throw new Exception("Không tồn tại kết nối");
-            }
-            else
-            {
-                conn.Connected = false;
-            }
+                user.Connections.Remove(stuffToRemove);
+            }            
             await _userStore.UpdateAsync(user);
         }
 

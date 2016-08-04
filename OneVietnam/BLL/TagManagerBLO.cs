@@ -12,9 +12,7 @@ using Tag = OneVietnam.DTL.Tag;
 namespace OneVietnam.BLL
 {
     public class TagManager: AbstractManager<Tag>
-    {
-        private readonly TagStore _tagStore;        
-
+    {        
         public static TagManager Create(IdentityFactoryOptions<TagManager> options,
             IOwinContext context)
         {
@@ -36,7 +34,6 @@ namespace OneVietnam.BLL
             }
 
         }
-
         public async Task<List<Tag>> FindTagByValueAsync(string pTagValue)
         {
             //var listTags =  _tagStore.FindTagByValueAsync(pTagValue);

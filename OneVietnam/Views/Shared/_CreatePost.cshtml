@@ -13,200 +13,211 @@
 
 @if (Request.IsAuthenticated)
 {
-
+    
 }
 
 
 @*<link href="~/Content/fine-uploader-gallery.min.css" rel="stylesheet">*@
-    @*<script src="~/Scripts/fine-uploader.js"></script>*@
-    <script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
-    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+@*<script src="~/Scripts/fine-uploader.js"></script>*@
+<script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
 
-    <script type="text/template" id="qq-template-gallery">
-        <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="Kéo thả ảnh vào đây">
-            <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
-                <span class="qq-upload-drop-area-text-selector"></span>
-            </div>
-            <div class="qq-upload-button-selector qq-upload-button">
-                <div>Tải ảnh lên</div>
-            </div>
-            <ul class="qq-upload-list-selector qq-upload-list" role="region" aria-live="polite" aria-relevant="additions removals">
-                <li>
-                    <div class="qq-progress-bar-container-selector qq-progress-bar-container">
-                        <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
-                    </div>
-                    <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
-                    <div class="qq-thumbnail-wrapper">
-                        <img class="qq-thumbnail-selector" qq-max-size="120" qq-server-scale>
-                    </div>
-                    <button type="button" class="qq-upload-cancel-selector qq-upload-cancel">X</button>
-                    <div class="qq-file-info">
-                        <div class="qq-file-name">
-                            <span class="qq-upload-file-selector qq-upload-file"></span>
-                            <span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Edit filename"></span>
-                        </div>
-                        <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
-                    </div>
-                </li>
-            </ul>
+<script type="text/template" id="qq-template-gallery">
+    <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="Kéo thả ảnh vào đây">
+        <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+            <span class="qq-upload-drop-area-text-selector"></span>
         </div>
-    </script>
-
-    <div class="stamp  hides">
-        @using (Html.BeginForm("CreatePost", "Newsfeed", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "CreatePostForm" }))
-            {
-            <div class="ui segment">
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(false)
-                <!-- Title -->
-                <div class="field">
-                    <h2 class="ui medium header" style="margin-bottom: 0">* Tiêu đề</h2>
-                    <div class="ui input  focus">
-                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { placeholder = "Nhâp tiêu đề..." } })
-                    </div>
+        <div class="qq-upload-button-selector qq-upload-button">
+            <div>Tải ảnh lên</div>
+        </div>
+        <ul class="qq-upload-list-selector qq-upload-list" role="region" aria-live="polite" aria-relevant="additions removals">
+            <li>
+                <div class="qq-progress-bar-container-selector qq-progress-bar-container">
+                    <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
                 </div>
+                <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+                <div class="qq-thumbnail-wrapper">
+                    <img class="qq-thumbnail-selector" qq-max-size="120" qq-server-scale>
+                </div>
+                <button type="button" class="qq-upload-cancel-selector qq-upload-cancel">X</button>
+                <div class="qq-file-info">
+                    <div class="qq-file-name">
+                        <span class="qq-upload-file-selector qq-upload-file"></span>
+                        <span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Edit filename"></span>
+                    </div>
+                    <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+                </div>
+            </li>
+        </ul>
+    </div>
+</script>
 
-                <!-- Post Type and Tags -->
-                <div class="two fields">
-                    <!-- Post Type -->
+        <div class="stamp  hides">
+            @using (Html.BeginForm("CreatePost", "Newsfeed", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "CreatePostForm" }))
+            {
+                <div class="ui segment">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(false)
+                    <!-- Title -->
                     <div class="field">
-                        <label>* Loại bài đăng</label>
-                        <div class="ui  selection dropdown" id="drPostType">
-                            @{
-                                if (postTypes != null && postTypes.Count > 0)
-                                {
-                                    <input type="hidden" id="PostType" name="PostType" value="@postTypes[0].IconId">
-                                    <i class="dropdown icon"></i>
+                        <h2 class="ui medium header" style="margin-bottom: 0">* Tiêu đề</h2>
+                        <div class="ui input  focus">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { placeholder = "Nhâp tiêu đề..." } })
+                        </div>
+                    </div>
+
+                    <!-- Post Type and Tags -->
+                    <div class="two fields">
+                        <!-- Post Type -->
+                        <div class="field">
+                            <label>* Loại bài đăng</label>
+                            <div class="ui  selection dropdown" id="drPostType">
+                                @{
+                                    if (postTypes != null && postTypes.Count > 0)
+                                    {
+                                        <input type="hidden" id="PostType" name="PostType" value="@postTypes[0].IconValue">
+                                        <i class="dropdown icon"></i>
                                         <div class="text">@postTypes[0].IconText</div>
                                         <div class="menu">
-                                            @foreach (Icon icon in postTypes)
-                                            {
-                                                <div class="item" data-value="@icon.IconId">
-                                                    @icon.IconText
-                                                </div>
-                                            }
+                                            @{
+                                                int typeCount;
+                                                if (User.IsInRole(CustomRoles.Admin) || User.IsInRole(CustomRoles.Mod))
+                                                {
+                                                    typeCount = postTypes.Count;
+                                                }
+                                                else
+                                                {
+                                                    typeCount = postTypes.Count-1;
+                                                }
+                                                for (int i = 0; i < typeCount; i++)
+                                                {
+                                                    <div class="item" data-value="@postTypes[i].IconValue">
+                                                        @postTypes[i].IconText
+                                                    </div>
+                                                }
+                                            }                                            
                                         </div>
-                                }
-                            }
-
-                        </div>
-                    </div>
-                    <!-- Tags -->
-                    <div class="field">
-                        <label>Thẻ liên quan</label>
-                        <div class="ui fluid multiple search selection dropdown">
-                            <input name="TagsInput" id="TagsInput" type="hidden" value="">
-                            <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Chọn hoặc thêm thẻ mới</div>
-                            <div class="menu transition hidden" tabindex="-1">
-
-                                @{
-                                    if (tagList != null)
-                                    {
-                                        foreach (Tag tag in tagList)
-                                        {
-                                            <div class="item" data-value="@tag.TagValue">@tag.TagText</div>
-                                        }
                                     }
                                 }
 
                             </div>
                         </div>
+                        <!-- Tags -->
+                        <div class="field">
+                            <label>Thẻ liên quan</label>
+                            <div class="ui fluid multiple search selection dropdown">
+                                <input name="TagsInput" id="TagsInput" type="hidden" value="">
+                                <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Chọn hoặc thêm thẻ mới</div>
+                                <div class="menu transition hidden" tabindex="-1">
+
+                                    @{
+                                        if (tagList != null)
+                                        {
+                                            foreach (Tag tag in tagList)
+                                            {
+                                                <div class="item" data-value="@tag.TagValue">@tag.TagText</div>
+                                            }
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+
+                        </div>
 
                     </div>
 
-                </div>
-
-                <!-- Description -->
-                <div class="field">
-                    <label>* Mô tả </label>
+                    <!-- Description -->
+                    <div class="field">
+                        <label>* Mô tả </label>
                     @Html.TextAreaFor(model => model.Description, new { placeholder = "Thêm mô tả cho bài đăng", rows = "4" })
-                </div>
+                    </div>
 
-                <!-- Post Location -->
-                <div class="field">
-                    <label>* Địa chỉ liên hệ</label>
-                    <div class="ui floating labeled icon dropdown button" id="locationDr" style="float: left">
-                        <i class="blue world icon"></i>
-                        <span class="text"> Địa chỉ nhà của bạn</span>
-                        <div class="menu">
-                            <div class="item" onclick="getRegisteredLocation();" id="getloc">
-                                <div class="ui red empty circular label"></div>
-                                Địa chỉ nhà của bạn
-                            </div>
-                            <div class="item" onclick="getCurrentLocation();">
-                                <div class="ui blue empty circular label"></div>
-                                Địa điểm hiện tại của bạn
-                            </div>
+                    <!-- Post Location -->
+                    <div class="field">
+                        <label>* Địa chỉ liên hệ</label>
+                        <div class="ui floating labeled icon dropdown button" id="locationDr" style="float: left">
+                            <i class="blue world icon"></i>
+                            <span class="text"> Địa chỉ nhà của bạn</span>
+                            <div class="menu">
+                                <div class="item" onclick="getRegisteredLocation();" id="getloc">
+                                    <div class="ui red empty circular label"></div>
+                                    Địa chỉ nhà của bạn
+                                </div>
+                                <div class="item" onclick="getCurrentLocation();">
+                                    <div class="ui blue empty circular label"></div>
+                                    Địa điểm hiện tại của bạn
+                                </div>
 
-                            <div class="divider"></div>
+                                <div class="divider"></div>
 
-                            <div class="header">
-                                Tìm kiếm địa điểm khác
-                            </div>
-                            <div class="ui left icon input">
-                                <i class="search icon"></i>
-                                <input type="text" id="search-location" name="search" placeholder="Tìm kiếm địa điểm...">
+                                <div class="header">
+                                    Tìm kiếm địa điểm khác
+                                </div>
+                                <div class="ui left icon input">
+                                    <i class="search icon"></i>
+                                    <input type="text" id="search-location" name="search" placeholder="Tìm kiếm địa điểm...">
+                                </div>
                             </div>
                         </div>
-                    </div>
 
                     @Html.EditorFor(model => model.PostLocation.Address, new { htmlAttributes = new { placeholder = "Địa chỉ của bạn" } })
                     @Html.EditorFor(model => model.PostLocation.XCoordinate, new { htmlAttributes = new { style = "display: none" } })
                     @Html.EditorFor(model => model.PostLocation.YCoordinate, new { htmlAttributes = new { style = "display: none" } })
 
-                </div>
+                    </div>
 
-                <!-- Illustration -->
-                <i class="large inverted blue camera icon"></i>Thêm ảnh
-                <div class="field">
-                    @*                        <div id="filediv">*@
-                    @*                            <input type="file" id="file" name="files[]" multiple="multiple" accept="image/*" title="Select Images To Be Uploaded">*@
-                    @*                            <br>*@
-                    @*                        </div>*@
-                    @*                        <input type="button" id="add_more" class="upload" value="Add More Images" />*@
-                    @*                        <input type="submit" name="submit" value="Add Product" class="upload" id="upload" title="Add Product To The Inventory">*@
-                    <input type="file" id="files" name="files" onchange="previewImg()" class="upload hides" multiple />
-                    <output id="result"></output>
+                    <!-- Illustration -->
+                    <i class="large inverted blue camera icon"></i>Thêm ảnh
+                    <div class="field">
+@*                        <div id="filediv">*@
+@*                            <input type="file" id="file" name="files[]" multiple="multiple" accept="image/*" title="Select Images To Be Uploaded">*@
+@*                            <br>*@
+@*                        </div>*@
+@*                        <input type="button" id="add_more" class="upload" value="Add More Images" />*@
+@*                        <input type="submit" name="submit" value="Add Product" class="upload" id="upload" title="Add Product To The Inventory">*@
+                        <input type="file" id="files" name="files" onchange="previewImg()" class="upload hides" multiple />
+                        <output id="result"></output>
 
-                    <script>
-                        $(".camera.icon")
-                 .click(function () {
-                     $("#files").trigger('click');
-                 });
+                        <script>
+                            $(".camera.icon")
+                     .click(function () {
+                         $("#files").trigger('click');
+                     });
 
-                        var ImgList = [];
-                        function previewImg() {
-                            var filesInput = document.getElementById("files");
-                            var files = filesInput.files;
-                            var output = document.getElementById("result");
-                            var i = 0,
-                              len = files.length;
-                            (function readFile(n) {
-                                var reader = new FileReader();
-                                var f = files[n];
-                                reader.onload = function (e) {
-                                    var div = document.createElement("span");
-                                    div.innerHTML = "<img class='thumb' src='" + e.target.result + "'" +
-                                        "title='" + f.name + "'/> <a href='#' class='remove_pict'>X</a>";
+                var ImgList = [];
+                function previewImg() {
+                    var filesInput = document.getElementById("files");
+                    var files = filesInput.files;
+                    var output = document.getElementById("result");
+                    var i = 0,
+                      len = files.length;
+                    (function readFile(n) {
+                        var reader = new FileReader();
+                        var f = files[n];
+                        reader.onload = function (e) {
+                            var div = document.createElement("span");
+                            div.innerHTML = "<img class='thumb' src='" + e.target.result + "'" +
+                                "title='" + f.name + "'/> <a href='#' class='remove_pict'>X</a>";
 
-                                    output.insertBefore(div, null);
-                                    div.children[1].addEventListener("click", function () {
-                                        div.parentNode.removeChild(div);
-                                        var removeId = div.children[0].title;
-                                        for (var index = 0; index < ImgList.length; index++) {
-                                            if (ImgList[index].name === removeId) {
-                                                ImgList.splice(index, 1);
-                                                break;
-                                            }
-                                        }
-                                    });
-                                    ImgList.push(f);
-                                    if (n < len - 1) readFile(++n);
-                                };
-                                reader.readAsDataURL(f);
-                            }(i));
-                        }
+                            output.insertBefore(div, null);
+                            div.children[1].addEventListener("click", function () {
+                                div.parentNode.removeChild(div);
+                                var removeId = div.children[0].title;
+                                for (var index = 0; index < ImgList.length; index++) {
+                                    if (ImgList[index].name === removeId) {
+                                        ImgList.splice(index, 1);
+                                        break;
+                                    }
+                                }
+                            });
+                            ImgList.push(f);
+                            if (n < len - 1) readFile(++n);
+                        };
+                        reader.readAsDataURL(f);
+                    }(i));
+                }
 
                         function submitCreatePost() {
                             var formdata = new FormData();
@@ -222,59 +233,59 @@
                                 }
                             }
                         }
+                          
+                        </script>
+                        @*                        <div id="fine-uploader-gallery"></div>*@
 
-                    </script>
-                    @*                        <div id="fine-uploader-gallery"></div>*@
+@*                                                <script>*@
+                        @*                            var uploader = new qq.FineUploader({*@
+                        @*                                element: document.getElementById('fine-uploader-gallery'),*@
+                        @*                                template: 'qq-template-gallery',*@
+                        @*                                validation: {*@
+                        @*                                    allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],*@
+                        @*                                    sizeLimit: 10*1024*1024 // 200 kB = 200 * 1024 bytes*@
+                        @*                                },*@
+                        @*                                callbacks: {*@
+                        @*                                    onError: function() {*@
+                        @*                                        $(".grids").isotope("layout");*@
+                        @*                                    }*@
+                        @*                                }*@
+                        @*                            });*@
+@*                                                    window.onload = function () {*@
+@*                                                        document.getElementById('CreatePostForm').onsubmit = function () {*@
+@*                        *@
+@*                                                            var formdata = new FormData();                                   *@
+@*                                                            for (var i = 0; i < ImgList.length; i++) {*@
+@*                                                                formdata.append(ImgList[i].name, ImgList[i]);*@
+@*                                                            }*@
+@*                                                            var xhr = new XMLHttpRequest();*@
+@*                                                            xhr.open('POST', '/Post/GetIllustrations');*@
+@*                                                            xhr.send(formdata);*@
+@*                                                            xhr.onreadystatechange = function () {*@
+@*                                                                if (xhr.readyState === 4 && xhr.status === 200) {*@
+@*                                                                    ImgList.splice(0, ImgList.length);*@
+@*                                                                    document.getElementById("CreatePostForm").submit();*@
+@*                                                                }*@
+@*                                                            }*@
+@*                                                            return false;*@
+@*                                                        }*@
+@*                                                    }*@
+@*                        *@
+@*                                                </script>*@
+                    </div>
 
-                    @*                                                <script>*@
-                    @*                            var uploader = new qq.FineUploader({*@
-                    @*                                element: document.getElementById('fine-uploader-gallery'),*@
-                    @*                                template: 'qq-template-gallery',*@
-                    @*                                validation: {*@
-                    @*                                    allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],*@
-                    @*                                    sizeLimit: 10*1024*1024 // 200 kB = 200 * 1024 bytes*@
-                    @*                                },*@
-                    @*                                callbacks: {*@
-                    @*                                    onError: function() {*@
-                    @*                                        $(".grids").isotope("layout");*@
-                    @*                                    }*@
-                    @*                                }*@
-                    @*                            });*@
-                    @*                                                    window.onload = function () {*@
-                    @*                                                        document.getElementById('CreatePostForm').onsubmit = function () {*@
-                    @*                        *@
-                    @*                                                            var formdata = new FormData();                                   *@
-                    @*                                                            for (var i = 0; i < ImgList.length; i++) {*@
-                    @*                                                                formdata.append(ImgList[i].name, ImgList[i]);*@
-                    @*                                                            }*@
-                    @*                                                            var xhr = new XMLHttpRequest();*@
-                    @*                                                            xhr.open('POST', '/Post/GetIllustrations');*@
-                    @*                                                            xhr.send(formdata);*@
-                    @*                                                            xhr.onreadystatechange = function () {*@
-                    @*                                                                if (xhr.readyState === 4 && xhr.status === 200) {*@
-                    @*                                                                    ImgList.splice(0, ImgList.length);*@
-                    @*                                                                    document.getElementById("CreatePostForm").submit();*@
-                    @*                                                                }*@
-                    @*                                                            }*@
-                    @*                                                            return false;*@
-                    @*                                                        }*@
-                    @*                                                    }*@
-                    @*                        *@
-                    @*                                                </script>*@
-                </div>
-
-                <!-- Button Create and Cancel -->
-                <div class="field" style="text-align: center">
+                    <!-- Button Create and Cancel -->
+                    <div class="field" style="text-align: center">
                     <input id="btnCancel" type="button" value="Hủy" class="ui cancel button" onclick="resetForm()" />
                     <input id="btnCreate" type="submit" tabindex="6" onclick="submitCreatePost()" value="Đăng bài" name="createpost" class="ui teal button" />
-                    <script>
-                        function resetForm() {
-                            $('.stamp-button').click();
-                        }
-                    </script>
+                        <script>
+                            function resetForm() {
+                                $('.stamp-button').click();
+                            }
+                        </script>
+                    </div>
                 </div>
-            </div>
 
-                                    }
+            }
 
-    </div>
+        </div>
