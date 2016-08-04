@@ -29,7 +29,7 @@ function checkAuthenticated() {
     };
 
     var myhomeicon = {
-        url: "../Content/Icon/myhome2.png",
+        url: "../Content/Icon/myhome.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -66,7 +66,7 @@ function checkAuthenticated() {
     else {
         //Declare a new map
         map = new google.maps.Map(document.getElementById('map_canvas'), {
-            center: { lat: -34.397, lng: 150.644 },
+            center: { lat: 21.0277644, lng: 105.83415979999995 },
             zoom: 13,
             minZoom: 2,
             mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -199,7 +199,7 @@ function loadScript() {
 
 function showCurrentLocation() {
    // setMapToAMarkerCluster(null);
-   // myHomeMarker.setMap(null);
+    myHomeMarker.setMap(null);
 
     //Identify current user's location and bind it to the map
     //Using HTML5 geolocation.
@@ -227,7 +227,7 @@ function showCurrentLocation() {
 
 function showMyLocation() {
     setMapToAMarkerCluster(null);
-  //  myCurrentLocationMarker.setMap(null);
+    myCurrentLocationMarker.setMap(null);
     myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
     myHomeMarker.setMap(map);
     map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
