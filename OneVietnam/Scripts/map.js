@@ -523,7 +523,7 @@ function createListType0Markers() {
 
 function createListType1Markers() {
     var icon = {
-        url: "../Content/Icon/job5.png",
+        url: "../Content/Icon/job.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -555,7 +555,7 @@ function createListType1Markers() {
 
 function createListType2Markers() {
     var icon = {
-        url: "../Content/Icon/free5.png",
+        url: "../Content/Icon/free.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -587,7 +587,7 @@ function createListType2Markers() {
 
 function createListType3Markers() {
     var icon = {
-        url: "../Content/Icon/ship4.jpg",
+        url: "../Content/Icon/ship.jpg",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -650,7 +650,7 @@ function createListType4Markers() {
 
 function createListType5Markers() {
     var icon = {
-        url: "../Content/Icon/help3.png",
+        url: "../Content/Icon/help.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
