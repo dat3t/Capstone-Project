@@ -67,7 +67,7 @@ function checkAuthenticated() {
         //Declare a new map
         map = new google.maps.Map(document.getElementById('map_canvas'), {
             center: { lat: 21.0277644, lng: 105.83415979999995 },
-            zoom: 13,
+            zoom: 12,
             minZoom: 2,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
@@ -213,7 +213,13 @@ function showCurrentLocation() {
             
             myCurrentLocationMarker.setMap(map);
             myCurrentLocationMarker.setPosition(pos);
-            map.setZoom(12);
+            google.maps.event.addListener(myCurrentLocationMarker, 'click', (function (marker) {
+                return function () {
+                    map.setZoom(14);
+                }
+            })(marker));
+
+            //map.setZoom(12);
             checkIfBoundContainPosition(pos2);
             //bounds.extend(pos);
             //map.fitBounds(bounds);
@@ -236,8 +242,13 @@ function showMyLocation() {
 
     myHomeMarker.setMap(map);
     myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
+    google.maps.event.addListener(myHomeMarker, 'click', (function (marker) {
+        return function () {
+            map.setZoom(14);
+        }
+    })(marker));
     var pos2 = new google.maps.LatLng(authenticatedUser.x, authenticatedUser.y)
-    map.setZoom(12);
+    //map.setZoom(16);
     checkIfBoundContainPosition(pos2);
    // map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
 }

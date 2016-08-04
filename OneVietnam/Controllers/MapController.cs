@@ -124,6 +124,7 @@ namespace OneVietnam.Controllers
 
         }
 
+        [AllowAnonymous]
         public async Task<JsonResult> GetUserLocation(string userId)
         {
             var user = await UserManager.FindByIdAsync(userId);
