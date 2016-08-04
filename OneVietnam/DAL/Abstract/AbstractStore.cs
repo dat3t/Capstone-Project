@@ -194,6 +194,23 @@ namespace OneVietnam.DAL
                 throw new Exception(ex.Message);
             }
         }
+
+        public virtual async Task UpdateOneByFilterAsync(FilterDefinition<T> filter, UpdateDefinition<T> update)
+        {
+            try
+            {
+                await Collection.UpdateOneAsync(filter, update);
+            }
+            catch (MongoConnectionException ex)
+            {
+                throw new MongoConnectionException(ex.ConnectionId, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
+        }
         /// <summary>
         /// find all instances by basefilter and deletedflag
         /// </summary>
@@ -326,8 +343,7 @@ namespace OneVietnam.DAL
             {
                 return await Collection.Find(conFilter).Project(project).Sort(sort).ToListAsync().ConfigureAwait(false);
             }
-        }
-
+        }        
         public void Dispose()
         {            
         }

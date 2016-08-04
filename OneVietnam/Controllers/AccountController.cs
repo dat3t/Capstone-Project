@@ -49,13 +49,6 @@ namespace OneVietnam.Controllers
                 _userManager = value;
             }
         }        
-
-        public Image byteArrayToImage(byte[] byteArrayIn)
-        {
-            MemoryStream ms = new MemoryStream(byteArrayIn);
-            Image returnImage = Image.FromStream(ms);
-            return returnImage;
-        }                
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -452,9 +445,15 @@ namespace OneVietnam.Controllers
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
+        public async Task<ActionResult> LogOff()
         {
-            AuthenticationManager.SignOut();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<OneHub>();            
+            foreach (var con in user.Connections)
+            {
+                hub.Clients.Client(con.ConnectionId).logOff();
+            }
+            AuthenticationManager.SignOut();                               
             return RedirectToAction("Index", "Home");
         }
 

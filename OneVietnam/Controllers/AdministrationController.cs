@@ -19,7 +19,7 @@ namespace OneVietnam.Controllers
     [Authorize(Roles = CustomRoles.Admin + "," + CustomRoles.Mod)]
     public class AdministrationController : Controller
     {
-        public AdministrationController(){}
+        public AdministrationController() { }
 
         public AdministrationController(ApplicationUserManager userManager, ApplicationRoleManager roleManager)
         {
@@ -84,8 +84,8 @@ namespace OneVietnam.Controllers
 
         public async Task<ActionResult> Index()
         {
-            
-            var users = await UserManager.TextSearchMultipleQuery("", DateTimeOffset.Now.Date.AddDays(-7).ToUniversalTime(), DateTimeOffset.Now.Date.AddDays(1).ToUniversalTime(), "",null);
+
+            var users = await UserManager.TextSearchMultipleQuery("", DateTimeOffset.Now.Date.AddDays(-7).ToUniversalTime(), DateTimeOffset.Now.Date.AddDays(1).ToUniversalTime(), "", null);
             var roles = await RoleManager.AllRolesAsync();
             var posts = await PostManager.SearchPostMultipleQuery("", DateTimeOffset.Now.Date.AddDays(-7).ToUniversalTime(), DateTimeOffset.Now.Date.AddDays(1).ToUniversalTime(), null);
             var reports = await ReportManager.FindAllAsync();
@@ -99,7 +99,7 @@ namespace OneVietnam.Controllers
                     if (handlerUser != null)
                     {
                         reportView.HandlerName = handlerUser.UserName;
-                    }                    
+                    }
                 }
                 if (!string.IsNullOrWhiteSpace(report.PostId))
                 {
@@ -140,10 +140,10 @@ namespace OneVietnam.Controllers
                             ? "Quyền này đã tồn tại trong cơ sở dữ liệu."
                             : roleresult.Errors.First());
                 }
-                
+
             }
             var roleList = await RoleManager.AllRolesAsync();
-            
+
             List<RoleViewModel> roles = new List<RoleViewModel>();
             if (roleList != null && roleList.Count > 0)
             {
@@ -165,7 +165,7 @@ namespace OneVietnam.Controllers
             var roleresult = await RoleManager.DeleteAsync(role);
             if (!roleresult.Succeeded)
             {
-                ModelState.AddModelError("", roleresult.Errors.First());                
+                ModelState.AddModelError("", roleresult.Errors.First());
             }
 
             //Remove role if user has this role
@@ -181,7 +181,7 @@ namespace OneVietnam.Controllers
             }
 
             //Return new role list after remove this role
-            var roleList = await RoleManager.AllRolesAsync();            
+            var roleList = await RoleManager.AllRolesAsync();
             List<RoleViewModel> roles = new List<RoleViewModel>();
             if (roleList != null && roleList.Count > 0)
             {
@@ -202,22 +202,22 @@ namespace OneVietnam.Controllers
             var user = await UserManager.FindByIdAsync(userId);
 
             List<IdentityRole> roles = new List<IdentityRole>();
-            if(roleList != null && roleList.Count > 0)
+            if (roleList != null && roleList.Count > 0)
             {
                 foreach (var role in roleList)
                 {
                     if (user?.Roles != null && user.Roles.Count > 0)
                     {
                         if (!user.Roles.Contains(role.Name))
-                        {                           
+                        {
                             roles.Add(role);
                         }
                     }
                     else
-                    {                        
+                    {
                         roles.Add(role);
-                    }                   
-                }                
+                    }
+                }
             }
             ViewData["OtherRole"] = roles;
             UserManagementViewModel userView = new UserManagementViewModel(user);
@@ -239,7 +239,7 @@ namespace OneVietnam.Controllers
                 if (!result.Succeeded)
                 {
                     ModelState.AddModelError("", result.Errors.First());
-                }                
+                }
             }
             UserManagementViewModel userView = new UserManagementViewModel(user);
             return PartialView("_UserRoles", userView);
@@ -254,11 +254,11 @@ namespace OneVietnam.Controllers
             {
                 if (user != null)
                 {
-                    if(user.Roles == null)
+                    if (user.Roles == null)
                     {
                         user.Roles = new List<string>();
                     }
-                    if(Request.Form.Count > 0)
+                    if (Request.Form.Count > 0)
                     {
                         string roleAdded = Request.Form["txtUserRole"];
                         if (string.IsNullOrEmpty(roleAdded))
@@ -276,14 +276,14 @@ namespace OneVietnam.Controllers
                         }
                     }
                 }
-                
+
             }
             UserManagementViewModel userView = new UserManagementViewModel();
             if (user != null)
             {
                 userView = new UserManagementViewModel(user);
-            }            
-            
+            }
+
             return PartialView("_UserRoles", userView);
         }
 
@@ -296,12 +296,12 @@ namespace OneVietnam.Controllers
             {
                 if (user != null)
                 {
-                    user.LockedFlag = !user.LockedFlag;                    
+                    user.LockedFlag = !user.LockedFlag;
                     var result = await UserManager.UpdateAsync(user);
                     if (!result.Succeeded)
                     {
                         ModelState.AddModelError("", result.Errors.First());
-                    }                                        
+                    }
                 }
 
             }
@@ -330,11 +330,11 @@ namespace OneVietnam.Controllers
                 var xCoordinate = Convert.ToDouble(((ClaimsIdentity)User.Identity).FindFirst("XCoordinate").Value);
                 var yCoordinate = Convert.ToDouble(((ClaimsIdentity)User.Identity).FindFirst("YCoordinate").Value);
                 var location = new Location(xCoordinate, yCoordinate, adress);
-                Post post = new Post(model) { UserId = User.Identity.GetUserId(),PostLocation = location};
+                Post post = new Post(model) { UserId = User.Identity.GetUserId(), PostLocation = location };
                 HttpFileCollectionBase files = (HttpFileCollectionBase)Session["IllustrationList"];
                 var illList = await PostManager.GetIllustration(files, post.Id);
                 Session["Illustrations"] = null;
-                if(illList != null)
+                if (illList != null)
                 {
                     post.Illustrations = illList;
                 }
@@ -348,15 +348,15 @@ namespace OneVietnam.Controllers
                     ModelState.AddModelError("", ex.Message);
                     return PartialView("../Administration/_CreateAdminPost", model);
                 }
-            }               
-                 
+            }
+
             return PartialView("../Administration/_CreateAdminPost", new CreateAdminPostViewModel());
         }
 
         [HttpPost]
         public async Task<ActionResult> ChangeReportStatus(string reportAction, string reportId)
         {
-            var report = await ReportManager.FindByIdAsync(reportId);            
+            var report = await ReportManager.FindByIdAsync(reportId);
             try
             {
                 report.Status = reportAction;
@@ -366,7 +366,8 @@ namespace OneVietnam.Controllers
                     report.CloseDate = DateTimeOffset.UtcNow;
                 }
                 await ReportManager.UpdateAsync(report);
-                if(string.Equals(reportAction, ReportStatus.Closed.ToString())){
+                if (string.Equals(reportAction, ReportStatus.Closed.ToString()))
+                {
                     if (!string.IsNullOrWhiteSpace(report.PostId))
                     {
                         var post = await PostManager.FindByIdAsync(report.PostId);
@@ -388,7 +389,7 @@ namespace OneVietnam.Controllers
             {
                 ReportViewModal viewModal = new ReportViewModal(report);
                 return PartialView("../Administration/_ShowReportStatus", viewModal);
-            }                                    
+            }
         }
 
         public ActionResult CreateIcon()
@@ -397,7 +398,7 @@ namespace OneVietnam.Controllers
         }
         [HttpPost]
         public async Task<ActionResult> CreateIcon(CreateIconModel model)
-        {            
+        {
             var icon = new Icon(model);
             await IconManager.CreateAsync(icon);
             return RedirectToAction("Index", "Administration");

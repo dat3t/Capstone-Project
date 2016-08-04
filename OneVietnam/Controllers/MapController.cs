@@ -12,7 +12,7 @@ using System.Web.Mvc;
 using MongoDB.Driver;
 
 namespace OneVietnam.Controllers
-{
+{    
     public class MapController : Controller
     {
 
@@ -56,7 +56,7 @@ namespace OneVietnam.Controllers
         //        return icons;
         //    }
         //}
-
+        [AllowAnonymous]
         public async Task<ActionResult> ShowMap(double? XCoordinate, double? YCoordinate, int? PostType, string postId = "")
         {
             ViewBag.XCoordinate = XCoordinate;
@@ -120,6 +120,11 @@ namespace OneVietnam.Controllers
 
         }
 
+        public async Task<JsonResult> GetUserLocation(string userId)
+        {
+            var user = await UserManager.FindByIdAsync(userId);
+            return Json(user.Location ?? null, JsonRequestBehavior.AllowGet);
+        }
         public async Task<ActionResult> GetPostPartialView(string postId)
         {
             var post = await PostManager.FindByIdAsync(postId).ConfigureAwait(false);
