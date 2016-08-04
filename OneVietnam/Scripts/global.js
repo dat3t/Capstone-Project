@@ -1,6 +1,7 @@
 ﻿$(document)
     .ready(function () {
       
+      
         $("#getloc").click();
         $(".filter-post").dropdown({
             allowCategorySelection: true
@@ -235,23 +236,38 @@
                 data: { "postId": id },
                 url: '/Newsfeed/_ShowPost',
                 success: function (partialResult) {
-                    $("#forModal").html("");
+                    $("#forModal").empty();
                     $("#forModal").html(partialResult);
-
+                  
                     $('#forModal').modal({
                         inverted: true
                     }).modal({
-                        duration: 400,
+                        duration: 100,
                         onHide: function () {
                             history.pushState(null, null, "../Newsfeed");
                         }
                     }).modal('show')
                     ;
+                    var $carousel = $('.carousel').flickity({
+                        imagesLoaded: true,
+                        percentPosition: false,
+                    });
+
+                    var $imgs = $carousel.find('.carousel-cell img');
+                    // get transform property
+                    var docStyle = document.documentElement.style;
+                    var transformProp = typeof docStyle.transform == 'string' ?
+                      'transform' : 'WebkitTransform';
                     history.pushState("../Newsfeed", null, "../Newsfeed/ShowPost?postId=" + id);
-                    $('.carousel').flickity({
-                        // options
-                        cellAlign: 'left',
-                        contain: true
+                    var flkty = $carousel.data('flickity');
+                    var $imgs = $('.carousel-cell img');
+
+                    $carousel.on('scroll.flickity', function (event, progress) {
+                        flkty.slides.forEach(function (slide, i) {
+                            var img = $imgs[i];
+                            var x = (slide.target + flkty.x) * -1 / 3;
+                            img.style.transform = 'translateX( ' + x + 'px)';
+                        });
                     });
 
                 }

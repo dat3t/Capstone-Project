@@ -6,11 +6,11 @@
 *, *:before, *:after {
   box-sizing: border-box;
 }
-.carousel-cell {
+/*.carousel-cell {
   width: 600px; /* full width */
-  height: 600px; /* height of carousel */
-}
-.center-cropped {
+  /*height: 600px; /* height of carousel */
+}*/
+/*.center-cropped {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -19,8 +19,26 @@
     margin: auto;
   max-height: 100%;
   max-width: 100%;
+}*/
+ .carousel {
+  background: #EEE;
 }
 
+.carousel-cell {
+  margin-right: 20px;
+  overflow: hidden;
+}
+
+.carousel-cell img {
+  display: block;
+  height: 200px;
+}
+
+@media screen and ( min-width: 768px ) {
+  .carousel-cell img {
+    height: 400px;
+  }
+}
 
 .fileUpload { position: relative; overflow: hidden; margin-bottom: 5px; margin-top:5px; }
 .fileUpload input.upload { position: absolute; top: 0; right: 0; margin: 0; padding: 0; font-size: 20px; cursor: pointer; opacity: 0; filter: alpha(opacity=0); }
