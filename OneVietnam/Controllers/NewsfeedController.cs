@@ -20,7 +20,7 @@ using OneVietnam.Common;
 using OneVietnam.DTL;
 using OneVietnam.Models;
 using Facebook;
-using Microsoft.Owin.Security;
+//using Microsoft.Owin.Security;
 
 namespace OneVietnam.Controllers
 {
