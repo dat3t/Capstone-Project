@@ -218,7 +218,11 @@ namespace OneVietnam.Controllers
             foreach (var post in posts)
             {
                 ApplicationUser user = await UserManager.FindByIdAsync(post.UserId);
-                list.Add(new PostViewModel(post, user.UserName, user.Avatar));
+                //don't load post of deleted user
+                if (user?.DeletedFlag == false && user?.LockedFlag==false)
+                {
+                    list.Add(new PostViewModel(post, user.UserName, user.Avatar));
+                }
             }
             ViewBag.Posts = list;
             return View();

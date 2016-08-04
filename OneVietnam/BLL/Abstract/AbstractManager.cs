@@ -40,6 +40,11 @@ namespace OneVietnam.DAL
             }
             await Store.UpdateAsync(instance).ConfigureAwait(false);
         }
+
+        public virtual async Task UpdateOneByFilterAsync(FilterDefinition<T> filter, UpdateDefinition<T> update)
+        {
+            await Store.UpdateOneByFilterAsync(filter, update);
+        }
         public virtual async Task UpdateAsync(T instance,bool upsert)
         {
             if (instance == null)

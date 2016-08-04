@@ -74,7 +74,7 @@ namespace OneVietnam
                 ConnectionId = Context.ConnectionId,
                 Connected = true,
                 UserAgent = Context.Request.Headers["User-Agent"]
-            };
+            };                        
             await UserManager.AddConnection(userId, conn);
             await base.OnConnected();
         }

@@ -281,10 +281,10 @@
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Common\utilities.cs" />
     <Compile Include="Controllers\TimelineController.cs" />
-    <Compile Include="DAL\AbstractStore.cs" />
+    <Compile Include="DAL\Abstract\AbstractStore.cs" />
     <Compile Include="DAL\PostStore.cs" />
     <Compile Include="DAL\ReportStore.cs" />
-    <Compile Include="DTL\BaseMongoDocument.cs" />
+    <Compile Include="DTL\BaseDTO\BaseMongoDocument.cs" />
     <Compile Include="DTL\ConnectionDTO.cs" />
     <Compile Include="DTL\MessageDTO.cs" />
     <Compile Include="DTL\Notification.cs" />
@@ -713,7 +713,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="DAL\Abstract\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

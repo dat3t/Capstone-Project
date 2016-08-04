@@ -14,6 +14,7 @@ using OneVietnam.Models;
 
 namespace OneVietnam.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private ApplicationUserManager _userManager;
@@ -28,17 +29,19 @@ namespace OneVietnam.Controllers
                 _userManager = value;
             }
         }
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();
         }
-
+        [AllowAnonymous]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
 
             return View();
         }
+        [AllowAnonymous]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

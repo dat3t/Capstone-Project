@@ -110,24 +110,29 @@ function getCurrentLocation() {
     }
 }
 
-function getRegisteredLocation() {
-    var address_Post = document.getElementById("PostLocation_Address");
-    if (address_Post != null && isAuthenticated == true) {
-        document.getElementById("PostLocation_Address").value = authenticatedUser.address;
-        document.getElementById("PostLocation_XCoordinate").value = authenticatedUser.x;
-        document.getElementById("PostLocation_YCoordinate").value = authenticatedUser.y;
+function getRegisteredLocation(id) {
+    var controller = "/Map/GetUserLocation";
+    var data = {
+        userId : id
     }
-
-    var address_edit = document.getElementById("Address_Edit");
-    if (address_edit != null) {
-        document.getElementById("Address_Edit").value = authenticatedUser.address;
-        document.getElementById("XCoordinate_Edit").value = authenticatedUser.x
-        document.getElementById("YCoordinate_Edit").value = authenticatedUser.y;
-    };
-
+    $.ajax({
+        url: controller,
+        type: 'GET',
+        data:data,
+        contentType: 'application/json;',
+        dataType: 'json',
+        success: function (location) {
+            if (location == null || location == '') return;
+            document.getElementById("PostLocation_Address").value = location["Address"];
+            document.getElementById("PostLocation_XCoordinate").value = location["XCoordinate"];
+            document.getElementById("PostLocation_YCoordinate").value = location["YCoordinate"];
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Can not get user's location");
+        }
+    });        
 }
-$("getloc").click();
-
+$("#getloc").click();
 google.maps.event.addDomListener(window, 'load', getAddressFromSearchBox);
 
 
