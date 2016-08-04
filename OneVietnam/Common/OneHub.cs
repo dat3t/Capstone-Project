@@ -11,22 +11,23 @@ using OneVietnam.BLL;
 using OneVietnam.Common;
 using OneVietnam.DAL;
 using OneVietnam.DTL;
+using OneVietnam.Models;
 
 namespace OneVietnam
 {
-    [Authorize]    
+    [Authorize]
     public class OneHub : Hub
-    {        
+    {
         public ApplicationUserManager UserManager { get; private set; }
 
         public OneHub(ApplicationUserManager userManager)
         {
-            UserManager = userManager;            
+            UserManager = userManager;
         }
         public async Task SendChatMessage(string friendId, string message)
         {
             var name = Context.User.Identity.Name;
-            var id = Context.User.Identity.GetUserId();            
+            var id = Context.User.Identity.GetUserId();
             var avatar = ((ClaimsIdentity)Context.User.Identity).FindFirst("Avatar").Value;
             var friend = await UserManager.FindByIdAsync(friendId);
             var connecting = friend.Connections.Any(c => c.Connected == true);
@@ -36,37 +37,37 @@ namespace OneVietnam
                 foreach (var conn in connection.Where(conn => conn.Connected == true))
                 {
                     // call client's javascript function 
-                    Clients.Client(conn.ConnectionId).addChatMessage(id,name,message,avatar);
+                    Clients.Client(conn.ConnectionId).addChatMessage(id, name, message, avatar);
                 }
             }
             // Store Message To Database
-            await UserManager.AddMessage(Context.User.Identity.GetUserId(), friendId, message);            
+            await UserManager.AddMessage(Context.User.Identity.GetUserId(), friendId, message);
         }
 
-        public async Task PushNotification(string url, string title, string id)
+        public async Task PushNotification(CommentViewModel comment)
         {
-            var friend = await UserManager.FindByIdAsync(id);
+            var friend = await UserManager.FindByIdAsync(comment.UserId);
             var connection = friend.Connections;
             if (connection != null)
             {
-                foreach (var conn in connection.Where(conn => conn.Connected == true))
+                foreach (var conn in connection)
                 {
                     // call client's javascript function 
                     Clients.Client(conn.ConnectionId).pushNotification();
                 }
             }
-            var description = Constants.CommentDescription+"\"" + title+"\"";
-            var notice = new Notification(url, description);
+            var description = comment.Commentor + Constants.CommentDescription + "\"" + comment.Title + "\"";
+            var notice = new Notification(comment.Url, comment.Avatar, description);
             if (friend.Notifications == null)
             {
                 friend.Notifications = new SortedList<string, Notification>();
-            }            
-            friend.Notifications.Add(notice.Id,notice);
+            }
+            friend.Notifications.Add(notice.Id, notice);
             await UserManager.UpdateAsync(friend);
 
         }
         public override async Task OnConnected()
-        {            
+        {
             var userId = Context.User.Identity.GetUserId();
             var conn = new Connection
             {
@@ -74,14 +75,14 @@ namespace OneVietnam
                 Connected = true,
                 UserAgent = Context.Request.Headers["User-Agent"]
             };
-            await UserManager.AddConnection(userId, conn);                        
-            await base.OnConnected(); 
+            await UserManager.AddConnection(userId, conn);
+            await base.OnConnected();
         }
         public override async Task OnDisconnected(bool stopCalled)
         {
             var userId = Context.User.Identity.GetUserId();
             var connectionId = Context.ConnectionId;
-            await UserManager.DisConnection(userId, connectionId);                        
+            await UserManager.DisConnection(userId, connectionId);
             await base.OnDisconnected(stopCalled);
         }
     }
