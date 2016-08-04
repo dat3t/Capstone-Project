@@ -226,7 +226,7 @@ function showCurrentLocation() {
 }
 
 function showMyLocation() {
-    setMapToAMarkerCluster(null);
+    //setMapToAMarkerCluster(null);
     myCurrentLocationMarker.setMap(null);
     myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
     myHomeMarker.setMap(map);
@@ -246,8 +246,8 @@ function setMapToAMarkerCluster(markerCluster) {
     type4MarkerCluster.setMap(null);
     type5MarkerCluster.setMap(null);
     type8MarkerCluster.setMap(null);
-    myCurrentLocationMarker.setMap(null);
-    myHomeMarker.setMap(null);
+    //myCurrentLocationMarker.setMap(null);
+    //myHomeMarker.setMap(null);
 
     if (markerCluster != null) {
         markerCluster.setMap(map);
@@ -308,8 +308,13 @@ function checkIfBoundContainPosition(pos) {
     if (map.getBounds().contains(pos) == false) {
         bounds.extend(pos);
         map.fitBounds(bounds);
+        map.setCenter(pos);
     }
-    map.setCenter(pos);
+    else {
+        map.fitBounds(map.getBounds());
+        map.setCenter(pos);
+    }
+   
 }
 function showAccommodation() {
     setMapToAMarkerCluster(type0MarkerCluster);
