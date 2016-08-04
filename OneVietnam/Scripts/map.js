@@ -792,8 +792,16 @@ function getPostInfo(postID) {
                 $("#postModal").html(result);
 
                 $("#postModal").modal('show');
+                history.pushState("../Newsfeed", null, "../Newsfeed/ShowPost?postId=" + postID);
+                $('.carousel').flickity({
+                    // options
+                    cellAlign: 'left',
+                    contain: true
+                });
             }
-
+            window.addEventListener('popstate', function (e) {
+                $("#postModal").modal("hide");
+            });
         },
         error: function (xhr, status, error) {
             alert(xhr.responseText);
