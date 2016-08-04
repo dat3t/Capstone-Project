@@ -80,12 +80,23 @@
                                         <i class="dropdown icon"></i>
                                         <div class="text">@postTypes[0].IconText</div>
                                         <div class="menu">
-                                            @foreach (Icon icon in postTypes)
-                                            {
-                                                <div class="item" data-value="@icon.IconValue">
-                                                    @icon.IconText
-                                                </div>
-                                            }
+                                            @{
+                                                int typeCount;
+                                                if (User.IsInRole(CustomRoles.Admin) || User.IsInRole(CustomRoles.Mod))
+                                                {
+                                                    typeCount = postTypes.Count;
+                                                }
+                                                else
+                                                {
+                                                    typeCount = postTypes.Count-1;
+                                                }
+                                                for (int i = 0; i < typeCount; i++)
+                                                {
+                                                    <div class="item" data-value="@postTypes[i].IconValue">
+                                                        @postTypes[i].IconText
+                                                    </div>
+                                                }
+                                            }                                            
                                         </div>
                                     }
                                 }
