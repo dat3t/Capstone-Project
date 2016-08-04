@@ -309,6 +309,7 @@ function checkIfBoundContainPosition(pos) {
         bounds.extend(pos);
         map.fitBounds(bounds);
     }
+    map.setCenter(pos);
 }
 function showAccommodation() {
     setMapToAMarkerCluster(type0MarkerCluster);
