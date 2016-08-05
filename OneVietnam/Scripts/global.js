@@ -282,8 +282,6 @@
         });
         var isStamped = false;
         $('#stamp-button').on('click', function () {
-          
-           
             $('body,html').animate({
                 scrollTop: 0                       // Scroll to top of body
             }, 500);
@@ -304,8 +302,7 @@
         $('#stamp-button2')
             .on('click',
                 function () {
-                    $('')
-                    document.location = "/Newsfeed";
+                    document.location = "/Newsfeed?ShowPost";
                     $(".stamp").toggleClass("hides");
                     $(".edits").toggleClass("edits-cl");
                     $(".plus").toggleClass("plus-cl");
