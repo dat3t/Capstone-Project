@@ -101,8 +101,13 @@
     </div>
 <div class="ui fluid container" style="height: 90%;" id="bodypage">
     <div id="forModal" class="ui basic modal coupled" style="position: absolute !important; left: 80% !important; height: 1000px; width: 600px">
-       
-     </div>
+
+    </div>
+    <input type="text" value="eee" id="isis"/>
+    <div class="floating-button" id="stamp-button2" data-toggle="tooltip" data-original-title="Create">
+        <p class="plus"><i class="write icon"></i></p>
+        <p class="edits"><i class="remove icon"></i></p>
+    </div>
         @RenderBody()
         @if (Request.IsAuthenticated)
         {

@@ -11,7 +11,7 @@
             @if (User.Identity.IsAuthenticated && (User.Identity.GetUserId() == Model.UserId))
             {
                 <i class="red large remove circle link icon" data-content="Xóa" style="float: right" onclick="document.location.href = '@Url.Action("DeletePost", "Newsfeed", new {postId = Model.Id})';"></i>
-                <i class="blue large write link icon" style="float: right" onclick="document.location.href =
+                <i class="blue large write link icon" data-content="Sửa" style="float: right" onclick="document.location.href =
     '@Url.Action("EditPost", "Newsfeed", new {postId = Model.Id})'"></i>
             }
             else
@@ -36,37 +36,8 @@
         </div>
 
         <div class="meta">
-                @{
-                    DateTime start = DateTime.Now;
-                    // Do some work
-                    TimeSpan timeDiff = DateTime.Now - @Model.CreatedDate;
-
-                }
-                @{
-
-                    if (timeDiff.TotalDays >= 30)
-                    {
-                        <span  style="color: grey; margin-left: 40px">  Tạo ngày @Model.CreatedDate.Date </span>
-                    }
-                    else if (timeDiff.TotalHours >= 24)
-                    {
-                        <span  style="color: grey; margin-left: 40px">@Math.Round(timeDiff.TotalDays) ngày trước </span>
-                    }
-                    else if (timeDiff.TotalMinutes >= 60)
-                    {
-                        <span style="color: grey; margin-left: 40px">@Math.Round(timeDiff.TotalHours) giờ trước </span>
-                    }
-                    else if (timeDiff.TotalSeconds >= 60)
-                    {
-                        <span style="color: grey; margin-left: 40px">@Math.Round(timeDiff.TotalMinutes) phút trước </span>
-                    }
-                    else
-                    {
-                        <span style="color: grey; margin-left: 40px">Vừa xong </span>
-                    }
-
-                }
-
+            <span style="color: grey; margin-left: 40px;font-size: 14px!important" > @Model.TimeInterval </span>
+              
          
 
         </div>

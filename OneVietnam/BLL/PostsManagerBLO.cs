@@ -76,11 +76,10 @@ namespace OneVietnam.BLL
 
                     for (int i = 0; i < fileCount; i++)
                     {
-                        if (pFiles[i] != null)
-                        {
+                       
                             CloudBlockBlob blob = blobContainer.GetBlockBlobReference(GetRandomBlobName(pFiles[i].FileName));                         
                          await   blob.UploadFromStreamAsync(pFiles[i].InputStream);
-                        }                        
+                                               
                     }
                     var blobList = blobContainer.ListBlobs();
                     List<Illustration> illList = new List<Illustration>();
