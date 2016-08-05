@@ -7,13 +7,13 @@
         {
             var avatar = ((ClaimsIdentity)User.Identity).FindFirst("Avatar").Value;
             @Html.AntiForgeryToken()
-            <a href="@Url.Action("Index","Timeline",new {Id=User.Identity.GetUserId()})" id="txtHeaderUserName" style="color: white">
+            <a href="@Url.Action("Index","Timeline",new {Id=User.Identity.GetUserId()})" id="txtHeaderUserName">
                 <img class="ui avatar image" src="@avatar" />
                 <span>@User.Identity.GetUserName()&nbsp;</span>
             </a>
         }
         <div class="ui icon buttons">
-            <div class="ui top right pointing dropdown button" style="background: rgba(0, 0, 0, 0); color: white" id="myConversations">
+            <div class="ui top right pointing dropdown button" style="background: rgba(0, 0, 0, 0)" id="myConversations">
                 <i class="comments large icon"></i>
                 <div class="floating ui tiny red label" id="MessageNotification" style="display: none"></div>
                 <div class="menu" id="Conversations">
@@ -22,7 +22,7 @@
                     </div>
                 </div>
             </div>
-            <div class="ui top right pointing dropdown button" id="myNotifications" style="background: rgba(0, 0, 0, 0); color: white">
+            <div class="ui top right pointing dropdown button" id="myNotifications" style="background: rgba(0, 0, 0, 0)">
                 <i class="alarm large icon"></i>
                 <div class="floating ui tiny teal label" id="NotificationsNo" style="display: none"></div>
                 <div class="menu" id="Notifications">
@@ -31,8 +31,8 @@
                     </div>
                 </div>
             </div>
-            <div class="ui top right button" style="background: rgba(0, 0, 0, 0); color: white">
-                <a href="javascript:document.getElementById('logoutForm').submit()" style="color: white">
+            <div class="ui top right button" style="background: rgba(0, 0, 0, 0)">
+                <a href="javascript:document.getElementById('logoutForm').submit()">
                     <i class="power large icon"></i>
                 </a>
             </div>

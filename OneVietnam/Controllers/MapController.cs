@@ -183,7 +183,7 @@ namespace OneVietnam.Controllers
                 topListModel.Add(result);
             }
 
-            return PartialView("SidenavPost", topListModel);
+            return PartialView("_SidenavPost", topListModel);
         }
 
     }
