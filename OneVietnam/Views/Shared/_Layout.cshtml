@@ -121,9 +121,9 @@
                     if (typeof (chat) === "undefined") {
                         chat = $.connection.oneHub;
                     }
-                chat.client.logOff = function() {
-                        $.connection.hub.stop();
-                    }
+                //chat.client.logOff = function() {
+                //        $.connection.hub.stop();
+                //    }
                     //Create a function that the hub can call back to display messages.
                 chat.client.addChatMessage = function(id, name, message, avatar) {
                         register_popup(id, name, avatar);

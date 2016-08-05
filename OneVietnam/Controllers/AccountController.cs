@@ -447,8 +447,8 @@ namespace OneVietnam.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {            
-            IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<OneHub>();
-            hub.Clients.User(User.Identity.GetUserId()).logOff();
+            //IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<OneHub>();
+            //hub.Clients.User(User.Identity.GetUserId()).logOff();
             AuthenticationManager.SignOut();                               
             return RedirectToAction("Index", "Home");
         }
