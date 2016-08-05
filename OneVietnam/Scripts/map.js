@@ -806,11 +806,11 @@ function getPostInfo(postID) {
             //   createUserInfoWindowContent(json.UserName, 23, json.Gender, json.Location.Address);
             if (result != '') {
 
-                $("#postModal").empty();
+                $("#forModal").empty();
 
-                $("#postModal").html(result);
+                $("#forModal").html(result);
 
-                $("#postModal").modal('show');
+                $("#forModal").modal('show');
                 history.pushState("../Newsfeed", null, "../Newsfeed/ShowPost?postId=" + postID);
                 $('.carousel').flickity({
                     // options
@@ -819,7 +819,7 @@ function getPostInfo(postID) {
                 });
             }
             window.addEventListener('popstate', function (e) {
-                $("#postModal").modal("hide");
+                $("#forModal").modal("hide");
             });
         },
         error: function (xhr, status, error) {
@@ -847,6 +847,7 @@ function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail)
 
         }, 1000);
     } else {
+        alert(1);
         map.setZoom(14);
         map.setCenter({ lat: Lat, lng: Lng });
     }
@@ -883,7 +884,10 @@ function smoothlyCenterPosition(pos) {
         map.panTo(pos);
         map.fitBounds(bounds);
         map.setCenter(pos);
+        setTimeout(function () {
+            smoothZoom(this.map, 13, map.getZoom());
 
+        }, 1200);
     }
 }
 
@@ -892,6 +896,10 @@ function checkIfBoundContainPosition(pos) {
         bounds.extend(pos);
         map.fitBounds(bounds);
         map.setCenter(pos);
+        setTimeout(function () {
+            smoothZoom(this.map, 13, map.getZoom());
+
+        }, 1200);
     }
     else {
         //   map.fitBounds(map.getBounds());
