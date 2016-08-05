@@ -74,6 +74,21 @@ namespace OneVietnam.DAL
             }
             
         }
+        public async Task UpdateOneByFilterAsync(FilterDefinition<ApplicationUser> filter, UpdateDefinition<ApplicationUser> update)
+        {
+            try
+            {
+                await _users.UpdateOneAsync(filter, update);                
+            }
+            catch (MongoConnectionException ex)
+            {
+                throw new MongoConnectionException(ex.ConnectionId, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
     }
 }

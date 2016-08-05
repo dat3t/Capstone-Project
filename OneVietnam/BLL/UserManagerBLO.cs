@@ -256,5 +256,18 @@ namespace OneVietnam.BLL
                 return false;
             }
         }
+
+        public async Task UpdateProfileUserAsync(UserProfileViewModel model)
+        {            
+            var builder = Builders<ApplicationUser>.Filter;
+            var filter = builder.Eq("_id", new ObjectId(model.Id));
+            var update =
+                Builders<ApplicationUser>.Update.Set("UserName", model.UserName)
+                    .Set("Gender", model.Gender)
+                    .Set("DateOfBirth", model.DateOfBirth)
+                    .Set("PhoneNumber", model.PhoneNumber)
+                    .Set("Location", model.Location);
+            await _userStore.UpdateOneByFilterAsync(filter, update);
+        }
     }
 }
