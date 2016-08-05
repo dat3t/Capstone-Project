@@ -242,7 +242,7 @@
                     $('#forModal').modal({
                         inverted: true
                     }).modal({
-                        duration: 100,
+                        duration: 200,
                         onHide: function () {
                             history.back();
                         }

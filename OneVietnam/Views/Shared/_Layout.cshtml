@@ -14,7 +14,7 @@
 </head>
 <body>
 
-    <div class="ui grid" >
+    <div class="ui grid">
         <div class="computer only row">
             <div class="ui main menu" style="background: rgba(2, 35, 20, 0.7)">
                 <a href="@Url.Action("Index", "Home")" class="ui active item button">
@@ -22,10 +22,10 @@
                     <span style="color: white">One Vietnam</span>
                 </a>
                 @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item", @style = "color: white" })
-                @Html.ActionLink("Bảng Tin", "Index","Newsfeed",routeValues:null,htmlAttributes:new {@class="ui item",@style="color: white"})
+                @Html.ActionLink("Bảng Tin", "Index", "Newsfeed", routeValues: null, htmlAttributes: new { @class = "ui item", @style = "color: white" })
                 @if (Request.IsAuthenticated && (User.IsInRole(CustomRoles.Admin) || User.IsInRole(CustomRoles.Mod)))
                 {
-                    @Html.ActionLink("Quản Trị","Index","Administration",routeValues:null,htmlAttributes:new {@class="ui item",@style="color: white"})
+                    @Html.ActionLink("Quản Trị", "Index", "Administration", routeValues: null, htmlAttributes: new { @class = "ui item", @style = "color: white" })
                 }
                 <div class="right menu">
                     <div class="item">
@@ -99,15 +99,10 @@
             </div>
         </div>
     </div>
-<div class="ui fluid container" style="height: 90%;" id="bodypage">
-    <div id="forModal" class="ui basic modal coupled" style="position: absolute !important; left: 80% !important; height: 1000px; width: 600px">
+    <div class="ui fluid container" style="height: 90%;" id="bodypage">
+        <div id="forModal" class="ui basic modal coupled" style="position: absolute !important; left: 80% !important; height: 1000px; width: 600px">
 
-    </div>
-    <input type="text" value="eee" id="isis"/>
-    <div class="floating-button" id="stamp-button2" data-toggle="tooltip" data-original-title="Create">
-        <p class="plus"><i class="write icon"></i></p>
-        <p class="edits"><i class="remove icon"></i></p>
-    </div>
+        </div>
         @RenderBody()
         @if (Request.IsAuthenticated)
         {
@@ -121,6 +116,9 @@
                     // Reference the auto-generated proxy for the hub.
                     if (typeof (chat) === "undefined") {
                         chat = $.connection.oneHub;
+                    }
+                    chat.client.logOff = function () {
+                        $.connection.hub.stop();
                     }
                     //Create a function that the hub can call back to display messages.
                     chat.client.addChatMessage = function (id, name, message, avatar) {
@@ -139,6 +137,10 @@
                             $('#NotificationsNo').text(parseInt($('#NotificationsNo').text()) + 1);
                             $('#NotificationsNo').show();
                         }
+                    }
+                    var notification = {}
+                    chat.client.pushAdministrationNotification= function() {
+                        
                     }
                     // Start the connection.
                     $.connection.hub.start()
@@ -187,7 +189,6 @@
 
     </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.js"></script>
-    
     @Scripts.Render("~/bundles/Scripts")
     @Scripts.Render("~/Scripts/Map")
     @RenderSection("scripts", required: false)

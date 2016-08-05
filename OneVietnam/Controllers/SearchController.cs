@@ -12,9 +12,11 @@ using OneVietnam.Models;
 
 namespace OneVietnam.Controllers
 {
+    [Authorize]
     public class SearchController : Controller
     {
         // GET: Search
+        [AllowAnonymous]
         public async Task<ActionResult> Index(int? pageNum)
         {
             //todo
@@ -108,7 +110,7 @@ namespace OneVietnam.Controllers
             }
             private set { _postManager = value; }
         }
-
+        [AllowAnonymous]
         public async Task<ActionResult> _userResult(int? pageNum)
         {
             pageNum = pageNum ?? 1;
@@ -144,6 +146,7 @@ namespace OneVietnam.Controllers
             ViewBag.Posts = list;
             return View();
         }
+        [AllowAnonymous]
         public async Task<ActionResult> Search(string query)
         {
             //var result = await PostManager.FullTextSearch(query);
@@ -189,6 +192,7 @@ namespace OneVietnam.Controllers
             };
             return Json(searchResult, JsonRequestBehavior.AllowGet);
         }
+        [AllowAnonymous]
         public async Task<ActionResult> UsersSearch(string query)
         {
             var result = await UserManager.TextSearchUsers(query);
@@ -207,6 +211,7 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult> SearchUserMultipleQuery()
         {
             string userName = "";
@@ -250,6 +255,7 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult> SearchPostMultipleQuery()
         {
             string postTitle = "";

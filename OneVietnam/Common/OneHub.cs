@@ -65,7 +65,7 @@ namespace OneVietnam
             friend.Notifications.Add(notice.Id, notice);
             await UserManager.UpdateAsync(friend);
 
-        }
+        }        
         public override async Task OnConnected()
         {
             var userId = Context.User.Identity.GetUserId();
@@ -74,7 +74,7 @@ namespace OneVietnam
                 ConnectionId = Context.ConnectionId,
                 Connected = true,
                 UserAgent = Context.Request.Headers["User-Agent"]
-            };
+            };                        
             await UserManager.AddConnection(userId, conn);
             await base.OnConnected();
         }

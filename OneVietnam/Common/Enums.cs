@@ -2,7 +2,7 @@
 {
     public enum PostTypeEnum
     {
-        Administration=0,
+        Administration=10,
         Accommodation = 3,
         Job = 4,        
         Furniture = 5,
