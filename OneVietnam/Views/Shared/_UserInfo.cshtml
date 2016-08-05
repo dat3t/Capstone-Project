@@ -49,6 +49,30 @@
                     <i class="small icon mail" style="width:100%;text-align:left"> @Model.Email</i>
                 </a>
             </div>
+            <div>
+                <a class="item">
+                    
+                    @if (@Model.Gender.CompareTo(0) == 0)
+                    {
+                        <i class="small icon woman" style="width:100%;text-align:left">
+                            Nữ
+                        </i>
+                    }
+                    else if (@Model.Gender.CompareTo(0) == 1)
+                    {
+                        <i class="small icon man" style="width:100%;text-align:left">
+                            Nam
+                        </i>
+                    }
+                    else if (@Model.Gender.CompareTo(0) == 2)
+                    {
+                        <i class="small icon other gender" style="width:100%;text-align:left">
+                            Giới tính khác
+                        </i>
+                    }
+
+                </a>
+            </div>
             @*<div >
                     <a class="item">
                         <i class="small icon calendar" style="width:100%;text-align:left"> @($"{@Model.PublishDate:dd/MM/yyyy}")</i>
