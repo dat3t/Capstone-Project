@@ -194,6 +194,23 @@ namespace OneVietnam.DAL
                 throw new Exception(ex.Message);
             }
         }
+
+        public virtual async Task UpdateOneByFilterAsync(FilterDefinition<T> filter, UpdateDefinition<T> update)
+        {
+            try
+            {
+                await Collection.UpdateOneAsync(filter, update);
+            }
+            catch (MongoConnectionException ex)
+            {
+                throw new MongoConnectionException(ex.ConnectionId, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
+        }
         /// <summary>
         /// find all instances by basefilter and deletedflag
         /// </summary>
@@ -228,6 +245,7 @@ namespace OneVietnam.DAL
                 throw new Exception(ex.Message);
             }
         }
+        
         /// <summary>
         /// file all instance by basefilter and filter
         /// </summary>
@@ -262,6 +280,13 @@ namespace OneVietnam.DAL
                 throw new Exception(ex.Message);
             }
         }
+        /// <summary>
+        /// Find all item async by basefilter, filter and sortable
+        /// </summary>
+        /// <param name="baseFilter"></param>
+        /// <param name="filter"></param>
+        /// <param name="sort"></param>
+        /// <returns></returns>
         public virtual async Task<List<T>> FindAllAsync(BaseFilter baseFilter, FilterDefinition<T> filter, SortDefinition<T> sort )
         {
             try
@@ -290,8 +315,7 @@ namespace OneVietnam.DAL
             {
                 throw new Exception(ex.Message);
             }
-        }
-
+        }        
         public virtual async Task<List<T>> FindAllAsync(BaseFilter baseFilter)
         {
             
@@ -326,8 +350,7 @@ namespace OneVietnam.DAL
             {
                 return await Collection.Find(conFilter).Project(project).Sort(sort).ToListAsync().ConfigureAwait(false);
             }
-        }
-
+        }        
         public void Dispose()
         {            
         }

@@ -11,19 +11,17 @@ using System.Web.Script.Serialization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-
 using Microsoft.AspNet.SignalR;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using OneVietnam.BLL;
-using OneVietnam.Common;
 using OneVietnam.DTL;
 using OneVietnam.Models;
 using Facebook;
-using Microsoft.Owin.Security;
 
 namespace OneVietnam.Controllers
 {
+    [System.Web.Mvc.Authorize]
     public class NewsfeedController : Controller
     {
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
@@ -180,7 +178,7 @@ namespace OneVietnam.Controllers
             }
             return PartialView("_AdminPost", list);
         }
-        
+        [AllowAnonymous]
         public async Task<ActionResult> Index(int? pageNum)
         {            
             var tagList = await TagManager.FindAllAsync(false);
@@ -221,7 +219,11 @@ namespace OneVietnam.Controllers
             foreach (var post in posts)
             {
                 ApplicationUser user = await UserManager.FindByIdAsync(post.UserId);
-                list.Add(new PostViewModel(post, user.UserName, user.Avatar));
+                //don't load post of deleted user
+                if (user?.DeletedFlag == false && user?.LockedFlag==false)
+                {
+                    list.Add(new PostViewModel(post, user.UserName, user.Avatar));
+                }
             }
             ViewBag.Posts = list;
             return View();
@@ -231,10 +233,10 @@ namespace OneVietnam.Controllers
         /// </summary>
         /// <param name="pageNum"></param>
         /// <returns>List Post></returns>
-       
-        public async Task<ActionResult> ShowPost(string postId)
+        [AllowAnonymous]
+        public async Task<ActionResult> ShowPost(string Id)
         {
-            Post post = await PostManager.FindByIdAsync(postId);
+            Post post = await PostManager.FindByIdAsync(Id);
             if (post != null)
             {
                 ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
@@ -262,7 +264,7 @@ namespace OneVietnam.Controllers
             var filter = new BaseFilter { CurrentPage = pageNum };
             return await PostManager.FindAllAsync(filter);
         }
-
+        [AllowAnonymous]
         public async Task<ActionResult> _ShowPost(string postId)
         {
             //List<Post> list = await PostManager.FindByUserId(User.Identity.GetUserId());
@@ -280,7 +282,7 @@ namespace OneVietnam.Controllers
             }
             return PartialView();
         }
-
+        [AllowAnonymous]
         public async Task<ActionResult> ShowPostDetail(string postId)
         {
             var tagList = await TagManager.FindAllAsync(false);
@@ -308,12 +310,19 @@ namespace OneVietnam.Controllers
             return View();
         }
 
-        public async Task<dynamic> getCommentor(string commentid)
+        public JsonResult GetCommentor(string commentid)
         {     
-            var fb = new FacebookClient("EAAW9j1nWUtoBAMdZBJTMkLD3kctB5h96LQTD3IOEzSvCRtDs3QZB0wz0SfEv0FZC6qnM3tqOSWbgt08xdTZCxC5TzH5IoM4sopyoZCmJrZCsjO7l9g0ZAbs0vTGkQVjwx1IfXkt7mflD1K4CtGzZAxQk6eOLHLlENpDlir4PybkPoQZDZD");
-            dynamic userInfo = fb.Get(commentid);
-            string name = userInfo["from"]["name"];
-            return name;
+            var fb = new FacebookClient(Constants.accessTokenFacebook);
+            dynamic commentInfo = fb.Get(commentid);                                            
+            string id = commentInfo["from"]["id"];
+            dynamic userInfo = fb.Get(id+"?fields=picture");            
+            var commentor = new CommentorViewModel
+            {
+                Avatar = userInfo["picture"]["data"]["url"],
+                Username = commentInfo["from"]["name"]
+            };
+
+            return Json(commentor, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult ShowPostDetail(PostViewModel pPostView)

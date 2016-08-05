@@ -1,71 +1,43 @@
 ﻿@using Microsoft.AspNet.Identity
 @using OneVietnam.Models
 @model OneVietnam.Models.PostViewModel
-<div class="ui  raised  segment " style="width: 631px !important">
+<div class="ui  raised clearing  segment " style="width: 631px !important">
     <div class="header">
 
         <img class="ui mini avatar image" src="@Model.AvartarLink">
         <a href="@Url.Action("Index","Timeline",new {userID=@Model.UserId})">@Model.UserName</a>
 
-        <div class="right floated meta">
+        <div class="ui right floated button" style="background: white!important">
             @if (User.Identity.IsAuthenticated && (User.Identity.GetUserId() == Model.UserId))
             {
-                <i class="icon remove circle link" data-content="Xóa" style="float: right" onclick="document.location.href = '@Url.Action("DeletePost", "Newsfeed", new {postId = Model.Id})';"></i>
-                <i class="icon edit link" data-content="Sửa" style="float: right" onclick="document.location.href =
-    '@Url.Action("EditPost", "Newsfeed", new {postId = Model.Id})';"></i>
+                <i class="red large remove circle link icon" data-content="Xóa" style="float: right" onclick="document.location.href = '@Url.Action("DeletePost", "Newsfeed", new {postId = Model.Id})';"></i>
+                <i class="blue large write link icon" data-content="Sửa" style="float: right" onclick="document.location.href =
+    '@Url.Action("EditPost", "Newsfeed", new {postId = Model.Id})'"></i>
             }
             else
             {
-                <i class='icon announcement link' id="reportPost" data-content='Báo cáo' style='float: right'></i>
+                <i class='blue large announcement link icon' id="reportPost" data-content='Báo cáo' style='float: right'></i>
                 <div id="ShowReportPost">
-                    @Html.Partial("../Newsfeed/_Report", new ReportViewModal(Model.Id, Model.UserId));    
-                </div>                
+                    @Html.Partial("../Newsfeed/_Report", new ReportViewModal(Model.Id, Model.UserId))   
+                </div>
                 <script>
-                    $("#reportPost")
-                      .click(function () {
-                          $('.small.modal').modal({
-                              allowMultiple: false
-                          });
-                          $('.second.modal').modal('attach events', '.report.modal .green.button')
-                          ;
-                          $('.report.modal').modal('show');
-                      });
+                    $(".modal")
+                         .modal({
+                             allowMultiple: true
+                         });
+                    $('.second.modal').modal('attach events', '.report.modal .green.button');
+                    $('.report.modal').modal('attach events', '#reportPost');
+                    $(".green.button")
+                        .click(function () {
+                            $('.report.modal').modal('hide');                              
+                        });
                 </script>
             }
         </div>
 
         <div class="meta">
-                @{
-                    DateTime start = DateTime.Now;
-                    // Do some work
-                    TimeSpan timeDiff = DateTime.Now - @Model.CreatedDate;
-
-                }
-                @{
-
-                    if (timeDiff.TotalDays >= 30)
-                    {
-                        <span  style="color: grey; margin-left: 40px">  Tạo ngày @Model.CreatedDate.Date </span>
-                    }
-                    else if (timeDiff.TotalHours >= 24)
-                    {
-                        <span  style="color: grey; margin-left: 40px">@Math.Round(timeDiff.TotalDays) ngày trước </span>
-                    }
-                    else if (timeDiff.TotalMinutes >= 60)
-                    {
-                        <span style="color: grey; margin-left: 40px">@Math.Round(timeDiff.TotalHours) giờ trước </span>
-                    }
-                    else if (timeDiff.TotalSeconds >= 60)
-                    {
-                        <span style="color: grey; margin-left: 40px">@Math.Round(timeDiff.TotalMinutes) phút trước </span>
-                    }
-                    else
-                    {
-                        <span style="color: grey; margin-left: 40px">Vừa xong </span>
-                    }
-
-                }
-
+            <span style="color: grey; margin-left: 40px;font-size: 14px!important" > @Model.TimeInterval </span>
+              
          
 
         </div>
@@ -81,7 +53,7 @@
         <div class="image">
 
             @{
-                if (Model.Illustrations != null && Model.Illustrations.Count > 1)
+                if (Model.Illustrations != null && Model.Illustrations.Count >1)
                 {
 
                     <div class="carousel" data-flickity>
@@ -96,7 +68,7 @@
                     </div>
 
                 }
-                else if (Model.Illustrations != null)
+                else if (Model.Illustrations != null &&  Model.Illustrations.Count==1)
                 {
 
                     
@@ -117,10 +89,11 @@
             <div class="description" style="font-size: 18px">
                 @Model.Description
             </div>
+            <i class="world icon"></i>
+            <a class="item" onclick="location.href='@Url.Action("ShowMap", "Map", new { @Model.PostLocation.XCoordinate, @Model.PostLocation.YCoordinate, @Model.PostType,postId = @Model.Id})'">@Model.PostLocation.Address</a>
+
             <div class="extra content">
-                <i class="icon home"></i>
-                <a class="item" onclick="location.href='@Url.Action("ShowMap", "Map", new { @Model.PostLocation.XCoordinate, @Model.PostLocation.YCoordinate, @Model.PostType,postId = @Model.Id})'">@Model.PostLocation.Address</a>
-                @{
+                            @{
                     string url = "http://www.phimmoi.net/phim/nguoi-vo-tuyet-voi-3976/";
                     string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";
                 }
@@ -137,17 +110,21 @@
                     FB.Event.subscribe('comment.create',
                         function (response) {
                             onCommentCreate(response.commentID);
-                        });
-                
+                        });                    
                     function onCommentCreate(commentID) {
                         $.ajax({
                             type: 'GET',
-                            url: '/Newsfeed/getCommentor',
+                            url: '/Newsfeed/GetCommentor',
                             data: { commentid: commentID },
-                            success: function (result) {
-                                alert(result + "asdasd");
-//                                pushNotification("@Url.Action("ShowPost","Newsfeed",new {postId=Model.Id})", "@Model.Title", "@Model.UserId");
-
+                            success: function (commentor) {
+                                var comment= {
+                                    UserId: "@Model.UserId",
+                                    Commentor: commentor["Username"],
+                                    Url: "@Url.Action("ShowPost","Newsfeed", new { postId = Model.Id })",
+                                    Avatar: commentor["Avatar"],
+                                    Title : "@Model.Title"
+                                    }                    
+                                pushCommentNotification(comment);
                             }                            
                         });
                     }

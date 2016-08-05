@@ -1,8 +1,12 @@
 ﻿var noNotification = "Bạn không có thông báo nào";
-function pushNotification(url, title, id) {
-    $.connection.hub.start().done(function () {                
-        chat.server.pushNotification(url,title,id);        
+function pushCommentNotification(comment) {
+    $.connection.hub.start().done(function () {
+        chat.server.pushNotification(comment);
     });
+}
+function addNotification(notification) {
+    var controller = '';
+
 }
 $('#myNotifications').click(function () {
     $('#NotificationsNo').text('0');

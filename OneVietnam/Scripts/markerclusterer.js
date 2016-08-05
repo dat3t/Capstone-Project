@@ -1075,10 +1075,10 @@ ClusterIcon.prototype.triggerClusterClick = function (event) {
 
     if (markerClusterer.isZoomOnClick()) {
         // Zoom into the cluster.
-        //this.map_.fitBounds(this.cluster_.getBounds());
-        this.map_.setCenter(this.cluster_.getCenter()); // set map center to marker position
-        smoothZoom(this.map, 13, this.map.getZoom()); // call smoothZoom, parameters map, final zoomLevel, and starting zoom level
-        //this.map_.setZoom(markerClusterer.getMaxZoom() + 3);
+        this.map_.fitBounds(this.cluster_.getBounds());
+        //this.map_.setCenter(this.cluster_.getCenter()); // set map center to marker position
+        //smoothZoom(this.map, 13, this.map.getZoom()); // call smoothZoom, parameters map, final zoomLevel, and starting zoom level
+        this.map_.setZoom(markerClusterer.getMaxZoom() + 3);
     }
 };
 

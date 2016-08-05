@@ -281,17 +281,19 @@
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Common\utilities.cs" />
     <Compile Include="Controllers\TimelineController.cs" />
-    <Compile Include="DAL\AbstractStore.cs" />
+    <Compile Include="DAL\Abstract\AbstractStore.cs" />
     <Compile Include="DAL\PostStore.cs" />
     <Compile Include="DAL\ReportStore.cs" />
-    <Compile Include="DTL\BaseMongoDocument.cs" />
+    <Compile Include="DTL\BaseDTO\BaseMongoDocument.cs" />
     <Compile Include="DTL\ConnectionDTO.cs" />
     <Compile Include="DTL\MessageDTO.cs" />
     <Compile Include="DTL\Notification.cs" />
     <Compile Include="Models\AdministrationViewModel.cs" />
+    <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\ConversationModel.cs" />
     <Compile Include="Models\CreateIconModel.cs" />
     <Compile Include="Models\NotificationModel.cs" />
+    <Compile Include="Models\NotificationViewModel.cs" />
     <Compile Include="Models\PostInfoWindowModel.cs" />
     <Compile Include="Models\ReportViewModal.cs" />
     <Compile Include="Models\SearchModel.cs" />
@@ -349,7 +351,6 @@
     <Content Include="Content\CountryImage\kr.png" />
     <Content Include="Content\CountryImage\us.png" />
     <Content Include="Content\CountryImage\vi.png" />
-    <Content Include="Content\fine-uploader-gallery.min.css" />
     <Content Include="Content\flickity.css" />
     <Content Include="Content\icon.min.css" />
     <Content Include="Content\Icon\female.png" />
@@ -712,7 +713,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="DAL\Abstract\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

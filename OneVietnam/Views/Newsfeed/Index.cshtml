@@ -2,6 +2,9 @@
 @using OneVietnam.Models
 @using Microsoft.AspNet.Identity
 <script>
+    var isStamp = $("#isis").val();
+    alert(isStamp);
+    $("#stamp-button2").addClass("hides");
     (function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
@@ -77,44 +80,12 @@
 
             </div>
         </div>
-        @*    <div class="ui vertical menu right floated">*@
-        @*        <div class="item">*@
-        @*            <div class="ui input"><input type="text" placeholder="Search...">*@
-        @*            </div>*@
-        @*        </div>*@
-        @*        <div class="item">*@
-        @*            Home*@
-        @*            <div class="menu">*@
-        @*                <a class="active item">Search</a>*@
-        @*                @{*@
-        @*                    ((PostController)ViewContext.Controller)._CreatePost();*@
-        @*                }*@
-        @*                <a class="item write"  ><i class="write icon"></i>Write Post</a>*@
-        @*                <a class="item">Remove</a>*@
-        @*            </div>*@
-        @*        </div>*@
-        @*        <a class="browse item">*@
-        @*            <i class="grid layout icon"></i> Filter*@
-        @*        </a>*@
-        @**@
-        @*        <a class="item">*@
-        @*            Messages*@
-        @*        </a>*@
-        @*        <div class="ui dropdown item">*@
-        @*            More*@
-        @*            <i class="dropdown icon"></i>*@
-        @*            <div class="menu">*@
-        @*                <a class="item"><i class="edit icon"></i> Edit Profile</a>*@
-        @*                <a class="item"><i class="globe icon"></i> Choose Language</a>*@
-        @*                <a class="item"><i class="settings icon"></i> Account AppSettings.Settings</a>*@
-        @*            </div>*@
-        @*        </div>*@
-        @*    </div>*@
+       
 
 @if (User.Identity.IsAuthenticated )
 {
 
-        <div id="floating-button" class="stamp-button" data-toggle="tooltip" data-original-title="Create">
+        <div class="floating-button" id="stamp-button" data-toggle="tooltip" data-original-title="Create">
             <p class="plus"><i class="write icon"></i></p>
             <p class="edits"><i class="remove icon"></i></p>
         </div>
@@ -133,9 +104,8 @@
 
             </div>
 
-            <div id="forModal" class="ui basic modal" style="position: absolute !important; left: 80% !important; height: 1000px; width: 600px">
                
-            </div>
+           
 
 
 
@@ -146,8 +116,13 @@
 
 
     <div class="four wide column">
-        <div class="ui segment" id="forAdminPost" style="margin-right: 15px!important">
-      
+        <div class="ui segment"  style="margin-right: 15px!important">
+            <h3>
+                <div class="ui header">
+                    Từ người Quản trị
+                </div>
+            </h3>
+            <div id="forAdminPost"></div>
         </div>
         <a href="javascript:" id="return-to-top"><i class="chevron up icon"></i></a>
 
@@ -158,6 +133,7 @@
 @section scripts{
     <script src="~/Scripts/infiniteScroll.js"></script>
     <script type="text/javascript">
+        $("grids").isotope("layout");
         $.ajax({
             type: 'GET',
             url: '@Url.Action("_AdminPost","Newsfeed")',
