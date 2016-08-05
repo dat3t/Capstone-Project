@@ -176,14 +176,7 @@ namespace OneVietnam.BLL
             else
             {
                 var conn = user.Connections.FirstOrDefault(c => c.ConnectionId == connection.ConnectionId);
-                if (conn != null)
-                {
-                    conn.Connected = true;
-                }
-                else
-                {
-                    user.Connections.Add(connection);
-                }
+                if(conn==null) user.Connections.Add(connection);                
             }
             await _userStore.UpdateAsync(user).ConfigureAwait(false);
         }

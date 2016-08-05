@@ -420,7 +420,7 @@ namespace OneVietnam.Controllers
                         }                        
                         var location = new Location(xCoordinateExternal, yCoordinateExternal, locationExternal);
                         var user = new ApplicationUser { UserName = name, Email = email,Location = location,Gender = gender,Avatar = avatar,
-                            CreatedDate = DateTimeOffset.UtcNow,Cover ="~/Content/Images/Cover_default.jpg" };
+                            CreatedDate = DateTimeOffset.UtcNow,Cover =Constants.DefaultCoverLink };
                         //Add to database
                         var result2 = await UserManager.CreateAsync(user);
                         if (result2.Succeeded)
@@ -445,14 +445,10 @@ namespace OneVietnam.Controllers
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> LogOff()
-        {
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<OneHub>();            
-            foreach (var con in user.Connections)
-            {
-                hub.Clients.Client(con.ConnectionId).logOff();
-            }
+        public ActionResult LogOff()
+        {            
+            IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<OneHub>();
+            hub.Clients.User(User.Identity.GetUserId()).logOff();
             AuthenticationManager.SignOut();                               
             return RedirectToAction("Index", "Home");
         }
