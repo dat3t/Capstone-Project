@@ -200,7 +200,7 @@ namespace OneVietnam.Controllers
             {
                 Description = user.Email,
                 Title = user.UserName,
-                Url = Url.Action("Index","Timeline",new {userId=user.Id})
+                Url = Url.Action("Index","Timeline",new {Id=user.Id})
             }).ToList();
             var searchResult = new SearchResultModel
             {
