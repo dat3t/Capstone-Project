@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
+@using OneVietnam.Common
 @using OneVietnam.DTL
 
 @model OneVietnam.Models.CreatePostViewModel
@@ -64,7 +65,7 @@
                     <div class="field">
                         <h2 class="ui medium header" style="margin-bottom: 0">* Tiêu đề</h2>
                         <div class="ui input  focus">
-                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { placeholder = "Nhâp tiêu đề..." } })
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { placeholder = "Nhâp tiêu đề...", tabindex ="11" } })
                         </div>
                     </div>
 
@@ -73,7 +74,7 @@
                         <!-- Post Type -->
                         <div class="field">
                             <label>* Loại bài đăng</label>
-                            <div class="ui  selection dropdown" id="drPostType">
+                            <div class="ui  selection dropdown"  tabindex="12"  id="drPostType">
                                 @{
                                     if (postTypes != null && postTypes.Count > 0)
                                     {
@@ -81,22 +82,16 @@
                                         <i class="dropdown icon"></i>
                                         <div class="text">@postTypes[0].IconText</div>
                                         <div class="menu">
-                                            @{
-                                                int typeCount;
-                                                if (User.IsInRole(CustomRoles.Admin) || User.IsInRole(CustomRoles.Mod))
+                                            @foreach (Icon icon in postTypes)
+                                            {
+                                                if (!User.IsInRole(CustomRoles.Admin.ToString()) && !User.IsInRole(CustomRoles.Mod.ToString()) && icon.IconValue == (int) PostTypeEnum.AdminPost)
                                                 {
-                                                    typeCount = postTypes.Count;
-                                                }
-                                                else
-                                                {
-                                                    typeCount = postTypes.Count-1;
-                                                }
-                                                for (int i = 0; i < typeCount; i++)
-                                                {
-                                                    <div class="item" data-value="@postTypes[i].IconValue">
-                                                        @postTypes[i].IconText
-                                                    </div>
-                                                }
+                                                    continue;
+                                                }                                                
+                                                <div class="item" data-value="@icon.IconValue">
+                                                    @icon.IconText
+                                                </div>
+                                            }
                                             }                                            
                                         </div>
                                     }
@@ -109,8 +104,8 @@
                             <label>Thẻ liên quan</label>
                             <div class="ui fluid multiple search selection dropdown">
                                 <input name="TagsInput" id="TagsInput" type="hidden" value="">
-                                <input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">Chọn hoặc thêm thẻ mới</div>
-                                <div class="menu transition hidden" tabindex="-1">
+                                <input class="search" type="text" id="txtSearchTag"  tabindex="13" autocomplete="off"><span class="sizer"></span><div class="default text">Chọn hoặc thêm thẻ mới</div>
+                                <div class="menu transition hidden">
 
                                     @{
                                         if (tagList != null)
@@ -132,13 +127,13 @@
                     <!-- Description -->
                     <div class="field">
                         <label>* Mô tả </label>
-                    @Html.TextAreaFor(model => model.Description, new { placeholder = "Thêm mô tả cho bài đăng", rows = "4" })
+                    @Html.TextAreaFor(model => model.Description, new { placeholder = "Thêm mô tả cho bài đăng", rows = "4", tabindex="14" })
                     </div>
 
                     <!-- Post Location -->
                     <div class="field">
                         <label>* Địa chỉ liên hệ</label>
-                        <div class="ui floating labeled icon dropdown button" id="locationDr" style="float: left">
+                        <div class="ui floating labeled icon dropdown button"  tabindex="15" id="locationDr" style="float: left">
                             <i class="blue world icon"></i>
                             <span class="text"> Địa chỉ nhà của bạn</span>
                             <div class="menu">
@@ -163,14 +158,14 @@
                             </div>
                         </div>
 
-                    @Html.EditorFor(model => model.PostLocation.Address, new { htmlAttributes = new { placeholder = "Địa chỉ của bạn" } })
+                    @Html.EditorFor(model => model.PostLocation.Address, new { htmlAttributes = new { placeholder = "Địa chỉ của bạn", tabindex="16" } })
                     @Html.EditorFor(model => model.PostLocation.XCoordinate, new { htmlAttributes = new { style = "display: none" } })
                     @Html.EditorFor(model => model.PostLocation.YCoordinate, new { htmlAttributes = new { style = "display: none" } })
 
                     </div>
 
                     <!-- Illustration -->
-                    <i class="large inverted blue camera icon"></i>Thêm ảnh
+                    <i class="large inverted blue camera icon" tabindex="17"></i>Thêm ảnh
                     <div class="field">
 @*                        <div id="filediv">*@
 @*                            <input type="file" id="file" name="files[]" multiple="multiple" accept="image/*" title="Select Images To Be Uploaded">*@
@@ -277,8 +272,8 @@
 
                     <!-- Button Create and Cancel -->
                     <div class="field" style="text-align: center">
-                    <input id="btnCancel" type="button" value="Hủy" class="ui cancel button" onclick="resetForm()" />
-                    <input id="btnCreate" type="submit" tabindex="6" onclick="submitCreatePost()" value="Đăng bài" name="createpost" class="ui teal button" />
+                    <input id="btnCancel" type="button" tabindex="18" value="Hủy" class="ui cancel button" onclick="resetForm()" />
+                    <input id="btnCreate" type="submit" tabindex="19" onclick="submitCreatePost()" value="Đăng bài" name="createpost" class="ui teal button" />
                         <script>
                             function resetForm() {
                                 $('.stamp-button').click();
