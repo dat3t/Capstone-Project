@@ -25,7 +25,8 @@ namespace OneVietnam.Controllers
     public class NewsfeedController : Controller
     {
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
-
+       private static CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
+      private  CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
 
         public static bool CreatedPost = false;
         public static PostViewModel PostView;        
@@ -357,8 +358,7 @@ namespace OneVietnam.Controllers
         [System.Web.Mvc.Authorize]        
         public async Task<ActionResult> EditPost(string postId)
         {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
-            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+           
             CloudBlobContainer blobContainer = blobClient.GetContainerReference(postId);
             await blobContainer.CreateIfNotExistsAsync();
 
@@ -392,19 +392,44 @@ namespace OneVietnam.Controllers
         {                                                
             ViewData.Clear();
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
-            var illList = await PostManager.GetIllustration(_illustrationList, pPostView.Id);
             if (tagList != null)
             {
                 pPostView.Tags = tagList;
             }
+            CloudBlobContainer blobContainer = blobClient.GetContainerReference(pPostView.Id);
 
+            List<Illustration> illList=new List<Illustration>();
+         
+            _illustrationList = (HttpFileCollectionBase)Session["Illustrations"];
+            if (_illustrationList.Count > 0) { 
+                for (int i = 0; i < _illustrationList.Count; i++)
+            {
+
+                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(GetRandomBlobName(_illustrationList[i].FileName));
+                await blob.UploadFromStreamAsync(_illustrationList[i].InputStream);
+
+            }
+                
+            }
+            var blobList = blobContainer.ListBlobs();
+            illList = new List<Illustration>();
+            foreach (var blob in blobList)
+            {
+                Illustration newIll = new Illustration(blob.Uri.ToString());
+                illList.Add(newIll);
+            }
             if (illList != null)
             {
                 pPostView.Illustrations = illList;
             }
             Post post = new Post(pPostView);           
             await PostManager.UpdateAsync(post);
-            return RedirectToAction("ShowPostDetail", "Newsfeed", new { postId = pPostView.Id });
+            return RedirectToAction("ShowPost", "Newsfeed", new { pPostView.Id });
+        }
+        private string GetRandomBlobName(string filename)
+        {
+            string ext = Path.GetExtension(filename);
+            return string.Format("{0:10}_{1}{2}", DateTime.Now.Ticks, Guid.NewGuid(), ext);
         }
 
         [HttpPost]

@@ -2,7 +2,28 @@
 @using OneVietnam.Models
 @using Microsoft.AspNet.Identity
 <script>
-    $("#stamp-button2").addClass("hides");
+    var query = window.location.search.substring(1);
+    $(document)
+        .ready(function() {
+            if (query === 'ShowPost') {
+//                $("#CreatePostForm").data('validator').resetForm();
+//                $(".validation-summary-errors ul li").remove();
+                $(".validation-summary-errors").addClass('validation-summary-valid').removeClass('validation-summary-errors');
+                $(".stamp").toggleClass("hides");
+                $(".edits").toggleClass("edits-cl");
+                $(".plus").toggleClass("plus-cl");
+                // stamp or unstamp element
+
+                // trigger layout
+//                $grid.isotope('layout');
+//                // set flag
+//                isStamped = !isStamped;
+
+            }
+        });
+
+
+
     (function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;

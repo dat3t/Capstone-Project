@@ -810,7 +810,19 @@ function getPostInfo(postID) {
 
                 $("#postModal").html(result);
 
-                $("#postModal").modal('show');
+                $('#postModal').modal({
+                    inverted: true
+                }).modal({
+                    duration: 200,
+                    onHide: function () {
+                        history.back();
+                    }
+                }).modal('show')
+                ;
+                var $carousel = $('.carousel').flickity({
+                    imagesLoaded: true,
+                    percentPosition: false
+                });
                 history.pushState("../Newsfeed", null, "../Newsfeed/ShowPost?postId=" + postID);
                 $('.carousel').flickity({
                     // options
