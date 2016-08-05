@@ -120,7 +120,7 @@
                                 var comment= {
                                     UserId: "@Model.UserId",
                                     Commentor: commentor["Username"],
-                                    Url: "@Url.Action("ShowPost","Newsfeed", new { postId = Model.Id })",
+                                    Url: "@Url.Action("ShowPost","Newsfeed", new { Id = Model.Id })",
                                     Avatar: commentor["Avatar"],
                                     Title : "@Model.Title"
                                     }                    
