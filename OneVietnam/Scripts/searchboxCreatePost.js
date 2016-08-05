@@ -1,7 +1,7 @@
 ﻿function getAddressFromSearchBox() {
     // Create the search box and link it to the UI element.
     var input1 = document.getElementById("search-location");
-    if(input1 !=null && isAuthenticated == true){
+    if(input1 !=null ){
         var searchBox1 = new google.maps.places.SearchBox(input1);
 
         searchBox1.addListener('places_changed', function () {
@@ -30,41 +30,6 @@
             });
         });
     }
-  
-
-    var input2 = document.getElementById("search-location2");
-    if (input2 != null && isAuthenticated == true) {
-        var searchBox2 = new google.maps.places.SearchBox(input2);
-
-        searchBox2.addListener('places_changed', function () {
-            var places = searchBox2.getPlaces();
-            if (places.length == 0) {
-                return;
-            }
-
-            // For each place, get the icon, name and location.
-            places.forEach(function (place) {
-                var address = '';
-                if (place.address_components) {
-                    address = [
-                     (place.address_components[0] && place.address_components[0].short_name || ''),
-                      (place.address_components[1] && place.address_components[1].short_name || ''),
-                      (place.address_components[2] && place.address_components[2].short_name || ''),
-                      (place.address_components[3] && place.address_components[3].short_name || ''),
-                      (place.address_components[4] && place.address_components[4].short_name || ''),
-                      (place.address_components[5] && place.address_components[5].short_name || ''),
-                      (place.address_components[6] && place.address_components[6].short_name || '')
-                    ].join(' ');
-                }
-                document.getElementById("Address_Edit").value = address;
-                document.getElementById("XCoordinate_Edit").value = place.geometry.location.lat();
-                document.getElementById("YCoordinate_Edit").value = place.geometry.location.lng();
-            });
-        });
-    }
-
-
-
 }
 
 function getCurrentLocation() {
@@ -88,14 +53,6 @@ function getCurrentLocation() {
                         document.getElementById("PostLocation_YCoordinate").value = pos.lng;
                     }
                  
-                    var address_edit = document.getElementById("Address_Edit");
-                    if (address_edit != null) {
-                        document.getElementById("Address_Edit").value = detailedLocation;
-                        document.getElementById("XCoordinate_Edit").value = pos.lat;
-                        document.getElementById("YCoordinate_Edit").value = pos.lng;
-
-                    };
-
                 } else {
                 }
             })
@@ -133,13 +90,15 @@ function getRegisteredLocation(id) {
     });        
 }
 
-function setRegisteredLocation(x,y,address) {
+function setRegisteredLocation(x, y, address) {
    // document.getElementById("Address_Edit").value = address;
-    document.getElementById("XCoordinate_Edit").value = x;
-    document.getElementById("YCoordinate_Edit").value = y;
+    document.getElementById("PostLocation_Address").value = address;
+    document.getElementById("PostLocation_XCoordinate").value = x;
+    document.getElementById("PostLocation_YCoordinate").value = y;
 }
 
 $("#getloc").click();
+
 google.maps.event.addDomListener(window, 'load', getAddressFromSearchBox);
 
 

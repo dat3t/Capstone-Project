@@ -8,6 +8,7 @@
     List<Icon> postTypes = ViewData["PostTypes"] as List<Icon>;
     List<Uri> blobs = ViewData["Blobs"] as List<Uri>;
 }
+<script src="~/Scripts/searchboxCreatePost.js" type="text/javascript"></script>
 
 <div class="ui grid">
     <div class="three wide column"></div>
@@ -18,23 +19,6 @@
 
             if (Model != null && (Model.DeletedFlag == false) && (Model.LockedFlag == false))
             {
-                if (Request.IsAuthenticated)
-                {
-                    <script>
-                    //isAuthenticated = true;
-
-                    $.ajax({
-                        url: '/Map/GetUserInfo?userId=' + "@User.Identity.GetUserId()",
-                        type: 'GET',
-                        contentType: 'application/json;',
-                        dataType: 'json',
-                        success: function (json) {
-                            authenticatedUser = { x: json.Location.XCoordinate, y: json.Location.YCoordinate, address: json.Location.Address };
-                        }
-                    });
-                    </script>
-                }
-          
                 <div class="ui segment">
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(false)
@@ -163,9 +147,9 @@
                         <label>* Địa chỉ liên hệ</label>
                         <div class="ui floating labeled icon dropdown button" tabindex="15" id="locationDr" style="float: left">
                             <i class="blue world icon"></i>
-                            <span class="text"> Địa chỉ nhà của bạn</span>
+                            <span class="text"> Địa chỉ bài đăng của bạn</span>
                             <div class="menu">
-                                <div class="item"  id="getloc">
+                                <div class="item"  id="getloc" onclick="setRegisteredLocation(@Model.PostLocation.XCoordinate, @Model.PostLocation.YCoordinate, '@Model.PostLocation.Address');">
                                     <div class="ui red empty circular label"></div>
                                     Địa chỉ nhà của bạn
                                 </div>
