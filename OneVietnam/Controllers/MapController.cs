@@ -12,7 +12,8 @@ using System.Web.Mvc;
 using MongoDB.Driver;
 
 namespace OneVietnam.Controllers
-{    
+{
+    [Authorize]
     public class MapController : Controller
     {
 
@@ -88,6 +89,8 @@ namespace OneVietnam.Controllers
             ViewBag.topPostModel = await GetTopPostInfo().ConfigureAwait(false);
             return View(list);
         }
+
+        [AllowAnonymous]
         public async Task<List<PostInfoWindowModel>> GetTopPostInfo()
         {
             var baseFilter = new BaseFilter { Limit = Constants.LimitedNumberOfPost };
@@ -113,6 +116,7 @@ namespace OneVietnam.Controllers
         }
 
         //[HttpPost] // can be HttpGet
+        [AllowAnonymous]
         public async Task<ActionResult> GetUserInfo(string userId)
         {
             var user = await UserManager.FindByIdAsync(userId).ConfigureAwait(false);
@@ -120,11 +124,13 @@ namespace OneVietnam.Controllers
 
         }
 
+        [AllowAnonymous]
         public async Task<JsonResult> GetUserLocation(string userId)
         {
             var user = await UserManager.FindByIdAsync(userId);
             return Json(user.Location ?? null, JsonRequestBehavior.AllowGet);
         }
+        [AllowAnonymous]
         public async Task<ActionResult> GetPostPartialView(string postId)
         {
             var post = await PostManager.FindByIdAsync(postId).ConfigureAwait(false);
@@ -143,6 +149,7 @@ namespace OneVietnam.Controllers
             return PartialView("../Newsfeed/_ShowPost", result);
         }
 
+        [AllowAnonymous]
         public async Task<ActionResult> GetUserPartialView(string userId)
         {
             var user = await UserManager.FindByIdAsync(userId).ConfigureAwait(false);
@@ -150,6 +157,7 @@ namespace OneVietnam.Controllers
             return PartialView("_UserInfo", result);
         }
 
+        [AllowAnonymous]
         public async Task<ActionResult> GetMorePost(int? pageNum)
         {
             var baseFilter = new BaseFilter { Limit = Constants.LimitedNumberOfPost, ItemsPerPage = 5, CurrentPage = pageNum.Value };
