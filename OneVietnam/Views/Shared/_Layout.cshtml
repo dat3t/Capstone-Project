@@ -16,16 +16,16 @@
 
     <div class="ui grid">
         <div class="computer only row">
-            <div class="ui main menu" style="background: rgba(2, 35, 20, 0.7)">
+            <div class="ui main menu mainMenu">
                 <a href="@Url.Action("Index", "Home")" class="ui active item button">
                     <img class="ui mini image" src="~/Content/Images/Logo.png" />
-                    <span style="color: white">One Vietnam</span>
+                    <span >One Vietnam</span>
                 </a>
-                @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item", @style = "color: white" })
-                @Html.ActionLink("Bảng Tin", "Index", "Newsfeed", routeValues: null, htmlAttributes: new { @class = "ui item", @style = "color: white" })
+                @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item" })
+                @Html.ActionLink("Bảng Tin", "Index", "Newsfeed", routeValues: null, htmlAttributes: new { @class = "ui item"})
                 @if (Request.IsAuthenticated && (User.IsInRole(CustomRoles.Admin) || User.IsInRole(CustomRoles.Mod)))
                 {
-                    @Html.ActionLink("Quản Trị", "Index", "Administration", routeValues: null, htmlAttributes: new { @class = "ui item", @style = "color: white" })
+                    @Html.ActionLink("Quản Trị", "Index", "Administration", routeValues: null, htmlAttributes: new { @class = "ui item" })
                 }
                 <div class="right menu">
                     <div class="item">
