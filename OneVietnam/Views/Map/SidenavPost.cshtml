@@ -38,7 +38,23 @@
 
             </div>
             <div id="sectionInfo2" style="position:absolute;margin-left:120px;margin-top:0px !important;">
-                <div style="margin-top:3px;" title="@post.Title"><b>@post.Title</b></div>
+                <div style="margin-top:3px;" title="@post.Title">
+                <b>
+                    @try
+                    {
+                        if (@post.Title.Length > 30)
+                        {
+                            @post.Title.Substring(0, 25);
+                        }
+                        else
+                        {
+                            @post.Title
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                    }
+                    </b></div>
                 <div style="margin-left:3px;text-align:left!important;font-size:20px;">
                     <a   class="item" title="@post.Address">
                         <i class="small icon marker" style="width:100%;text-align:left">
