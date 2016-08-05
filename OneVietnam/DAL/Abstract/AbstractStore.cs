@@ -208,8 +208,7 @@ namespace OneVietnam.DAL
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }
-            
+            }            
         }
         /// <summary>
         /// find all instances by basefilter and deletedflag

@@ -72,7 +72,18 @@ function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
         });
     }
 }
-
+function smoothZoom(map, max, cnt) {
+    if (cnt >= max) {
+        return;
+    }
+    else {
+        z = google.maps.event.addListener(this.map, 'zoom_changed', function (event) {
+            google.maps.event.removeListener(z);
+            smoothZoom(this.map, max, cnt + 1);
+        });
+        setTimeout(function () { this.map.setZoom(cnt) }, 100); // 80ms is what I found to work well on my system -- it might not work well on all systems
+    }
+}
 function showNoMoreRecords() {
     hasReachedEndOfInfiniteScroll = true;
 }

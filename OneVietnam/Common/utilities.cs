@@ -12,7 +12,7 @@ namespace OneVietnam
             if (string.IsNullOrEmpty(value)) return value;
             return value.Length <= maxLength ? value : value.Substring(0, maxLength)+"...";
         }
-        public static string getTimeInterval(DateTimeOffset createdDate)
+        public static string GetTimeInterval(DateTimeOffset createdDate)
         {
             DateTime start = DateTime.Now;
             // Do some work

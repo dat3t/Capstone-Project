@@ -679,7 +679,7 @@
     <Content Include="Views\Newsfeed\_ShowPostDetail.cshtml" />
     <Content Include="Views\Shared\_CreatePost.cshtml" />
     <Content Include="Views\Newsfeed\_Report.cshtml" />
-    <Content Include="Views\Map\SidenavPost.cshtml" />
+    <Content Include="Views\Map\_SidenavPost.cshtml" />
     <Content Include="Views\Map\UserAndPostInfo.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
     <Content Include="Views\Shared\_UserInfo.cshtml" />

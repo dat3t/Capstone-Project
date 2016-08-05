@@ -1,4 +1,6 @@
-﻿@model OneVietnam.Models.UserViewModel
+﻿@using System.Security.Claims
+@using Microsoft.AspNet.Identity
+@model OneVietnam.Models.UserViewModel
 
 <div class="header" style="cursor:pointer;" onclick="location.href = '@Url.Action("Index", "Timeline", new { Id = @Model.UserId })'">
     <div>
@@ -28,7 +30,6 @@
                         {
                             @Model.Location.Address
                         }
-                        ...
                     </i>
                 </a>
 
@@ -48,6 +49,30 @@
                     <i class="small icon mail" style="width:100%;text-align:left"> @Model.Email</i>
                 </a>
             </div>
+            <div>
+                <a class="item">
+                    
+                    @if (@Model.Gender.CompareTo(0) == 0)
+                    {
+                        <i class="small icon woman" style="width:100%;text-align:left">
+                            Nữ
+                        </i>
+                    }
+                    else if (@Model.Gender.CompareTo(0) == 1)
+                    {
+                        <i class="small icon man" style="width:100%;text-align:left">
+                            Nam
+                        </i>
+                    }
+                    else if (@Model.Gender.CompareTo(0) == 2)
+                    {
+                        <i class="small icon other gender" style="width:100%;text-align:left">
+                            Giới tính khác
+                        </i>
+                    }
+
+                </a>
+            </div>
             @*<div >
                     <a class="item">
                         <i class="small icon calendar" style="width:100%;text-align:left"> @($"{@Model.PublishDate:dd/MM/yyyy}")</i>
@@ -57,9 +82,13 @@
             @*<div class="ui blue right talk outline icon button" style="position:absolute !important; right:0px !important;">
                     Trò chuyện
                 </div>*@
-            <a class="item">
-                <i class="big comments outline icon" style="position:absolute !important; right:0px !important;bottom:0px !important;" title="Trò chuyện"></i>
-            </a>
+            @if (Model.UserId.CompareTo(User.Identity.GetUserId()) == 0)
+            {
+                <a class="item">
+                    <i class="big comments outline icon" style="position:absolute !important; right:0px !important;bottom:0px !important;" title="Trò chuyện"></i>
+                </a>
+            }
+            
         </div>
     </div>
 

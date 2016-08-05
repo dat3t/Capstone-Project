@@ -22,13 +22,13 @@ namespace OneVietnam.BLL
         public async Task<List<Icon>> GetIconGender()
         {
             var list = await Store.FindAllAsync();
-            return list?.Where(icon => string.Equals(icon.IconType, Constants.IconTypeGender)).ToList();
+            return list?.Where(icon => string.Equals(icon.IconType, Constants.IconTypeGender) && !icon.DeletedFlag).ToList();
         }
 
         public async Task<List<Icon>> GetIconPostAsync()
         {
             var list = await Store.FindAllAsync();
-            return list?.Where(icon => string.Equals(icon.IconType, Constants.IconTypePost)).ToList();
+            return list?.Where(icon => string.Equals(icon.IconType, Constants.IconTypePost) && !icon.DeletedFlag).ToList();
         }
         public IconManager(AbstractStore<Icon> store) : base(store)
         {

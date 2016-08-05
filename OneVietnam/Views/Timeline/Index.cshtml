@@ -5,7 +5,9 @@
     ViewBag.Title = "Index";
 }
 
-
+<script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
 
 @if (Model != null && !Model.LockedFlag)
 {
@@ -31,15 +33,17 @@
     <script src="~/Scripts/timeline.js"></script>
     <div class="containers">
 
+        <!--Avatar link-->
         <a href="#"><img src="@Model.AvatarLink" alt="cover" class="cover" /></a>
         @if (Model.Id.Equals(User.Identity.GetUserId()))
         {
+            <!--Change Avatar-->
             <i class="large inverted grey camera icon edit-avatar"></i>
             <div id="avatarUpload" class="hides">
                 @using (Html.BeginForm("ChangeAvatar", "Timeline", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "uploader" }))
                 {
-                    <input type="file" id="fileInput" name="fileInput" onchange="submitAvatar()" />
-                    <input type="submit" id="btnUpload" name="btnUpload" />
+                <input type="file" id="fileInput" name="fileInput" onchange="submitAvatar()" />
+                <input type="submit" id="btnUpload" name="btnUpload" />
                 }
             </div>
             <script>
@@ -52,19 +56,20 @@
                 }
             </script>
 
+            <!--Change Cover-->
             <i class="large inverted grey edit icon edit-cover"></i>
             <div id="coverUpload" class="hides">
                 @using (Html.BeginForm("ChangeCover", "Timeline", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "uploads" }))
                 {
-                    <input type="file" id="fileInputs" name="fileInput" onchange="submitCover()" />
-                    <input type="submit" id="btnUploads" name="btnUploads" />
+                <input type="file" id="fileInputs" name="fileInput" onchange="submitCover()" />
+                <input type="submit" id="btnUploads" name="btnUploads" />
                 }
             </div>
             <script>
-               
+
                 $(".edit.icon")
                     .click(function() {
-                       
+
                         $("#fileInputs").trigger('click');
                     });
                 function submitCover() {
@@ -74,8 +79,10 @@
             </script>
 
         }
+        <!--Cover link-->
         <div class="hero" style="background: url(@Model.CoverLink); background-repeat: no-repeat; background-position: center center;background-size: cover">
 
+            <!--User name-->
             <div class="details">
 
                 <div class="title1" id="lblTimeLineUserName">@Model.UserName</div>
@@ -94,7 +101,7 @@
             </div> <!-- end column1 -->
 
             <div class="nine wide column">
-                <div class="forModal" class="ui basic modal" style="position: absolute !important; left: 80% !important; height: 1000px; width: 600px">
+                <div class="forModal ui basic modal" style="position: absolute !important; left: 80% !important; height: 1000px; width: 600px">
 
                 </div>
 
@@ -130,6 +137,7 @@
                 </div>
 
                 <div class="ui tab active" data-tab="timeline">
+                    <!--Filter posts-->
                     <div class="ui inline dropdown filter-post">
                         <div class="text">
                             <div class="ui blue empty circular label"></div>
@@ -168,6 +176,7 @@
                         </div>
                     </div>
                     <p> </p>
+                    
                     @{
                         if (Model.PostList != null && Model.PostList.Count > 0)
                         {
@@ -183,7 +192,7 @@
                                     }
                                 </div>
                             </div>
-                                    }
+                        }
                     }
                 </div>
                 <div class="ui tab" data-tab="profile" id="mapTab">
@@ -197,7 +206,7 @@
                 {
                     <div class="ui tab" data-tab="setting">
                         <div class="ui segment">
-                            <div class="ui middle aligned selection list">                                
+                            <div class="ui middle aligned selection list">
                                 @{
                                     string value = "Tắt";
                                     if (Model.Setting.TwoFacterEnabled == false)
@@ -207,10 +216,10 @@
                                 }
                                 <div class="ui item" style="width: 100%; padding: 0">
                                     <div class="ui negative message transition hidden">
-                                        <i class="close icon"></i>                                        
+                                        <i class="close icon"></i>
                                         <p>Cần thêm số điện thoại đê bât bảo mât hai lớp</p>
                                     </div>
-                                    
+
                                     <div class="ui horizontal list" style="width: 100%; padding: 0">
                                         <div class="ui item">
                                             <div class="ui medium header">
@@ -222,7 +231,7 @@
                                             </div>
                                         </div>
                                         <div class="ui right floated item">
-                                            <button class="ui toggle button" onclick="changeTwoFactorAuthentication()">@value</button>
+                                            <button class="ui toggle button" onclick="changeTwoFactorAuthentication('@Url.Action("ChangeTwoFactorAuthentication", "Timeline")')">@value</button>
                                         </div>
                                     </div>
 
@@ -252,11 +261,11 @@
                                         <div class="ui right floated middle aligned item">
                                             @if (Model.Setting.HasPassWord)
                                             {
-                                                <input type="button" class="ui right floated teal button" id="btnChangePass" value="Đổi" onclick="showChangePasswordForm()" />
+                                                <input type="button" class="ui right floated teal button" id="btnChangePass" value="Đổi" onclick="showChangePasswordForm('@Url.Action("ChangePassword","Timeline")')" />
                                             }
                                             else
                                             {
-                                                <input type="button" class="ui right floated teal button" id="btnChangePass" value="Thêm" onclick="showSetPasswordForm()" />
+                                                <input type="button" class="ui right floated teal button" id="btnChangePass" value="Thêm" onclick="showSetPasswordForm('@Url.Action("SetPassword","Timeline")')" />
                                             }
 
                                         </div>
