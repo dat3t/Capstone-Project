@@ -276,7 +276,7 @@ namespace OneVietnam.Controllers
                     AddErrors(result);
                 }
             }
-            return RedirectToAction("Index", "Timeline", new { userId = User.Identity.GetUserId() });
+            return RedirectToAction("Index", "Timeline", new { Id = User.Identity.GetUserId() });
 
         }
 
@@ -311,7 +311,7 @@ namespace OneVietnam.Controllers
                     AddErrors(result);
                 }
             }
-            return RedirectToAction("Index", "Timeline", new { userId = User.Identity.GetUserId() });
+            return RedirectToAction("Index", "Timeline", new { Id = User.Identity.GetUserId() });
 
         }
 
