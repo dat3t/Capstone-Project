@@ -36,7 +36,6 @@ namespace OneVietnam
                 "~/Content/Map/mappagecustom.css",
                  "~/Content/Map/scrollbar.css"));
             bundles.Add(new StyleBundle("~/Scripts/Map").Include(
-                "~/Scripts/map.js",
                 "~/Scripts/markerclusterer.js",
                 "~/Scripts/searchboxCreatePost"
                 ));
