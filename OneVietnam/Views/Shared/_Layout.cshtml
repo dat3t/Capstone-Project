@@ -100,6 +100,10 @@
         </div>
     </div>
     <div class="ui fluid container" style="height: 90%;" id="bodypage">
+    <div class="floating-button" id="stamp-button2" data-toggle="tooltip" data-original-title="Create">
+        <p class="plus"><i class="write icon"></i></p>
+        <p class="edits"><i class="remove icon"></i></p>
+    </div>
         <div id="forModal" class="ui basic modal coupled" style="position: absolute !important; left: 80% !important; height: 1000px; width: 600px">
 
         </div>
@@ -112,16 +116,16 @@
             <script type="text/javascript" src="~/Scripts/Notification.js"></script>
             <script>
                 var chat;
-                $(function () {
+            $(function() {
                     // Reference the auto-generated proxy for the hub.
                     if (typeof (chat) === "undefined") {
                         chat = $.connection.oneHub;
                     }
-                    chat.client.logOff = function () {
+                chat.client.logOff = function() {
                         $.connection.hub.stop();
                     }
                     //Create a function that the hub can call back to display messages.
-                    chat.client.addChatMessage = function (id, name, message, avatar) {
+                chat.client.addChatMessage = function(id, name, message, avatar) {
                         register_popup(id, name, avatar);
                         // Add the message to the page.
                         $("#" + id + "Conversation")
@@ -129,7 +133,7 @@
                         $("#" + id + "Conversation").scrollTop(document.getElementById(id + "Conversation").scrollHeight);
 
                     };
-                    chat.client.pushNotification = function () {
+                chat.client.pushNotification = function() {
                         if ($('#NotificationsNo').text() == '') {
                             $('#NotificationsNo').show();
                             $('#NotificationsNo').text('1');
@@ -144,10 +148,10 @@
                     //}
                     // Start the connection.
                     $.connection.hub.start()
-                        .done(function () {
+                    .done(function() {
                         });
                 });
-                $(function () {
+            $(function() {
                     var controller = "/Home/GetMessageNo";
                     var data = {
                         id: '@User.Identity.GetUserId()'
@@ -156,7 +160,7 @@
                         type: 'POST',
                         url: controller,
                         data: data,
-                        success: function (data, textstatus) {
+                    success: function(data, textstatus) {
                             if (data == '') {
                                 $('#MessageNotification').text('');
                                 $('#MessageNotification').hide();
@@ -167,12 +171,12 @@
                         }
                     });
                 });
-                $(function () {
+            $(function() {
                     var controller = "/Home/GetNotificationsNo";
                     $.ajax({
                         type: 'POST',
                         url: controller,
-                        success: function (data) {
+                    success: function(data) {
                             if (data == '' || data == '0') {
                                 $('#NotificationsNo').text('0');
                                 $('#NotificationsNo').hide();

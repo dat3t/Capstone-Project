@@ -810,22 +810,43 @@ function getPostInfo(postID) {
 
                 $("#postModal").html(result);
 
-                $("#postModal").modal('show');
-                history.pushState("../Newsfeed", null, "../Newsfeed/ShowPost?postId=" + postID);
-                $('.carousel').flickity({
-                    // options
-                    cellAlign: 'left',
-                    contain: true
+                $('#postModal').modal({
+                    inverted: true
+                }).modal({
+                    duration:400,
+                    onHide: function () {
+                    }
+                }).modal('show')
+                ;
+                var $carousel = $('.carousel').flickity({
+                    imagesLoaded: true,
+                    percentPosition: false
+                });
+
+                // get transform property
+                var docStyle = document.documentElement.style;
+                var transformProp = typeof docStyle.transform == 'string' ?
+                  'transform' : 'WebkitTransform';
+
+                history.pushState(null, null, "../Newsfeed/ShowPost/" + id);
+                var flkty = $carousel.data('flickity');
+                var $imgs = $('.carousel-cell img');
+                $carousel.on('scroll.flickity', function () {
+                    flkty.slides.forEach(function (slide, i) {
+                        var img = $imgs[i];
+                        var x = (slide.target + flkty.x) * -1 / 3;
+                        img.style[transformProp] = 'translateX(' + x + 'px)';
+                    });
                 });
             }
             window.addEventListener('popstate', function (e) {
-                $("#postModal").modal("hide");
             });
         },
         error: function (xhr, status, error) {
             alert(xhr.responseText);
         }
     });
+   
 }
 
 function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail) {
@@ -847,6 +868,7 @@ function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail)
 
         }, 1000);
     } else {
+        alert(1);
         map.setZoom(14);
         map.setCenter({ lat: Lat, lng: Lng });
     }
@@ -883,7 +905,10 @@ function smoothlyCenterPosition(pos) {
         map.panTo(pos);
         map.fitBounds(bounds);
         map.setCenter(pos);
+        setTimeout(function () {
+            smoothZoom(this.map, 13, map.getZoom());
 
+        }, 1200);
     }
 }
 
@@ -892,6 +917,10 @@ function checkIfBoundContainPosition(pos) {
         bounds.extend(pos);
         map.fitBounds(bounds);
         map.setCenter(pos);
+        setTimeout(function () {
+            smoothZoom(this.map, 13, map.getZoom());
+
+        }, 1200);
     }
     else {
         //   map.fitBounds(map.getBounds());
