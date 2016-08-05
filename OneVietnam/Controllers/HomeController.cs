@@ -161,6 +161,11 @@ namespace OneVietnam.Controllers
             return Json(count, JsonRequestBehavior.AllowGet);
         }
 
+        //public async Task<bool> AddNotification(NotificationViewModel model)
+        //{
+            
+        //}
+
         public async Task<bool> RemoveConversationById(string id)
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());

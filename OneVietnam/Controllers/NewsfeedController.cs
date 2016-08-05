@@ -21,6 +21,7 @@ using Facebook;
 
 namespace OneVietnam.Controllers
 {
+    [System.Web.Mvc.Authorize]
     public class NewsfeedController : Controller
     {
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
@@ -177,7 +178,7 @@ namespace OneVietnam.Controllers
             }
             return PartialView("_AdminPost", list);
         }
-        
+        [AllowAnonymous]
         public async Task<ActionResult> Index(int? pageNum)
         {            
             var tagList = await TagManager.FindAllAsync(false);
@@ -232,10 +233,10 @@ namespace OneVietnam.Controllers
         /// </summary>
         /// <param name="pageNum"></param>
         /// <returns>List Post></returns>
-       
-        public async Task<ActionResult> ShowPost(string postId)
+        [AllowAnonymous]
+        public async Task<ActionResult> ShowPost(string Id)
         {
-            Post post = await PostManager.FindByIdAsync(postId);
+            Post post = await PostManager.FindByIdAsync(Id);
             if (post != null)
             {
                 ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
@@ -263,7 +264,7 @@ namespace OneVietnam.Controllers
             var filter = new BaseFilter { CurrentPage = pageNum };
             return await PostManager.FindAllAsync(filter);
         }
-
+        [AllowAnonymous]
         public async Task<ActionResult> _ShowPost(string postId)
         {
             //List<Post> list = await PostManager.FindByUserId(User.Identity.GetUserId());
@@ -281,7 +282,7 @@ namespace OneVietnam.Controllers
             }
             return PartialView();
         }
-
+        [AllowAnonymous]
         public async Task<ActionResult> ShowPostDetail(string postId)
         {
             var tagList = await TagManager.FindAllAsync(false);

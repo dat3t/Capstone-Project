@@ -65,7 +65,7 @@ namespace OneVietnam
             friend.Notifications.Add(notice.Id, notice);
             await UserManager.UpdateAsync(friend);
 
-        }
+        }        
         public override async Task OnConnected()
         {
             var userId = Context.User.Identity.GetUserId();

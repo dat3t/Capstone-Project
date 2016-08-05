@@ -93,17 +93,17 @@ namespace OneVietnam.Controllers
 
         //ThamDTH 
 
-        public async Task<ActionResult> Index(string userId)
+        public async Task<ActionResult> Index(string Id)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
 
             // Create a blob client for interacting with the blob service.
             blobClient = storageAccount.CreateCloudBlobClient();
 
-            ApplicationUser user = await UserManager.FindByIdAsync(userId);
+            ApplicationUser user = await UserManager.FindByIdAsync(Id);
             if (user != null)
             {
-                List<Post> posts = await PostManager.FindByUserId(userId);
+                List<Post> posts = await PostManager.FindByUserId(Id);
                 var iconList = await IconManager.GetIconPostAsync();
                 if (iconList != null)
                 {

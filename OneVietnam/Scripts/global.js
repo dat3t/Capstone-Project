@@ -242,38 +242,37 @@
                     $('#forModal').modal({
                         inverted: true
                     }).modal({
-                        duration: 100,
+                        duration: 200,
                         onHide: function () {
-                            history.pushState(null, null, "../Newsfeed");
+                            history.back();
                         }
                     }).modal('show')
                     ;
                     var $carousel = $('.carousel').flickity({
                         imagesLoaded: true,
-                        percentPosition: false,
+                        percentPosition: false
                     });
 
-                    var $imgs = $carousel.find('.carousel-cell img');
                     // get transform property
                     var docStyle = document.documentElement.style;
                     var transformProp = typeof docStyle.transform == 'string' ?
                       'transform' : 'WebkitTransform';
-                    history.pushState("../Newsfeed", null, "../Newsfeed/ShowPost?postId=" + id);
+         
+                    history.pushState(null, null, "../Newsfeed/ShowPost/"+id);
                     var flkty = $carousel.data('flickity');
                     var $imgs = $('.carousel-cell img');
-
-                    $carousel.on('scroll.flickity', function (event, progress) {
-                        flkty.slides.forEach(function (slide, i) {
+                    $carousel.on( 'scroll.flickity', function() {
+                        flkty.slides.forEach( function( slide, i ) {
                             var img = $imgs[i];
-                            var x = (slide.target + flkty.x) * -1 / 3;
-                            img.style.transform = 'translateX( ' + x + 'px)';
+                            var x = ( slide.target + flkty.x ) * -1/3;
+                            img.style[ transformProp ] = 'translateX(' + x  + 'px)';
                         });
-                    });
+                        });
 
                 }
             });
             window.addEventListener('popstate', function (e) {
-                $("#forModal").modal("hide");
+                //Todo:back button
             });
 
 
@@ -282,7 +281,8 @@
             $grid.isotope('layout');
         });
         var isStamped = false;
-        $('.stamp-button').on('click', function () {
+        $('#stamp-button').on('click', function () {
+          
            
             $('body,html').animate({
                 scrollTop: 0                       // Scroll to top of body
@@ -300,6 +300,17 @@
             // set flag
             isStamped = !isStamped;
         });
+       
+        $('#stamp-button2')
+            .on('click',
+                function () {
+                    $('')
+                    document.location = "/Newsfeed";
+                    $(".stamp").toggleClass("hides");
+                    $(".edits").toggleClass("edits-cl");
+                    $(".plus").toggleClass("plus-cl");
+                
+                });
 
         // ===== Scroll to Top ==== 
         $(window).scroll(function () {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using OneVietnam.Models;
 
 namespace OneVietnam.DTL
 {
@@ -27,6 +28,15 @@ namespace OneVietnam.DTL
             CreatedDate = DateTimeOffset.UtcNow;
         }
 
+        public Notification(NotificationViewModel model)
+        {
+            Id = ObjectId.GenerateNewId().ToString();
+            Url = model.Url;
+            Avatar = model.Avatar;
+            Description = model.Description;
+            Seen = false;
+            CreatedDate = DateTimeOffset.UtcNow;
+        }
         public Notification(string url, string description)
         {
             Id = ObjectId.GenerateNewId().ToString();

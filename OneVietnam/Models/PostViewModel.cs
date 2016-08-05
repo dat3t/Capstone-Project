@@ -81,6 +81,8 @@ namespace OneVietnam.Models
         [Display(Name = "Tình trạng bài đăng")]
         public bool Status { get; set; }
 
+        public string TimeInterval { get; set; }
+
         [Required(ErrorMessage = "{0} chưa được chỉ định.")]
         [Display(Name = "Cờ xác nhận khóa bài")]
         public bool LockedFlag { get; set; }
@@ -101,6 +103,7 @@ namespace OneVietnam.Models
             Title = post.Title;
             Description = post.Description;
             CreatedDate = post.CreatedDate;
+            TimeInterval = Utilities.getTimeInterval(post.CreatedDate);
             PostType = post.PostType;
             DeletedFlag = post.DeletedFlag;
             Status = post.Status;
@@ -118,6 +121,7 @@ namespace OneVietnam.Models
             Title = post.Title;
             Description = post.Description;
             CreatedDate = post.CreatedDate;
+            TimeInterval = Utilities.getTimeInterval(post.CreatedDate);
             PostType = post.PostType;
             DeletedFlag = post.DeletedFlag;
             Status = post.Status;
