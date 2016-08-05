@@ -95,20 +95,18 @@
           .dropdown({
               allowAdditions: true
           });
+        $("#CreatePostForm").find('input:text').on('keypress', function () {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+            }
+        });
+
         $('#drPostType')
           .dropdown({});
 
         $("#drPostTypeEditPost").dropdown();
 
         $("#drdGender").dropdown({});
-
-
-
-        $('.delete.icon.image-add')
-            .on('click',
-                function () {
-                    $(this).parent().remove();;
-                });
 
         $('.ui.edit.button').click(function () {
             $('.ui.fullscreen.modal').modal('show');
@@ -120,23 +118,25 @@
 
         $('#AdministrationsMenu .menu .item').tab({ context: $('#AdministrationsMenu') });
 
-        $("#dvSearchUsers")
-            .search({
-                apiSettings: {
-                    url: '/Search/UsersSearch?query={query}'
-                },
-                fields: {
-                    results: 'Result',
-                    title: 'Title'
-                },
-                minCharacters: 2
-            });
-
+        //Message for Setting tab in Timeline page
         $('.message .close').on('click', function () {
       $(this).closest('.message')
             .transition('fade');});
 
         //Admin panel search user Begin
+
+        $("#dvSearchUsers")
+    .search({
+        apiSettings: {
+            url: '/Search/UsersSearch?query={query}'
+        },
+        fields: {
+            results: 'Result',
+            title: 'Title'
+        },
+        minCharacters: 2
+    });
+
         $("#drSearchUserRole").dropdown({});
 
         $("#txtSearchUserName").on('keypress', function (event) {

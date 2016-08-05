@@ -9,7 +9,8 @@
         HandGoods = 6,
         Trade = 7,        
         Sos = 8,
-        Warning = 9
+        Warning = 9, 
+        AdminPost = 10
     }
 
     public enum MessageType
