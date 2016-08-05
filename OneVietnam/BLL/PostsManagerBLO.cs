@@ -54,7 +54,7 @@ namespace OneVietnam.BLL
         {
             var list = new List<Post>();
             var builder = Builders<Post>.Filter;
-            var filter = builder.Eq("PostType", 0)&builder.Eq("DeletedFlag", false)& 
+            var filter = builder.Eq("PostType", PostTypeEnum.Administration)&builder.Eq("DeletedFlag", false)& 
                             builder.Eq("LockedFlag", false)&builder.Eq("Status",true);
             var sort = Builders<Post>.Sort.Descending("CreatedDate");
             var baseFilter = new BaseFilter {IsNeedPaging = false};
@@ -147,7 +147,7 @@ namespace OneVietnam.BLL
             var filter = Builders<Post>.Filter.Eq("DeletedFlag", false);
             var sort = Builders<Post>.Sort.Descending("CreatedDate");
             return await Store.FindAllAsync(basefilter, filter, sort);
-        }
+        }        
 
         public async Task<List<Post>> SearchPostMultipleQuery(string title, DateTimeOffset? createdDateFrom, DateTimeOffset? createdDateTo, bool? status)
         {
@@ -196,7 +196,18 @@ namespace OneVietnam.BLL
                     filter = filter & statusFilter;
                 }
             }
-            return await Store.FindAllAsync(filter);
+            var adminPostFilter = builder.Eq("PostType", PostTypeEnum.Administration);
+            if (filter == null)
+            {
+                filter = adminPostFilter;
+            }
+            else
+            {
+                filter = filter & adminPostFilter;
+            }
+            var baseFilter = new BaseFilter {IsNeedPaging = false};
+            var sort = Builders<Post>.Sort.Descending("CreatedDate");
+            return await Store.FindAllAsync(baseFilter,filter,sort);
         }
 
     }

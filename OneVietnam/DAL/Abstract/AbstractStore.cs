@@ -245,6 +245,7 @@ namespace OneVietnam.DAL
                 throw new Exception(ex.Message);
             }
         }
+        
         /// <summary>
         /// file all instance by basefilter and filter
         /// </summary>
@@ -279,6 +280,13 @@ namespace OneVietnam.DAL
                 throw new Exception(ex.Message);
             }
         }
+        /// <summary>
+        /// Find all item async by basefilter, filter and sortable
+        /// </summary>
+        /// <param name="baseFilter"></param>
+        /// <param name="filter"></param>
+        /// <param name="sort"></param>
+        /// <returns></returns>
         public virtual async Task<List<T>> FindAllAsync(BaseFilter baseFilter, FilterDefinition<T> filter, SortDefinition<T> sort )
         {
             try
@@ -307,8 +315,7 @@ namespace OneVietnam.DAL
             {
                 throw new Exception(ex.Message);
             }
-        }
-
+        }        
         public virtual async Task<List<T>> FindAllAsync(BaseFilter baseFilter)
         {
             
