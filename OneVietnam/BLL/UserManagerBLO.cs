@@ -10,6 +10,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using OneVietnam.Common;
 using OneVietnam.DTL;
+using OneVietnam.Models;
 
 namespace OneVietnam.BLL
 {
@@ -234,6 +235,26 @@ namespace OneVietnam.BLL
             // Update To Database     
             await _userStore.UpdateAsync(user).ConfigureAwait(false);
             await _userStore.UpdateAsync(friend).ConfigureAwait(false);
+        }
+
+        public async Task<bool> AddNotification(string id, NotificationViewModel model)
+        {
+            try
+            {
+                var user = await _userStore.FindByIdAsync(id);
+                if (user.Notifications == null)
+                {
+                    user.Notifications = new SortedList<string, Notification>();
+                }
+                var notification = new Notification(model);
+                user.Notifications.Add(notification.Id, notification);
+                await _userStore.UpdateAsync(user);
+                return true;    
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
