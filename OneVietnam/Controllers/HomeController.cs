@@ -79,22 +79,18 @@ namespace OneVietnam.Controllers
             for (var i = 0; i < conversations.Count(); i++)
             {
                 var friend = await UserManager.FindByIdAsync(conversations[i].Key);
-                var con = new ConversationModel();
-                con.Id = conversations[i].Key;
-                con.FriendName = friend.UserName;
-                con.Avatar = friend.Avatar;
-                if (DateTimeOffset.Now.Year == conversations[i].Value.UpdatedDate.LocalDateTime.Year &&
-                    DateTimeOffset.Now.Day == conversations[i].Value.UpdatedDate.LocalDateTime.Day)
+                var con = new ConversationModel
                 {
-                    con.UpdatedDate = conversations[i].Value.UpdatedDate.LocalDateTime.ToShortTimeString();
-                }
-                else
-                {
-                    con.UpdatedDate = conversations[i].Value.UpdatedDate.LocalDateTime.ToString();
-                }
-                con.LastestMessage = conversations[i].Value.LastestMessage.Truncate(Constants.MessagePreviewMaxLength);
-                con.LastestType = conversations[i].Value.LastestType;
-                con.Seen = conversations[i].Value.Seen;                
+                    Id = conversations[i].Key,
+                    FriendName = friend.UserName,
+                    Avatar = friend.Avatar,
+                    UpdatedDate = Utilities.GetTimeInterval(conversations[i].Value.UpdatedDate),
+                    LastestMessage = conversations[i].Value.LastestMessage.Truncate(Constants.MessagePreviewMaxLength),
+                    LastestType = conversations[i].Value.LastestType,
+                    Seen = conversations[i].Value.Seen
+                };
+
+
                 conversationList.Add(con);
             }
 
@@ -122,16 +118,8 @@ namespace OneVietnam.Controllers
                 {
                     notifications.Values[i].Seen = true;
                     updatedCount++;
-                }
-                if (DateTimeOffset.Now.Year == notifications.Values[i].CreatedDate.LocalDateTime.Year &&
-                    DateTimeOffset.Now.Day == notifications.Values[i].CreatedDate.LocalDateTime.Day)
-                {
-                    not.CreatedDate = notifications.Values[i].CreatedDate.LocalDateTime.ToShortTimeString();
-                }
-                else
-                {
-                    not.CreatedDate = notifications.Values[i].CreatedDate.LocalDateTime.ToString();
-                }
+                }                
+                not.CreatedDate = Utilities.GetTimeInterval(notifications.Values[i].CreatedDate);
                 list.Add(not);
             }
             if (updatedCount > 0)

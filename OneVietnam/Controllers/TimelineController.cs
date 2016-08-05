@@ -11,9 +11,12 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using MongoDB.Driver;
 using OneVietnam.BLL;
 using OneVietnam.DTL;
 using OneVietnam.Models;
+using Icon = System.Drawing.Icon;
+using Tag = OneVietnam.DTL.Tag;
 
 namespace OneVietnam.Controllers
 {
@@ -104,10 +107,15 @@ namespace OneVietnam.Controllers
             if (user != null)
             {
                 List<Post> posts = await PostManager.FindByUserId(Id);
-                var iconList = await IconManager.GetIconPostAsync();
-                if (iconList != null)
+                var postTypeList = await IconManager.GetIconPostAsync();
+                if (postTypeList != null)
                 {
-                    ViewData["PostTypes"] = iconList;
+                    ViewData["PostTypes"] = postTypeList;
+                }
+                var genderList = await IconManager.GetIconGender();
+                if (genderList != null)
+                {
+                    ViewData["GenderTypes"] = genderList;
                 }
                 TimelineViewModel timeLine = new TimelineViewModel(user, posts);
                 return View(timeLine);
@@ -131,23 +139,17 @@ namespace OneVietnam.Controllers
             if (!ModelState.IsValid)
             {
                 return PartialView("_EditProfile", profile);
-            }
+            }            
+            //await UserManager.UpdateProfileUserAsync(profile);
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
+
                 user.UserName = profile.UserName;
                 user.Gender = profile.Gender;
                 user.Email = profile.Email;
-                user.Location = profile.Location;
-                if (profile.DateOfBirth != null)
-                {
-                    
-                }
-                else
-                {
-                    user.DateOfBirth = null;
-                }
-
+                user.Location = profile.Location;                
+                user.DateOfBirth = profile.DateOfBirth;
                 user.PhoneNumber = profile.PhoneNumber;
                 var result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)
@@ -155,6 +157,11 @@ namespace OneVietnam.Controllers
                     await SignInAsync(user, isPersistent: false);
                 }
                 AddErrors(result);
+            }
+            var genderList = await IconManager.GetIconGender();
+            if (genderList != null)
+            {
+                ViewData["GenderTypes"] = genderList;
             }
             return PartialView("_EditProfile", profile);
         }
@@ -276,7 +283,7 @@ namespace OneVietnam.Controllers
                     AddErrors(result);
                 }
             }
-            return RedirectToAction("Index", "Timeline", new { userId = User.Identity.GetUserId() });
+            return RedirectToAction("Index", "Timeline", new { Id = User.Identity.GetUserId() });
 
         }
 
@@ -311,7 +318,7 @@ namespace OneVietnam.Controllers
                     AddErrors(result);
                 }
             }
-            return RedirectToAction("Index", "Timeline", new { userId = User.Identity.GetUserId() });
+            return RedirectToAction("Index", "Timeline", new { Id = User.Identity.GetUserId() });
 
         }
 

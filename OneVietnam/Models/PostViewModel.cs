@@ -103,7 +103,7 @@ namespace OneVietnam.Models
             Title = post.Title;
             Description = post.Description;
             CreatedDate = post.CreatedDate;
-            TimeInterval = Utilities.getTimeInterval(post.CreatedDate);
+            TimeInterval = Utilities.GetTimeInterval(post.CreatedDate);
             PostType = post.PostType;
             DeletedFlag = post.DeletedFlag;
             Status = post.Status;
@@ -121,7 +121,7 @@ namespace OneVietnam.Models
             Title = post.Title;
             Description = post.Description;
             CreatedDate = post.CreatedDate;
-            TimeInterval = Utilities.getTimeInterval(post.CreatedDate);
+            TimeInterval = Utilities.GetTimeInterval(post.CreatedDate);
             PostType = post.PostType;
             DeletedFlag = post.DeletedFlag;
             Status = post.Status;

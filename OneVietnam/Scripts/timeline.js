@@ -8,6 +8,7 @@ function editableForm() {
     $("#drdGender").show();
     $("#btnUpdateLocation").toggleClass('hides');
     $("#drdGender").dropdown({});
+    $("#DateOfBirth").attr('type','date');
 }
 
 function submitEditProfile() {
@@ -20,10 +21,10 @@ function submitEditProfile() {
     showUserMarkerOnMap(x, y, address);
 }
 
-function cancelEditProfile() {
+function cancelEditProfile(pUrl) {
     $.ajax({
         type: 'GET',
-        url: 'EditProfile',
+        url: pUrl,
         success: function (partialResult) {
             $("#EditProfileForm").html("");
             $("#EditProfileForm").html(partialResult);
@@ -32,7 +33,7 @@ function cancelEditProfile() {
     });
 }
 
-function changeTwoFactorAuthentication() {
+function changeTwoFactorAuthentication(pUrl) {
     var param = $(".ui.toggle.button").text();
     if (param === "Bật" && $("#txtMobilePhone").val() === "") {
         $('.message')[0].className = "ui negative message";
@@ -41,7 +42,7 @@ function changeTwoFactorAuthentication() {
     }               
     $.ajax({
         type: 'POST',
-        url: 'ChangeTwoFactorAuthentication',
+        url: pUrl,
         data: { 'value': param },
         success: function () {
             $('.message .close').click();
@@ -49,10 +50,10 @@ function changeTwoFactorAuthentication() {
     });
 }
 
-function showChangePasswordForm() {
+function showChangePasswordForm(pUrl) {
     $.ajax({
         type: 'GET',
-        url: 'ChangePassword',
+        url: pUrl,
         success: function (partialResult) {
             $("#ChangePasswordForm").html(partialResult);
             $("#ShowPassword").html("");
@@ -78,10 +79,10 @@ function closeChangePasswordForm() {
 
 }
 
-function showSetPasswordForm() {
+function showSetPasswordForm(pUrl) {
     $.ajax({
         type: 'GET',
-        url: 'SetPassword',
+        url: pUrl,
         success: function (partialResult) {
             $("#ChangePasswordForm").html(partialResult);
             $("#ShowPassword").html("");
@@ -113,7 +114,7 @@ function closeSetPasswordForm() {
 function showUserMarkerOnMap(x, y, address) {
     //Declare icon for userLocationmarker
     icon = {
-        url: "../Content/Icon/location.png",
+        url: "/Content/Icon/location.png",
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),

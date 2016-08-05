@@ -28,7 +28,7 @@
                         {
                             <tr id="User_@Model[index].Id" style="width: 100%">          
                                 <td style="width: 3%;">@(index + 1)</td>
-                                <td style="width: 10%;"><a href="@Url.Action("Index","Timeline", new {userId = Model[index].Id})">@Model[index].Id</a></td>
+                                <td style="width: 10%;"><a href="@Url.Action("Index","Timeline", new {Id = Model[index].Id})">@Model[index].Id</a></td>
                                 <td style="width: 15%;">@Model[index].UserName</td>
                                 <td style="width: 10%;">@($"{Model[index].CreatedDate.LocalDateTime:dd/MM/yyyy}")</td>
                                 <td style="width: 28%;padding: 0">
