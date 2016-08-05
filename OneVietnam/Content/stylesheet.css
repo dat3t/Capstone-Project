@@ -1,25 +1,18 @@
 ﻿@import url(http://fonts.googleapis.com/css?family=Lato:400,300,700);
 
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
-
+@font-face {
+    font-family: track;
+    src: url(/fonts/GUERRILLA-Normal.otf);
+}
 
 *, *:before, *:after {
   box-sizing: border-box;
 }
-/*.carousel-cell {
-  width: 600px; /* full width */
-  /*height: 600px; /* height of carousel */
-}*/
-/*.center-cropped {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    margin: auto;
-  max-height: 100%;
-  max-width: 100%;
-}*/
+
+ html *{
+     font-family: track;
+ }
  .carousel {
   background: #EEE;
 }

@@ -412,6 +412,9 @@
     <Content Include="fonts\helveticaneuecyr-roman.ttf" />
     <Content Include="fonts\helveticaneuecyr-roman.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\GUERRILLA-Normal.otf" />
+    <Content Include="fonts\Track.otf" />
+    <Content Include="fonts\Track.ttf" />
     <None Include="Properties\PublishProfiles\OneVietnam - Web Deploy.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -264,7 +264,7 @@
                     $carousel.on( 'scroll.flickity', function() {
                         flkty.slides.forEach( function( slide, i ) {
                             var img = $imgs[i];
-                            var x = ( slide.target + flkty.x ) * -1/3;
+                            var x = ( slide.target + flkty.x ) * -1/6;
                             img.style[ transformProp ] = 'translateX(' + x  + 'px)';
                         });
                         });
@@ -282,6 +282,7 @@
         });
         var isStamped = false;
         $('#stamp-button').on('click', function () {
+            history.pushState(null,null,"/Newsfeed");
             $('body,html').animate({
                 scrollTop: 0                       // Scroll to top of body
             }, 500);

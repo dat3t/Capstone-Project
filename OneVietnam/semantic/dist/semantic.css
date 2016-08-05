@@ -28842,9 +28842,9 @@ body.dimmable > .dimmer {
   display: none;
   outline: none;
   top: 100%;
-  min-width: -webkit-max-content;
-  min-width: -moz-max-content;
-  min-width: max-content;
+  min-width: -webkit-max-content+80px;
+  min-width: -moz-max-content+80px;
+  min-width: max-content+80px;
   margin: 0em;
   padding: 0em 0em;
   background: #FFFFFF;
