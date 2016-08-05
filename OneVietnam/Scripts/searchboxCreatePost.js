@@ -132,6 +132,13 @@ function getRegisteredLocation(id) {
         }
     });        
 }
+
+function setRegisteredLocation(x,y,address) {
+   // document.getElementById("Address_Edit").value = address;
+    document.getElementById("XCoordinate_Edit").value = x;
+    document.getElementById("YCoordinate_Edit").value = y;
+}
+
 $("#getloc").click();
 google.maps.event.addDomListener(window, 'load', getAddressFromSearchBox);
 
