@@ -41,7 +41,24 @@
                 <div style="margin-top:3px;" title="@post.Title"><b>@post.Title</b></div>
                 <div style="margin-left:3px;text-align:left!important;font-size:20px;">
                     <a   class="item" title="@post.Address">
-                        <i class="small icon marker" style="width:100%;text-align:left"> @post.Address</i>
+                        <i class="small icon marker" style="width:100%;text-align:left">
+                        
+                        @try
+                        {
+                            if (@post.Address.Length > 30)
+                            {
+                                 @post.Address.Substring(0, 25);
+                            }
+                            else
+                            {
+                                @post.Address
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                        }
+                      
+                        </i>
                     </a>
                 </div>
                 <div style="margin-left:3px;text-align:left;font-size:20px;">
@@ -53,9 +70,9 @@
                     <a class="item" style="">
                         <i class="small icon file outline" style="display:initial !important;width:200px !important;">
                             @try { 
-                            if (@post.Description.Length > 50)
+                            if (@post.Description.Length > 30)
                             {
-                                @post.Description.Substring(0, 30);
+                                @post.Description.Substring(0, 25);
                             }
                             else
                             {
@@ -64,12 +81,12 @@
                             }
                             catch (Exception e) {
                             }
-                            ...
+                          
                         </i>
                         </a>
                     </div>
 
-                    <button class="ui mini button" style=";position:absolute;margin-top:8%!important;margin-right:0px;" onclick="showSelectedPostOnMap(@post.PostLocation.XCoordinate,@post.PostLocation.YCoordinate,@post.PostType,'@post.postId',2);">
+                    <button class="ui mini button" style="position:absolute;margin-top:8%!important;margin-right:0px;" onclick="showSelectedPostOnMap(@post.PostLocation.XCoordinate,@post.PostLocation.YCoordinate,@post.PostType,'@post.postId',2);">
                         <i class="pointing right icon" style="width:100%;"> Xem chi tiết</i>
                     </button>
 
