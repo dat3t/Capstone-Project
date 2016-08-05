@@ -7,7 +7,7 @@
         {
             var avatar = ((ClaimsIdentity)User.Identity).FindFirst("Avatar").Value;
             @Html.AntiForgeryToken()
-            <a href="@Url.Action("Index","Timeline",new {userId=User.Identity.GetUserId()})" id="txtHeaderUserName" style="color: white">
+            <a href="@Url.Action("Index","Timeline",new {Id=User.Identity.GetUserId()})" id="txtHeaderUserName" style="color: white">
                 <img class="ui avatar image" src="@avatar" />
                 <span>@User.Identity.GetUserName()&nbsp;</span>
             </a>
