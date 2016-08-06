@@ -10,7 +10,31 @@
         <div class="ui right floated button" style="background: white!important">
             @if (User.Identity.IsAuthenticated && (User.Identity.GetUserId() == Model.UserId))
             {
-                <i class="red large remove circle link icon" data-content="Xóa" style="float: right" onclick="document.location.href = '@Url.Action("DeletePost", "Newsfeed", new {postId = Model.Id})';"></i>
+                <i class="red large remove circle link icon" id="deletePost" data-content="Xóa" style="float: right" ></i>
+                //Delete Popup Modal
+                <script>
+                    $("#deletePost")
+                        .click(function () {
+                            $('.ui.small.delete.modal').modal('show');
+                        });
+                </script>
+
+                <div class="ui small delete modal">
+                    <div class="header">
+                        Xóa bài đăng
+                    </div>
+                    <div class="content">
+                        <p>Bạn có chắc chắn xóa bài đăng này?</p>
+                    </div>
+                    <div class="actions">
+                        <div class="ui cancel button">
+                            Hủy
+                        </div>
+                        <div class="ui green button" onclick="document.location.href= '@Url.Action("DeletePost", "Newsfeed", new {postId = Model.Id})';">
+                            Xóa
+                        </div>
+                    </div>
+                </div>
                 <i class="blue large write link icon" data-content="Sửa" style="float: right" onclick="document.location.href =
     '@Url.Action("EditPost", "Newsfeed", new {postId = Model.Id})'"></i>
             }
