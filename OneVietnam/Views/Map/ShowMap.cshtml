@@ -82,10 +82,10 @@ else
         if('@item.PostId' == ''){
             allUsers.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
             if(@item.Gender == 0){
-                males.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
+                females.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
             }else
                 if(@item.Gender == 1){
-                    females.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
+                   males.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
                 }else
                     if(@item.Gender == 2){
                         LGBT.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
@@ -101,39 +101,6 @@ else
                 case 8: postType8.push({postID: '@item.PostId',  x: @item.X, y: @item.Y}); break;
                 case 9: postType9.push({postID: '@item.PostId',  x: @item.X, y: @item.Y}); break;
             }
-            @*if(@item.PostType.CompareTo(0) == 0)
-            {
-                postType3.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
-            }
-            else*@
-                @*if (@item.PostType.CompareTo(1) == 0)
-                {
-                    postType1.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
-                }
-                else
-                    if (@item.PostType.CompareTo(2) == 0)
-                    {
-                        postType2.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
-                    }
-                    else
-                        if (@item.PostType.CompareTo(3) == 0)
-                        {
-                            postType3.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
-                        }
-                        else
-                            if (@item.PostType.CompareTo(4) == 0)
-                            {
-                                postType4.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
-                            }
-                            else
-                                if (@item.PostType.CompareTo(5) == 0)
-                                {
-                                    postType5.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
-                                }
-                                else
-                                    if(@item.PostType.CompareTo(8) == 0){
-                                        postType8.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
-                                    }*@
         }
         </text>
         }

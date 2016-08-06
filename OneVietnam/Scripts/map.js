@@ -438,7 +438,7 @@ function createListMaleMarkers() {
             return function () {
                 // infowindow.setContent(infoWindowContent[i][0]);
                 // AjaxDisplayString(userInfoWindow, marker)
-                getUserInfo(allUsers[i].userID);
+                getUserInfo(males[i].userID);
                 //infowindow.open(map, marker);
             }
         })(marker, i));
@@ -469,7 +469,7 @@ function createListFemaleMarkers() {
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 // AjaxDisplayString(userInfoWindow, marker)
-                getUserInfo(allUsers[i].userID);
+                getUserInfo(females[i].userID);
                 //infowindow.open(map, marker);
             }
         })(marker, i));
