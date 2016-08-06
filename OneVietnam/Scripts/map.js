@@ -280,6 +280,8 @@ function calculateNearestMarker(listLocation) {
 
 function showUsers() {
     setMapToAMarkerCluster(userMarkerCluster);
+    showAlertNoPost(allUsers);
+
     if (isFirstTime == false) {
         var pos = calculateNearestMarker(allUsers);
         checkIfBoundContainPosition(pos);
@@ -289,6 +291,7 @@ function showUsers() {
 
 function showMales() {
     setMapToAMarkerCluster(maleMarkerCluster);
+    showAlertNoPost(males);
     maleMarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(males);
     checkIfBoundContainPosition(pos);
@@ -296,6 +299,7 @@ function showMales() {
 
 function showFemales() {
     setMapToAMarkerCluster(femaleMarkerCluster);
+    showAlertNoPost(females);
     femaleMarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(females);
     checkIfBoundContainPosition(pos);
@@ -303,6 +307,7 @@ function showFemales() {
 
 function showLGBT() {
     setMapToAMarkerCluster(LGBTMarkerCluster);
+    showAlertNoPost(LGBT);
     LGBTMarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(LGBT);
     checkIfBoundContainPosition(pos);
@@ -310,6 +315,7 @@ function showLGBT() {
 
 function showAccommodation() {
     setMapToAMarkerCluster(type3MarkerCluster);
+    showAlertNoPost(postType3);
     type3MarkerCluster.setMaxZoom(9);
     // openAllClusters(overlappingType3);
     var pos = calculateNearestMarker(postType3);
@@ -320,6 +326,7 @@ function showAccommodation() {
 
 function showJobOffer() {
     setMapToAMarkerCluster(type4MarkerCluster);
+    showAlertNoPost(postType4);
     type4MarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(postType4);
     checkIfBoundContainPosition(pos);
@@ -328,6 +335,7 @@ function showJobOffer() {
 function showFurnitureOffer() {
 
     setMapToAMarkerCluster(type5MarkerCluster);
+    showAlertNoPost(postType5);
     type5MarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(postType5);
     checkIfBoundContainPosition(pos);
@@ -335,6 +343,7 @@ function showFurnitureOffer() {
 
 function showHandGoodsOffer() {
     setMapToAMarkerCluster(type6MarkerCluster);
+    showAlertNoPost(postType6);
     type6MarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(postType6);
     checkIfBoundContainPosition(pos);
@@ -343,6 +352,7 @@ function showHandGoodsOffer() {
 
 function showTradeOffer() {
     setMapToAMarkerCluster(type7MarkerCluster);
+    showAlertNoPost(postType7);
     type7MarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(postType7);
     checkIfBoundContainPosition(pos);
