@@ -212,7 +212,7 @@ else
         <input id="pac-input2" type="text" placeholder="Tìm kiếm địa điểm...">
         <i class="search icon"></i>
     </div>
-    <div class="ui vertical buttons" id="locationGroup" style="position: absolute; right: 12px; top: 60%;">
+    <div class="ui vertical buttons" id="locationGroup" style="position: fixed; right: 12px; top: 60%;">
         <button type="submit" class="ui icon green button" id="location" onclick="showCurrentLocation()" data-tooltip="Vị trí hiện tại" data-position="left center">
             @*<i class="location arrow icon"></i>*@
         </button>
@@ -280,13 +280,13 @@ else
             }
         </div>
 
-        <div id="aa" onclick="toggle()" class="ui blue big centered launch right attached fixed button" style="position: absolute; background: rgb(167, 210, 203); left: 0px; margin-left:380px;top:40%;transition: margin-left .5s;width:40px;">
+        <div id="aa" onclick="toggle()" class="ui blue big centered launch right attached fixed button" style="position: fixed; background: rgb(167, 210, 203); left: 0px; margin-left:380px;top:40%;transition: margin-left .5s;width:40px;">
             <div style="position:relative;">
                 <i id="button" class="arrow left icon"></i>
             </div>
         </div>
     </div>
-    <div class="ui basic modal scrollbar" id="postModal" style="position: absolute !important; left: 60% !important; height: 500px; width: 640px;overflow-x:hidden;overflow-y:inherit;"> 
+    <div class="ui basic modal " id="postModal" style="position: absolute !important; left: 20% !important; height: 1000px; width: 640px;"> 
     </div>
 
     <div class="ui modal" id="userModal" style="height:250px ;width:500px ;position: absolute; left:65%;">
