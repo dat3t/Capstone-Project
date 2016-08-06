@@ -56,11 +56,11 @@ namespace OneVietnam.Models
         [Display(Name = "Tiêu đề")]
         public string Title { get; set; }
 
+        public string AvartarLink { get; set; }
+
         [Required(ErrorMessage = "{0} chưa được điền.")]
         [DataType(DataType.Text)]
         [Display(Name = "Mô tả")]
-        public string AvartarLink { get; set; }
-       
         public string Description { get; set; }
 
         [Required(ErrorMessage = "{0} chưa được điền.")]

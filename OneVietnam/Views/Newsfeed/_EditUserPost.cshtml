@@ -133,13 +133,7 @@
                     <!-- Description -->
                     <div class="field">
                         <label>* Mô tả </label>
-                        @Html.TextAreaFor(model => model.Description, new { placeholder = "Thêm mô tả cho bài đăng", onkeydown = "setHeight()", onkeyup = "setHeight()", style = "text-align: justify; width: 100%; max-width: 100%;" })
-                        <script type="text/javascript">
-                        function setHeight() {
-                            document.getElementById('Description').style.height = document.getElementById('Description').scrollHeight + 'px';
-                        }
-                        setHeight();
-                        </script>
+                        @Html.TextAreaFor(model => model.Description, new { placeholder = "Thêm mô tả cho bài đăng", style = "text-align: justify; width: 100%; max-width: 100%;" })                        
                     </div>
 
                     <!-- Post Location -->
@@ -176,28 +170,32 @@
 
                     </div>
 
-                    <!-- Illustration -->
+                <!-- Illustration -->
+                    <i class="large inverted blue camera icon" tabindex="17"></i>Thêm ảnh
                 <div class="field" id="forImg">
-                    <label>Ảnh minh họa</label>
-                    @{
-                        if (blobs != null)
-                        {
-                            foreach (Uri link in blobs)
+                    
+                    <input type="file" id="files" name="files" onchange="previewImg()" class="upload hides" multiple />
+                    <output id="result">
+                        @{
+                            if (blobs != null)
                             {
+                                foreach (Uri link in blobs)
+                                {
 
-                                <div class="imageBlock">
-                                    <a href="@link" target="_blank"><img class="thumb" src="@link" alt="images"/></a><br/>
-                                    <div class="deleteDiv"><img class="deleteIcon" src="~/Images/deleteImage.png" title="Delete Image" onclick="deleteImage('@link', '@Model.Id');"/>
+                                    <div class="imageBlock">
+                                        <img class="thumb" src="@link" alt="images" />
+                                        <div class="deleteDiv">
+                                            <img class="deleteIcon" src="~/Images/deleteImage.png" title="Delete Image" onclick="deleteImage('@link', '@Model.Id');" />
+                                        </div>
                                     </div>
-                                </div>
+                                }
                             }
                         }
-                    }
+                    </output>
 
                 </div>
-                    <i class="large inverted blue camera icon" tabindex="17"></i>Thêm ảnh
-                    <input type="file" id="files" name="files" onchange="previewImg()" class="upload hides" multiple />
-                    <output id="result"></output>
+                    
+                    
 
                     <script>
                             $(".camera.icon")
@@ -209,14 +207,14 @@
                 function previewImg() {
                     var filesInput = document.getElementById("files");
                     var files = filesInput.files;
-                    var output = document.getElementById("forImg");
+                    var output = document.getElementById("result");
                     var i = 0,
                       len = files.length;
                     (function readFile(n) {
                         var reader = new FileReader();
                         var f = files[n];
                         reader.onload = function (e) {
-                            var div = document.createElement("div");
+                            var div = document.createElement("span");
                             div.className = "imageBlock";
                             div.innerHTML = "<img class='thumb' src='" + e.target.result + "'" +
                                 "title='" + f.name + "'/> <div href='#' class='deleteDiv'><img class='deleteIcon' src='/Images/deleteImage.png' title='Delete Image'/></div>";
