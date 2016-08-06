@@ -400,17 +400,25 @@ function createListUserMarkers() {
             icon: icon
         });
         listUserMarkers.push(marker);
-        overlappingUsers.addMarker(marker);
-
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                getUserInfo(allUsers[i].userID);
-                // infowindow.open(map, marker);
+                setTimeout(function () {
+                    getUserInfo(allUsers[i].userID);
+                }, 100);
             }
         })(marker, i));
 
+        overlappingUsers.addMarker(marker);
     }
+
+    overlappingUsers.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingUsers.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
+
 }
 
 function createListMaleMarkers() {
@@ -432,17 +440,25 @@ function createListMaleMarkers() {
             icon: icon
         });
         listMaleMarkers.push(marker);
-        overlappingMale.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                // infowindow.setContent(infoWindowContent[i][0]);
-                // AjaxDisplayString(userInfoWindow, marker)
-                getUserInfo(males[i].userID);
-                //infowindow.open(map, marker);
+                setTimeout(function () {
+                    getUserInfo(males[i].userID);
+                }, 100);
             }
         })(marker, i));
+
+        overlappingMale.addMarker(marker);
     }
+
+    overlappingMale.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingMale.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
 }
 
 function createListFemaleMarkers() {
@@ -464,16 +480,25 @@ function createListFemaleMarkers() {
             icon: icon
         });
         listFemaleMarkers.push(marker);
-        overlappingFemale.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                // AjaxDisplayString(userInfoWindow, marker)
-                getUserInfo(females[i].userID);
-                //infowindow.open(map, marker);
+                setTimeout(function () {
+                    getUserInfo(females[i].userID);
+                }, 100);
             }
         })(marker, i));
+
+        overlappingFemale.addMarker(marker);
     }
+
+    overlappingFemale.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingFemale.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
 }
 
 function createListLGBTMarkers() {
@@ -495,15 +520,25 @@ function createListLGBTMarkers() {
             icon: icon
         });
         listLGBTMarkers.push(marker);
-        overlappingLGBT.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                AjaxDisplayString(userInfoWindow, marker)
-                // infowindow.open(map, marker);
+                setTimeout(function () {
+                    getUserInfo(LGBT[i].userID);
+                }, 100);
             }
         })(marker, i));
+
+        overlappingLGBT.addMarker(marker);
     }
+    
+    overlappingLGBT.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingLGBT.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
 }
 
 function createlistType3Markers() {
@@ -537,7 +572,7 @@ function createlistType3Markers() {
 
         overlappingType3.addMarker(marker);
     }
-    +
+    
     overlappingType3.addListener('click', function (marker) {
         isClickOnSpiderfier = false;
     });
@@ -850,21 +885,22 @@ function deleteMarkers(listMarkers) {
 }
 
 function getUserInfo(userId) {
-    $.ajax({
-        url: 'GetUserPartialView?userId=' + userId,
-        type: 'GET',
-        success: function (result) {
-            if (result != '') {
-                $("#userModal").empty();
-                $("#userModal").html(result);
-                $("#userModal").modal('show');
+    if (isClickOnSpiderfier == false) {
+        $.ajax({
+            url: 'GetUserPartialView?userId=' + userId,
+            type: 'GET',
+            success: function (result) {
+                if (result != '') {
+                    $("#userModal").empty();
+                    $("#userModal").html(result);
+                    $("#userModal").modal('show');
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
             }
-        },
-        error: function (xhr, status, error) {
-            alert(xhr.responseText);
-        }
-    });
-
+        });
+    }
 }
 
 function getPostInfo(postID) {
