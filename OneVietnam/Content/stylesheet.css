@@ -52,8 +52,7 @@ a:hover {
    
 
 .containers {
-  margin: 0 auto;
-  background: #F0F0ED;
+  margin: 0 auto;  
   border-radius: 5px;
   position: relative;
 }

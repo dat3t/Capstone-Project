@@ -128,18 +128,20 @@ namespace OneVietnam.Controllers
         private HttpFileCollectionBase _illustrationList;
 
         public void GetIllustrations()
-        {
+        {            
             _illustrationList = Request.Files;
-            Session["Illustrations"] = _illustrationList;
+            Session.Clear();
+            Session.Add("Illustrations", _illustrationList);
+            Console.WriteLine("Go Get OK");            
         }
 
         [HttpPost]
         [System.Web.Mvc.Authorize]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreatePost(CreatePostViewModel p)
-        {
-            HttpFileCollectionBase files = Request.Files;
+        {            
             ViewData.Clear();
+            Console.WriteLine("Go Create OK");
             var post = new Post(p)
             {
                 CreatedDate = System.DateTime.Now,
@@ -396,12 +398,13 @@ namespace OneVietnam.Controllers
             {
                 pPostView.Tags = tagList;
             }
-            CloudBlobContainer blobContainer = blobClient.GetContainerReference(pPostView.Id);
-
+            CloudBlobContainer blobContainer= blobClient.GetContainerReference(pPostView.Id);
+            await blobContainer.CreateIfNotExistsAsync();
+            blobContainer.SetPermissions(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Container });
             List<Illustration> illList=new List<Illustration>();
          
             _illustrationList = (HttpFileCollectionBase)Session["Illustrations"];
-            if (_illustrationList.Count > 0) { 
+            if (_illustrationList?.Count > 0) { 
                 for (int i = 0; i < _illustrationList.Count; i++)
             {
 
@@ -412,13 +415,13 @@ namespace OneVietnam.Controllers
                 
             }
             var blobList = blobContainer.ListBlobs();
-            illList = new List<Illustration>();
+            
             foreach (var blob in blobList)
             {
                 Illustration newIll = new Illustration(blob.Uri.ToString());
                 illList.Add(newIll);
             }
-            if (illList != null)
+            if (illList.Count>0)
             {
                 pPostView.Illustrations = illList;
             }

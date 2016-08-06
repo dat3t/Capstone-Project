@@ -85,17 +85,17 @@
 
                         </div>
 
-                        <div class="ui selection dropdown" id="drdGender" style="display: none">
+                        <div class="ui selection dropdown" id="drdGender" style="display: none">                            
                             <input type="hidden" name="Gender" id="Gender" value="@Model.Gender">
                             <i class="dropdown icon"></i>
                             <div class="default text">Giới tính</div>
                             <div class="menu">
                                 @foreach (var gender in genders)
                                 {
-                                    <div class="item" data-value="@gender.IconValue">                                        
+                                    <div class="item" data-value="@gender.IconValue">
                                         @gender.IconText
                                     </div>
-                                }                               
+                                }
                             </div>
                         </div>
                     }
@@ -122,9 +122,19 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>            
+
             <div class="ui item">
+
                 <div class="ui big fluid transparent tog disabled input">
+                    <i class="large mail outline icon"></i>
+                    @Html.EditorFor(model => model.Email, new {htmlAttributes = new {@readonly = ""}})
+
+                </div>
+            </div>
+
+            <div class="ui item">
+                <div class="ui big fluid transparent tog disabled input" style="width: 30%">
                     <i class="large birthday icon"></i>
                     @{
                         if (Model.DateOfBirth != null)
@@ -141,16 +151,6 @@
                 </div>
             </div>
 
-
-
-            <div class="ui item">
-
-                <div class="ui big fluid transparent tog disabled input">
-                    <i class="large mail outline icon"></i>
-                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @readonly = "" } })
-
-                </div>
-            </div>
             <div class="ui item">
 
                 <div class="ui big fluid tog transparent disabled input">

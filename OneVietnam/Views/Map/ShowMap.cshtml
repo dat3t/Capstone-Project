@@ -75,7 +75,7 @@ else
         var females = [];
         var LGBT = [];
         var PostArray = [];
-        var postType0 = [],postType1 = [],postType2 = [],postType3=[],postType4=[],postType5=[],postType8=[];
+        var postType3 = [], postType4 = [], postType5 = [], postType6= [],postType7 = [],postType8 = [], postType9 = [];
 
         @foreach (var item in Model) {
         <text>
@@ -92,12 +92,21 @@ else
                     }
 
         } else {
-            if(@item.PostType.CompareTo(0) == 0)
-            {
-                postType0.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
+            switch (@item.PostType) {
+                case 3: postType3.push({postID: '@item.PostId',  x: @item.X, y: @item.Y}); break;
+                case 4: postType4.push({postID: '@item.PostId',  x: @item.X, y: @item.Y}); break;
+                case 5: postType5.push({postID: '@item.PostId',  x: @item.X, y: @item.Y}); break;
+                case 6: postType6.push({postID: '@item.PostId',  x: @item.X, y: @item.Y}); break;
+                case 7: postType7.push({postID: '@item.PostId',  x: @item.X, y: @item.Y}); break;
+                case 8: postType8.push({postID: '@item.PostId',  x: @item.X, y: @item.Y}); break;
+                case 9: postType9.push({postID: '@item.PostId',  x: @item.X, y: @item.Y}); break;
             }
-            else
-                if (@item.PostType.CompareTo(1) == 0)
+            @*if(@item.PostType.CompareTo(0) == 0)
+            {
+                postType3.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
+            }
+            else*@
+                @*if (@item.PostType.CompareTo(1) == 0)
                 {
                     postType1.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
                 }
@@ -124,7 +133,7 @@ else
                                 else
                                     if(@item.PostType.CompareTo(8) == 0){
                                         postType8.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
-                                    }
+                                    }*@
         }
         </text>
         }
@@ -271,7 +280,7 @@ else
 
         </div>
 
-        <div id="aa" onclick="toggle()" class="ui blue big centered launch right attached fixed button" style="position: absolute; background: #874C62; left: 0px; margin-left:380px;top:40%;transition: margin-left .5s;width:40px;">
+        <div id="aa" onclick="toggle()" class="ui blue big centered launch right attached fixed button" style="position: absolute; background: rgb(167, 210, 203); left: 0px; margin-left:380px;top:40%;transition: margin-left .5s;width:40px;">
             <div style="position:relative;">
                 <i id="button" class="arrow left icon"></i>
             </div>

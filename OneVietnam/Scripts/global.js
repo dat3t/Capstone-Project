@@ -287,6 +287,10 @@
                 scrollTop: 0                       // Scroll to top of body
             }, 500);
             $("#CreatePostForm").data('validator').resetForm();
+            $("#CreatePostForm").find("#result").html("");
+            $("#CreatePostForm").find('#Title, #Description, #TagsInput').val('');
+            
+            ImgList.splice(0, ImgList.length);
             $(".validation-summary-errors ul li").remove();
             $(".validation-summary-errors").addClass('validation-summary-valid').removeClass('validation-summary-errors');
             $(".stamp").toggleClass("hides");

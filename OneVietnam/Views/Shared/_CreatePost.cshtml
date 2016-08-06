@@ -107,7 +107,7 @@
                         <div class="ui floating labeled icon dropdown button"  tabindex="15" id="locationDr" style="float: left">
                             <i class="blue world icon"></i>
                             <span class="text"> Địa chỉ nhà của bạn</span>
-                            <div class="menu" >
+                            <div class="menu">
                                 <div class="item" onclick="getRegisteredLocation('@User.Identity.GetUserId()');" id="getloc">
                                     <div class="ui red empty circular label"></div>
                                     Địa chỉ nhà của bạn
@@ -124,7 +124,7 @@
                                 </div>
                                 <div class="ui left icon input">
                                     <i class="search icon"></i>
-                                    <input type="text" id="search-location" name="search" placeholder="Tìm kiếm địa điểm..."  style="margin-right: 19px">
+                                    <input type="text" id="search-location" name="search" placeholder="Tìm kiếm địa điểm...">
                                 </div>
                             </div>
                         </div>
@@ -188,11 +188,16 @@
                             var xhr = new XMLHttpRequest();
                             xhr.open('POST', '@Url.Action("GetIllustrations","Newsfeed")');
                             xhr.send(formdata);
+                            console.log('Sended');
                             xhr.onreadystatechange = function () {
+                                console.log('Sended state');
                                 if (xhr.readyState === 4 && xhr.status === 200) {
+                                    console.log('Recieved');
                                     ImgList.splice(0, ImgList.length);
+                                    $("#CreatePostForm").submit();
                                 }
                             }
+                            return;
                         }
                           
                         </script>
@@ -201,11 +206,11 @@
 
                     <!-- Button Create and Cancel -->
                     <div class="field" style="text-align: center">
-                    <input id="btnCancel" type="button" tabindex="18" value="Hủy" class="ui cancel button" onclick="hideForm()" />
-                    <input id="btnCreate" type="submit" tabindex="19" onclick="submitCreatePost()" value="Đăng bài" name="createpost" class="ui teal button" />
+                    <input id="btnCancel" type="button" tabindex="18" value="Hủy" class="ui cancel button" onclick="resetForm()" />
+                    <input id="btnCreate" type="button" tabindex="19" onclick="submitCreatePost()" value="Đăng bài" name="createpost" class="ui teal button" />
                         <script>
-                            function hideForm() {
-                                $('.stamp-button').click();
+                            function resetForm() {
+                                $("#stamp-button").click();                                
                             }
                         </script>
                     </div>

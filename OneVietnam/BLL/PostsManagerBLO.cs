@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -66,21 +67,18 @@ namespace OneVietnam.BLL
             {
                 int fileCount = pFiles.Count;
                 if (fileCount > 0 && !string.IsNullOrEmpty(pFiles[0]?.FileName))
-                {
-                    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-                    CloudBlobContainer blobContainer = blobClient.GetContainerReference(pBlobContainerName);
-                    await blobContainer.DeleteIfExistsAsync();
-                    await blobContainer.CreateAsync();
-                    await blobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
-
+                {                    
+                    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));                    
+                    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();                    
+                    CloudBlobContainer blobContainer = blobClient.GetContainerReference(pBlobContainerName);                    
+                    await blobContainer.DeleteIfExistsAsync();                    
+                    await blobContainer.CreateAsync();                    
+                    await blobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });                    
                     for (int i = 0; i < fileCount; i++)
-                    {
-                       
-                            CloudBlockBlob blob = blobContainer.GetBlockBlobReference(GetRandomBlobName(pFiles[i].FileName));                         
-                         await   blob.UploadFromStreamAsync(pFiles[i].InputStream);
-                                               
-                    }
+                    {                       
+                        CloudBlockBlob blob = blobContainer.GetBlockBlobReference(GetRandomBlobName(pFiles[i].FileName));                        
+                        await   blob.UploadFromStreamAsync(pFiles[i].InputStream);                         
+                    }                    
                     var blobList = blobContainer.ListBlobs();
                     List<Illustration> illList = new List<Illustration>();
                     foreach (var blob in blobList)

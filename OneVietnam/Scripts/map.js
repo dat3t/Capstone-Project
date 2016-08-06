@@ -7,16 +7,17 @@ var infowindowContent;
 var isFirstTime = true;
 var myCurrentLocationMarker, myHomeMarker;
 var markerCluster;
+var isClickOnSpiderfier = true;
 
 var listUserMarkers = [], listMaleMarkers = [], listFemaleMarkers = [], listLGBTMarkers = [];
 
-var listType0Markers = [], listType1Markers = [], listType2Markers = [], listType3Markers = [], listType4Markers = [], listType5Markers = [], listType8Markers = [];
+var listType3Markers = [], listType4Markers = [], listType5Markers = [], listType6Markers = [], listType7Markers = [], listType8Markers = [], listType9Markers = [];
 
 var userMarkerCluster = [], maleMarkerCluster = [], femaleMarkerCluster = [], LGBTMarkerCluster = [];
 
-var type0MarkerCluster = [], type1MarkerCluster = [], type2MarkerCluster = [], type3MarkerCluster = [], type4MarkerCluster = [], type5MarkerCluster = [], type8MarkerCluster = [];
+var type3MarkerCluster = [], type4MarkerCluster = [], type5MarkerCluster = [], type6MarkerCluster = [], type7MarkerCluster = [], type8MarkerCluster = [], type9MarkerCluster = [];
 
-var overlappingType0 = [], overlappingType1 = [], overlappingType2 = [], overlappingType3 = [], overlappingType4 = [], overlappingType5 = [], overlappingType8 = [];
+var overlappingType3 = [], overlappingType4 = [], overlappingType5 = [], overlappingType6 = [], overlappingType7 = [], overlappingType8 = [], overlappingType9 = [];
 
 var overlappingMale = [], overlappingFemale = [], overlappingLGBT = [], overlappingUsers = [];
 
@@ -97,60 +98,45 @@ function initialize() {
     overlappingMale = new OverlappingMarkerSpiderfier(map);
     overlappingLGBT = new OverlappingMarkerSpiderfier(map);
     overlappingFemale = new OverlappingMarkerSpiderfier(map);
-    overlappingType0 = new OverlappingMarkerSpiderfier(map);
-    overlappingType1 = new OverlappingMarkerSpiderfier(map);
-    overlappingType2 = new OverlappingMarkerSpiderfier(map);
     overlappingType3 = new OverlappingMarkerSpiderfier(map);
     overlappingType4 = new OverlappingMarkerSpiderfier(map);
     overlappingType5 = new OverlappingMarkerSpiderfier(map);
-    overlappingType8 = new OverlappingMarkerSpiderfier(map)
+    overlappingType6 = new OverlappingMarkerSpiderfier(map);
+    overlappingType7 = new OverlappingMarkerSpiderfier(map);
+    overlappingType8 = new OverlappingMarkerSpiderfier(map);
+    overlappingType9 = new OverlappingMarkerSpiderfier(map);
 
     createListUserMarkers();
     createListMaleMarkers();
     createListFemaleMarkers();
     createListLGBTMarkers();
-    createListType0Markers();
-    createListType1Markers();
-    createListType2Markers();
-    createListType3Markers();
-    createListType4Markers();
-    createListType5Markers();
+    createlistType3Markers();
+    createlistType4Markers();
+    createlistType5Markers();
+    createListType6Markers();
+    createListType7Markers();
     createListType8Markers();
+    createListType9Markers();
 
     userMarkerCluster = new MarkerClusterer(map, listUserMarkers);
     maleMarkerCluster = new MarkerClusterer(map, listMaleMarkers);
     femaleMarkerCluster = new MarkerClusterer(map, listFemaleMarkers);
     LGBTMarkerCluster = new MarkerClusterer(map, listLGBTMarkers);
-    type0MarkerCluster = new MarkerClusterer(map, listType0Markers);
-    type1MarkerCluster = new MarkerClusterer(map, listType1Markers);
-    type2MarkerCluster = new MarkerClusterer(map, listType2Markers);
     type3MarkerCluster = new MarkerClusterer(map, listType3Markers);
     type4MarkerCluster = new MarkerClusterer(map, listType4Markers);
     type5MarkerCluster = new MarkerClusterer(map, listType5Markers);
+    type6MarkerCluster = new MarkerClusterer(map, listType6Markers);
+    type7MarkerCluster = new MarkerClusterer(map, listType7Markers);
     type8MarkerCluster = new MarkerClusterer(map, listType8Markers);
+    type9MarkerCluster = new MarkerClusterer(map, listType9Markers);
 
     //Init user makers first load
     userMarkerCluster.setMaxZoom(9);
-
     showUsers();
-
 
     // Create the search box and link it to the UI element.
     var input = document.getElementById("pac-input2");
     var searchBox = new google.maps.places.SearchBox(input);
-
-    //marker2 = [];
-    //for (var i = 0; i < 1000; i++) {
-    //    // var dataPhoto = data.photos[i];
-    //    var latLng = new google.maps.LatLng(Math.floor(Math.random() * 50), Math.floor(Math.random() * 100));
-    //    var marker = new google.maps.Marker({
-    //        position: latLng
-    //    });
-    //    markers2.push(marker);
-    //}
-
-    //markerCluster2 = new MarkerClusterer(map, null);
-    //markerCluster2.addMarkers(markers2);
 
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
@@ -174,10 +160,6 @@ function initialize() {
         map.fitBounds(bounds);
     });
 
-    //$(window).resize(function () {
-    //    // (the 'map' here is the result of the created 'var map = ...' above)
-    //    google.maps.event.trigger(map, "resize");
-    //});
     google.maps.event.addListener(map, 'zoom_changed', function () {
         setTimeout(function () {
             var cnt = map.getCenter();
@@ -256,17 +238,18 @@ function showMyLocation() {
 }
 
 function setMapToAMarkerCluster(markerCluster) {
+
     userMarkerCluster.setMap(null);
     maleMarkerCluster.setMap(null);
     femaleMarkerCluster.setMap(null);
     LGBTMarkerCluster.setMap(null);
-    type0MarkerCluster.setMap(null);
-    type1MarkerCluster.setMap(null);
-    type2MarkerCluster.setMap(null);
     type3MarkerCluster.setMap(null);
     type4MarkerCluster.setMap(null);
     type5MarkerCluster.setMap(null);
+    type6MarkerCluster.setMap(null);
+    type7MarkerCluster.setMap(null);
     type8MarkerCluster.setMap(null);
+    type9MarkerCluster.setMap(null);
     //myCurrentLocationMarker.setMap(null);
     //myHomeMarker.setMap(null);
 
@@ -326,59 +309,60 @@ function showLGBT() {
 }
 
 function showAccommodation() {
-    setMapToAMarkerCluster(type0MarkerCluster);
-    type0MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType0);
+    setMapToAMarkerCluster(type3MarkerCluster);
+    type3MarkerCluster.setMaxZoom(9);
+   // openAllClusters(overlappingType3);
+    var pos = calculateNearestMarker(postType3);
     checkIfBoundContainPosition(pos);
 
 
 }
 
 function showJobOffer() {
-    setMapToAMarkerCluster(type1MarkerCluster);
-    type1MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType1);
+    setMapToAMarkerCluster(type4MarkerCluster);
+    type4MarkerCluster.setMaxZoom(9);
+    var pos = calculateNearestMarker(postType4);
     checkIfBoundContainPosition(pos);
 }
 
 function showFurnitureOffer() {
 
 
-    setMapToAMarkerCluster(type2MarkerCluster);
-    type2MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType2);
+    setMapToAMarkerCluster(type5MarkerCluster);
+    type5MarkerCluster.setMaxZoom(9);
+    var pos = calculateNearestMarker(postType5);
     checkIfBoundContainPosition(pos);
 }
 
 function showHandGoodsOffer() {
-    setMapToAMarkerCluster(type3MarkerCluster);
-    type3MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType3);
+    setMapToAMarkerCluster(type6MarkerCluster);
+    type6MarkerCluster.setMaxZoom(9);
+    var pos = calculateNearestMarker(postType6);
     checkIfBoundContainPosition(pos);
 
 }
 
 function showTradeOffer() {
-    setMapToAMarkerCluster(type4MarkerCluster);
-    type4MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType4);
+    setMapToAMarkerCluster(type7MarkerCluster);
+    type7MarkerCluster.setMaxZoom(9);
+    var pos = calculateNearestMarker(postType7);
     checkIfBoundContainPosition(pos);
 }
 function showSOS() {
-    setMapToAMarkerCluster(type5MarkerCluster);
-    type5MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType5);
+    setMapToAMarkerCluster(type8MarkerCluster);
+    type8MarkerCluster.setMaxZoom(9);
+    var pos = calculateNearestMarker(postType8);
     checkIfBoundContainPosition(pos);
 
 }
 function showWarning() {
-    setMapToAMarkerCluster(type8MarkerCluster);
-    if(postType8.length == 0){
+    setMapToAMarkerCluster(type9MarkerCluster);
+    if(postType9.length == 0){
         alert("Không có bài viết nào!");
         return;
     }
-    type8MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType8);
+    type9MarkerCluster.setMaxZoom(9);
+    var pos = calculateNearestMarker(postType9);
     checkIfBoundContainPosition(pos);
 }
 
@@ -509,109 +493,14 @@ function createListLGBTMarkers() {
     }
 }
 
-function createListType0Markers() {
-    var length = postType0.length;
+function createlistType3Markers() {
+    var length = postType3.length;
     var icon = {
         url: "../Content/Icon/home.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
     };
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType0[i].x, postType0[i].y);
-        bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            title: "Nhấp để xem chi tiết",
-            icon: icon
-        });
-        listType0Markers.push(marker);
-        overlappingType0.addMarker(marker);
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                getPostInfo(postType0[i].postID);
-            }
-        })(marker, i));
-
-    }
-
-}
-
-function createListType1Markers() {
-    var icon = {
-        url: "../Content/Icon/job.png",
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(50, 50)
-    };
-    var length = postType1.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType1[i].x, postType1[i].y);
-        bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            title: "Nhấp để xem chi tiết",
-            icon: icon
-        });
-        listType1Markers.push(marker);
-        overlappingType1.addMarker(marker);
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                getPostInfo(postType1[i].postID);
-            }
-        })(marker, i));
-
-    }
-    //  alert(listType1Markers[0].getTitle());
-
-}
-
-function createListType2Markers() {
-    var icon = {
-        url: "../Content/Icon/free.png",
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(50, 50)
-    };
-    var length = postType2.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType2[i].x, postType2[i].y);
-        bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            title: "Nhấp để xem chi tiết",
-            icon: icon
-        });
-        listType2Markers.push(marker);
-        overlappingType2.addMarker(marker);
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                getPostInfo(postType2[i].postID);
-            }
-        })(marker, i));
-
-    }
-    //  alert(listType1Markers[0].getTitle());
-
-}
-
-function createListType3Markers() {
-    var icon = {
-        url: "../Content/Icon/ship.jpg",
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(50, 50)
-    };
-    var length = postType3.length;
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(postType3[i].x, postType3[i].y);
         bounds.extend(position);
@@ -623,22 +512,31 @@ function createListType3Markers() {
             icon: icon
         });
         listType3Markers.push(marker);
-        overlappingType3.addMarker(marker);
+       
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                getPostInfo(postType3[i].postID);
+                setTimeout(function () {
+                    getPostInfo(postType3[i].postID);
+                }, 100);
             }
         })(marker, i));
 
+        overlappingType3.addMarker(marker);
     }
-    //  alert(listType1Markers[0].getTitle());
+    +
+    overlappingType3.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingType3.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
 
 }
 
-function createListType4Markers() {
+function createlistType4Markers() {
     var icon = {
-        url: "../Content/Icon/sale.png",
+        url: "../Content/Icon/job.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -651,25 +549,37 @@ function createListType4Markers() {
             position: position,
             map: null,
             optimized: false,
+            title: "Nhấp để xem chi tiết",
             icon: icon
         });
         listType4Markers.push(marker);
-        overlappingType4.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                getPostInfo(postType4[i].postID);
+                setTimeout(function () {
+                    getPostInfo(postType4[i].postID);
+                }, 100);
             }
         })(marker, i));
 
+        overlappingType4.addMarker(marker);
     }
-    //  alert(listType1Markers[0].getTitle());
+    +
+    overlappingType4.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingType4.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
+
+    //  alert(listType4Markers[0].getTitle());
 
 }
 
-function createListType5Markers() {
+function createlistType5Markers() {
     var icon = {
-        url: "../Content/Icon/help.png",
+        url: "../Content/Icon/free.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -682,23 +592,119 @@ function createListType5Markers() {
             position: position,
             map: null,
             optimized: false,
+            title: "Nhấp để xem chi tiết",
             icon: icon
         });
         listType5Markers.push(marker);
-        overlappingType5.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                getPostInfo(postType5[i].postID);
+                setTimeout(function () {
+                    getPostInfo(postType5[i].postID);
+                }, 100);
             }
         })(marker, i));
 
+        overlappingType5.addMarker(marker);
     }
+    +
+    overlappingType5.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingType5.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
+
+
+}
+
+function createListType6Markers() {
+    var icon = {
+        url: "../Content/Icon/ship.jpg",
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 50)
+    };
+    var length = postType6.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(postType6[i].x, postType6[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            optimized: false,
+            title: "Nhấp để xem chi tiết",
+            icon: icon
+        });
+        listType6Markers.push(marker);
+
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                setTimeout(function () {
+                    getPostInfo(postType6[i].postID);
+                }, 100);
+            }
+        })(marker, i));
+
+        overlappingType6.addMarker(marker);
+    }
+    +
+    overlappingType6.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingType6.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
+
+
+}
+
+function createListType7Markers() {
+    var icon = {
+        url: "../Content/Icon/sale.png",
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 50)
+    };
+    var length = postType7.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(postType7[i].x, postType7[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            optimized: false,
+            icon: icon
+        });
+        listType7Markers.push(marker);
+
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                setTimeout(function () {
+                    getPostInfo(postType7[i].postID);
+                }, 100);
+            }
+        })(marker, i));
+
+        overlappingType7.addMarker(marker);
+    }
+    +
+    overlappingType7.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingType7.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
+
+
 }
 
 function createListType8Markers() {
     var icon = {
-        url: "../Content/Icon/Warning.png",
+        url: "../Content/Icon/help.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -711,19 +717,70 @@ function createListType8Markers() {
             position: position,
             map: null,
             optimized: false,
-            //title: postType1[i].address,
             icon: icon
         });
         listType8Markers.push(marker);
-        overlappingType8.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                getPostInfo(postType8[i].postID);
+                setTimeout(function () {
+                    getPostInfo(postType8[i].postID);
+                }, 100);
             }
         })(marker, i));
 
+        overlappingType8.addMarker(marker);
     }
+    +
+    overlappingType8.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingType8.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
+
+}
+
+function createListType9Markers() {
+    var icon = {
+        url: "../Content/Icon/Warning.png",
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 50)
+    };
+    var length = postType8.length;
+    for (var i = 0; i < length; i++) {
+        var position = new google.maps.LatLng(postType9[i].x, postType9[i].y);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: null,
+            optimized: false,
+            //title: postType1[i].address,
+            icon: icon
+        });
+        listType9Markers.push(marker);
+
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                setTimeout(function () {
+                    getPostInfo(postType9[i].postID);
+                }, 100);
+            }
+        })(marker, i));
+
+        overlappingType9.addMarker(marker);
+    }
+    +
+    overlappingType9.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingType9.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
+
 }
 
 function handleLocationError(browserHasGeolocation, message, pos) {
@@ -798,55 +855,56 @@ function getUserInfo(userId) {
 }
 
 function getPostInfo(postID) {
-    $.ajax({
-        url: '/Map/GetPostPartialView?postId=' + postID,
-        type: 'GET',
-        dataType: 'text',
-        success: function (result) {
-            //   createUserInfoWindowContent(json.UserName, 23, json.Gender, json.Location.Address);
-            if (result != '') {
+    if(isClickOnSpiderfier == false){
+        $.ajax({
+            url: '/Map/GetPostPartialView?postId=' + postID,
+            type: 'GET',
+            dataType: 'text',
+            success: function (result) {
+                //   createUserInfoWindowContent(json.UserName, 23, json.Gender, json.Location.Address);
+                if (result != '') {
 
-                $("#postModal").empty();
+                    $("#postModal").empty();
 
-                $("#postModal").html(result);
+                    $("#postModal").html(result);
 
-                $('#postModal').modal({
-                    inverted: true
-                }).modal({
-                    duration:400,
-                    onHide: function () {
-                    }
-                }).modal('show')
-                ;
-                var $carousel = $('.carousel').flickity({
-                    imagesLoaded: true,
-                    percentPosition: false
-                });
-
-                // get transform property
-                var docStyle = document.documentElement.style;
-                var transformProp = typeof docStyle.transform == 'string' ?
-                  'transform' : 'WebkitTransform';
-
-                history.pushState(null, null, "../Newsfeed/ShowPost/" + id);
-                var flkty = $carousel.data('flickity');
-                var $imgs = $('.carousel-cell img');
-                $carousel.on('scroll.flickity', function () {
-                    flkty.slides.forEach(function (slide, i) {
-                        var img = $imgs[i];
-                        var x = (slide.target + flkty.x) * -1 / 3;
-                        img.style[transformProp] = 'translateX(' + x + 'px)';
+                    $('#postModal').modal({
+                        inverted: true
+                    }).modal({
+                        duration: 400,
+                        onHide: function () {
+                        }
+                    }).modal('show')
+                    ;
+                    var $carousel = $('.carousel').flickity({
+                        imagesLoaded: true,
+                        percentPosition: false
                     });
+
+                    // get transform property
+                    var docStyle = document.documentElement.style;
+                    var transformProp = typeof docStyle.transform == 'string' ?
+                      'transform' : 'WebkitTransform';
+
+                    history.pushState(null, null, "../Newsfeed/ShowPost/" + id);
+                    var flkty = $carousel.data('flickity');
+                    var $imgs = $('.carousel-cell img');
+                    $carousel.on('scroll.flickity', function () {
+                        flkty.slides.forEach(function (slide, i) {
+                            var img = $imgs[i];
+                            var x = (slide.target + flkty.x) * -1 / 3;
+                            img.style[transformProp] = 'translateX(' + x + 'px)';
+                        });
+                    });
+                }
+                window.addEventListener('popstate', function (e) {
                 });
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
             }
-            window.addEventListener('popstate', function (e) {
-            });
-        },
-        error: function (xhr, status, error) {
-            alert(xhr.responseText);
-        }
-    });
-   
+        });
+    }
 }
 
 function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail) {
@@ -868,7 +926,6 @@ function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail)
 
         }, 1000);
     } else {
-        alert(1);
         map.setZoom(14);
         map.setCenter({ lat: Lat, lng: Lng });
     }
@@ -919,15 +976,14 @@ function checkIfBoundContainPosition(pos) {
         map.setCenter(pos);
         setTimeout(function () {
             smoothZoom(this.map, 13, map.getZoom());
-
         }, 1200);
     }
     else {
         //   map.fitBounds(map.getBounds());
         smoothlyCenterPosition(pos);
     }
-
 }
+
 //window.onload = initialize;
 google.maps.event.addDomListener(window, 'load', initialize);
 //$(document).ready(initialize);
