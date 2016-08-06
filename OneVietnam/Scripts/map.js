@@ -7,7 +7,7 @@ var infowindowContent;
 var isFirstTime = true;
 var myCurrentLocationMarker, myHomeMarker;
 var markerCluster;
-
+var isClickOnSpiderfier = true;
 var listUserMarkers = [], listMaleMarkers = [], listFemaleMarkers = [], listLGBTMarkers = [];
 
 var listType0Markers = [], listType1Markers = [], listType2Markers = [], listType3Markers = [], listType4Markers = [], listType5Markers = [], listType8Markers = [];
@@ -104,6 +104,33 @@ function initialize() {
     overlappingType4 = new OverlappingMarkerSpiderfier(map);
     overlappingType5 = new OverlappingMarkerSpiderfier(map);
     overlappingType8 = new OverlappingMarkerSpiderfier(map)
+
+    var oms = new OverlappingMarkerSpiderfier(map,
+        { markersWontMove: true, markersWontHide: true });
+    var iw = new google.maps.InfoWindow();
+
+    oms.addListener('click', function (marker) {
+        iw.setContent("âa");
+        iw.open(map, marker);
+    });
+    overlappingType0.addListener('spiderfy', function (markers) {
+        // iw.close();alert();
+       // return;
+    });
+    oms.addListener('unspiderfy', function (markers) {
+       
+    });
+    for (var i = 0; i <10; i++) {
+      
+        var marker = new google.maps.Marker({
+            position: { lat: 21.0277644, lng: 105.83415979999995 },
+            title: "ahihi",
+            map: map
+           
+        });
+       
+        oms.addMarker(marker);
+    }
 
     createListUserMarkers();
     createListMaleMarkers();
@@ -328,6 +355,7 @@ function showLGBT() {
 function showAccommodation() {
     setMapToAMarkerCluster(type0MarkerCluster);
     type0MarkerCluster.setMaxZoom(9);
+   // openAllClusters(overlappingType0);
     var pos = calculateNearestMarker(postType0);
     checkIfBoundContainPosition(pos);
 
@@ -528,15 +556,25 @@ function createListType0Markers() {
             icon: icon
         });
         listType0Markers.push(marker);
-        overlappingType0.addMarker(marker);
+       
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                getPostInfo(postType0[i].postID);
+                setTimeout(function () {
+                    getPostInfo(postType0[i].postID);
+                }, 100);
             }
         })(marker, i));
 
+        overlappingType0.addMarker(marker);
     }
+    +
+    overlappingType0.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingType0.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
 
 }
 
@@ -559,15 +597,26 @@ function createListType1Markers() {
             icon: icon
         });
         listType1Markers.push(marker);
-        overlappingType1.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                getPostInfo(postType1[i].postID);
+                setTimeout(function () {
+                    getPostInfo(postType1[i].postID);
+                }, 100);
             }
         })(marker, i));
 
+        overlappingType1.addMarker(marker);
     }
+    +
+    overlappingType1.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingType1.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
+
     //  alert(listType1Markers[0].getTitle());
 
 }
@@ -591,16 +640,26 @@ function createListType2Markers() {
             icon: icon
         });
         listType2Markers.push(marker);
-        overlappingType2.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                getPostInfo(postType2[i].postID);
+                setTimeout(function () {
+                    getPostInfo(postType2[i].postID);
+                }, 100);
             }
         })(marker, i));
 
+        overlappingType2.addMarker(marker);
     }
-    //  alert(listType1Markers[0].getTitle());
+    +
+    overlappingType2.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingType2.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
+
 
 }
 
@@ -623,16 +682,26 @@ function createListType3Markers() {
             icon: icon
         });
         listType3Markers.push(marker);
-        overlappingType3.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                getPostInfo(postType3[i].postID);
+                setTimeout(function () {
+                    getPostInfo(postType3[i].postID);
+                }, 100);
             }
         })(marker, i));
 
+        overlappingType3.addMarker(marker);
     }
-    //  alert(listType1Markers[0].getTitle());
+    +
+    overlappingType3.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingType3.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
+
 
 }
 
@@ -654,16 +723,26 @@ function createListType4Markers() {
             icon: icon
         });
         listType4Markers.push(marker);
-        overlappingType4.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                getPostInfo(postType4[i].postID);
+                setTimeout(function () {
+                    getPostInfo(postType4[i].postID);
+                }, 100);
             }
         })(marker, i));
 
+        overlappingType4.addMarker(marker);
     }
-    //  alert(listType1Markers[0].getTitle());
+    +
+    overlappingType4.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingType4.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
+
 
 }
 
@@ -685,15 +764,26 @@ function createListType5Markers() {
             icon: icon
         });
         listType5Markers.push(marker);
-        overlappingType5.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                getPostInfo(postType5[i].postID);
+                setTimeout(function () {
+                    getPostInfo(postType5[i].postID);
+                }, 100);
             }
         })(marker, i));
 
+        overlappingType5.addMarker(marker);
     }
+    +
+    overlappingType5.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingType5.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
+
 }
 
 function createListType8Markers() {
@@ -715,15 +805,26 @@ function createListType8Markers() {
             icon: icon
         });
         listType8Markers.push(marker);
-        overlappingType8.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                getPostInfo(postType8[i].postID);
+                setTimeout(function () {
+                    getPostInfo(postType8[i].postID);
+                }, 100);
             }
         })(marker, i));
 
+        overlappingType8.addMarker(marker);
     }
+    +
+    overlappingType8.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingType8.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
+
 }
 
 function handleLocationError(browserHasGeolocation, message, pos) {
@@ -798,55 +899,56 @@ function getUserInfo(userId) {
 }
 
 function getPostInfo(postID) {
-    $.ajax({
-        url: '/Map/GetPostPartialView?postId=' + postID,
-        type: 'GET',
-        dataType: 'text',
-        success: function (result) {
-            //   createUserInfoWindowContent(json.UserName, 23, json.Gender, json.Location.Address);
-            if (result != '') {
+    if(isClickOnSpiderfier == false){
+        $.ajax({
+            url: '/Map/GetPostPartialView?postId=' + postID,
+            type: 'GET',
+            dataType: 'text',
+            success: function (result) {
+                //   createUserInfoWindowContent(json.UserName, 23, json.Gender, json.Location.Address);
+                if (result != '') {
 
-                $("#postModal").empty();
+                    $("#postModal").empty();
 
-                $("#postModal").html(result);
+                    $("#postModal").html(result);
 
-                $('#postModal').modal({
-                    inverted: true
-                }).modal({
-                    duration:400,
-                    onHide: function () {
-                    }
-                }).modal('show')
-                ;
-                var $carousel = $('.carousel').flickity({
-                    imagesLoaded: true,
-                    percentPosition: false
-                });
-
-                // get transform property
-                var docStyle = document.documentElement.style;
-                var transformProp = typeof docStyle.transform == 'string' ?
-                  'transform' : 'WebkitTransform';
-
-                history.pushState(null, null, "../Newsfeed/ShowPost/" + id);
-                var flkty = $carousel.data('flickity');
-                var $imgs = $('.carousel-cell img');
-                $carousel.on('scroll.flickity', function () {
-                    flkty.slides.forEach(function (slide, i) {
-                        var img = $imgs[i];
-                        var x = (slide.target + flkty.x) * -1 / 3;
-                        img.style[transformProp] = 'translateX(' + x + 'px)';
+                    $('#postModal').modal({
+                        inverted: true
+                    }).modal({
+                        duration: 400,
+                        onHide: function () {
+                        }
+                    }).modal('show')
+                    ;
+                    var $carousel = $('.carousel').flickity({
+                        imagesLoaded: true,
+                        percentPosition: false
                     });
+
+                    // get transform property
+                    var docStyle = document.documentElement.style;
+                    var transformProp = typeof docStyle.transform == 'string' ?
+                      'transform' : 'WebkitTransform';
+
+                    history.pushState(null, null, "../Newsfeed/ShowPost/" + id);
+                    var flkty = $carousel.data('flickity');
+                    var $imgs = $('.carousel-cell img');
+                    $carousel.on('scroll.flickity', function () {
+                        flkty.slides.forEach(function (slide, i) {
+                            var img = $imgs[i];
+                            var x = (slide.target + flkty.x) * -1 / 3;
+                            img.style[transformProp] = 'translateX(' + x + 'px)';
+                        });
+                    });
+                }
+                window.addEventListener('popstate', function (e) {
                 });
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
             }
-            window.addEventListener('popstate', function (e) {
-            });
-        },
-        error: function (xhr, status, error) {
-            alert(xhr.responseText);
-        }
-    });
-   
+        });
+    }
 }
 
 function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail) {
@@ -868,7 +970,6 @@ function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail)
 
         }, 1000);
     } else {
-        alert(1);
         map.setZoom(14);
         map.setCenter({ lat: Lat, lng: Lng });
     }
@@ -928,6 +1029,7 @@ function checkIfBoundContainPosition(pos) {
     }
 
 }
+
 //window.onload = initialize;
 google.maps.event.addDomListener(window, 'load', initialize);
 //$(document).ready(initialize);
