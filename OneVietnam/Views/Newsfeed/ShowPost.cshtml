@@ -137,7 +137,7 @@
                                 data: { commentid: commentID },
                                 success: function(result) {
                                     alert(result);
-                                    pushNotification("@Url.Action("ShowPost", "Newsfeed", new {postId = Model.Id})",
+                                    pushNotification("@Url.Action("ShowPost", "Newsfeed", new {Id = Model.Id})",
                                         "@Model.Title",
                                         "@Model.UserId");
 
