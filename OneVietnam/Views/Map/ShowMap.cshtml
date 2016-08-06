@@ -261,7 +261,7 @@ else
             @*<i class="female icon"></i>*@
         </button>
 
-        <button type="submit" class="ui icon purple button" id="filterLGBT" data-tooltip="LGBT" data-position="top center" onclick="showLGBT()">
+        <button type="submit" class="ui icon purple button" id="filterLGBT" data-tooltip="Giới tính khác" data-position="top center" onclick="showLGBT()">
             @*<i class="transgender icon"></i>*@
         </button>
 
@@ -269,6 +269,7 @@ else
             @*<i class="users icon"></i>*@
         </button>
     </div>
+
     <div id="dat">
         <div id="mySidenav" class="sidenav scrollbar" style="position:absolute;left:0px;top:0px;overflow-y:auto;">
             @{
@@ -277,7 +278,6 @@ else
                 @Html.Partial("_SidenavPost", (list));
 
             }
-
         </div>
 
         <div id="aa" onclick="toggle()" class="ui blue big centered launch right attached fixed button" style="position: absolute; background: rgb(167, 210, 203); left: 0px; margin-left:380px;top:40%;transition: margin-left .5s;width:40px;">
