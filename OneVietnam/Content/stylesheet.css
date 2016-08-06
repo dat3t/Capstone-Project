@@ -3,16 +3,14 @@
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 @font-face {
     font-family: track;
-    src: url(/fonts/GUERRILLA-Normal.otf);
+    src: url("/fonts/iCiel Altus.otf");
 }
 
 *, *:before, *:after {
   box-sizing: border-box;
 }
 
- html *{
-     font-family: track;
- }
+
  .carousel {
   background: #EEE;
 }
