@@ -85,26 +85,26 @@ function initialize() {
     //Declare a bound
     bounds = new google.maps.LatLngBounds();
 
-    google.maps.event.addListener(map, 'bounds_changed', function () {
-        bounds = map.getBounds();
-    });
+    //google.maps.event.addListener(map, 'bounds_changed', function () {
+    //    bounds = map.getBounds();
+    //});
 
     google.maps.event.addListener(map, 'idle', function () {
         bounds = map.getBounds();
     });
 
     //Delcare overlapping, markerClusterer
-    overlappingUsers = new OverlappingMarkerSpiderfier(map);
-    overlappingMale = new OverlappingMarkerSpiderfier(map);
-    overlappingLGBT = new OverlappingMarkerSpiderfier(map);
-    overlappingFemale = new OverlappingMarkerSpiderfier(map);
-    overlappingType3 = new OverlappingMarkerSpiderfier(map);
-    overlappingType4 = new OverlappingMarkerSpiderfier(map);
-    overlappingType5 = new OverlappingMarkerSpiderfier(map);
-    overlappingType6 = new OverlappingMarkerSpiderfier(map);
-    overlappingType7 = new OverlappingMarkerSpiderfier(map);
-    overlappingType8 = new OverlappingMarkerSpiderfier(map);
-    overlappingType9 = new OverlappingMarkerSpiderfier(map);
+    overlappingUsers = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingMale = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingLGBT = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingFemale = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingType3 = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingType4 = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingType5 = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingType6 = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingType7 = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingType8 = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingType9 = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
 
     createListUserMarkers();
     createListMaleMarkers();
@@ -192,7 +192,7 @@ function showCurrentLocation() {
                 lng: position.coords.longitude
             };
             var pos2 = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
-            
+
             myCurrentLocationMarker.setMap(map);
             myCurrentLocationMarker.setPosition(pos);
             google.maps.event.addListener(myCurrentLocationMarker, 'click', (function (marker) {
@@ -207,7 +207,7 @@ function showCurrentLocation() {
             //bounds.extend(pos);
             //map.fitBounds(bounds);
             //map.setCenter(pos);
-           // map.setCenter(pos);
+            // map.setCenter(pos);
 
         }, function () {
             handleLocationError(true, "Không thể định vị được vị trí của bạn. Bạn cần cho phép trình duyệt sử dụng định vị GPS.", map.getCenter());
@@ -225,7 +225,7 @@ function showMyLocation() {
 
     myHomeMarker.setMap(map);
     myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
-   
+
     var pos2 = new google.maps.LatLng(authenticatedUser.x, authenticatedUser.y)
     google.maps.event.addListener(myHomeMarker, 'click', (function (marker) {
         return function () {
@@ -234,7 +234,7 @@ function showMyLocation() {
         }
     })(marker));
     checkIfBoundContainPosition(pos2);
-   // map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
+    // map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
 }
 
 function setMapToAMarkerCluster(markerCluster) {
@@ -311,7 +311,7 @@ function showLGBT() {
 function showAccommodation() {
     setMapToAMarkerCluster(type3MarkerCluster);
     type3MarkerCluster.setMaxZoom(9);
-   // openAllClusters(overlappingType3);
+    // openAllClusters(overlappingType3);
     var pos = calculateNearestMarker(postType3);
     checkIfBoundContainPosition(pos);
 
@@ -326,7 +326,6 @@ function showJobOffer() {
 }
 
 function showFurnitureOffer() {
-
 
     setMapToAMarkerCluster(type5MarkerCluster);
     type5MarkerCluster.setMaxZoom(9);
@@ -350,6 +349,7 @@ function showTradeOffer() {
 }
 function showSOS() {
     setMapToAMarkerCluster(type8MarkerCluster);
+    showAlertNoPost(postType8);
     type8MarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(postType8);
     checkIfBoundContainPosition(pos);
@@ -357,15 +357,18 @@ function showSOS() {
 }
 function showWarning() {
     setMapToAMarkerCluster(type9MarkerCluster);
-    if(postType9.length == 0){
-        alert("Không có bài viết nào!");
-        return;
-    }
+    showAlertNoPost(postType9);
     type9MarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(postType9);
     checkIfBoundContainPosition(pos);
 }
 
+function showAlertNoPost(postTypeArray) {
+    if (postTypeArray.length == 0) {
+        alert("Không có bài viết nào!");
+        return;
+    }
+}
 
 function createListUserMarkers() {
     var length = allUsers.length;
@@ -512,7 +515,7 @@ function createlistType3Markers() {
             icon: icon
         });
         listType3Markers.push(marker);
-       
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -749,7 +752,7 @@ function createListType9Markers() {
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
     };
-    var length = postType8.length;
+    var length = postType9.length;
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(postType9[i].x, postType9[i].y);
         bounds.extend(position);
@@ -855,7 +858,7 @@ function getUserInfo(userId) {
 }
 
 function getPostInfo(postID) {
-    if(isClickOnSpiderfier == false){
+    if (isClickOnSpiderfier == false) {
         $.ajax({
             url: '/Map/GetPostPartialView?postId=' + postID,
             type: 'GET',
@@ -873,6 +876,7 @@ function getPostInfo(postID) {
                     }).modal({
                         duration: 400,
                         onHide: function () {
+                            history.back();
                         }
                     }).modal('show')
                     ;
@@ -886,7 +890,7 @@ function getPostInfo(postID) {
                     var transformProp = typeof docStyle.transform == 'string' ?
                       'transform' : 'WebkitTransform';
 
-                    history.pushState(null, null, "../Newsfeed/ShowPost/" + id);
+                    history.pushState(null, null, "../Newsfeed/ShowPost/" + postID);
                     var flkty = $carousel.data('flickity');
                     var $imgs = $('.carousel-cell img');
                     $carousel.on('scroll.flickity', function () {
@@ -908,16 +912,17 @@ function getPostInfo(postID) {
 }
 
 function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail) {
+    isClickOnSpiderfier = false;
     switch (PostType) {
-        case 0: showAccommodation(); break;
-        case 1: showJobOffer(); break;
-        case 2: showFurnitureOffer(); break;
-        case 3: showHandGoodsOffer(); break;
-        case 4: showTradeOffer(); break;
-        case 5: showSOS(); break;
-        case 8: showWarning(); break;
+        case 3: showAccommodation(); break;
+        case 4: showJobOffer(); break;
+        case 5: showFurnitureOffer(); break;
+        case 6: showHandGoodsOffer(); break;
+        case 7: showTradeOffer(); break;
+        case 8: showSOS(); break;
+        case 9: showWarning(); break;
     }
-    
+
     if (isCallFromPostDetail != 1) {
         setTimeout(function () {
             var position = new google.maps.LatLng(Lat, Lng);
@@ -976,7 +981,7 @@ function checkIfBoundContainPosition(pos) {
         map.setCenter(pos);
         setTimeout(function () {
             smoothZoom(this.map, 13, map.getZoom());
-        }, 1200);
+        }, 800);
     }
     else {
         //   map.fitBounds(map.getBounds());
