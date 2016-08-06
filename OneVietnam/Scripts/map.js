@@ -280,7 +280,7 @@ function calculateNearestMarker(listLocation) {
 
 function showUsers() {
     setMapToAMarkerCluster(userMarkerCluster);
-    showAlertNoPost(allUsers);
+    showAlertNoUser(allUsers);
 
     if (isFirstTime == false) {
         var pos = calculateNearestMarker(allUsers);
@@ -291,7 +291,7 @@ function showUsers() {
 
 function showMales() {
     setMapToAMarkerCluster(maleMarkerCluster);
-    showAlertNoPost(males);
+    showAlertNoUser(males);
     maleMarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(males);
     checkIfBoundContainPosition(pos);
@@ -299,7 +299,7 @@ function showMales() {
 
 function showFemales() {
     setMapToAMarkerCluster(femaleMarkerCluster);
-    showAlertNoPost(females);
+    showAlertNoUser(females);
     femaleMarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(females);
     checkIfBoundContainPosition(pos);
@@ -307,7 +307,7 @@ function showFemales() {
 
 function showLGBT() {
     setMapToAMarkerCluster(LGBTMarkerCluster);
-    showAlertNoPost(LGBT);
+    showAlertNoUser(LGBT);
     LGBTMarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(LGBT);
     checkIfBoundContainPosition(pos);
@@ -375,8 +375,13 @@ function showWarning() {
 
 function showAlertNoPost(postTypeArray) {
     if (postTypeArray.length == 0) {
-        alert("Không có bài viết nào!");
-        return;
+        $("#postEmptyAlertModal").modal('show');
+    }
+}
+
+function showAlertNoUser(postTypeArray) {
+    if (postTypeArray.length == 0) {
+        $("#userEmptyAlertModal").modal('show');
     }
 }
 
