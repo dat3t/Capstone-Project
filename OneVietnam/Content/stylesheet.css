@@ -61,8 +61,7 @@ a:hover {
    
 
 .containers {
-  margin: 0 auto;
-  background: #F0F0ED;
+  margin: 0 auto;  
   border-radius: 5px;
   position: relative;
 }
@@ -333,10 +332,15 @@ a[data-tooltip][data-placement="top"]::after {
 }
 
 body {
-    background-image: url("Images/background.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
+    background: #A7D2CB;
+}
+.mainMenu {
+    background: transparent!important;
+    box-shadow: none!important;
+    border: none!important;
+}
+.ui.menu .item:before {
+    width: 0px !important;
 }
 
 .validation-summary-errors {
@@ -431,7 +435,7 @@ body {
   width: 55px;
   height: 55px;
   border-radius: 50%;
-  background: #db4437;
+  background: #C06014;
   position: fixed;
   bottom: 30px;
   left: 40px;

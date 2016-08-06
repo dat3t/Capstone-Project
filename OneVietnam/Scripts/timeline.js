@@ -45,7 +45,7 @@ function changeTwoFactorAuthentication(pUrl) {
         url: pUrl,
         data: { 'value': param },
         success: function () {
-            $('.message .close').click();
+            $('.message')[0].className = "ui negative message transition hidden";
         }
     });
 }

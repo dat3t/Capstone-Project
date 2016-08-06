@@ -81,12 +81,12 @@
 
 ::-webkit-scrollbar-track
 {
-  background: rgba(17, 58, 41,0.5);
+  background: #A7D2CB;
 }
 
 ::-webkit-scrollbar-thumb
 {
-  background: rgba(17, 58, 41,0.5);
+  background: #A7D2CB;
 }
 
 /*

@@ -401,7 +401,7 @@ namespace OneVietnam.Controllers
             List<Illustration> illList=new List<Illustration>();
          
             _illustrationList = (HttpFileCollectionBase)Session["Illustrations"];
-            if (_illustrationList.Count > 0) { 
+            if (_illustrationList?.Count > 0) { 
                 for (int i = 0; i < _illustrationList.Count; i++)
             {
 

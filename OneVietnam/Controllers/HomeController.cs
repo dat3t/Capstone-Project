@@ -22,6 +22,7 @@ namespace OneVietnam.Controllers
         {
             get
             {
+
                 return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
             private set
@@ -32,7 +33,7 @@ namespace OneVietnam.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("ShowMap", "Map");
         }
         [AllowAnonymous]
         public ActionResult About()
