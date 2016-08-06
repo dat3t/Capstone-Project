@@ -1021,7 +1021,7 @@ function smoothlyCenterPosition(pos) {
         setTimeout(function () {
             smoothZoom(this.map, 13, map.getZoom());
 
-        }, 1200);
+        }, 200);
     }
 }
 
@@ -1032,7 +1032,7 @@ function checkIfBoundContainPosition(pos) {
         map.setCenter(pos);
         setTimeout(function () {
             smoothZoom(this.map, 13, map.getZoom());
-        }, 800);
+        }, 200);
     }
     else {
         //   map.fitBounds(map.getBounds());
