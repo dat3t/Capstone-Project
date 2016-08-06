@@ -82,7 +82,7 @@
             @*<div class="ui blue right talk outline icon button" style="position:absolute !important; right:0px !important;">
                     Trò chuyện
                 </div>*@
-            @if (Model.UserId.CompareTo(User.Identity.GetUserId()) == 0)
+            @if (Model.UserId.CompareTo(User.Identity.GetUserId()) != 0)
             {
                 <a class="item">
                     <i class="big comments outline icon" style="position:absolute !important; right:0px !important;bottom:0px !important;" title="Trò chuyện"></i>
