@@ -18,6 +18,7 @@
     }(document, 'script', 'facebook-jssdk'));
 </script>
 <script>
+    var page = 1;
     var isAuthenticated;
     var authenticatedUser;
     var top5PostList;
@@ -271,7 +272,7 @@ else
 
 <script>
     var moreRowsUrl = '/Map/GetMorePost';
-    var page = 1;
+   
 
     $("#mySidenav").scroll(function () {
         if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {

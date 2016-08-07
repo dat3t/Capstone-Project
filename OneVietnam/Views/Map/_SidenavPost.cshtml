@@ -24,11 +24,7 @@
 
 @if (Model.Count == 0)
 {
-    <script type="text/html">
-        if(page != 1 ){
-        <div style="position: relative;left:6%;top:50%;font-size:25px;">Hiện tại không có bài viết nào!</div>
-        }
-    </script>
+    <div id="alertNoPost" style="position: relative;left:4%;top:50%;font-size:25px;"></div>
 }
 else
 {
@@ -129,3 +125,9 @@ else
 @*   <button class="ui blue button" style="width:380px !important;position:absolute; bottom:0;" onclick="location.href='@Url.Action("Timeline", "Post")'">Xem tất cả bài đăng</button>*@
 
 @*onclick="location.href='@Url.Action("_ShowPostDetail", "Post", new { postId = @post.postId })'*@
+<script>
+    if(page !=1 ){
+        var node = document.getElementById('alertNoPost');
+        node.innerHTML = '<p>Hiện tại không có bài viết nào!</p>';
+    }
+</script>
