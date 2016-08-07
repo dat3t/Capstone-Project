@@ -241,7 +241,7 @@
                   
                     $('#forModal').modal({
                         blur:true,
-                        duration: 200,
+                        duration: 300,
                         onHide: function () {
                             history.back();
                         },onShow:function() {

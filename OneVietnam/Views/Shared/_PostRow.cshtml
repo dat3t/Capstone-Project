@@ -5,9 +5,5 @@
  
      @foreach (var post in Model)
      {
-         @Html.Partial("../Shared/_ShowPostDetail",post)
-
-         <script>
-             $('grids').isotope('layout')
-         </script>
+         @Html.Partial("../Shared/_ShowPostDetail",post)     
      }
