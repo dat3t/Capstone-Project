@@ -8,6 +8,7 @@
     <title>@ViewBag.Title - One Vietnam</title>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBiPDMBCKXsusl5-BgCw1nIyHwu5u3j8xw&libraries=places,geometry"></script>
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/semantic")    
     @Styles.Render("~/semantic/css")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -115,17 +116,17 @@
     }
     else
     {
-        <a href="@Url.Action("Login","Account")">
+        <a href="@Url.Action("Login", "Account")">
             <div class="floating-button" data-toggle="tooltip" data-original-title="Create">
 
                 <p class="plus">
                     <i class="write icon"></i>
                 </p>
-              
+
             </div>
         </a>
     }
-    
+
     <div id="forModal" class="ui basic modal coupled" style="position: absolute !important; height: 1000px; width: 90%">
         <div class="ui  raised clearing  segment " style="width: 631px !important">
             <div class="header">
@@ -298,8 +299,7 @@
     }
 
 
-</div>
-    @Scripts.Render("~/bundles/semantic")
+</div>            
     @Scripts.Render("~/bundles/Scripts")
     @Scripts.Render("~/Scripts/Map")
     @RenderSection("scripts", required: false)
