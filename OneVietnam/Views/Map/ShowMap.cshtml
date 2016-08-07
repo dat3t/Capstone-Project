@@ -82,10 +82,10 @@ else
         if('@item.PostId' == ''){
             allUsers.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
             if(@item.Gender == 0){
-                males.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
+                females.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
             }else
                 if(@item.Gender == 1){
-                    females.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
+                   males.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
                 }else
                     if(@item.Gender == 2){
                         LGBT.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
@@ -101,39 +101,6 @@ else
                 case 8: postType8.push({postID: '@item.PostId',  x: @item.X, y: @item.Y}); break;
                 case 9: postType9.push({postID: '@item.PostId',  x: @item.X, y: @item.Y}); break;
             }
-            @*if(@item.PostType.CompareTo(0) == 0)
-            {
-                postType3.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
-            }
-            else*@
-                @*if (@item.PostType.CompareTo(1) == 0)
-                {
-                    postType1.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
-                }
-                else
-                    if (@item.PostType.CompareTo(2) == 0)
-                    {
-                        postType2.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
-                    }
-                    else
-                        if (@item.PostType.CompareTo(3) == 0)
-                        {
-                            postType3.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
-                        }
-                        else
-                            if (@item.PostType.CompareTo(4) == 0)
-                            {
-                                postType4.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
-                            }
-                            else
-                                if (@item.PostType.CompareTo(5) == 0)
-                                {
-                                    postType5.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
-                                }
-                                else
-                                    if(@item.PostType.CompareTo(8) == 0){
-                                        postType8.push({postID: '@item.PostId',  x: @item.X, y: @item.Y});
-                                    }*@
         }
         </text>
         }
@@ -212,7 +179,7 @@ else
         <input id="pac-input2" type="text" placeholder="Tìm kiếm địa điểm...">
         <i class="search icon"></i>
     </div>
-    <div class="ui vertical buttons" id="locationGroup" style="position: absolute; right: 12px; top: 60%;">
+    <div class="ui vertical buttons" id="locationGroup" style="position: fixed; right: 12px; top: 63%;">
         <button type="submit" class="ui icon green button" id="location" onclick="showCurrentLocation()" data-tooltip="Vị trí hiện tại" data-position="left center">
             @*<i class="location arrow icon"></i>*@
         </button>
@@ -222,7 +189,7 @@ else
         }
 
     </div>
-    <div class="ui vertical buttons" id="filterGroup" style="position: absolute; right: 15px; top: 5%;">
+    <div class="ui vertical buttons" id="filterGroup" style="position: absolute; right: 15px; top: 4%;">
 
         <button type="submit" class="ui icon red button " id="filterHelp" onclick="showSOS()" data-tooltip="Nhờ giúp đỡ" data-position="left center">
             @*<i class="warning icon"></i>*@
@@ -261,7 +228,7 @@ else
             @*<i class="female icon"></i>*@
         </button>
 
-        <button type="submit" class="ui icon purple button" id="filterLGBT" data-tooltip="LGBT" data-position="top center" onclick="showLGBT()">
+        <button type="submit" class="ui icon purple button" id="filterLGBT" data-tooltip="Giới tính khác" data-position="top center" onclick="showLGBT()">
             @*<i class="transgender icon"></i>*@
         </button>
 
@@ -269,6 +236,7 @@ else
             @*<i class="users icon"></i>*@
         </button>
     </div>
+
     <div id="dat">
         <div id="mySidenav" class="sidenav scrollbar" style="position:absolute;left:0px;top:0px;overflow-y:auto;">
             @{
@@ -277,21 +245,27 @@ else
                 @Html.Partial("_SidenavPost", (list));
 
             }
-
         </div>
 
-        <div id="aa" onclick="toggle()" class="ui blue big centered launch right attached fixed button" style="position: absolute; background: rgb(167, 210, 203); left: 0px; margin-left:380px;top:40%;transition: margin-left .5s;width:40px;">
+        <div id="aa" onclick="toggle()" class="ui blue big centered launch right attached fixed button" style="position: fixed; background: rgb(167, 210, 203); left: 0px; margin-left:380px;top:50%;transition: margin-left .5s;width:40px;">
             <div style="position:relative;">
                 <i id="button" class="arrow left icon"></i>
             </div>
         </div>
     </div>
-    <div class="ui basic modal scrollbar" id="postModal" style="position: absolute !important; height: 500px; width: 100%;overflow-x:hidden;overflow-y:inherit;"> 
+    <div class="ui basic modal " id="postModal" style="position: absolute !important; left: 20% !important; height: 1000px; width: 640px;"> 
     </div>
 
     <div class="ui modal" id="userModal" style="height:250px ;width:500px ;position: absolute; left:65%;">
     </div>
-</div>
+
+    <div class="ui modal" id="userEmptyAlertModal" style="height:100px ;width:500px ;position: absolute; left:65%;">
+        <div style="position: relative;left:6%;top:25%;font-size:30px;">Hiện tại không có người dùng nào!</div>
+    </div>
+    <div class="ui modal" id="postEmptyAlertModal" style="height:100px ;width:500px ;position: absolute; left:65%;">
+        <div style="position: relative;left:10%;top:25%;font-size:30px;">Hiện tại không có bài viết nào!</div>
+    </div>
+</div> 
 <script defer src="~/Scripts/OverlappingMarkerSpiderfier.js"></script>
 
 

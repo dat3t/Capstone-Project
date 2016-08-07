@@ -85,26 +85,26 @@ function initialize() {
     //Declare a bound
     bounds = new google.maps.LatLngBounds();
 
-    google.maps.event.addListener(map, 'bounds_changed', function () {
-        bounds = map.getBounds();
-    });
+    //google.maps.event.addListener(map, 'bounds_changed', function () {
+    //    bounds = map.getBounds();
+    //});
 
     google.maps.event.addListener(map, 'idle', function () {
         bounds = map.getBounds();
     });
 
     //Delcare overlapping, markerClusterer
-    overlappingUsers = new OverlappingMarkerSpiderfier(map);
-    overlappingMale = new OverlappingMarkerSpiderfier(map);
-    overlappingLGBT = new OverlappingMarkerSpiderfier(map);
-    overlappingFemale = new OverlappingMarkerSpiderfier(map);
-    overlappingType3 = new OverlappingMarkerSpiderfier(map);
-    overlappingType4 = new OverlappingMarkerSpiderfier(map);
-    overlappingType5 = new OverlappingMarkerSpiderfier(map);
-    overlappingType6 = new OverlappingMarkerSpiderfier(map);
-    overlappingType7 = new OverlappingMarkerSpiderfier(map);
-    overlappingType8 = new OverlappingMarkerSpiderfier(map);
-    overlappingType9 = new OverlappingMarkerSpiderfier(map);
+    overlappingUsers = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingMale = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingLGBT = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingFemale = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingType3 = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingType4 = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingType5 = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingType6 = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingType7 = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingType8 = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
+    overlappingType9 = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
 
     createListUserMarkers();
     createListMaleMarkers();
@@ -192,7 +192,7 @@ function showCurrentLocation() {
                 lng: position.coords.longitude
             };
             var pos2 = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
-            
+
             myCurrentLocationMarker.setMap(map);
             myCurrentLocationMarker.setPosition(pos);
             google.maps.event.addListener(myCurrentLocationMarker, 'click', (function (marker) {
@@ -207,7 +207,7 @@ function showCurrentLocation() {
             //bounds.extend(pos);
             //map.fitBounds(bounds);
             //map.setCenter(pos);
-           // map.setCenter(pos);
+            // map.setCenter(pos);
 
         }, function () {
             handleLocationError(true, "Không thể định vị được vị trí của bạn. Bạn cần cho phép trình duyệt sử dụng định vị GPS.", map.getCenter());
@@ -225,7 +225,7 @@ function showMyLocation() {
 
     myHomeMarker.setMap(map);
     myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
-   
+
     var pos2 = new google.maps.LatLng(authenticatedUser.x, authenticatedUser.y)
     google.maps.event.addListener(myHomeMarker, 'click', (function (marker) {
         return function () {
@@ -234,7 +234,7 @@ function showMyLocation() {
         }
     })(marker));
     checkIfBoundContainPosition(pos2);
-   // map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
+    // map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
 }
 
 function setMapToAMarkerCluster(markerCluster) {
@@ -280,6 +280,8 @@ function calculateNearestMarker(listLocation) {
 
 function showUsers() {
     setMapToAMarkerCluster(userMarkerCluster);
+    showAlertNoUser(allUsers);
+
     if (isFirstTime == false) {
         var pos = calculateNearestMarker(allUsers);
         checkIfBoundContainPosition(pos);
@@ -289,6 +291,7 @@ function showUsers() {
 
 function showMales() {
     setMapToAMarkerCluster(maleMarkerCluster);
+    showAlertNoUser(males);
     maleMarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(males);
     checkIfBoundContainPosition(pos);
@@ -296,6 +299,7 @@ function showMales() {
 
 function showFemales() {
     setMapToAMarkerCluster(femaleMarkerCluster);
+    showAlertNoUser(females);
     femaleMarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(females);
     checkIfBoundContainPosition(pos);
@@ -303,6 +307,7 @@ function showFemales() {
 
 function showLGBT() {
     setMapToAMarkerCluster(LGBTMarkerCluster);
+    showAlertNoUser(LGBT);
     LGBTMarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(LGBT);
     checkIfBoundContainPosition(pos);
@@ -310,8 +315,9 @@ function showLGBT() {
 
 function showAccommodation() {
     setMapToAMarkerCluster(type3MarkerCluster);
+    showAlertNoPost(postType3);
     type3MarkerCluster.setMaxZoom(9);
-   // openAllClusters(overlappingType3);
+    // openAllClusters(overlappingType3);
     var pos = calculateNearestMarker(postType3);
     checkIfBoundContainPosition(pos);
 
@@ -320,6 +326,7 @@ function showAccommodation() {
 
 function showJobOffer() {
     setMapToAMarkerCluster(type4MarkerCluster);
+    showAlertNoPost(postType4);
     type4MarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(postType4);
     checkIfBoundContainPosition(pos);
@@ -327,8 +334,8 @@ function showJobOffer() {
 
 function showFurnitureOffer() {
 
-
     setMapToAMarkerCluster(type5MarkerCluster);
+    showAlertNoPost(postType5);
     type5MarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(postType5);
     checkIfBoundContainPosition(pos);
@@ -336,6 +343,7 @@ function showFurnitureOffer() {
 
 function showHandGoodsOffer() {
     setMapToAMarkerCluster(type6MarkerCluster);
+    showAlertNoPost(postType6);
     type6MarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(postType6);
     checkIfBoundContainPosition(pos);
@@ -344,12 +352,14 @@ function showHandGoodsOffer() {
 
 function showTradeOffer() {
     setMapToAMarkerCluster(type7MarkerCluster);
+    showAlertNoPost(postType7);
     type7MarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(postType7);
     checkIfBoundContainPosition(pos);
 }
 function showSOS() {
     setMapToAMarkerCluster(type8MarkerCluster);
+    showAlertNoPost(postType8);
     type8MarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(postType8);
     checkIfBoundContainPosition(pos);
@@ -357,15 +367,23 @@ function showSOS() {
 }
 function showWarning() {
     setMapToAMarkerCluster(type9MarkerCluster);
-    if(postType9.length == 0){
-        alert("Không có bài viết nào!");
-        return;
-    }
+    showAlertNoPost(postType9);
     type9MarkerCluster.setMaxZoom(9);
     var pos = calculateNearestMarker(postType9);
     checkIfBoundContainPosition(pos);
 }
 
+function showAlertNoPost(postTypeArray) {
+    if (postTypeArray.length == 0) {
+        $("#postEmptyAlertModal").modal('show');
+    }
+}
+
+function showAlertNoUser(postTypeArray) {
+    if (postTypeArray.length == 0) {
+        $("#userEmptyAlertModal").modal('show');
+    }
+}
 
 function createListUserMarkers() {
     var length = allUsers.length;
@@ -387,17 +405,25 @@ function createListUserMarkers() {
             icon: icon
         });
         listUserMarkers.push(marker);
-        overlappingUsers.addMarker(marker);
-
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                getUserInfo(allUsers[i].userID);
-                // infowindow.open(map, marker);
+                setTimeout(function () {
+                    getUserInfo(allUsers[i].userID);
+                }, 100);
             }
         })(marker, i));
 
+        overlappingUsers.addMarker(marker);
     }
+
+    overlappingUsers.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingUsers.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
+
 }
 
 function createListMaleMarkers() {
@@ -419,17 +445,25 @@ function createListMaleMarkers() {
             icon: icon
         });
         listMaleMarkers.push(marker);
-        overlappingMale.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                // infowindow.setContent(infoWindowContent[i][0]);
-                // AjaxDisplayString(userInfoWindow, marker)
-                getUserInfo(allUsers[i].userID);
-                //infowindow.open(map, marker);
+                setTimeout(function () {
+                    getUserInfo(males[i].userID);
+                }, 100);
             }
         })(marker, i));
+
+        overlappingMale.addMarker(marker);
     }
+
+    overlappingMale.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingMale.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
 }
 
 function createListFemaleMarkers() {
@@ -451,16 +485,25 @@ function createListFemaleMarkers() {
             icon: icon
         });
         listFemaleMarkers.push(marker);
-        overlappingFemale.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                // AjaxDisplayString(userInfoWindow, marker)
-                getUserInfo(allUsers[i].userID);
-                //infowindow.open(map, marker);
+                setTimeout(function () {
+                    getUserInfo(females[i].userID);
+                }, 100);
             }
         })(marker, i));
+
+        overlappingFemale.addMarker(marker);
     }
+
+    overlappingFemale.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingFemale.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
 }
 
 function createListLGBTMarkers() {
@@ -482,15 +525,25 @@ function createListLGBTMarkers() {
             icon: icon
         });
         listLGBTMarkers.push(marker);
-        overlappingLGBT.addMarker(marker);
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                AjaxDisplayString(userInfoWindow, marker)
-                // infowindow.open(map, marker);
+                setTimeout(function () {
+                    getUserInfo(LGBT[i].userID);
+                }, 100);
             }
         })(marker, i));
+
+        overlappingLGBT.addMarker(marker);
     }
+    
+    overlappingLGBT.addListener('click', function (marker) {
+        isClickOnSpiderfier = false;
+    });
+    overlappingLGBT.addListener('spiderfy', function (markers) {
+        isClickOnSpiderfier = true;
+    });
 }
 
 function createlistType3Markers() {
@@ -512,7 +565,7 @@ function createlistType3Markers() {
             icon: icon
         });
         listType3Markers.push(marker);
-       
+
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -524,7 +577,7 @@ function createlistType3Markers() {
 
         overlappingType3.addMarker(marker);
     }
-    +
+    
     overlappingType3.addListener('click', function (marker) {
         isClickOnSpiderfier = false;
     });
@@ -749,7 +802,7 @@ function createListType9Markers() {
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
     };
-    var length = postType8.length;
+    var length = postType9.length;
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(postType9[i].x, postType9[i].y);
         bounds.extend(position);
@@ -837,25 +890,26 @@ function deleteMarkers(listMarkers) {
 }
 
 function getUserInfo(userId) {
-    $.ajax({
-        url: 'GetUserPartialView?userId=' + userId,
-        type: 'GET',
-        success: function (result) {
-            if (result != '') {
-                $("#userModal").empty();
-                $("#userModal").html(result);
-                $("#userModal").modal('show');
+    if (isClickOnSpiderfier == false) {
+        $.ajax({
+            url: 'GetUserPartialView?userId=' + userId,
+            type: 'GET',
+            success: function (result) {
+                if (result != '') {
+                    $("#userModal").empty();
+                    $("#userModal").html(result);
+                    $("#userModal").modal('show');
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
             }
-        },
-        error: function (xhr, status, error) {
-            alert(xhr.responseText);
-        }
-    });
-
+        });
+    }
 }
 
 function getPostInfo(postID) {
-    if(isClickOnSpiderfier == false){
+    if (isClickOnSpiderfier == false) {
         $.ajax({
             url: '/Map/GetPostPartialView?postId=' + postID,
             type: 'GET',
@@ -873,6 +927,7 @@ function getPostInfo(postID) {
                     }).modal({
                         duration: 400,
                         onHide: function () {
+                            history.back();
                         }
                     }).modal('show')
                     ;
@@ -886,7 +941,7 @@ function getPostInfo(postID) {
                     var transformProp = typeof docStyle.transform == 'string' ?
                       'transform' : 'WebkitTransform';
 
-                    history.pushState(null, null, "../Newsfeed/ShowPost/" + id);
+                    history.pushState(null, null, "../Newsfeed/ShowPost/" + postID);
                     var flkty = $carousel.data('flickity');
                     var $imgs = $('.carousel-cell img');
                     $carousel.on('scroll.flickity', function () {
@@ -908,16 +963,17 @@ function getPostInfo(postID) {
 }
 
 function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail) {
+    isClickOnSpiderfier = false;
     switch (PostType) {
-        case 0: showAccommodation(); break;
-        case 1: showJobOffer(); break;
-        case 2: showFurnitureOffer(); break;
-        case 3: showHandGoodsOffer(); break;
-        case 4: showTradeOffer(); break;
-        case 5: showSOS(); break;
-        case 8: showWarning(); break;
+        case 3: showAccommodation(); break;
+        case 4: showJobOffer(); break;
+        case 5: showFurnitureOffer(); break;
+        case 6: showHandGoodsOffer(); break;
+        case 7: showTradeOffer(); break;
+        case 8: showSOS(); break;
+        case 9: showWarning(); break;
     }
-    
+
     if (isCallFromPostDetail != 1) {
         setTimeout(function () {
             var position = new google.maps.LatLng(Lat, Lng);
@@ -965,7 +1021,7 @@ function smoothlyCenterPosition(pos) {
         setTimeout(function () {
             smoothZoom(this.map, 13, map.getZoom());
 
-        }, 1200);
+        }, 200);
     }
 }
 
@@ -976,7 +1032,7 @@ function checkIfBoundContainPosition(pos) {
         map.setCenter(pos);
         setTimeout(function () {
             smoothZoom(this.map, 13, map.getZoom());
-        }, 1200);
+        }, 500);
     }
     else {
         //   map.fitBounds(map.getBounds());

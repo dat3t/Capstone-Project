@@ -1092,7 +1092,7 @@ function smoothZoom(map, max, cnt) {
             google.maps.event.removeListener(z);
             smoothZoom(this.map, max, cnt + 1);
         });
-        setTimeout(function () { this.map.setZoom(cnt) }, 100); // 80ms is what I found to work well on my system -- it might not work well on all systems
+        setTimeout(function () { this.map.setZoom(cnt) }, 80); // 80ms is what I found to work well on my system -- it might not work well on all systems
     }
 }
 
