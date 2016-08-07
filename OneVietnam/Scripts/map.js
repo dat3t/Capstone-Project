@@ -388,7 +388,7 @@ function showAlertNoUser(postTypeArray) {
 function createListUserMarkers() {
     var length = allUsers.length;
     var icon = {
-        url: "/Content/Icon/users.ico",
+        url: "/Content/Icon/users.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
