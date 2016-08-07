@@ -106,16 +106,18 @@
                         <label>* Địa chỉ liên hệ</label>
                         <div class="ui floating labeled icon dropdown button"  tabindex="15" id="locationDr" style="float: left">
                             <i class="blue world icon"></i>
-                            <span class="text"> Địa chỉ nhà của bạn</span>
+                            <span class="text"> Địa điểm hiện tại của bạn</span>
                             <div class="menu">
-                                <div class="item" onclick="getRegisteredLocation('@User.Identity.GetUserId()');" id="getloc">
-                                    <div class="ui red empty circular label"></div>
-                                    Địa chỉ nhà của bạn
-                                </div>
-                                <div class="item" onclick="getCurrentLocation();">
+                                <div class="item" onclick="getCurrentLocation();" id="getloc">
                                     <div class="ui blue empty circular label"></div>
                                     Địa điểm hiện tại của bạn
                                 </div>
+
+                                <div class="item" onclick="getRegisteredLocation('@User.Identity.GetUserId()');">
+                                    <div class="ui red empty circular label"></div>
+                                    Địa chỉ nhà của bạn
+                                </div>
+                                
 
                                 <div class="divider"></div>
 

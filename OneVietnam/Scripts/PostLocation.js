@@ -33,6 +33,7 @@
 }
 
 function getCurrentLocation() {
+    alert(1);
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             var pos = {
