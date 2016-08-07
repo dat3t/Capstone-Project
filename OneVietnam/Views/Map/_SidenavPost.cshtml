@@ -22,83 +22,92 @@
 
 <link rel="stylesheet" type="text/css" href="~/Content/Map/infoWindow.css">
 
-
-@foreach (var post in Model)
+@if (Model.Count == 0)
 {
-    <div id="wrapper" class="segment" style="height:150px; cursor:pointer ; border-bottom: 1px solid #E2E2E2;"  onclick="showSelectedPostOnMap(@post.PostLocation.XCoordinate,@post.PostLocation.YCoordinate,@post.PostType,'@post.postId',2);">
-        <div class="iw-content2" style="padding:5px;">
-            <div id="navInfo2" style="margin-left:3px;">
-                @if (post.Illustrations != null && post.Illustrations.Count > 0)
-                {
-                    <img src="@post.Illustrations[0].PhotoLink" alt="" style="height:115px;width:115px; object-fit: cover;overflow:hidden " >
-                }else
-                {
-                    //<img src="@post.Illustrations[0]" alt="" height="115" width="115"> DEFAULT IMAMGE
-                }
+    <div style="position: relative;left:6%;top:50%;font-size:25px;">Hiện tại không có bài viết nào!</div>
+}
+else
+{
+    foreach (var post in Model)
+    {
+        <div id="wrapper" class="segment" style="height:150px; cursor:pointer ; border-bottom: 1px solid #E2E2E2;" onclick="showSelectedPostOnMap(@post.PostLocation.XCoordinate,@post.PostLocation.YCoordinate,@post.PostType,'@post.postId',2);">
+            <div class="iw-content2" style="padding:5px;">
+                <div id="navInfo2" style="margin-left:3px;">
+                    @if (post.Illustrations != null && post.Illustrations.Count > 0)
+                    {
+                        <img src="@post.Illustrations[0].PhotoLink" alt="" style="height:115px;width:115px; object-fit: cover;overflow:hidden ">
+                    }
+                    else
+                    {
+                        //<img src="@post.Illustrations[0]" alt="" height="115" width="115"> DEFAULT IMAMGE
+                    }
 
-            </div>
-            <div id="sectionInfo2" style="position:absolute;margin-left:120px;margin-top:0px !important;">
-                <div style="margin-top:3px;" title="@post.Title">
-                <b>
-                    @try
+                </div>
+                <div id="sectionInfo2" style="position:absolute;margin-left:120px;margin-top:0px !important;">
+                    <div style="margin-top:3px;" title="@post.Title">
+                        <b>
+                            @try
                     {
                         if (@post.Title.Length > 30)
                         {
-                            @post.Title.Substring(0, 25);
+                                    @post.Title.Substring(0, 25);
                         }
                         else
                         {
-                            @post.Title
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                    }
-                    </b></div>
-                <div style="margin-left:3px;text-align:left!important;font-size:20px;">
-                    <a   class="item" title="@post.Address">
-                        <i class="small icon marker" style="width:100%;text-align:left">
-                        
-                        @try
-                        {
-                            if (@post.Address.Length > 30)
+                                    @post.Title
+                                }
+                            }
+                            catch (Exception e)
                             {
-                                 @post.Address.Substring(0, 25);
                             }
-                            else
-                            {
-                                @post.Address
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                        }
-                      
-                        </i>
-                    </a>
-                </div>
-                <div style="margin-left:3px;text-align:left;font-size:20px;">
-                    <a class="item">
-                        <i class="small icon calendar" style="width:100%;text-align:left"> @($"{post.CreatedDate:dd/MM/yyyy}")</i>
-                    </a>
-                </div>
-                <div style="margin-left:3px;text-align:left;font-size:20px;" title="@post.Description">
-                    <a class="item" style="">
-                        <i class="small icon file outline" style="display:initial !important;width:200px !important;">
-                            @try { 
-                            if (@post.Description.Length > 30)
-                            {
-                                @post.Description.Substring(0, 25);
-                            }
-                            else
-                            {
-                                @post.Description
-                            }
-                            }
-                            catch (Exception e) {
-                            }
-                          
-                        </i>
+                        </b>
+                    </div>
+                    <div style="margin-left:3px;text-align:left!important;font-size:20px;">
+                        <a class="item" title="@post.Address">
+                            <i class="small icon marker" style="width:100%;text-align:left">
+
+                                @try
+                                {
+                                    if (@post.Address.Length > 30)
+                                    {
+                                        @post.Address.Substring(0, 25);
+                                    }
+                                    else
+                                    {
+                                        @post.Address
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                }
+
+                            </i>
+                        </a>
+                    </div>
+                    <div style="margin-left:3px;text-align:left;font-size:20px;">
+                        <a class="item">
+                            <i class="small icon calendar" style="width:100%;text-align:left"> @($"{post.CreatedDate:dd/MM/yyyy}")</i>
+                        </a>
+                    </div>
+                    <div style="margin-left:3px;text-align:left;font-size:20px;" title="@post.Description">
+                        <a class="item" style="">
+                            <i class="small icon file outline" style="display:initial !important;width:200px !important;">
+                                @try
+                                {
+                                    if (@post.Description.Length > 30)
+                                    {
+                                        @post.Description.Substring(0, 25);
+                                    }
+                                    else
+                                    {
+                                        @post.Description
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                }
+
+                            </i>
                         </a>
                     </div>
 
@@ -109,7 +118,10 @@
                 </div>
             </div>
         </div>
+
+    }
 }
+
 @*   <button class="ui blue button" style="width:380px !important;position:absolute; bottom:0;" onclick="location.href='@Url.Action("Timeline", "Post")'">Xem tất cả bài đăng</button>*@
 
 @*onclick="location.href='@Url.Action("_ShowPostDetail", "Post", new { postId = @post.postId })'*@
