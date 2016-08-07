@@ -180,59 +180,59 @@ else
         <i class="search icon"></i>
     </div>
     <div class="ui vertical buttons" id="locationGroup" style="position: fixed; right: 12px; top: 63%;">
-        <button type="submit" class="ui icon green button" id="location" onclick="showCurrentLocation()" data-tooltip="Vị trí hiện tại" data-position="left center">
+        <button type="submit" class="ui icon green button" id="location" onclick="currentLocationEnlarge();showCurrentLocation();" data-tooltip="Vị trí hiện tại" data-position="left center">
             @*<i class="location arrow icon"></i>*@
         </button>
         @if (Request.IsAuthenticated)
         {
-            <button type="submit" class="ui icon green button" id="myLocation" onclick="showMyLocation()" data-tooltip="Vị trí của tôi" data-position="left center"></button>
+            <button type="submit" class="ui icon green button" id="myLocation" onclick="myLocationEnlarge();showMyLocation();" data-tooltip="Vị trí của tôi" data-position="left center"></button>
         }
 
     </div>
     <div class="ui vertical buttons" id="filterGroup" style="position: absolute; right: 15px; top: 4%;">
 
-        <button type="submit" class="ui icon red button " id="filterHelp" onclick="showSOS()" data-tooltip="Nhờ giúp đỡ" data-position="left center">
+        <button type="submit" class="ui icon red button " id="filterHelp" onclick="helpEnlarge();showSOS();" data-tooltip="Nhờ giúp đỡ" data-position="left center">
             @*<i class="warning icon"></i>*@
         </button>
 
-        <button type="submit" class="ui blue icon button" id="filterHome" onclick="showAccommodation();accommodationEnlarge()" data-tooltip="Nhà ở" data-position="left center">
+        <button type="submit" class="ui blue icon button" id="filterHome" onclick="accommodationEnlarge();showAccommodation();" data-tooltip="Nhà ở" data-position="left center">
             @* <i class="home icon"></i>*@
         </button>
 
-        <button type="submit" class="ui icon blue button" id="filterJob" onclick="showJobOffer(), jobEnlarge()" data-tooltip="Việc làm" data-position="left center">
+        <button type="submit" class="ui icon blue button" id="filterJob" onclick="jobEnlarge();showJobOffer();" data-tooltip="Việc làm" data-position="left center">
             @*<i class="doctor icon"></i>*@
         </button>
-        <button type="submit" class="ui icon blue button" id="filterFurnitureOffer" onclick="showFurnitureOffer()" data-tooltip="Cho đồ/Đổi đồ" data-position="left center">
+        <button type="submit" class="ui icon blue button" id="filterFurnitureOffer" onclick="furnitureEnlarge();showFurnitureOffer();" data-tooltip="Cho đồ/Đổi đồ" data-position="left center">
             @*<i class="cubes icon"></i>*@
         </button>
 
-        <button type="submit" class="ui icon blue button" id="filterHandGoodsOffer" onclick="showHandGoodsOffer()" data-tooltip="Xách tay" data-position="left center">
+        <button type="submit" class="ui icon blue button" id="filterHandGoodsOffer" onclick="handGoodsEnlarge();showHandGoodsOffer();" data-tooltip="Xách tay" data-position="left center">
             @*  <i class="plane icon"></i>*@
         </button>
 
-        <button type="submit" class="ui icon blue button" id="filterSalesOffer" onclick="showTradeOffer()" data-tooltip="Bán đồ" data-position="left center">
+        <button type="submit" class="ui icon blue button" id="filterSalesOffer" onclick="tradeEnlarge();showTradeOffer();" data-tooltip="Bán đồ" data-position="left center">
             @*<i class="money icon"></i>*@
         </button>
 
-        <button type="submit" class="ui icon blue button" id="filterWarning" onclick="showWarning()" data-tooltip="Cảnh báo" data-position="left center">
+        <button type="submit" class="ui icon blue button" id="filterWarning" onclick="warningEnlarge();showWarning();" data-tooltip="Cảnh báo" data-position="left center">
             @*<i class="money icon"></i>*@
         </button>
     </div>
     <div class="ui buttons" id="genderFilter" style="position: absolute; left: 43% ; bottom: 3% ;">
 
-        <button type="submit" class="ui icon green button" id="filterMale" data-tooltip="Nam" data-position="top center" onclick="showMales()">
+        <button type="submit" class="ui icon green button" id="filterMale" data-tooltip="Nam" data-position="top center" onclick="maleEnlarge();showMales();">
             @*<i class="male icon"></i>*@
         </button>
 
-        <button type="submit" class="ui icon pink button" id="filterFemale" data-tooltip="Nữ" data-position="top center" onclick="showFemales()">
+        <button type="submit" class="ui icon pink button" id="filterFemale" data-tooltip="Nữ" data-position="top center" onclick="femaleEnlarge();showFemales();">
             @*<i class="female icon"></i>*@
         </button>
 
-        <button type="submit" class="ui icon purple button" id="filterLGBT" data-tooltip="Giới tính khác" data-position="top center" onclick="showLGBT()">
+        <button type="submit" class="ui icon purple button" id="filterLGBT" data-tooltip="Giới tính khác" data-position="top center" onclick="LGBTEnlarge();showLGBT();">
             @*<i class="transgender icon"></i>*@
         </button>
 
-        <button type="submit" class="ui icon blue button" id="filterUsers" data-tooltip="Tất cả người dùng" data-position="top center" onclick="showUsers()">
+        <button type="submit" class="ui icon blue button" id="filterUsers" data-tooltip="Tất cả người dùng" data-position="top center" onclick="userEnlarge();showUsers();">
             @*<i class="users icon"></i>*@
         </button>
     </div>
@@ -260,7 +260,7 @@ else
     </div>
 
     <div class="ui modal" id="userEmptyAlertModal" style="height:100px ;width:500px ;position: absolute; left:65%;">
-        <div style="position: relative;left:6%;top:25%;font-size:30px;">Hiện tại không có người dùng nào!</div>
+        <div style="position: relative;left:3%;top:25%;font-size:30px;">Hiện tại không có người dùng nào!</div>
     </div>
     <div class="ui modal" id="postEmptyAlertModal" style="height:100px ;width:500px ;position: absolute; left:65%;">
         <div style="position: relative;left:10%;top:25%;font-size:30px;">Hiện tại không có bài viết nào!</div>

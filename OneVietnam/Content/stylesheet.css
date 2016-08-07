@@ -391,7 +391,7 @@ body {
 #return-to-top {
     position: fixed;
     bottom: 30px;
-    right: 20px;
+    right: 160px;
     background: rgb(0, 0, 0);
     background: rgba(0, 0, 0, 0.7);
     width: 50px;
