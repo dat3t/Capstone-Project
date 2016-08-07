@@ -13,7 +13,7 @@
 @background: #FFFFFF;
 @fontFamily: @pageFont;
 @itemBackground: none;
-@fontWeight: normal;
+@fontWeight: bold;
 @borderWidth: 1px;
 @border: @borderWidth solid @borderColor;
 @boxShadow: @subtleShadow;

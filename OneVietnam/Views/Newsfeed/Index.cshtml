@@ -4,7 +4,8 @@
 <script>
     var query = window.location.search.substring(1);
     $(document)
-        .ready(function() {
+        .ready(function () {
+            $("#stamp-button2").hide();
             if (query === 'ShowPost') {
 //                $("#CreatePostForm").data('validator').resetForm();
 //                $(".validation-summary-errors ul li").remove();
@@ -12,12 +13,7 @@
                 $(".stamp").toggleClass("hides");
                 $(".edits").toggleClass("edits-cl");
                 $(".plus").toggleClass("plus-cl");
-                // stamp or unstamp element
 
-                // trigger layout
-//                $grid.isotope('layout');
-//                // set flag
-//                isStamped = !isStamped;
 
             }
         });
@@ -62,7 +58,7 @@
             <div class="text">
                 <div class="ui blue empty circular label"></div>
                 Tất cả
-                <div class="ui red label">42+</div>
+              
 
             </div>
             <i class="dropdown icon"></i>
@@ -70,18 +66,15 @@
                 <div class="item" data-filter="*">
                     <div class="ui blue empty circular label"></div>
                     Tất cả
-                    <div class="ui red label">42+</div>
                 </div>
 
                 <div class="item" data-filter=".4">
                     <div class="ui yellow empty circular label"></div>
                     Việc làm
-                    <div class="ui red label">22+</div>
                 </div>
                 <div class="item" data-filter=".5">
                     <div class="ui black empty circular label"></div>
                     Đồ dùng
-                    <div class="ui red label">10+</div>
 
                 </div>
                 <div class="item" data-filter=".6">
@@ -101,13 +94,29 @@
         </div>
        
 
-@if (User.Identity.IsAuthenticated )
+@if (User.Identity.IsAuthenticated)
 {
 
-        <div class="floating-button" id="stamp-button" data-toggle="tooltip" data-original-title="Create">
-            <p class="plus"><i class="write icon"></i></p>
-            <p class="edits"><i class="remove icon"></i></p>
+    <div class="floating-button" id="stamp-button" data-toggle="tooltip" data-original-title="Create">
+        <p class="plus"><i class="write icon"></i>
+        </p>
+        <p class="edits"><i class="remove icon"></i>
+        </p>
+    </div>
+}
+else
+{
+    <a href="@Url.Action("Login","Account")">
+        <div class="floating-button" data-toggle="tooltip" data-original-title="Create">
+
+            <p class="plus">
+                <i class="write icon"></i>
+            </p>
+            <p class="edits">
+                <i class="remove icon"></i>
+            </p>
         </div>
+    </a>
 }
     </div>
     <div class="ten wide column">

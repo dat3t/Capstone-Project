@@ -866,9 +866,9 @@ function getPostInfo(postID) {
 
                     $("#postModal").empty();
 
-                    $("#postModal").html(result);
+                    $("#forModal").html(result);
 
-                    $('#postModal').modal({
+                    $('#forModal').modal({
                         inverted: true
                     }).modal({
                         duration: 400,

@@ -3,9 +3,16 @@
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 @font-face {
     font-family: track;
-    src: url("/fonts/iCiel Altus.otf");
+    src: url("/fonts/iCiel Brush Up.otf");
 }
-
+.brush-font {
+    font-family: track;
+}
+.ui.item.brush-font {
+    font-family: track;
+    font-size: 1.3em;
+    color: #2185d0;
+}
 *, *:before, *:after {
   box-sizing: border-box;
 }
@@ -426,11 +433,12 @@ body {
   width: 55px;
   height: 55px;
   border-radius: 50%;
-  background: #C06014;
+  background: #DE5958;
   position: fixed;
-  bottom: 30px;
-  left: 40px;
+  bottom: 100px;
+  right: 64px;
   cursor: pointer;
+    z-index: 300;
   box-shadow: 0px 2px 5px #666;
 }
 .plus{
@@ -540,7 +548,18 @@ body {
 
 .gutter-sizer { width: 2%; }
 
-
+@media screen and (max-width: 1200px) {
+    .grid-item,
+.grid-sizer {
+  width: 49%;
+}
+}
+@media screen and (max-width: 768px) {
+    .grid-item,
+.grid-sizer {
+  width: 100%;
+}
+}
 
 
 .ui.dropdown.searchType {

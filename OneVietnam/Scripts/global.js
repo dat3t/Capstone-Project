@@ -240,11 +240,12 @@
                     $("#forModal").html(partialResult);
                   
                     $('#forModal').modal({
-                        inverted: true
-                    }).modal({
+                        blur:true,
                         duration: 200,
                         onHide: function () {
                             history.back();
+                        },onShow:function() {
+                            history.pushState(null, null, "../Newsfeed/ShowPost/" + id);
                         }
                     }).modal('show')
                     ;
@@ -258,7 +259,7 @@
                     var transformProp = typeof docStyle.transform == 'string' ?
                       'transform' : 'WebkitTransform';
          
-                    history.pushState(null, null, "../Newsfeed/ShowPost/"+id);
+                   
                     var flkty = $carousel.data('flickity');
                     var $imgs = $('.carousel-cell img');
                     $carousel.on( 'scroll.flickity', function() {

@@ -15,170 +15,170 @@
 
 @if (Request.IsAuthenticated)
 {
-    
+
 }
 
 
 @*<link href="~/Content/fine-uploader-gallery.min.css" rel="stylesheet">*@
-@*<script src="~/Scripts/fine-uploader.js"></script>*@
-<script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
-<script src="~/Scripts/PostLocation.js" type="text/javascript"></script>
+    @*<script src="~/Scripts/fine-uploader.js"></script>*@
+    <script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/PostLocation.js" type="text/javascript"></script>
 
 
-        <div class="stamp  hides">
-            @using (Html.BeginForm("CreatePost", "Newsfeed", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "CreatePostForm" }))
+    <div class="stamp  hides">
+        @using (Html.BeginForm("CreatePost", "Newsfeed", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "CreatePostForm" }))
             {
-                <div class="ui segment">
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(false)
-                    <!-- Title -->
-                    <div class="field">
-                        <h2 class="ui medium header" style="margin-bottom: 0">* Tiêu đề</h2>
-                        <div class="ui input  focus">
-                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { placeholder = "Nhâp tiêu đề...", tabindex ="11" } })
-                        </div>
+            <div class="ui segment">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(false)
+                <!-- Title -->
+                <div class="field">
+                    <h2 class="ui medium header" style="margin-bottom: 0">* Tiêu đề</h2>
+                    <div class="ui input  focus">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { placeholder = "Nhâp tiêu đề...", tabindex = "11" } })
                     </div>
+                </div>
 
-                    <!-- Post Type and Tags -->
-                    <div class="two fields">
-                        <!-- Post Type -->
-                        <div class="field">
-                            <label>* Loại bài đăng</label>
-                            <div class="ui  selection dropdown"  tabindex="12"  id="drPostType">
-                                @{
-                                    if (postTypes != null && postTypes.Count > 0)
-                                    {
-                                        <input type="hidden" id="PostType" name="PostType" value="@postTypes[0].IconValue">
-                                        <i class="dropdown icon"></i>
+                <!-- Post Type and Tags -->
+                <div class="two fields">
+                    <!-- Post Type -->
+                    <div class="field">
+                        <label>* Loại bài đăng</label>
+                        <div class="ui  selection dropdown" tabindex="12" id="drPostType">
+                            @{
+                                if (postTypes != null && postTypes.Count > 0)
+                                {
+                                    <input type="hidden" id="PostType" name="PostType" value="@postTypes[0].IconValue">
+                                    <i class="dropdown icon"></i>
                                         <div class="text">@postTypes[0].IconText</div>
                                         <div class="menu">
                                             @foreach (Icon icon in postTypes)
                                             {
-                                                if (!User.IsInRole(CustomRoles.Admin.ToString()) && !User.IsInRole(CustomRoles.Mod.ToString()) && icon.IconValue == (int) PostTypeEnum.AdminPost)
+                                                if (!User.IsInRole(CustomRoles.Admin.ToString()) && !User.IsInRole(CustomRoles.Mod.ToString()) && icon.IconValue == (int)PostTypeEnum.AdminPost)
                                                 {
                                                     continue;
-                                                }                                                
+                                                }
                                                 <div class="item" data-value="@icon.IconValue">
                                                     @icon.IconText
                                                 </div>
-                                            }                                                                                        
+                                            }
                                         </div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                    <!-- Tags -->
+                    <div class="field">
+                        <label>Thẻ liên quan</label>
+                        <div class="ui fluid multiple search selection dropdown">
+                            <input name="TagsInput" id="TagsInput" type="hidden" value="">
+                            <input class="search" type="text" id="txtSearchTag" tabindex="13" autocomplete="off"><span class="sizer"></span><div class="default text">Chọn hoặc thêm thẻ mới</div>
+                            <div class="menu transition hidden">
+
+                                @{
+                                    if (tagList != null)
+                                    {
+                                        foreach (Tag tag in tagList)
+                                        {
+                                            <div class="item" data-value="@tag.TagValue">@tag.TagText</div>
+                                        }
                                     }
                                 }
 
                             </div>
                         </div>
-                        <!-- Tags -->
-                        <div class="field">
-                            <label>Thẻ liên quan</label>
-                            <div class="ui fluid multiple search selection dropdown">
-                                <input name="TagsInput" id="TagsInput" type="hidden" value="">
-                                <input class="search" type="text" id="txtSearchTag"  tabindex="13" autocomplete="off"><span class="sizer"></span><div class="default text">Chọn hoặc thêm thẻ mới</div>
-                                <div class="menu transition hidden">
-
-                                    @{
-                                        if (tagList != null)
-                                        {
-                                            foreach (Tag tag in tagList)
-                                            {
-                                                <div class="item" data-value="@tag.TagValue">@tag.TagText</div>
-                                            }
-                                        }
-                                    }
-
-                                </div>
-                            </div>
-
-                        </div>
 
                     </div>
 
-                    <!-- Description -->
-                    <div class="field">
-                        <label>* Mô tả </label>
-                    @Html.TextAreaFor(model => model.Description, new { placeholder = "Thêm mô tả cho bài đăng", rows = "4", tabindex="14" })
-                    </div>
+                </div>
 
-                    <!-- Post Location -->
-                    <div class="field">
-                        <label>* Địa chỉ liên hệ</label>
-                        <div class="ui floating labeled icon dropdown button"  tabindex="15" id="locationDr" style="float: left">
-                            <i class="blue world icon"></i>
-                            <span class="text"> Địa chỉ nhà của bạn</span>
-                            <div class="menu">
-                                <div class="item" onclick="getRegisteredLocation('@User.Identity.GetUserId()');" id="getloc">
-                                    <div class="ui red empty circular label"></div>
-                                    Địa chỉ nhà của bạn
-                                </div>
-                                <div class="item" onclick="getCurrentLocation();">
-                                    <div class="ui blue empty circular label"></div>
-                                    Địa điểm hiện tại của bạn
-                                </div>
+                <!-- Description -->
+                <div class="field">
+                    <label>* Mô tả </label>
+                    @Html.TextAreaFor(model => model.Description, new { placeholder = "Thêm mô tả cho bài đăng", rows = "4", tabindex = "14" })
+                </div>
 
-                                <div class="divider"></div>
+                <!-- Post Location -->
+                <div class="field">
+                    <label>* Địa chỉ liên hệ</label>
+                    <div class="ui floating labeled icon dropdown button" tabindex="15" id="locationDr" style="float: left">
+                        <i class="blue world icon"></i>
+                        <span class="text"> Địa chỉ nhà của bạn</span>
+                        <div class="menu">
+                            <div class="item" onclick="getRegisteredLocation('@User.Identity.GetUserId()');" id="getloc">
+                                <div class="ui red empty circular label"></div>
+                                Địa chỉ nhà của bạn
+                            </div>
+                            <div class="item" onclick="getCurrentLocation();">
+                                <div class="ui blue empty circular label"></div>
+                                Địa điểm hiện tại của bạn
+                            </div>
 
-                                <div class="header">
-                                    Tìm kiếm địa điểm khác
-                                </div>
-                                <div class="ui left icon input">
-                                    <i class="search icon"></i>
-                                    <input type="text" id="search-location" name="search" placeholder="Tìm kiếm địa điểm...">
-                                </div>
+                            <div class="divider"></div>
+
+                            <div class="header">
+                                Tìm kiếm địa điểm khác
+                            </div>
+                            <div class="ui left icon input">
+                                <i class="search icon"></i>
+                                <input type="text" id="search-location" name="search" placeholder="Tìm kiếm địa điểm...">
                             </div>
                         </div>
+                    </div>
 
-                    @Html.EditorFor(model => model.PostLocation.Address, new { htmlAttributes = new { placeholder = "Địa chỉ của bạn", tabindex="16" } })
+                    @Html.EditorFor(model => model.PostLocation.Address, new { htmlAttributes = new { placeholder = "Địa chỉ của bạn", tabindex = "16" } })
                     @Html.EditorFor(model => model.PostLocation.XCoordinate, new { htmlAttributes = new { style = "display: none" } })
                     @Html.EditorFor(model => model.PostLocation.YCoordinate, new { htmlAttributes = new { style = "display: none" } })
 
-                    </div>
+                </div>
 
-                    <!-- Illustration -->
-                    <i class="large inverted blue camera icon" tabindex="17"></i>Thêm ảnh
-                    <div class="field">
+                <!-- Illustration -->
+                <i class="large inverted blue camera icon" tabindex="17"></i>Thêm ảnh
+                <div class="field">
 
-                        <input type="file" id="files" name="files" onchange="previewImg()" class="upload hides" multiple />
-                        <output id="result"></output>
+                    <input type="file" id="files" name="files" onchange="previewImg()" class="upload hides" multiple />
+                    <output id="result"></output>
 
-                        <script>
-                            $(".camera.icon").click(function () {
-                         $("#files").trigger('click');
-                     });
+                    <script>
+                        $(".camera.icon").click(function () {
+                            $("#files").trigger('click');
+                        });
 
-                var ImgList = [];
-                function previewImg() {
-                    var filesInput = document.getElementById("files");
-                    var files = filesInput.files;
-                    var output = document.getElementById("result");
-                    var i = 0,
-                      len = files.length;
-                    (function readFile(n) {
-                        var reader = new FileReader();
-                        var f = files[n];
-                        reader.onload = function (e) {
-                            var div = document.createElement("span");
-                            div.innerHTML = "<img class='thumb' src='" + e.target.result + "'" +
-                                "title='" + f.name + "'/> <a href='#' class='remove_pict'>X</a>";
+                        var ImgList = [];
+                        function previewImg() {
+                            var filesInput = document.getElementById("files");
+                            var files = filesInput.files;
+                            var output = document.getElementById("result");
+                            var i = 0,
+                              len = files.length;
+                            (function readFile(n) {
+                                var reader = new FileReader();
+                                var f = files[n];
+                                reader.onload = function (e) {
+                                    var div = document.createElement("span");
+                                    div.innerHTML = "<img class='thumb' src='" + e.target.result + "'" +
+                                        "title='" + f.name + "'/> <a href='#' class='remove_pict'>X</a>";
 
-                            output.insertBefore(div, null);
-                            div.children[1].addEventListener("click", function () {
-                                div.parentNode.removeChild(div);
-                                var removeId = div.children[0].title;
-                                for (var index = 0; index < ImgList.length; index++) {
-                                    if (ImgList[index].name === removeId) {
-                                        ImgList.splice(index, 1);
-                                        break;
-                                    }
-                                }
-                            });
-                            ImgList.push(f);
-                            if (n < len - 1) readFile(++n);
-                        };
-                        reader.readAsDataURL(f);
-                    }(i));
-                }
+                                    output.insertBefore(div, null);
+                                    div.children[1].addEventListener("click", function () {
+                                        div.parentNode.removeChild(div);
+                                        var removeId = div.children[0].title;
+                                        for (var index = 0; index < ImgList.length; index++) {
+                                            if (ImgList[index].name === removeId) {
+                                                ImgList.splice(index, 1);
+                                                break;
+                                            }
+                                        }
+                                    });
+                                    ImgList.push(f);
+                                    if (n < len - 1) readFile(++n);
+                                };
+                                reader.readAsDataURL(f);
+                            }(i));
+                        }
 
                         function submitCreatePost() {
                             var formdata = new FormData();
@@ -199,23 +199,23 @@
                             }
                             return;
                         }
-                          
-                        </script>
-                    
-                    </div>
 
-                    <!-- Button Create and Cancel -->
-                    <div class="field" style="text-align: center">
-                    <input id="btnCancel" type="button" tabindex="18" value="Hủy" class="ui cancel button" onclick="resetForm()" />
-                    <input id="btnCreate" type="button" tabindex="19" onclick="submitCreatePost()" value="Đăng bài" name="createpost" class="ui teal button" />
-                        <script>
-                            function resetForm() {
-                                $("#stamp-button").click();                                
-                            }
-                        </script>
-                    </div>
+                    </script>
+
                 </div>
 
-            }
+                <!-- Button Create and Cancel -->
+                <div class="field" style="text-align: center">
+                    <input id="btnCancel" type="button" tabindex="18" value="Hủy" class="ui cancel button" onclick="resetForm()" />
+                    <input id="btnCreate" type="button" tabindex="19" onclick="submitCreatePost()" value="Đăng bài" name="createpost" class="ui teal button" />
+                    <script>
+                        function resetForm() {
+                            $("#stamp-button").click();
+                        }
+                    </script>
+                </div>
+            </div>
 
-        </div>
+                                    }
+
+    </div>
