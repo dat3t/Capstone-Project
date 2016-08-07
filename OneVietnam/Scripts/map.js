@@ -1032,7 +1032,7 @@ function checkIfBoundContainPosition(pos) {
         map.setCenter(pos);
         setTimeout(function () {
             smoothZoom(this.map, 13, map.getZoom());
-        }, 200);
+        }, 500);
     }
     else {
         //   map.fitBounds(map.getBounds());
