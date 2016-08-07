@@ -391,7 +391,6 @@
     <Content Include="Content\Images\poke_celebi.png" />
     <Content Include="Content\Images\rua.png" />
     <Content Include="Content\minimal-slide.css" />
-    <Content Include="Content\semantic.min.css" />
     <Content Include="Content\stylesheet.css" />
     <Content Include="fonts\helveticaneuecyr-bold.svg" />
     <Content Include="fonts\helveticaneuecyr-roman.svg" />

@@ -435,7 +435,7 @@ body {
   border-radius: 50%;
   background: #DE5958;
   position: fixed;
-  bottom: 100px;
+  bottom: 30px;
   right: 64px;
   cursor: pointer;
     z-index: 300;
