@@ -240,11 +240,12 @@
                     $("#forModal").html(partialResult);
                   
                     $('#forModal').modal({
-                        inverted: true
-                    }).modal({
+                        blur:true,
                         duration: 200,
                         onHide: function () {
                             history.back();
+                        },onShow:function() {
+                            history.pushState(null, null, "../Newsfeed/ShowPost/" + id);
                         }
                     }).modal('show')
                     ;
@@ -258,13 +259,13 @@
                     var transformProp = typeof docStyle.transform == 'string' ?
                       'transform' : 'WebkitTransform';
          
-                    history.pushState(null, null, "../Newsfeed/ShowPost/"+id);
+                   
                     var flkty = $carousel.data('flickity');
                     var $imgs = $('.carousel-cell img');
                     $carousel.on( 'scroll.flickity', function() {
                         flkty.slides.forEach( function( slide, i ) {
                             var img = $imgs[i];
-                            var x = ( slide.target + flkty.x ) * -1/3;
+                            var x = ( slide.target + flkty.x ) * -1/6;
                             img.style[ transformProp ] = 'translateX(' + x  + 'px)';
                         });
                         });
@@ -282,6 +283,7 @@
         });
         var isStamped = false;
         $('#stamp-button').on('click', function () {
+            history.pushState(null,null,"/Newsfeed");
             $('body,html').animate({
                 scrollTop: 0                       // Scroll to top of body
             }, 500);

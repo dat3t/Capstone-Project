@@ -19,10 +19,11 @@
             <div class="ui main menu mainMenu">
                 <a href="@Url.Action("Index", "Home")" class="ui active item button">
                     <img class="ui mini image" src="~/Content/Images/Logo.png" />
-                    <span >One Vietnam</span>
+                    <span class="brush-font" style="font-size: 2em;color:#DE5958 ">One Vietnam</span>
                 </a>
-                @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item" })
-                @Html.ActionLink("Bảng Tin", "Index", "Newsfeed", routeValues: null, htmlAttributes: new { @class = "ui item"})
+                @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item brush-font" })
+                @Html.ActionLink("Bảng Tin", "Index", "Newsfeed", routeValues: null, htmlAttributes: new { @class = "ui item brush-font" })
+                <div class="floating ui label" style="color:#DE5958 ">42+</div>
                 @if (Request.IsAuthenticated && (User.IsInRole(CustomRoles.Admin) || User.IsInRole(CustomRoles.Mod)))
                 {
                     @Html.ActionLink("Quản Trị", "Index", "Administration", routeValues: null, htmlAttributes: new { @class = "ui item" })
@@ -99,99 +100,205 @@
             </div>
         </div>
     </div>
-    <div class="ui fluid container" style="height: 90%;" id="bodypage">
-    <div class="floating-button" id="stamp-button2" data-toggle="tooltip" data-original-title="Create">
-        <p class="plus"><i class="write icon"></i></p>
-        <p class="edits"><i class="remove icon"></i></p>
-    </div>
-        <div id="forModal" class="ui basic modal coupled" style="position: absolute !important; left: 80% !important; height: 1000px; width: 600px">
+<div class="ui fluid container" style="height: 90%;" id="bodypage">
+    @if (User.Identity.IsAuthenticated)
+    {
+
+        <div class="floating-button" id="stamp-button2" data-toggle="tooltip" data-original-title="Create">
+            <p class="plus">
+                <i class="write icon"></i>
+            </p>
+            <p class="edits">
+                <i class="remove icon"></i>
+            </p>
+        </div>
+    }
+    else
+    {
+        <a href="@Url.Action("Login","Account")">
+            <div class="floating-button" data-toggle="tooltip" data-original-title="Create">
+
+                <p class="plus">
+                    <i class="write icon"></i>
+                </p>
+              
+            </div>
+        </a>
+    }
+    
+    <div id="forModal" class="ui basic modal coupled" style="position: absolute !important; height: 1000px; width: 90%">
+        <div class="ui  raised clearing  segment " style="width: 631px !important">
+            <div class="header">
+
+
+                <div class="ui right floated button" style="background: white !important">
+                    {
+
+                    }
+                    else
+                    {
+                    <i class='blue large announcement link icon' id="reportPost" data-content='Báo cáo' style='float: right'></i>
+                    <div id="ShowReportPost">
+                    </div>
+                    <script>
+                        $(".modal")
+                            .modal({
+                                allowMultiple: true
+                            });
+                        $('.second.modal').modal('attach events', '.report.modal .green.button');
+                        $('.report.modal').modal('attach events', '#reportPost');
+                        $(".green.button")
+                            .click(function() {
+                                $('.report.modal').modal('hide');
+                            });
+                    </script>
+                    }
+                </div>
+
+                <div class="meta">
+                    <span style="color: grey; margin-left: 40px; font-size: 14px !important"> </span>
+
+
+
+                </div>
+
+
+
+
+
+
+            </div>
+            <div class="ui centered  card" style="width: 95%; border-color: #fff">
+                <div class="image">
+
+
+                </div>
+
+                <div class="content">
+                    <div id="rate" class="ui star rating right floated" data-rating="3"></div>
+                    <div class="header"></div>
+                    <div class="meta">
+                    </div>
+                    <div class="description" style="font-size: 18px">
+
+                    </div>
+                    <i class="world icon"></i>
+
+
+                    <div class="extra content">
+                        @{
+                            string url = "http://www.phimmoi.net/phim/nguoi-vo-tuyet-voi-3976/";
+                        }
+
+                        <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+                        <div class="fb-share-button" data-href="@url" data-layout="button_count" data-size="small" data-mobile-iframe="true">
+                            <a class="fb-xfbml-parse-ignore" target="_blank" href="">Chia sẻ</a>
+                        </div>
+                        <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts="3"></div>
+
+                        <script>
+
+
+                            FB.XFBML.parse();
+
+                        </script>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
 
         </div>
-        @RenderBody()
-        @if (Request.IsAuthenticated)
-        {
-            <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
-            <script src="~/signalr/hubs"></script>
-            <script type="text/javascript" src="~/Scripts/Chat.js"></script>
-            <script type="text/javascript" src="~/Scripts/Notification.js"></script>
-            <script>
-                var chat;
+    </div>
+    @RenderBody()
+    @if (Request.IsAuthenticated)
+    {
+        <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+        <script src="~/signalr/hubs"></script>
+        <script type="text/javascript" src="~/Scripts/Chat.js"></script>
+        <script type="text/javascript" src="~/Scripts/Notification.js"></script>
+        <script>
+            var chat;
             $(function() {
-                    // Reference the auto-generated proxy for the hub.
-                    if (typeof (chat) === "undefined") {
-                        chat = $.connection.oneHub;
-                    }
+                // Reference the auto-generated proxy for the hub.
+                if (typeof (chat) === "undefined") {
+                    chat = $.connection.oneHub;
+                }
                 //chat.client.logOff = function() {
                 //        $.connection.hub.stop();
                 //    }
-                    //Create a function that the hub can call back to display messages.
+                //Create a function that the hub can call back to display messages.
                 chat.client.addChatMessage = function(id, name, message, avatar) {
-                        register_popup(id, name, avatar);
-                        // Add the message to the page.
-                        $("#" + id + "Conversation")
-                            .append('<div class="item"><div class="content" style="margin-left:0.5em"><p class="receiveMessage">' + htmlEncode(message) + '</p></div></div>');
-                        $("#" + id + "Conversation").scrollTop(document.getElementById(id + "Conversation").scrollHeight);
+                    register_popup(id, name, avatar);
+                    // Add the message to the page.
+                    $("#" + id + "Conversation")
+                        .append('<div class="item"><div class="content" style="margin-left:0.5em"><p class="receiveMessage">' + htmlEncode(message) + '</p></div></div>');
+                    $("#" + id + "Conversation").scrollTop(document.getElementById(id + "Conversation").scrollHeight);
 
-                    };
+                };
                 chat.client.pushNotification = function() {
-                        if ($('#NotificationsNo').text() == '') {
-                            $('#NotificationsNo').show();
-                            $('#NotificationsNo').text('1');
-                        } else {
-                            $('#NotificationsNo').text(parseInt($('#NotificationsNo').text()) + 1);
-                            $('#NotificationsNo').show();
-                        }
+                    if ($('#NotificationsNo').text() == '') {
+                        $('#NotificationsNo').show();
+                        $('#NotificationsNo').text('1');
+                    } else {
+                        $('#NotificationsNo').text(parseInt($('#NotificationsNo').text()) + 1);
+                        $('#NotificationsNo').show();
                     }
-                    //var notification = {}
-                    //chat.client.pushAdministrationNotification= function() {
-                        
-                    //}
-                    // Start the connection.
-                    $.connection.hub.start()
+                }
+                //var notification = {}
+                //chat.client.pushAdministrationNotification= function() {
+
+                //}
+                // Start the connection.
+                $.connection.hub.start()
                     .done(function() {
-                        });
-                });
+                    });
+            });
             $(function() {
-                    var controller = "/Home/GetMessageNo";
-                    var data = {
-                        id: '@User.Identity.GetUserId()'
-                    }
-                    $.ajax({
-                        type: 'POST',
-                        url: controller,
-                        data: data,
+                var controller = "/Home/GetMessageNo";
+                var data = {
+                    id: '@User.Identity.GetUserId()'
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: controller,
+                    data: data,
                     success: function(data, textstatus) {
-                            if (data == '') {
-                                $('#MessageNotification').text('');
-                                $('#MessageNotification').hide();
-                            } else {
-                                $('#MessageNotification').show();
-                                $('#MessageNotification').text(data);
-                            }
+                        if (data == '') {
+                            $('#MessageNotification').text('');
+                            $('#MessageNotification').hide();
+                        } else {
+                            $('#MessageNotification').show();
+                            $('#MessageNotification').text(data);
                         }
-                    });
+                    }
                 });
+            });
             $(function() {
-                    var controller = "/Home/GetNotificationsNo";
-                    $.ajax({
-                        type: 'POST',
-                        url: controller,
+                var controller = "/Home/GetNotificationsNo";
+                $.ajax({
+                    type: 'POST',
+                    url: controller,
                     success: function(data) {
-                            if (data == '' || data == '0') {
-                                $('#NotificationsNo').text('0');
-                                $('#NotificationsNo').hide();
-                            } else {
-                                $('#NotificationsNo').show();
-                                $('#NotificationsNo').text(data);
-                            }
+                        if (data == '' || data == '0') {
+                            $('#NotificationsNo').text('0');
+                            $('#NotificationsNo').hide();
+                        } else {
+                            $('#NotificationsNo').show();
+                            $('#NotificationsNo').text(data);
                         }
-                    });
+                    }
                 });
-            </script>
-        }
+            });
+        </script>
+    }
 
 
-    </div>
+</div>
     @Scripts.Render("~/bundles/semantic")
     @Scripts.Render("~/bundles/Scripts")
     @Scripts.Render("~/Scripts/Map")

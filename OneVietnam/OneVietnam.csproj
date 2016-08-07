@@ -414,6 +414,7 @@
     <Content Include="fonts\helveticaneuecyr-roman.ttf" />
     <Content Include="fonts\helveticaneuecyr-roman.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\iCiel Brush Up.otf" />
     <None Include="Properties\PublishProfiles\OneVietnam - Web Deploy.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -458,12 +459,26 @@
     <Content Include="Scripts\PostLocation.js" />
     <Content Include="Scripts\timeline.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="semantic\dist\themes\basic\assets\fonts\icons.eot" />
+    <Content Include="semantic\dist\themes\basic\assets\fonts\icons.ttf" />
+    <Content Include="semantic\dist\themes\basic\assets\fonts\icons.woff" />
+    <Content Include="semantic\dist\themes\default\assets\fonts\icons.eot" />
+    <Content Include="semantic\dist\themes\default\assets\fonts\icons.ttf" />
+    <Content Include="semantic\dist\themes\default\assets\fonts\icons.woff" />
+    <Content Include="semantic\dist\themes\default\assets\fonts\icons.woff2" />
+    <Content Include="semantic\dist\themes\github\assets\fonts\octicons-local.ttf" />
+    <Content Include="semantic\dist\themes\github\assets\fonts\octicons.ttf" />
+    <Content Include="semantic\dist\themes\github\assets\fonts\octicons.woff" />
     <None Include="Service References\ASPSMSX2\configuration91.svcinfo" />
     <None Include="Service References\ASPSMSX2\configuration.svcinfo" />
     <Content Include="semantic\dist\semantic.css" />
     <Content Include="semantic\dist\semantic.js" />
     <Content Include="semantic\dist\semantic.min.css" />
     <Content Include="semantic\dist\semantic.min.js" />
+    <Content Include="semantic\dist\themes\basic\assets\fonts\icons.svg" />
+    <Content Include="semantic\dist\themes\default\assets\fonts\icons.svg" />
+    <Content Include="semantic\dist\themes\default\assets\images\flags.png" />
+    <Content Include="semantic\dist\themes\github\assets\fonts\octicons.svg" />
     <Content Include="Service References\ASPSMSX2\OneVietnam.ASPSMSX2.vouchers.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>

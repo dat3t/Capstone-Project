@@ -1,170 +1,183 @@
 ﻿@using Microsoft.AspNet.Identity
 @using OneVietnam.Models
 @model OneVietnam.Models.PostViewModel
-<div class="ui  raised clearing  segment " style="width: 631px !important">
-    <div class="header">
+    <i class="huge close icon" style="font-size: 3em"></i>
+<div class="ui grid">
+    <div class="ui four wide column"></div>
+    <div class="ui eight wide column">
+        <div class="ui  raised clearing  segment " style="width: 631px !important">
+            <div class="header">
 
-        <img class="ui mini avatar image" src="@Model.AvartarLink">
-        <a href="@Url.Action("Index","Timeline",new {Id=@Model.UserId})">@Model.UserName</a>
+                <img class="ui mini avatar image" src="@Model.AvartarLink">
+                <a href="@Url.Action("Index", "Timeline", new {Id = @Model.UserId})">@Model.UserName</a>
 
-        <div class="ui right floated button" style="background: white!important">
-            @if (User.Identity.IsAuthenticated && (User.Identity.GetUserId() == Model.UserId))
-            {
-                <i class="red large remove circle link icon" id="deletePost" data-content="Xóa" style="float: right" ></i>
-                //Delete Popup Modal
-                <script>
-                    $("#deletePost")
-                        .click(function () {
-                            $('.ui.small.delete.modal').modal('show');
-                        });
-                </script>
-
-                <div class="ui small delete modal">
-                    <div class="header">
-                        Xóa bài đăng
-                    </div>
-                    <div class="content">
-                        <p>Bạn có chắc chắn xóa bài đăng này?</p>
-                    </div>
-                    <div class="actions">
-                        <div class="ui cancel button">
-                            Hủy
-                        </div>
-                        <div class="ui green button" onclick="document.location.href= '@Url.Action("DeletePost", "Newsfeed", new {postId = Model.Id})';">
-                            Xóa
-                        </div>
-                    </div>
-                </div>
-                <i class="blue large write link icon" data-content="Sửa" style="float: right" onclick="document.location.href =
+                <div class="ui right floated button" style="background: white !important">
+                    @if (User.Identity.IsAuthenticated && (User.Identity.GetUserId() == Model.UserId))
+                    {
+                        <i class="red large remove circle link icon" data-content="Xóa" style="float: right" onclick="document.location.href = '@Url.Action("DeletePost", "Newsfeed", new {postId = Model.Id})';"></i>
+                        <i class="blue large write link icon" data-content="Sửa" style="float: right" onclick="document.location.href =
     '@Url.Action("EditPost", "Newsfeed", new {postId = Model.Id})'"></i>
-            }
-            else
-            {
-                <i class='blue large announcement link icon' id="reportPost" data-content='Báo cáo' style='float: right'></i>
-                <div id="ShowReportPost">
-                    @Html.Partial("../Newsfeed/_Report", new ReportViewModal(Model.Id, Model.UserId))   
+                    }
+                    else
+                    {
+                        <i class='blue large announcement link icon' id="reportPost" data-content='Báo cáo' style='float: right'></i>
+                        <div id="ShowReportPost">
+                            @Html.Partial("../Newsfeed/_Report", new ReportViewModal(Model.Id, Model.UserId))
+                        </div>
+                        <script>
+                            $(".modal")
+                                .modal({
+                                    allowMultiple: true
+                                });
+                            $('.second.modal').modal('attach events', '.report.modal .green.button');
+                            $('.report.modal').modal('attach events', '#reportPost');
+                            $(".green.button")
+                                .click(function() {
+                                    $('.report.modal').modal('hide');
+                                });
+                        </script>
+                    }
                 </div>
-                <script>
-                    $(".modal")
-                         .modal({
-                             allowMultiple: true
-                         });
-                    $('.second.modal').modal('attach events', '.report.modal .green.button');
-                    $('.report.modal').modal('attach events', '#reportPost');
-                    $(".green.button")
-                        .click(function () {
-                            $('.report.modal').modal('hide');                              
-                        });
-                </script>
-            }
-        </div>
 
-        <div class="meta">
-            <span style="color: grey; margin-left: 40px;font-size: 14px!important" > @Model.TimeInterval </span>
-              
-         
+                <div class="meta">
+                    <span style="color: grey; margin-left: 40px; font-size: 14px !important"> @Model.TimeInterval </span>
 
-        </div>
 
-        @*<div class="ui  header">@Model.UserName</div>*@
+
+                </div>
+
+                @*<div class="ui  header">@Model.UserName</div>*@
 
 
 
 
 
-    </div>
-    <div class="ui centered  card" style="width: 95%;border-color: #fff">
-        <div class="image">
+            </div>
+            <div class="ui centered  card" style="width: 95%; border-color: #fff">
+                <div class="image">
 
-            @{
-                if (Model.Illustrations != null && Model.Illustrations.Count >1)
-                {
-
-                    <div class="carousel" data-flickity>
-                        @foreach (var ill in Model.Illustrations)
+                    @{
+                        if (Model.Illustrations != null && Model.Illustrations.Count > 1)
                         {
-                            <div class="carousel-cell"><img src="@ill.PhotoLink" class="center-cropped"/>
+
+                            <div class="carousel" data-flickity>
+                                @foreach (var ill in Model.Illustrations)
+                                {
+                                    <div class="carousel-cell">
+                                        <img src="@ill.PhotoLink" class="center-cropped"/>
+                                    </div>
+                                }
+
+
+
                             </div>
+
+                        }
+                        else if (Model.Illustrations != null && Model.Illustrations.Count == 1)
+                        {
+
+
+
+                            <img src="@Model.Illustrations[0].PhotoLink"/>
+
+
+
+                        }
+                    }
+                </div>
+
+                <div class="content">
+                    <div id="rate" class="ui star rating right floated" data-rating="3"></div>
+                    <div class="header">@Model.Title</div>
+                    <div class="meta">
+                    </div>
+                    <div class="description" style="font-size: 18px">
+                        @Model.Description
+                    </div>
+                    <i class="world icon"></i>
+                    <a class="item" onclick="location
+    .href =
+    '@Url.Action("ShowMap", "Map", new {@Model.PostLocation.XCoordinate, @Model.PostLocation.YCoordinate, @Model.PostType, postId = @Model.Id})'">@Model.PostLocation.Address</a>
+
+                    <div class="extra content">
+                        @{
+                            string url = "http://www.phimmoi.net/phim/nguoi-vo-tuyet-voi-3976/";
+                            string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";
                         }
 
+                        <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+                        <div class="fb-share-button" data-href="@url" data-layout="button_count" data-size="small" data-mobile-iframe="true">
+                            <a class="fb-xfbml-parse-ignore" target="_blank" href="@iframeUrl">Chia sẻ</a>
+                        </div>
+                        <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts="3"></div>
+
+                        <script>
+
+
+                            FB.Event.subscribe('comment.create',
+                                function(response) {
+                                    onCommentCreate(response.commentID);
+                                });
+
+                            function onCommentCreate(commentID) {
+                                $.ajax({
+                                    type: 'GET',
+                                    url: '/Newsfeed/GetCommentor',
+                                    data: { commentid: commentID },
+                                    success: function(commentor) {
+                                        var comment = {
+                                            UserId: "@Model.UserId",
+                                            Commentor: commentor["Username"],
+                                            Url: "@Url.Action("ShowPost", "Newsfeed", new {postId = Model.Id})",
+                                            Avatar: commentor["Avatar"],
+                                            Title: "@Model.Title"
+                                        }
+                                        pushCommentNotification(comment);
+                                    }
+                                });
+                            }
+
+                            FB.XFBML.parse();
+
+                        </script>
 
 
                     </div>
-
-                }
-                else if (Model.Illustrations != null &&  Model.Illustrations.Count==1)
-                {
-
-                    
-                            
-                                <img src="@Model.Illustrations[0].PhotoLink" />
-                        
-                      
-
-                }
-            }
-        </div>
-
-        <div class="content">
-            <div id="rate" class="ui star rating right floated" data-rating="3"></div>
-            <div class="header">@Model.Title</div>
-            <div class="meta">
-            </div>
-            <div class="description" style="font-size: 18px">
-                @Model.Description
-            </div>
-            <i class="world icon"></i>
-            <a class="item" onclick="location.href='@Url.Action("ShowMap", "Map", new { @Model.PostLocation.XCoordinate, @Model.PostLocation.YCoordinate, @Model.PostType,postId = @Model.Id})'">@Model.PostLocation.Address</a>
-
-            <div class="extra content">
-                            @{
-                    string url = "http://www.phimmoi.net/phim/nguoi-vo-tuyet-voi-3976/";
-                    string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";
-                }
-
-                <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
-                <div class="fb-share-button" data-href="@url" data-layout="button_count" data-size="small" data-mobile-iframe="true">
-                    <a class="fb-xfbml-parse-ignore" target="_blank" href="@iframeUrl">Chia sẻ</a>
                 </div>
-                <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts=""></div>
 
-                <script>
-                   
-                  
-                    FB.Event.subscribe('comment.create',
-                        function (response) {
-                            onCommentCreate(response.commentID);
-                        });                    
-                    function onCommentCreate(commentID) {
-                        $.ajax({
-                            type: 'GET',
-                            url: '/Newsfeed/GetCommentor',
-                            data: { commentid: commentID },
-                            success: function (commentor) {
-                                var comment= {
-                                    UserId: "@Model.UserId",
-                                    Commentor: commentor["Username"],
-                                    Url: "@Url.Action("ShowPost","Newsfeed", new { Id = Model.Id })",
-                                    Avatar: commentor["Avatar"],
-                                    Title : "@Model.Title"
-                                    }                    
-                                pushCommentNotification(comment);
-                            }                            
-                        });
-                    }
-                    FB.XFBML.parse();
-
-                </script>
-               
 
             </div>
+
+
+
         </div>
-
-
     </div>
-    
-    
+    <div class="four wide column"></div>
+    <div class="one wide column"></div>
+    <div class="fourteen wide column">
 
+
+        <div class="ui card">
+            <div class="image">
+                <img src="/Images/elliot.jpg">
+            </div>
+            <div class="content">
+                <a class="header">Kristy</a>
+                <div class="meta">
+                    <span class="date">Joined in 2013</span>
+                </div>
+                <div class="description">
+                    Kristy is an art director living in New York.
+                </div>
+            </div>
+            <div class="extra content">
+                <a>
+                    <i class="user icon"></i>
+                    22 Friends
+                </a>
+            </div>
+        </div>
     </div>
-    
-   
+    <div class="one wide column"></div>
+
+</div>
