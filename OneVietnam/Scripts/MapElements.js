@@ -23,10 +23,10 @@ function closeNav() {
 }
 
 function accommodationEnlarge(){
-    document.getElementById("filterHome").style.background = "url(../Content/Icon/home.png)";
+    document.getElementById("filterHome").style.background = "url(../Content/Icon/home3.png)";
     document.getElementById("filterHome").style.backgroundSize = "100%";
     document.getElementById("filterHome").style.backgroundRepeat = "no-repeat";
-    document.getElementById("filterHome").className += "disabled";
+    //document.getElementById("filterHome").className += "disabled";
 }
 
 function jobEnlarge() {
