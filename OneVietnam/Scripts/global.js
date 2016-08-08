@@ -26,9 +26,9 @@
                 }
             })
         ;
-        //  $('.icon')
-        //.popup()
-        //  ;
+          $('.icon')
+        .popup()
+          ;
 
         $("#messageIcon").click(function () {
             //var div = document.getElementById("messagechat");
@@ -264,8 +264,17 @@
                         imagesLoaded: true,
                         percentPosition: false
                     });
-
-                    // get transform property
+                    $(".modal")
+                             .modal({
+                                 allowMultiple: true
+                             });
+                    $('.second.modal').modal('attach events', '.report.modal .green.button');
+                    $('.report.modal').modal('attach events', '#reportPost');
+                    $(".green.button")
+                        .click(function () {
+                            $('.report.modal').modal('hide');
+                        });
+                 
                     var docStyle = document.documentElement.style;
                     var transformProp = typeof docStyle.transform == 'string' ?
                       'transform' : 'WebkitTransform';
@@ -285,11 +294,7 @@
             });
             window.addEventListener('popstate', function (e) {
                 //Todo:back button
-            });
-
-
-            //        $(this).parent().parent().toggleClass('gigante');
-            // trigger layout after item size changes
+            }); 
             $grid.isotope('layout');
         });
         var isStamped = false;

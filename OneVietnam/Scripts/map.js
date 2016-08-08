@@ -928,9 +928,18 @@ function getPostInfo(postID) {
                         duration: 400,
                         onHide: function () {
                             history.back();
+                        }, onShow: function () {
+                            history.pushState(null, null, "/Newsfeed/ShowPost/" + postID);
                         }
                     }).modal('show')
                     ;
+
+                    $(".forHide")
+                      .on('click',
+                          function () {
+                              $('#forModal').modal('hide');
+
+                          });
                     var $carousel = $('.carousel').flickity({
                         imagesLoaded: true,
                         percentPosition: false
@@ -941,7 +950,6 @@ function getPostInfo(postID) {
                     var transformProp = typeof docStyle.transform == 'string' ?
                       'transform' : 'WebkitTransform';
 
-                    history.pushState(null, null, "../Newsfeed/ShowPost/" + postID);
                     var flkty = $carousel.data('flickity');
                     var $imgs = $('.carousel-cell img');
                     $carousel.on('scroll.flickity', function () {

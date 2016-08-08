@@ -5,6 +5,7 @@
     var query = window.location.search.substring(1);
     $(document)
         .ready(function () {
+           
             $("#stamp-button2").hide();
             if (query === 'ShowPost') {
 //                $("#CreatePostForm").data('validator').resetForm();
@@ -20,15 +21,15 @@
 
 
 
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6&appId=1615798268744410";
-        fjs.parentNode.insertBefore(js, fjs);
-
-    }(document, 'script', 'facebook-jssdk'));
+//    (function (d, s, id) {
+//        var js, fjs = d.getElementsByTagName(s)[0];
+//        if (d.getElementById(id)) return;
+//        js = d.createElement(s);
+//        js.id = id;
+//        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6&appId=1615798268744410";
+//        fjs.parentNode.insertBefore(js, fjs);
+//
+//    }(document, 'script', 'facebook-jssdk'));
 </script>
 <script>
     var isAuthenticated = false;
