@@ -59,14 +59,18 @@ namespace OneVietnam.Controllers
         {
             var userId = User.Identity.GetUserId();
             var user = await UserManager.FindByIdAsync(userId);
+            var messagesList = new List<Message>();                        
+            if (!user.Conversations.ContainsKey(friendId))
+            {
+                return Json(messagesList, JsonRequestBehavior.AllowGet);
+            }
             var friendConversation = user.Conversations[friendId];
-            if (friendConversation == null) return null;
             if (!friendConversation.Seen)
             {
                 friendConversation.Seen = true;
                 await UserManager.UpdateAsync(user);
             }
-            var messagesList = friendConversation.MessageList;
+            messagesList = friendConversation.MessageList;
             return Json(messagesList, JsonRequestBehavior.AllowGet);
         }
 
