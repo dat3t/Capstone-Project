@@ -83,9 +83,10 @@
                     Trò chuyện
                 </div>*@
             @if (Model.UserId.CompareTo(User.Identity.GetUserId()) != 0)
-            {
-                <a class="item">
-                    <i class="big comments outline icon" style="position:absolute !important; right:0px !important;bottom:0px !important;" title="Trò chuyện"></i>
+            {                
+                <a class="ui icon teal button" href="javascript: register_popup('@Model.UserId','@Model.UserName','@Model.Avatar')">
+                    Trò Chuyện
+                    <i class="comments large icon"></i>
                 </a>
             }
             
