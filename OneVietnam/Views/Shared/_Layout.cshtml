@@ -8,9 +8,12 @@
     <title>@ViewBag.Title - One Vietnam</title>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBiPDMBCKXsusl5-BgCw1nIyHwu5u3j8xw&libraries=places,geometry"></script>
     @Scripts.Render("~/bundles/jquery")
+    
     @Styles.Render("~/semantic/css")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/semantic")
+    @Scripts.Render("~/bundles/Scripts")
 </head>
 <body>
 <script>
@@ -125,18 +128,18 @@
     }
     else
     {
-        <a href="@Url.Action("Login","Account")">
+        <a href="@Url.Action("Login", "Account")">
             <div class="floating-button" data-toggle="tooltip" data-original-title="Create">
 
                 <p class="plus">
                     <i class="write icon"></i>
                 </p>
-              
+
             </div>
         </a>
     }
-   
-    <div id="forModal" class="ui basic modal coupled" style="position: absolute !important; height: 1000px; width: 90%" >
+
+    <div id="forModal" class="ui basic modal coupled" style="position: absolute !important; height: 1000px; width: 100%">
         <div class="ui  raised clearing  segment " style="width: 631px !important">
             <div class="header">
 
@@ -149,7 +152,7 @@
                     {
                     <i class='blue large announcement link icon' id="reportPost" data-content='Báo cáo' style='float: right'></i>
                     <div id="ShowReportPost">
-                    </div>                    
+                    </div>
                     }
                 </div>
 
@@ -188,18 +191,18 @@
                             string url = "http://www.phimmoi.net/phim/nguoi-vo-tuyet-voi-3976/";
                         }
 
-@*                        <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>*@
-@*                        <div class="fb-share-button" data-href="@url" data-layout="button_count" data-size="small" data-mobile-iframe="true">*@
-@*                            <a class="fb-xfbml-parse-ignore" target="_blank" href="">Chia sẻ</a>*@
-@*                        </div>*@
-@*                        <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts="3"></div>*@
-@**@
-@*                        <script>*@
-@**@
-@**@
-@*                            FB.XFBML.parse();*@
-@**@
-@*                        </script>*@
+                        <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+                        <div class="fb-share-button" data-href="@url" data-layout="button_count" data-size="small" data-mobile-iframe="true">
+                            <a class="fb-xfbml-parse-ignore" target="_blank" href="">Chia sẻ</a>
+                        </div>
+                        <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts="3"></div>
+
+                        <script>
+
+
+                     
+
+                        </script>
 
 
                     </div>
@@ -297,8 +300,7 @@
 
 
 </div>
-    @Scripts.Render("~/bundles/semantic")
-    @Scripts.Render("~/bundles/Scripts")
+ 
     @Scripts.Render("~/Scripts/Map")
     @RenderSection("scripts", required: false)
 
