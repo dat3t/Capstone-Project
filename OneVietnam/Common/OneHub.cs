@@ -29,8 +29,7 @@ namespace OneVietnam
             var name = Context.User.Identity.Name;
             var id = Context.User.Identity.GetUserId();
             var avatar = ((ClaimsIdentity)Context.User.Identity).FindFirst("Avatar").Value;
-            var friend = await UserManager.FindByIdAsync(friendId);
-            var connecting = friend.Connections.Any(c => c.Connected == true);
+            var friend = await UserManager.FindByIdAsync(friendId);                        
             var connection = friend.Connections;
             if (connection != null)
             {

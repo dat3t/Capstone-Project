@@ -70,7 +70,7 @@ function register_popup(id, name, avatarSrc) {
     element = element + '<div class="popup-head-right"><a href="javascript:close_popup(\'' + id + '\');">&#10005;</a></div>';
     element = element + '<div style="clear: both"></div></div><div class="popup-messages">' + conversation + textInput + '</div></div>';
 
-    document.getElementById("bodypage").innerHTML = document.getElementById("bodypage").innerHTML + element;
+    document.getElementById("ChatZone").innerHTML = document.getElementById("ChatZone").innerHTML+element;
 
     popups.unshift(id);
 
@@ -114,7 +114,6 @@ function getConversationById(friendId) {
         url: controller,
         data: data,
         success: function (data, textstatus) {
-
             if (data == '') return;
             $("#" + friendId + "Conversation").val('');
             for (var i = 0; i < data.length; i++) {

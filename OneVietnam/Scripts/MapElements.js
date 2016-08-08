@@ -95,7 +95,7 @@ function returnToNormalState() {
     document.getElementById("filterLGBT").style.background = "url(../Content/Icon/LGBT.png)";
     document.getElementById("filterUsers").style.background = "url(../Content/Icon/users.png)";
     document.getElementById("location").style.background = "url(../Content/Icon/location.png)";
-    document.getElementById("myLocation").style.background = "url(../Content/Icon/myhome.png)";
+   
 
     document.getElementById("filterHelp").style.backgroundSize = "100%";
     document.getElementById("filterHome").style.backgroundSize = "100%";
@@ -109,6 +109,11 @@ function returnToNormalState() {
     document.getElementById("filterLGBT").style.backgroundSize = "100%";
     document.getElementById("filterUsers").style.backgroundSize = "100%";
     document.getElementById("location").style.backgroundSize = "100%";
-    document.getElementById("myLocation").style.backgroundSize = "100%";
+    
+    if(isAuthenticated == true){
+        document.getElementById("myLocation").style.background = "url(../Content/Icon/myhome.png)";
+        document.getElementById("myLocation").style.backgroundSize = "100%";
+    }
+ 
 
 }

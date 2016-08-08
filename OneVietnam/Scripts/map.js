@@ -1047,7 +1047,9 @@ function checkIfBoundContainPosition(pos) {
         smoothlyCenterPosition(pos);
     }
 }
-
+function hideModel() {
+    $("#userModal").modal('hide');        
+}
 //window.onload = initialize;
 google.maps.event.addDomListener(window, 'load', initialize);
 //$(document).ready(initialize);
