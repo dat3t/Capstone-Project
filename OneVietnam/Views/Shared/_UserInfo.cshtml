@@ -83,8 +83,8 @@
                     Trò chuyện
                 </div>*@
             @if (Model.UserId.CompareTo(User.Identity.GetUserId()) != 0)
-            {                
-                <a class="ui icon teal button" href="javascript: register_popup('@Model.UserId','@Model.UserName','@Model.Avatar')">
+            {                                                
+                <a class="ui icon teal button" href="javascript: register_popup('@Model.UserId','@Model.UserName','@Model.Avatar')" onclick="return hideModel();">
                     Trò Chuyện
                     <i class="comments large icon"></i>
                 </a>
