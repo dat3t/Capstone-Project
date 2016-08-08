@@ -375,7 +375,6 @@
     <Content Include="Content\Icon\sale2.png" />
     <Content Include="Content\Icon\ship.jpg" />
     <Content Include="Content\Icon\ship2.png" />
-    <Content Include="Content\Icon\users.png" />
     <Content Include="Content\Icon\users2.png" />
     <Content Include="Content\Icon\Warning.png" />
     <Content Include="Content\Icon\warning2.png" />
@@ -394,7 +393,6 @@
     <Content Include="Content\Map\mappagecustom.css" />
     <Content Include="Content\Map\scrollbar.css" />
     <Content Include="Content\minimal-slide.css" />
-    <Content Include="Content\semantic.min.css" />
     <Content Include="Content\image-slider.css" />
     <Content Include="Content\Images\background.jpg" />
     <Content Include="Content\Images\dat.JPG" />
@@ -432,7 +430,6 @@
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chat.js" />
-    <Content Include="Scripts\docs.js" />
     <Content Include="Scripts\fine-uploader.js" />
     <Content Include="Scripts\flickity.pkgd.min.js" />
     <Content Include="Scripts\getAddressRegister.js" />
