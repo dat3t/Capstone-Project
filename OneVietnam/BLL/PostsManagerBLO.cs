@@ -141,11 +141,19 @@ namespace OneVietnam.BLL
 
         public async Task<List<Post>> FindAllDescenderAsync(BaseFilter basefilter)
         {
-            var filter = Builders<Post>.Filter.Eq("DeletedFlag", false);
+            var builder = Builders<Post>.Filter;
+            var filter = builder.Eq("DeletedFlag", false) & builder.Eq("LockedFlag",false);
             var sort = Builders<Post>.Sort.Descending("CreatedDate");
             return await Store.FindAllAsync(basefilter, filter, sort);
-        }        
+        }
 
+        public async Task<List<Post>> FindAllDescenderByIdAsync(BaseFilter baseFilter, string id)
+        {
+            var builder = Builders<Post>.Filter;
+            var filter = builder.Eq("DeletedFlag", false) & builder.Eq("_id", new ObjectId(id));
+            var sort = Builders<Post>.Sort.Descending("CreatedDate");
+            return await Store.FindAllAsync(baseFilter, filter, sort);
+        }
         public async Task<List<Post>> SearchPostMultipleQuery(string title, DateTimeOffset? createdDateFrom, DateTimeOffset? createdDateTo, bool? status)
         {
             var builder = Builders<Post>.Filter;
