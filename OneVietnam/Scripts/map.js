@@ -929,7 +929,7 @@ function getPostInfo(postID) {
                         onHide: function () {
                             history.back();
                         }, onShow: function () {
-                            history.pushState(null, null, "/Newsfeed/ShowPost/" + id);
+                            history.pushState(null, null, "/Newsfeed/ShowPost/" + postID);
                         }
                     }).modal('show')
                     ;
