@@ -31,7 +31,7 @@ else
     foreach (var post in Model)
     {
         <div id="wrapper" class="segment" style="height:150px; cursor:pointer ; border-bottom: 1px solid #E2E2E2;" onclick="showSelectedPostOnMap(@post.PostLocation.XCoordinate,@post.PostLocation.YCoordinate,@post.PostType,'@post.postId',2);">
-            <div class="iw-content2" style="padding:5px;">
+            <div class="iw-content2" style="padding-top:13px;">
                 <div id="navInfo2" style="margin-left:3px;">
                     @if (post.Illustrations != null && post.Illustrations.Count > 0)
                     {
