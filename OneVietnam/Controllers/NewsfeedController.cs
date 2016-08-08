@@ -454,9 +454,10 @@ namespace OneVietnam.Controllers
         [System.Web.Mvc.Authorize]        
         public async Task<ActionResult> DeletePost(string postId)
         {
-            Post post = await PostManager.FindByIdAsync(postId);
-            post.DeletedFlag = true;                                             
-            await PostManager.UpdateAsync(post);
+            //Post post = await PostManager.FindByIdAsync(postId);
+            //post.DeletedFlag = true;                                             
+            //await PostManager.UpdateAsync(post);
+            await PostManager.DeleteByIdAsync(postId);
             return RedirectToAction("Index", "Newsfeed");
         }
         [HttpPost]

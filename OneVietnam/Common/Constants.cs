@@ -19,7 +19,7 @@ namespace OneVietnam
         public const string DefaultAvatarLink = "/Content/Images/Avatar_Default.jpg";
         public const string DefaultCoverLink = "/Content/Images/Cover_default.jpg";
         public const string CommentDescription = " đã bình luận bài : ";
-        public const string accessTokenFacebook = "EAAW9j1nWUtoBAMdZBJTMkLD3kctB5h96LQTD3IOEzSvCRtDs3QZB0wz0SfEv0FZC6qnM3tqOSWbgt08xdTZCxC5TzH5IoM4sopyoZCmJrZCsjO7l9g0ZAbs0vTGkQVjwx1IfXkt7mflD1K4CtGzZAxQk6eOLHLlENpDlir4PybkPoQZDZD";
+        public const string accessTokenFacebook = "EAAW9j1nWUtoBACXdsFz953I7xEzTS3TtYfWKC00MVF0alKlEqYcz8uhJDVWZBn4eRMoe7fZAlmUglRMZAI72b0QvUzKJm3ynrNFf4tzexK3orOTeOJNZCO9bLz12Ch7otiNjZCFwvzlci4PSwmYfPKuTNpJECYXYl0BIDAembLwZDZD";
     }
     public static class CustomRoles
     {

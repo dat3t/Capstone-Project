@@ -354,18 +354,30 @@
     <Content Include="Content\flickity.css" />
     <Content Include="Content\icon.min.css" />
     <Content Include="Content\Icon\female.png" />
+    <Content Include="Content\Icon\female2.png" />
     <Content Include="Content\Icon\free.png" />
+    <Content Include="Content\Icon\free2.png" />
     <Content Include="Content\Icon\help.png" />
+    <Content Include="Content\Icon\help2.png" />
     <Content Include="Content\Icon\home.png" />
+    <Content Include="Content\Icon\home2.png" />
     <Content Include="Content\Icon\job.png" />
+    <Content Include="Content\Icon\job2.png" />
     <Content Include="Content\Icon\LGBT.png" />
+    <Content Include="Content\Icon\LGBT2.png" />
     <Content Include="Content\Icon\location.png" />
+    <Content Include="Content\Icon\location2.png" />
     <Content Include="Content\Icon\male.png" />
+    <Content Include="Content\Icon\male2.png" />
     <Content Include="Content\Icon\myhome.png" />
+    <Content Include="Content\Icon\myhome2.png" />
     <Content Include="Content\Icon\sale.png" />
+    <Content Include="Content\Icon\sale2.png" />
     <Content Include="Content\Icon\ship.jpg" />
-    <Content Include="Content\Icon\users.ico" />
+    <Content Include="Content\Icon\ship2.png" />
+    <Content Include="Content\Icon\users2.png" />
     <Content Include="Content\Icon\Warning.png" />
+    <Content Include="Content\Icon\warning2.png" />
     <Content Include="Content\Images\Avatar_Default.jpg" />
     <Content Include="Content\Images\chov.png" />
     <Content Include="Content\Images\Cover_default.jpg" />
@@ -381,7 +393,6 @@
     <Content Include="Content\Map\mappagecustom.css" />
     <Content Include="Content\Map\scrollbar.css" />
     <Content Include="Content\minimal-slide.css" />
-    <Content Include="Content\semantic.min.css" />
     <Content Include="Content\image-slider.css" />
     <Content Include="Content\Images\background.jpg" />
     <Content Include="Content\Images\dat.JPG" />
@@ -389,7 +400,6 @@
     <Content Include="Content\Images\poke_celebi.png" />
     <Content Include="Content\Images\rua.png" />
     <Content Include="Content\minimal-slide.css" />
-    <Content Include="Content\semantic.min.css" />
     <Content Include="Content\stylesheet.css" />
     <Content Include="fonts\helveticaneuecyr-bold.svg" />
     <Content Include="fonts\helveticaneuecyr-roman.svg" />
@@ -420,7 +430,6 @@
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chat.js" />
-    <Content Include="Scripts\docs.js" />
     <Content Include="Scripts\fine-uploader.js" />
     <Content Include="Scripts\flickity.pkgd.min.js" />
     <Content Include="Scripts\getAddressRegister.js" />
@@ -458,26 +467,12 @@
     <Content Include="Scripts\PostLocation.js" />
     <Content Include="Scripts\timeline.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="semantic\dist\themes\basic\assets\fonts\icons.eot" />
-    <Content Include="semantic\dist\themes\basic\assets\fonts\icons.ttf" />
-    <Content Include="semantic\dist\themes\basic\assets\fonts\icons.woff" />
-    <Content Include="semantic\dist\themes\default\assets\fonts\icons.eot" />
-    <Content Include="semantic\dist\themes\default\assets\fonts\icons.ttf" />
-    <Content Include="semantic\dist\themes\default\assets\fonts\icons.woff" />
-    <Content Include="semantic\dist\themes\default\assets\fonts\icons.woff2" />
-    <Content Include="semantic\dist\themes\github\assets\fonts\octicons-local.ttf" />
-    <Content Include="semantic\dist\themes\github\assets\fonts\octicons.ttf" />
-    <Content Include="semantic\dist\themes\github\assets\fonts\octicons.woff" />
     <None Include="Service References\ASPSMSX2\configuration91.svcinfo" />
     <None Include="Service References\ASPSMSX2\configuration.svcinfo" />
     <Content Include="semantic\dist\semantic.css" />
     <Content Include="semantic\dist\semantic.js" />
     <Content Include="semantic\dist\semantic.min.css" />
     <Content Include="semantic\dist\semantic.min.js" />
-    <Content Include="semantic\dist\themes\basic\assets\fonts\icons.svg" />
-    <Content Include="semantic\dist\themes\default\assets\fonts\icons.svg" />
-    <Content Include="semantic\dist\themes\default\assets\images\flags.png" />
-    <Content Include="semantic\dist\themes\github\assets\fonts\octicons.svg" />
     <Content Include="Service References\ASPSMSX2\OneVietnam.ASPSMSX2.vouchers.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
@@ -577,8 +572,8 @@
     <Content Include="Views\Administration\_ShowReportStatus.cshtml" />
     <Content Include="Views\Newsfeed\_EditUserPost.cshtml" />
     <Content Include="Views\Newsfeed\_EditAdminPost.cshtml" />
-    <Content Include="Views\Administration\CreateIcon.cshtml" />
     <Content Include="Views\Newsfeed\_AdminPost.cshtml" />
+    <Content Include="Views\Administration\_CreateIcon.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

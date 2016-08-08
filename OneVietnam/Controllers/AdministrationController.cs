@@ -392,10 +392,6 @@ namespace OneVietnam.Controllers
             }
         }
 
-        public ActionResult CreateIcon()
-        {
-            return View();
-        }
         [HttpPost]
         public async Task<ActionResult> CreateIcon(CreateIconModel model)
         {
