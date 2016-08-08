@@ -426,6 +426,7 @@
     <Content Include="Scripts\getAddressRegister.js" />
     <Content Include="Scripts\global.js" />
     <Content Include="Scripts\idangerous.swiper.min.js" />
+    <Content Include="Scripts\imagesloaded.pkgd.min.js" />
     <Content Include="Scripts\infiniteScroll.js" />
     <Content Include="Scripts\isotope.pkgd.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

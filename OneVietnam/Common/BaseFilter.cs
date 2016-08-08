@@ -37,7 +37,7 @@ namespace OneVietnam
 
         public int CurrentPage { get; set; } = 1;
 
-        public int ItemsPerPage { get; set; } = 15;
+        public int ItemsPerPage { get; set; } = 10;
 
         public long TotalPagesCount => TotalCount / ItemsPerPage +
                                        ((TotalCount % ItemsPerPage > 0) ? 1 : 0);
