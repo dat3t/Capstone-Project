@@ -58,7 +58,9 @@ function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
                     $(forLoad).append($items);
                     grid.isotope('appended', $items);
                     grid.isotope('layout');
-                 
+                    grid.imagesLoaded().progress(function () {
+                        grid.isotope('layout');
+                    });
                    
                 }
                 else {

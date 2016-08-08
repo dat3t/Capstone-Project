@@ -6,14 +6,24 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - One Vietnam</title>
-    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBiPDMBCKXsusl5-BgCw1nIyHwu5u3j8xw&libraries=places,geometry"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBiPDMBCKXsusl5-BgCw1nIyHwu5u3j8xw&libraries=places,geometry"></script>    
     @Scripts.Render("~/bundles/jquery")
     @Styles.Render("~/semantic/css")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+<script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6&appId=1615798268744410";
+        fjs.parentNode.insertBefore(js, fjs);
 
+    }(document, 'script', 'facebook-jssdk'));
+</script>
     <div class="ui grid">
         <div class="computer only row">
             <div class="ui main menu mainMenu">
@@ -26,7 +36,7 @@
                 <div class="floating ui label" style="color:#DE5958 ">42+</div>
                 @if (Request.IsAuthenticated && (User.IsInRole(CustomRoles.Admin) || User.IsInRole(CustomRoles.Mod)))
                 {
-                    @Html.ActionLink("Quản Trị", "Index", "Administration", routeValues: null, htmlAttributes: new { @class = "ui item" })
+                    @Html.ActionLink("Quản Trị", "Index", "Administration", routeValues: null, htmlAttributes: new { @class = "ui item brush-font" })
                 }
                 <div class="right menu">
                     <div class="item">
@@ -125,8 +135,8 @@
             </div>
         </a>
     }
-    
-    <div id="forModal" class="ui basic modal coupled" style="position: absolute !important; height: 1000px; width: 90%">
+   
+    <div id="forModal" class="ui basic modal coupled" style="position: absolute !important; height: 1000px; width: 90%" >
         <div class="ui  raised clearing  segment " style="width: 631px !important">
             <div class="header">
 
@@ -139,19 +149,7 @@
                     {
                     <i class='blue large announcement link icon' id="reportPost" data-content='Báo cáo' style='float: right'></i>
                     <div id="ShowReportPost">
-                    </div>
-                    <script>
-                        $(".modal")
-                            .modal({
-                                allowMultiple: true
-                            });
-                        $('.second.modal').modal('attach events', '.report.modal .green.button');
-                        $('.report.modal').modal('attach events', '#reportPost');
-                        $(".green.button")
-                            .click(function() {
-                                $('.report.modal').modal('hide');
-                            });
-                    </script>
+                    </div>                    
                     }
                 </div>
 
@@ -190,18 +188,18 @@
                             string url = "http://www.phimmoi.net/phim/nguoi-vo-tuyet-voi-3976/";
                         }
 
-                        <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
-                        <div class="fb-share-button" data-href="@url" data-layout="button_count" data-size="small" data-mobile-iframe="true">
-                            <a class="fb-xfbml-parse-ignore" target="_blank" href="">Chia sẻ</a>
-                        </div>
-                        <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts="3"></div>
-
-                        <script>
-
-
-                            FB.XFBML.parse();
-
-                        </script>
+@*                        <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>*@
+@*                        <div class="fb-share-button" data-href="@url" data-layout="button_count" data-size="small" data-mobile-iframe="true">*@
+@*                            <a class="fb-xfbml-parse-ignore" target="_blank" href="">Chia sẻ</a>*@
+@*                        </div>*@
+@*                        <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts="3"></div>*@
+@**@
+@*                        <script>*@
+@**@
+@**@
+@*                            FB.XFBML.parse();*@
+@**@
+@*                        </script>*@
 
 
                     </div>
@@ -295,6 +293,8 @@
                 });
             });
         </script>
+        <div id="ChatZone">            
+        </div>
     }
 
 
@@ -303,6 +303,5 @@
     @Scripts.Render("~/bundles/Scripts")
     @Scripts.Render("~/Scripts/Map")
     @RenderSection("scripts", required: false)
-
 </body>
 </html>

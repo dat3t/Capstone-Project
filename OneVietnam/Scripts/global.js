@@ -1,7 +1,12 @@
 ﻿$(document)
     .ready(function () {
-      
-      
+
+       
+
+        $("grids").imagesLoaded().progress(function () {
+           $("grids").isotope('layout');
+        });
+     
         $("#getloc").click();
         $(".filter-post").dropdown({
             allowCategorySelection: true
@@ -241,14 +246,20 @@
                   
                     $('#forModal').modal({
                         blur:true,
-                        duration: 200,
+                        duration: 300,
                         onHide: function () {
                             history.back();
                         },onShow:function() {
-                            history.pushState(null, null, "../Newsfeed/ShowPost/" + id);
+                            history.pushState(null, null, "/Newsfeed/ShowPost/" + id);
                         }
                     }).modal('show')
                     ;
+                    $(".forHide")
+                        .on('click',
+                            function() {
+                                $('#forModal').modal('hide');
+
+                            });
                     var $carousel = $('.carousel').flickity({
                         imagesLoaded: true,
                         percentPosition: false
