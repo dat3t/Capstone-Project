@@ -574,6 +574,7 @@
     <Content Include="Views\Newsfeed\_EditAdminPost.cshtml" />
     <Content Include="Views\Newsfeed\_AdminPost.cshtml" />
     <Content Include="Views\Administration\_CreateIcon.cshtml" />
+    <Content Include="Views\Search\_userResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

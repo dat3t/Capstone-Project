@@ -46,7 +46,7 @@ namespace OneVietnam.BLL
         {
             var sort = Builders<Post>.Sort.MetaTextScore("TextMatchScore").Ascending("CreatedDate");
             return await Store.FullTextSearch(query, filter, sort).ConfigureAwait(false);
-        }             
+        }        
         public PostManager(PostStore store) : base(store)
         {
         }

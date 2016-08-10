@@ -47,6 +47,12 @@ namespace OneVietnam.BLL
             // Call update once when all roles are added
             return await UpdateAsync(user).ConfigureAwait(false);
         }
+
+        public async Task<string> GetAvatarByIdAsync(string id)
+        {
+            var user = await _userStore.FindByIdAsync(id);
+            return user.Avatar;
+        }
         /// <summary>
         /// Remove user from multiple roles
         /// </summary>
@@ -93,6 +99,11 @@ namespace OneVietnam.BLL
             return await _userStore.TextSearchUsers(query);
         }
 
+        public async Task<string> GetUserNameByIdAsync(string id)
+        {
+            var user = await _userStore.FindByIdAsync(id);
+            return user.UserName;
+        }
         public async Task<List<ApplicationUser>> TextSearchMultipleQuery(string userName, DateTimeOffset? createdDateFrom, DateTimeOffset? createdDateTo, string role, bool? isConnection)
         {
             var builder = Builders<ApplicationUser>.Filter;

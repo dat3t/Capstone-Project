@@ -332,7 +332,7 @@ namespace OneVietnam.DAL
             SortDefinition<T> sort)
         {
             var builder = Builders<T>.Filter;
-            var conFilter = builder.Text(query) & builder.Eq("DeletedFlag", false);
+            var conFilter = builder.Text(query) & builder.Eq("DeletedFlag", false) & builder.Eq("LockedFlag",false);
             var project = Builders<T>.Projection.MetaTextScore("TextMatchScore");
             if (filter.IsNeedPaging)
             {

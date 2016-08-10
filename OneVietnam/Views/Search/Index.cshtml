@@ -2,10 +2,14 @@
 @using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Index";
+    var query = @ViewBag.Query;
 }
+<script>var query = window.location.search.substring(1);
+    $("#displayQuery").val(query);
+    </script>
 <div class="ui blue inverted segment">
-    <div class="ui centered header">
-        Tủ lạnh
+    <div class="ui centered header" id="displayQuery">
+      
     </div>
 </div>
 <div class="ui grid">
@@ -38,7 +42,7 @@
                     <div class="grid-sizer"></div>
                 <div class="gutter-sizer"></div>
                                 <div class="ui link cards" id="friendScroll">
-                    @Html.Partial("_PostRow", (ViewBag.Users as List<PostViewModel>))
+@*                    @Html.Partial("_PostRow", (ViewBag.Users as List<PostViewModel>))*@
                 </div>
 
             </div>
