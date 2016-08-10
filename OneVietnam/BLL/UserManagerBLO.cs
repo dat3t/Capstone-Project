@@ -161,9 +161,9 @@ namespace OneVietnam.BLL
             return await _userStore.TextSearchUsers(query, baseFilter);
         }
         //push admin notifications
-        public async Task PushAdminNotificationToAllUserAsync(string adminId,Notification notification)
+        public async Task PushAdminNotificationToAllUsersAsync(Notification notification)
         {
-            await _userStore.PushAdminNotificationToAllUserAsync(adminId, notification);
+            await _userStore.PushAdminNotificationToAllUsersAsync( notification);
         }
         public async Task<ICollection<Connection>> GetConnectionsById(string id)
         {

@@ -19,15 +19,17 @@ using OneVietnam.DTL;
 using OneVietnam.Models;
 using Facebook;
 using System.Collections;
-
+using System.Security.Claims;
+using OneVietnam.Common;
+using Microsoft.AspNet.SignalR.Hubs;
 namespace OneVietnam.Controllers
 {
     [System.Web.Mvc.Authorize]
     public class NewsfeedController : Controller
     {
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
-       private static CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
-      private  CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();        
+        private static readonly CloudStorageAccount StorageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
+        private readonly CloudBlobClient _blobClient = StorageAccount.CreateCloudBlobClient();        
         public static PostViewModel PostView;        
 
         public NewsfeedController()
@@ -79,8 +81,7 @@ namespace OneVietnam.Controllers
                 return _iconManager ?? HttpContext.GetOwinContext().Get<IconManager>();
             }
             private set { _iconManager = value; }
-        }
-        //public List<Tag> TagList => TagManager.FindAllAsync().Result
+        }       
 
         private ReportManager _reportManager;
         public ReportManager ReportManager
@@ -91,16 +92,6 @@ namespace OneVietnam.Controllers
             }
             private set { _reportManager = value; }
         }
-
-        //public List<Icon> IconList
-        //{
-        //    get
-        //    {
-        //        var icons = await IconManager.GetIconPostAsync();
-        //        return icons;
-        //    }            
-        //}
-
         public List<Icon> GenderIcon
         {
             get
@@ -139,8 +130,7 @@ namespace OneVietnam.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreatePost(CreatePostViewModel p)
         {            
-            ViewData.Clear();
-            Console.WriteLine("Go Create OK");
+            ViewData.Clear();            
             var post = new Post(p)
             {
                 CreatedDate = System.DateTime.Now,
@@ -161,7 +151,17 @@ namespace OneVietnam.Controllers
                 post.Illustrations = illList;
             }            
             await PostManager.CreateAsync(post);
-                        
+
+            if (post.PostType == (int) PostTypeEnum.AdminPost)
+            {
+                var hubContext =  GlobalHost.ConnectionManager.GetHubContext<OneHub>();
+                var avatar = ((ClaimsIdentity) User.Identity).FindFirst("Avatar").Value;                                
+                var description = post.UserId + Constants.CommentDescription + "\"" +
+                                  post.Title + "\"";
+                var notice = new Notification(Url.Action("ShowPost", "Newsfeed", new { post.Id }), avatar, description);
+                await UserManager.PushAdminNotificationToAllUsersAsync(notice);
+                await hubContext.Clients.All.pushNotification();
+            }
             PostView = new PostViewModel(post);
             return RedirectToAction("Index", "Newsfeed");
         }        
@@ -360,7 +360,7 @@ namespace OneVietnam.Controllers
         public async Task<ActionResult> EditPost(string postId)
         {
            
-            CloudBlobContainer blobContainer = blobClient.GetContainerReference(postId);
+            CloudBlobContainer blobContainer = _blobClient.GetContainerReference(postId);
             await blobContainer.CreateIfNotExistsAsync();
 
             List<Uri> allBlobs = new List<Uri>();
@@ -397,7 +397,7 @@ namespace OneVietnam.Controllers
             {
                 pPostView.Tags = tagList;
             }
-            CloudBlobContainer blobContainer= blobClient.GetContainerReference(pPostView.Id);
+            CloudBlobContainer blobContainer= _blobClient.GetContainerReference(pPostView.Id);
             await blobContainer.CreateIfNotExistsAsync();
             blobContainer.SetPermissions(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Container });
             List<Illustration> illList=new List<Illustration>();
