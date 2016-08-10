@@ -197,7 +197,9 @@ namespace OneVietnam.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> UsersSearch(string query)
         {
-            var result = await UserManager.TextSearchUsers(query);
+            var baseFilter = new BaseFilter {Limit = Constants.LimitedNumberDisplayUsers};
+            var result = await UserManager.TextSearchUsers(baseFilter,query);
+
             var list = result.Select(user => new SearchResultItem()
             {
                 Description = user.Email,
