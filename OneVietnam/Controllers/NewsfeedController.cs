@@ -27,9 +27,7 @@ namespace OneVietnam.Controllers
     {
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
        private static CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
-      private  CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-
-        public static bool CreatedPost = false;
+      private  CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();        
         public static PostViewModel PostView;        
 
         public NewsfeedController()
@@ -163,7 +161,7 @@ namespace OneVietnam.Controllers
                 post.Illustrations = illList;
             }            
             await PostManager.CreateAsync(post);
-            CreatedPost = true;
+                        
             PostView = new PostViewModel(post);
             return RedirectToAction("Index", "Newsfeed");
         }        
@@ -486,20 +484,6 @@ namespace OneVietnam.Controllers
                 return View("Error");
             }
         }
-        public class MyHub : Hub
-        {
-            public override Task OnConnected()
-            {
-                if (NewsfeedController.CreatedPost)
-                {
-                    var javaScriptSerializer = new JavaScriptSerializer();
-                    string jsonString = javaScriptSerializer.Serialize(NewsfeedController.PostView);
-                    Clients.Others.loadNewPost(jsonString);
-                }
-                return base.OnConnected();
-            }
-        }
-
         // TraNT: Auto create post
         #region AutoGeneratePosts
         private readonly ArrayList _arrRawDesciptions = new ArrayList();
