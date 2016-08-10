@@ -102,37 +102,41 @@
                     </div>
 
                     <!-- Post Location -->
-                    <div class="field">
-                        <label>* Địa chỉ liên hệ</label>
-                        <div class="ui floating labeled icon dropdown button"  tabindex="15" id="locationDr" style="float: left">
-                            <i class="blue world icon"></i>
-                            <span class="text"> Địa điểm hiện tại của bạn</span>
-                            <div class="menu">
-                                <div class="item" onclick="getCurrentLocation();" id="getloc">
-                                    <div class="ui blue empty circular label"></div>
-                                    Địa điểm hiện tại của bạn
-                                </div>
+                    <label>* Địa chỉ liên hệ</label>
+                    <div class="two fields">
+                        <div class="field">
+                           
+                            <div class="ui floating labeled icon dropdown button" tabindex="15" id="locationDr" style="float: left">
+                                <i class="blue world icon"></i>
+                                <span class="text"> Địa điểm hiện tại của bạn</span>
+                                <div class="menu">
+                                    <div class="item" onclick="getCurrentLocation();" id="getloc">
+                                        <div class="ui blue empty circular label"></div>
+                                        Địa điểm hiện tại của bạn
+                                    </div>
 
-                                <div class="item" onclick="getRegisteredLocation('@User.Identity.GetUserId()');">
-                                    <div class="ui red empty circular label"></div>
-                                    Địa chỉ nhà của bạn
-                                </div>
-                                
+                                    <div class="item" onclick="getRegisteredLocation('@User.Identity.GetUserId()');">
+                                        <div class="ui red empty circular label"></div>
+                                        Địa chỉ nhà của bạn
+                                    </div>
 
-                                <div class="divider"></div>
 
-                                <div class="header">
-                                    Tìm kiếm địa điểm khác
-                                </div>
-                                <div class="ui left icon input">
-                                    <i class="search icon"></i>
-                                    <input type="text" id="search-location" name="search" placeholder="Tìm kiếm địa điểm...">
+                                    <div class="divider"></div>
+
+                                    <div class="header">
+                                        Tìm kiếm địa điểm khác
+                                    </div>
+                                    <div class="ui left icon input">
+                                        <i class="search icon"></i>
+                                        <input type="text" id="search-location" name="search" placeholder="Tìm kiếm địa điểm...">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                    @Html.EditorFor(model => model.PostLocation.Address, new { htmlAttributes = new { placeholder = "Địa chỉ của bạn", tabindex="16" } })
-                    @Html.EditorFor(model => model.PostLocation.XCoordinate, new { htmlAttributes = new { style = "display: none" } })
+                        <div class="field">
+                            @Html.EditorFor(model => model.PostLocation.Address, new { htmlAttributes = new { placeholder = "Địa chỉ của bạn", tabindex = "16" } })
+                        </div>
+                                      @Html.EditorFor(model => model.PostLocation.XCoordinate, new { htmlAttributes = new { style = "display: none" } })
                     @Html.EditorFor(model => model.PostLocation.YCoordinate, new { htmlAttributes = new { style = "display: none" } })
 
                     </div>

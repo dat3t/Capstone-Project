@@ -171,10 +171,15 @@ namespace OneVietnam.BLL
         {
             return await _userStore.TextSearchUsers(query, baseFilter);
         }
+        //push admin notifications
+        public async Task PushAdminNotificationToAllUsersAsync(Notification notification)
+        {
+            await _userStore.PushAdminNotificationToAllUsersAsync( notification);
+        }
         public async Task<ICollection<Connection>> GetConnectionsById(string id)
         {
 
-            var user = await _userStore.FindByIdAsync(id).ConfigureAwait(false);            
+            var user = await _userStore.FindByIdAsync(id).ConfigureAwait(false);                        
             return user.Connections;
         }
         public async Task AddConnection(string userId, Connection connection)

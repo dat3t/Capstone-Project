@@ -90,5 +90,21 @@ namespace OneVietnam.DAL
             }
         }
 
+        public async Task PushAdminNotificationToAllUsersAsync(Notification notification)
+        {           
+            var filter = new BsonDocument();            
+            using (var cursor = await _users.FindAsync(filter))
+            {
+                while (await cursor.MoveNextAsync())
+                {
+                    var batch = cursor.Current;
+                    foreach (var document in batch)
+                    {
+                        document.Notifications?.Add(notification.Id,notification);
+                        await UpdateAsync(document);
+                    }
+                }
+            }
+        }
     }
 }
