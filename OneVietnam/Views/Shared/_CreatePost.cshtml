@@ -103,12 +103,12 @@
 
                     <!-- Post Location -->
                     <label>* Địa chỉ liên hệ</label>
-                    <div class="two fields">
+                 
                         <div class="field">
                            
                             <div class="ui floating labeled icon dropdown button" tabindex="15" id="locationDr" style="float: left">
                                 <i class="blue world icon"></i>
-                                <span class="text"> Địa điểm hiện tại của bạn</span>
+                                <span class="forLocation">Địa điểm của bài đăng</span>
                                 <div class="menu">
                                     <div class="item" onclick="getCurrentLocation();" id="getloc">
                                         <div class="ui blue empty circular label"></div>
@@ -128,86 +128,93 @@
                                     </div>
                                     <div class="ui left icon input">
                                         <i class="search icon"></i>
-                                        <input type="text" id="search-location" name="search" placeholder="Tìm kiếm địa điểm...">
+                                        <input type="text" id="search-location" name="search" placeholder="Tìm kiếm địa điểm..." style="margin-right: 20px">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="field">
-                            @Html.EditorFor(model => model.PostLocation.Address, new { htmlAttributes = new { placeholder = "Địa chỉ của bạn", tabindex = "16" } })
-                        </div>
+                            <input type="hidden" id="PostLocation_Address"/>
+@*                            @Html.EditorFor(model => model.PostLocation.Address, new {htmlAttributes = new {placeholder = "Địa chỉ của bạn", tabindex = "16"}})*@
                                       @Html.EditorFor(model => model.PostLocation.XCoordinate, new { htmlAttributes = new { style = "display: none" } })
                     @Html.EditorFor(model => model.PostLocation.YCoordinate, new { htmlAttributes = new { style = "display: none" } })
 
-                    </div>
+                   
 
                     <!-- Illustration -->
-                    <i class="large inverted blue camera icon" tabindex="17"></i>Thêm ảnh
                     <div class="field">
+                        
+                        <i class="large inverted blue camera icon" tabindex="17"></i>Thêm ảnh
 
-                        <input type="file" id="files" name="files" onchange="previewImg()" class="upload hides" multiple />
+                        <input type="file" id="files" name="files" onchange="previewImg()" class="upload hides" multiple/>
                         <output id="result"></output>
 
                         <script>
-                            $(".camera.icon").click(function () {
-                         $("#files").trigger('click');
-                     });
+                            $(".camera.icon")
+                                .click(function() {
+                                    $("#files").trigger('click');
+                                });
 
-                var ImgList = [];
-                function previewImg() {
-                    var filesInput = document.getElementById("files");
-                    var files = filesInput.files;
-                    var output = document.getElementById("result");
-                    var i = 0,
-                      len = files.length;
-                    (function readFile(n) {
-                        var reader = new FileReader();
-                        var f = files[n];
-                        reader.onload = function (e) {
-                            var div = document.createElement("span");
-                            div.innerHTML = "<img class='thumb' src='" + e.target.result + "'" +
-                                "title='" + f.name + "'/> <a href='#' class='remove_pict'>X</a>";
+                            var ImgList = [];
 
-                            output.insertBefore(div, null);
-                            div.children[1].addEventListener("click", function () {
-                                div.parentNode.removeChild(div);
-                                var removeId = div.children[0].title;
-                                for (var index = 0; index < ImgList.length; index++) {
-                                    if (ImgList[index].name === removeId) {
-                                        ImgList.splice(index, 1);
-                                        break;
+                            function previewImg() {
+                                var filesInput = document.getElementById("files");
+                                var files = filesInput.files;
+                                var output = document.getElementById("result");
+                                var i = 0,
+                                    len = files.length;
+                                (function readFile(n) {
+                                    var reader = new FileReader();
+                                    var f = files[n];
+                                    reader.onload = function(e) {
+                                        var div = document.createElement("span");
+                                        div.innerHTML = "<img class='thumb' src='" +
+                                            e.target.result +
+                                            "'" +
+                                            "title='" +
+                                            f.name +
+                                            "'/> <a href='#' class='remove_pict'>X</a>";
+
+                                        output.insertBefore(div, null);
+                                        div.children[1].addEventListener("click",
+                                            function() {
+                                                div.parentNode.removeChild(div);
+                                                var removeId = div.children[0].title;
+                                                for (var index = 0; index < ImgList.length; index++) {
+                                                    if (ImgList[index].name === removeId) {
+                                                        ImgList.splice(index, 1);
+                                                        break;
+                                                    }
+                                                }
+                                            });
+                                        ImgList.push(f);
+                                        if (n < len - 1) readFile(++n);
+                                    };
+                                    reader.readAsDataURL(f);
+                                }(i));
+                            }
+
+                            function submitCreatePost() {
+                                var formdata = new FormData();
+                                for (var i = 0; i < ImgList.length; i++) {
+                                    formdata.append(ImgList[i].name, ImgList[i]);
+                                }
+                                var xhr = new XMLHttpRequest();
+                                xhr.open('POST', '@Url.Action("GetIllustrations", "Newsfeed")');
+                                xhr.send(formdata);
+                                console.log('Sended');
+                                xhr.onreadystatechange = function() {
+                                    console.log('Sended state');
+                                    if (xhr.readyState === 4 && xhr.status === 200) {
+                                        console.log('Recieved');
+                                        ImgList.splice(0, ImgList.length);
+                                        $("#CreatePostForm").submit();
                                     }
                                 }
-                            });
-                            ImgList.push(f);
-                            if (n < len - 1) readFile(++n);
-                        };
-                        reader.readAsDataURL(f);
-                    }(i));
-                }
+                                return;
+                            }
 
-                        function submitCreatePost() {
-                            var formdata = new FormData();
-                            for (var i = 0; i < ImgList.length; i++) {
-                                formdata.append(ImgList[i].name, ImgList[i]);
-                            }
-                            var xhr = new XMLHttpRequest();
-                            xhr.open('POST', '@Url.Action("GetIllustrations","Newsfeed")');
-                            xhr.send(formdata);
-                            console.log('Sended');
-                            xhr.onreadystatechange = function () {
-                                console.log('Sended state');
-                                if (xhr.readyState === 4 && xhr.status === 200) {
-                                    console.log('Recieved');
-                                    ImgList.splice(0, ImgList.length);
-                                    $("#CreatePostForm").submit();
-                                }
-                            }
-                            return;
-                        }
-                          
                         </script>
-                    
+
                     </div>
 
                     <!-- Button Create and Cancel -->

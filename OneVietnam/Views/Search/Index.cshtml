@@ -2,16 +2,15 @@
 @using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Index";
-    var query = @ViewBag.Query;
+    string query = ViewBag.Query;
 }
-<script>var query = window.location.search.substring(1);
-    $("#displayQuery").val(query);
-    </script>
+
 <div class="ui blue inverted segment">
     <div class="ui centered header" id="displayQuery">
-      
+        <p>@query</p>
     </div>
 </div>
+
 <div class="ui grid">
     <div class="four wide column">
 
