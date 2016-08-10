@@ -155,8 +155,8 @@ namespace OneVietnam.Controllers
             if (post.PostType == (int) PostTypeEnum.AdminPost)
             {
                 var hubContext =  GlobalHost.ConnectionManager.GetHubContext<OneHub>();
-                var avatar = ((ClaimsIdentity) User.Identity).FindFirst("Avatar").Value;                                
-                var description = post.UserId + Constants.CommentDescription + "\"" +
+                var avatar = ((ClaimsIdentity) User.Identity).FindFirst("Avatar").Value;                
+                var description = Constants.AdminNotification + "\"" +
                                   post.Title + "\"";
                 var notice = new Notification(Url.Action("ShowPost", "Newsfeed", new { post.Id }), avatar, description);
                 await UserManager.PushAdminNotificationToAllUsersAsync(notice);

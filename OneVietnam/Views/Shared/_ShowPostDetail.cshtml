@@ -7,20 +7,12 @@
             if (Model.Illustrations != null && Model.Illustrations.Count > 0)
             {
                 <div class="ui  image clickable">
-
-
                     <img src="@Model.Illustrations[0].PhotoLink" class="visible content"/>
-
-
-                </div>
-                
-
-
+                </div>               
             }
         }
         <div class="content clickable ">
             <div class="meta">
-
                 @{
                     DateTime start = DateTime.Now;
                     // Do some work
@@ -46,9 +38,7 @@
                    {
                     <span>Vừa xong </span>
                    }
-
             }
-
             </div>
             <div class="header " style="word-break: break-all">
                 @Model.Title

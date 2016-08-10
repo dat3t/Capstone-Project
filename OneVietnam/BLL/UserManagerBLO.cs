@@ -94,10 +94,10 @@ namespace OneVietnam.BLL
             return await _userStore.FindUsersByRoleAsync(role);
         }
 
-        public async Task<List<ApplicationUser>> TextSearchUsers(string query)
+        public async Task<List<ApplicationUser>> TextSearchUsers(BaseFilter baseFilter, string query)
         {
-            return await _userStore.TextSearchUsers(query);
-        }
+            return await _userStore.TextSearchUsers(baseFilter,query);
+        }        
 
         public async Task<string> GetUserNameByIdAsync(string id)
         {
