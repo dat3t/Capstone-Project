@@ -229,11 +229,10 @@
                 gutter: '.gutter-sizer'
             }
         });
-
-
+        
         // change size of item by toggling gigante class
         $grid.on('click', '.clickable', function (e) {
-
+            
             var id = $(this).parent().find('#postId').val();
 
             $.ajax({
@@ -243,13 +242,15 @@
                 success: function (partialResult) {
                     $("#forModal").empty();
                     $("#forModal").html(partialResult);
-                  
+                    $(".modal")
+                            .modal({
+                                allowMultiple: true
+                            });
                     $('#forModal').modal({
-                        blur:true,
                         duration: 300,
                         onHide: function () {
                             history.back();
-                        },onShow:function() {
+                        }, onShow: function () {
                             history.pushState(null, null, "/Newsfeed/ShowPost/" + id);
                         }
                     }).modal('show')
@@ -264,16 +265,14 @@
                         imagesLoaded: true,
                         percentPosition: false
                     });
-                    $(".modal")
-                             .modal({
-                                 allowMultiple: true
-                             });
+                   
                     $('.second.modal').modal('attach events', '.report.modal .green.button');
                     $('.report.modal').modal('attach events', '#reportPost');
                     $(".green.button")
                         .click(function () {
                             $('.report.modal').modal('hide');
                         });
+
                  
                     var docStyle = document.documentElement.style;
                     var transformProp = typeof docStyle.transform == 'string' ?

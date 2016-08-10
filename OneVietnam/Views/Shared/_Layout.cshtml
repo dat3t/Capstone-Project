@@ -12,8 +12,7 @@
     @Styles.Render("~/semantic/css")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/semantic")
-    @Scripts.Render("~/bundles/Scripts")
+  
 </head>
 <body>
 <script>
@@ -300,7 +299,8 @@
 
 
 </div>
- 
+    @Scripts.Render("~/bundles/semantic")
+    @Scripts.Render("~/bundles/Scripts")
     @Scripts.Render("~/Scripts/Map")
     @RenderSection("scripts", required: false)
 </body>
