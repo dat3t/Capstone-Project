@@ -150,7 +150,7 @@ namespace OneVietnam.BLL
         public async Task<List<Post>> FindAllDescenderByIdAsync(BaseFilter baseFilter, string id)
         {
             var builder = Builders<Post>.Filter;
-            var filter = builder.Eq("DeletedFlag", false) & builder.Eq("_id", new ObjectId(id));
+            var filter = builder.Eq("DeletedFlag", false) & builder.Eq("UserId",id);
             var sort = Builders<Post>.Sort.Descending("CreatedDate");
             return await Store.FindAllAsync(baseFilter, filter, sort);
         }

@@ -4,7 +4,7 @@
 
 var scrollHandler = function () {
     if (hasReachedEndOfInfiniteScroll === false &&
-            ($(window).scrollTop() >= ($(document).height() - $(window).height()-180))) {
+            ($(window).scrollTop() >= ($(document).height() - $(window).height()-100))) {
         loadMoreToInfiniteScrollTable(moreRowsUrl);
     }
 }

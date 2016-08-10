@@ -96,17 +96,34 @@ namespace OneVietnam.Controllers
 
         //ThamDTH 
 
-        public async Task<ActionResult> Index(string Id)
+        public async Task<ActionResult> Index(string Id,int? pageNum)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
 
             // Create a blob client for interacting with the blob service.
             blobClient = storageAccount.CreateCloudBlobClient();
-
+            pageNum = pageNum ?? 1;
+            ViewBag.IsEndOfRecords = false;
+            BaseFilter filter;
+            List<Post> posts;
+            List<PostViewModel> list = new List<PostViewModel>();
             ApplicationUser user = await UserManager.FindByIdAsync(Id);
-            if (user != null)
-            {
-                List<Post> posts = await PostManager.FindByUserId(Id);
+            if (Request.IsAjaxRequest())
+                {
+                    filter = new BaseFilter { CurrentPage = pageNum.Value };
+                    posts = await PostManager.FindAllDescenderByIdAsync(filter,Id);
+
+                    if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
+                    foreach (var post in posts)
+                    {
+                        list.Add(new PostViewModel(post, user.UserName, user.Avatar));
+
+                    }
+                    //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
+                    return PartialView("_PostRow", list);
+                }
+            filter = new BaseFilter { CurrentPage = pageNum.Value };
+            posts = await PostManager.FindAllDescenderByIdAsync(filter,Id);
                 var postTypeList = await IconManager.GetIconPostAsync();
                 if (postTypeList != null)
                 {
@@ -119,8 +136,8 @@ namespace OneVietnam.Controllers
                 }
                 TimelineViewModel timeLine = new TimelineViewModel(user, posts);
                 return View(timeLine);
-            }
-            return View();
+            
+       
         }
 
         [HttpGet]

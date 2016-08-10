@@ -16,10 +16,11 @@
                         <i class="red large remove circle link icon" id="deletePost" data-content="Xóa" style="float: right"
                           ></i>
                         <script>
-                    $("#deletePost")
-                        .click(function () {
-                            $('.ui.small.delete.modal').modal('show');
-                        });
+                            
+                            $("#deletePost")
+                                .click(function () {
+                                    $('.ui.small.delete.modal').modal('show');
+                                });
                         </script>
 
                         <div class="ui small delete modal">
@@ -127,7 +128,8 @@
 
 
                             FB.Event.subscribe('comment.create',
-                                function(response) {
+                                function (response) {
+                                    alert("vao roi");
                                     onCommentCreate(response.commentID);
                                 });
 

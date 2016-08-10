@@ -23,6 +23,7 @@ namespace OneVietnam
                 "~/Scripts/flickity.pkgd.min.js",
                 "~/Scripts/global.js",
                 "~/Scripts/infiniteScroll.js",
+                "~/Scripts/imagesloaded.pkgd.min.js",
                 "~/Scripts/masonry.pkgd.min.js",
                 "~/Scripts/isotope.pkgd.min.js"));
             bundles.Add(new StyleBundle("~/semantic/css").Include(
