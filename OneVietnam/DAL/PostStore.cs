@@ -45,8 +45,7 @@ namespace OneVietnam.DAL
             {
                 throw new Exception(ex.Message);
             }
-        }
-
+        }        
         public PostStore(IMongoCollection<Post> store) : base(store)
         {
         }

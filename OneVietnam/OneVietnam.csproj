@@ -286,6 +286,7 @@
     <Compile Include="DAL\ReportStore.cs" />
     <Compile Include="DTL\BaseDTO\BaseMongoDocument.cs" />
     <Compile Include="DTL\ConnectionDTO.cs" />
+    <Compile Include="DTL\DictionaryItem.cs" />
     <Compile Include="DTL\MessageDTO.cs" />
     <Compile Include="DTL\Notification.cs" />
     <Compile Include="Models\AdministrationViewModel.cs" />
