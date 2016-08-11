@@ -1,5 +1,4 @@
 ﻿@using OneVietnam.Models
-@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Index";
     string query = ViewBag.Query;
@@ -41,7 +40,34 @@
                     <div class="grid-sizer"></div>
                 <div class="gutter-sizer"></div>
                                 <div class="ui link cards" id="friendScroll">
-@*                    @Html.Partial("_PostRow", (ViewBag.Users as List<PostViewModel>))*@
+                                    <script>
+                                        
+                                        $.ajax({
+                                            type: 'GET',
+                                            url: '/Search/_userResult',
+                                            data: {query:'toan',pageNum:1},
+                                            success: function (data, textstatus) {
+                                                if (data != '') {
+                                                    var $items = $(data);
+
+                                                    $("#friendScroll").append($items);
+                                                    $(".friend.grids").isotope('appended', $items);
+                                                    $(".friend.grids").isotope('layout');
+                                                    $(".friend.grids").imagesLoaded().progress(function () {
+                                                        grid.isotope('layout');
+                                                    });
+
+                                                }
+                                                else {
+                                                    page = -1;
+                                                }
+                                                inCallback = false;
+                                            },
+                                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                                console.log("Can not load more data infiniteScroll");
+                                            }
+                                        });
+                                    </script>
                 </div>
 
             </div>
@@ -52,6 +78,15 @@
 </div>
 <script src="~/Scripts/infiniteScroll.js"></script>
 <script type="text/javascript">
+//    $(".friend.grids")
+//        .on('click',
+//            ".content",
+//            function() {
+//                window.location('/Timeline/')
+    //            });
+    function gotoTimeline(e) {
+        document.location = "/Timeline/Index/"+e;
+    }
     var forLoad = $("#postScroll");
     var grid = $(".post.grids");
     var moreRowsUrl = '@Url.Action("Index","Search")';
@@ -65,11 +100,11 @@
                     var currentTab = $(".ui.tab.active").attr("data-tab");
                     if (currentTab == "friend") {
                         grid = $(".friend.grids");
-                        moreRowsUrl = '@Url.Action("Index","Search")';
-                         forLoad = $("#friendScroll");
+                        moreRowsUrl = '@Url.Action("_userResult","Search")';
+                        forLoad = $("#friendScroll");
                     } else {
                         grid = $(".post.grids");
-                        moreRowsUrl = '@Url.Action("Index","Newsfeed")';
+                        moreRowsUrl = '@Url.Action("Index","Search")';
                         forLoad = $("#postScroll");
                     }
                 });

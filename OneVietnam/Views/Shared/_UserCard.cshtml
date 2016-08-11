@@ -1,7 +1,7 @@
 ﻿@model OneVietnam.Models.UserViewModel
-<div class="ui link card">
+<div class="ui link card user-card">
   
-    <div class="content">
+    <div class="content" onclick="gotoTimeline('@Model.UserId')">
         <img class="right floated mini ui image" src="@Model.Avatar">
         <div class="header">
             @Model.UserName
@@ -15,8 +15,8 @@
     </div>
     <div class="extra content">
         <div class="ui two buttons">
-            <div class="ui basic green button">Nhắn tin</div>
-            <div class="ui basic red button">Theo dõi</div>
+            <a class="ui basic green button" href="javascript: register_popup('@Model.UserId','@Model.UserName','@Model.Avatar')">Nhắn tin</a>
+            <div class="ui basic red button">Báo cáo</div>
         </div>
     </div>
 </div>
