@@ -24,7 +24,8 @@
                       (place.address_components[6] && place.address_components[6].short_name || '')
                     ].join(' ');
                 }
-                document.getElementById("PostLocation_Address").value = address;
+                $(".forLocation").text(address);
+                $("#PostLocation_Address").val(address);
                 document.getElementById("PostLocation_XCoordinate").value = place.geometry.location.lat();
                 document.getElementById("PostLocation_YCoordinate").value = place.geometry.location.lng();
             });
@@ -48,7 +49,8 @@ function getCurrentLocation() {
                     
                     var address_Post = document.getElementById("PostLocation_Address");
                     if(address_Post != null){
-                        document.getElementById("PostLocation_Address").value = detailedLocation;
+                        $(".forLocation").text(detailedLocation);
+                        $("#PostLocation_Address").val(detailedLocation);
                         document.getElementById("PostLocation_XCoordinate").value = pos.lat;
                         document.getElementById("PostLocation_YCoordinate").value = pos.lng;
                     }
@@ -80,7 +82,8 @@ function getRegisteredLocation(id) {
         dataType: 'json',
         success: function (location) {
             if (location == null || location == '') return;
-            document.getElementById("PostLocation_Address").value = location["Address"];
+            $(".forLocation").text(location["Address"]);
+            $("#PostLocation_Address").val(location["Address"]);
             document.getElementById("PostLocation_XCoordinate").value = location["XCoordinate"];
             document.getElementById("PostLocation_YCoordinate").value = location["YCoordinate"];
         },
@@ -92,7 +95,9 @@ function getRegisteredLocation(id) {
 
 function setRegisteredLocation(x, y, address) {
    // document.getElementById("Address_Edit").value = address;
-    document.getElementById("PostLocation_Address").value = address;
+   
+    $(".forLocation").text(address);
+    $("#PostLocation_Address").val(address);
     document.getElementById("PostLocation_XCoordinate").value = x;
     document.getElementById("PostLocation_YCoordinate").value = y;
 }

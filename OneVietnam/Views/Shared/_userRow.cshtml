@@ -1,0 +1,9 @@
+﻿@model List<OneVietnam.Models.UserViewModel>
+
+
+@foreach (var user in Model)
+{
+    @Html.Partial("../Shared/_UserCard", user)
+
+
+}

@@ -26,25 +26,25 @@ namespace OneVietnam.Controllers
             ViewBag.IsEndOfRecords = false;
 
             BaseFilter filter;
-            List<PostViewModel> list = new List<PostViewModel>();
+            List<PostViewModel> listPost = new List<PostViewModel>();
             if (Request.IsAjaxRequest())
             {
                 filter = new BaseFilter { CurrentPage = pageNum.Value };
-                list = await PostSearch(query,filter);
+                listPost = await PostSearch(query,filter);
 
-                if (list.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
+                if (listPost.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
                
                 //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
-                return PartialView("_PostRow", list);
+                return PartialView("_PostRow", listPost);
             }
            
       
             filter = new BaseFilter { CurrentPage = pageNum.Value };
-            list = await PostSearch(query, filter);
+            listPost = await PostSearch(query, filter);
             //posts = await PostManager.FullTextSearch(qu)
-            if (list.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
+            if (listPost.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
         
-            ViewBag.Posts = list;
+            ViewBag.Posts = listPost;
             ViewBag.Query = query;
             return View();
         }
@@ -77,40 +77,25 @@ namespace OneVietnam.Controllers
             private set { _postManager = value; }
         }
         [AllowAnonymous]
-        public async Task<ActionResult> _userResult(int? pageNum)
+        public async Task<ActionResult> _userResult(string query,int? pageNum)
         {
-            pageNum = pageNum ?? 1;
+            
             ViewBag.IsEndOfRecords = false;
 
             BaseFilter filter;
-            List<Post> posts;
-            List<PostViewModel> list = new List<PostViewModel>();
-            if (Request.IsAjaxRequest())
-            {
+            List<UserViewModel> list = new List<UserViewModel>();
+            List<ApplicationUser> users = new List<ApplicationUser>();
+          
                 filter = new BaseFilter { CurrentPage = pageNum.Value };
-                posts = await PostManager.FindAllDescenderAsync(filter);
+                users = await UserManager.TextSearchUsers(filter, query);
 
-                if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
-                foreach (var post in posts)
-                {
-                    ApplicationUser user = await UserManager.FindByIdAsync(post.UserId);
-                    list.Add(new PostViewModel(post, user.UserName, user.Avatar));
-
-                }
+                if (users.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
+                list = users.Select(p => new UserViewModel(p)).ToList();
                 //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
-                return PartialView("_PostRow", list);
-            }
+                return PartialView("_userRow", list);
+            
 
-            filter = new BaseFilter { CurrentPage = pageNum.Value };
-            posts = await PostManager.FindAllDescenderAsync(filter);
-            if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
-            foreach (var post in posts)
-            {
-                ApplicationUser user = await UserManager.FindByIdAsync(post.UserId);
-                list.Add(new PostViewModel(post, user.UserName, user.Avatar));
-            }
-            ViewBag.Posts = list;
-            return View();
+           
         }
         [AllowAnonymous]
         public async Task<List<PostViewModel>> PostSearch(string query, BaseFilter baseFilter)

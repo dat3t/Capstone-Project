@@ -302,6 +302,7 @@
             $('body,html').animate({
                 scrollTop: 0                       // Scroll to top of body
             }, 500);
+            $grid.isotope('layout');
             $("#CreatePostForm").data('validator').resetForm();
             $("#CreatePostForm").find("#result").html("");
             $("#CreatePostForm").find('#Title, #Description, #TagsInput').val('');
@@ -315,7 +316,7 @@
             // stamp or unstamp element
 
             // trigger layout
-            $grid.isotope('layout');
+        
             // set flag
             isStamped = !isStamped;
         });
