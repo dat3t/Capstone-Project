@@ -158,7 +158,7 @@
                 <i class="icon announcement link" id="reportPost" data-content="Báo cáo" style="float: right"></i>
                 //Report Popup Modal
 
-                @Html.Partial("../Newsfeed/_Report", new ReportViewModal(Model.Id, Model.UserId));
+                @Html.Partial("../Newsfeed/_Report", new ReportViewModel(Model.Id, Model.UserId));
 
                 <script>
                     $("#reportPost")

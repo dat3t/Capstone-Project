@@ -7,7 +7,7 @@ using OneVietnam.DTL;
 
 namespace OneVietnam.Models
 {
-    public class ReportViewModal
+    public class ReportViewModel
     {       
         public string Id { get; set; }
         public string ReporterId { get; set; }
@@ -40,24 +40,24 @@ namespace OneVietnam.Models
 
         [BsonIgnoreIfNull]
         public DateTimeOffset? CloseDate { get; set; }
-        public ReportViewModal()
+        public ReportViewModel()
         {
 
         }
-        public ReportViewModal(string pPostId, string pUserId, string pDescription)
+        public ReportViewModel(string pPostId, string pUserId, string pDescription)
         {
             PostId = pPostId;
             UserId = pUserId;
             ReportDescription = pDescription;
         }
 
-        public ReportViewModal(string pPostId, string pUserId)
+        public ReportViewModel(string pPostId, string pUserId)
         {
             PostId = pPostId;
             UserId = pUserId;            
         }
 
-        public ReportViewModal(Report pReport)
+        public ReportViewModel(Report pReport)
         {
             Id = pReport.Id;
             UserId = pReport.UserId;
@@ -81,7 +81,7 @@ namespace OneVietnam.Models
 
         }
 
-        public ReportViewModal(Report pReport, ApplicationUser pUser)
+        public ReportViewModel(Report pReport, ApplicationUser pUser)
         {
             Id = pReport.Id;
             UserId = pReport.UserId;
@@ -106,7 +106,7 @@ namespace OneVietnam.Models
 
         }
 
-        public ReportViewModal(Report pReport, string pPostTitle, string pUserName, string pHandlerName)
+        public ReportViewModel(Report pReport, string pPostTitle, string pUserName, string pHandlerName)
         {
             Id = pReport.Id;
             UserId = pReport.UserId;

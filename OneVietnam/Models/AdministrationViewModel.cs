@@ -16,7 +16,7 @@ namespace OneVietnam.Models
 
         public List<AdminPostViewModel> Posts { get; set; }
 
-        public List<ReportViewModal> Reports { get; set; }
+        public List<ReportViewModel> Reports { get; set; }
 
         public AdministrationViewModel() { }
 
@@ -78,17 +78,17 @@ namespace OneVietnam.Models
 
             if(pReports != null && pReports.Count > 0)
             {
-                Reports = new List<ReportViewModal>();
+                Reports = new List<ReportViewModel>();
                 foreach (var report in pReports)
                 {
-                    ReportViewModal reportView = new ReportViewModal(report);
+                    ReportViewModel reportView = new ReportViewModel(report);
                     Reports.Add(reportView);
                 }
             }
 
         }
 
-        public AdministrationViewModel(List<ApplicationUser> pUsers, List<IdentityRole> pRoles, List<Post> pPosts, List<ReportViewModal> pReports)
+        public AdministrationViewModel(List<ApplicationUser> pUsers, List<IdentityRole> pRoles, List<Post> pPosts, List<ReportViewModel> pReports)
         {
             if (pUsers != null && pUsers.Count > 0)
             {

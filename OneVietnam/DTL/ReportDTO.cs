@@ -58,7 +58,7 @@ namespace OneVietnam.DTL
             DeletedFlag = pReport.DeletedFlag;
         }
 
-        public Report(ReportViewModal pReport)
+        public Report(ReportViewModel pReport)
         {
             Id = ObjectId.GenerateNewId().ToString();
             UserId = pReport.UserId;

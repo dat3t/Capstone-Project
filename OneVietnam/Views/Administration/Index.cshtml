@@ -265,13 +265,13 @@
 
                     <!--Show search users result-->
                     <div id="ReportsManagement">
-                        @(Model?.Reports != null ? Html.Partial("../Administration/_ReportsManagementPanel", Model.Reports) : Html.Partial("../Administration/_ReportsManagementPanel", new List<ReportViewModal>()))
+                        @(Model?.Reports != null ? Html.Partial("../Administration/_ReportsManagementPanel", Model.Reports) : Html.Partial("../Administration/_ReportsManagementPanel", new List<ReportViewModel>()))
                     </div>
                 </div>
 
                 <div class="ui tab" data-tab="icons">
                     <div id="IconManagement">
-                        @Html.Partial("_CreateIcon", new CreateIconModel())
+                        @Html.Partial("_CreateIcon", new CreateIconViewModel())
                     </div>
 
                 </div>
