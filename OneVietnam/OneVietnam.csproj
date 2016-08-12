@@ -283,8 +283,8 @@
     <Compile Include="Common\utilities.cs" />
     <Compile Include="Controllers\TimelineController.cs" />
     <Compile Include="DAL\Abstract\AbstractStore.cs" />
-    <Compile Include="DAL\PostStore.cs" />
-    <Compile Include="DAL\ReportStore.cs" />
+    <Compile Include="DAL\PostStoreDAO.cs" />
+    <Compile Include="DAL\ReportStoreDAO.cs" />
     <Compile Include="DTL\BaseDTO\BaseMongoDocument.cs" />
     <Compile Include="DTL\ConnectionDTO.cs" />
     <Compile Include="DTL\DictionaryItem.cs" />
