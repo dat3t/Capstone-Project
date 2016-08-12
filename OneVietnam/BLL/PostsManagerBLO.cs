@@ -50,6 +50,12 @@ namespace OneVietnam.BLL
             var sort = Builders<Post>.Sort.Descending("CreatedDate");
             return await FindAllAsync(baseFilter, filter, sort).ConfigureAwait(false);
         }
+
+        public async Task<List<BsonDocument>> FindPostByTagsAsync(BaseFilter baseFilter, List<Tag> tags)
+        {
+            var query = tags.Aggregate("", (current, tag) => current + tag.TagText + " ");
+            return  await FullTextSearch(query, baseFilter).ConfigureAwait(false);
+        }
         //OK                                
         public async Task<List<BsonDocument>> FullTextSearch(string query, BaseFilter filter)
         {
