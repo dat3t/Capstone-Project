@@ -7,12 +7,8 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace OneVietnam.DTL
 {
-    public class Tag
-    {
-
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; private set; }
-        
+    public class Tag : BaseMongoDocument
+    {                
         public string TagValue { get; set; }
 
         public string TagText { get; set; }
@@ -24,6 +20,9 @@ namespace OneVietnam.DTL
 
         public Tag(string pTagValue, string pTagText)
         {
+            Id = ObjectId.GenerateNewId().ToString();
+            CreatedDate = DateTimeOffset.UtcNow;
+            DeletedFlag = false;
             TagValue = pTagValue;
             TagText = pTagText;
         }

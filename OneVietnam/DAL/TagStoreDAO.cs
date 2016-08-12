@@ -24,12 +24,12 @@ namespace OneVietnam.DAL
             {
                 throw new Exception(ex.Message);
             }
-        }                
+        }
 
-        //public Task<List<DTL.Tag>> FindTagByValueAsync(string pTagValue)
-        //{
-        //    return _tags.Find(u => u.TagValue.Contains(pTagValue)).ToListAsync();
-        //}
+        public Task<List<DTL.Tag>> FindTagByValueAsync(string pTagValue)
+        {
+            return Collection.Find(u => u.TagValue.Contains(pTagValue)).ToListAsync();
+        }
 
         public override async Task UpdateAsync(DTL.Tag instance)
         {

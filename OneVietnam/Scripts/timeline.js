@@ -8,6 +8,7 @@ function editableForm() {
     $("#drdGender").show();
     $("#btnUpdateLocation").toggleClass('hides');
     $("#drdGender").dropdown({});
+    $("#DateOfBirth").attr('type','date');
 }
 
 function submitEditProfile() {
@@ -20,10 +21,10 @@ function submitEditProfile() {
     showUserMarkerOnMap(x, y, address);
 }
 
-function cancelEditProfile() {
+function cancelEditProfile(pUrl) {
     $.ajax({
         type: 'GET',
-        url: 'EditProfile',
+        url: pUrl,
         success: function (partialResult) {
             $("#EditProfileForm").html("");
             $("#EditProfileForm").html(partialResult);
@@ -32,21 +33,27 @@ function cancelEditProfile() {
     });
 }
 
-function changeTwoFactorAuthentication() {
+function changeTwoFactorAuthentication(pUrl) {
     var param = $(".ui.toggle.button").text();
+    if (param === "Bật" && $("#txtMobilePhone").val() === "") {
+        $('.message')[0].className = "ui negative message";
+        $(".ui.toggle.button")[0].click();
+        return;
+    }               
     $.ajax({
         type: 'POST',
-        url: 'ChangeTwoFactorAuthentication',
+        url: pUrl,
         data: { 'value': param },
         success: function () {
+            $('.message')[0].className = "ui negative message transition hidden";
         }
     });
 }
 
-function showChangePasswordForm() {
+function showChangePasswordForm(pUrl) {
     $.ajax({
         type: 'GET',
-        url: 'ChangePassword',
+        url: pUrl,
         success: function (partialResult) {
             $("#ChangePasswordForm").html(partialResult);
             $("#ShowPassword").html("");
@@ -72,10 +79,10 @@ function closeChangePasswordForm() {
 
 }
 
-function showSetPasswordForm() {
+function showSetPasswordForm(pUrl) {
     $.ajax({
         type: 'GET',
-        url: 'SetPassword',
+        url: pUrl,
         success: function (partialResult) {
             $("#ChangePasswordForm").html(partialResult);
             $("#ShowPassword").html("");
@@ -107,7 +114,7 @@ function closeSetPasswordForm() {
 function showUserMarkerOnMap(x, y, address) {
     //Declare icon for userLocationmarker
     icon = {
-        url: "../Content/Icon/location.png",
+        url: "/Content/Icon/location.png",
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
@@ -119,7 +126,7 @@ function showUserMarkerOnMap(x, y, address) {
         title: address,
         icon: icon
     });
-    map = new google.maps.Map(document.getElementById('divShowMap'), {
+    map2= new google.maps.Map(document.getElementById('divShowMap'), {
         center: { lat: x, lng: y },
         zoom: 10,
         minZoom: 4,
@@ -127,12 +134,12 @@ function showUserMarkerOnMap(x, y, address) {
     });
     
     userLocationMarker.setPosition({ lat: x, lng: y });
-    userLocationMarker.setMap(map);
+    userLocationMarker.setMap(map2);
    
-    google.maps.event.addListenerOnce(map, 'idle', function () {
-        google.maps.event.trigger(map, 'resize');
-        map.setCenter({ lat: x, lng: y });
-        map.setZoom(10);
+    google.maps.event.addListenerOnce(map2, 'idle', function () {
+        google.maps.event.trigger(map2, 'resize');
+        map2.setCenter({ lat: x, lng: y });
+        map2.setZoom(10);
     });
 }
 
@@ -150,19 +157,21 @@ function updateCurrentLocation() {
 
             var geocoder = new window.google.maps.Geocoder();             // create a geocoder object
             var location = new window.google.maps.LatLng(pos.lat, pos.lng);    // turn coordinates into an object          
-            geocoder.geocode({ 'latLng': location }, function (results, status) {
-                if (status === window.google.maps.GeocoderStatus.OK) {           // if geocode success
-                    var detailedLocation = results[0].formatted_address;         // if address found, pass to processing function
-                    addr.value = detailedLocation;
-                    xcoordinate.value = pos.lat;
-                    ycoordinate.value = pos.lng;
-                    userLocationMarker.setTitle(addr);
-                    userLocationMarker.setPosition({ lat: pos.lat, lng: pos.lng });
-                    userLocationMarker.setMap(map);
-                    map.setCenter({ lat: pos.lat, lng: pos.lng });
-                } else {
-                }
-            })
+            geocoder.geocode({ 'latLng': location },
+                function(results, status) {
+                    if (status === window.google.maps.GeocoderStatus.OK) { // if geocode success
+                        var detailedLocation = results[0]
+                            .formatted_address; // if address found, pass to processing function
+                        addr.value = detailedLocation;
+                        xcoordinate.value = pos.lat;
+                        ycoordinate.value = pos.lng;
+                        userLocationMarker.setTitle(addr);
+                        userLocationMarker.setPosition({ lat: pos.lat, lng: pos.lng });
+                        userLocationMarker.setMap(map);
+                        map.setCenter({ lat: pos.lat, lng: pos.lng });
+                    } else {
+                    }
+                });
         }, function () {
             // handleLocationError(true, myLocationMarker, map.getCenter());
             alert("Không thể định vị được vị trí của bạn. Bạn cần cho phép trình duyệt sử dụng định vị GPS.");

@@ -1,0 +1,94 @@
+﻿@media only screen and (max-width : 540px) {
+    .chat-popup {
+        display: none !important;
+    }
+}
+
+.popup-box {
+    display: none;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    height: 330px;
+    background-color: white;
+    width: 300px;
+    border: 1px solid rgba(29, 49, 91, .3);
+}
+
+    .popup-box .popup-head {        
+        background: #C98572;
+        padding: 5px;
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+        clear: both;
+    }
+
+.popup-box .popup-head .popup-head-left {
+            float: left;
+        }
+
+        .popup-box .popup-head .popup-head-right {
+            float: right;
+            opacity: 0.5;
+        }
+
+            .popup-box .popup-head .popup-head-right a {
+                text-decoration: none;
+                color: inherit;
+            }
+
+    .popup-box .popup-messages {
+        height: 100%;        
+    }
+.sendMessage {
+    color: white !important;
+    max-width: 250px;
+    display: inline-block !important;
+    word-wrap: break-word;
+    border-radius: 0.5em!important;
+    padding: 0.7rem!important;
+    margin-right: 0px!important;
+    margin-left: auto!important;        
+    background: #2196F3!important;        
+}        
+.receiveMessage {
+    max-width: 250px;
+    display: inline-block !important;
+    word-wrap: break-word;
+    border-radius: 0.5em!important;
+    padding: 0.7rem!important;            
+    background: #C8E6C9!important;        
+}
+.conversations {
+    display: inline-flex!important;
+    padding: 0em !important;
+}
+.notifications {
+    display: inline-flex!important;
+    padding: 0em !important;
+    margin-right: 0.5em !important;
+}
+.description.notification {
+    width: 20em !important;
+    overflow: hidden;
+    word-wrap: break-word;
+    height: 3em;
+    line-height: 1.5em;
+    white-space: normal;
+}
+.messagePreview {
+    width: 20em !important;    
+}
+#Conversations {
+    overflow-y: auto !important;
+    max-height: 412px;    
+}
+#Notifications {
+    overflow-y: auto !important;
+    max-height: 412px;
+    overflow-x: hidden;
+}
+.unread {
+    background: #E0F2F1 !important;
+}

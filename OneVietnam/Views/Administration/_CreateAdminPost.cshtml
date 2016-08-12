@@ -1,0 +1,133 @@
+﻿
+@model  OneVietnam.Models.CreateAdminPostViewModel
+
+
+
+@using (Ajax.BeginForm("CreateAdminPost", "Administration", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "CreateAdminPost",
+    OnSuccess = "createSuccess()"
+}, new { id = "CreateAdminPostForm" }))
+{
+
+    <div class="ui form">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(false)
+
+        <div class="field" style="text-align: center">
+            <div class="ui transparent input">                
+                <a id="linkReferToPostDetail"></a>                
+            </div>
+        </div>
+
+        <!-- Title -->
+        <div class="field">
+            <h2 class="ui medium header" style="margin-bottom: 0">* Tiêu đề</h2>
+            <div class="ui input  focus">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { placeholder = "Nhâp tiêu đề..." } })
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="field">
+            <label>* Mô tả </label>
+            @Html.TextAreaFor(model => model.Description, new { placeholder = "Thêm mô tả cho bài đăng", rows = "10" })
+        </div>
+
+        <!-- Illustration -->
+        <i class="large inverted blue camera link icon" id="uploadIcon"></i>Thêm ảnh
+        <div class="field">
+            <input type="file" id="btnImageUpAdminPost" name="btnImageUpAdminPost" onchange="previewImg()" class="upload hides" multiple />
+            <output id="result"></output>
+            <script>
+                var ImgList = [];                                
+                function previewImg() {
+                    var filesInput = document.getElementById("btnImageUpAdminPost");
+                    var files = filesInput.files;
+                    var output = document.getElementById("result");
+                    var i = 0,
+                      len = files.length;
+                    (function readFile(n) {
+                        var reader = new FileReader();
+                        var f = files[n];
+                        reader.onload = function (e) {
+                            var div = document.createElement("span");
+                            div.innerHTML = "<img class='thumb' src='" + e.target.result + "'" +
+                                "title='" + f.name + "'/> <a href='#' class='remove_pict'>X</a>";
+
+                            output.insertBefore(div, null);
+                            div.children[1].addEventListener("click", function () {
+                                div.parentNode.removeChild(div);
+                                var removeId = div.children[0].title;
+                                for (var index = 0; index < ImgList.length; index++) {
+                                    if (ImgList[index].name === removeId) {
+                                        ImgList.splice(index, 1);
+                                        break;
+                                    }
+                                }
+                            });
+                            ImgList.push(f);
+                            if (n < len - 1) readFile(++n);
+                        };
+                        reader.readAsDataURL(f);
+                    }(i));
+                }
+
+            </script>
+        </div>
+
+        <!-- Button Create and Cancel -->
+        <div class="field" style="text-align: center">
+            <input id="btnCancelAdminPost" type="button" value="Hủy" class="ui cancel button" onclick="resetAdminPostForm()" />
+            <input id="btnCreateAdminPost" type="submit" onclick="submitCreateAdminPost()" value="Đăng bài" name="createpost" class="ui teal button" />
+            <script>
+                $("#uploadIcon").on('click', function () {
+                    $("#btnImageUpAdminPost").click();
+                });
+
+                function resetAdminPostForm() {
+                    var validated = $("#CreateAdminPostForm").data('validator');
+                    if (validated !== undefined && validated !== null) {
+                        validated.resetForm();
+                    }
+                    $(".validation-summary-errors ul li").remove();
+                    $(".validation-summary-errors").addClass('validation-summary-valid').removeClass('validation-summary-errors');
+                    $("#CreateAdminPostForm").find('input:text, input:file, select, textarea').val('');
+                    $("#CreateAdminPostForm").find('input:text, input:file, select, textarea').removeClass('input-validation-error');
+                    ImgList.splice(0, ImgList.length);
+                }
+
+                function createSuccess() {
+                    var error = $(".validation-summary-errors ul li");                    
+                    var newUrl = document.getElementById("linkReferToPostDetail");
+                    if (error !== null && error !== undefined && error.length > 1) {                        
+                        return;
+                    }
+                    $("#CreateAdminPostForm").find('input:text, input:file, select, textarea').val('');
+                    $("#CreateAdminPostForm").find('input:text, input:file, select, textarea').removeClass('input-validation-error');;                    
+
+                    newUrl.innerText = "Bạn vừa tạo thành công bài đăng, bấm vào đây đê xem chi tiết";
+                    newUrl.href = '@Url.Action("ShowPostDetail", "Newsfeed", new { postId = Model.Id})';
+                }
+
+                function submitCreateAdminPost() {
+                    var formdata = new FormData();
+                    for (var i = 0; i < ImgList.length; i++) {
+                        formdata.append(ImgList[i].name, ImgList[i]);
+                    }
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/Administration/GetUploadImage');
+                    xhr.send(formdata);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            ImgList.splice(0, ImgList.length);
+                        }
+                    }
+                }
+
+            </script>
+        </div>
+    </div>
+}

@@ -141,6 +141,8 @@ namespace OneVietnam.Models
         public int Gender { get; set; }
 
         public string UserId { get; set; }
+        public string Avatar { get; set; }
+        public string Cover { get; set; }
 
         public UserViewModel()
         {
@@ -155,6 +157,8 @@ namespace OneVietnam.Models
             Gender = appUser.Gender;
             PhoneNumber = appUser.PhoneNumber;
             UserId = appUser.Id;
+            Avatar = appUser.Avatar;
+            Cover = appUser.Cover;
         }
     }    
 }

@@ -11,9 +11,12 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using MongoDB.Driver;
 using OneVietnam.BLL;
 using OneVietnam.DTL;
 using OneVietnam.Models;
+using Icon = System.Drawing.Icon;
+using Tag = OneVietnam.DTL.Tag;
 
 namespace OneVietnam.Controllers
 {
@@ -82,45 +85,68 @@ namespace OneVietnam.Controllers
                 return tags?.Result;
             }
         }
-        public List<Icon> IconList
-        {
-            get
-            {
-                var icons = IconManager.GetIconPostAsync();
-                return icons;
-            }
-        }
+        //public List<Icon> IconList
+        //{
+        //    get
+        //    {
+        //        var icons = IconManager.GetIconPostAsync().Result;
+        //        return icons;
+        //    }
+        //}
 
         //ThamDTH 
-        
-        public async Task<ActionResult> Timeline(string userId)
+
+        public async Task<ActionResult> Index(string Id,int? pageNum)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
 
             // Create a blob client for interacting with the blob service.
             blobClient = storageAccount.CreateCloudBlobClient();
-           
-            ApplicationUser user = await UserManager.FindByIdAsync(userId);
-            if (user != null)
-            {
-                List<Post> posts = await PostManager.FindByUserId(userId);
-                if (IconList != null)
+            pageNum = pageNum ?? 1;
+            ViewBag.IsEndOfRecords = false;
+            BaseFilter filter;
+            List<Post> posts;
+            List<PostViewModel> list = new List<PostViewModel>();
+            ApplicationUser user = await UserManager.FindByIdAsync(Id);
+            if (Request.IsAjaxRequest())
                 {
-                    ViewData["PostTypes"] = IconList;
+                    filter = new BaseFilter { CurrentPage = pageNum.Value };
+                    posts = await PostManager.FindAllDescenderByIdAsync(filter,Id);
+
+                    if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
+                    foreach (var post in posts)
+                    {
+                        list.Add(new PostViewModel(post, user.UserName, user.Avatar));
+
+                    }
+                    //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
+                    return PartialView("_PostRow", list);
+                }
+            filter = new BaseFilter { CurrentPage = pageNum.Value };
+            posts = await PostManager.FindAllDescenderByIdAsync(filter,Id);
+                var postTypeList = await IconManager.GetIconPostAsync();
+                if (postTypeList != null)
+                {
+                    ViewData["PostTypes"] = postTypeList;
+                }
+                var genderList = await IconManager.GetIconGender();
+                if (genderList != null)
+                {
+                    ViewData["GenderTypes"] = genderList;
                 }
                 TimelineViewModel timeLine = new TimelineViewModel(user, posts);
                 return View(timeLine);
-            }
-            return View();
+            
+       
         }
 
-        [HttpGet]        
+        [HttpGet]
         public async Task<PartialViewResult> EditProfile()
         {
             ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             UserProfileViewModel profile = new UserProfileViewModel(user);
             return PartialView("_EditProfile", profile);
-        }        
+        }
 
         [HttpPost]
         [System.Web.Mvc.Authorize]
@@ -130,36 +156,29 @@ namespace OneVietnam.Controllers
             if (!ModelState.IsValid)
             {
                 return PartialView("_EditProfile", profile);
-            }
+            }            
+            //await UserManager.UpdateProfileUserAsync(profile);
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
-                if (profile.UserName != null)
-                {
-                    user.UserName = profile.UserName;
-                }
+
+                user.UserName = profile.UserName;
                 user.Gender = profile.Gender;
                 user.Email = profile.Email;
-                user.Location = profile.Location;
-                if(profile.DateOfBirth != null)
-                {
-                    user.DateOfBirth = profile.DateOfBirth;
-                }
-                else
-                {
-                    user.DateOfBirth = null;
-                }
-                
-                if(profile.PhoneNumber != null)
-                {
-                    user.PhoneNumber = profile.PhoneNumber;
-                }                
+                user.Location = profile.Location;                
+                user.DateOfBirth = profile.DateOfBirth;
+                user.PhoneNumber = profile.PhoneNumber;
                 var result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    await SignInAsync(user, isPersistent: false);                                        
+                    await SignInAsync(user, isPersistent: false);
                 }
-                AddErrors(result);                
+                AddErrors(result);
+            }
+            var genderList = await IconManager.GetIconGender();
+            if (genderList != null)
+            {
+                ViewData["GenderTypes"] = genderList;
             }
             return PartialView("_EditProfile", profile);
         }
@@ -181,16 +200,16 @@ namespace OneVietnam.Controllers
             if (user != null)
             {
                 await SignInAsync(user, isPersistent: false);
-                TwoFacterViewModel setting = new TwoFacterViewModel(user);                
-            }            
+                TwoFacterViewModel setting = new TwoFacterViewModel(user);
+            }
         }
-               
+
         [HttpGet]
         [System.Web.Mvc.Authorize]
         public ActionResult ChangePassword()
-        {            
+        {
             return PartialView("_ChangePassword", new ChangePasswordViewModel());
-        }       
+        }
 
         [HttpPost]
         [System.Web.Mvc.Authorize]
@@ -211,7 +230,7 @@ namespace OneVietnam.Controllers
                 }
                 return null;
             }
-            AddErrors(result);            
+            AddErrors(result);
             return PartialView("_ChangePassword", model);
         }
 
@@ -226,7 +245,7 @@ namespace OneVietnam.Controllers
         [System.Web.Mvc.Authorize]
         [ValidateAntiForgeryToken]
         public async Task<PartialViewResult> SetPassword(SetPasswordViewModel model)
-        {           
+        {
             if (ModelState.IsValid)
             {
                 var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
@@ -263,12 +282,12 @@ namespace OneVietnam.Controllers
             // using: https://[InsertYourStorageAccountNameHere].blob.core.windows.net/webappstoragedotnet-imagecontainer/FileName 
             await blobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
             HttpFileCollectionBase file = Request.Files;
-            
+
             if (file != null && file.Count > 0)
-            {                
-                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(User.Identity.GetUserId() + Path.GetExtension(file[0].FileName));
+            {
+                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(User.Identity.GetUserId());
                 await blob.DeleteIfExistsAsync();
-                blob.UploadFromStream(file[0].InputStream);
+                await blob.UploadFromStreamAsync(file[0].InputStream);
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
@@ -276,12 +295,12 @@ namespace OneVietnam.Controllers
                     var result = await UserManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {
-                        await SignInAsync(user, isPersistent: false);                        
+                        await SignInAsync(user, isPersistent: false);
                     }
-                    AddErrors(result);                    
-                }                
+                    AddErrors(result);
+                }
             }
-            return RedirectToAction("Timeline", "Timeline", new { userId = User.Identity.GetUserId() });
+            return RedirectToAction("Index", "Timeline", new { Id = User.Identity.GetUserId() });
 
         }
 
@@ -298,28 +317,28 @@ namespace OneVietnam.Controllers
             // using: https://[InsertYourStorageAccountNameHere].blob.core.windows.net/webappstoragedotnet-imagecontainer/FileName 
             await blobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
             HttpFileCollectionBase file = Request.Files;
-            
+
             if (file != null && file.Count > 0)
-            {                
-                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(User.Identity.GetUserId() + Path.GetExtension(file[0].FileName));
+            {
+                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(User.Identity.GetUserId());
                 await blob.DeleteIfExistsAsync();
-                blob.UploadFromStream(file[0].InputStream);
+                await blob.UploadFromStreamAsync(file[0].InputStream);
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
-                    user.Cover = blob.Uri.ToString();               
+                    user.Cover = blob.Uri.ToString();
                     var result = await UserManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {
-                        await SignInAsync(user, isPersistent: false);                        
+                        await SignInAsync(user, isPersistent: false);
                     }
-                    AddErrors(result);                    
-                }                
+                    AddErrors(result);
+                }
             }
-            return RedirectToAction("Timeline", "Timeline", new { userId = User.Identity.GetUserId() });
+            return RedirectToAction("Index", "Timeline", new { Id = User.Identity.GetUserId() });
 
         }
-     
+
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         private async Task SignInAsync(ApplicationUser user, bool isPersistent)

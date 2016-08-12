@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -8,71 +9,28 @@ using OneVietnam.DTL;
 
 namespace OneVietnam.BLL
 {
-    public class IconManager : IDisposable
-    {
-        private readonly IconStore _iconStore;
-        public IconManager(IconStore pIconStore)
-        {
-            _iconStore = pIconStore;
-        }
-
+    public class IconManager : AbstractManager<Icon>
+    {        
         public static IconManager Create(IdentityFactoryOptions<IconManager> options,
             IOwinContext context)
         {
             var manager =
                 new IconManager(new IconStore(context.Get<ApplicationIdentityContext>().Icons));
             return manager;
-        }
-        public Task CreateAsync(Icon pIcon)
+        }                
+
+        public async Task<List<Icon>> GetIconGender()
         {
-            return _iconStore.CreatAsync(pIcon);
+            var list = await Store.FindAllAsync();
+            return list?.Where(icon => string.Equals(icon.IconType, Constants.IconTypeGender) && !icon.DeletedFlag).ToList();
         }
 
-        public Task<List<Icon>> GetIconsAsync()
+        public async Task<List<Icon>> GetIconPostAsync()
         {
-            return _iconStore.GetIconsAsync();
+            var list = await Store.FindAllAsync();
+            return list?.Where(icon => string.Equals(icon.IconType, Constants.IconTypePost) && !icon.DeletedFlag).ToList();
         }
-
-
-        public List<Icon> GetIconGenderAndSosAsync()
-        {
-            var list = GetIconsAsync();
-            if (list != null)
-            {
-                List<Icon> genderAndSos = new List<Icon>();
-
-                foreach (var icon in list.Result)
-                {
-                    if (string.Equals(icon.IconType, Constants.IconTypeGender) | string.Equals(icon.IconType, Constants.IconTypeSos))
-                    {
-                        genderAndSos.Add(icon);
-                    }
-                }
-                return genderAndSos;
-            }
-            return null;
-        }
-
-        public List<Icon> GetIconPostAsync()
-        {
-            var list = GetIconsAsync();
-            if (list != null)
-            {
-                List<Icon> postTypes = new List<Icon>();
-
-                foreach (var icon in list.Result)
-                {
-                    if (string.Equals(icon.IconType, Constants.IconTypePost))
-                    {
-                        postTypes.Add(icon);
-                    }
-                }
-                return postTypes;
-            }
-            return null;
-        }
-
-        public void Dispose()
+        public IconManager(AbstractStore<Icon> store) : base(store)
         {
         }
     }

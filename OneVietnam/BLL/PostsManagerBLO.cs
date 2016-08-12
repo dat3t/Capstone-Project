@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,13 +17,14 @@ using Ninject.Activation;
 using OneVietnam.Common;
 using OneVietnam.DAL;
 using OneVietnam.DTL;
+using OneVietnam.Models;
 using Tag = OneVietnam.DTL.Tag;
 
 namespace OneVietnam.BLL
 {
     public partial class PostManager : AbstractManager<Post>
     {
-        
+
         public static PostManager Create(IdentityFactoryOptions<PostManager> options,
             IOwinContext context)
         {
@@ -44,35 +46,39 @@ namespace OneVietnam.BLL
         {
             var sort = Builders<Post>.Sort.MetaTextScore("TextMatchScore").Ascending("CreatedDate");
             return await Store.FullTextSearch(query, filter, sort).ConfigureAwait(false);
-        }             
+        }        
         public PostManager(PostStore store) : base(store)
         {
         }
 
-
+        public async Task<List<Post>> FindAllActiveAdminPostAsync()
+        {
+            var list = new List<Post>();
+            var builder = Builders<Post>.Filter;
+            var filter = builder.Eq("PostType", PostTypeEnum.Administration)&builder.Eq("DeletedFlag", false)& 
+                            builder.Eq("LockedFlag", false)&builder.Eq("Status",true);
+            var sort = Builders<Post>.Sort.Descending("CreatedDate");
+            var baseFilter = new BaseFilter {IsNeedPaging = false};
+            return await this.FindAllAsync(baseFilter,filter,sort);
+        }
         public async Task<List<Illustration>> GetIllustration(HttpFileCollectionBase pFiles, string pBlobContainerName)
         {
             try
             {
                 int fileCount = pFiles.Count;
-                if (fileCount > 0)
-                {
-                    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-                    CloudBlobContainer blobContainer = blobClient.GetContainerReference(pBlobContainerName);
-                    await blobContainer.DeleteIfExistsAsync();
-                    await blobContainer.CreateAsync();
-                    await blobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
-
+                if (fileCount > 0 && !string.IsNullOrEmpty(pFiles[0]?.FileName))
+                {                    
+                    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));                    
+                    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();                    
+                    CloudBlobContainer blobContainer = blobClient.GetContainerReference(pBlobContainerName);                    
+                    await blobContainer.DeleteIfExistsAsync();                    
+                    await blobContainer.CreateAsync();                    
+                    await blobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });                    
                     for (int i = 0; i < fileCount; i++)
-                    {
-                        if (pFiles[i] != null)
-                        {
-                            CloudBlockBlob blob = blobContainer.GetBlockBlobReference(GetRandomBlobName(pFiles[i].FileName));
-                            await blob.DeleteIfExistsAsync();
-                            blob.UploadFromStream(pFiles[i].InputStream);
-                        }                        
-                    }
+                    {                       
+                        CloudBlockBlob blob = blobContainer.GetBlockBlobReference(GetRandomBlobName(pFiles[i].FileName));                        
+                        await   blob.UploadFromStreamAsync(pFiles[i].InputStream);                         
+                    }                    
                     var blobList = blobContainer.ListBlobs();
                     List<Illustration> illList = new List<Illustration>();
                     foreach (var blob in blobList)
@@ -84,7 +90,7 @@ namespace OneVietnam.BLL
                 }
             }
             catch (Exception ex)
-            {
+            {                
                 return null;
             }
             return null;
@@ -131,6 +137,82 @@ namespace OneVietnam.BLL
                 return null;
             }
             return null;
+        }
+
+        public async Task<List<Post>> FindAllDescenderAsync(BaseFilter basefilter)
+        {
+            var builder = Builders<Post>.Filter;
+            var filter = builder.Eq("DeletedFlag", false) & builder.Eq("LockedFlag",false);
+            var sort = Builders<Post>.Sort.Descending("CreatedDate");
+            return await Store.FindAllAsync(basefilter, filter, sort);
+        }
+
+        public async Task<List<Post>> FindAllDescenderByIdAsync(BaseFilter baseFilter, string id)
+        {
+            var builder = Builders<Post>.Filter;
+            var filter = builder.Eq("DeletedFlag", false) & builder.Eq("UserId",id);
+            var sort = Builders<Post>.Sort.Descending("CreatedDate");
+            return await Store.FindAllAsync(baseFilter, filter, sort);
+        }
+        public async Task<List<Post>> SearchPostMultipleQuery(string title, DateTimeOffset? createdDateFrom, DateTimeOffset? createdDateTo, bool? status)
+        {
+            var builder = Builders<Post>.Filter;
+            FilterDefinition<Post> filter = null;
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                var textFilter = builder.Regex("Title", new BsonRegularExpression(title, "i"));
+                filter = textFilter;
+            }
+            if (createdDateFrom != null)
+            {
+                var dateFrpm = builder.Gte("CreatedDate", createdDateFrom);
+                if (filter == null)
+                {
+                    filter = dateFrpm;
+                }
+                else
+                {
+                    filter = filter & dateFrpm;
+                }
+            }
+
+            if (createdDateTo != null)
+            {
+                var dateTo = builder.Lt("CreatedDate", createdDateTo);
+                if (filter == null)
+                {
+                    filter = dateTo;
+                }
+                else
+                {
+                    filter = filter & dateTo;
+                }
+            }
+
+            if (status != null)
+            {
+                var statusFilter = builder.Eq("Status", status);
+                if (filter == null)
+                {
+                    filter = statusFilter;
+                }
+                else
+                {
+                    filter = filter & statusFilter;
+                }
+            }
+            var adminPostFilter = builder.Eq("PostType", PostTypeEnum.Administration);
+            if (filter == null)
+            {
+                filter = adminPostFilter;
+            }
+            else
+            {
+                filter = filter & adminPostFilter;
+            }
+            var baseFilter = new BaseFilter {IsNeedPaging = false};
+            var sort = Builders<Post>.Sort.Descending("CreatedDate");
+            return await Store.FindAllAsync(baseFilter,filter,sort);
         }
 
     }

@@ -1,0 +1,173 @@
+﻿@using OneVietnam.DTL
+@using OneVietnam.Models
+@using Microsoft.AspNet.Identity
+<script>
+    var query = window.location.search.substring(1);
+
+    $(document)
+        .ready(function () {
+           
+            $("#stamp-button2").hide();
+            if (query === 'ShowPost') {
+//                $("#CreatePostForm").data('validator').resetForm();
+//                $(".validation-summary-errors ul li").remove();
+                $(".validation-summary-errors").addClass('validation-summary-valid').removeClass('validation-summary-errors');
+                $(".stamp").toggleClass("hides");
+                $(".edits").toggleClass("edits-cl");
+                $(".plus").toggleClass("plus-cl");
+
+
+            }
+        });
+
+
+
+
+</script>
+<script>
+    var isAuthenticated = false;
+</script>
+@if (Request.IsAuthenticated)
+{
+    <script>
+        var authenticatedUser;
+        isAuthenticated = true;
+
+        $.ajax({
+            url: '/Map/GetUserInfo?userId=' + "@User.Identity.GetUserId()",
+            type: 'GET',
+            contentType: 'application/json;',
+            dataType: 'json',
+            success: function (json) {
+                authenticatedUser = { x: json.Location.XCoordinate, y: json.Location.YCoordinate, address: json.Location.Address }
+            }
+        });
+    </script>
+}
+
+
+<div class="ui grid">
+    <div class="two wide column">
+        <div class="ui inline dropdown filter-post">
+            <div class="text">
+                <div class="ui blue empty circular label"></div>
+                Tất cả
+              
+
+            </div>
+            <i class="dropdown icon"></i>
+            <div class="menu filter-items">
+                <div class="item" data-filter="*">
+                    <div class="ui blue empty circular label"></div>
+                    Tất cả
+                </div>
+
+                <div class="item" data-filter=".4">
+                    <div class="ui yellow empty circular label"></div>
+                    Việc làm
+                </div>
+                <div class="item" data-filter=".5">
+                    <div class="ui black empty circular label"></div>
+                    Đồ dùng
+
+                </div>
+                <div class="item" data-filter=".6">
+                    <div class="ui purple empty circular label"></div>
+                    Xách tay
+                </div>
+                <div class="item" data-filter=".7">
+                    <div class="ui orange empty circular label"></div>
+                    Mua bán
+                </div>
+                <div class="item" data-filter=".8">
+                    <div class="ui empty circular label"></div>
+                    Cần giúp đỡ
+                </div>
+
+            </div>
+        </div>
+       
+
+@if (User.Identity.IsAuthenticated)
+{
+
+    <div class="floating-button" id="stamp-button" data-toggle="tooltip" data-original-title="Create">
+        <p class="plus"><i class="write icon"></i>
+        </p>
+        <p class="edits"><i class="remove icon"></i>
+        </p>
+    </div>
+}
+else
+{
+    <a href="@Url.Action("Login","Account",new { ReturnUrl= "/Newsfeed"})">
+        <div class="floating-button" data-toggle="tooltip" data-original-title="Create">
+
+            <p class="plus">
+                <i class="write icon"></i>
+            </p>
+            <p class="edits">
+                <i class="remove icon"></i>
+            </p>
+        </div>
+    </a>
+}
+    </div>
+    <div class="ten wide column">
+
+        @Html.Partial("_CreatePost")
+
+        <div class="grids" >
+            <div class="grid-sizer"></div>
+            <div class="gutter-sizer"></div>
+            <div class="ui link cards" id="postScroll">
+                @Html.Partial("_PostRow", (ViewBag.Posts as List<PostViewModel>))
+                <div class="container infinite-scroll" id="gohere"></div>
+
+            </div>
+
+               
+           
+
+
+
+
+        </div>
+    </div>
+
+
+
+    <div class="four wide column">
+        <div class="ui segment"  style="margin-right: 15px!important">
+            <h3>
+                <div class="ui header">
+                    Từ người Quản trị
+                </div>
+            </h3>
+            <div id="forAdminPost"></div>
+        </div>
+        <a href="javascript:" id="return-to-top"><i class="chevron up icon"></i></a>
+
+
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/infiniteScroll.js"></script>
+    <script type="text/javascript">
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("_AdminPost","Newsfeed")',
+            success: function (partialResult) {
+                $("#forAdminPost").html(partialResult);
+            }
+        });
+        var forLoad = $(".ui.link.cards");
+        var grid = $(".grids");
+        $(function () {
+            $("div#loading").hide();
+        });
+        var moreRowsUrl = '@Url.Action("Index","Newsfeed")';
+        $(window).scroll(scrollHandler);
+    </script>
+}

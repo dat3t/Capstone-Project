@@ -1,15 +1,50 @@
 ﻿@import url(http://fonts.googleapis.com/css?family=Lato:400,300,700);
 
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
-
-
+@font-face {
+    font-family: track;
+    src: url("/fonts/iCiel Brush Up.otf");
+}
+.brush-font {
+    font-family: track;
+}
+.ui.item.brush-font {
+    font-family: track;
+    font-size: 1.3em;
+    color: #2185d0;
+}
 *, *:before, *:after {
   box-sizing: border-box;
 }
 
-body {
-  background: #43423E;
+
+ .carousel {
+  background: #EEE;
 }
+
+.carousel-cell {
+  margin-right: 20px;
+  overflow: hidden;
+}
+
+.carousel-cell img {
+  display: block;
+  height: 200px;
+}
+
+@media screen and ( min-width: 768px ) {
+  .carousel-cell img {
+    height: 400px;
+  }
+}
+
+.fileUpload { position: relative; overflow: hidden; margin-bottom: 5px; margin-top:5px; }
+.fileUpload input.upload { position: absolute; top: 0; right: 0; margin: 0; padding: 0; font-size: 20px; cursor: pointer; opacity: 0; filter: alpha(opacity=0); }
+.deleteDiv{ position:relative; top:-160px; left:130px; width:30px;height:30px;}
+.imageBlock{display: inline-block;}
+.thumb{width:159px; height:159px;}
+.deleteIcon{width:30px; height:30px;}
+
 
 a {
   text-decoration: none;
@@ -19,13 +54,12 @@ a {
 a:hover {
   text-decoration: underline;
 }
-
-
+.thumb{width:159px; height:159px;border: 1px solid #000;
+    margin-right: 20px;}
+   
 
 .containers {
-  margin: 0 auto;
-    width: 90%;
-  background: #F0F0ED;
+  margin: 0 auto;  
   border-radius: 5px;
   position: relative;
 }
@@ -34,11 +68,7 @@ a:hover {
   height: 342px;  
   margin:0;
   position: relative;
-  overflow: hidden;
-  z-index:1;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-    
+  overflow: hidden;  
 }
 
 .hero:before {
@@ -47,7 +77,7 @@ a:hover {
   position:absolute;
   overflow: hidden;
   top:0; left:0;
-  background:#00bfff;
+
   background-repeat:no-repeat;
 background-position: center center
   z-index:-1;
@@ -62,10 +92,15 @@ background-size: cover;
 
 .cover {
   position: absolute;
-  top: 160px;
+  top: 240px;
     height: 182px;
     width: 180px;
   left: 40px;
+  border-style: solid;
+    border-width: 5px;
+    border-color: #fff;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
   z-index: 2;
 }
 
@@ -73,7 +108,7 @@ background-size: cover;
     cursor: pointer;
     opacity: 0.3;
     position: absolute;
-  top: 165px;
+  top: 245px;
   left: 184px;
   z-index: 3;
 }
@@ -105,9 +140,10 @@ background-size: cover;
   
 .title1{
     color: white;
-    font-size: 30px;
-    margin-bottom: 8px;
-    position: relative;
+    font-size: 25px;
+    top: 290px;
+    left: 230px;
+    position: absolute;
 }
     
 
@@ -294,10 +330,15 @@ a[data-tooltip][data-placement="top"]::after {
 }
 
 body {
-    /*background-image: url("Images/background.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;*/
-    background: #43423E;
+    background: #A7D2CB;
+}
+.mainMenu {
+    background: transparent!important;
+    box-shadow: none!important;
+    border: none!important;
+}
+.ui.menu .item:before {
+    width: 0px !important;
 }
 
 .validation-summary-errors {
@@ -350,7 +391,7 @@ body {
 #return-to-top {
     position: fixed;
     bottom: 30px;
-    right: 20px;
+    right: 160px;
     background: rgb(0, 0, 0);
     background: rgba(0, 0, 0, 0.7);
     width: 50px;
@@ -388,15 +429,16 @@ body {
     top: 5px;
 }
 
-#floating-button{
+.floating-button{
   width: 55px;
   height: 55px;
   border-radius: 50%;
-  background: #db4437;
+  background: #DE5958;
   position: fixed;
   bottom: 30px;
-  left: 40px;
+  right: 64px;
   cursor: pointer;
+    z-index: 10;
   box-shadow: 0px 2px 5px #666;
 }
 .plus{
@@ -493,6 +535,9 @@ body {
 /* ---- .grid-item ---- */
 
 /* 5 columns, percentage width */
+.grids {
+    margin-top: 14px;
+}
 .grid-item,
 .grid-sizer {
   width: 32%;
@@ -506,7 +551,18 @@ body {
 
 .gutter-sizer { width: 2%; }
 
-
+@media screen and (max-width: 1200px) {
+    .grid-item,
+.grid-sizer {
+  width: 49%;
+}
+}
+@media screen and (max-width: 768px) {
+    .grid-item,
+.grid-sizer {
+  width: 100%;
+}
+}
 
 
 .ui.dropdown.searchType {
@@ -546,4 +602,11 @@ body {
     box-shadow: 0px 2px 4px 0px rgba(34, 36, 38, 0.12), 0px 2px 10px 0px rgba(34, 36, 38, 0.15);
     border-radius: 0.28571429rem;
 }
-
+.homepage {
+    top: 45%;
+    right: 0;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    text-align: center;    
+}

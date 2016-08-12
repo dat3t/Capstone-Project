@@ -1,0 +1,53 @@
+﻿
+@using OneVietnam.Models
+@model OneVietnam.Models.UserManagementViewModel
+
+@if (Model != null)
+{
+    <div class="ui grid">
+        <div class="three wide column" style="vertical-align: top">
+            <button class="ui compact icon button" id="btnAddUserRole_@Model.Id">
+                <i class="icon add"></i>
+            </button>
+        </div>
+        <div class="thirteen wide column">
+            @if (Model?.Roles != null && Model.Roles.Count > 0)
+            {
+                <div class="ui list" style="padding-left: 1rem">
+                    @foreach (var role in Model.Roles)
+                    {
+                        <div class="item">
+                            @Html.Partial("../Administration/_RemoveUserRole", new UserRoleViewModel(Model.Id, role))
+                        </div>                       
+                    }
+                </div>
+
+
+            }
+        </div>
+
+
+    </div>
+
+    <script>
+        $("#btnAddUserRole_@Model.Id").on('click', function () {
+            var id = '@Model.Id';
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetOtherRoles","Administration")',
+                data: { "userId": id },
+                success: function (partialResult) {
+                    $("#divAddRole_@Model.Id").empty();
+                    $("#divAddRole_@Model.Id").html(partialResult);
+                    $("#drAddUserRole_@Model.Id").dropdown({});
+                }
+            });
+        });        
+    </script>
+    <div id="divAddRole_@Model.Id" class="item" style="margin: auto; width: 90%"></div>
+    @Html.ValidationSummary(false)
+
+}
+
+
+

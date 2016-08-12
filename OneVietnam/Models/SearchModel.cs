@@ -7,7 +7,14 @@ namespace OneVietnam.Models
 {
     public class SearchModel
     {
-        //List User
-        //List Post        
+        List<PostViewModel> posts;
+        List<UserViewModel> users;
+
+        public SearchModel(List<PostViewModel> p, List<UserViewModel> u)
+        {
+            posts = p;
+            users = u;
+        }
     }
+    
 }

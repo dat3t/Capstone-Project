@@ -48,69 +48,7 @@ namespace OneVietnam.Controllers
             {
                 _userManager = value;
             }
-        }
-
-        private CountryManager _countryManager;
-        public CountryManager CountryManager
-        {
-            get
-            {
-                return _countryManager ?? HttpContext.GetOwinContext().Get<CountryManager>();
-            }
-            private set { _countryManager = value; }
-        }
-
-
-        public Image byteArrayToImage(byte[] byteArrayIn)
-        {
-            MemoryStream ms = new MemoryStream(byteArrayIn);
-            Image returnImage = Image.FromStream(ms);
-            return returnImage;
-        }
-        public async Task<ActionResult> SelectCountry()
-        {
-
-            var countrieslist = await CountryManager.GetCountriesAsync();
-
-            var selectedCountry = Request.Form["CountryName"];
-
-            if (selectedCountry == null)
-            {
-                ViewBag.CountryIcon = countrieslist[0].CountryIcon;
-                ViewBag.SelectedCountry = countrieslist[0].CountryName;
-            }
-            else
-            {
-                Country c = countrieslist.Find(country => country.CountryName == selectedCountry.ToString());
-                ViewBag.CountryIcon = c.CountryIcon;
-                ViewBag.SelectedCountry = c.CountryName;
-            }
-
-            return View(countrieslist);
-        }
-        //DEMO
-        public ActionResult CreateCountry()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateCountry(AddCountryViewModel model, HttpPostedFileBase upload)
-        {
-
-            if (upload != null && upload.ContentLength > 0)
-            {
-                using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                {
-                    model.CountryIcon = reader.ReadBytes(upload.ContentLength);
-                }
-
-            }
-
-            await CountryManager.CreateAsync(new Country(model.CountryName, model.CountryCode, model.CountryIcon));
-            return RedirectToAction("Index", "Home");
-        }
+        }        
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -154,8 +92,7 @@ namespace OneVietnam.Controllers
             var result = await SignInHelper.PasswordSignIn(model.Email, model.Password, model.RememberMe, shouldLockout: true);
             switch (result)
             {
-                case SignInStatus.Success:
-
+                case SignInStatus.Success:                    
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     ViewBag.LockedDuration =
@@ -221,6 +158,10 @@ namespace OneVietnam.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            if (Request.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -242,7 +183,7 @@ namespace OneVietnam.Controllers
 
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email,
                     Gender = model.Gender,Location = location, CreatedDate = DateTimeOffset.UtcNow,
-                    Avatar = "~/Content/Images/Avatar_Default.jpg",Cover = "~/Content/Images/Cover_default.jpg" };
+                    Avatar = Constants.DefaultAvatarLink,Cover = Constants.DefaultCoverLink };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -436,7 +377,7 @@ namespace OneVietnam.Controllers
             var result = await SignInHelper.ExternalSignIn(loginInfo, isPersistent: false);
             switch (result)
             {
-                case SignInStatus.Success:
+                case SignInStatus.Success:                    
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -464,6 +405,7 @@ namespace OneVietnam.Controllers
                             return View("ExternalLoginFailure");
                         }
                         var access_token = claimsIdentity.FindAll("FacebookAccessToken").First().Value;
+                        ViewBag.Accesstoken = access_token;
                         var fb = new FacebookClient(access_token);                        
                         dynamic userInfo = fb.Get("me?fields=name,email,gender,picture.width(800)");                        
                         string name = userInfo["name"];
@@ -478,7 +420,7 @@ namespace OneVietnam.Controllers
                         }                        
                         var location = new Location(xCoordinateExternal, yCoordinateExternal, locationExternal);
                         var user = new ApplicationUser { UserName = name, Email = email,Location = location,Gender = gender,Avatar = avatar,
-                            CreatedDate = DateTimeOffset.UtcNow,Cover ="~/Content/Images/Cover_default.jpg" };
+                            CreatedDate = DateTimeOffset.UtcNow,Cover =Constants.DefaultCoverLink };
                         //Add to database
                         var result2 = await UserManager.CreateAsync(user);
                         if (result2.Succeeded)
@@ -504,8 +446,10 @@ namespace OneVietnam.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
-        {
-            AuthenticationManager.SignOut();
+        {            
+            //IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<OneHub>();
+            //hub.Clients.User(User.Identity.GetUserId()).logOff();
+            AuthenticationManager.SignOut();                               
             return RedirectToAction("Index", "Home");
         }
 

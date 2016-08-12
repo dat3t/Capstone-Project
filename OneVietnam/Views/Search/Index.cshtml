@@ -1,35 +1,117 @@
-﻿@model  List<OneVietnam.Models.PostViewModel>
+﻿@using OneVietnam.Models
 @{
     ViewBag.Title = "Index";
+    string query = ViewBag.Query;
 }
-<div class="ui fluid five item menu">
-    <a class="item active">Tất cả</a>
-    <a class="item">Người</a>
-    <a class="item">Công việc</a>
-    <a class="item">Chỗ ở</a>
-    <a class="item">Ship đồ</a>
+
+<div class="ui blue inverted segment">
+    <div class="ui centered header" id="displayQuery">
+        <p>@query</p>
+    </div>
 </div>
+
 <div class="ui grid">
-    <div class="three wide column">
-        <div class="ui left fixed vertical text menu">
-            <div class="header item">Sort By</div>
-            <a class="active item">
-                Closest
-            </a>
-            <a class="item">
-                Most Comments
-            </a>
-            <a class="item">
-                Most Popular
-            </a>
+    <div class="four wide column">
+
+    </div>
+    <div class="nine wide column">
+        <div class="ui pointing secondary two item tabular menu">
+            <div class="item active" data-tab="post">
+                Bài Viết
+            </div>
+            <div class="item" data-tab="friend">
+                Bạn Bè
+            </div>
+
+        </div>
+
+        <div class="ui tab active" data-tab="post">
+
+            <div class="post grids">
+                <div class="grid-sizer"></div>
+                <div class="gutter-sizer"></div>
+                <div class="ui link cards" id="postScroll">
+                    @Html.Partial("_PostRow", (ViewBag.Posts as List<PostViewModel>))
+                </div>
+            </div>
+        </div>
+        <div class="ui tab" data-tab="friend">
+            <div class="friend grids">
+                    <div class="grid-sizer"></div>
+                <div class="gutter-sizer"></div>
+                                <div class="ui link cards" id="friendScroll">
+                                    <script>
+                                        
+                                        $.ajax({
+                                            type: 'GET',
+                                            url: '/Search/_userResult',
+                                            data: {query:'toan',pageNum:1},
+                                            success: function (data, textstatus) {
+                                                if (data != '') {
+                                                    var $items = $(data);
+
+                                                    $("#friendScroll").append($items);
+                                                    $(".friend.grids").isotope('appended', $items);
+                                                    $(".friend.grids").isotope('layout');
+                                                    $(".friend.grids").imagesLoaded().progress(function () {
+                                                        grid.isotope('layout');
+                                                    });
+
+                                                }
+                                                else {
+                                                    page = -1;
+                                                }
+                                                inCallback = false;
+                                            },
+                                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                                console.log("Can not load more data infiniteScroll");
+                                            }
+                                        });
+                                    </script>
+                </div>
+
+            </div>
         </div>
     </div>
-    <div class="ten wide column">
-        @*@Html.Action("_ShowPostDetail", "Post", new { postId = "123"})*@
-        @foreach (var post in Model)
-        {
-            @Html.Partial("_ShowPostDetail", post)
-        }
-    </div>
+
     <div class="three wide column"></div>
 </div>
+<script src="~/Scripts/infiniteScroll.js"></script>
+<script type="text/javascript">
+//    $(".friend.grids")
+//        .on('click',
+//            ".content",
+//            function() {
+//                window.location('/Timeline/')
+    //            });
+    function gotoTimeline(e) {
+        document.location = "/Timeline/Index/"+e;
+    }
+    var forLoad = $("#postScroll");
+    var grid = $(".post.grids");
+    var moreRowsUrl = '@Url.Action("Index","Search")';
+    $(function () {
+        $(".tabular.menu")
+            .on("click",
+                ".item",
+                function e() {
+                    
+                    
+                    var currentTab = $(".ui.tab.active").attr("data-tab");
+                    if (currentTab == "friend") {
+                        grid = $(".friend.grids");
+                        moreRowsUrl = '@Url.Action("_userResult","Search")';
+                        forLoad = $("#friendScroll");
+                    } else {
+                        grid = $(".post.grids");
+                        moreRowsUrl = '@Url.Action("Index","Search")';
+                        forLoad = $("#postScroll");
+                    }
+                });
+
+    });
+
+ 
+
+    $(window).scroll(scrollHandler);
+</script>

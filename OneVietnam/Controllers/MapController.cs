@@ -13,9 +13,9 @@ using MongoDB.Driver;
 
 namespace OneVietnam.Controllers
 {
+    [Authorize]
     public class MapController : Controller
     {
-        public static AddLocationViewModel LocationView;               
 
         private ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
@@ -39,117 +39,152 @@ namespace OneVietnam.Controllers
             private set { _postManager = value; }
         }
 
-        //[HttpPost]
-        //[AllowAnonymous]
-        //public async Task<ActionResult> AddLocation(AddLocationViewModel l)
-        //{
-        //    Location location = new Location(l);
-        //    await UserManager.AddLocationAsync(l.userid,location);
-        //    return RedirectToAction("Index", "Home");
-        //}
-
-        public async Task<ActionResult> ShowMap()
+        private IconManager _iconManager;
+        public IconManager IconManager
         {
-            var userslist = await UserManager.AllUsersAsync();
+            get
+            {
+                return _iconManager ?? HttpContext.GetOwinContext().Get<IconManager>();
+            }
+            private set { _iconManager = value; }
+        }
+
+        //public List<Icon> IconList
+        //{
+        //    get
+        //    {
+        //        var icons = IconManager.GetIconPostAsync();
+        //        return icons;
+        //    }
+        //}
+        [AllowAnonymous]
+        public async Task<ActionResult> ShowMap(double? XCoordinate, double? YCoordinate, int? PostType, string postId = "")
+        {
+            ViewBag.XCoordinate = XCoordinate;
+            ViewBag.YCoordinate = YCoordinate;
+            ViewBag.PostType = PostType;
+            ViewBag.PostId = postId;
+
+            var userslist = await UserManager.AllUsersAsync().ConfigureAwait(false);
             var list = userslist.Select(user => new AddLocationViewModel
             {
-                X = user.Location.XCoordinate, Y = user.Location.YCoordinate, UserId = user.Id, Gender = user.Gender
+                X = user.Location.XCoordinate,
+                Y = user.Location.YCoordinate,
+                UserId = user.Id,
+                Gender = user.Gender
             }).ToList();
-            var postlist = await PostManager.FindAllAsync(false);
+            var postlist = await PostManager.FindAllAsync(false).ConfigureAwait(false);
             list.AddRange(postlist.Select(p => new AddLocationViewModel
             {
-                UserId = p.UserId, X = p.PostLocation.XCoordinate, Y = p.PostLocation.YCoordinate, PostId = p.Id, PostType = p.PostType
-            }));            
-            ViewBag.topPostModel = await GetTopPostInfo();            
+                UserId = p.UserId,
+                X = p.PostLocation.XCoordinate,
+                Y = p.PostLocation.YCoordinate,
+                PostId = p.Id,
+                PostType = p.PostType
+            }));
+            //if (IconList != null)
+            //{
+            //    ViewData["PostTypes"] = IconList;
+            //}
+            ViewBag.topPostModel = await GetTopPostInfo().ConfigureAwait(false);
             return View(list);
         }
+
+        [AllowAnonymous]
         public async Task<List<PostInfoWindowModel>> GetTopPostInfo()
         {
             var baseFilter = new BaseFilter { Limit = Constants.LimitedNumberOfPost };
             var builder = Builders<Post>.Filter;
             var filter = builder.Eq("DeletedFlag", false) & builder.Eq("LockedFlag", false) & builder.Eq("Status", true);
-            var sort = Builders<Post>.Sort.Ascending("CreatedDate");
+            var sort = Builders<Post>.Sort.Descending("CreatedDate");
             var topPostList = await PostManager.FindAllAsync(baseFilter, filter, sort).ConfigureAwait(false);
 
             var result = new PostInfoWindowModel();
 
             return topPostList.Select(p => new PostInfoWindowModel
             {
-                Address = p.PostLocation.Address, postId = p.Id, CreatedDate = (DateTimeOffset) p.CreatedDate, Title = p.Title
+                Address = p.PostLocation.Address,
+                postId = p.Id,
+                CreatedDate = (DateTimeOffset)p.CreatedDate,
+                Title = p.Title,
+                Description = p.Description,
+                PostLocation = p.PostLocation,
+                PostType = p.PostType,
+                Illustrations = p.Illustrations
+
             }).ToList();
         }
 
         //[HttpPost] // can be HttpGet
+        [AllowAnonymous]
         public async Task<ActionResult> GetUserInfo(string userId)
         {
-            var user = await UserManager.FindByIdAsync(userId);
+            var user = await UserManager.FindByIdAsync(userId).ConfigureAwait(false);
             return Json(user, JsonRequestBehavior.AllowGet);
-            //var user = await UserManager.FindByIdAsync(userId);
-            //var result = new UserViewModel(user);
-            //return PartialView("_UserModal",result);
+
         }
 
-        public async Task<ActionResult> GetPostInfo(string postId)
+        [AllowAnonymous]
+        public async Task<JsonResult> GetUserLocation(string userId)
         {
-            var post = await PostManager.FindByIdAsync(postId);
-            var user = await UserManager.FindByIdAsync(post.UserId);
-            var result = new PostInfoWindowModel
-            {
-                UserId = user.Id,
-                postId = postId,
-                Title = post.Title
-            };
-            if (post.CreatedDate != null) result.CreatedDate = (DateTimeOffset)post.CreatedDate;
-            result.Address = post.PostLocation.Address;
-            ViewBag.PostInfo = result;
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var user = await UserManager.FindByIdAsync(userId);
+            return Json(user.Location ?? null, JsonRequestBehavior.AllowGet);
         }
-
-        public async Task<ActionResult> CustomInfoWindow(string postId)
-        {
-            var post = await PostManager.FindByIdAsync(postId);
-            var user = await UserManager.FindByIdAsync(post.UserId);
-            var result = new PostInfoWindowModel();
-            result.UserId = user.Id;
-            result.postId = postId;
-            result.Title = post.Title;
-            result.CreatedDate =(DateTimeOffset) post.CreatedDate;
-            result.Address = post.PostLocation.Address;
-            ViewBag.PostInfo = result;
-            return View();
-        }
-
-        public async Task<ActionResult> UserAndPostInfo(string postId)
-        {
-            //var post = await PostManager.FindById(postId);
-            //var user = await UserManager.FindByIdAsync(post.UserId);
-            //var result = new PostInfoWindowModel();
-            //result.UserId = user.Id;
-            //result.UserName = user.UserName;
-            //result.Title = post.Title;
-            //result.CreatedDate = (DateTimeOffset)post.CreatedDate;
-            //result.Address = post.PostLocation.Address;
-            //ViewBag.PostInfo = result;
-            var post = await PostManager.FindByIdAsync(postId);
-            var result = new PostViewModel(post);
-            //return PartialView("_ShowPostDetail",result); ;
-            return PartialView("../Post/_ShowPostDetail", result);
-        }
-
+        [AllowAnonymous]
         public async Task<ActionResult> GetPostPartialView(string postId)
         {
-            var post = await PostManager.FindByIdAsync(postId);
+            var post = await PostManager.FindByIdAsync(postId).ConfigureAwait(false);
+            if (post != null)
+            {
+                ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
+                if (postUser != null)
+                {
+
+                    PostViewModel showPost = new PostViewModel(post, postUser.UserName, postUser.Avatar);
+                    return PartialView("../Newsfeed/_ShowPost", showPost);
+
+                }
+            }
             var result = new PostViewModel(post);
-            //return PartialView("_ShowPostDetail",result); ;
-            return PartialView("../Post/_ShowPostDetail", result);
+            return PartialView("../Newsfeed/_ShowPost", result);
         }
 
+        [AllowAnonymous]
         public async Task<ActionResult> GetUserPartialView(string userId)
         {
-            var user = await UserManager.FindByIdAsync(userId);
+            var user = await UserManager.FindByIdAsync(userId).ConfigureAwait(false);
             var result = new UserViewModel(user);
-            //return PartialView("_ShowPostDetail",result); ;
             return PartialView("_UserInfo", result);
-        }        
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> GetMorePost(int? pageNum)
+        {
+            var baseFilter = new BaseFilter { Limit = Constants.LimitedNumberOfPost, ItemsPerPage = 5, CurrentPage = pageNum.Value };
+            var builder = Builders<Post>.Filter;
+            var filter = builder.Eq("DeletedFlag", false) & builder.Eq("LockedFlag", false) & builder.Eq("Status", true);
+            var sort = Builders<Post>.Sort.Descending("CreatedDate");
+            var topPostList = await PostManager.FindAllAsync(baseFilter, filter, sort).ConfigureAwait(false);
+
+            List<PostInfoWindowModel> topListModel = new List<PostInfoWindowModel>();
+            PostInfoWindowModel result;
+
+            foreach (Post post in topPostList)
+            {
+                result = new PostInfoWindowModel();
+                result.Address = post.PostLocation.Address;
+                result.CreatedDate = post.CreatedDate;
+                result.postId = post.Id;
+                result.Title = post.Title;
+                result.UserId = post.UserId;
+                result.PostLocation = post.PostLocation;
+                result.PostType = post.PostType;
+                result.Illustrations = post.Illustrations;
+                topListModel.Add(result);
+            }
+
+            return PartialView("_SidenavPost", topListModel);
+        }
+
     }
 }

@@ -1,10 +1,14 @@
 ﻿using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using OneVietnam.Common;
+using OneVietnam.Models;
+
 namespace OneVietnam.DTL
 {
     public class Report :BaseMongoDocument
-    {                      
+    {                    
+        public string ReporterId { get; set; }  
         public string UserId { get; set; }
         [BsonIgnoreIfNull]
         public string PostId { get; set; }
@@ -12,7 +16,7 @@ namespace OneVietnam.DTL
         [BsonIgnoreIfNull]
         public string HandlerId { get; set; }
 
-        public bool ReportStatus { get; set; }        
+        public string Status { get; set; }        
 
         [BsonIgnoreIfNull]
         public DateTimeOffset? CloseDate { get; set; }
@@ -27,8 +31,9 @@ namespace OneVietnam.DTL
             UserId = pUserId;
             PostId = pPostId;
             ReportDescription = pDescription;
-            ReportStatus = true;
-            CreatedDate = DateTime.Now;            
+            Status = ReportStatus.Open.ToString();
+            DeletedFlag = false;
+            CreatedDate = DateTimeOffset.UtcNow;            
         }
 
         public Report(Report pReport)
@@ -40,7 +45,7 @@ namespace OneVietnam.DTL
                 PostId = pReport.PostId;
             }            
             ReportDescription = pReport.ReportDescription;
-            ReportStatus = pReport.ReportStatus;
+            Status = pReport.Status;
             if(pReport.HandlerId != null)
             {
                 HandlerId = pReport.HandlerId;
@@ -50,6 +55,18 @@ namespace OneVietnam.DTL
             {
                 CloseDate = pReport.CloseDate;
             }
+            DeletedFlag = pReport.DeletedFlag;
+        }
+
+        public Report(ReportViewModal pReport)
+        {
+            Id = ObjectId.GenerateNewId().ToString();
+            UserId = pReport.UserId;
+            PostId = pReport.PostId;
+            ReportDescription = pReport.ReportDescription;
+            Status = ReportStatus.Open.ToString();
+            DeletedFlag = false;
+            CreatedDate = DateTimeOffset.UtcNow;
         }
     }
 }

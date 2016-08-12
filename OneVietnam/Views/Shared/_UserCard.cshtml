@@ -1,0 +1,22 @@
+﻿@model OneVietnam.Models.UserViewModel
+<div class="ui link card user-card">
+  
+    <div class="content" onclick="gotoTimeline('@Model.UserId')">
+        <img class="right floated mini ui image" src="@Model.Avatar">
+        <div class="header">
+            @Model.UserName
+        </div>
+        <div class="meta">
+            @Model.Location.Address
+        </div>
+        <div class="description">
+            We should have something like a description field about user ex they self introduce.. don't u think?
+        </div>
+    </div>
+    <div class="extra content">
+        <div class="ui two buttons">
+            <a class="ui basic green button" href="javascript: register_popup('@Model.UserId','@Model.UserName','@Model.Avatar')">Nhắn tin</a>
+            <div class="ui basic red button">Báo cáo</div>
+        </div>
+    </div>
+</div>

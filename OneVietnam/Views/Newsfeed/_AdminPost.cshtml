@@ -1,0 +1,61 @@
+﻿@model List<OneVietnam.Models.PostViewModel>
+<div class="ui feed">
+    @foreach (var post in Model)
+    {
+
+
+
+        <div class="event">
+            <div class="label">
+                <img src="@post.AvartarLink">
+            </div>
+            <div class="content">
+                <div class="summary">
+                    <a class="user">
+                        @post.UserName
+                    </a>
+                    đăng <a href="@Url.Action("ShowPost","Newsfeed",new {@post.Id})">bài viết</a>
+                    <div class="date">
+                        @{
+                            DateTime start = DateTime.Now;
+                            // Do some work
+                            TimeSpan timeDiff = DateTime.Now - @post.CreatedDate;
+
+                        }
+                        @{
+
+                            if (timeDiff.TotalDays >= 30)
+                            {
+                                <span >  Tạo ngày @post.CreatedDate.Date </span>
+                            }
+                            else if (timeDiff.TotalHours >= 24)
+                            {
+                                <span >@Math.Round(timeDiff.TotalDays) ngày trước </span>
+                            }
+                            else if (timeDiff.TotalMinutes >= 60)
+                            {
+                                <span >@Math.Round(timeDiff.TotalHours) giờ trước </span>
+                            }
+                            else if (timeDiff.TotalSeconds >= 60)
+                            {
+                                <span >@Math.Round(timeDiff.TotalMinutes) phút trước </span>
+                            }
+                            else
+                            {
+                                <span>Vừa xong </span>
+                            }
+
+                        }
+
+
+
+                    </div>
+
+                </div>
+                <div class="extra text">@post.Title</div>                
+            </div>
+        </div>
+    }
+
+</div>
+

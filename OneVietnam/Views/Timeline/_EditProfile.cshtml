@@ -1,12 +1,11 @@
 ﻿
 @using Microsoft.AspNet.Identity
 @using OneVietnam.Common
+@using OneVietnam.DTL
 @model OneVietnam.Models.UserProfileViewModel
 
 
-<script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
-<script src="/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+
 <style>
     .disabled {
         opacity: 1 !important;
@@ -14,11 +13,11 @@
 </style>
 
 <script>
-  
-     x =  @Model.Location.XCoordinate;
-     y = @Model.Location.YCoordinate;
-     address = '@Model.Location.Address';
-     icon;
+
+    x =  @Model.Location.XCoordinate;
+    y = @Model.Location.YCoordinate;
+    address = '@Model.Location.Address';
+    //icon;
     //var userLocationMarker;
     //var map;
 </script>
@@ -31,6 +30,7 @@
     OnSuccess = "submitEditProfile"
 }))
 {
+    var genders = ViewData["GenderTypes"] as List<Icon>;
     <div class="ui segment">
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(false)
@@ -56,90 +56,106 @@
             </div>
             <div class="ui item">
                 <div class="ui item">
+                    @if (genders != null && genders.Count > 0)
+                    {
+                        <div class="ui big fluid transparent tog disabled input" id="lblGender">
 
-                    <div class="ui big fluid transparent tog disabled input" id="lblGender">
-                        @if (Model.Gender == (int)Gender.female)
-                        {
-                            <i class="large woman icon"></i>
-                            <input class="text-box single-line valid" type="text" value="Nữ">
-                        }
-                        else if (Model.Gender == (int)Gender.male)
-                        {
-                            <i class="large man icon"></i>
-                            <input class="text-box single-line valid" type="text" value="Nam">
-                        }
-                        else
-                        {
-                            <i class="large genderless icon"></i>
-                            <input class="text-box single-line valid" type="text" value="Khác">
-                        }
+                            @foreach (var gender in genders)
+                            {
+                                if (Model.Gender == gender.IconValue)
+                                {
+                                    if (gender.IconValue == (int)Gender.female)
+                                    {
+                                        <i class="large woman icon"></i>
+                                    }
+                                    else if (gender.IconValue == (int)Gender.male)
+                                    {
+                                        <i class="large man icon"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="large other gender vertical icon"></i>
+                                    }
+                                    <input class="text-box single-line valid" type="text" value="@gender.IconText">
+                                    break;
+                                }
+                            }
 
-                    </div>
 
-                    <div class="ui selection dropdown" id="drdGender" style="display: none">
-                        <input type="hidden" name="Gender" id="Gender" value="@Model.Gender">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">Giới tính</div>
-                        <div class="menu">
-                            <div class="item" data-value="0">
-                                <i class="woman icon"></i> Nữ
-                            </div>
-                            <div class="item" data-value="1">
-                                <i class="man icon"></i> Nam
-                            </div>
-                            <div class="item" data-value="2">
-                                <i class="genderless icon"></i>Khác
+
+                        </div>
+
+                        <div class="ui selection dropdown" id="drdGender" style="display: none">                            
+                            <input type="hidden" name="Gender" id="Gender" value="@Model.Gender">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Giới tính</div>
+                            <div class="menu">
+                                @foreach (var gender in genders)
+                                {
+                                    <div class="item" data-value="@gender.IconValue">
+                                        @gender.IconText
+                                    </div>
+                                }
                             </div>
                         </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="ui item">
-                <div class="ui big fluid transparent tog disabled input">
-                    <i class="large birthday icon"></i>
-                    @{
-                        var strDate = "1993-01-01";
-                        if (Model.DateOfBirth != null)
-                        {
-                            strDate = $"{Model.DateOfBirth:yyyy-MM-dd}";
-                        }
                     }
-                    <input class="text-box single-line" id="DateOfBirth" name="DateOfBirth" type="date" value="@strDate">
+
+
 
                 </div>
+
             </div>
+
+            
 
             <div class="ui item">
                 <div class="ui fields" style="padding: 0; width: 100%">
                     <div class="field" style="padding: 0; float: right">
-                        <input style="float: right" class="hides ui teal button" value="Cập nhật" id="btnUpdateLocation" type="button" onclick="updateCurrentLocation()" />
+                        <input style="float: right" class="hides ui teal button" value="Cập nhật" id="btnUpdateLocation" type="button" onclick="updateCurrentLocation()"/>
                     </div>
                     <div class="field" style="padding: 0">
-                <div class="ui big fluid transparent tog disabled input">
-                    <i class="large marker icon"></i>
-                            <input class="text-box single-line valid" readonly="true" style="opacity: 1" id="Location_Address" name="Location.Address" type="text" value="@Model.Location.Address">
+                        <div class="ui big fluid transparent tog disabled input">
+                            <i class="large marker icon"></i>
+                            <input class="text-box single-line valid" readonly="" style="opacity: 1" id="Location_Address" name="Location.Address" type="text" value="@Model.Location.Address">
                             <input data-val="true" data-val-number="The field XCoordinate must be a number." data-val-required="The XCoordinate field is required." id="Location_XCoordinate" name="Location.XCoordinate" type="hidden" value="@Model.Location.XCoordinate">
                             <input data-val="true" data-val-number="The field YCoordinate must be a number." data-val-required="The YCoordinate field is required." id="Location_YCoordinate" name="Location.YCoordinate" type="hidden" value="@Model.Location.YCoordinate">
                         </div>
-                    </div>                    
+                    </div>
                 </div>
-            </div>
+            </div>            
+
             <div class="ui item">
 
                 <div class="ui big fluid transparent tog disabled input">
                     <i class="large mail outline icon"></i>
-                    @Html.EditorFor(model => model.Email)
+                    @Html.EditorFor(model => model.Email, new {htmlAttributes = new {@readonly = ""}})
 
                 </div>
             </div>
+
+            <div class="ui item">
+                <div class="ui big fluid transparent tog disabled input" style="width: 30%">
+                    <i class="large birthday icon"></i>
+                    @{
+                        if (Model.DateOfBirth != null)
+                        {
+                            <input class="text-box single-line" id="DateOfBirth" name="DateOfBirth" type="date" value="@($"{Model.DateOfBirth:yyyy-MM-dd}")">
+                        }
+                        else
+                        {
+                            <input class="text-box single-line" id="DateOfBirth" name="DateOfBirth" value="">
+                        }
+                    }
+
+
+                </div>
+            </div>
+
             <div class="ui item">
 
                 <div class="ui big fluid tog transparent disabled input">
                     <i class="large mobile icon"></i>
-                    @Html.EditorFor(model => model.PhoneNumber)
+                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @id = "txtMobilePhone" } })
 
                 </div>
             </div>
@@ -149,11 +165,11 @@
             </div>
 
             <div class="ui item" style="text-align: center">
-                <input class="hides ui cancel button" type="button" value="Hủy" id="btnCancelEditProfile" onclick="cancelEditProfile()" />
+                <input class="hides ui cancel button" type="button" value="Hủy" id="btnCancelEditProfile" onclick="cancelEditProfile('@Url.Action("EditProfile","Timeline")')" />
                 <input class="hides ui teal button" type="submit" value="Lưu" id="btnSaveEditProfile" />
             </div>
-            <div class="ui item" id="divShowMap" style="max-width: 100%; height: 500px;">               
+            <div class="ui item" id="divShowMap" style="max-width: 100%; height: 500px;">
             </div>
         </div>
     </div>
-}
+                        }

@@ -1,11 +1,9 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using AspNet.Identity.MongoDB;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using OneVietnam.Common;
 using OneVietnam.Models;
 
 namespace OneVietnam.DTL
@@ -13,18 +11,14 @@ namespace OneVietnam.DTL
     public class Post : BaseMongoDocument
     {        
         public string UserId { get; set; }        
-        public string Title { get; set; }
-        [BsonIgnoreIfNull]
+        public string Title { get; set; }        
         public string Description { get; set; }        
         [BsonIgnoreIfNull]
         public List<Illustration> Illustrations { get; set; }
         public int PostType { get; set; }        
         public bool Status { get; set; }
-        public bool LockedFlag { get; set; }
-        [BsonIgnoreIfNull]
+        public bool LockedFlag { get; set; }        
         public Location PostLocation { get; set; }                
-        [BsonIgnoreIfNull]
-        public List<Report> Reports { get; set; }
         [BsonIgnoreIfNull]
         public List<Tag> Tags { get; set; }
         [BsonIgnoreIfNull]
@@ -44,9 +38,15 @@ namespace OneVietnam.DTL
             DeletedFlag = false;
             Status = true;
             LockedFlag = false;
-            PostLocation = pView.PostLocation;                     
-            Illustrations = pView.Illustrations;
-            Tags = pView.Tags;
+            PostLocation = pView.PostLocation;
+            if (pView.Illustrations != null && pView.Illustrations.Count > 0)
+            {
+                Illustrations = pView.Illustrations;
+            }
+            if (pView.Tags != null && pView.Tags.Count > 0)
+            {
+                Tags = pView.Tags;
+            }
         }
 
         public Post(PostViewModel pView)
@@ -60,36 +60,48 @@ namespace OneVietnam.DTL
             DeletedFlag = pView.DeletedFlag;
             Status = pView.Status;
             PostLocation = pView.PostLocation;
-            Illustrations = pView.Illustrations;
-            Tags = pView.Tags;
-            Reports = pView.Reports;
+            if (pView.Illustrations != null && pView.Illustrations.Count > 0)
+            {
+                Illustrations = pView.Illustrations;
+            }
+            if (pView.Tags != null && pView.Tags.Count > 0)
+            {
+                Tags = pView.Tags;
+            }
+                       
         }
 
-        public void AddReport(Report pReport)
+
+        public Post(CreateAdminPostViewModel pView)
         {
-            if (Reports == null)
+            Id = ObjectId.GenerateNewId().ToString();
+            Title = pView.Title;
+            Description = pView.Description;
+            CreatedDate = DateTimeOffset.UtcNow;
+            PostType = (int)PostTypeEnum.Administration;
+            DeletedFlag = false;
+            Status = true;
+            LockedFlag = false;            
+            if (pView.Illustrations != null && pView.Illustrations.Count > 0)
             {
-                Reports = new List<Report>();
-            }
-            Reports.Add(pReport);
+                Illustrations = pView.Illustrations;
+            }            
         }
 
-        public void AddIllustration(Illustration pIllustration)
+        public Post(AdminPostViewModel pView)
         {
-            if (Illustrations == null)
+            Id = pView.Id;
+            Title = pView.Title;
+            UserId = pView.UserId;
+            Description = pView.Description;
+            CreatedDate = pView.CreatedDate;
+            PostType = pView.PostType;
+            DeletedFlag = pView.DeletedFlag;
+            Status = pView.Status;
+            if (pView.Illustrations != null && pView.Illustrations.Count > 0)
             {
-                Illustrations = new List<Illustration>();
+                Illustrations = pView.Illustrations;
             }
-            Illustrations.Add(pIllustration);
-        }
-
-        public void AddTags(Tag pTag)
-        {
-            if (Tags == null)
-            {
-                Tags = new List<Tag>();
-            }
-            Tags.Add(pTag);
         }
     }
 }

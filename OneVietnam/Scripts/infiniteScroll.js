@@ -4,7 +4,7 @@
 
 var scrollHandler = function () {
     if (hasReachedEndOfInfiniteScroll === false &&
-            ($(window).scrollTop() === $(document).height() - $(window).height())) {
+            ($(window).scrollTop() >= ($(document).height() - $(window).height()-100))) {
         loadMoreToInfiniteScrollTable(moreRowsUrl);
     }
 }
@@ -47,7 +47,6 @@ function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
     if (page > -1 && !inCallback) {
         inCallback = true;
         page++;
-        $("#loading").show();
         $.ajax({
             type: 'GET',
             url: loadMoreRowsUrl,
@@ -56,9 +55,12 @@ function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
                 if (data != '') {
                     var $items = $(data);
 
-                    $('.grids').append($items).isotope('appended', $items);
-                    $('.grids').isotope('layout');
-                 
+                    $(forLoad).append($items);
+                    grid.isotope('appended', $items);
+                    grid.isotope('layout');
+                    grid.imagesLoaded().progress(function () {
+                        grid.isotope('layout');
+                    });
                    
                 }
                 else {
@@ -67,11 +69,23 @@ function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
                 inCallback = false;
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("Can not load more data infiniteScroll");
             }
         });
     }
 }
-
+function smoothZoom(map, max, cnt) {
+    if (cnt >= max) {
+        return;
+    }
+    else {
+        z = google.maps.event.addListener(this.map, 'zoom_changed', function (event) {
+            google.maps.event.removeListener(z);
+            smoothZoom(this.map, max, cnt + 1);
+        });
+        setTimeout(function () { this.map.setZoom(cnt) }, 100); // 80ms is what I found to work well on my system -- it might not work well on all systems
+    }
+}
 function showNoMoreRecords() {
     hasReachedEndOfInfiniteScroll = true;
 }

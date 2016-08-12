@@ -1,0 +1,44 @@
+﻿
+@using AspNet.Identity.MongoDB
+@model OneVietnam.Models.UserManagementViewModel
+
+@using (Ajax.BeginForm("AddUserRole", "Administration", new { userId = Model.Id }, new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "Role_" + Model.Id
+}))
+{
+    if (Model != null)
+    {
+        List<IdentityRole> roles = ViewData["OtherRole"] as List<IdentityRole>;
+        if (roles != null && roles.Count > 0)
+        {
+            <div class="ui horizontal list" style="padding-top: 1rem; width: 100%">
+                <div class="item">
+                    <div class="ui selection dropdown" id="drAddUserRole_@Model.Id" style="width: 100%; min-width: 150px; max-width: 150px;">
+                        <input type="hidden" name="txtUserRole">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Chọn quyền</div>
+                        <div class="menu">
+                            @foreach (var role in roles)
+                            {
+                                <div class="item" data-value="@role.Name">@role.Name</div>
+                            }
+                        </div>
+                    </div>                   
+
+                </div>
+                <div class="item" style="text-align: center">
+                    <input type="submit" class="ui button" value="Thêm" />
+                </div>
+            </div>
+            
+            
+        }
+        else
+        {
+            <div>Người dùng đã có đầy đủ các quyền</div>
+        }
+    }
+}

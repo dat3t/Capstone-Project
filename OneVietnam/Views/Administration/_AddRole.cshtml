@@ -1,0 +1,25 @@
+﻿
+@model  OneVietnam.Models.RoleViewModel
+
+
+
+@using (Ajax.BeginForm("AddRole", "Administration", new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "RoleManagement"
+}))
+{
+    <h2 class="ui mini header">
+        Thêm quyền truy cập
+    </h2>
+
+    <div class="item" style="width: 100%">
+        @Html.AntiForgeryToken()
+        <div class="ui input">
+            <input class="promt" data-val="true" id="Name" name="Name" placeholder="Tên quyền" type="text">
+            <input class="ui teal button" id="btnAddRole" value="Thêm" type="submit">
+        </div>
+        @Html.ValidationSummary(false)
+    </div>
+}

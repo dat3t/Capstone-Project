@@ -1,0 +1,59 @@
+﻿
+@using OneVietnam.Common
+@model OneVietnam.Models.ReportViewModal
+
+
+@if (Model.Status == ReportStatus.Open.ToString())
+{
+    <label id="lblShowReportStatus_@Model.Id">Chưa xử lý</label>
+    <div style="float: right">
+        <button type="button" id="btnResolveReport_@Model.Id" onclick="changeReportStatus('@ReportStatus.Closed.ToString()','@Model.Id')" class="ui button">Xử lý</button>
+        <button type="button" id="btnPendingReport_@Model.Id" onclick="changeReportStatus('@ReportStatus.Pending.ToString()','@Model.Id')" class="ui button">Chờ xử lý</button>
+        <button type="button" id="btnCancelReport_@Model.Id" onclick="changeReportStatus('@ReportStatus.Canceled.ToString()','@Model.Id')" class="ui button">Hủy</button>
+    </div>
+}
+else if (Model.Status == ReportStatus.Pending.ToString())
+{
+    <label id="lblShowReportStatus_@Model.Id">Đang chờ xử lý</label>
+    <div style="float: right">
+        <button type="button" id="btnResolveReport_@Model.Id" onclick="changeReportStatus('@ReportStatus.Closed.ToString()','@Model.Id')" class="ui button">Xử lý</button>
+        <button type="button" id="btnCancelReport_@Model.Id" onclick="changeReportStatus('@ReportStatus.Canceled.ToString()','@Model.Id')" class="ui button">Hủy</button>
+    </div>
+
+}
+else if (Model.Status == ReportStatus.Closed.ToString())
+{
+    <label id="lblShowReportStatus_@Model.Id">Đã xử lý xong</label>
+}
+else
+{
+    <label id="lblShowReportStatus_@Model.Id">Đã hủy</label>
+}
+
+
+<script>
+
+    function changeReportStatus(btnValue, rptId) {
+        var params = {
+            reportAction: btnValue,
+            reportId: rptId
+        }
+        $.ajax({
+            type: 'POST',
+            data: params,
+            url: '/Administration/ChangeReportStatus',
+            success: function (partialResult) {
+                $("#dvShowReportStatus_" + rptId).html("");
+                $("#dvShowReportStatus_" + rptId).html(partialResult);
+                $("#lblShowHandlerName_" + rptId).html("");
+                $("#lblShowHandlerName_" + rptId).html("@User.Identity.Name");
+                if (btnValue !== 'Pending') {
+                    $("#lblShowClosedDate_" + rptId).html("");
+                    $("#lblShowClosedDate_" + rptId).html("@($"{DateTimeOffset.Now.LocalDateTime:dd/MM/yyyy}")");
+
+                }
+            }
+        });
+    }
+
+</script>

@@ -16,6 +16,9 @@ namespace OneVietnam.Models
         public string AvatarLink { get; set; }
         public string CoverLink { get; set; }
         public string UserName { get; set; }
+
+        public bool LockedFlag { get; set; }
+
         public List<PostViewModel> PostList { get; set; }
         public TwoFacterViewModel Setting { get; set; }
 
@@ -29,7 +32,8 @@ namespace OneVietnam.Models
             if (user.UserName != null)
             {
                 UserName = user.UserName;
-            }            
+            }
+            LockedFlag = user.LockedFlag;        
             if (user.Avatar != null)
             {
                 AvatarLink = user.Avatar;
@@ -43,7 +47,7 @@ namespace OneVietnam.Models
                 PostList = new List<PostViewModel>();
                 foreach (var post in posts)
                 {
-                    PostViewModel postView = new PostViewModel(post, user.UserName);
+                    PostViewModel postView = new PostViewModel(post, user.UserName,user.Avatar);
                     PostList.Add(postView);
                 }
             }

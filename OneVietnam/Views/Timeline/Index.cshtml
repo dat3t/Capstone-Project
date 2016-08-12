@@ -1,0 +1,306 @@
+﻿
+@using Microsoft.AspNet.Identity
+@model OneVietnam.Models.TimelineViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+
+@if (Model != null && !Model.LockedFlag)
+{
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6&appId=1615798268744410";
+            fjs.parentNode.insertBefore(js, fjs);
+
+        }(document, 'script', 'facebook-jssdk'));
+
+        var x = @Model.Profile.Location.XCoordinate;
+        var y = @Model.Profile.Location.YCoordinate;
+        var address = '@Model.Profile.Location.Address';
+        var icon;
+        var userLocationMarker;
+        var map2;
+    </script>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/timeline.js"></script>
+    <div class="containers">
+
+        <!--Avatar link-->
+        <a href="#"><img src="@Model.AvatarLink" alt="cover" class="cover" /></a>
+        @if (Model.Id.Equals(User.Identity.GetUserId()))
+        {
+            <!--Change Avatar-->
+            <i class="large inverted grey camera icon edit-avatar"></i>
+            <div id="avatarUpload" class="hides">
+                @using (Html.BeginForm("ChangeAvatar", "Timeline", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "uploader" }))
+                {
+                <input type="file" id="fileInput" name="fileInput" onchange="submitAvatar()" />
+                <input type="submit" id="btnUpload" name="btnUpload" />
+                }
+            </div>
+            <script>
+                $(".camera.icon")
+                    .click(function() {
+                        $("#fileInput").trigger('click');
+                    });
+                function submitAvatar() {
+                    $("#btnUpload").trigger('click');
+                }
+            </script>
+
+            <!--Change Cover-->
+            <i class="large inverted grey edit icon edit-cover"></i>
+            <div id="coverUpload" class="hides">
+                @using (Html.BeginForm("ChangeCover", "Timeline", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "uploads" }))
+                {
+                <input type="file" id="fileInputs" name="fileInput" onchange="submitCover()" />
+                <input type="submit" id="btnUploads" name="btnUploads" />
+                }
+            </div>
+            <script>
+
+                $(".edit.icon")
+                    .click(function() {
+
+                        $("#fileInputs").trigger('click');
+                    });
+                function submitCover() {
+                    $("#btnUploads").trigger('click');
+                }
+
+            </script>
+
+        }
+        <!--Cover link-->
+        <div class="hero" style="background: url(@Model.CoverLink); background-repeat: no-repeat; background-position: center center;background-size: cover">
+
+            <!--User name-->
+            <div class="details">
+
+                <div class="title1" id="lblTimeLineUserName">@Model.UserName</div>
+
+                <div class="title2"></div>
+
+
+            </div> <!-- end details -->
+
+        </div> <!-- end hero -->
+
+        <div class="ui grid">
+
+            <div style="width: 260px">
+
+            </div> <!-- end column1 -->
+
+            <div class="nine wide column" style="min-height:800px">
+                <div class="forModal ui basic modal" style="position: absolute !important; left: 80% !important; height: 1000px; width: 600px">
+
+                </div>
+
+                <div class="ui pointing secondary tabular menu">
+                    @{
+                        var postCount = 0;
+                        if (Model.PostList != null && Model.PostList.Count > 0)
+                        {
+                            postCount = Model.PostList.Count;
+                        }
+                    }
+                    <div class="item active" data-tab="timeline">
+                        Bài đăng
+                        <div class="ui teal   label">@postCount</div>
+                    </div>
+                    <div class="item" data-tab="profile" onclick="showUserMarkerOnMap(x, y, address);">Giới thiệu</div>
+                    @if (Request.IsAuthenticated)
+                    {
+                        if (Model.Id.Equals(User.Identity.GetUserId()))
+                        {
+                            <div class="item" data-tab="setting">Cài đặt</div>
+                        }
+                        else
+                        {
+                            <div class="right menu">
+                                <a class="ui icon teal button" href="javascript: register_popup('@Model.Id','@Model.UserName','@Model.AvatarLink')">
+                                    Trò Chuyện
+                                    <i class="comments large icon"></i>
+                                </a>
+                            </div>
+                        }
+                    }
+                </div>
+
+                <div class="ui tab active" data-tab="timeline">
+                    <!--Filter posts-->
+                    <div class="ui inline dropdown filter-post">
+                        <div class="text">
+                            <div class="ui blue empty circular label"></div>
+                            Tất cả
+
+                        </div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu filter-items">
+                            <div class="item" data-filter="*">
+                                <div class="ui blue empty circular label"></div>
+                                Tất cả
+                            </div>
+
+                            <div class="item" data-filter=".4">
+                                <div class="ui yellow empty circular label"></div>
+                                Việc làm
+                            </div>
+                            <div class="item" data-filter=".5">
+                                <div class="ui black empty circular label"></div>
+                                Đồ dùng
+
+                            </div>
+                            <div class="item" data-filter=".6">
+                                <div class="ui purple empty circular label"></div>
+                                Nhờ/Nhận xách tay
+                            </div>
+                            <div class="item" data-filter=".7">
+                                <div class="ui orange empty circular label"></div>
+                                Mua bán
+                            </div>
+                            <div class="item" data-filter=".8">
+                                <div class="ui empty circular label"></div>
+                                Cần giúp đỡ
+                            </div>
+
+                        </div>
+                    </div>
+                    <p> </p>
+                    
+                    @{
+                        if (Model.PostList != null && Model.PostList.Count > 0)
+                        {
+                            <div class="grids">
+                                <div class="grid-sizer"></div>
+                                <div class="gutter-sizer"></div>
+                                <div class="ui link cards">
+                                    @{
+                                        foreach (var postView in Model.PostList)
+                                        {
+                                            @Html.Partial("../Shared/_ShowPostDetail", postView)
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="ui tab" data-tab="profile" id="mapTab">
+                    <div id="EditProfileForm">
+                        @Html.Partial("_EditProfile", Model.Profile)
+                    </div>
+                </div>
+
+
+                @if (Model.Id.Equals(User.Identity.GetUserId()))
+                {
+                    <div class="ui tab" data-tab="setting">
+                        <div class="ui segment">
+                            <div class="ui middle aligned selection list">
+                                @{
+                                    string value = "Tắt";
+                                    if (Model.Setting.TwoFacterEnabled == false)
+                                    {
+                                        value = "Bật";
+                                    }
+                                }
+                                <div class="ui item" style="width: 100%; padding: 0">
+                                    <div class="ui negative message transition hidden">
+                                        <i class="close icon"></i>
+                                        <p>Cần thêm số điện thoại đê bât bảo mât hai lớp</p>
+                                    </div>
+
+                                    <div class="ui horizontal list" style="width: 100%; padding: 0">
+                                        <div class="ui item">
+                                            <div class="ui medium header">
+                                                <i class="protect icon"></i>
+                                                <div class="content">
+                                                    Bảo mật hai lớp
+                                                    <div class="sub header">Bật bảo mât hai lớp để nâng cao bảo mật</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ui right floated item">
+                                            <button class="ui toggle button" onclick="changeTwoFactorAuthentication('@Url.Action("ChangeTwoFactorAuthentication", "Timeline")')">@value</button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="ui item" style="width: 100%; padding: 0">
+                                    <div class="ui horizontal list" style="width: 100%; padding: 0">
+                                        <div class="ui item">
+                                            <div class="ui medium header">
+                                                <i class="privacy icon"></i>
+                                                <div class="content">
+                                                    Mật khẩu
+                                                    @if (Model.Setting.HasPassWord)
+                                                    {
+                                                        <div class="sub header" id="ShowPassword">Thay đổi mật khẩu thường xuyên để nâng cao bảo mật hơn</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="sub header" id="ShowPassword">Tạo mật khẩu mới đê đăng nhập bằng email</div>
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ui right floated middle aligned item">
+                                            @if (Model.Setting.HasPassWord)
+                                            {
+                                                <input type="button" class="ui right floated teal button" id="btnChangePass" value="Đổi" onclick="showChangePasswordForm('@Url.Action("ChangePassword","Timeline")')" />
+                                            }
+                                            else
+                                            {
+                                                <input type="button" class="ui right floated teal button" id="btnChangePass" value="Thêm" onclick="showSetPasswordForm('@Url.Action("SetPassword","Timeline")')" />
+                                            }
+
+                                        </div>
+                                    </div>
+                                    <div id="ChangePasswordForm"></div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                                    }
+
+
+                <!-- end avatars -->
+
+
+
+            </div> <!-- end column2 -->
+        </div> <!-- end description -->
+
+
+    </div> <!-- end container -->
+                                    }
+                                    else
+                                    {
+                                        @Html.Partial("../Shared/_NoSearchResult")
+
+                                    }
+<script src="~/Scripts/infiniteScroll.js"></script>
+<script type="text/javascript">
+        var forLoad = $(".ui.link.cards");
+        var grid = $(".grids");
+      
+        var moreRowsUrl = '@Url.Action("Index","Timeline")';
+        $(window).scroll(scrollHandler);
+</script>
