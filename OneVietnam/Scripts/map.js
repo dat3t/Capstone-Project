@@ -413,7 +413,7 @@ function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
     if (list.length == 0) {
         if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
             if (listMarker.length == 0) {
-                alert("roo");
+                $("#userEmptyAlertModal").modal('show');
             }
             else {
               //  $("#nearestUserAlertModal").modal('show');
@@ -421,7 +421,7 @@ function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
             }
         } else {
             if (listMarker.length == 0) {
-                alert("roo");
+                $("#postEmptyAlertModal").modal('show');
             } else {
               //  $("#nearestPostAlertModal").modal('show');
 
@@ -472,17 +472,13 @@ function showWarning() {
 function showAlertNoPost(postTypeArray) {
     if (postTypeArray.length == 0) {
         $("#postEmptyAlertModal").modal('show');
-        return true;
     }
-    return false;
 }
 
 function showAlertNoUser(postTypeArray) {
     if (postTypeArray.length == 0) {
         $("#userEmptyAlertModal").modal('show');
-        return true;
     }
-    return false;
 }
 
 function createListUserMarkers() {
