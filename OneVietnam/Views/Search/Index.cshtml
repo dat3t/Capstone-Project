@@ -45,7 +45,7 @@
                                         $.ajax({
                                             type: 'GET',
                                             url: '/Search/_userResult',
-                                            data: {query:'toan',pageNum:1},
+                                            data: {query:'@query',pageNum:1},
                                             success: function (data, textstatus) {
                                                 if (data != '') {
                                                     var $items = $(data);

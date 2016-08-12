@@ -377,6 +377,7 @@
     <Content Include="Content\Icon\sale2.png" />
     <Content Include="Content\Icon\ship.jpg" />
     <Content Include="Content\Icon\ship2.png" />
+    <Content Include="Content\Icon\users.png" />
     <Content Include="Content\Icon\users2.png" />
     <Content Include="Content\Icon\Warning.png" />
     <Content Include="Content\Icon\warning2.png" />
@@ -432,7 +433,6 @@
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chat.js" />
-    <Content Include="Scripts\fine-uploader.js" />
     <Content Include="Scripts\flickity.pkgd.min.js" />
     <Content Include="Scripts\getAddressRegister.js" />
     <Content Include="Scripts\global.js" />
@@ -460,7 +460,6 @@
     <Content Include="Scripts\Map.js" />
     <Content Include="Scripts\MapElements.js" />
     <Content Include="Scripts\Markerclusterer.js" />
-    <Content Include="Scripts\masonry.pkgd.min.js" />
     <Content Include="Scripts\minimal-slide.js" />
     <Content Include="Scripts\Notification.js" />
     <Content Include="Scripts\OverlappingMarkerSpiderfier.js" />

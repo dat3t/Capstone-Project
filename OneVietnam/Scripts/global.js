@@ -266,12 +266,7 @@
                         percentPosition: false
                     });
                    
-                    $('.second.modal').modal('attach events', '.report.modal .green.button');
-                    $('.report.modal').modal('attach events', '#reportPost');
-                    $(".green.button")
-                        .click(function () {
-                            $('.report.modal').modal('hide');
-                        });
+                   
 
                  
                     var docStyle = document.documentElement.style;

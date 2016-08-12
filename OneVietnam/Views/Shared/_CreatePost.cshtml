@@ -138,12 +138,14 @@
                                       @Html.EditorFor(model => model.PostLocation.XCoordinate, new { htmlAttributes = new { style = "display: none" } })
                     @Html.EditorFor(model => model.PostLocation.YCoordinate, new { htmlAttributes = new { style = "display: none" } })
 
-                   
+                    <div class="field">
+                        <i class="large inverted blue camera icon" tabindex="17"></i>Thêm ảnh
+                    </div>
 
                     <!-- Illustration -->
                     <div class="field">
                         
-                        <i class="large inverted blue camera icon" tabindex="17"></i>Thêm ảnh
+
 
                         <input type="file" id="files" name="files" onchange="previewImg()" class="upload hides" multiple/>
                         <output id="result"></output>
@@ -167,12 +169,13 @@
                                     var f = files[n];
                                     reader.onload = function(e) {
                                         var div = document.createElement("span");
+                                        div.className = "imageBlock";
                                         div.innerHTML = "<img class='thumb' src='" +
                                             e.target.result +
                                             "'" +
                                             "title='" +
                                             f.name +
-                                            "'/> <a href='#' class='remove_pict'>X</a>";
+                                            "'/>  <div href='#' class='deleteDiv'><img class='deleteIcon' src='/Images/deleteImage.png' title='Delete Image'/></div>";
 
                                         output.insertBefore(div, null);
                                         div.children[1].addEventListener("click",
