@@ -26,7 +26,7 @@ namespace OneVietnam.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("mongodb://localhost")]
+        [global::System.Configuration.DefaultSettingValueAttribute("mongodb://localhost:27017")]
         public string OneVietnamConnectionString {
             get {
                 return ((string)(this["OneVietnamConnectionString"]));

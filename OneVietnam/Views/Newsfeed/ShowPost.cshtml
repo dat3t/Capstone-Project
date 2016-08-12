@@ -48,7 +48,7 @@
                 {
                     <i class='blue large announcement link icon' id="reportPost" data-content='Báo cáo' style='float: right'></i>
                     <div id="ShowReportPost">
-                        @Html.Partial("../Newsfeed/_Report", new ReportViewModal(Model.Id, Model.UserId))
+                        @Html.Partial("../Newsfeed/_Report", new ReportViewModel(Model.Id, Model.UserId))
                     </div>
 @*                    <script>*@
 @*                    $(".modal")*@

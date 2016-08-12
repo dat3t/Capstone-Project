@@ -297,7 +297,7 @@
     <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Models\NotificationViewModel.cs" />
     <Compile Include="Models\PostInfoWindowModel.cs" />
-    <Compile Include="Models\ReportViewModal.cs" />
+    <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\TimelineViewModel.cs" />
     <Compile Include="Startup.cs" />

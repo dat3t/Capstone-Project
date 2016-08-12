@@ -349,11 +349,11 @@ namespace OneVietnam.Controllers
         //}
 
         [HttpPost]
-        public async Task<ActionResult> ReportPost(ReportViewModal model)
+        public async Task<ActionResult> ReportPost(ReportViewModel model)
         {
             Report report = new Report(model);
             await ReportManager.CreateAsync(report);
-            return PartialView("../Newsfeed/_Report", new ReportViewModal(model.Id, model.UserId));
+            return PartialView("../Newsfeed/_Report", new ReportViewModel(model.Id, model.UserId));
         }
 
         [System.Web.Mvc.Authorize]        
