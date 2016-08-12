@@ -28,14 +28,14 @@ var overlappingMale = [], overlappingFemale = [], overlappingLGBT = [], overlapp
 
 function checkAuthenticated() {
     var icon = {
-        url: "../Content/Icon/location.png",
+        url: "/Content/Icon/location.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
     };
 
     var myhomeicon = {
-        url: "../Content/Icon/myhome.png",
+        url: "/Content/Icon/myhome.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -210,7 +210,7 @@ function showCurrentLocation() {
     // setMapToAMarkerCluster(null);
     myHomeMarker.setMap(null);
     if (isAuthenticated == true) {
-        document.getElementById("myLocation").style.background = "url(../Content/Icon/myhome.png)";
+        document.getElementById("myLocation").style.background = "url(/Content/Icon/myhome.png)";
         document.getElementById("myLocation").style.backgroundSize = "100%";
     }
 
@@ -255,7 +255,7 @@ function showMyLocation() {
     //setMapToAMarkerCluster(null);
     myCurrentLocationMarker.setMap(null);
 
-    document.getElementById("location").style.background = "url(../Content/Icon/location.png)";
+    document.getElementById("location").style.background = "url(/Content/Icon/location.png)";
     document.getElementById("location").style.backgroundSize = "100%";
 
     myHomeMarker.setMap(map);
@@ -357,41 +357,19 @@ var isNoPostNoUser = false;
 function showMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNumber) {
 
     currentFilter = currentFilterNumber;
-    //alert(currentFilter);
-   //isNoPostNoUser = false;
-   // if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
-
-   //     if (showAlertNoUser(postTypeNumber)) {
-   //         isNoPostNoUser = true;
-   //     }
-   // }
-   // else {
-   //     if (showAlertNoPost(postTypeNumber)) {
-   //         isNoPostNoUser = true;
-   //     }
-   // }
-
-    //if(isNoPostNoUser == true){
-    //    var currentListLength = list.length;
-    //    for (var i = 0; i < currentListLength; i++) {
-    //        list[i].setMap(null);
-    //    }
-
-    //    while (list.length != 0) {
-    //        list.pop();
-
-    //    }
-    //    isNoPostNoUser = false;
-    //    return;
-    //}
 
     isSecondTimes = true;
     if (checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter) == false) {
         var pos = calculateNearestMarker(postTypeNumber);
         if (pos) {
-            map.setCenter(pos);
-            map.setCenter(13);
-            checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter);
+           // smoothlyCenterPosition(pos);
+            checkIfBoundContainPosition(pos);
+          //  map.setCenter(pos);
+            //  map.setCenter(13);
+            setTimeout(function () {
+                checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter);
+
+            },200);
         }
     }
 
@@ -435,17 +413,17 @@ function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
     if (list.length == 0) {
         if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
             if (listMarker.length == 0) {
-                alert("roo");
+                $("#userEmptyAlertModal").modal('show');
             }
             else {
-                $("#nearestUserAlertModal").modal('show');
+              //  $("#nearestUserAlertModal").modal('show');
 
             }
         } else {
             if (listMarker.length == 0) {
-                alert("roo");
+                $("#postEmptyAlertModal").modal('show');
             } else {
-                $("#nearestPostAlertModal").modal('show');
+              //  $("#nearestPostAlertModal").modal('show');
 
             }
         }
@@ -494,17 +472,13 @@ function showWarning() {
 function showAlertNoPost(postTypeArray) {
     if (postTypeArray.length == 0) {
         $("#postEmptyAlertModal").modal('show');
-        return true;
     }
-    return false;
 }
 
 function showAlertNoUser(postTypeArray) {
     if (postTypeArray.length == 0) {
         $("#userEmptyAlertModal").modal('show');
-        return true;
     }
-    return false;
 }
 
 function createListUserMarkers() {
@@ -550,7 +524,7 @@ function createListUserMarkers() {
 
 function createListMaleMarkers() {
     var icon = {
-        url: "../Content/Icon/male.png",
+        url: "/Content/Icon/male.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -590,7 +564,7 @@ function createListMaleMarkers() {
 
 function createListFemaleMarkers() {
     var icon = {
-        url: "../Content/Icon/female.png",
+        url: "/Content/Icon/female.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -630,7 +604,7 @@ function createListFemaleMarkers() {
 
 function createListLGBTMarkers() {
     var icon = {
-        url: "../Content/Icon/LGBT.png",
+        url: "/Content/Icon/LGBT.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -672,7 +646,7 @@ function createlistType3Markers() {
 
     var length = postType3.length;
     var icon = {
-        url: "../Content/Icon/home.png",
+        url: "/Content/Icon/home.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -712,7 +686,7 @@ function createlistType3Markers() {
 
 function createlistType4Markers() {
     var icon = {
-        url: "../Content/Icon/job.png",
+        url: "/Content/Icon/job.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -755,7 +729,7 @@ function createlistType4Markers() {
 
 function createlistType5Markers() {
     var icon = {
-        url: "../Content/Icon/free.png",
+        url: "/Content/Icon/free.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -797,7 +771,7 @@ function createlistType5Markers() {
 
 function createListType6Markers() {
     var icon = {
-        url: "../Content/Icon/ship.jpg",
+        url: "/Content/Icon/ship.jpg",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -839,7 +813,7 @@ function createListType6Markers() {
 
 function createListType7Markers() {
     var icon = {
-        url: "../Content/Icon/sale.png",
+        url: "/Content/Icon/sale.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -880,7 +854,7 @@ function createListType7Markers() {
 
 function createListType8Markers() {
     var icon = {
-        url: "../Content/Icon/help.png",
+        url: "/Content/Icon/help.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -920,7 +894,7 @@ function createListType8Markers() {
 
 function createListType9Markers() {
     var icon = {
-        url: "../Content/Icon/Warning.png",
+        url: "/Content/Icon/Warning.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -1093,20 +1067,23 @@ function getPostInfo(postID) {
 
 function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail) {
     isClickOnSpiderfier = false;
-    switch (PostType) {
-        case 3: showAccommodation(); break;
-        case 4: showJobOffer(); break;
-        case 5: showFurnitureOffer(); break;
-        case 6: showHandGoodsOffer(); break;
-        case 7: showTradeOffer(); break;
-        case 8: showSOS(); break;
-        case 9: showWarning(); break;
-    }
+    currentFilter = PostType;
+   // map.setCenter({Lat,Lng});
+    //switch (PostType) {
+    //    case 3: showAccommodation(); break;
+    //    case 4: showJobOffer(); break;
+    //    case 5: showFurnitureOffer(); break;
+    //    case 6: showHandGoodsOffer(); break;
+    //    case 7: showTradeOffer(); break;
+    //    case 8: showSOS(); break;
+    //    case 9: showWarning(); break;
+    //}
 
     if (isCallFromPostDetail != 1) {
+        var position = new google.maps.LatLng(Lat, Lng);
+        smoothlyCenterPosition(position);
         setTimeout(function () {
-            var position = new google.maps.LatLng(Lat, Lng);
-            smoothlyCenterPosition(position);
+           
             getPostInfo(PostId);
 
         }, 1000);
@@ -1134,7 +1111,7 @@ function smoothlyCenterPosition(pos) {
         var cx = (lng1 + lng2) / 2.;
         var cy = (lat1 + lat2) / 2.;
 
-        // work around a bug in google maps...///
+        // work around a bug in google maps.///
         lng1 = cx + dx / 1.5;
         lng2 = cx - dx / 1.5;
         lat1 = cy + dy / 1.5;
