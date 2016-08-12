@@ -330,10 +330,13 @@ a[data-tooltip][data-placement="top"]::after {
 }
 
 body {
-    background: #A7D2CB;
+    background: #FFFFFF;
+    /*background: linear-gradient(to left, #F8CDDA, #1D2B64) !important;*/
 }
 .mainMenu {
-    background: transparent!important;
+    /*background: #1D2B64 !important;*/ /*E6E6FA, 004A55,50C19A,2F8886,21BA45,00B5AD */    
+    /*background: -webkit-linear-gradient(to left, #1D2B64 , #F8CDDA);*/
+    background: linear-gradient(to left, #E6E6FA, #E6E6FA) transparent !important; /* #F8CDDA , #1D2B64*/    
     box-shadow: none!important;
     border: none!important;
 }

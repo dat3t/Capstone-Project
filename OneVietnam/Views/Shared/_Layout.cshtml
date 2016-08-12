@@ -29,15 +29,15 @@
     <div class="ui grid">
         <div class="computer only row">
             <div class="ui main menu mainMenu">
-                <a href="@Url.Action("Index", "Home")" class="ui active item button">                
-                    <span class="brush-font" style="font-size: 2em;color:#DE5958 ">One Vietnam</span>
+                <a href="@Url.Action("Index", "Home")" class="ui middle aligned item">                
+                    <span style="font-size: 2em; color: #000000">OneVietnam</span>
                 </a>
-                @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item brush-font" })
-                @Html.ActionLink("Bảng Tin", "Index", "Newsfeed", routeValues: null, htmlAttributes: new { @class = "ui item brush-font" })
+                @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item", style= "color: #000000;" })
+                @Html.ActionLink("Bảng Tin", "Index", "Newsfeed", routeValues: null, htmlAttributes: new { @class = "ui item", style = "color: #000000" })
                 <div class="floating ui label" style="color:#DE5958 ">42+</div>
                 @if (Request.IsAuthenticated && (User.IsInRole(CustomRoles.Admin) || User.IsInRole(CustomRoles.Mod)))
                 {
-                    @Html.ActionLink("Quản Trị", "Index", "Administration", routeValues: null, htmlAttributes: new { @class = "ui item brush-font" })
+                    @Html.ActionLink("Quản Trị", "Index", "Administration", routeValues: null, htmlAttributes: new { @class = "ui item", style = "color: #000000" })
                 }
                 <div class="right menu">
                     <div class="item">
@@ -110,7 +110,7 @@
             </div>
         </div>
     </div>
-<div class="ui fluid container" style="height: 90%;" id="bodypage">
+<div class="ui fluid container" style="height: 90%; background-color: #ffffff;" id="bodypage">
     @if (User.Identity.IsAuthenticated)
     {
 

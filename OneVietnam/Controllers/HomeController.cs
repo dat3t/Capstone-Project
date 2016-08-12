@@ -33,7 +33,8 @@ namespace OneVietnam.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            return RedirectToAction("ShowMap", "Map");
+            //return RedirectToAction("ShowMap", "Map");
+            return View();
         }
         [AllowAnonymous]
         public ActionResult About()
