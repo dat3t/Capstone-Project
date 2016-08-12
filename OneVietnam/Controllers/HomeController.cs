@@ -77,14 +77,14 @@ namespace OneVietnam.Controllers
         public async Task<JsonResult> GetConversations()
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            var conversationList = new List<ConversationModel>();
+            var conversationList = new List<ConversationViewModel>();
             if(user.Conversations==null) return Json(conversationList, JsonRequestBehavior.AllowGet);
             var conversations = user.Conversations.OrderByDescending(c => c.Value).ToList();            
 
             for (var i = 0; i < conversations.Count(); i++)
             {
                 var friend = await UserManager.FindByIdAsync(conversations[i].Key);
-                var con = new ConversationModel
+                var con = new ConversationViewModel
                 {
                     Id = conversations[i].Key,
                     FriendName = friend.UserName,

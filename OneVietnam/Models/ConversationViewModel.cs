@@ -5,7 +5,7 @@ using System.Web;
 
 namespace OneVietnam.Models
 {
-    public class ConversationModel
+    public class ConversationViewModel
     {        
         public string Id { get; set; }
         public string FriendName { get; set; }

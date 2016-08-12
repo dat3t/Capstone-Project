@@ -292,8 +292,8 @@
     <Compile Include="DTL\Notification.cs" />
     <Compile Include="Models\AdministrationViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
-    <Compile Include="Models\ConversationModel.cs" />
-    <Compile Include="Models\CreateIconModel.cs" />
+    <Compile Include="Models\ConversationViewModel.cs" />
+    <Compile Include="Models\CreateIconViewModel.cs" />
     <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Models\NotificationViewModel.cs" />
     <Compile Include="Models\PostInfoWindowModel.cs" />
