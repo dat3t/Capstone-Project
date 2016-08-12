@@ -393,7 +393,7 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateIcon(CreateIconModel model)
+        public async Task<ActionResult> CreateIcon(CreateIconViewModel model)
         {
             var icon = new Icon(model);
             await IconManager.CreateAsync(icon);

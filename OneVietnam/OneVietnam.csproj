@@ -283,8 +283,8 @@
     <Compile Include="Common\utilities.cs" />
     <Compile Include="Controllers\TimelineController.cs" />
     <Compile Include="DAL\Abstract\AbstractStore.cs" />
-    <Compile Include="DAL\PostStore.cs" />
-    <Compile Include="DAL\ReportStore.cs" />
+    <Compile Include="DAL\PostStoreDAO.cs" />
+    <Compile Include="DAL\ReportStoreDAO.cs" />
     <Compile Include="DTL\BaseDTO\BaseMongoDocument.cs" />
     <Compile Include="DTL\ConnectionDTO.cs" />
     <Compile Include="DTL\DictionaryItem.cs" />
@@ -292,8 +292,8 @@
     <Compile Include="DTL\Notification.cs" />
     <Compile Include="Models\AdministrationViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
-    <Compile Include="Models\ConversationModel.cs" />
-    <Compile Include="Models\CreateIconModel.cs" />
+    <Compile Include="Models\ConversationViewModel.cs" />
+    <Compile Include="Models\CreateIconViewModel.cs" />
     <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Models\NotificationViewModel.cs" />
     <Compile Include="Models\PostInfoWindowModel.cs" />
@@ -410,9 +410,6 @@
     <Content Include="Content\Map\map.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Images\deleteImage.png" />
-    <Content Include="Images\elliot.jpg" />
-    <Content Include="Images\image.png" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="ApplicationInsights.config">

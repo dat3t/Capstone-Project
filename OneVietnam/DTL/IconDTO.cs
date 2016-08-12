@@ -14,7 +14,7 @@ namespace OneVietnam.DTL
         public string IconText { get; set; }
         public string IconImage { get; set; }
         public string IconType { get; set; }        
-        public Icon(CreateIconModel model)
+        public Icon(CreateIconViewModel model)
         {
             Id=ObjectId.GenerateNewId().ToString();
             IconValue = model.IconValue;
