@@ -41,12 +41,27 @@ namespace OneVietnam.BLL
                 throw new ArgumentNullException(nameof(userId));
             return await Store.FindAllAsync(filter).ConfigureAwait(false);
         }
+
+        public async Task<List<Post>> FindPostsByTypeAsync(BaseFilter baseFilter,int type)
+        {
+            var builder = Builders<Post>.Filter;
+            var filter = builder.Eq("PostType", type) & builder.Eq("LockedFlag", false) &
+                         builder.Eq("DeletedFlag", false);
+            var sort = Builders<Post>.Sort.Descending("CreatedDate");
+            return await FindAllAsync(baseFilter, filter, sort).ConfigureAwait(false);
+        }
+
+        public async Task<List<BsonDocument>> FindPostByTagsAsync(BaseFilter baseFilter, List<Tag> tags)
+        {
+            var query = tags.Aggregate("", (current, tag) => current + tag.TagText + " ");
+            return  await FullTextSearch(query, baseFilter).ConfigureAwait(false);
+        }
         //OK                                
         public async Task<List<BsonDocument>> FullTextSearch(string query, BaseFilter filter)
         {
             var sort = Builders<Post>.Sort.MetaTextScore("TextMatchScore").Ascending("CreatedDate");
             return await Store.FullTextSearch(query, filter, sort).ConfigureAwait(false);
-        }             
+        }        
         public PostManager(PostStore store) : base(store)
         {
         }
@@ -141,11 +156,19 @@ namespace OneVietnam.BLL
 
         public async Task<List<Post>> FindAllDescenderAsync(BaseFilter basefilter)
         {
-            var filter = Builders<Post>.Filter.Eq("DeletedFlag", false);
+            var builder = Builders<Post>.Filter;
+            var filter = builder.Eq("DeletedFlag", false) & builder.Eq("LockedFlag",false);
             var sort = Builders<Post>.Sort.Descending("CreatedDate");
             return await Store.FindAllAsync(basefilter, filter, sort);
-        }        
+        }
 
+        public async Task<List<Post>> FindAllDescenderByIdAsync(BaseFilter baseFilter, string id)
+        {
+            var builder = Builders<Post>.Filter;
+            var filter = builder.Eq("DeletedFlag", false) & builder.Eq("UserId",id);
+            var sort = Builders<Post>.Sort.Descending("CreatedDate");
+            return await Store.FindAllAsync(baseFilter, filter, sort);
+        }
         public async Task<List<Post>> SearchPostMultipleQuery(string title, DateTimeOffset? createdDateFrom, DateTimeOffset? createdDateTo, bool? status)
         {
             var builder = Builders<Post>.Filter;

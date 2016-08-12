@@ -10,6 +10,7 @@ namespace OneVietnam.Models
     public class ReportViewModal
     {       
         public string Id { get; set; }
+        public string ReporterId { get; set; }
 
         [BsonIgnoreIfNull]
         public string PostId { get; set; }

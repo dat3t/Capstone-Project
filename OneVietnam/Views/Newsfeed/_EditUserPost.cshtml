@@ -141,7 +141,7 @@
                         <label>* Địa chỉ liên hệ</label>
                         <div class="ui floating labeled icon dropdown button" tabindex="15" id="locationDr" style="float: left">
                             <i class="blue world icon"></i>
-                            <span class="text"> Địa chỉ bài đăng của bạn</span>
+                            <span class="forLocation">Địa điểm của bài đăng</span>
                             <div class="menu">
                                 <div class="item"  id="getloc" onclick="setRegisteredLocation(@Model.PostLocation.XCoordinate, @Model.PostLocation.YCoordinate, '@Model.PostLocation.Address');">
                                     <div class="ui red empty circular label"></div>
@@ -163,15 +163,17 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" id="PostLocation_Address" />
 
-                        @Html.EditorFor(model => model.PostLocation.Address, new { htmlAttributes = new { placeholder = "Địa chỉ của bạn", tabindex = "16" } })
                         @Html.EditorFor(model => model.PostLocation.XCoordinate, new { htmlAttributes = new { style = "display: none" } })
                         @Html.EditorFor(model => model.PostLocation.YCoordinate, new { htmlAttributes = new { style = "display: none" } })
 
                     </div>
-
-                <!-- Illustration -->
+                <div class="field">
                     <i class="large inverted blue camera icon" tabindex="17"></i>Thêm ảnh
+                    
+                </div>
+                <!-- Illustration -->
                 <div class="field" id="forImg">
                     
                     <input type="file" id="files" name="files" onchange="previewImg()" class="upload hides" multiple />

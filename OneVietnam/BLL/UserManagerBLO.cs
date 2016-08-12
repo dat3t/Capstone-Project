@@ -47,6 +47,12 @@ namespace OneVietnam.BLL
             // Call update once when all roles are added
             return await UpdateAsync(user).ConfigureAwait(false);
         }
+
+        public async Task<string> GetAvatarByIdAsync(string id)
+        {
+            var user = await _userStore.FindByIdAsync(id);
+            return user.Avatar;
+        }
         /// <summary>
         /// Remove user from multiple roles
         /// </summary>
@@ -88,11 +94,16 @@ namespace OneVietnam.BLL
             return await _userStore.FindUsersByRoleAsync(role);
         }
 
-        public async Task<List<ApplicationUser>> TextSearchUsers(string query)
+        public async Task<List<ApplicationUser>> TextSearchUsers(BaseFilter baseFilter, string query)
         {
-            return await _userStore.TextSearchUsers(query);
-        }
+            return await _userStore.TextSearchUsers(baseFilter,query);
+        }        
 
+        public async Task<string> GetUserNameByIdAsync(string id)
+        {
+            var user = await _userStore.FindByIdAsync(id);
+            return user.UserName;
+        }
         public async Task<List<ApplicationUser>> TextSearchMultipleQuery(string userName, DateTimeOffset? createdDateFrom, DateTimeOffset? createdDateTo, string role, bool? isConnection)
         {
             var builder = Builders<ApplicationUser>.Filter;
@@ -160,10 +171,15 @@ namespace OneVietnam.BLL
         {
             return await _userStore.TextSearchUsers(query, baseFilter);
         }
+        //push admin notifications
+        public async Task PushAdminNotificationToAllUsersAsync(Notification notification)
+        {
+            await _userStore.PushAdminNotificationToAllUsersAsync( notification);
+        }
         public async Task<ICollection<Connection>> GetConnectionsById(string id)
         {
 
-            var user = await _userStore.FindByIdAsync(id).ConfigureAwait(false);            
+            var user = await _userStore.FindByIdAsync(id).ConfigureAwait(false);                        
             return user.Connections;
         }
         public async Task AddConnection(string userId, Connection connection)

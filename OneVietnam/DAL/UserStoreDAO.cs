@@ -31,11 +31,27 @@ namespace OneVietnam.DAL
         }                
 
         public async Task<List<ApplicationUser>> TextSearchUsers(string query)
-        {
-            //var filter = new BsonDocument {{"UserName", new BsonDocument {{"$regex", query}, {"$options", "i"}}}, { "Email", new BsonDocument { { "$regex", query }, { "$options", "i" } } } };            
+        {            
             var builder = Builders<ApplicationUser>.Filter;
-            var filter = builder.Regex("UserName", new BsonRegularExpression(query, "i")) | builder.Regex("Email", new BsonRegularExpression(query, "i"));            
+            var filter = builder.Eq("LockedFlag",false)& builder.Eq("DeletedFlag", false)&
+                         (builder.Regex("UserName", new BsonRegularExpression(query, "i")) | builder.Regex("Email", new BsonRegularExpression(query, "i"))) ;            
             return await _users.Find(filter).ToListAsync();            
+        }
+
+        public async Task<List<ApplicationUser>> TextSearchUsers(BaseFilter baseFilter, string query)
+        {
+            if (baseFilter.IsNeedPaging)
+            {
+                var builder = Builders<ApplicationUser>.Filter;
+                var filter = builder.Eq("LockedFlag", false) & builder.Eq("DeletedFlag", false) &
+                             (builder.Regex("UserName", new BsonRegularExpression(query, "i")) |
+                              builder.Regex("Email", new BsonRegularExpression(query, "i")));
+                return await _users.Find(filter).Skip(baseFilter.Skip).Limit(baseFilter.Limit).ToListAsync();
+            }
+            else
+            {
+                return await TextSearchUsers(query);
+            }
         }
 
         public async Task<List<ApplicationUser>> TextSearchUsers(string query, BaseFilter baseFilter)
@@ -90,5 +106,21 @@ namespace OneVietnam.DAL
             }
         }
 
+        public async Task PushAdminNotificationToAllUsersAsync(Notification notification)
+        {           
+            var filter = new BsonDocument();            
+            using (var cursor = await _users.FindAsync(filter))
+            {
+                while (await cursor.MoveNextAsync())
+                {
+                    var batch = cursor.Current;
+                    foreach (var document in batch)
+                    {
+                        document.Notifications?.Add(notification.Id,notification);
+                        await UpdateAsync(document);
+                    }
+                }
+            }
+        }
     }
 }

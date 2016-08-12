@@ -26,9 +26,9 @@
                 }
             })
         ;
-        //  $('.icon')
-        //.popup()
-        //  ;
+          $('.icon')
+        .popup()
+          ;
 
         $("#messageIcon").click(function () {
             //var div = document.getElementById("messagechat");
@@ -229,11 +229,10 @@
                 gutter: '.gutter-sizer'
             }
         });
-
-
+        
         // change size of item by toggling gigante class
         $grid.on('click', '.clickable', function (e) {
-
+            
             var id = $(this).parent().find('#postId').val();
 
             $.ajax({
@@ -243,13 +242,15 @@
                 success: function (partialResult) {
                     $("#forModal").empty();
                     $("#forModal").html(partialResult);
-                  
+                    $(".modal")
+                            .modal({
+                                allowMultiple: true
+                            });
                     $('#forModal').modal({
-                        blur:true,
                         duration: 300,
                         onHide: function () {
                             history.back();
-                        },onShow:function() {
+                        }, onShow: function () {
                             history.pushState(null, null, "/Newsfeed/ShowPost/" + id);
                         }
                     }).modal('show')
@@ -264,8 +265,10 @@
                         imagesLoaded: true,
                         percentPosition: false
                     });
+                   
+                   
 
-                    // get transform property
+                 
                     var docStyle = document.documentElement.style;
                     var transformProp = typeof docStyle.transform == 'string' ?
                       'transform' : 'WebkitTransform';
@@ -285,11 +288,7 @@
             });
             window.addEventListener('popstate', function (e) {
                 //Todo:back button
-            });
-
-
-            //        $(this).parent().parent().toggleClass('gigante');
-            // trigger layout after item size changes
+            }); 
             $grid.isotope('layout');
         });
         var isStamped = false;
@@ -298,6 +297,7 @@
             $('body,html').animate({
                 scrollTop: 0                       // Scroll to top of body
             }, 500);
+            $grid.isotope('layout');
             $("#CreatePostForm").data('validator').resetForm();
             $("#CreatePostForm").find("#result").html("");
             $("#CreatePostForm").find('#Title, #Description, #TagsInput').val('');
@@ -311,7 +311,7 @@
             // stamp or unstamp element
 
             // trigger layout
-            $grid.isotope('layout');
+        
             // set flag
             isStamped = !isStamped;
         });

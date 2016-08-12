@@ -7,7 +7,8 @@ using OneVietnam.Models;
 namespace OneVietnam.DTL
 {
     public class Report :BaseMongoDocument
-    {                      
+    {                    
+        public string ReporterId { get; set; }  
         public string UserId { get; set; }
         [BsonIgnoreIfNull]
         public string PostId { get; set; }

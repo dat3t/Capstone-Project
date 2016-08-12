@@ -18,9 +18,10 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44300</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -286,6 +287,7 @@
     <Compile Include="DAL\ReportStore.cs" />
     <Compile Include="DTL\BaseDTO\BaseMongoDocument.cs" />
     <Compile Include="DTL\ConnectionDTO.cs" />
+    <Compile Include="DTL\DictionaryItem.cs" />
     <Compile Include="DTL\MessageDTO.cs" />
     <Compile Include="DTL\Notification.cs" />
     <Compile Include="Models\AdministrationViewModel.cs" />
@@ -431,7 +433,6 @@
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chat.js" />
-    <Content Include="Scripts\fine-uploader.js" />
     <Content Include="Scripts\flickity.pkgd.min.js" />
     <Content Include="Scripts\getAddressRegister.js" />
     <Content Include="Scripts\global.js" />
@@ -459,7 +460,6 @@
     <Content Include="Scripts\Map.js" />
     <Content Include="Scripts\MapElements.js" />
     <Content Include="Scripts\Markerclusterer.js" />
-    <Content Include="Scripts\masonry.pkgd.min.js" />
     <Content Include="Scripts\minimal-slide.js" />
     <Content Include="Scripts\Notification.js" />
     <Content Include="Scripts\OverlappingMarkerSpiderfier.js" />
@@ -575,6 +575,8 @@
     <Content Include="Views\Newsfeed\_EditAdminPost.cshtml" />
     <Content Include="Views\Newsfeed\_AdminPost.cshtml" />
     <Content Include="Views\Administration\_CreateIcon.cshtml" />
+    <Content Include="Views\Search\_userResult.cshtml" />
+    <Content Include="Views\Shared\_userRow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -609,8 +611,6 @@
           <DevelopmentServerPort>51801</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:51801/</IISUrl>
-          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>https://localhost:44300/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

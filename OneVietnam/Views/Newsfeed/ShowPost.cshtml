@@ -1,10 +1,16 @@
 ﻿<script>
     window.fbAsyncInit = function () {
+     
         FB.init({
             appId: '1615798268744410',
             xfbml: true,
             version: 'v2.6'
         });
+        FB.Event.subscribe('comment.create',
+                          function (response) {
+                              alert("toan");
+                              onCommentCreate(response.commentID);
+                          });
     };
 
     (function (d, s, id) {
@@ -13,8 +19,10 @@
         js = d.createElement(s); js.id = id;
         js.src = "//connect.facebook.net/vi_VN/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
-        FB.Event.subscribe('comment.remove', comment_callback);
+       
     }(document, 'script', 'facebook-jssdk'));
+   
+    FB.XFBML.parse();
 </script>
 <div class="ui grid">
     <div class="four wide column"></div>
@@ -42,17 +50,17 @@
                     <div id="ShowReportPost">
                         @Html.Partial("../Newsfeed/_Report", new ReportViewModal(Model.Id, Model.UserId))
                     </div>
-                    <script>
-                    $(".modal")
-                         .modal({
-                             allowMultiple: true
-                         });
-                    $('.second.modal').modal('attach events', '.report.modal .green.button');
-                    $('.report.modal').modal('attach events', '#reportPost');
-                    $(".green.button").click(function () {
-                            $('.report.modal').modal('hide');
-                        });
-                    </script>
+@*                    <script>*@
+@*                    $(".modal")*@
+@*                         .modal({*@
+@*                             allowMultiple: true*@
+@*                         });*@
+@*                    $('.second.modal').modal('attach events', '.report.modal .green.button');*@
+@*                    $('.report.modal').modal('attach events', '#reportPost');*@
+@*                    $(".green.button").click(function () {*@
+@*                            $('.report.modal').modal('hide');*@
+@*                        });*@
+@*                    </script>*@
                 }
             </div>
 
@@ -126,26 +134,27 @@
 
 
                         // In your JavaScript
-                        var comment_callback = function(response) {
-                            alert("comment_callback");
-                        }
+                       
 
-                        function onCommentCreate(commentID) {
-                            $.ajax({
-                                type: 'GET',
-                                url: '/Newsfeed/getCommentor',
-                                data: { commentid: commentID },
-                                success: function(result) {
-                                    alert(result);
-                                    pushNotification("@Url.Action("ShowPost", "Newsfeed", new {Id = Model.Id})",
-                                        "@Model.Title",
-                                        "@Model.UserId");
+                            function onCommentCreate(commentID) {
+                                $.ajax({
+                                    type: 'GET',
+                                    url: '/Newsfeed/GetCommentor',
+                                    data: { commentid: commentID },
+                                    success: function(commentor) {
+                                        var comment = {
+                                            UserId: "@Model.UserId",
+                                            Commentor: commentor["Username"],
+                                            Url: "@Url.Action("ShowPost", "Newsfeed", new {Id = Model.Id})",
+                                            Avatar: commentor["Avatar"],
+                                            Title: "@Model.Title"
+                                        }
+                                        pushCommentNotification(comment);
+                                    }
+                                });
+                            }
 
-                                }
-                            });
-                        }
-
-                        FB.XFBML.parse();
+                          
 
                     </script>
 

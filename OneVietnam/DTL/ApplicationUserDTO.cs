@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using AspNet.Identity.MongoDB;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Serializers;
 using OneVietnam.Models;
 
 namespace OneVietnam.DTL
@@ -35,7 +36,7 @@ namespace OneVietnam.DTL
         [BsonIgnoreIfNull]
         public string Cover { get; set; }
         [BsonIgnoreIfNull]
-        public SortedList<string, Conversation> Conversations { get; set; }
+        public SortedList<string, Conversation> Conversations { get; set; }                
         public SortedList<string,Notification> Notifications { get; set; }
         [BsonIgnoreIfNull]
         public List<Connection> Connections { get; set; }

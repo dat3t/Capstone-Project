@@ -41,5 +41,12 @@ namespace OneVietnam
             return result;
         }
 
+        public static TimeSpan ConvertTimeZoneOffSetToTimeSpan(int zone)
+        {
+            int h = zone/60;
+            int m = zone - h*60;
+            return new TimeSpan(h,m,0);
+        }
+
     }
 }

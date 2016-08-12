@@ -126,11 +126,21 @@
                         }
                         else
                         {
+
                             <div class="right menu">
-                                <a class="ui icon teal button" href="javascript: register_popup('@Model.Id','@Model.UserName','@Model.AvatarLink')">
-                                    Trò Chuyện
-                                    <i class="comments large icon"></i>
-                                </a>
+                                
+                                <div class="ui icon top pointing dropdown">
+                                    <i class="large grey setting icon"></i>
+                                    <div class="menu">
+                                        <div class="item"><a href="javascript: register_popup('@Model.Id','@Model.UserName','@Model.AvatarLink')" style="text-decoration: none">
+                                                Nhắn tin
+                                            </a>
+                                        </div>
+                                        <div class="item">Báo cáo</div>
+
+                                    </div>
+                                </div>
+
                             </div>
                         }
                     }
@@ -296,3 +306,11 @@
                                         @Html.Partial("../Shared/_NoSearchResult")
 
                                     }
+<script src="~/Scripts/infiniteScroll.js"></script>
+<script type="text/javascript">
+        var forLoad = $(".ui.link.cards");
+        var grid = $(".grids");
+      
+        var moreRowsUrl = '@Url.Action("Index","Timeline")';
+        $(window).scroll(scrollHandler);
+</script>

@@ -3,8 +3,10 @@
 @using Microsoft.AspNet.Identity
 <script>
     var query = window.location.search.substring(1);
+
     $(document)
         .ready(function () {
+           
             $("#stamp-button2").hide();
             if (query === 'ShowPost') {
 //                $("#CreatePostForm").data('validator').resetForm();
@@ -20,15 +22,7 @@
 
 
 
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6&appId=1615798268744410";
-        fjs.parentNode.insertBefore(js, fjs);
 
-    }(document, 'script', 'facebook-jssdk'));
 </script>
 <script>
     var isAuthenticated = false;
@@ -106,7 +100,7 @@
 }
 else
 {
-    <a href="@Url.Action("Login","Account")">
+    <a href="@Url.Action("Login","Account",new { ReturnUrl= "/Newsfeed"})">
         <div class="floating-button" data-toggle="tooltip" data-original-title="Create">
 
             <p class="plus">
@@ -123,7 +117,7 @@ else
 
         @Html.Partial("_CreatePost")
 
-        <div class="grids">
+        <div class="grids" >
             <div class="grid-sizer"></div>
             <div class="gutter-sizer"></div>
             <div class="ui link cards" id="postScroll">
@@ -161,7 +155,6 @@ else
 @section scripts{
     <script src="~/Scripts/infiniteScroll.js"></script>
     <script type="text/javascript">
-        $("grids").isotope("layout");
         $.ajax({
             type: 'GET',
             url: '@Url.Action("_AdminPost","Newsfeed")',
@@ -176,6 +169,5 @@ else
         });
         var moreRowsUrl = '@Url.Action("Index","Newsfeed")';
         $(window).scroll(scrollHandler);
-        @*var hasReachedEndOfInfiniteScroll = @ViewBag.IsEndOfRecords.ToString().ToLower();*@
     </script>
 }
