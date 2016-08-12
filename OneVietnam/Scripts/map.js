@@ -353,55 +353,45 @@ function showFemales() {
     showMarkersOnMap(females, -4, listFemaleMarkers);
 }
 
-
-
-function showUserMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNumber) {
-
-    if (showAlertNoUser(postTypeNumber)) {
-        return;
-    }
-
-    currentFilter = currentFilterNumber;
-
-    isSecondTimes = true;
-    if (checkIfCurrentBoundContainMarker(listTypeMarkersNumber) == false) {
-        var pos = calculateNearestMarker(postTypeNumber);
-        if (pos) {
-            map.setCenter(pos);
-            checkIfCurrentBoundContainMarker(listTypeMarkersNumber);
-        }
-    }
-
-    setTimeout(function () {
-        isSecondTimes = false;
-    }, 500);
-
-}
-
+var isNoPostNoUser = false;
 function showMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNumber) {
 
-    if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
-
-        if (showAlertNoUser(postTypeNumber)) {
-            return;
-        }
-    }
-    else {
-        if (showAlertNoPost(postTypeNumber)) {
-            return;
-        }
-    }
-
-
     currentFilter = currentFilterNumber;
+    //alert(currentFilter);
+   //isNoPostNoUser = false;
+   // if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
+
+   //     if (showAlertNoUser(postTypeNumber)) {
+   //         isNoPostNoUser = true;
+   //     }
+   // }
+   // else {
+   //     if (showAlertNoPost(postTypeNumber)) {
+   //         isNoPostNoUser = true;
+   //     }
+   // }
+
+    //if(isNoPostNoUser == true){
+    //    var currentListLength = list.length;
+    //    for (var i = 0; i < currentListLength; i++) {
+    //        list[i].setMap(null);
+    //    }
+
+    //    while (list.length != 0) {
+    //        list.pop();
+
+    //    }
+    //    isNoPostNoUser = false;
+    //    return;
+    //}
 
     isSecondTimes = true;
-    if (checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilterNumber) == false) {
+    if (checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter) == false) {
         var pos = calculateNearestMarker(postTypeNumber);
         if (pos) {
             map.setCenter(pos);
             map.setCenter(13);
-            checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilterNumber);
+            checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter);
         }
     }
 
@@ -422,6 +412,7 @@ function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
 
     currentMarkerClusterer.removeMarkers(list);
     var currentListLength = list.length;
+    //alert(currentListLength + "a");
     for (var i = 0; i < currentListLength; i++) {
         list[i].setMap(null);
     }
@@ -430,6 +421,7 @@ function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
         list.pop();
 
     }
+    //alert(list.length + "b");
     var length = listMarker.length;
 
     for (var i = 0; i < length; i++) {
@@ -439,11 +431,23 @@ function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
 
         }
     }
+    //alert(list.length + "c");
     if (list.length == 0) {
         if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
-            $("#nearestUserAlertModal").modal('show');
+            if (listMarker.length == 0) {
+                alert("roo");
+            }
+            else {
+                $("#nearestUserAlertModal").modal('show');
+
+            }
         } else {
-            $("#nearestPostAlertModal").modal('show');
+            if (listMarker.length == 0) {
+                alert("roo");
+            } else {
+                $("#nearestPostAlertModal").modal('show');
+
+            }
         }
         return false;
 
