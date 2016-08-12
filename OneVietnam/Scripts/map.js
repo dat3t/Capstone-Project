@@ -8,6 +8,11 @@ var isFirstTime = true;
 var myCurrentLocationMarker, myHomeMarker;
 var markerCluster;
 var isClickOnSpiderfier = true;
+var currentFilter = -1
+var isSecondTimes = false;
+var list = [];
+
+var currentMarkerClusterer;
 
 var listUserMarkers = [], listMaleMarkers = [], listFemaleMarkers = [], listLGBTMarkers = [];
 
@@ -59,9 +64,9 @@ function checkAuthenticated() {
             minZoom: 2,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
-        myCurrentLocationMarker.setMap(map);
-        myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
-        myHomeMarker.setMap(map);
+        //myCurrentLocationMarker.setMap(map);
+        //myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
+        //myHomeMarker.setMap(map);
 
     }
     else {
@@ -73,8 +78,8 @@ function checkAuthenticated() {
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
-        myCurrentLocationMarker.setMap(map);
-        showCurrentLocation();
+        //myCurrentLocationMarker.setMap(map);
+        //showCurrentLocation();
 
     }
 }
@@ -91,6 +96,27 @@ function initialize() {
 
     google.maps.event.addListener(map, 'idle', function () {
         bounds = map.getBounds();
+
+
+        if (map.getZoom() > 5 && isSecondTimes == false) {
+
+            switch (currentFilter) {
+                case -4: showFemales(); break;
+                case -3: showMales(); break;
+                case -2: showLGBT(); break;
+                case -1: showUsers(); break;
+                case 0: showFemales(); break;
+                case 1: showMales(); break;
+                case 2: showLGBT(); break;
+                case 3: showAccommodation(); break;
+                case 4: showJobOffer(); break;
+                case 5: showFurnitureOffer(); break;
+                case 6: showHandGoodsOffer(); break;
+                case 7: showTradeOffer(); break;
+                case 8: showSOS(); break;
+                case 9: showWarning(); break;
+            }
+        }
     });
 
     //Delcare overlapping, markerClusterer
@@ -118,21 +144,21 @@ function initialize() {
     createListType8Markers();
     createListType9Markers();
 
-    userMarkerCluster = new MarkerClusterer(map, listUserMarkers);
-    maleMarkerCluster = new MarkerClusterer(map, listMaleMarkers);
-    femaleMarkerCluster = new MarkerClusterer(map, listFemaleMarkers);
-    LGBTMarkerCluster = new MarkerClusterer(map, listLGBTMarkers);
-    type3MarkerCluster = new MarkerClusterer(map, listType3Markers);
-    type4MarkerCluster = new MarkerClusterer(map, listType4Markers);
-    type5MarkerCluster = new MarkerClusterer(map, listType5Markers);
-    type6MarkerCluster = new MarkerClusterer(map, listType6Markers);
-    type7MarkerCluster = new MarkerClusterer(map, listType7Markers);
-    type8MarkerCluster = new MarkerClusterer(map, listType8Markers);
-    type9MarkerCluster = new MarkerClusterer(map, listType9Markers);
-
+    //userMarkerCluster = new MarkerClusterer(map, listUserMarkers);
+    //maleMarkerCluster = new MarkerClusterer(map, listMaleMarkers);
+    //femaleMarkerCluster = new MarkerClusterer(map, listFemaleMarkers);
+    //LGBTMarkerCluster = new MarkerClusterer(map, listLGBTMarkers);
+    //type3MarkerCluster = new MarkerClusterer(map, listType3Markers);
+    //type4MarkerCluster = new MarkerClusterer(map, listType4Markers);
+    //type5MarkerCluster = new MarkerClusterer(map, listType5Markers);
+    //type6MarkerCluster = new MarkerClusterer(map, listType6Markers);
+    //type7MarkerCluster = new MarkerClusterer(map, listType7Markers);
+    //type8MarkerCluster = new MarkerClusterer(map, listType8Markers);
+    //type9MarkerCluster = new MarkerClusterer(map, listType9Markers);
+    currentMarkerClusterer = new MarkerClusterer(map, list);
     //Init user makers first load
-    userMarkerCluster.setMaxZoom(9);
-    showUsers();
+    //userMarkerCluster.setMaxZoom(9);
+    //showUsers();
 
     // Create the search box and link it to the UI element.
     var input = document.getElementById("pac-input2");
@@ -180,8 +206,13 @@ function loadScript() {
 }
 
 function showCurrentLocation() {
+    isSecondTimes = true;
     // setMapToAMarkerCluster(null);
     myHomeMarker.setMap(null);
+    if (isAuthenticated == true) {
+        document.getElementById("myLocation").style.background = "url(../Content/Icon/myhome.png)";
+        document.getElementById("myLocation").style.backgroundSize = "100%";
+    }
 
     //Identify current user's location and bind it to the map
     //Using HTML5 geolocation.
@@ -220,8 +251,12 @@ function showCurrentLocation() {
 }
 
 function showMyLocation() {
+    isSecondTimes = true;
     //setMapToAMarkerCluster(null);
     myCurrentLocationMarker.setMap(null);
+
+    document.getElementById("location").style.background = "url(../Content/Icon/location.png)";
+    document.getElementById("location").style.backgroundSize = "100%";
 
     myHomeMarker.setMap(map);
     myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
@@ -237,25 +272,25 @@ function showMyLocation() {
     // map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
 }
 
-function setMapToAMarkerCluster(markerCluster) {
+function setMapToAMarkerCluster() {
 
-    userMarkerCluster.setMap(null);
-    maleMarkerCluster.setMap(null);
-    femaleMarkerCluster.setMap(null);
-    LGBTMarkerCluster.setMap(null);
-    type3MarkerCluster.setMap(null);
-    type4MarkerCluster.setMap(null);
-    type5MarkerCluster.setMap(null);
-    type6MarkerCluster.setMap(null);
-    type7MarkerCluster.setMap(null);
-    type8MarkerCluster.setMap(null);
-    type9MarkerCluster.setMap(null);
+    //userMarkerCluster.setMap(null);
+    //maleMarkerCluster.setMap(null);
+    //femaleMarkerCluster.setMap(null);
+    //LGBTMarkerCluster.setMap(null);
+    //type3MarkerCluster.setMap(null);
+    //type4MarkerCluster.setMap(null);
+    //type5MarkerCluster.setMap(null);
+    //type6MarkerCluster.setMap(null);
+    //type7MarkerCluster.setMap(null);
+    //type8MarkerCluster.setMap(null);
+    //type9MarkerCluster.setMap(null);
     //myCurrentLocationMarker.setMap(null);
     //myHomeMarker.setMap(null);
 
-    if (markerCluster != null) {
-        markerCluster.setMap(map);
-    }
+    //if (markerCluster != null) {
+    //    markerCluster.setMap(map);
+    //}
 }
 
 function calculateNearestMarker(listLocation) {
@@ -279,110 +314,193 @@ function calculateNearestMarker(listLocation) {
 }
 
 function showUsers() {
-    setMapToAMarkerCluster(userMarkerCluster);
-    showAlertNoUser(allUsers);
+    ////isSecondTimes = true;
+    ////setMapToAMarkerCluster(userMarkerCluster);
+    //showAlertNoUser(allUsers);
 
-    if (isFirstTime == false) {
-        var pos = calculateNearestMarker(allUsers);
-        checkIfBoundContainPosition(pos);
-    }
-    isFirstTime = false;
-}
-
-function showMales() {
-    setMapToAMarkerCluster(maleMarkerCluster);
-    showAlertNoUser(males);
-    maleMarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(males);
-    checkIfBoundContainPosition(pos);
-}
-
-function showFemales() {
-    setMapToAMarkerCluster(femaleMarkerCluster);
-    showAlertNoUser(females);
-    femaleMarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(females);
-    checkIfBoundContainPosition(pos);
+    //if (isFirstTime == false) {
+    //    var pos = calculateNearestMarker(allUsers);
+    //    checkIfBoundContainPosition(pos);
+    //}
+    //isFirstTime = false;
+    showMarkersOnMap(allUsers, -1, listUserMarkers);
 }
 
 function showLGBT() {
-    setMapToAMarkerCluster(LGBTMarkerCluster);
-    showAlertNoUser(LGBT);
-    LGBTMarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(LGBT);
-    checkIfBoundContainPosition(pos);
+    //setMapToAMarkerCluster(LGBTMarkerCluster);
+    //showAlertNoUser(LGBT);
+    //LGBTMarkerCluster.setMaxZoom(9);
+    //var pos = calculateNearestMarker(LGBT);
+    //checkIfBoundContainPosition(pos);
+    showMarkersOnMap(LGBT, -2, listLGBTMarkers);
+}
+
+function showMales() {
+    //setMapToAMarkerCluster(maleMarkerCluster);
+    //showAlertNoUser(males);
+    //maleMarkerCluster.setMaxZoom(9);
+    //var pos = calculateNearestMarker(males);
+    //checkIfBoundContainPosition(pos);
+    showMarkersOnMap(males, -3, listMaleMarkers);
+}
+
+function showFemales() {
+    //setMapToAMarkerCluster(femaleMarkerCluster);
+    //showAlertNoUser(females);
+    //femaleMarkerCluster.setMaxZoom(9);
+    //var pos = calculateNearestMarker(females);
+    //checkIfBoundContainPosition(pos);
+    showMarkersOnMap(females, -4, listFemaleMarkers);
+}
+
+
+
+function showUserMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNumber) {
+
+    if (showAlertNoUser(postTypeNumber)) {
+        return;
+    }
+
+    currentFilter = currentFilterNumber;
+
+    isSecondTimes = true;
+    if (checkIfCurrentBoundContainMarker(listTypeMarkersNumber) == false) {
+        var pos = calculateNearestMarker(postTypeNumber);
+        if (pos) {
+            map.setCenter(pos);
+            checkIfCurrentBoundContainMarker(listTypeMarkersNumber);
+        }
+    }
+
+    setTimeout(function () {
+        isSecondTimes = false;
+    }, 500);
+
+}
+
+function showMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNumber) {
+
+    if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
+
+        if (showAlertNoUser(postTypeNumber)) {
+            return;
+        }
+    }
+    else {
+        if (showAlertNoPost(postTypeNumber)) {
+            return;
+        }
+    }
+
+
+    currentFilter = currentFilterNumber;
+
+    isSecondTimes = true;
+    if (checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilterNumber) == false) {
+        var pos = calculateNearestMarker(postTypeNumber);
+        if (pos) {
+            map.setCenter(pos);
+            map.setCenter(13);
+            checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilterNumber);
+        }
+    }
+
+    setTimeout(function () {
+        isSecondTimes = false;
+    }, 500);
+
 }
 
 function showAccommodation() {
-    setMapToAMarkerCluster(type3MarkerCluster);
-    showAlertNoPost(postType3);
-    type3MarkerCluster.setMaxZoom(9);
-    // openAllClusters(overlappingType3);
-    var pos = calculateNearestMarker(postType3);
-    checkIfBoundContainPosition(pos);
 
+    showMarkersOnMap(postType3, 3, listType3Markers);
 
 }
 
+
+function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
+
+    currentMarkerClusterer.removeMarkers(list);
+    var currentListLength = list.length;
+    for (var i = 0; i < currentListLength; i++) {
+        list[i].setMap(null);
+    }
+
+    while (list.length != 0) {
+        list.pop();
+
+    }
+    var length = listMarker.length;
+
+    for (var i = 0; i < length; i++) {
+        if (map.getBounds().contains(listMarker[i].position) == true) {
+            //  listMarker[i].setMap(map);
+            list.push(listMarker[i]);
+
+        }
+    }
+    if (list.length == 0) {
+        if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
+            $("#nearestUserAlertModal").modal('show');
+        } else {
+            $("#nearestPostAlertModal").modal('show');
+        }
+        return false;
+
+    }
+    for (var i = 0; i < list.length; i++) {
+        list[i].setMap(map);
+    }
+
+    currentMarkerClusterer.addMarkers(list);
+    currentMarkerClusterer.setMap(map);
+    currentMarkerClusterer.setMaxZoom(9);
+    setMapToAMarkerCluster();
+
+    return true;
+}
+
+
 function showJobOffer() {
-    setMapToAMarkerCluster(type4MarkerCluster);
-    showAlertNoPost(postType4);
-    type4MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType4);
-    checkIfBoundContainPosition(pos);
+    showMarkersOnMap(postType4, 4, listType4Markers);
 }
 
 function showFurnitureOffer() {
 
-    setMapToAMarkerCluster(type5MarkerCluster);
-    showAlertNoPost(postType5);
-    type5MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType5);
-    checkIfBoundContainPosition(pos);
+    showMarkersOnMap(postType5, 5, listType5Markers);
 }
 
 function showHandGoodsOffer() {
-    setMapToAMarkerCluster(type6MarkerCluster);
-    showAlertNoPost(postType6);
-    type6MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType6);
-    checkIfBoundContainPosition(pos);
+    showMarkersOnMap(postType6, 6, listType6Markers);
 
 }
 
 function showTradeOffer() {
-    setMapToAMarkerCluster(type7MarkerCluster);
-    showAlertNoPost(postType7);
-    type7MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType7);
-    checkIfBoundContainPosition(pos);
+    showMarkersOnMap(postType7, 7, listType7Markers);
 }
-function showSOS() {
-    setMapToAMarkerCluster(type8MarkerCluster);
-    showAlertNoPost(postType8);
-    type8MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType8);
-    checkIfBoundContainPosition(pos);
 
+function showSOS() {
+    showMarkersOnMap(postType8, 8, listType8Markers);
 }
+
 function showWarning() {
-    setMapToAMarkerCluster(type9MarkerCluster);
-    showAlertNoPost(postType9);
-    type9MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType9);
-    checkIfBoundContainPosition(pos);
+    showMarkersOnMap(postType9, 9, listType9Markers);
 }
 
 function showAlertNoPost(postTypeArray) {
     if (postTypeArray.length == 0) {
         $("#postEmptyAlertModal").modal('show');
+        return true;
     }
+    return false;
 }
 
 function showAlertNoUser(postTypeArray) {
     if (postTypeArray.length == 0) {
         $("#userEmptyAlertModal").modal('show');
+        return true;
     }
+    return false;
 }
 
 function createListUserMarkers() {
@@ -537,7 +655,7 @@ function createListLGBTMarkers() {
 
         overlappingLGBT.addMarker(marker);
     }
-    
+
     overlappingLGBT.addListener('click', function (marker) {
         isClickOnSpiderfier = false;
     });
@@ -547,6 +665,7 @@ function createListLGBTMarkers() {
 }
 
 function createlistType3Markers() {
+
     var length = postType3.length;
     var icon = {
         url: "../Content/Icon/home.png",
@@ -577,7 +696,7 @@ function createlistType3Markers() {
 
         overlappingType3.addMarker(marker);
     }
-    
+
     overlappingType3.addListener('click', function (marker) {
         isClickOnSpiderfier = false;
     });

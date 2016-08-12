@@ -375,6 +375,7 @@
     <Content Include="Content\Icon\sale2.png" />
     <Content Include="Content\Icon\ship.jpg" />
     <Content Include="Content\Icon\ship2.png" />
+    <Content Include="Content\Icon\users.png" />
     <Content Include="Content\Icon\users2.png" />
     <Content Include="Content\Icon\Warning.png" />
     <Content Include="Content\Icon\warning2.png" />
