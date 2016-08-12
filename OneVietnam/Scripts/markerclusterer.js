@@ -170,7 +170,7 @@ function MarkerClusterer(map, opt_markers, opt_options) {
  */
 //MarkerClusterer.prototype.MARKER_CLUSTER_IMAGE_PATH_ =
 //    //'https://raw.githubusercontent.com/googlemaps/js-marker-clusterer/gh-pages/images/m';
-MarkerClusterer.prototype.MARKER_CLUSTER_IMAGE_PATH_ = '../Content/Images//m';
+MarkerClusterer.prototype.MARKER_CLUSTER_IMAGE_PATH_ = '/Content/Images/m';
 
 /**
  * The marker cluster image path.
