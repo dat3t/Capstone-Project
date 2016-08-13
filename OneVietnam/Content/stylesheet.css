@@ -334,9 +334,7 @@ body {
     /*background: linear-gradient(to left, #F8CDDA, #1D2B64) !important;*/
 }
 .mainMenu {
-    /*background: #1D2B64 !important;*/ /*E6E6FA, 004A55,50C19A,2F8886,21BA45,00B5AD */    
-    /*background: -webkit-linear-gradient(to left, #1D2B64 , #F8CDDA);*/
-    background: linear-gradient(to left, #E6E6FA, #E6E6FA) transparent !important; /* #F8CDDA , #1D2B64*/    
+    background: linear-gradient(to right, #F8CDDA, #2185D0, #F8CDDA) transparent !important; /* #F8CDDA , #1D2B64, 2185D0*/    
     box-shadow: none!important;
     border: none!important;
 }
@@ -610,6 +608,13 @@ body {
     right: 0;
     left: 0;
     margin: auto;
-    position: absolute;
-    text-align: center;    
+    position: absolute;    
+    text-align: center; 
+    height: 100%;
+    position: static;
+    width: 100%;
+    background: url('/Content/Icon/homepage_1.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;       
 }

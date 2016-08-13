@@ -29,8 +29,9 @@
     <div class="ui grid">
         <div class="computer only row">
             <div class="ui main menu mainMenu">
-                <a href="@Url.Action("Index", "Home")" class="ui middle aligned item">                
-                    <span style="font-size: 2em; color: #000000">OneVietnam</span>
+                <a href="@Url.Action("Index", "Home")" class="ui middle aligned item">
+                    <img src="/Content/Icon/symbol.jpg" class="ui avatar image"/>
+                    <span style="font-size: 2em; color: #000000">neVietnam</span>
                 </a>
                 @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item", style= "color: #000000;" })
                 @Html.ActionLink("Bảng Tin", "Index", "Newsfeed", routeValues: null, htmlAttributes: new { @class = "ui item", style = "color: #000000" })
@@ -111,7 +112,7 @@
         </div>
     </div>
 <div class="ui fluid container" style="height: 90%; background-color: #ffffff;" id="bodypage">
-    @if (User.Identity.IsAuthenticated)
+    @*@if (User.Identity.IsAuthenticated)
     {
 
         <div class="floating-button" id="stamp-button2" data-toggle="tooltip" data-original-title="Create">
@@ -134,8 +135,8 @@
 
             </div>
         </a>
-    }
-
+    }*@
+    @RenderBody()
     <div id="forModal" class="ui basic modal coupled" style="position: absolute !important; height: 1000px; width: 100%">
         <div class="ui  raised clearing  segment " style="width: 631px !important">
             <div class="header">
@@ -212,7 +213,7 @@
 
         </div>
     </div>
-    @RenderBody()
+    
     @if (Request.IsAuthenticated)
     {
         <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
