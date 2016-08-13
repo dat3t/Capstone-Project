@@ -11,6 +11,7 @@ var list = [];
 var Type3Icon, Type4Icon, Type5Icon, Type6Icon, Type7Icon, Type8Icon, Type9Icon;
 var UsersIcon, FemaleIcon, MaleIcon, LGBTIcon;
 var currentMarkerClusterer;
+var isAutoCompleteBox = false;
 
 var listUserMarkers = [], listMaleMarkers = [], listFemaleMarkers = [], listLGBTMarkers = [];
 
@@ -217,7 +218,10 @@ function initialize() {
     createListMaleMarkers();
     createListFemaleMarkers();
     createListLGBTMarkers();
-  
+
+    document.getElementById("filterUsers").style.background = "url(/Content/Icon/users2.png)";
+    document.getElementById("filterUsers").style.backgroundSize = "100%";
+
     currentMarkerClusterer = new MarkerClusterer(map, list);
     //Init user makers first load
     //userMarkerCluster.setMaxZoom(9);
@@ -246,6 +250,7 @@ function initialize() {
             }
         });
         //map.setZoom(12);
+        isAutoCompleteBox = true;
         map.fitBounds(bounds);
     });
 
@@ -352,7 +357,7 @@ function showFemales() {
 }
 
 function showAccommodation() {
-   
+
     loadByAjax(postType3, 3);
 
 }
@@ -571,6 +576,19 @@ function showMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNu
 
     isPostFilter = true;
     if (checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter) == false) {
+      
+        if (isAutoCompleteBox == true) {
+            if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
+                $("#nearestUserAlertModal").modal('show');
+            } else {
+                $("#nearestPostAlertModal").modal('show');
+            }
+           
+            isAutoCompleteBox = false;
+            isPostFilter = false;
+            return;
+        }
+
         var pos = calculateNearestMarker(postTypeNumber);
         if (pos) {
             // smoothlyCenterPosition(pos);
@@ -772,7 +790,7 @@ function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail)
         case 6: handGoodsEnlarge(); break;
         case 7: tradeEnlarge(); break;
         case 8: helpEnlarge(); break;
-        case 9: warningEnlarge(); break; 
+        case 9: warningEnlarge(); break;
     }
 
     if (isCallFromPostDetail != 1) {
@@ -891,14 +909,13 @@ function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
                 $("#userEmptyAlertModal").modal('show');
             }
             else {
-                //  $("#nearestUserAlertModal").modal('show');
-
+                //$("#nearestUserAlertModal").modal('show');
             }
         } else {
             if (listMarker.length == 0) {
                 $("#postEmptyAlertModal").modal('show');
             } else {
-                //  $("#nearestPostAlertModal").modal('show');
+                //$("#nearestPostAlertModal").modal('show');
 
             }
         }
