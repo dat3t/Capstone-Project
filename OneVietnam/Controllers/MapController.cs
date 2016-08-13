@@ -73,15 +73,15 @@ namespace OneVietnam.Controllers
                 UserId = user.Id,
                 Gender = user.Gender
             }).ToList();
-            var postlist = await PostManager.FindAllAsync(false).ConfigureAwait(false);
-            list.AddRange(postlist.Select(p => new AddLocationViewModel
-            {
-                UserId = p.UserId,
-                X = p.PostLocation.XCoordinate,
-                Y = p.PostLocation.YCoordinate,
-                PostId = p.Id,
-                PostType = p.PostType
-            }));
+            //var postlist = await PostManager.FindAllAsync(false).ConfigureAwait(false);
+            //list.AddRange(postlist.Select(p => new AddLocationViewModel
+            //{
+            //    UserId = p.UserId,
+            //    X = p.PostLocation.XCoordinate,
+            //    Y = p.PostLocation.YCoordinate,
+            //    PostId = p.Id,
+            //    PostType = p.PostType
+            //}));
             //if (IconList != null)
             //{
             //    ViewData["PostTypes"] = IconList;
@@ -186,5 +186,22 @@ namespace OneVietnam.Controllers
             return PartialView("_SidenavPost", topListModel);
         }
 
+        [AllowAnonymous]
+        public async Task<JsonResult> GetListOfAPostType(int PostType)
+        {
+            var baseFilter = new BaseFilter { IsNeedPaging = false };
+            var postlist = await PostManager.FindPostsByTypeAsync(baseFilter,PostType).ConfigureAwait(false);
+
+            var list = postlist.Select(p => new AddLocationViewModel
+            {
+                //UserId = p.UserId,
+                X = p.PostLocation.XCoordinate,
+                Y = p.PostLocation.YCoordinate,
+                PostId = p.Id
+                //PostType = p.PostType
+            }).ToList();
+       
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
     }
 }

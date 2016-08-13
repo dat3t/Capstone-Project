@@ -5,7 +5,7 @@ using System.Web;
 
 namespace OneVietnam.Models
 {
-    public class CreateIconModel
+    public class CreateIconViewModel
     {
         public int IconValue { get; set; }
         public string IconText { get; set; }

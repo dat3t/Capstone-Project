@@ -89,10 +89,10 @@ namespace OneVietnam.Controllers
             var roles = await RoleManager.AllRolesAsync();
             var posts = await PostManager.SearchPostMultipleQuery("", DateTimeOffset.Now.Date.AddDays(-7).ToUniversalTime(), DateTimeOffset.Now.Date.AddDays(1).ToUniversalTime(), null);
             var reports = await ReportManager.FindAllAsync();
-            List<ReportViewModal> reportViewList = new List<ReportViewModal>();
+            List<ReportViewModel> reportViewList = new List<ReportViewModel>();
             foreach (var report in reports)
             {
-                ReportViewModal reportView = new ReportViewModal(report);
+                ReportViewModel reportView = new ReportViewModel(report);
                 if (!string.IsNullOrWhiteSpace(report.HandlerId))
                 {
                     var handlerUser = await UserManager.FindByIdAsync(report.HandlerId);
@@ -382,18 +382,18 @@ namespace OneVietnam.Controllers
                     }
                 }
 
-                ReportViewModal viewModal = new ReportViewModal(report);
+                ReportViewModel viewModal = new ReportViewModel(report);
                 return PartialView("../Administration/_ShowReportStatus", viewModal);
             }
             catch
             {
-                ReportViewModal viewModal = new ReportViewModal(report);
+                ReportViewModel viewModal = new ReportViewModel(report);
                 return PartialView("../Administration/_ShowReportStatus", viewModal);
             }
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateIcon(CreateIconModel model)
+        public async Task<ActionResult> CreateIcon(CreateIconViewModel model)
         {
             var icon = new Icon(model);
             await IconManager.CreateAsync(icon);
