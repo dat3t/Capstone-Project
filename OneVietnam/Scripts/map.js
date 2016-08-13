@@ -282,6 +282,7 @@ function loadScript() {
 
 function showCurrentLocation() {
     isSecondTimes = true;
+    currentMarkerClusterer.setMap(null);
     // setMapToAMarkerCluster(null);
     myHomeMarker.setMap(null);
     if (isAuthenticated == true) {
@@ -327,6 +328,7 @@ function showCurrentLocation() {
 
 function showMyLocation() {
     isSecondTimes = true;
+    currentMarkerClusterer.setMap(null);
     //setMapToAMarkerCluster(null);
     myCurrentLocationMarker.setMap(null);
 
@@ -1162,12 +1164,16 @@ function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
     }
 
     if (list.length == 1) {
-        smoothlyCenterPosition(list[0].position);
+        //smoothlyCenterPosition(list[0].position);
+        //map.setCenter(list[0].position);
+        //bounds.extend(list[0].position);
+        //map.fitBounds(bounds);
+        //map.setCenter(list[0].position);
 
     }
     currentMarkerClusterer.addMarkers(list);
     currentMarkerClusterer.setMap(map);
-    currentMarkerClusterer.setMaxZoom(9);
+    currentMarkerClusterer.setMaxZoom(7);
 
     return true;
 }
