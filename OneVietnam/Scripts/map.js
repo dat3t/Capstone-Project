@@ -762,16 +762,18 @@ function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail)
     isClickOnSpiderfier = false;
     isPostFilter = false;
     currentFilter = PostType;
+
+
     // map.setCenter({Lat,Lng});
-    //switch (PostType) {
-    //    case 3: showAccommodation(); break;
-    //    case 4: showJobOffer(); break;
-    //    case 5: showFurnitureOffer(); break;
-    //    case 6: showHandGoodsOffer(); break;
-    //    case 7: showTradeOffer(); break;
-    //    case 8: showSOS(); break;
-    //    case 9: showWarning(); break;
-    //}
+    switch (PostType) {
+        case 3: accommodationEnlarge(); break;
+        case 4: jobEnlarge(); break;
+        case 5: furnitureEnlarge(); break;
+        case 6: handGoodsEnlarge(); break;
+        case 7: tradeEnlarge(); break;
+        case 8: helpEnlarge(); break;
+        case 9: warningEnlarge(); break; 
+    }
 
     if (isCallFromPostDetail != 1) {
         var position = new google.maps.LatLng(Lat, Lng);
