@@ -6,7 +6,7 @@ var myCurrentLocationMarker, myHomeMarker;
 var markerCluster;
 var isClickOnSpiderfier = true;
 var currentFilter = -1
-var isSecondTimes = false;
+var isPostFilter = false;
 var list = [];
 var Type3Icon, Type4Icon, Type5Icon, Type6Icon, Type7Icon, Type8Icon, Type9Icon;
 var UsersIcon, FemaleIcon, MaleIcon, LGBTIcon;
@@ -95,7 +95,7 @@ function initialize() {
     google.maps.event.addListener(map, 'idle', function () {
         bounds = map.getBounds();
 
-        if (map.getZoom() > 5 && isSecondTimes == false) {
+        if (map.getZoom() > 5 && isPostFilter == false) {
             switch (currentFilter) {
                 case -4: showFemales(); break;
                 case -3: showMales(); break;
@@ -217,25 +217,7 @@ function initialize() {
     createListMaleMarkers();
     createListFemaleMarkers();
     createListLGBTMarkers();
-    //createlistType3Markers();
-    //createlistType4Markers();
-    //createlistType5Markers();
-    //createListType6Markers();
-    //createListType7Markers();
-    //createListType8Markers();
-    //createListType9Markers();
-
-    //userMarkerCluster = new MarkerClusterer(map, listUserMarkers);
-    //maleMarkerCluster = new MarkerClusterer(map, listMaleMarkers);
-    //femaleMarkerCluster = new MarkerClusterer(map, listFemaleMarkers);
-    //LGBTMarkerCluster = new MarkerClusterer(map, listLGBTMarkers);
-    //type3MarkerCluster = new MarkerClusterer(map, listType3Markers);
-    //type4MarkerCluster = new MarkerClusterer(map, listType4Markers);
-    //type5MarkerCluster = new MarkerClusterer(map, listType5Markers);
-    //type6MarkerCluster = new MarkerClusterer(map, listType6Markers);
-    //type7MarkerCluster = new MarkerClusterer(map, listType7Markers);
-    //type8MarkerCluster = new MarkerClusterer(map, listType8Markers);
-    //type9MarkerCluster = new MarkerClusterer(map, listType9Markers);
+  
     currentMarkerClusterer = new MarkerClusterer(map, list);
     //Init user makers first load
     //userMarkerCluster.setMaxZoom(9);
@@ -281,7 +263,7 @@ function loadScript() {
 }
 
 function showCurrentLocation() {
-    isSecondTimes = true;
+    isPostFilter = true;
     currentMarkerClusterer.setMap(null);
     // setMapToAMarkerCluster(null);
     myHomeMarker.setMap(null);
@@ -327,7 +309,7 @@ function showCurrentLocation() {
 }
 
 function showMyLocation() {
-    isSecondTimes = true;
+    isPostFilter = true;
     currentMarkerClusterer.setMap(null);
     //setMapToAMarkerCluster(null);
     myCurrentLocationMarker.setMap(null);
@@ -370,27 +352,8 @@ function showFemales() {
 }
 
 function showAccommodation() {
-    //if (postType3.length == 0) {
-    //    $.ajax({
-    //        url: '/Map/GetListOfAPostType?PostType=' + 3,
-    //        type: 'GET',
-    //        dataType: 'json',
-    //        success: function (result) {
-    //                for(var i=0;i<result.length;i++){
-    //                    postType3.push({ postID: result[i].PostId, x: result[i].X, y: result[i].Y });
-    //                }
-    //                createlistType3Markers();
-    //                showMarkersOnMap(postType3, 3, listType3Markers);
-    //        },
-    //        error: function (xhr, status, error) {
-    //            alert(xhr.responseText);
-    //        }
-    //    });
-    //} else {
-    //    showMarkersOnMap(postType3, 3, listType3Markers);
-    //}
+   
     loadByAjax(postType3, 3);
-
 
 }
 
@@ -606,7 +569,7 @@ function showMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNu
 
     currentFilter = currentFilterNumber;
 
-    isSecondTimes = true;
+    isPostFilter = true;
     if (checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter) == false) {
         var pos = calculateNearestMarker(postTypeNumber);
         if (pos) {
@@ -622,7 +585,7 @@ function showMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNu
     }
 
     setTimeout(function () {
-        isSecondTimes = false;
+        isPostFilter = false;
     }, 700);
 
 }
@@ -797,6 +760,7 @@ function getPostInfo(postID) {
 
 function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail) {
     isClickOnSpiderfier = false;
+    isPostFilter = false;
     currentFilter = PostType;
     // map.setCenter({Lat,Lng});
     //switch (PostType) {
