@@ -1,9 +1,6 @@
 ﻿var listMarkers = [];
 var map;
 var bounds;
-var userInfoWindow;
-var infowindow;
-var infowindowContent;
 var isFirstTime = true;
 var myCurrentLocationMarker, myHomeMarker;
 var markerCluster;
@@ -99,7 +96,6 @@ function initialize() {
         bounds = map.getBounds();
 
         if (map.getZoom() > 5 && isSecondTimes == false) {
-
             switch (currentFilter) {
                 case -4: showFemales(); break;
                 case -3: showMales(); break;
@@ -117,6 +113,13 @@ function initialize() {
                 case 9: showWarning(); break;
             }
         }
+        setTimeout(function () {
+            var cnt = map.getCenter();
+            cnt.e += 0.000001;
+            map.panTo(cnt);
+            cnt.e -= 0.000001;
+            map.panTo(cnt);
+        }, 400);
     });
 
     //Delcare overlapping, markerClusterer
@@ -265,13 +268,7 @@ function initialize() {
     });
 
     google.maps.event.addListener(map, 'zoom_changed', function () {
-        setTimeout(function () {
-            var cnt = map.getCenter();
-            cnt.e += 0.000001;
-            map.panTo(cnt);
-            cnt.e -= 0.000001;
-            map.panTo(cnt);
-        }, 400);
+     
     });
 
 }
@@ -350,149 +347,26 @@ function showMyLocation() {
     // map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
 }
 
-function setMapToAMarkerCluster() {
-
-    //userMarkerCluster.setMap(null);
-    //maleMarkerCluster.setMap(null);
-    //femaleMarkerCluster.setMap(null);
-    //LGBTMarkerCluster.setMap(null);
-    //type3MarkerCluster.setMap(null);
-    //type4MarkerCluster.setMap(null);
-    //type5MarkerCluster.setMap(null);
-    //type6MarkerCluster.setMap(null);
-    //type7MarkerCluster.setMap(null);
-    //type8MarkerCluster.setMap(null);
-    //type9MarkerCluster.setMap(null);
-    //myCurrentLocationMarker.setMap(null);
-    //myHomeMarker.setMap(null);
-
-    //if (markerCluster != null) {
-    //    markerCluster.setMap(map);
-    //}
-}
-
-function calculateNearestMarker(listLocation) {
-
-    //bounds = map.getBounds();
-    var centerOfCurrentBound = bounds.getCenter();
-    if (listLocation.length > 0) {
-        var position = new google.maps.LatLng(listLocation[0].x, listLocation[0].y);
-        var min = getDistance(centerOfCurrentBound, position);
-        var length = listLocation.length;
-        for (var i = 1; i < length; i++) {
-            var position2 = new google.maps.LatLng(listLocation[i].x, listLocation[i].y);
-            var distance2 = getDistance(centerOfCurrentBound, position2)
-            if (min > distance2) {
-                min = distance2;
-                position = position2;
-            }
-        }
-        return position;
-    }
-}
-
 function showUsers() {
-    ////isSecondTimes = true;
-    ////setMapToAMarkerCluster(userMarkerCluster);
-    //showAlertNoUser(allUsers);
-
-    //if (isFirstTime == false) {
-    //    var pos = calculateNearestMarker(allUsers);
-    //    checkIfBoundContainPosition(pos);
-    //}
-    //isFirstTime = false;
+   
     showMarkersOnMap(allUsers, -1, listUserMarkers);
 }
 
 function showLGBT() {
-    //setMapToAMarkerCluster(LGBTMarkerCluster);
-    //showAlertNoUser(LGBT);
-    //LGBTMarkerCluster.setMaxZoom(9);
-    //var pos = calculateNearestMarker(LGBT);
-    //checkIfBoundContainPosition(pos);
+    
     showMarkersOnMap(LGBT, -2, listLGBTMarkers);
 }
 
 function showMales() {
-    //setMapToAMarkerCluster(maleMarkerCluster);
-    //showAlertNoUser(males);
-    //maleMarkerCluster.setMaxZoom(9);
-    //var pos = calculateNearestMarker(males);
-    //checkIfBoundContainPosition(pos);
+
     showMarkersOnMap(males, -3, listMaleMarkers);
 }
 
 function showFemales() {
-    //setMapToAMarkerCluster(femaleMarkerCluster);
-    //showAlertNoUser(females);
-    //femaleMarkerCluster.setMaxZoom(9);
-    //var pos = calculateNearestMarker(females);
-    //checkIfBoundContainPosition(pos);
+   
     showMarkersOnMap(females, -4, listFemaleMarkers);
 }
 
-var isNoPostNoUser = false;
-function showMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNumber) {
-
-    currentFilter = currentFilterNumber;
-
-    isSecondTimes = true;
-    if (checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter) == false) {
-        var pos = calculateNearestMarker(postTypeNumber);
-        if (pos) {
-            // smoothlyCenterPosition(pos);
-            checkIfBoundContainPosition(pos);
-            //  map.setCenter(pos);
-            //  map.setCenter(13);
-            setTimeout(function () {
-                checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter);
-
-            }, 200);
-        }
-    }
-
-    setTimeout(function () {
-        isSecondTimes = false;
-    }, 500);
-
-}
-
-function loadByAjax(postTypeList, postTypeNumber) {
-    if (postTypeList.length == 0) {
-        $.ajax({
-            url: '/Map/GetListOfAPostType?PostType=' + postTypeNumber,
-            type: 'GET',
-            dataType: 'json',
-            success: function (result) {
-                for (var i = 0; i < result.length; i++) {
-                    postTypeList.push({ postID: result[i].PostId, x: result[i].X, y: result[i].Y });
-                }
-                switch (postTypeNumber) {
-                    case 3: createlistType3Markers(); showMarkersOnMap(postType3, 3, listType3Markers); break;
-                    case 4: createlistType4Markers(); showMarkersOnMap(postType4, 4, listType4Markers); break;
-                    case 5: createlistType5Markers(); showMarkersOnMap(postType5, 5, listType5Markers); break;
-                    case 6: createListType6Markers(); showMarkersOnMap(postType6, 6, listType6Markers); break;
-                    case 7: createListType7Markers(); showMarkersOnMap(postType7, 7, listType7Markers); break;
-                    case 8: createListType8Markers(); showMarkersOnMap(postType8, 8, listType8Markers); break;
-                    case 9: createListType9Markers(); showMarkersOnMap(postType9, 9, listType9Markers); break;
-                }
-            },
-            error: function (xhr, status, error) {
-                alert(xhr.responseText);
-            }
-        });
-    } else {
-        switch (postTypeNumber) {
-            case 3: showMarkersOnMap(postType3, 3, listType3Markers); break;
-            case 4: showMarkersOnMap(postType4, 4, listType4Markers); break;
-            case 5: showMarkersOnMap(postType5, 5, listType5Markers); break;
-            case 6: showMarkersOnMap(postType6, 6, listType6Markers); break;
-            case 7: showMarkersOnMap(postType7, 7, listType7Markers); break;
-            case 8: showMarkersOnMap(postType8, 8, listType8Markers); break;
-            case 9: showMarkersOnMap(postType9, 9, listType9Markers); break;
-        }
-    }
-}
 function showAccommodation() {
     //if (postType3.length == 0) {
     //    $.ajax({
@@ -516,61 +390,6 @@ function showAccommodation() {
     loadByAjax(postType3, 3);
 
 
-}
-
-
-function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
-
-    currentMarkerClusterer.removeMarkers(list);
-    var currentListLength = list.length;
-
-    for (var i = 0; i < currentListLength; i++) {
-        list[i].setMap(null);
-    }
-
-    while (list.length != 0) {
-        list.pop();
-
-    }
-    var length = listMarker.length;
-
-    for (var i = 0; i < length; i++) {
-        if (map.getBounds().contains(listMarker[i].position) == true) {
-            //  listMarker[i].setMap(map);
-            list.push(listMarker[i]);
-
-        }
-    }
-    if (list.length == 0) {
-        if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
-            if (listMarker.length == 0) {
-                $("#userEmptyAlertModal").modal('show');
-            }
-            else {
-                //  $("#nearestUserAlertModal").modal('show');
-
-            }
-        } else {
-            if (listMarker.length == 0) {
-                $("#postEmptyAlertModal").modal('show');
-            } else {
-                //  $("#nearestPostAlertModal").modal('show');
-
-            }
-        }
-        return false;
-
-    }
-    for (var i = 0; i < list.length; i++) {
-        list[i].setMap(map);
-    }
-
-    currentMarkerClusterer.addMarkers(list);
-    currentMarkerClusterer.setMap(map);
-    currentMarkerClusterer.setMaxZoom(9);
-    setMapToAMarkerCluster();
-
-    return true;
 }
 
 
@@ -603,18 +422,6 @@ function showSOS() {
 function showWarning() {
     //showMarkersOnMap(postType9, 9, listType9Markers);
     loadByAjax(postType9, 9);
-}
-
-function showAlertNoPost(postTypeArray) {
-    if (postTypeArray.length == 0) {
-        $("#postEmptyAlertModal").modal('show');
-    }
-}
-
-function showAlertNoUser(postTypeArray) {
-    if (postTypeArray.length == 0) {
-        $("#userEmptyAlertModal").modal('show');
-    }
 }
 
 function createListUserMarkers() {
@@ -1013,6 +820,67 @@ function createListType9Markers() {
 
 }
 
+function showMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNumber) {
+
+    currentFilter = currentFilterNumber;
+
+    isSecondTimes = true;
+    if (checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter) == false) {
+        var pos = calculateNearestMarker(postTypeNumber);
+        if (pos) {
+            // smoothlyCenterPosition(pos);
+           checkIfBoundContainPosition(pos);
+              //map.setCenter(pos);
+              //map.setCenter(13);
+            setTimeout(function () {
+                checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter);
+
+            }, 300);
+        }
+    }
+
+    setTimeout(function () {
+        isSecondTimes = false;
+    }, 700);
+
+}
+
+function loadByAjax(postTypeList, postTypeNumber) {
+    if (postTypeList.length == 0) {
+        $.ajax({
+            url: '/Map/GetListOfAPostType?PostType=' + postTypeNumber,
+            type: 'GET',
+            dataType: 'json',
+            success: function (result) {
+                for (var i = 0; i < result.length; i++) {
+                    postTypeList.push({ postID: result[i].PostId, x: result[i].X, y: result[i].Y });
+                }
+                switch (postTypeNumber) {
+                    case 3: createlistType3Markers(); showMarkersOnMap(postType3, 3, listType3Markers); break;
+                    case 4: createlistType4Markers(); showMarkersOnMap(postType4, 4, listType4Markers); break;
+                    case 5: createlistType5Markers(); showMarkersOnMap(postType5, 5, listType5Markers); break;
+                    case 6: createListType6Markers(); showMarkersOnMap(postType6, 6, listType6Markers); break;
+                    case 7: createListType7Markers(); showMarkersOnMap(postType7, 7, listType7Markers); break;
+                    case 8: createListType8Markers(); showMarkersOnMap(postType8, 8, listType8Markers); break;
+                    case 9: createListType9Markers(); showMarkersOnMap(postType9, 9, listType9Markers); break;
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        });
+    } else {
+        switch (postTypeNumber) {
+            case 3: showMarkersOnMap(postType3, 3, listType3Markers); break;
+            case 4: showMarkersOnMap(postType4, 4, listType4Markers); break;
+            case 5: showMarkersOnMap(postType5, 5, listType5Markers); break;
+            case 6: showMarkersOnMap(postType6, 6, listType6Markers); break;
+            case 7: showMarkersOnMap(postType7, 7, listType7Markers); break;
+            case 8: showMarkersOnMap(postType8, 8, listType8Markers); break;
+            case 9: showMarkersOnMap(postType9, 9, listType9Markers); break;
+        }
+    }
+}
 function handleLocationError(browserHasGeolocation, message, pos) {
     alert(message);
 }
@@ -1104,7 +972,7 @@ function getPostInfo(postID) {
                     }).modal({
                         duration: 400,
                         onShow: function () {
-                            history.pushState(null, null, "/Newsfeed/ShowPost/" + postID);
+                        //    history.pushState(null, null, "/Newsfeed/ShowPost/" + postID);
                         }
                     }).modal('show')
                     ;
@@ -1161,7 +1029,9 @@ function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail)
 
     if (isCallFromPostDetail != 1) {
         var position = new google.maps.LatLng(Lat, Lng);
-        checkIfBoundContainPosition(position);
+        map.setZoom(14);
+        map.setCenter(position);
+        //checkIfBoundContainPosition(position);
         setTimeout(function () {
 
             getPostInfo(PostId);
@@ -1215,14 +1085,105 @@ function checkIfBoundContainPosition(pos) {
         map.fitBounds(bounds);
         map.setCenter(pos);
         setTimeout(function () {
-            smoothZoom(this.map, 13, map.getZoom());
-        }, 500);
+            // smoothZoom(this.map, 13, map.getZoom());
+            smoothlyCenterPosition(pos);
+        }, 1000);
     }
     else {
         //   map.fitBounds(map.getBounds());
         smoothlyCenterPosition(pos);
     }
 }
+
+function calculateNearestMarker(listLocation) {
+
+    //bounds = map.getBounds();
+    var centerOfCurrentBound = bounds.getCenter();
+    if (listLocation.length > 0) {
+        var position = new google.maps.LatLng(listLocation[0].x, listLocation[0].y);
+        var min = getDistance(centerOfCurrentBound, position);
+        var length = listLocation.length;
+        for (var i = 1; i < length; i++) {
+            var position2 = new google.maps.LatLng(listLocation[i].x, listLocation[i].y);
+            var distance2 = getDistance(centerOfCurrentBound, position2)
+            if (min > distance2) {
+                min = distance2;
+                position = position2;
+            }
+        }
+        return position;
+    }
+}
+
+function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
+
+    currentMarkerClusterer.removeMarkers(list);
+    var currentListLength = list.length;
+
+    for (var i = 0; i < currentListLength; i++) {
+        list[i].setMap(null);
+    }
+
+    while (list.length != 0) {
+        list.pop();
+
+    }
+    var length = listMarker.length;
+
+    for (var i = 0; i < length; i++) {
+        if (map.getBounds().contains(listMarker[i].position) == true) {
+            //  listMarker[i].setMap(map);
+            list.push(listMarker[i]);
+
+        }
+    }
+    if (list.length == 0) {
+        if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
+            if (listMarker.length == 0) {
+                $("#userEmptyAlertModal").modal('show');
+            }
+            else {
+                //  $("#nearestUserAlertModal").modal('show');
+
+            }
+        } else {
+            if (listMarker.length == 0) {
+                $("#postEmptyAlertModal").modal('show');
+            } else {
+                //  $("#nearestPostAlertModal").modal('show');
+
+            }
+        }
+        return false;
+
+    }
+    for (var i = 0; i < list.length; i++) {
+        list[i].setMap(map);
+    }
+
+    if (list.length == 1) {
+        smoothlyCenterPosition(list[0].position);
+
+    }
+    currentMarkerClusterer.addMarkers(list);
+    currentMarkerClusterer.setMap(map);
+    currentMarkerClusterer.setMaxZoom(9);
+
+    return true;
+}
+
+function showAlertNoPost(postTypeArray) {
+    if (postTypeArray.length == 0) {
+        $("#postEmptyAlertModal").modal('show');
+    }
+}
+
+function showAlertNoUser(postTypeArray) {
+    if (postTypeArray.length == 0) {
+        $("#userEmptyAlertModal").modal('show');
+    }
+}
+
 function hideModel() {
     $("#userModal").modal('hide');
 }
