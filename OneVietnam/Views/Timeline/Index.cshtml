@@ -1,5 +1,6 @@
 ﻿
 @using Microsoft.AspNet.Identity
+@using OneVietnam.Models
 @model OneVietnam.Models.TimelineViewModel
 @{
     ViewBag.Title = "Index";
@@ -42,8 +43,8 @@
             <div id="avatarUpload" class="hides">
                 @using (Html.BeginForm("ChangeAvatar", "Timeline", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "uploader" }))
                 {
-                <input type="file" id="fileInput" name="fileInput" onchange="submitAvatar()" />
-                <input type="submit" id="btnUpload" name="btnUpload" />
+                    <input type="file" id="fileInput" name="fileInput" onchange="submitAvatar()" />
+                    <input type="submit" id="btnUpload" name="btnUpload" />
                 }
             </div>
             <script>
@@ -61,8 +62,8 @@
             <div id="coverUpload" class="hides">
                 @using (Html.BeginForm("ChangeCover", "Timeline", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "uploads" }))
                 {
-                <input type="file" id="fileInputs" name="fileInput" onchange="submitCover()" />
-                <input type="submit" id="btnUploads" name="btnUploads" />
+                    <input type="file" id="fileInputs" name="fileInput" onchange="submitCover()" />
+                    <input type="submit" id="btnUploads" name="btnUploads" />
                 }
             </div>
             <script>
@@ -128,19 +129,32 @@
                         {
 
                             <div class="right menu">
-                                
+
                                 <div class="ui icon top pointing dropdown">
                                     <i class="large grey setting icon"></i>
                                     <div class="menu">
-                                        <div class="item"><a href="javascript: register_popup('@Model.Id','@Model.UserName','@Model.AvatarLink')" style="text-decoration: none">
+                                        <div class="item">
+                                            <a href="javascript: register_popup('@Model.Id','@Model.UserName','@Model.AvatarLink')" style="text-decoration: none">
                                                 Nhắn tin
                                             </a>
                                         </div>
-                                        <div class="item">Báo cáo</div>
-
+                                        <div class="item" id="reportUser">Báo cáo</div>                                                                                                                       
                                     </div>
                                 </div>
-
+                                <div id="ShowReportUser">
+                                    @Html.Partial("../Timeline/_ReportUser", new ReportViewModel(Model.Id));
+                                    <script>
+                                            $("#reportUser")
+                                              .click(function () {
+                                                  $('.small.modal').modal({
+                                                      allowMultiple: false
+                                                  });
+                                                  $('.second.modal').modal('attach events', '.report.modal .green.button')
+                                                  ;
+                                                  $('.report.modal').modal('show');
+                                              });
+                                    </script>
+                                </div>
                             </div>
                         }
                     }
@@ -186,7 +200,7 @@
                         </div>
                     </div>
                     <p> </p>
-                    
+
                     @{
                         if (Model.PostList != null && Model.PostList.Count > 0)
                         {
@@ -202,7 +216,7 @@
                                     }
                                 </div>
                             </div>
-                        }
+                                        }
                     }
                 </div>
                 <div class="ui tab" data-tab="profile" id="mapTab">
@@ -308,9 +322,9 @@
                                     }
 <script src="~/Scripts/infiniteScroll.js"></script>
 <script type="text/javascript">
-        var forLoad = $(".ui.link.cards");
-        var grid = $(".grids");
-      
-        var moreRowsUrl = '@Url.Action("Index","Timeline")';
-        $(window).scroll(scrollHandler);
+    var forLoad = $(".ui.link.cards");
+    var grid = $(".grids");
+
+    var moreRowsUrl = '@Url.Action("Index","Timeline")';
+    $(window).scroll(scrollHandler);
 </script>

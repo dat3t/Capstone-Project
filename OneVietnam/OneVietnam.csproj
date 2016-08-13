@@ -574,6 +574,7 @@
     <Content Include="Views\Administration\_CreateIcon.cshtml" />
     <Content Include="Views\Search\_userResult.cshtml" />
     <Content Include="Views\Shared\_userRow.cshtml" />
+    <Content Include="Views\Timeline\_ReportUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

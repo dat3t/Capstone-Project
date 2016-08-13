@@ -62,7 +62,10 @@ namespace OneVietnam.DTL
         {
             Id = ObjectId.GenerateNewId().ToString();
             UserId = pReport.UserId;
-            PostId = pReport.PostId;
+            if (!string.IsNullOrWhiteSpace(pReport.PostId))
+            {
+                PostId = pReport.PostId;
+            }            
             ReportDescription = pReport.ReportDescription;
             Status = ReportStatus.Open.ToString();
             DeletedFlag = false;
