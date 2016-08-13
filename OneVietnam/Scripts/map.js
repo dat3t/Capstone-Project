@@ -268,7 +268,7 @@ function initialize() {
     });
 
     google.maps.event.addListener(map, 'zoom_changed', function () {
-     
+
     });
 
 }
@@ -350,12 +350,12 @@ function showMyLocation() {
 }
 
 function showUsers() {
-   
+
     showMarkersOnMap(allUsers, -1, listUserMarkers);
 }
 
 function showLGBT() {
-    
+
     showMarkersOnMap(LGBT, -2, listLGBTMarkers);
 }
 
@@ -365,7 +365,7 @@ function showMales() {
 }
 
 function showFemales() {
-   
+
     showMarkersOnMap(females, -4, listFemaleMarkers);
 }
 
@@ -566,257 +566,37 @@ function createListLGBTMarkers() {
     });
 }
 
-function createlistType3Markers() {
-
-    var length = postType3.length;
+function createListPostMarker(positionList, listTypeMarker, overlappingType, TypeIcon) {
+    var length = positionList.length;
 
     for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType3[i].x, postType3[i].y);
+        var position = new google.maps.LatLng(positionList[i].x, positionList[i].y);
         //bounds.extend(position);
         marker = new google.maps.Marker({
             position: position,
             map: null,
             optimized: false,
             title: "Nhấp để xem chi tiết",
-            icon: Type3Icon
+            icon: TypeIcon
         });
-        listType3Markers.push(marker);
+        listTypeMarker.push(marker);
 
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 setTimeout(function () {
-                    getPostInfo(postType3[i].postID);
+                    getPostInfo(positionList[i].postID);
                 }, 100);
             }
         })(marker, i));
 
-        overlappingType3.addMarker(marker);
+        overlappingType.addMarker(marker);
     }
 
-    overlappingType3.addListener('click', function (marker) {
+    overlappingType.addListener('click', function (marker) {
         isClickOnSpiderfier = false;
     });
-    overlappingType3.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-}
-
-function createlistType4Markers() {
-   
-    var length = postType4.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType4[i].x, postType4[i].y);
-       // bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            title: "Nhấp để xem chi tiết",
-            icon: Type4Icon
-        });
-        listType4Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType4[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType4.addMarker(marker);
-    }
-    +
-    overlappingType4.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType4.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-    //  alert(listType4Markers[0].getTitle());
-
-}
-
-function createlistType5Markers() {
-   
-    var length = postType5.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType5[i].x, postType5[i].y);
-      //  bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            title: "Nhấp để xem chi tiết",
-            icon: Type5Icon
-        });
-        listType5Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType5[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType5.addMarker(marker);
-    }
-    +
-    overlappingType5.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType5.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-
-}
-
-function createListType6Markers() {
-   
-    var length = postType6.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType6[i].x, postType6[i].y);
-       // bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            title: "Nhấp để xem chi tiết",
-            icon: Type6Icon
-        });
-        listType6Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType6[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType6.addMarker(marker);
-    }
-    +
-    overlappingType6.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType6.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-
-}
-
-function createListType7Markers() {
-   
-    var length = postType7.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType7[i].x, postType7[i].y);
-      //  bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            icon: Type7Icon
-        });
-        listType7Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType7[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType7.addMarker(marker);
-    }
-    +
-    overlappingType7.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType7.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-
-}
-
-function createListType8Markers() {
-   
-    var length = postType8.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType8[i].x, postType8[i].y);
-      //  bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            icon: Type8Icon
-        });
-        listType8Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType8[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType8.addMarker(marker);
-    }
-    +
-    overlappingType8.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType8.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-}
-
-function createListType9Markers() {
-
-    var length = postType9.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType9[i].x, postType9[i].y);
-     //   bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            //title: postType1[i].address,
-            icon: Type9Icon
-        });
-        listType9Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType9[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType9.addMarker(marker);
-    }
-    +
-    overlappingType9.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType9.addListener('spiderfy', function (markers) {
+    overlappingType.addListener('spiderfy', function (markers) {
         isClickOnSpiderfier = true;
     });
 
@@ -831,9 +611,9 @@ function showMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNu
         var pos = calculateNearestMarker(postTypeNumber);
         if (pos) {
             // smoothlyCenterPosition(pos);
-           checkIfBoundContainPosition(pos);
-              //map.setCenter(pos);
-              //map.setCenter(13);
+            checkIfBoundContainPosition(pos);
+            //map.setCenter(pos);
+            //map.setCenter(13);
             setTimeout(function () {
                 checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter);
 
@@ -858,13 +638,13 @@ function loadByAjax(postTypeList, postTypeNumber) {
                     postTypeList.push({ postID: result[i].PostId, x: result[i].X, y: result[i].Y });
                 }
                 switch (postTypeNumber) {
-                    case 3: createlistType3Markers(); showMarkersOnMap(postType3, 3, listType3Markers); break;
-                    case 4: createlistType4Markers(); showMarkersOnMap(postType4, 4, listType4Markers); break;
-                    case 5: createlistType5Markers(); showMarkersOnMap(postType5, 5, listType5Markers); break;
-                    case 6: createListType6Markers(); showMarkersOnMap(postType6, 6, listType6Markers); break;
-                    case 7: createListType7Markers(); showMarkersOnMap(postType7, 7, listType7Markers); break;
-                    case 8: createListType8Markers(); showMarkersOnMap(postType8, 8, listType8Markers); break;
-                    case 9: createListType9Markers(); showMarkersOnMap(postType9, 9, listType9Markers); break;
+                    case 3: createListPostMarker(postTypeList, listType3Markers, overlappingType3, Type3Icon); showMarkersOnMap(postType3, 3, listType3Markers); break;
+                    case 4: createListPostMarker(postTypeList, listType4Markers, overlappingType4, Type4Icon); showMarkersOnMap(postType4, 4, listType4Markers); break;
+                    case 5: createListPostMarker(postTypeList, listType5Markers, overlappingType5, Type5Icon); showMarkersOnMap(postType5, 5, listType5Markers); break;
+                    case 6: createListPostMarker(postTypeList, listType6Markers, overlappingType6, Type6Icon); showMarkersOnMap(postType6, 6, listType6Markers); break;
+                    case 7: createListPostMarker(postTypeList, listType7Markers, overlappingType7, Type7Icon); showMarkersOnMap(postType7, 7, listType7Markers); break;
+                    case 8: createListPostMarker(postTypeList, listType8Markers, overlappingType8, Type8Icon); showMarkersOnMap(postType8, 8, listType8Markers); break;
+                    case 9: createListPostMarker(postTypeList, listType9Markers, overlappingType9, Type9Icon); showMarkersOnMap(postType9, 9, listType9Markers); break;
                 }
             },
             error: function (xhr, status, error) {
@@ -974,7 +754,7 @@ function getPostInfo(postID) {
                     }).modal({
                         duration: 400,
                         onShow: function () {
-                        //    history.pushState(null, null, "/Newsfeed/ShowPost/" + postID);
+                            //    history.pushState(null, null, "/Newsfeed/ShowPost/" + postID);
                         }
                     }).modal('show')
                     ;
