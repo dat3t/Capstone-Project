@@ -57,6 +57,11 @@ namespace OneVietnam.Models
             UserId = pUserId;            
         }
 
+        public ReportViewModel(string pUserId)
+        {
+            UserId = pUserId;
+        }
+
         public ReportViewModel(Report pReport)
         {
             Id = pReport.Id;
