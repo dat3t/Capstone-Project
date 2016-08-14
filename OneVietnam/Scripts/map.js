@@ -932,7 +932,7 @@ function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
         //map.setCenter(list[0].position);
         //bounds.extend(list[0].position);
         //map.fitBounds(bounds);
-        //map.setCenter(list[0].position);
+        map.setCenter(list[0].position);
 
     }
     currentMarkerClusterer.addMarkers(list);
