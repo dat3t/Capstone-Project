@@ -850,6 +850,7 @@ function checkIfBoundContainPosition(pos) {
         bounds.extend(pos);
         map.fitBounds(bounds);
         map.setCenter(pos);
+      
         setTimeout(function () {
             // smoothZoom(this.map, 13, map.getZoom());
             smoothlyCenterPosition(pos);
@@ -936,7 +937,7 @@ function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
     }
     currentMarkerClusterer.addMarkers(list);
     currentMarkerClusterer.setMap(map);
-    currentMarkerClusterer.setMaxZoom(7);
+    currentMarkerClusterer.setMaxZoom(8);
 
     return true;
 }
