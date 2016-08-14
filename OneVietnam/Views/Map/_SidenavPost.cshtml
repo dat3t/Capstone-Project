@@ -126,7 +126,7 @@ else
 
 @*onclick="location.href='@Url.Action("_ShowPostDetail", "Post", new { postId = @post.postId })'*@
 <script>
-    if(page !=1 ){
+    if (page != 1) {
         var node = document.getElementById('alertNoPost');
         node.innerHTML = '<p>Hiện tại không có bài viết nào!</p>';
     }

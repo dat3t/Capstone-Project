@@ -17,9 +17,9 @@ var listUserMarkers = [], listMaleMarkers = [], listFemaleMarkers = [], listLGBT
 
 var listType3Markers = [], listType4Markers = [], listType5Markers = [], listType6Markers = [], listType7Markers = [], listType8Markers = [], listType9Markers = [];
 
-var userMarkerCluster = [], maleMarkerCluster = [], femaleMarkerCluster = [], LGBTMarkerCluster = [];
+//var userMarkerCluster = [], maleMarkerCluster = [], femaleMarkerCluster = [], LGBTMarkerCluster = [];
 
-var type3MarkerCluster = [], type4MarkerCluster = [], type5MarkerCluster = [], type6MarkerCluster = [], type7MarkerCluster = [], type8MarkerCluster = [], type9MarkerCluster = [];
+//var type3MarkerCluster = [], type4MarkerCluster = [], type5MarkerCluster = [], type6MarkerCluster = [], type7MarkerCluster = [], type8MarkerCluster = [], type9MarkerCluster = [];
 
 var overlappingType3 = [], overlappingType4 = [], overlappingType5 = [], overlappingType6 = [], overlappingType7 = [], overlappingType8 = [], overlappingType9 = [];
 

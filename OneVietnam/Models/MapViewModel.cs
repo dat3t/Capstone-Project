@@ -6,7 +6,7 @@ using System.Web;
 
 namespace OneVietnam.Models
 {
-    public class AddLocationViewModel
+    public class MapViewModel
     {
         public double X { get; set; }
         public double Y { get; set; }        
