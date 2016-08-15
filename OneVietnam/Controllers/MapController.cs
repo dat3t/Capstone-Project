@@ -29,6 +29,7 @@ namespace OneVietnam.Controllers
                 _userManager = value;
             }
         }
+
         private PostManager _postManager;
         public PostManager PostManager
         {
@@ -40,11 +41,11 @@ namespace OneVietnam.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<ActionResult> ShowMap(double? XCoordinate, double? YCoordinate, int? PostType, string postId = "")
+        public async Task<ActionResult> ShowMap(double? XCoordinate, double? YCoordinate, int? postType, string postId = "")
         {
             ViewBag.XCoordinate = XCoordinate;
             ViewBag.YCoordinate = YCoordinate;
-            ViewBag.PostType = PostType;
+            ViewBag.PostType = postType;
             ViewBag.PostId = postId;
 
             var userslist = await UserManager.AllUsersAsync().ConfigureAwait(false);
@@ -87,7 +88,7 @@ namespace OneVietnam.Controllers
 
         //[HttpPost] // can be HttpGet
         [AllowAnonymous]
-        public async Task<ActionResult> GetUserInfo(string userId)
+        public async Task<JsonResult> GetUserInfo(string userId)
         {
             var user = await UserManager.FindByIdAsync(userId).ConfigureAwait(false);
             return Json(user, JsonRequestBehavior.AllowGet);
@@ -100,6 +101,7 @@ namespace OneVietnam.Controllers
             var user = await UserManager.FindByIdAsync(userId);
             return Json(user.Location ?? null, JsonRequestBehavior.AllowGet);
         }
+
         [AllowAnonymous]
         public async Task<ActionResult> GetPostPartialView(string postId)
         {
@@ -157,10 +159,10 @@ namespace OneVietnam.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<JsonResult> GetListOfAPostType(int PostType)
+        public async Task<JsonResult> GetListOfAPostType(int postType)
         {
             var baseFilter = new BaseFilter { IsNeedPaging = false };
-            var postlist = await PostManager.FindPostsByTypeAsync(baseFilter,PostType).ConfigureAwait(false);
+            var postlist = await PostManager.FindPostsByTypeAsync(baseFilter,postType).ConfigureAwait(false);
 
             var list = postlist.Select(p => new MapViewModel
             {
