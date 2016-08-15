@@ -40,7 +40,7 @@
             <!-- Users Managament -->
                     <div class="ui tab active" data-tab="users">
                         <!-- Users Search Box -->
-                        @using (Ajax.BeginForm("SearchUserMultipleQuery", "Search", null, new AjaxOptions
+                        @using (Ajax.BeginForm("SearchUserMultipleQuery", "Administration", null, new AjaxOptions
                         {
                             HttpMethod = "POST",
                             InsertionMode = InsertionMode.Replace,
@@ -138,7 +138,7 @@
                     <div style="padding-top: 1rem">
 
                         <!-- Admin Post Search Box -->
-                        @using (Ajax.BeginForm("SearchPostMultipleQuery", "Search", null, new AjaxOptions
+                        @using (Ajax.BeginForm("SearchPostMultipleQuery", "Administration", null, new AjaxOptions
                         {
                             HttpMethod = "POST",
                             InsertionMode = InsertionMode.Replace,
@@ -206,7 +206,7 @@
                 <!-- Reports Managament -->
                 <div class="ui tab" data-tab="reports">
                     <!-- Users Search Box -->
-                    @using (Ajax.BeginForm("SearchReportMultipleQuery", "Search", null, new AjaxOptions
+                    @using (Ajax.BeginForm("SearchReportMultipleQuery", "Administration", null, new AjaxOptions
                     {
                         HttpMethod = "POST",
                         InsertionMode = InsertionMode.Replace,
