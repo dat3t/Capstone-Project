@@ -6,22 +6,23 @@
 {
     HttpMethod = "POST",
     InsertionMode = InsertionMode.Replace,
-    UpdateTargetId = "Role_" + Model.Id
+    UpdateTargetId = "Role_" + Model.Id 
 }))
 {
     if (Model?.Role != null)
     {
         <div style="width: 100%; text-align: left;">
-            <div class="ui content">
-                <i class="link remove icon" style="float: right" onclick="submitRemoveRole()"></i>@Model.Role                
-            </div>
             @{
-                string btnId = "btnRemoveRole" + Model.Role;
+                string btnId = "btnRemoveRole" + Model.Id + Model.Role;
             }
+            <div class="ui content">
+                <i class="link remove icon" style="float: right" onclick="submitRemoveRole('@btnId')"></i>@Model.Role
+            </div>
+
             <input class="ui small button" style="display: none" id="@btnId" value="Xóa" type="submit">
             <script>
-                function submitRemoveRole() {
-                    $("#btnRemoveRole" + "@Model.Role").click();
+                function submitRemoveRole(btnId) {
+                    $("#"+ btnId).click();
                 }
             </script>
         </div>
