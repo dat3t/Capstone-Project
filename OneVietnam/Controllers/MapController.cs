@@ -39,24 +39,6 @@ namespace OneVietnam.Controllers
             private set { _postManager = value; }
         }
 
-        private IconManager _iconManager;
-        public IconManager IconManager
-        {
-            get
-            {
-                return _iconManager ?? HttpContext.GetOwinContext().Get<IconManager>();
-            }
-            private set { _iconManager = value; }
-        }
-
-        //public List<Icon> IconList
-        //{
-        //    get
-        //    {
-        //        var icons = IconManager.GetIconPostAsync();
-        //        return icons;
-        //    }
-        //}
         [AllowAnonymous]
         public async Task<ActionResult> ShowMap(double? XCoordinate, double? YCoordinate, int? PostType, string postId = "")
         {
@@ -66,26 +48,14 @@ namespace OneVietnam.Controllers
             ViewBag.PostId = postId;
 
             var userslist = await UserManager.AllUsersAsync().ConfigureAwait(false);
-            var list = userslist.Select(user => new AddLocationViewModel
+            var list = userslist.Select(user => new MapViewModel
             {
                 X = user.Location.XCoordinate,
                 Y = user.Location.YCoordinate,
                 UserId = user.Id,
                 Gender = user.Gender
             }).ToList();
-            //var postlist = await PostManager.FindAllAsync(false).ConfigureAwait(false);
-            //list.AddRange(postlist.Select(p => new AddLocationViewModel
-            //{
-            //    UserId = p.UserId,
-            //    X = p.PostLocation.XCoordinate,
-            //    Y = p.PostLocation.YCoordinate,
-            //    PostId = p.Id,
-            //    PostType = p.PostType
-            //}));
-            //if (IconList != null)
-            //{
-            //    ViewData["PostTypes"] = IconList;
-            //}
+          
             ViewBag.topPostModel = await GetTopPostInfo().ConfigureAwait(false);
             return View(list);
         }
@@ -192,7 +162,7 @@ namespace OneVietnam.Controllers
             var baseFilter = new BaseFilter { IsNeedPaging = false };
             var postlist = await PostManager.FindPostsByTypeAsync(baseFilter,PostType).ConfigureAwait(false);
 
-            var list = postlist.Select(p => new AddLocationViewModel
+            var list = postlist.Select(p => new MapViewModel
             {
                 //UserId = p.UserId,
                 X = p.PostLocation.XCoordinate,

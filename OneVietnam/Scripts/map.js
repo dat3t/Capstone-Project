@@ -1,27 +1,25 @@
 ﻿var listMarkers = [];
 var map;
 var bounds;
-var userInfoWindow;
-var infowindow;
-var infowindowContent;
 var isFirstTime = true;
 var myCurrentLocationMarker, myHomeMarker;
 var markerCluster;
 var isClickOnSpiderfier = true;
 var currentFilter = -1
-var isSecondTimes = false;
+var isPostFilter = false;
 var list = [];
 var Type3Icon, Type4Icon, Type5Icon, Type6Icon, Type7Icon, Type8Icon, Type9Icon;
 var UsersIcon, FemaleIcon, MaleIcon, LGBTIcon;
 var currentMarkerClusterer;
+var isAutoCompleteBox = false;
 
 var listUserMarkers = [], listMaleMarkers = [], listFemaleMarkers = [], listLGBTMarkers = [];
 
 var listType3Markers = [], listType4Markers = [], listType5Markers = [], listType6Markers = [], listType7Markers = [], listType8Markers = [], listType9Markers = [];
 
-var userMarkerCluster = [], maleMarkerCluster = [], femaleMarkerCluster = [], LGBTMarkerCluster = [];
+//var userMarkerCluster = [], maleMarkerCluster = [], femaleMarkerCluster = [], LGBTMarkerCluster = [];
 
-var type3MarkerCluster = [], type4MarkerCluster = [], type5MarkerCluster = [], type6MarkerCluster = [], type7MarkerCluster = [], type8MarkerCluster = [], type9MarkerCluster = [];
+//var type3MarkerCluster = [], type4MarkerCluster = [], type5MarkerCluster = [], type6MarkerCluster = [], type7MarkerCluster = [], type8MarkerCluster = [], type9MarkerCluster = [];
 
 var overlappingType3 = [], overlappingType4 = [], overlappingType5 = [], overlappingType6 = [], overlappingType7 = [], overlappingType8 = [], overlappingType9 = [];
 
@@ -98,8 +96,7 @@ function initialize() {
     google.maps.event.addListener(map, 'idle', function () {
         bounds = map.getBounds();
 
-        if (map.getZoom() > 5 && isSecondTimes == false) {
-
+        if (map.getZoom() > 5 && isPostFilter == false) {
             switch (currentFilter) {
                 case -4: showFemales(); break;
                 case -3: showMales(); break;
@@ -117,6 +114,13 @@ function initialize() {
                 case 9: showWarning(); break;
             }
         }
+        setTimeout(function () {
+            var cnt = map.getCenter();
+            cnt.e += 0.000001;
+            map.panTo(cnt);
+            cnt.e -= 0.000001;
+            map.panTo(cnt);
+        }, 400);
     });
 
     //Delcare overlapping, markerClusterer
@@ -214,25 +218,10 @@ function initialize() {
     createListMaleMarkers();
     createListFemaleMarkers();
     createListLGBTMarkers();
-    //createlistType3Markers();
-    //createlistType4Markers();
-    //createlistType5Markers();
-    //createListType6Markers();
-    //createListType7Markers();
-    //createListType8Markers();
-    //createListType9Markers();
 
-    //userMarkerCluster = new MarkerClusterer(map, listUserMarkers);
-    //maleMarkerCluster = new MarkerClusterer(map, listMaleMarkers);
-    //femaleMarkerCluster = new MarkerClusterer(map, listFemaleMarkers);
-    //LGBTMarkerCluster = new MarkerClusterer(map, listLGBTMarkers);
-    //type3MarkerCluster = new MarkerClusterer(map, listType3Markers);
-    //type4MarkerCluster = new MarkerClusterer(map, listType4Markers);
-    //type5MarkerCluster = new MarkerClusterer(map, listType5Markers);
-    //type6MarkerCluster = new MarkerClusterer(map, listType6Markers);
-    //type7MarkerCluster = new MarkerClusterer(map, listType7Markers);
-    //type8MarkerCluster = new MarkerClusterer(map, listType8Markers);
-    //type9MarkerCluster = new MarkerClusterer(map, listType9Markers);
+    document.getElementById("filterUsers").style.background = "url(/Content/Icon/users2.png)";
+    document.getElementById("filterUsers").style.backgroundSize = "100%";
+
     currentMarkerClusterer = new MarkerClusterer(map, list);
     //Init user makers first load
     //userMarkerCluster.setMaxZoom(9);
@@ -261,17 +250,12 @@ function initialize() {
             }
         });
         //map.setZoom(12);
+        isAutoCompleteBox = true;
         map.fitBounds(bounds);
     });
 
     google.maps.event.addListener(map, 'zoom_changed', function () {
-        setTimeout(function () {
-            var cnt = map.getCenter();
-            cnt.e += 0.000001;
-            map.panTo(cnt);
-            cnt.e -= 0.000001;
-            map.panTo(cnt);
-        }, 400);
+
     });
 
 }
@@ -284,7 +268,8 @@ function loadScript() {
 }
 
 function showCurrentLocation() {
-    isSecondTimes = true;
+    isPostFilter = true;
+    currentMarkerClusterer.setMap(null);
     // setMapToAMarkerCluster(null);
     myHomeMarker.setMap(null);
     if (isAuthenticated == true) {
@@ -329,7 +314,8 @@ function showCurrentLocation() {
 }
 
 function showMyLocation() {
-    isSecondTimes = true;
+    isPostFilter = true;
+    currentMarkerClusterer.setMap(null);
     //setMapToAMarkerCluster(null);
     myCurrentLocationMarker.setMap(null);
 
@@ -350,227 +336,30 @@ function showMyLocation() {
     // map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
 }
 
-function setMapToAMarkerCluster() {
-
-    //userMarkerCluster.setMap(null);
-    //maleMarkerCluster.setMap(null);
-    //femaleMarkerCluster.setMap(null);
-    //LGBTMarkerCluster.setMap(null);
-    //type3MarkerCluster.setMap(null);
-    //type4MarkerCluster.setMap(null);
-    //type5MarkerCluster.setMap(null);
-    //type6MarkerCluster.setMap(null);
-    //type7MarkerCluster.setMap(null);
-    //type8MarkerCluster.setMap(null);
-    //type9MarkerCluster.setMap(null);
-    //myCurrentLocationMarker.setMap(null);
-    //myHomeMarker.setMap(null);
-
-    //if (markerCluster != null) {
-    //    markerCluster.setMap(map);
-    //}
-}
-
-function calculateNearestMarker(listLocation) {
-
-    //bounds = map.getBounds();
-    var centerOfCurrentBound = bounds.getCenter();
-    if (listLocation.length > 0) {
-        var position = new google.maps.LatLng(listLocation[0].x, listLocation[0].y);
-        var min = getDistance(centerOfCurrentBound, position);
-        var length = listLocation.length;
-        for (var i = 1; i < length; i++) {
-            var position2 = new google.maps.LatLng(listLocation[i].x, listLocation[i].y);
-            var distance2 = getDistance(centerOfCurrentBound, position2)
-            if (min > distance2) {
-                min = distance2;
-                position = position2;
-            }
-        }
-        return position;
-    }
-}
-
 function showUsers() {
-    ////isSecondTimes = true;
-    ////setMapToAMarkerCluster(userMarkerCluster);
-    //showAlertNoUser(allUsers);
 
-    //if (isFirstTime == false) {
-    //    var pos = calculateNearestMarker(allUsers);
-    //    checkIfBoundContainPosition(pos);
-    //}
-    //isFirstTime = false;
     showMarkersOnMap(allUsers, -1, listUserMarkers);
 }
 
 function showLGBT() {
-    //setMapToAMarkerCluster(LGBTMarkerCluster);
-    //showAlertNoUser(LGBT);
-    //LGBTMarkerCluster.setMaxZoom(9);
-    //var pos = calculateNearestMarker(LGBT);
-    //checkIfBoundContainPosition(pos);
+
     showMarkersOnMap(LGBT, -2, listLGBTMarkers);
 }
 
 function showMales() {
-    //setMapToAMarkerCluster(maleMarkerCluster);
-    //showAlertNoUser(males);
-    //maleMarkerCluster.setMaxZoom(9);
-    //var pos = calculateNearestMarker(males);
-    //checkIfBoundContainPosition(pos);
+
     showMarkersOnMap(males, -3, listMaleMarkers);
 }
 
 function showFemales() {
-    //setMapToAMarkerCluster(femaleMarkerCluster);
-    //showAlertNoUser(females);
-    //femaleMarkerCluster.setMaxZoom(9);
-    //var pos = calculateNearestMarker(females);
-    //checkIfBoundContainPosition(pos);
+
     showMarkersOnMap(females, -4, listFemaleMarkers);
 }
 
-var isNoPostNoUser = false;
-function showMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNumber) {
-
-    currentFilter = currentFilterNumber;
-
-    isSecondTimes = true;
-    if (checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter) == false) {
-        var pos = calculateNearestMarker(postTypeNumber);
-        if (pos) {
-            // smoothlyCenterPosition(pos);
-            checkIfBoundContainPosition(pos);
-            //  map.setCenter(pos);
-            //  map.setCenter(13);
-            setTimeout(function () {
-                checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter);
-
-            }, 200);
-        }
-    }
-
-    setTimeout(function () {
-        isSecondTimes = false;
-    }, 500);
-
-}
-
-function loadByAjax(postTypeList, postTypeNumber) {
-    if (postTypeList.length == 0) {
-        $.ajax({
-            url: '/Map/GetListOfAPostType?PostType=' + postTypeNumber,
-            type: 'GET',
-            dataType: 'json',
-            success: function (result) {
-                for (var i = 0; i < result.length; i++) {
-                    postTypeList.push({ postID: result[i].PostId, x: result[i].X, y: result[i].Y });
-                }
-                switch (postTypeNumber) {
-                    case 3: createlistType3Markers(); showMarkersOnMap(postType3, 3, listType3Markers); break;
-                    case 4: createlistType4Markers(); showMarkersOnMap(postType4, 4, listType4Markers); break;
-                    case 5: createlistType5Markers(); showMarkersOnMap(postType5, 5, listType5Markers); break;
-                    case 6: createListType6Markers(); showMarkersOnMap(postType6, 6, listType6Markers); break;
-                    case 7: createListType7Markers(); showMarkersOnMap(postType7, 7, listType7Markers); break;
-                    case 8: createListType8Markers(); showMarkersOnMap(postType8, 8, listType8Markers); break;
-                    case 9: createListType9Markers(); showMarkersOnMap(postType9, 9, listType9Markers); break;
-                }
-            },
-            error: function (xhr, status, error) {
-                alert(xhr.responseText);
-            }
-        });
-    } else {
-        switch (postTypeNumber) {
-            case 3: showMarkersOnMap(postType3, 3, listType3Markers); break;
-            case 4: showMarkersOnMap(postType4, 4, listType4Markers); break;
-            case 5: showMarkersOnMap(postType5, 5, listType5Markers); break;
-            case 6: showMarkersOnMap(postType6, 6, listType6Markers); break;
-            case 7: showMarkersOnMap(postType7, 7, listType7Markers); break;
-            case 8: showMarkersOnMap(postType8, 8, listType8Markers); break;
-            case 9: showMarkersOnMap(postType9, 9, listType9Markers); break;
-        }
-    }
-}
 function showAccommodation() {
-    //if (postType3.length == 0) {
-    //    $.ajax({
-    //        url: '/Map/GetListOfAPostType?PostType=' + 3,
-    //        type: 'GET',
-    //        dataType: 'json',
-    //        success: function (result) {
-    //                for(var i=0;i<result.length;i++){
-    //                    postType3.push({ postID: result[i].PostId, x: result[i].X, y: result[i].Y });
-    //                }
-    //                createlistType3Markers();
-    //                showMarkersOnMap(postType3, 3, listType3Markers);
-    //        },
-    //        error: function (xhr, status, error) {
-    //            alert(xhr.responseText);
-    //        }
-    //    });
-    //} else {
-    //    showMarkersOnMap(postType3, 3, listType3Markers);
-    //}
+
     loadByAjax(postType3, 3);
 
-
-}
-
-
-function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
-
-    currentMarkerClusterer.removeMarkers(list);
-    var currentListLength = list.length;
-
-    for (var i = 0; i < currentListLength; i++) {
-        list[i].setMap(null);
-    }
-
-    while (list.length != 0) {
-        list.pop();
-
-    }
-    var length = listMarker.length;
-
-    for (var i = 0; i < length; i++) {
-        if (map.getBounds().contains(listMarker[i].position) == true) {
-            //  listMarker[i].setMap(map);
-            list.push(listMarker[i]);
-
-        }
-    }
-    if (list.length == 0) {
-        if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
-            if (listMarker.length == 0) {
-                $("#userEmptyAlertModal").modal('show');
-            }
-            else {
-                //  $("#nearestUserAlertModal").modal('show');
-
-            }
-        } else {
-            if (listMarker.length == 0) {
-                $("#postEmptyAlertModal").modal('show');
-            } else {
-                //  $("#nearestPostAlertModal").modal('show');
-
-            }
-        }
-        return false;
-
-    }
-    for (var i = 0; i < list.length; i++) {
-        list[i].setMap(map);
-    }
-
-    currentMarkerClusterer.addMarkers(list);
-    currentMarkerClusterer.setMap(map);
-    currentMarkerClusterer.setMaxZoom(9);
-    setMapToAMarkerCluster();
-
-    return true;
 }
 
 
@@ -603,18 +392,6 @@ function showSOS() {
 function showWarning() {
     //showMarkersOnMap(postType9, 9, listType9Markers);
     loadByAjax(postType9, 9);
-}
-
-function showAlertNoPost(postTypeArray) {
-    if (postTypeArray.length == 0) {
-        $("#postEmptyAlertModal").modal('show');
-    }
-}
-
-function showAlertNoUser(postTypeArray) {
-    if (postTypeArray.length == 0) {
-        $("#userEmptyAlertModal").modal('show');
-    }
 }
 
 function createListUserMarkers() {
@@ -757,262 +534,116 @@ function createListLGBTMarkers() {
     });
 }
 
-function createlistType3Markers() {
-
-    var length = postType3.length;
+function createListPostMarker(positionList, listTypeMarker, overlappingType, TypeIcon) {
+    var length = positionList.length;
 
     for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType3[i].x, postType3[i].y);
+        var position = new google.maps.LatLng(positionList[i].x, positionList[i].y);
         //bounds.extend(position);
         marker = new google.maps.Marker({
             position: position,
             map: null,
             optimized: false,
             title: "Nhấp để xem chi tiết",
-            icon: Type3Icon
+            icon: TypeIcon
         });
-        listType3Markers.push(marker);
+        listTypeMarker.push(marker);
 
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 setTimeout(function () {
-                    getPostInfo(postType3[i].postID);
+                    getPostInfo(positionList[i].postID);
                 }, 100);
             }
         })(marker, i));
 
-        overlappingType3.addMarker(marker);
+        overlappingType.addMarker(marker);
     }
 
-    overlappingType3.addListener('click', function (marker) {
+    overlappingType.addListener('click', function (marker) {
         isClickOnSpiderfier = false;
     });
-    overlappingType3.addListener('spiderfy', function (markers) {
+    overlappingType.addListener('spiderfy', function (markers) {
         isClickOnSpiderfier = true;
     });
 
 }
 
-function createlistType4Markers() {
-   
-    var length = postType4.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType4[i].x, postType4[i].y);
-       // bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            title: "Nhấp để xem chi tiết",
-            icon: Type4Icon
+function showMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNumber) {
+
+    currentFilter = currentFilterNumber;
+
+    isPostFilter = true;
+    if (checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter) == false) {
+      
+        if (isAutoCompleteBox == true) {
+            if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
+                $("#nearestUserAlertModal").modal('show');
+            } else {
+                $("#nearestPostAlertModal").modal('show');
+            }
+           
+            isAutoCompleteBox = false;
+            isPostFilter = false;
+            return;
+        }
+
+        var pos = calculateNearestMarker(postTypeNumber);
+        if (pos) {
+            // smoothlyCenterPosition(pos);
+            checkIfBoundContainPosition(pos);
+            //map.setCenter(pos);
+            //map.setCenter(13);
+            setTimeout(function () {
+                checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter);
+
+            }, 300);
+        }
+    }
+
+    setTimeout(function () {
+        isPostFilter = false;
+    }, 700);
+
+}
+
+function loadByAjax(postTypeList, postTypeNumber) {
+    if (postTypeList.length == 0) {
+        $.ajax({
+            url: '/Map/GetListOfAPostType?PostType=' + postTypeNumber,
+            type: 'GET',
+            dataType: 'json',
+            success: function (result) {
+                for (var i = 0; i < result.length; i++) {
+                    postTypeList.push({ postID: result[i].PostId, x: result[i].X, y: result[i].Y });
+                }
+                switch (postTypeNumber) {
+                    case 3: createListPostMarker(postTypeList, listType3Markers, overlappingType3, Type3Icon); showMarkersOnMap(postType3, 3, listType3Markers); break;
+                    case 4: createListPostMarker(postTypeList, listType4Markers, overlappingType4, Type4Icon); showMarkersOnMap(postType4, 4, listType4Markers); break;
+                    case 5: createListPostMarker(postTypeList, listType5Markers, overlappingType5, Type5Icon); showMarkersOnMap(postType5, 5, listType5Markers); break;
+                    case 6: createListPostMarker(postTypeList, listType6Markers, overlappingType6, Type6Icon); showMarkersOnMap(postType6, 6, listType6Markers); break;
+                    case 7: createListPostMarker(postTypeList, listType7Markers, overlappingType7, Type7Icon); showMarkersOnMap(postType7, 7, listType7Markers); break;
+                    case 8: createListPostMarker(postTypeList, listType8Markers, overlappingType8, Type8Icon); showMarkersOnMap(postType8, 8, listType8Markers); break;
+                    case 9: createListPostMarker(postTypeList, listType9Markers, overlappingType9, Type9Icon); showMarkersOnMap(postType9, 9, listType9Markers); break;
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
         });
-        listType4Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType4[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType4.addMarker(marker);
+    } else {
+        switch (postTypeNumber) {
+            case 3: showMarkersOnMap(postType3, 3, listType3Markers); break;
+            case 4: showMarkersOnMap(postType4, 4, listType4Markers); break;
+            case 5: showMarkersOnMap(postType5, 5, listType5Markers); break;
+            case 6: showMarkersOnMap(postType6, 6, listType6Markers); break;
+            case 7: showMarkersOnMap(postType7, 7, listType7Markers); break;
+            case 8: showMarkersOnMap(postType8, 8, listType8Markers); break;
+            case 9: showMarkersOnMap(postType9, 9, listType9Markers); break;
+        }
     }
-    +
-    overlappingType4.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType4.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-    //  alert(listType4Markers[0].getTitle());
-
 }
-
-function createlistType5Markers() {
-   
-    var length = postType5.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType5[i].x, postType5[i].y);
-      //  bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            title: "Nhấp để xem chi tiết",
-            icon: Type5Icon
-        });
-        listType5Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType5[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType5.addMarker(marker);
-    }
-    +
-    overlappingType5.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType5.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-
-}
-
-function createListType6Markers() {
-   
-    var length = postType6.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType6[i].x, postType6[i].y);
-       // bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            title: "Nhấp để xem chi tiết",
-            icon: Type6Icon
-        });
-        listType6Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType6[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType6.addMarker(marker);
-    }
-    +
-    overlappingType6.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType6.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-
-}
-
-function createListType7Markers() {
-   
-    var length = postType7.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType7[i].x, postType7[i].y);
-      //  bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            icon: Type7Icon
-        });
-        listType7Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType7[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType7.addMarker(marker);
-    }
-    +
-    overlappingType7.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType7.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-
-}
-
-function createListType8Markers() {
-   
-    var length = postType8.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType8[i].x, postType8[i].y);
-      //  bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            icon: Type8Icon
-        });
-        listType8Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType8[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType8.addMarker(marker);
-    }
-    +
-    overlappingType8.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType8.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-}
-
-function createListType9Markers() {
-
-    var length = postType9.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType9[i].x, postType9[i].y);
-     //   bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            //title: postType1[i].address,
-            icon: Type9Icon
-        });
-        listType9Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType9[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType9.addMarker(marker);
-    }
-    +
-    overlappingType9.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType9.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-}
-
 function handleLocationError(browserHasGeolocation, message, pos) {
     alert(message);
 }
@@ -1104,7 +735,7 @@ function getPostInfo(postID) {
                     }).modal({
                         duration: 400,
                         onShow: function () {
-                            history.pushState(null, null, "/Newsfeed/ShowPost/" + postID);
+                            //    history.pushState(null, null, "/Newsfeed/ShowPost/" + postID);
                         }
                     }).modal('show')
                     ;
@@ -1147,21 +778,26 @@ function getPostInfo(postID) {
 
 function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail) {
     isClickOnSpiderfier = false;
+    isPostFilter = false;
     currentFilter = PostType;
+
+
     // map.setCenter({Lat,Lng});
-    //switch (PostType) {
-    //    case 3: showAccommodation(); break;
-    //    case 4: showJobOffer(); break;
-    //    case 5: showFurnitureOffer(); break;
-    //    case 6: showHandGoodsOffer(); break;
-    //    case 7: showTradeOffer(); break;
-    //    case 8: showSOS(); break;
-    //    case 9: showWarning(); break;
-    //}
+    switch (PostType) {
+        case 3: accommodationEnlarge(); break;
+        case 4: jobEnlarge(); break;
+        case 5: furnitureEnlarge(); break;
+        case 6: handGoodsEnlarge(); break;
+        case 7: tradeEnlarge(); break;
+        case 8: helpEnlarge(); break;
+        case 9: warningEnlarge(); break;
+    }
 
     if (isCallFromPostDetail != 1) {
         var position = new google.maps.LatLng(Lat, Lng);
-        checkIfBoundContainPosition(position);
+        map.setZoom(14);
+        map.setCenter(position);
+        //checkIfBoundContainPosition(position);
         setTimeout(function () {
 
             getPostInfo(PostId);
@@ -1214,15 +850,110 @@ function checkIfBoundContainPosition(pos) {
         bounds.extend(pos);
         map.fitBounds(bounds);
         map.setCenter(pos);
+      
         setTimeout(function () {
-            smoothZoom(this.map, 13, map.getZoom());
-        }, 500);
+            // smoothZoom(this.map, 13, map.getZoom());
+            smoothlyCenterPosition(pos);
+        }, 1000);
     }
     else {
         //   map.fitBounds(map.getBounds());
         smoothlyCenterPosition(pos);
     }
 }
+
+function calculateNearestMarker(listLocation) {
+
+    //bounds = map.getBounds();
+    var centerOfCurrentBound = bounds.getCenter();
+    if (listLocation.length > 0) {
+        var position = new google.maps.LatLng(listLocation[0].x, listLocation[0].y);
+        var min = getDistance(centerOfCurrentBound, position);
+        var length = listLocation.length;
+        for (var i = 1; i < length; i++) {
+            var position2 = new google.maps.LatLng(listLocation[i].x, listLocation[i].y);
+            var distance2 = getDistance(centerOfCurrentBound, position2)
+            if (min > distance2) {
+                min = distance2;
+                position = position2;
+            }
+        }
+        return position;
+    }
+}
+
+function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
+
+    currentMarkerClusterer.removeMarkers(list);
+    var currentListLength = list.length;
+
+    for (var i = 0; i < currentListLength; i++) {
+        list[i].setMap(null);
+    }
+
+    while (list.length != 0) {
+        list.pop();
+
+    }
+    var length = listMarker.length;
+
+    for (var i = 0; i < length; i++) {
+        if (map.getBounds().contains(listMarker[i].position) == true) {
+            //  listMarker[i].setMap(map);
+            list.push(listMarker[i]);
+
+        }
+    }
+    if (list.length == 0) {
+        if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
+            if (listMarker.length == 0) {
+                $("#userEmptyAlertModal").modal('show');
+            }
+            else {
+                //$("#nearestUserAlertModal").modal('show');
+            }
+        } else {
+            if (listMarker.length == 0) {
+                $("#postEmptyAlertModal").modal('show');
+            } else {
+                //$("#nearestPostAlertModal").modal('show');
+
+            }
+        }
+        return false;
+
+    }
+    for (var i = 0; i < list.length; i++) {
+        list[i].setMap(map);
+    }
+
+    if (list.length == 1) {
+        //smoothlyCenterPosition(list[0].position);
+        //map.setCenter(list[0].position);
+        //bounds.extend(list[0].position);
+        //map.fitBounds(bounds);
+        map.setCenter(list[0].position);
+
+    }
+    currentMarkerClusterer.addMarkers(list);
+    currentMarkerClusterer.setMap(map);
+    currentMarkerClusterer.setMaxZoom(8);
+
+    return true;
+}
+
+function showAlertNoPost(postTypeArray) {
+    if (postTypeArray.length == 0) {
+        $("#postEmptyAlertModal").modal('show');
+    }
+}
+
+function showAlertNoUser(postTypeArray) {
+    if (postTypeArray.length == 0) {
+        $("#userEmptyAlertModal").modal('show');
+    }
+}
+
 function hideModel() {
     $("#userModal").modal('hide');
 }
