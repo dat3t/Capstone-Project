@@ -321,39 +321,6 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAdminPost(CreateAdminPostViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var adress = ((ClaimsIdentity)User.Identity).FindFirst("Adress").Value;
-                var xCoordinate = Convert.ToDouble(((ClaimsIdentity)User.Identity).FindFirst("XCoordinate").Value);
-                var yCoordinate = Convert.ToDouble(((ClaimsIdentity)User.Identity).FindFirst("YCoordinate").Value);
-                var location = new Location(xCoordinate, yCoordinate, adress);
-                Post post = new Post(model) { UserId = User.Identity.GetUserId(), PostLocation = location };
-                HttpFileCollectionBase files = (HttpFileCollectionBase)Session["IllustrationList"];
-                var illList = await PostManager.GetIllustration(files, post.Id);
-                Session["Illustrations"] = null;
-                if (illList != null)
-                {
-                    post.Illustrations = illList;
-                }
-                try
-                {
-                    await PostManager.CreateAsync(post);
-                    return PartialView("../Administration/_CreateAdminPost", new CreateAdminPostViewModel(post));
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", ex.Message);
-                    return PartialView("../Administration/_CreateAdminPost", model);
-                }
-            }
-
-            return PartialView("../Administration/_CreateAdminPost", new CreateAdminPostViewModel());
-        }
-
-        [HttpPost]
         public async Task<ActionResult> ChangeReportStatus(string reportAction, string reportId)
         {
             var report = await ReportManager.FindByIdAsync(reportId);
