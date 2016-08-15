@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -9,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using OneVietnam.BLL;
 using OneVietnam.DTL;
 using OneVietnam.Models;
+
 
 namespace OneVietnam.Controllers
 {
@@ -76,6 +76,17 @@ namespace OneVietnam.Controllers
             }
             private set { _postManager = value; }
         }
+
+        private ReportManager _repostManager;
+        public ReportManager ReportManager
+        {
+            get
+            {
+                return _repostManager ?? HttpContext.GetOwinContext().Get<ReportManager>();
+            }
+            private set { _repostManager = value; }
+        }
+
         [AllowAnonymous]
         public async Task<ActionResult> _userResult(string query,int? pageNum)
         {
@@ -284,6 +295,63 @@ namespace OneVietnam.Controllers
             return PartialView("../Administration/_PostsManagementPanel", postViews);
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> SearchReportMultipleQuery()
+        {
+            DateTimeOffset? createdDateFrom = null;
+            DateTimeOffset? createdDateTo = null;
+            string repostStatus = "";
+            if (Request.Form.Count > 0)
+            {
+                string dateFrom = Request.Form["dtReportCreatedDateFrom"];
+                if (!string.IsNullOrWhiteSpace(dateFrom))
+                {
+                    createdDateFrom = Convert.ToDateTime(dateFrom).ToUniversalTime();
+                }
+                string dateTo = Request.Form["dtReportCreatedDateTo"];
+                if (!string.IsNullOrWhiteSpace(dateTo))
+                {
+                    createdDateTo = Convert.ToDateTime(dateTo).AddHours(24).ToUniversalTime();
+                }
+                var status = Request.Form["rdReportStatus"];
+                if (!string.IsNullOrWhiteSpace(status) && !string.Equals(status, "all"))
+                {
+                    repostStatus = status;
+                }
+            }
+            var reports = await ReportManager.SearchRepostMultipleQuery(createdDateFrom, createdDateTo, repostStatus);
+            List<ReportViewModel> reportViewList = new List<ReportViewModel>();
+            foreach (var report in reports)
+            {
+                ReportViewModel reportView = new ReportViewModel(report);
+                if (!string.IsNullOrWhiteSpace(report.HandlerId))
+                {
+                    var handlerUser = await UserManager.FindByIdAsync(report.HandlerId);
+                    if (handlerUser != null)
+                    {
+                        reportView.HandlerName = handlerUser.UserName;
+                    }
+                }
+                if (!string.IsNullOrWhiteSpace(report.PostId))
+                {
+                    var reportedPost = await PostManager.FindByIdAsync(report.PostId);
+                    if (reportedPost != null)
+                    {
+                        reportView.PostTile = reportedPost.Title;
+                    }
+                }
+                var reportedUser = await UserManager.FindByIdAsync(report.UserId);
+                if (!string.IsNullOrWhiteSpace(reportedUser.UserName))
+                {
+                    reportView.UserName = reportedUser.UserName;
+                }
+
+                reportViewList.Add(reportView);
+
+            }
+            return PartialView("../Administration/_ReportsManagementPanel", reportViewList);
+        }
 
     }
 }
