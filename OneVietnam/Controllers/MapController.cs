@@ -29,6 +29,7 @@ namespace OneVietnam.Controllers
                 _userManager = value;
             }
         }
+
         private PostManager _postManager;
         public PostManager PostManager
         {
@@ -40,12 +41,12 @@ namespace OneVietnam.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<ActionResult> ShowMap(double? XCoordinate, double? YCoordinate, int? PostType, string postId = "")
+        public async Task<ActionResult> ShowMap(double? XCoordinate, double? YCoordinate, int? PostType, string PostId = "")
         {
             ViewBag.XCoordinate = XCoordinate;
             ViewBag.YCoordinate = YCoordinate;
             ViewBag.PostType = PostType;
-            ViewBag.PostId = postId;
+            ViewBag.PostId = PostId;
 
             var userslist = await UserManager.AllUsersAsync().ConfigureAwait(false);
             var list = userslist.Select(user => new MapViewModel
