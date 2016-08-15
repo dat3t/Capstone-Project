@@ -41,12 +41,12 @@ namespace OneVietnam.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<ActionResult> ShowMap(double? XCoordinate, double? YCoordinate, int? PostType, string PostId = "")
+        public async Task<ActionResult> ShowMap(double? XCoordinate, double? YCoordinate, int? postType, string postId = "")
         {
             ViewBag.XCoordinate = XCoordinate;
             ViewBag.YCoordinate = YCoordinate;
-            ViewBag.PostType = PostType;
-            ViewBag.PostId = PostId;
+            ViewBag.PostType = postType;
+            ViewBag.PostId = postId;
 
             var userslist = await UserManager.AllUsersAsync().ConfigureAwait(false);
             var list = userslist.Select(user => new MapViewModel
@@ -159,10 +159,10 @@ namespace OneVietnam.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<JsonResult> GetListOfAPostType(int PostType)
+        public async Task<JsonResult> GetListOfAPostType(int postType)
         {
             var baseFilter = new BaseFilter { IsNeedPaging = false };
-            var postlist = await PostManager.FindPostsByTypeAsync(baseFilter,PostType).ConfigureAwait(false);
+            var postlist = await PostManager.FindPostsByTypeAsync(baseFilter,postType).ConfigureAwait(false);
 
             var list = postlist.Select(p => new MapViewModel
             {
