@@ -88,7 +88,7 @@ namespace OneVietnam.Controllers
 
         //[HttpPost] // can be HttpGet
         [AllowAnonymous]
-        public async Task<ActionResult> GetUserInfo(string userId)
+        public async Task<JsonResult> GetUserInfo(string userId)
         {
             var user = await UserManager.FindByIdAsync(userId).ConfigureAwait(false);
             return Json(user, JsonRequestBehavior.AllowGet);
@@ -101,6 +101,7 @@ namespace OneVietnam.Controllers
             var user = await UserManager.FindByIdAsync(userId);
             return Json(user.Location ?? null, JsonRequestBehavior.AllowGet);
         }
+
         [AllowAnonymous]
         public async Task<ActionResult> GetPostPartialView(string postId)
         {
