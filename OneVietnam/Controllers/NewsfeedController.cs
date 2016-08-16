@@ -697,7 +697,7 @@ namespace OneVietnam.Controllers
             //p.UserName = User.Identity.Name;
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
             _illustrationList = (HttpFileCollectionBase)Session["Illustrations"];
-            var illList = await PostManager.GetIllustration(_illustrationList, post.Id);
+            var illList = await PostManager.AzureUploadAsync(_illustrationList, post.Id);
             if (tagList != null)
             {
                 p.Tags = tagList;

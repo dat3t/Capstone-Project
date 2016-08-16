@@ -22,7 +22,7 @@
             if (status === window.google.maps.GeocoderStatus.OK) {           // if geocode success
                 var detailedLocation = results[0].formatted_address;         // if address found, pass to processing function
                 if ($("#XCoordinate").length > 0) {
-                    document.getElementById("Location").value = detailedLocation;
+                    document.getElementById("Address").value = detailedLocation;
                     document.getElementById("LocationExternal").value = detailedLocation;
                 } else {
                     document.getElementById("LocationExternal").value = detailedLocation;
