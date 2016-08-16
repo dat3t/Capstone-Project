@@ -178,7 +178,7 @@ namespace OneVietnam.Controllers
                 {
                     XCoordinate = model.XCoordinate,
                     YCoordinate = model.YCoordinate,
-                    Address = model.Location
+                    Address = model.Address
                 };
 
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email,

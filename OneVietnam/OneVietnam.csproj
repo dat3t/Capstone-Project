@@ -563,7 +563,6 @@
     <Content Include="Views\Administration\_AddUserRole.cshtml" />
     <Content Include="Views\Administration\_UserLockedStatus.cshtml" />
     <Content Include="Views\Administration\_PostsManagementPanel.cshtml" />
-    <Content Include="Views\Administration\_CreateAdminPost.cshtml" />
     <Content Include="Views\Shared\_UserCard.cshtml" />
     <Content Include="Views\Shared\_AdminPostDetail.cshtml" />
     <Content Include="Views\Administration\_ReportsManagementPanel.cshtml" />

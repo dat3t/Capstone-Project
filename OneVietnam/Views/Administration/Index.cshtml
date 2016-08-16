@@ -40,7 +40,7 @@
             <!-- Users Managament -->
                     <div class="ui tab active" data-tab="users">
                         <!-- Users Search Box -->
-                        @using (Ajax.BeginForm("SearchUserMultipleQuery", "Search", null, new AjaxOptions
+                        @using (Ajax.BeginForm("SearchUserMultipleQuery", "Administration", null, new AjaxOptions
                         {
                             HttpMethod = "POST",
                             InsertionMode = InsertionMode.Replace,
@@ -123,11 +123,7 @@
 
                 <!-- Posts Managament -->
 
-                <div class="ui tab" data-tab="posts">
-                    <div class="ui top attached tabular menu">
-                        <a class="item active" data-tab="first">Các bài đăng</a>
-                        <a class="item" data-tab="second">Tạo bài đăng</a>
-                    </div>
+                <div class="ui tab" data-tab="posts">                   
                     <script>
                         var tab = document.querySelector('[data-tab = "users"]');
                         if (tab === null || tab === undefined) {
@@ -139,10 +135,10 @@
                         }
                     </script>
                     <!--Search post tab-->
-                    <div class="ui bottom attached tab active" data-tab="first" style="padding-top: 1rem">
+                    <div style="padding-top: 1rem">
 
                         <!-- Admin Post Search Box -->
-                        @using (Ajax.BeginForm("SearchPostMultipleQuery", "Search", null, new AjaxOptions
+                        @using (Ajax.BeginForm("SearchPostMultipleQuery", "Administration", null, new AjaxOptions
                         {
                             HttpMethod = "POST",
                             InsertionMode = InsertionMode.Replace,
@@ -205,19 +201,12 @@
                         </div>
 
                     </div>
-
-                    <!--Create post tab-->
-                    <div class="ui bottom attached tab" style="padding-top: 1rem" data-tab="second">
-                        <div id="CreateAdminPost" style="width: 60%; margin: auto">
-                            @Html.Partial("../Administration/_CreateAdminPost", new CreateAdminPostViewModel())
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Reports Managament -->
                 <div class="ui tab" data-tab="reports">
                     <!-- Users Search Box -->
-                    @using (Ajax.BeginForm("SearchReportMultipleQuery", "Search", null, new AjaxOptions
+                    @using (Ajax.BeginForm("SearchReportMultipleQuery", "Administration", null, new AjaxOptions
                     {
                         HttpMethod = "POST",
                         InsertionMode = InsertionMode.Replace,
