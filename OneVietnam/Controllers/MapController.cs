@@ -49,13 +49,31 @@ namespace OneVietnam.Controllers
             ViewBag.PostId = postId;
 
             var userslist = await UserManager.AllUsersAsync().ConfigureAwait(false);
-            var list = userslist.Select(user => new MapViewModel
+
+            MapViewModel mapModal;
+            List<MapViewModel> list = new List<MapViewModel>();
+
+            foreach (ApplicationUser user in userslist)
             {
-                X = user.Location.XCoordinate,
-                Y = user.Location.YCoordinate,
-                UserId = user.Id,
-                Gender = user.Gender
-            }).ToList();
+                mapModal = new MapViewModel();
+
+                if (user.LockedFlag == false && user.DeletedFlag == false)
+                {
+                    mapModal.X = user.Location.XCoordinate;
+                    mapModal.Y = user.Location.YCoordinate;
+                    mapModal.UserId = user.Id;
+                    mapModal.Gender = user.Gender;
+                    list.Add(mapModal);
+                }
+            }
+            //var list = userslist.Select(user => new MapViewModel
+            //{
+
+            //    X = user.Location.XCoordinate,
+            //    Y = user.Location.YCoordinate,
+            //    UserId = user.Id,
+            //    Gender = user.Gender
+            //}).ToList();
           
             ViewBag.topPostModel = await GetTopPostInfo().ConfigureAwait(false);
             return View(list);
