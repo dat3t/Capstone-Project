@@ -1,5 +1,6 @@
 ﻿
 @using Microsoft.AspNet.Identity
+@using OneVietnam.Models
 @model OneVietnam.Models.TimelineViewModel
 @{
     ViewBag.Title = "Index";
@@ -42,8 +43,8 @@
             <div id="avatarUpload" class="hides">
                 @using (Html.BeginForm("ChangeAvatar", "Timeline", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "uploader" }))
                 {
-                <input type="file" id="fileInput" name="fileInput" onchange="submitAvatar()" />
-                <input type="submit" id="btnUpload" name="btnUpload" />
+                    <input type="file" id="fileInput" name="fileInput" onchange="submitAvatar()" />
+                    <input type="submit" id="btnUpload" name="btnUpload" />
                 }
             </div>
             <script>
@@ -61,8 +62,8 @@
             <div id="coverUpload" class="hides">
                 @using (Html.BeginForm("ChangeCover", "Timeline", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form", @id = "uploads" }))
                 {
-                <input type="file" id="fileInputs" name="fileInput" onchange="submitCover()" />
-                <input type="submit" id="btnUploads" name="btnUploads" />
+                    <input type="file" id="fileInputs" name="fileInput" onchange="submitCover()" />
+                    <input type="submit" id="btnUploads" name="btnUploads" />
                 }
             </div>
             <script>
@@ -128,19 +129,32 @@
                         {
 
                             <div class="right menu">
-                                
+
                                 <div class="ui icon top pointing dropdown">
                                     <i class="large grey setting icon"></i>
                                     <div class="menu">
-                                        <div class="item"><a href="javascript: register_popup('@Model.Id','@Model.UserName','@Model.AvatarLink')" style="text-decoration: none">
+                                        <div class="item">
+                                            <a href="javascript: register_popup('@Model.Id','@Model.UserName','@Model.AvatarLink')" style="text-decoration: none">
                                                 Nhắn tin
                                             </a>
                                         </div>
-                                        <div class="item">Báo cáo</div>
-
+                                        <div class="item" id="reportUser">Báo cáo</div>                                                                                                                       
                                     </div>
                                 </div>
-
+                                <div id="ShowReportUser">
+                                    @Html.Partial("../Timeline/_ReportUser", new ReportViewModel(Model.Id));
+                                    <script>
+                                            $("#reportUser")
+                                              .click(function () {
+                                                  $('.small.modal').modal({
+                                                      allowMultiple: false
+                                                  });
+                                                  $('.second.modal').modal('attach events', '.report.modal .green.button')
+                                                  ;
+                                                  $('.report.modal').modal('show');
+                                              });
+                                    </script>
+                                </div>
                             </div>
                         }
                     }
@@ -153,33 +167,32 @@
                             <div class="ui blue empty circular label"></div>
                             Tất cả
 
-
                         </div>
                         <i class="dropdown icon"></i>
                         <div class="menu filter-items">
-                            <div class="item" data-filter="-1">
+                            <div class="item" data-filter="*">
                                 <div class="ui blue empty circular label"></div>
                                 Tất cả
                             </div>
 
-                            <div class="item" data-filter="4">
+                            <div class="item" data-filter=".4">
                                 <div class="ui yellow empty circular label"></div>
                                 Việc làm
                             </div>
-                            <div class="item" data-filter="5">
+                            <div class="item" data-filter=".5">
                                 <div class="ui black empty circular label"></div>
                                 Đồ dùng
 
                             </div>
-                            <div class="item" data-filter="6">
+                            <div class="item" data-filter=".6">
                                 <div class="ui purple empty circular label"></div>
-                                Xách tay
+                                Nhờ/Nhận xách tay
                             </div>
-                            <div class="item" data-filter="7">
+                            <div class="item" data-filter=".7">
                                 <div class="ui orange empty circular label"></div>
                                 Mua bán
                             </div>
-                            <div class="item" data-filter="8">
+                            <div class="item" data-filter=".8">
                                 <div class="ui empty circular label"></div>
                                 Cần giúp đỡ
                             </div>
@@ -187,7 +200,7 @@
                         </div>
                     </div>
                     <p> </p>
-                    
+
                     @{
                         if (Model.PostList != null && Model.PostList.Count > 0)
                         {
@@ -198,12 +211,12 @@
                                     @{
                                         foreach (var postView in Model.PostList)
                                         {
-                                            @Html.Partial("../Shared/_PostCard", postView)
+                                            @Html.Partial("../Shared/_ShowPostDetail", postView)
                                         }
                                     }
                                 </div>
                             </div>
-                        }
+                                        }
                     }
                 </div>
                 <div class="ui tab" data-tab="profile" id="mapTab">
@@ -307,11 +320,11 @@
                                         @Html.Partial("../Shared/_NoSearchResult")
 
                                     }
-@section scripts{
-    <script type="text/javascript">
-        var forLoad = $(".ui.link.cards");
-        var grid = $(".grids");
-        var filterValue = -1;
-        var moreRowsUrl = '@Url.Action("Index", "Timeline")';
-        $(window).scroll(scrollHandler);
-    </script>}
+<script src="~/Scripts/infiniteScroll.js"></script>
+<script type="text/javascript">
+    var forLoad = $(".ui.link.cards");
+    var grid = $(".grids");
+
+    var moreRowsUrl = '@Url.Action("Index","Timeline")';
+    $(window).scroll(scrollHandler);
+</script>

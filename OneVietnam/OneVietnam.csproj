@@ -283,8 +283,8 @@
     <Compile Include="Common\utilities.cs" />
     <Compile Include="Controllers\TimelineController.cs" />
     <Compile Include="DAL\Abstract\AbstractStore.cs" />
-    <Compile Include="DAL\PostStore.cs" />
-    <Compile Include="DAL\ReportStore.cs" />
+    <Compile Include="DAL\PostStoreDAO.cs" />
+    <Compile Include="DAL\ReportStoreDAO.cs" />
     <Compile Include="DTL\BaseDTO\BaseMongoDocument.cs" />
     <Compile Include="DTL\ConnectionDTO.cs" />
     <Compile Include="DTL\DictionaryItem.cs" />
@@ -292,12 +292,12 @@
     <Compile Include="DTL\Notification.cs" />
     <Compile Include="Models\AdministrationViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
-    <Compile Include="Models\ConversationModel.cs" />
-    <Compile Include="Models\CreateIconModel.cs" />
+    <Compile Include="Models\ConversationViewModel.cs" />
+    <Compile Include="Models\CreateIconViewModel.cs" />
     <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Models\NotificationViewModel.cs" />
     <Compile Include="Models\PostInfoWindowModel.cs" />
-    <Compile Include="Models\ReportViewModal.cs" />
+    <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\TimelineViewModel.cs" />
     <Compile Include="Startup.cs" />
@@ -329,7 +329,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\AddLocationViewModel.cs" />
+    <Compile Include="Models\MapViewModel.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\SearchResultItem.cs" />
@@ -377,6 +377,7 @@
     <Content Include="Content\Icon\sale2.png" />
     <Content Include="Content\Icon\ship.jpg" />
     <Content Include="Content\Icon\ship2.png" />
+    <Content Include="Content\Icon\users.png" />
     <Content Include="Content\Icon\users2.png" />
     <Content Include="Content\Icon\Warning.png" />
     <Content Include="Content\Icon\warning2.png" />
@@ -409,9 +410,6 @@
     <Content Include="Content\Map\map.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Images\deleteImage.png" />
-    <Content Include="Images\elliot.jpg" />
-    <Content Include="Images\image.png" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -562,7 +560,6 @@
     <Content Include="Views\Administration\_AddUserRole.cshtml" />
     <Content Include="Views\Administration\_UserLockedStatus.cshtml" />
     <Content Include="Views\Administration\_PostsManagementPanel.cshtml" />
-    <Content Include="Views\Administration\_CreateAdminPost.cshtml" />
     <Content Include="Views\Shared\_UserCard.cshtml" />
     <Content Include="Views\Shared\_AdminPostDetail.cshtml" />
     <Content Include="Views\Administration\_ReportsManagementPanel.cshtml" />

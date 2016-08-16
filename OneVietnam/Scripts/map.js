@@ -1,21 +1,25 @@
 ﻿var listMarkers = [];
 var map;
 var bounds;
-var userInfoWindow;
-var infowindow;
-var infowindowContent;
 var isFirstTime = true;
 var myCurrentLocationMarker, myHomeMarker;
 var markerCluster;
 var isClickOnSpiderfier = true;
+var currentFilter = -1
+var isPostFilter = false;
+var list = [];
+var Type3Icon, Type4Icon, Type5Icon, Type6Icon, Type7Icon, Type8Icon, Type9Icon;
+var UsersIcon, FemaleIcon, MaleIcon, LGBTIcon;
+var currentMarkerClusterer;
+var isAutoCompleteBox = false;
 
 var listUserMarkers = [], listMaleMarkers = [], listFemaleMarkers = [], listLGBTMarkers = [];
 
 var listType3Markers = [], listType4Markers = [], listType5Markers = [], listType6Markers = [], listType7Markers = [], listType8Markers = [], listType9Markers = [];
 
-var userMarkerCluster = [], maleMarkerCluster = [], femaleMarkerCluster = [], LGBTMarkerCluster = [];
+//var userMarkerCluster = [], maleMarkerCluster = [], femaleMarkerCluster = [], LGBTMarkerCluster = [];
 
-var type3MarkerCluster = [], type4MarkerCluster = [], type5MarkerCluster = [], type6MarkerCluster = [], type7MarkerCluster = [], type8MarkerCluster = [], type9MarkerCluster = [];
+//var type3MarkerCluster = [], type4MarkerCluster = [], type5MarkerCluster = [], type6MarkerCluster = [], type7MarkerCluster = [], type8MarkerCluster = [], type9MarkerCluster = [];
 
 var overlappingType3 = [], overlappingType4 = [], overlappingType5 = [], overlappingType6 = [], overlappingType7 = [], overlappingType8 = [], overlappingType9 = [];
 
@@ -23,14 +27,14 @@ var overlappingMale = [], overlappingFemale = [], overlappingLGBT = [], overlapp
 
 function checkAuthenticated() {
     var icon = {
-        url: "../Content/Icon/location.png",
+        url: "/Content/Icon/location.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
     };
 
     var myhomeicon = {
-        url: "../Content/Icon/myhome.png",
+        url: "/Content/Icon/myhome.png",
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 50)
@@ -59,9 +63,9 @@ function checkAuthenticated() {
             minZoom: 2,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
-        myCurrentLocationMarker.setMap(map);
-        myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
-        myHomeMarker.setMap(map);
+        //myCurrentLocationMarker.setMap(map);
+        //myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
+        //myHomeMarker.setMap(map);
 
     }
     else {
@@ -73,8 +77,8 @@ function checkAuthenticated() {
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
-        myCurrentLocationMarker.setMap(map);
-        showCurrentLocation();
+        //myCurrentLocationMarker.setMap(map);
+        //showCurrentLocation();
 
     }
 }
@@ -91,6 +95,32 @@ function initialize() {
 
     google.maps.event.addListener(map, 'idle', function () {
         bounds = map.getBounds();
+
+        if (map.getZoom() > 5 && isPostFilter == false) {
+            switch (currentFilter) {
+                case -4: showFemales(); break;
+                case -3: showMales(); break;
+                case -2: showLGBT(); break;
+                case -1: showUsers(); break;
+                case 0: showFemales(); break;
+                case 1: showMales(); break;
+                case 2: showLGBT(); break;
+                case 3: showAccommodation(); break;
+                case 4: showJobOffer(); break;
+                case 5: showFurnitureOffer(); break;
+                case 6: showHandGoodsOffer(); break;
+                case 7: showTradeOffer(); break;
+                case 8: showSOS(); break;
+                case 9: showWarning(); break;
+            }
+        }
+        setTimeout(function () {
+            var cnt = map.getCenter();
+            cnt.e += 0.000001;
+            map.panTo(cnt);
+            cnt.e -= 0.000001;
+            map.panTo(cnt);
+        }, 400);
     });
 
     //Delcare overlapping, markerClusterer
@@ -106,33 +136,96 @@ function initialize() {
     overlappingType8 = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
     overlappingType9 = new OverlappingMarkerSpiderfier(map, { circleFootSeparation: 60 });
 
+    Type3Icon = {
+        url: "/Content/Icon/home.png",
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 50)
+    };
+
+    Type4Icon = {
+        url: "/Content/Icon/job.png",
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 50)
+    };
+
+    Type5Icon = {
+        url: "/Content/Icon/free.png",
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 50)
+    };
+
+    Type6Icon = {
+        url: "/Content/Icon/ship.jpg",
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 50)
+    };
+
+    Type7Icon = {
+        url: "/Content/Icon/sale.png",
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 50)
+    };
+
+    Type8Icon = {
+        url: "/Content/Icon/help.png",
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 50)
+    };
+
+    Type9Icon = {
+        url: "/Content/Icon/Warning.png",
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 50)
+    };
+
+    UsersIcon = {
+        url: "/Content/Icon/users.png",
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 50)
+    };
+
+    MaleIcon = {
+        url: "/Content/Icon/male.png",
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 50)
+    };
+
+    FemaleIcon = {
+        url: "/Content/Icon/female.png",
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 50)
+    };
+
+    LGBTIcon = {
+        url: "/Content/Icon/LGBT.png",
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 50)
+    };
+
+
     createListUserMarkers();
     createListMaleMarkers();
     createListFemaleMarkers();
     createListLGBTMarkers();
-    createlistType3Markers();
-    createlistType4Markers();
-    createlistType5Markers();
-    createListType6Markers();
-    createListType7Markers();
-    createListType8Markers();
-    createListType9Markers();
 
-    userMarkerCluster = new MarkerClusterer(map, listUserMarkers);
-    maleMarkerCluster = new MarkerClusterer(map, listMaleMarkers);
-    femaleMarkerCluster = new MarkerClusterer(map, listFemaleMarkers);
-    LGBTMarkerCluster = new MarkerClusterer(map, listLGBTMarkers);
-    type3MarkerCluster = new MarkerClusterer(map, listType3Markers);
-    type4MarkerCluster = new MarkerClusterer(map, listType4Markers);
-    type5MarkerCluster = new MarkerClusterer(map, listType5Markers);
-    type6MarkerCluster = new MarkerClusterer(map, listType6Markers);
-    type7MarkerCluster = new MarkerClusterer(map, listType7Markers);
-    type8MarkerCluster = new MarkerClusterer(map, listType8Markers);
-    type9MarkerCluster = new MarkerClusterer(map, listType9Markers);
+    document.getElementById("filterUsers").style.background = "url(/Content/Icon/users2.png)";
+    document.getElementById("filterUsers").style.backgroundSize = "100%";
 
+    currentMarkerClusterer = new MarkerClusterer(map, list);
     //Init user makers first load
-    userMarkerCluster.setMaxZoom(9);
-    showUsers();
+    //userMarkerCluster.setMaxZoom(9);
+    //showUsers();
 
     // Create the search box and link it to the UI element.
     var input = document.getElementById("pac-input2");
@@ -157,17 +250,12 @@ function initialize() {
             }
         });
         //map.setZoom(12);
+        isAutoCompleteBox = true;
         map.fitBounds(bounds);
     });
 
     google.maps.event.addListener(map, 'zoom_changed', function () {
-        setTimeout(function () {
-            var cnt = map.getCenter();
-            cnt.e += 0.000001;
-            map.panTo(cnt);
-            cnt.e -= 0.000001;
-            map.panTo(cnt);
-        }, 400);
+
     });
 
 }
@@ -180,8 +268,14 @@ function loadScript() {
 }
 
 function showCurrentLocation() {
+    isPostFilter = true;
+    currentMarkerClusterer.setMap(null);
     // setMapToAMarkerCluster(null);
     myHomeMarker.setMap(null);
+    if (isAuthenticated == true) {
+        document.getElementById("myLocation").style.background = "url(/Content/Icon/myhome.png)";
+        document.getElementById("myLocation").style.backgroundSize = "100%";
+    }
 
     //Identify current user's location and bind it to the map
     //Using HTML5 geolocation.
@@ -220,8 +314,13 @@ function showCurrentLocation() {
 }
 
 function showMyLocation() {
+    isPostFilter = true;
+    currentMarkerClusterer.setMap(null);
     //setMapToAMarkerCluster(null);
     myCurrentLocationMarker.setMap(null);
+
+    document.getElementById("location").style.background = "url(/Content/Icon/location.png)";
+    document.getElementById("location").style.backgroundSize = "100%";
 
     myHomeMarker.setMap(map);
     myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
@@ -237,162 +336,66 @@ function showMyLocation() {
     // map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
 }
 
-function setMapToAMarkerCluster(markerCluster) {
-
-    userMarkerCluster.setMap(null);
-    maleMarkerCluster.setMap(null);
-    femaleMarkerCluster.setMap(null);
-    LGBTMarkerCluster.setMap(null);
-    type3MarkerCluster.setMap(null);
-    type4MarkerCluster.setMap(null);
-    type5MarkerCluster.setMap(null);
-    type6MarkerCluster.setMap(null);
-    type7MarkerCluster.setMap(null);
-    type8MarkerCluster.setMap(null);
-    type9MarkerCluster.setMap(null);
-    //myCurrentLocationMarker.setMap(null);
-    //myHomeMarker.setMap(null);
-
-    if (markerCluster != null) {
-        markerCluster.setMap(map);
-    }
-}
-
-function calculateNearestMarker(listLocation) {
-
-    //bounds = map.getBounds();
-    var centerOfCurrentBound = bounds.getCenter();
-    if (listLocation.length > 0) {
-        var position = new google.maps.LatLng(listLocation[0].x, listLocation[0].y);
-        var min = getDistance(centerOfCurrentBound, position);
-        var length = listLocation.length;
-        for (var i = 1; i < length; i++) {
-            var position2 = new google.maps.LatLng(listLocation[i].x, listLocation[i].y);
-            var distance2 = getDistance(centerOfCurrentBound, position2)
-            if (min > distance2) {
-                min = distance2;
-                position = position2;
-            }
-        }
-        return position;
-    }
-}
-
 function showUsers() {
-    setMapToAMarkerCluster(userMarkerCluster);
-    showAlertNoUser(allUsers);
 
-    if (isFirstTime == false) {
-        var pos = calculateNearestMarker(allUsers);
-        checkIfBoundContainPosition(pos);
-    }
-    isFirstTime = false;
-}
-
-function showMales() {
-    setMapToAMarkerCluster(maleMarkerCluster);
-    showAlertNoUser(males);
-    maleMarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(males);
-    checkIfBoundContainPosition(pos);
-}
-
-function showFemales() {
-    setMapToAMarkerCluster(femaleMarkerCluster);
-    showAlertNoUser(females);
-    femaleMarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(females);
-    checkIfBoundContainPosition(pos);
+    showMarkersOnMap(allUsers, -1, listUserMarkers);
 }
 
 function showLGBT() {
-    setMapToAMarkerCluster(LGBTMarkerCluster);
-    showAlertNoUser(LGBT);
-    LGBTMarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(LGBT);
-    checkIfBoundContainPosition(pos);
+
+    showMarkersOnMap(LGBT, -2, listLGBTMarkers);
+}
+
+function showMales() {
+
+    showMarkersOnMap(males, -3, listMaleMarkers);
+}
+
+function showFemales() {
+
+    showMarkersOnMap(females, -4, listFemaleMarkers);
 }
 
 function showAccommodation() {
-    setMapToAMarkerCluster(type3MarkerCluster);
-    showAlertNoPost(postType3);
-    type3MarkerCluster.setMaxZoom(9);
-    // openAllClusters(overlappingType3);
-    var pos = calculateNearestMarker(postType3);
-    checkIfBoundContainPosition(pos);
 
+    loadByAjax(postType3, 3);
 
 }
 
+
 function showJobOffer() {
-    setMapToAMarkerCluster(type4MarkerCluster);
-    showAlertNoPost(postType4);
-    type4MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType4);
-    checkIfBoundContainPosition(pos);
+    //showMarkersOnMap(postType4, 4, listType4Markers);
+    loadByAjax(postType4, 4);
 }
 
 function showFurnitureOffer() {
 
-    setMapToAMarkerCluster(type5MarkerCluster);
-    showAlertNoPost(postType5);
-    type5MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType5);
-    checkIfBoundContainPosition(pos);
+    //showMarkersOnMap(postType5, 5, listType5Markers);
+    loadByAjax(postType5, 5);
 }
 
 function showHandGoodsOffer() {
-    setMapToAMarkerCluster(type6MarkerCluster);
-    showAlertNoPost(postType6);
-    type6MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType6);
-    checkIfBoundContainPosition(pos);
-
+    //showMarkersOnMap(postType6, 6, listType6Markers);
+    loadByAjax(postType6, 6);
 }
 
 function showTradeOffer() {
-    setMapToAMarkerCluster(type7MarkerCluster);
-    showAlertNoPost(postType7);
-    type7MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType7);
-    checkIfBoundContainPosition(pos);
+    //showMarkersOnMap(postType7, 7, listType7Markers);
+    loadByAjax(postType7, 7);
 }
+
 function showSOS() {
-    setMapToAMarkerCluster(type8MarkerCluster);
-    showAlertNoPost(postType8);
-    type8MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType8);
-    checkIfBoundContainPosition(pos);
-
+    //showMarkersOnMap(postType8, 8, listType8Markers);
+    loadByAjax(postType8, 8);
 }
+
 function showWarning() {
-    setMapToAMarkerCluster(type9MarkerCluster);
-    showAlertNoPost(postType9);
-    type9MarkerCluster.setMaxZoom(9);
-    var pos = calculateNearestMarker(postType9);
-    checkIfBoundContainPosition(pos);
-}
-
-function showAlertNoPost(postTypeArray) {
-    if (postTypeArray.length == 0) {
-        $("#postEmptyAlertModal").modal('show');
-    }
-}
-
-function showAlertNoUser(postTypeArray) {
-    if (postTypeArray.length == 0) {
-        $("#userEmptyAlertModal").modal('show');
-    }
+    //showMarkersOnMap(postType9, 9, listType9Markers);
+    loadByAjax(postType9, 9);
 }
 
 function createListUserMarkers() {
     var length = allUsers.length;
-    var icon = {
-        url: "/Content/Icon/users.png",
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(50, 50)
-    };
 
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(allUsers[i].x, allUsers[i].y);
@@ -402,7 +405,7 @@ function createListUserMarkers() {
             map: null,
             optimized: false,
             title: "Nhấp để xem chi tiết",
-            icon: icon
+            icon: UsersIcon
         });
         listUserMarkers.push(marker);
         // Allow each marker to have an info window
@@ -427,12 +430,7 @@ function createListUserMarkers() {
 }
 
 function createListMaleMarkers() {
-    var icon = {
-        url: "../Content/Icon/male.png",
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(50, 50)
-    };
+
     var length = males.length;
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(males[i].x, males[i].y);
@@ -442,7 +440,7 @@ function createListMaleMarkers() {
             map: null,
             optimized: false,
             title: "Nhấp để xem chi tiết",
-            icon: icon
+            icon: MaleIcon
         });
         listMaleMarkers.push(marker);
 
@@ -467,12 +465,7 @@ function createListMaleMarkers() {
 }
 
 function createListFemaleMarkers() {
-    var icon = {
-        url: "../Content/Icon/female.png",
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(50, 50)
-    };
+
     var length = females.length;
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(females[i].x, females[i].y);
@@ -482,7 +475,7 @@ function createListFemaleMarkers() {
             optimized: false,
             map: null,
             title: "Nhấp để xem chi tiết",
-            icon: icon
+            icon: FemaleIcon
         });
         listFemaleMarkers.push(marker);
 
@@ -507,12 +500,7 @@ function createListFemaleMarkers() {
 }
 
 function createListLGBTMarkers() {
-    var icon = {
-        url: "../Content/Icon/LGBT.png",
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(50, 50)
-    };
+
     var length = LGBT.length;
     for (var i = 0; i < length; i++) {
         var position = new google.maps.LatLng(LGBT[i].x, LGBT[i].y);
@@ -522,7 +510,7 @@ function createListLGBTMarkers() {
             map: null,
             optimized: false,
             title: "Nhấp để xem chi tiết",
-            icon: icon
+            icon: LGBTIcon
         });
         listLGBTMarkers.push(marker);
 
@@ -537,7 +525,7 @@ function createListLGBTMarkers() {
 
         overlappingLGBT.addMarker(marker);
     }
-    
+
     overlappingLGBT.addListener('click', function (marker) {
         isClickOnSpiderfier = false;
     });
@@ -546,296 +534,116 @@ function createListLGBTMarkers() {
     });
 }
 
-function createlistType3Markers() {
-    var length = postType3.length;
-    var icon = {
-        url: "../Content/Icon/home.png",
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(50, 50)
-    };
+function createListPostMarker(positionList, listTypeMarker, overlappingType, TypeIcon) {
+    var length = positionList.length;
+
     for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType3[i].x, postType3[i].y);
-        bounds.extend(position);
+        var position = new google.maps.LatLng(positionList[i].x, positionList[i].y);
+        //bounds.extend(position);
         marker = new google.maps.Marker({
             position: position,
             map: null,
             optimized: false,
             title: "Nhấp để xem chi tiết",
-            icon: icon
+            icon: TypeIcon
         });
-        listType3Markers.push(marker);
+        listTypeMarker.push(marker);
 
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
                 setTimeout(function () {
-                    getPostInfo(postType3[i].postID);
+                    getPostInfo(positionList[i].postID);
                 }, 100);
             }
         })(marker, i));
 
-        overlappingType3.addMarker(marker);
+        overlappingType.addMarker(marker);
     }
-    
-    overlappingType3.addListener('click', function (marker) {
+
+    overlappingType.addListener('click', function (marker) {
         isClickOnSpiderfier = false;
     });
-    overlappingType3.addListener('spiderfy', function (markers) {
+    overlappingType.addListener('spiderfy', function (markers) {
         isClickOnSpiderfier = true;
     });
 
 }
 
-function createlistType4Markers() {
-    var icon = {
-        url: "../Content/Icon/job.png",
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(50, 50)
-    };
-    var length = postType4.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType4[i].x, postType4[i].y);
-        bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            title: "Nhấp để xem chi tiết",
-            icon: icon
+function showMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNumber) {
+
+    currentFilter = currentFilterNumber;
+
+    isPostFilter = true;
+    if (checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter) == false) {
+      
+        if (isAutoCompleteBox == true) {
+            if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
+                $("#nearestUserAlertModal").modal('show');
+            } else {
+                $("#nearestPostAlertModal").modal('show');
+            }
+           
+            isAutoCompleteBox = false;
+            isPostFilter = false;
+            return;
+        }
+
+        var pos = calculateNearestMarker(postTypeNumber);
+        if (pos) {
+            // smoothlyCenterPosition(pos);
+            checkIfBoundContainPosition(pos);
+            //map.setCenter(pos);
+            //map.setCenter(13);
+            setTimeout(function () {
+                checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter);
+
+            }, 300);
+        }
+    }
+
+    setTimeout(function () {
+        isPostFilter = false;
+    }, 700);
+
+}
+
+function loadByAjax(postTypeList, postTypeNumber) {
+    if (postTypeList.length == 0) {
+        $.ajax({
+            url: '/Map/GetListOfAPostType?PostType=' + postTypeNumber,
+            type: 'GET',
+            dataType: 'json',
+            success: function (result) {
+                for (var i = 0; i < result.length; i++) {
+                    postTypeList.push({ postID: result[i].PostId, x: result[i].X, y: result[i].Y });
+                }
+                switch (postTypeNumber) {
+                    case 3: createListPostMarker(postTypeList, listType3Markers, overlappingType3, Type3Icon); showMarkersOnMap(postType3, 3, listType3Markers); break;
+                    case 4: createListPostMarker(postTypeList, listType4Markers, overlappingType4, Type4Icon); showMarkersOnMap(postType4, 4, listType4Markers); break;
+                    case 5: createListPostMarker(postTypeList, listType5Markers, overlappingType5, Type5Icon); showMarkersOnMap(postType5, 5, listType5Markers); break;
+                    case 6: createListPostMarker(postTypeList, listType6Markers, overlappingType6, Type6Icon); showMarkersOnMap(postType6, 6, listType6Markers); break;
+                    case 7: createListPostMarker(postTypeList, listType7Markers, overlappingType7, Type7Icon); showMarkersOnMap(postType7, 7, listType7Markers); break;
+                    case 8: createListPostMarker(postTypeList, listType8Markers, overlappingType8, Type8Icon); showMarkersOnMap(postType8, 8, listType8Markers); break;
+                    case 9: createListPostMarker(postTypeList, listType9Markers, overlappingType9, Type9Icon); showMarkersOnMap(postType9, 9, listType9Markers); break;
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
         });
-        listType4Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType4[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType4.addMarker(marker);
+    } else {
+        switch (postTypeNumber) {
+            case 3: showMarkersOnMap(postType3, 3, listType3Markers); break;
+            case 4: showMarkersOnMap(postType4, 4, listType4Markers); break;
+            case 5: showMarkersOnMap(postType5, 5, listType5Markers); break;
+            case 6: showMarkersOnMap(postType6, 6, listType6Markers); break;
+            case 7: showMarkersOnMap(postType7, 7, listType7Markers); break;
+            case 8: showMarkersOnMap(postType8, 8, listType8Markers); break;
+            case 9: showMarkersOnMap(postType9, 9, listType9Markers); break;
+        }
     }
-    +
-    overlappingType4.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType4.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-    //  alert(listType4Markers[0].getTitle());
-
 }
-
-function createlistType5Markers() {
-    var icon = {
-        url: "../Content/Icon/free.png",
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(50, 50)
-    };
-    var length = postType5.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType5[i].x, postType5[i].y);
-        bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            title: "Nhấp để xem chi tiết",
-            icon: icon
-        });
-        listType5Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType5[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType5.addMarker(marker);
-    }
-    +
-    overlappingType5.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType5.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-
-}
-
-function createListType6Markers() {
-    var icon = {
-        url: "../Content/Icon/ship.jpg",
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(50, 50)
-    };
-    var length = postType6.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType6[i].x, postType6[i].y);
-        bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            title: "Nhấp để xem chi tiết",
-            icon: icon
-        });
-        listType6Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType6[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType6.addMarker(marker);
-    }
-    +
-    overlappingType6.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType6.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-
-}
-
-function createListType7Markers() {
-    var icon = {
-        url: "../Content/Icon/sale.png",
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(50, 50)
-    };
-    var length = postType7.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType7[i].x, postType7[i].y);
-        bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            icon: icon
-        });
-        listType7Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType7[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType7.addMarker(marker);
-    }
-    +
-    overlappingType7.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType7.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-
-}
-
-function createListType8Markers() {
-    var icon = {
-        url: "../Content/Icon/help.png",
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(50, 50)
-    };
-    var length = postType8.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType8[i].x, postType8[i].y);
-        bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            icon: icon
-        });
-        listType8Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType8[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType8.addMarker(marker);
-    }
-    +
-    overlappingType8.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType8.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-}
-
-function createListType9Markers() {
-    var icon = {
-        url: "../Content/Icon/Warning.png",
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(50, 50)
-    };
-    var length = postType9.length;
-    for (var i = 0; i < length; i++) {
-        var position = new google.maps.LatLng(postType9[i].x, postType9[i].y);
-        bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: null,
-            optimized: false,
-            //title: postType1[i].address,
-            icon: icon
-        });
-        listType9Markers.push(marker);
-
-        // Allow each marker to have an info window
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                setTimeout(function () {
-                    getPostInfo(postType9[i].postID);
-                }, 100);
-            }
-        })(marker, i));
-
-        overlappingType9.addMarker(marker);
-    }
-    +
-    overlappingType9.addListener('click', function (marker) {
-        isClickOnSpiderfier = false;
-    });
-    overlappingType9.addListener('spiderfy', function (markers) {
-        isClickOnSpiderfier = true;
-    });
-
-}
-
 function handleLocationError(browserHasGeolocation, message, pos) {
     alert(message);
 }
@@ -927,7 +735,7 @@ function getPostInfo(postID) {
                     }).modal({
                         duration: 400,
                         onShow: function () {
-                            history.pushState(null, null, "/Newsfeed/ShowPostDetailPage/" + postID);
+                            //    history.pushState(null, null, "/Newsfeed/ShowPost/" + postID);
                         }
                     }).modal('show')
                     ;
@@ -970,31 +778,37 @@ function getPostInfo(postID) {
 
 function showSelectedPostOnMap(Lat, Lng, PostType, PostId, isCallFromPostDetail) {
     isClickOnSpiderfier = false;
+    isPostFilter = false;
+    currentFilter = PostType;
+
+
+    // map.setCenter({Lat,Lng});
     switch (PostType) {
-        case 3: showAccommodation(); break;
-        case 4: showJobOffer(); break;
-        case 5: showFurnitureOffer(); break;
-        case 6: showHandGoodsOffer(); break;
-        case 7: showTradeOffer(); break;
-        case 8: showSOS(); break;
-        case 9: showWarning(); break;
+        case 3: accommodationEnlarge(); break;
+        case 4: jobEnlarge(); break;
+        case 5: furnitureEnlarge(); break;
+        case 6: handGoodsEnlarge(); break;
+        case 7: tradeEnlarge(); break;
+        case 8: helpEnlarge(); break;
+        case 9: warningEnlarge(); break;
     }
 
     if (isCallFromPostDetail != 1) {
+        var position = new google.maps.LatLng(Lat, Lng);
+        map.setZoom(14);
+        map.setCenter(position);
+        //checkIfBoundContainPosition(position);
         setTimeout(function () {
-            var position = new google.maps.LatLng(Lat, Lng);
-            smoothlyCenterPosition(position);
+
             getPostInfo(PostId);
 
         }, 1000);
     } else {
-        map.setZoom(14);
         map.setCenter({ lat: Lat, lng: Lng });
+        map.setZoom(9);
+
     }
-
-
 }
-
 
 function smoothlyCenterPosition(pos) {
     if (bounds) {
@@ -1011,7 +825,7 @@ function smoothlyCenterPosition(pos) {
         var cx = (lng1 + lng2) / 2.;
         var cy = (lat1 + lat2) / 2.;
 
-        // work around a bug in google maps...///
+        // work around a bug in google maps.///
         lng1 = cx + dx / 1.5;
         lng2 = cx - dx / 1.5;
         lat1 = cy + dy / 1.5;
@@ -1036,17 +850,112 @@ function checkIfBoundContainPosition(pos) {
         bounds.extend(pos);
         map.fitBounds(bounds);
         map.setCenter(pos);
+      
         setTimeout(function () {
-            smoothZoom(this.map, 13, map.getZoom());
-        }, 500);
+            // smoothZoom(this.map, 13, map.getZoom());
+            smoothlyCenterPosition(pos);
+        }, 1000);
     }
     else {
         //   map.fitBounds(map.getBounds());
         smoothlyCenterPosition(pos);
     }
 }
+
+function calculateNearestMarker(listLocation) {
+
+    //bounds = map.getBounds();
+    var centerOfCurrentBound = bounds.getCenter();
+    if (listLocation.length > 0) {
+        var position = new google.maps.LatLng(listLocation[0].x, listLocation[0].y);
+        var min = getDistance(centerOfCurrentBound, position);
+        var length = listLocation.length;
+        for (var i = 1; i < length; i++) {
+            var position2 = new google.maps.LatLng(listLocation[i].x, listLocation[i].y);
+            var distance2 = getDistance(centerOfCurrentBound, position2)
+            if (min > distance2) {
+                min = distance2;
+                position = position2;
+            }
+        }
+        return position;
+    }
+}
+
+function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
+
+    currentMarkerClusterer.removeMarkers(list);
+    var currentListLength = list.length;
+
+    for (var i = 0; i < currentListLength; i++) {
+        list[i].setMap(null);
+    }
+
+    while (list.length != 0) {
+        list.pop();
+
+    }
+    var length = listMarker.length;
+
+    for (var i = 0; i < length; i++) {
+        if (map.getBounds().contains(listMarker[i].position) == true) {
+            //  listMarker[i].setMap(map);
+            list.push(listMarker[i]);
+
+        }
+    }
+    if (list.length == 0) {
+        if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
+            if (listMarker.length == 0) {
+                $("#userEmptyAlertModal").modal('show');
+            }
+            else {
+                //$("#nearestUserAlertModal").modal('show');
+            }
+        } else {
+            if (listMarker.length == 0) {
+                $("#postEmptyAlertModal").modal('show');
+            } else {
+                //$("#nearestPostAlertModal").modal('show');
+
+            }
+        }
+        return false;
+
+    }
+    for (var i = 0; i < list.length; i++) {
+        list[i].setMap(map);
+    }
+
+    if (list.length == 1) {
+        //smoothlyCenterPosition(list[0].position);
+        //map.setCenter(list[0].position);
+        //bounds.extend(list[0].position);
+        //map.fitBounds(bounds);
+        map.setCenter(list[0].position);
+
+    }
+    currentMarkerClusterer.addMarkers(list);
+    currentMarkerClusterer.setMap(map);
+    currentMarkerClusterer.setMaxZoom(8);
+
+    return true;
+}
+
+function showAlertNoPost(postTypeArray) {
+    if (postTypeArray.length == 0) {
+        $("#postEmptyAlertModal").modal('show');
+    }
+}
+
+function showAlertNoUser(postTypeArray) {
+    if (postTypeArray.length == 0) {
+        $("#userEmptyAlertModal").modal('show');
+    }
+}
+
 function hideModel() {
-    $("#userModal").modal('hide');        
+    $("#userModal").modal('hide');
 }
 //window.onload = initialize;
 google.maps.event.addDomListener(window, 'load', initialize);

@@ -77,6 +77,17 @@ namespace OneVietnam.Controllers
             private set { _iconManager = value; }
         }
 
+
+        private ReportManager _reportManager;
+        public ReportManager ReportManager
+        {
+            get
+            {
+                return _reportManager ?? HttpContext.GetOwinContext().Get<ReportManager>();
+            }
+            private set { _reportManager = value; }
+        }
+
         public List<Tag> TagList
         {
             get
@@ -359,6 +370,14 @@ namespace OneVietnam.Controllers
             {
                 ModelState.AddModelError("", error);
             }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ReportUser(ReportViewModel model)
+        {
+            Report report = new Report(model) {ReporterId = User.Identity.GetUserId()};
+            await ReportManager.CreateAsync(report);
+            return PartialView("../Timeline/_ReportUser", new ReportViewModel(model.UserId));
         }
 
     }

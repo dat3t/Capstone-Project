@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OneVietnam.Models.AddLocationViewModel>
+﻿@model IEnumerable<OneVietnam.Models.MapViewModel>
 @using OneVietnam.DTL
 
 @{
@@ -74,7 +74,7 @@ else
         var allUsers = [];
         var males = [];
         var females = [];
-        var LGBT = [];post
+        var LGBT = [];
         var PostArray = [];
         var postType3 = [], postType4 = [], postType5 = [], postType6= [],postType7 = [],postType8 = [], postType9 = [];
 
@@ -93,7 +93,7 @@ else
                     }
 
         } else {
-            switch (@item.PostType) {
+            @*switch (@item.PostType) {
                 case 3: postType3.push({postID: '@item.PostId',  x: @item.X, y: @item.Y}); break;
                 case 4: postType4.push({postID: '@item.PostId',  x: @item.X, y: @item.Y}); break;
                 case 5: postType5.push({postID: '@item.PostId',  x: @item.X, y: @item.Y}); break;
@@ -101,7 +101,7 @@ else
                 case 7: postType7.push({postID: '@item.PostId',  x: @item.X, y: @item.Y}); break;
                 case 8: postType8.push({postID: '@item.PostId',  x: @item.X, y: @item.Y}); break;
                 case 9: postType9.push({postID: '@item.PostId',  x: @item.X, y: @item.Y}); break;
-            }
+            }*@
         }
         </text>
         }
@@ -266,6 +266,13 @@ else
     <div class="ui modal" id="postEmptyAlertModal" style="height:100px ;width:500px ;position: absolute; left:65%;">
         <div style="position: relative;left:8%;top:25%;font-size:30px;">Hiện tại không có bài viết nào!</div>
     </div>
+    <div class="ui modal" id="nearestPostAlertModal" style="height:100px ;width:600px ;position: absolute; left:65%;">
+        <div style="position: relative;left:5%;top:25%;font-size:30px;">Không có bài viết nào trong vùng này!</div>
+    </div>
+    <div class="ui modal" id="nearestUserAlertModal" style="height:100px ;width:650px ;position: absolute; left:60%;">
+        <div style="position: relative;left:4%;top:25%;font-size:30px;">Không có người dùng nào trong vùng này!</div>
+    </div>
+    
 </div> 
 <script defer src="~/Scripts/OverlappingMarkerSpiderfier.js"></script>
 

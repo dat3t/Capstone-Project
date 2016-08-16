@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -9,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using OneVietnam.BLL;
 using OneVietnam.DTL;
 using OneVietnam.Models;
+
 
 namespace OneVietnam.Controllers
 {
@@ -76,6 +76,17 @@ namespace OneVietnam.Controllers
             }
             private set { _postManager = value; }
         }
+
+        private ReportManager _repostManager;
+        public ReportManager ReportManager
+        {
+            get
+            {
+                return _repostManager ?? HttpContext.GetOwinContext().Get<ReportManager>();
+            }
+            private set { _repostManager = value; }
+        }
+
         [AllowAnonymous]
         public async Task<ActionResult> _userResult(string query,int? pageNum)
         {
@@ -198,92 +209,6 @@ namespace OneVietnam.Controllers
             };
             return Json(searchResult, JsonRequestBehavior.AllowGet);
         }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<ActionResult> SearchUserMultipleQuery()
-        {
-            string userName = "";
-            DateTimeOffset? createdDateFrom = null;
-            DateTimeOffset? createdDateTo = null;
-            string role = "";
-            bool? isConnection = null;
-
-            if (Request.Form.Count > 0)
-            {
-                userName = Request.Form["txtSearchUserName"];
-                string dateFrom = Request.Form["dtCreatedDateFrom"];
-                if (!string.IsNullOrWhiteSpace(dateFrom))
-                {
-                    createdDateFrom = Convert.ToDateTime(dateFrom).ToUniversalTime();
-                }
-                string dateTo = Request.Form["dtCreatedDateTo"];
-                if (!string.IsNullOrWhiteSpace(dateTo))
-                {                    
-                    createdDateTo = Convert.ToDateTime(dateTo).AddHours(24).ToUniversalTime();
-                }
-                role = Request.Form["txtSearchUserRole"];
-                var connection = Request.Form["chkIsOnline"];
-                if (!string.IsNullOrWhiteSpace(connection) && string.Equals(connection, "on"))
-                {
-                    isConnection = true;
-                }
-            }
-            var users = await UserManager.TextSearchMultipleQuery(userName, createdDateFrom, createdDateTo, role, isConnection);
-            List<UserManagementViewModel> userViews = new List<UserManagementViewModel>();
-            if (users != null && users.Count > 0)
-            {
-                foreach (var item in users)
-                {
-                    UserManagementViewModel model = new UserManagementViewModel(item);
-                    userViews.Add(model);
-                }
-
-            }
-            return PartialView("../Administration/_UsersManagementPanel", userViews);
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<ActionResult> SearchPostMultipleQuery()
-        {
-            string postTitle = "";
-            DateTimeOffset? createdDateFrom = null;
-            DateTimeOffset? createdDateTo = null;            
-            bool? postStatus = null;            
-            if (Request.Form.Count > 0)
-            {
-                postTitle = Request.Form["txtSearchPostTitle"];                
-                string dateFrom = Request.Form["dtPostCreatedDateFrom"];
-                if (!string.IsNullOrWhiteSpace(dateFrom))
-                {
-                    createdDateFrom = Convert.ToDateTime(dateFrom).ToUniversalTime();
-                }
-                string dateTo = Request.Form["dtPostCreatedDateTo"];
-                if (!string.IsNullOrWhiteSpace(dateTo))
-                {
-                    createdDateTo = Convert.ToDateTime(dateTo).AddHours(24).ToUniversalTime();
-                }                
-                var status = Request.Form["rdStatus"];
-                if (!string.IsNullOrWhiteSpace(status) && !string.Equals(status, "all"))
-                {
-                    postStatus = Convert.ToBoolean(status);
-                }
-            }
-            var posts = await PostManager.SearchPostMultipleQuery(postTitle, createdDateFrom, createdDateTo, postStatus);
-            List<AdminPostViewModel> postViews = new List<AdminPostViewModel>();
-            if (posts != null && posts.Count > 0)
-            {
-                foreach (var item in posts)
-                {
-                    AdminPostViewModel model = new AdminPostViewModel(item);
-                    postViews.Add(model);
-                }
-
-            }
-            return PartialView("../Administration/_PostsManagementPanel", postViews);
-        }
-
 
     }
 }

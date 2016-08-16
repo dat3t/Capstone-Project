@@ -20,163 +20,179 @@
 
         <div class="ui segment">
             <div id="AdministrationsMenu">
-            <div class="ui pointing secondary menu">
+                <div class="ui pointing secondary menu">
 
-                @*TODO Check user is admin or mode*@
-                
+
+                    @if (User.IsInRole(CustomRoles.Admin))
+                    {
+                        <a class="item active" data-tab="users"><i class="circular inverted users icon"></i>Người dùng</a>
+                        <a class="item" data-tab="roles"><i class="circular inverted setting icon"></i>Quyền truy cập</a>
+                        <a class="item" data-tab="icons"><i class="circular inverted setting icon"></i>Icon</a>
+                    }
+                    <a class="item" data-tab="posts"><i class="circular inverted newspaper icon"></i>Bài đăng</a>
+                    <a class="item" data-tab="reports"><i class="circular inverted bookmark icon"></i>Báo cáo</a>
+
+                </div>
+
                 @if (User.IsInRole(CustomRoles.Admin))
                 {
-                    <a class="item active" data-tab="users"><i class="circular inverted users icon"></i>Người dùng</a>
-                    <a class="item" data-tab="roles"><i class="circular inverted setting icon"></i>Quyền truy cập</a>
-                    <a class="item" data-tab="icons"><i class="circular inverted setting icon"></i>Icon</a>
-                }                
-                <a class="item" data-tab="posts"><i class="circular inverted newspaper icon"></i>Bài đăng</a>
-                <a class="item" data-tab="reports"><i class="circular inverted bookmark icon"></i>Báo cáo</a>
 
-            </div>
+            <!-- Users Managament -->
+                    <div class="ui tab active" data-tab="users">
+                        <!-- Users Search Box -->
+                        @using (Ajax.BeginForm("SearchUserMultipleQuery", "Administration", null, new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "UsersManagement"
+                        }, new { id = "UserSearchAdminPanel" }))
+                        {
+                            <div class="ui grid">
 
-                <!-- Users Managament -->
-                <div class="ui tab active" data-tab="users">
-                    <!-- Users Search Box -->
-                    @using (Ajax.BeginForm("SearchUserMultipleQuery", "Search", null, new AjaxOptions
-                    {
-                        HttpMethod = "POST",
-                        InsertionMode = InsertionMode.Replace,
-                        UpdateTargetId = "UsersManagement"
-                    }, new { id= "UserSearchAdminPanel" }))
-                    {
-                    <div class="ui grid">
-
-                        <!-- Search by User Name -->
-                        <div class="four wide column">
-                            <div class="ui search" id="dvSearchUsers">
-                                <div class="ui left icon input" style="width: 100% !important">
-                                    <i class="users icon"></i>
-                                    <input class="prompt" id="txtSearchUserName" name="txtSearchUserName" type="text" placeholder="Tên người dùng" autocomplete="off">
+                                <!-- Search by User Name -->
+                                <div class="four wide column">
+                                    <div class="ui search" id="dvSearchUsers">
+                                        <div class="ui left icon input" style="width: 100% !important">
+                                            <i class="users icon"></i>
+                                            <input class="prompt" id="txtSearchUserName" name="txtSearchUserName" type="text" placeholder="Tên người dùng" autocomplete="off">
+                                        </div>
+                                        <div class="force100 results"></div>
+                                    </div>
                                 </div>
-                                <div class="force100 results"></div>
-                            </div>
-                        </div>
 
-                        <!-- Search by Created Date -->
-                        <div class="six wide column">
-                            <label>Ngày đăng ký</label>
-                            <input type="date" style="width: 37%" id="dtCreatedDateFrom" name="dtCreatedDateFrom" value="@($"{System.DateTimeOffset.Now.AddDays(-7):yyyy-MM-dd}")" />
-                            <label>~</label>
-                            <input type="date" style="width: 37%" id="dtCreatedDateTo" name="dtCreatedDateTo" value="@($"{System.DateTimeOffset.Now:yyyy-MM-dd}")" />
-                        </div>
-
-                        <!-- Search by User Role-->
-                        <div class="three wide column">
-                            @if (Model?.Roles != null && Model.Roles.Count > 0)
-                                {
-                            <div class="ui selection dropdown" id="drSearchUserRole" style="width: 100%; min-width: 150px; max-width: 100%;">
-                                <input type="hidden" name="txtSearchUserRole" id="txtSearchUserRole">
-                                <i class="dropdown icon"></i>
-                                <div class="default text">Quyền truy cập</div>
-                                <div class="menu">
-                                    <div class="item" data-value="">Quyền truy cập</div>
-                                    @foreach (var role in Model.Roles)
-                                            {
-                                        <div class="item" data-value="@role.Name">@role.Name</div>
-                                            }
+                                <!-- Search by Created Date -->
+                                <div class="six wide column">
+                                    <label>Ngày đăng ký</label>
+                                    <input type="date" style="width: 37%" id="dtCreatedDateFrom" name="dtCreatedDateFrom" value="@($"{System.DateTimeOffset.Now.AddDays(-7):yyyy-MM-dd}")" />
+                                    <label>~</label>
+                                    <input type="date" style="width: 37%" id="dtCreatedDateTo" name="dtCreatedDateTo" value="@($"{System.DateTimeOffset.Now:yyyy-MM-dd}")" />
                                 </div>
+
+                                <!-- Search by User Role-->
+                                <div class="three wide column">
+                                    @if (Model?.Roles != null && Model.Roles.Count > 0)
+                    {
+                                        <div class="ui selection dropdown" id="drSearchUserRole" style="width: 100%; min-width: 150px; max-width: 100%;">
+                                            <input type="hidden" name="txtSearchUserRole" id="txtSearchUserRole">
+                                            <i class="dropdown icon"></i>
+                                            <div class="default text">Quyền truy cập</div>
+                                            <div class="menu">
+                                                <div class="item" data-value="">Quyền truy cập</div>
+                                                @foreach (var role in Model.Roles)
+                                                {
+                                                    <div class="item" data-value="@role.Name">@role.Name</div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+
+                                <!-- Search by Connection -->
+                                <div class="three wide column">
+                                    <div class="ui toggle checkbox">
+                                        <input type="checkbox" id="chkIsOnline" name="chkIsOnline">
+                                        <label>Đang online</label>
+                                    </div>
+                                </div>
+
                             </div>
-                                }
+                        }
+
+                        <!--Show search users result-->
+                        <div id="UsersManagement">
+                            @(Model?.Users != null ? Html.Partial("../Administration/_UsersManagementPanel", Model.Users) : Html.Partial("../Administration/_UsersManagementPanel", new List<UserManagementViewModel>()))
                         </div>
-
-                        <!-- Search by Connection -->
-                        <div class="three wide column">
-                            <div class="ui toggle checkbox">
-                                <input type="checkbox" id="chkIsOnline" name="chkIsOnline">
-                                <label>Đang online</label>
-                            </div>
-                        </div>
-
                     </div>
-                    }
-
-                    <!--Show search users result-->
-                    <div id="UsersManagement">
-                        @(Model?.Users != null ? Html.Partial("../Administration/_UsersManagementPanel", Model.Users) : Html.Partial("../Administration/_UsersManagementPanel", new List<UserManagementViewModel>()))
-                    </div>
-                </div>
 
                 <!-- Roles Managament -->
-                <div class="ui tab" data-tab="roles">
-                    <div id="RoleManagement">
-                        @(Model?.Roles != null ? Html.Partial("_RoleManagementPanel", Model.Roles) : Html.Partial("_RoleManagementPanel", new List<RoleViewModel>()))
+                    <div class="ui tab" data-tab="roles">
+                        <div id="RoleManagement">
+                            @(Model?.Roles != null ? Html.Partial("_RoleManagementPanel", Model.Roles) : Html.Partial("_RoleManagementPanel", new List<RoleViewModel>()))
+                        </div>
+
                     </div>
 
-                </div>
+                <!-- Icons Managament -->
+                    <div class="ui tab" data-tab="icons">
+                        <div id="IconManagement">
+                            @Html.Partial("_CreateIcon", new CreateIconViewModel())
+                        </div>
+
+                    </div>
+                }
 
                 <!-- Posts Managament -->
-                <div class="ui tab" data-tab="posts">
 
-                    <div class="ui top attached tabular menu">
-                        <a class="item active" data-tab="first">Các bài đăng</a>
-                        <a class="item" data-tab="second">Tạo bài đăng</a>
-                    </div>
-
+                <div class="ui tab" data-tab="posts">                   
+                    <script>
+                        var tab = document.querySelector('[data-tab = "users"]');
+                        if (tab === null || tab === undefined) {
+                            var tabPost = document.querySelectorAll('[data-tab = "posts"]');
+                            for(var i= 0; i < tabPost.length; i++)
+                            {
+                                tabPost[i].className += " active";
+                            }                            
+                        }
+                    </script>
                     <!--Search post tab-->
-                    <div class="ui bottom attached tab active" data-tab="first" style="padding-top: 1rem">
+                    <div style="padding-top: 1rem">
 
                         <!-- Admin Post Search Box -->
-                        @using (Ajax.BeginForm("SearchPostMultipleQuery", "Search", null, new AjaxOptions
+                        @using (Ajax.BeginForm("SearchPostMultipleQuery", "Administration", null, new AjaxOptions
                         {
                             HttpMethod = "POST",
                             InsertionMode = InsertionMode.Replace,
                             UpdateTargetId = "PostsManagement"
-                        }, new {id = "PostSearchAdminPanel"}))
+                        }, new { id = "PostSearchAdminPanel" }))
                         {
-                        <div class="ui grid">
-                            <!-- Search by Post Title -->
-                            <div class="four wide column">
-                                <div class="ui search" id="dvSearchPostTitle">
-                                    <div class="ui left icon input" style="width: 100% !important">
-                                        <i class="newspaper icon"></i>
-                                        <input class="prompt" id="txtSearchPostTitle" name="txtSearchPostTitle" type="text" placeholder="Tiêu đề bài đăng" autocomplete="off">
-                                    </div>
-                                    <div class="force100 results"></div>
-                                </div>
-                            </div>
-
-                            <!-- Search by Created Date -->
-                            <div class="six wide column">
-                                <label>Ngày tạo</label>
-                                <input type="date" style="width: 37%" id="dtPostCreatedDateFrom" name="dtPostCreatedDateFrom" value="@($"{System.DateTimeOffset.Now.AddDays(-7):yyyy-MM-dd}")" />
-                                <label>～</label>
-                                <input type="date" style="width: 37%" id="dtPostCreatedDateTo" name="dtPostCreatedDateTo" value="@($"{System.DateTimeOffset.Now:yyyy-MM-dd}")" />
-                            </div>
-
-                            <!-- Search by Status -->
-                            <div class="six wide column">
-                                <div class="ui form">
-                                    <div class="inline fields">
-                                        <label>Tình trạng</label>
-                                        <div class="field">
-                                            <div class="ui radio checkbox">
-                                                <input type="radio" name="rdStatus" value="true">
-                                                <label>Đang hoạt động</label>
-                                            </div>
+                            <div class="ui grid">
+                                <!-- Search by Post Title -->
+                                <div class="four wide column">
+                                    <div class="ui search" id="dvSearchPostTitle">
+                                        <div class="ui left icon input" style="width: 100% !important">
+                                            <i class="newspaper icon"></i>
+                                            <input class="prompt" id="txtSearchPostTitle" name="txtSearchPostTitle" type="text" placeholder="Tiêu đề bài đăng" autocomplete="off">
                                         </div>
-                                        <div class="field">
-                                            <div class="ui radio checkbox">
-                                                <input type="radio" name="rdStatus" value="false">
-                                                <label>Đã đóng</label>
-                                            </div>
-                                        </div>
-                                        <div class="field">
-                                            <div class="ui radio checkbox">
-                                                <input type="radio" name="rdStatus" value="all" checked="">
-                                                <label>Tất cả</label>
-                                            </div>
-                                        </div>
+                                        <div class="force100 results"></div>
                                     </div>
                                 </div>
-                            </div>
 
-                        </div>
+                                <!-- Search by Created Date -->
+                                <div class="six wide column">
+                                    <label>Ngày tạo</label>
+                                    <input type="date" style="width: 37%" id="dtPostCreatedDateFrom" name="dtPostCreatedDateFrom" value="@($"{System.DateTimeOffset.Now.AddDays(-7):yyyy-MM-dd}")" />
+                                    <label>～</label>
+                                    <input type="date" style="width: 37%" id="dtPostCreatedDateTo" name="dtPostCreatedDateTo" value="@($"{System.DateTimeOffset.Now:yyyy-MM-dd}")" />
+                                </div>
+
+                                <!-- Search by Status -->
+                                <div class="six wide column">
+                                    <div class="ui form">
+                                        <div class="inline fields">
+                                            <label>Tình trạng</label>
+                                            <div class="field">
+                                                <div class="ui radio checkbox">
+                                                    <input type="radio" name="rdStatus" value="true">
+                                                    <label>Đang hoạt động</label>
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <div class="ui radio checkbox">
+                                                    <input type="radio" name="rdStatus" value="false">
+                                                    <label>Đã đóng</label>
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <div class="ui radio checkbox">
+                                                    <input type="radio" name="rdStatus" value="all" checked="">
+                                                    <label>Tất cả</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         }
 
                         <!--Show search users result-->
@@ -185,96 +201,84 @@
                         </div>
 
                     </div>
-
-                    <!--Create post tab-->
-                    <div class="ui bottom attached tab" style="padding-top: 1rem" data-tab="second">
-                        <div id="CreateAdminPost" style="width: 60%; margin: auto">
-                            @Html.Partial("../Administration/_CreateAdminPost", new CreateAdminPostViewModel())
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Reports Managament -->
                 <div class="ui tab" data-tab="reports">
                     <!-- Users Search Box -->
-                    @using (Ajax.BeginForm("SearchReportMultipleQuery", "Search", null, new AjaxOptions
+                    @using (Ajax.BeginForm("SearchReportMultipleQuery", "Administration", null, new AjaxOptions
                     {
                         HttpMethod = "POST",
                         InsertionMode = InsertionMode.Replace,
                         UpdateTargetId = "ReportsManagement"
                     }, new { id = "ReportSearchAdminPanel" }))
                     {
-                    <div class="ui grid">
+                        <div class="ui grid">
 
-                        <!-- Search by Created Date -->
-                        <div class="six wide column">
-                            <label>Ngày tạo</label>
-                            <input type="date" style="width: 37%" id="dtReportCreatedDateFrom" name="dtReportCreatedDateFrom" value="@($"{System.DateTimeOffset.Now.AddDays(-7):yyyy-MM-dd}")" />
-                            <label>~</label>
-                            <input type="date" style="width: 37%" id="dtReportCreatedDateTo" name="dtReportCreatedDateTo" value="@($"{System.DateTimeOffset.Now:yyyy-MM-dd}")" />
-                        </div>
+                            <!-- Search by Created Date -->
+                            <div class="six wide column">
+                                <label>Ngày tạo</label>
+                                <input type="date" style="width: 37%" id="dtReportCreatedDateFrom" name="dtReportCreatedDateFrom" value="@($"{System.DateTimeOffset.Now.AddDays(-7):yyyy-MM-dd}")" />
+                                <label>~</label>
+                                <input type="date" style="width: 37%" id="dtReportCreatedDateTo" name="dtReportCreatedDateTo" value="@($"{System.DateTimeOffset.Now:yyyy-MM-dd}")" />
+                            </div>
 
-                        <!-- Search by Status -->
-                        <div class="ten wide column">
-                            <div class="ui form">
-                                <div class="inline fields">
-                                    <label>Tình trạng</label>
+                            <!-- Search by Status -->
+                            <div class="ten wide column">
+                                <div class="ui form">
+                                    <div class="inline fields">
+                                        <label>Tình trạng</label>
 
-                                    @{
+                                        @{
                                             foreach (string status in Enum.GetNames(typeof(ReportStatus)))
                                             {
-                                        <div class="field">
-                                            <div class="ui radio checkbox">
-                                                <input type="radio" name="rdReportStatus" value="@status">
-                                                @if (string.Equals(status, ReportStatus.Open.ToString()))
+                                                <div class="field">
+                                                    <div class="ui radio checkbox">
+                                                        <input type="radio" name="rdReportStatus" value="@status">
+                                                        @if (string.Equals(status, ReportStatus.Open.ToString()))
                                                         {
-                                                        <label>Đang mở</label>
+                                                            <label>Đang mở</label>
                                                         }
                                                         else if (string.Equals(status, ReportStatus.Pending.ToString()))
                                                         {
-                                                        <label>Đang chờ xử lý</label>
+                                                            <label>Đang chờ xử lý</label>
                                                         }
                                                         else if (string.Equals(status, ReportStatus.Closed.ToString()))
                                                         {
-                                                        <label>Đã đóng </label>
+                                                            <label>Đã đóng </label>
                                                         }
                                                         else if (string.Equals(status, ReportStatus.Canceled.ToString()))
                                                         {
-                                                        <label>Đã hủy</label>
+                                                            <label>Đã hủy</label>
                                                         }
                                                         else
                                                         {
-                                                        <label>@status</label>
+                                                            <label>@status</label>
                                                         }
-                                            </div>
-                                        </div>
+                                                    </div>
+                                                </div>
                                             }
-                                    }
-                                    <div class="field">
-                                        <div class="ui radio checkbox">
-                                            <input type="radio" name="rdReportStatus" value="all" checked="">
-                                            <label>Tất cả</label>
+                                        }
+                                        <div class="field">
+                                            <div class="ui radio checkbox">
+                                                <input type="radio" name="rdReportStatus" value="all" checked="">
+                                                <label>Tất cả</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </div>
+                        </div>
                                             }
 
                     <!--Show search users result-->
                     <div id="ReportsManagement">
-                        @(Model?.Reports != null ? Html.Partial("../Administration/_ReportsManagementPanel", Model.Reports) : Html.Partial("../Administration/_ReportsManagementPanel", new List<ReportViewModal>()))
+                        @(Model?.Reports != null ? Html.Partial("../Administration/_ReportsManagementPanel", Model.Reports) : Html.Partial("../Administration/_ReportsManagementPanel", new List<ReportViewModel>()))
                     </div>
                 </div>
 
-                <div class="ui tab" data-tab="icons">
-                    <div id="IconManagement">
-                        @Html.Partial("_CreateIcon", new CreateIconModel())
-                    </div>
 
-                </div>
             </div>
         </div>
 

@@ -89,10 +89,10 @@ namespace OneVietnam.Controllers
             var roles = await RoleManager.AllRolesAsync();
             var posts = await PostManager.SearchPostMultipleQuery("", DateTimeOffset.Now.Date.AddDays(-7).ToUniversalTime(), DateTimeOffset.Now.Date.AddDays(1).ToUniversalTime(), null);
             var reports = await ReportManager.FindAllAsync();
-            List<ReportViewModal> reportViewList = new List<ReportViewModal>();
+            List<ReportViewModel> reportViewList = new List<ReportViewModel>();
             foreach (var report in reports)
             {
-                ReportViewModal reportView = new ReportViewModal(report);
+                ReportViewModel reportView = new ReportViewModel(report);
                 if (!string.IsNullOrWhiteSpace(report.HandlerId))
                 {
                     var handlerUser = await UserManager.FindByIdAsync(report.HandlerId);
@@ -321,39 +321,6 @@ namespace OneVietnam.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAdminPost(CreateAdminPostViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var adress = ((ClaimsIdentity)User.Identity).FindFirst("Adress").Value;
-                var xCoordinate = Convert.ToDouble(((ClaimsIdentity)User.Identity).FindFirst("XCoordinate").Value);
-                var yCoordinate = Convert.ToDouble(((ClaimsIdentity)User.Identity).FindFirst("YCoordinate").Value);
-                var location = new Location(xCoordinate, yCoordinate, adress);
-                Post post = new Post(model) { UserId = User.Identity.GetUserId(), PostLocation = location };
-                HttpFileCollectionBase files = (HttpFileCollectionBase)Session["IllustrationList"];
-                var illList = await PostManager.AzureUploadAsync(files, post.Id);
-                Session["Illustrations"] = null;
-                if (illList != null)
-                {
-                    post.Illustrations = illList;
-                }
-                try
-                {
-                    await PostManager.CreateAsync(post);
-                    return PartialView("../Administration/_CreateAdminPost", new CreateAdminPostViewModel(post));
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", ex.Message);
-                    return PartialView("../Administration/_CreateAdminPost", model);
-                }
-            }
-
-            return PartialView("../Administration/_CreateAdminPost", new CreateAdminPostViewModel());
-        }
-
-        [HttpPost]
         public async Task<ActionResult> ChangeReportStatus(string reportAction, string reportId)
         {
             var report = await ReportManager.FindByIdAsync(reportId);
@@ -382,22 +349,167 @@ namespace OneVietnam.Controllers
                     }
                 }
 
-                ReportViewModal viewModal = new ReportViewModal(report);
+                ReportViewModel viewModal = new ReportViewModel(report);
                 return PartialView("../Administration/_ShowReportStatus", viewModal);
             }
             catch
             {
-                ReportViewModal viewModal = new ReportViewModal(report);
+                ReportViewModel viewModal = new ReportViewModel(report);
                 return PartialView("../Administration/_ShowReportStatus", viewModal);
             }
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateIcon(CreateIconModel model)
+        public async Task<ActionResult> CreateIcon(CreateIconViewModel model)
         {
             var icon = new Icon(model);
             await IconManager.CreateAsync(icon);
             return RedirectToAction("Index", "Administration");
         }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> SearchUserMultipleQuery()
+        {
+            string userName = "";
+            DateTimeOffset? createdDateFrom = null;
+            DateTimeOffset? createdDateTo = null;
+            string role = "";
+            bool? isConnection = null;
+
+            if (Request.Form.Count > 0)
+            {
+                userName = Request.Form["txtSearchUserName"];
+                string dateFrom = Request.Form["dtCreatedDateFrom"];
+                if (!string.IsNullOrWhiteSpace(dateFrom))
+                {
+                    createdDateFrom = Convert.ToDateTime(dateFrom).ToUniversalTime();
+                }
+                string dateTo = Request.Form["dtCreatedDateTo"];
+                if (!string.IsNullOrWhiteSpace(dateTo))
+                {
+                    createdDateTo = Convert.ToDateTime(dateTo).AddHours(24).ToUniversalTime();
+                }
+                role = Request.Form["txtSearchUserRole"];
+                var connection = Request.Form["chkIsOnline"];
+                if (!string.IsNullOrWhiteSpace(connection) && string.Equals(connection, "on"))
+                {
+                    isConnection = true;
+                }
+            }
+            var users = await UserManager.TextSearchMultipleQuery(userName, createdDateFrom, createdDateTo, role, isConnection);
+            List<UserManagementViewModel> userViews = new List<UserManagementViewModel>();
+            if (users != null && users.Count > 0)
+            {
+                foreach (var item in users)
+                {
+                    UserManagementViewModel model = new UserManagementViewModel(item);
+                    userViews.Add(model);
+                }
+
+            }
+            return PartialView("../Administration/_UsersManagementPanel", userViews);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> SearchPostMultipleQuery()
+        {
+            string postTitle = "";
+            DateTimeOffset? createdDateFrom = null;
+            DateTimeOffset? createdDateTo = null;
+            bool? postStatus = null;
+            if (Request.Form.Count > 0)
+            {
+                postTitle = Request.Form["txtSearchPostTitle"];
+                string dateFrom = Request.Form["dtPostCreatedDateFrom"];
+                if (!string.IsNullOrWhiteSpace(dateFrom))
+                {
+                    createdDateFrom = Convert.ToDateTime(dateFrom).ToUniversalTime();
+                }
+                string dateTo = Request.Form["dtPostCreatedDateTo"];
+                if (!string.IsNullOrWhiteSpace(dateTo))
+                {
+                    createdDateTo = Convert.ToDateTime(dateTo).AddHours(24).ToUniversalTime();
+                }
+                var status = Request.Form["rdStatus"];
+                if (!string.IsNullOrWhiteSpace(status) && !string.Equals(status, "all"))
+                {
+                    postStatus = Convert.ToBoolean(status);
+                }
+            }
+            var posts = await PostManager.SearchPostMultipleQuery(postTitle, createdDateFrom, createdDateTo, postStatus);
+            List<AdminPostViewModel> postViews = new List<AdminPostViewModel>();
+            if (posts != null && posts.Count > 0)
+            {
+                foreach (var item in posts)
+                {
+                    AdminPostViewModel model = new AdminPostViewModel(item);
+                    postViews.Add(model);
+                }
+
+            }
+            return PartialView("../Administration/_PostsManagementPanel", postViews);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> SearchReportMultipleQuery()
+        {
+            DateTimeOffset? createdDateFrom = null;
+            DateTimeOffset? createdDateTo = null;
+            string repostStatus = "";
+            if (Request.Form.Count > 0)
+            {
+                string dateFrom = Request.Form["dtReportCreatedDateFrom"];
+                if (!string.IsNullOrWhiteSpace(dateFrom))
+                {
+                    createdDateFrom = Convert.ToDateTime(dateFrom).ToUniversalTime();
+                }
+                string dateTo = Request.Form["dtReportCreatedDateTo"];
+                if (!string.IsNullOrWhiteSpace(dateTo))
+                {
+                    createdDateTo = Convert.ToDateTime(dateTo).AddHours(24).ToUniversalTime();
+                }
+                var status = Request.Form["rdReportStatus"];
+                if (!string.IsNullOrWhiteSpace(status) && !string.Equals(status, "all"))
+                {
+                    repostStatus = status;
+                }
+            }
+            var reports = await ReportManager.SearchRepostMultipleQuery(createdDateFrom, createdDateTo, repostStatus);
+            List<ReportViewModel> reportViewList = new List<ReportViewModel>();
+            foreach (var report in reports)
+            {
+                ReportViewModel reportView = new ReportViewModel(report);
+                if (!string.IsNullOrWhiteSpace(report.HandlerId))
+                {
+                    var handlerUser = await UserManager.FindByIdAsync(report.HandlerId);
+                    if (handlerUser != null)
+                    {
+                        reportView.HandlerName = handlerUser.UserName;
+                    }
+                }
+                if (!string.IsNullOrWhiteSpace(report.PostId))
+                {
+                    var reportedPost = await PostManager.FindByIdAsync(report.PostId);
+                    if (reportedPost != null)
+                    {
+                        reportView.PostTile = reportedPost.Title;
+                    }
+                }
+                var reportedUser = await UserManager.FindByIdAsync(report.UserId);
+                if (!string.IsNullOrWhiteSpace(reportedUser.UserName))
+                {
+                    reportView.UserName = reportedUser.UserName;
+                }
+
+                reportViewList.Add(reportView);
+
+            }
+            return PartialView("../Administration/_ReportsManagementPanel", reportViewList);
+        }
+
     }
 }
