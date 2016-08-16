@@ -141,12 +141,12 @@ namespace OneVietnam.Controllers
                 {
 
                     PostViewModel showPost = new PostViewModel(post, postUser.UserName, postUser.Avatar);
-                    return PartialView("../Newsfeed/_ShowPost", showPost);
+                    return PartialView("../Newsfeed/_ShowPostDetailModal", showPost);
 
                 }
             }
             var result = new PostViewModel(post);
-            return PartialView("../Newsfeed/_ShowPost", result);
+            return PartialView("../Newsfeed/_ShowPostDetailModal", result);
         }
 
         [AllowAnonymous]

@@ -1,29 +1,4 @@
-﻿<script>
-    window.fbAsyncInit = function () {
-     
-        FB.init({
-            appId: '1615798268744410',
-            xfbml: true,
-            version: 'v2.6'
-        });
-        FB.Event.subscribe('comment.create',
-                          function (response) {
-                              alert("toan");
-                              onCommentCreate(response.commentID);
-                          });
-    };
-
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) { return; }
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/vi_VN/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-       
-    }(document, 'script', 'facebook-jssdk'));
-   
-    FB.XFBML.parse();
-</script>
+﻿
 <div class="ui grid">
     <div class="four wide column"></div>
   
@@ -121,7 +96,7 @@
                 <div class="extra content">
                            @{
                         string url = "http://www.phimmoi.net/phim/nguoi-vo-tuyet-voi-3976/";
-                        string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";
+                        string iframeUrl = "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A51801%2FPost%2FShowPostDetailPageDetail%3FpostId%3D" + Model.Id + "&amp;src=sdkpreparse";
                     }
 
                     <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
@@ -139,13 +114,13 @@
                             function onCommentCreate(commentID) {
                                 $.ajax({
                                     type: 'GET',
-                                    url: '/Newsfeed/GetCommentor',
+                                    url: '/Newsfeed/GetCommentInfo',
                                     data: { commentid: commentID },
                                     success: function(commentor) {
                                         var comment = {
                                             UserId: "@Model.UserId",
                                             Commentor: commentor["Username"],
-                                            Url: "@Url.Action("ShowPost", "Newsfeed", new {Id = Model.Id})",
+                                            Url: "@Url.Action("ShowPostDetailPage", "Newsfeed", new {Id = Model.Id})",
                                             Avatar: commentor["Avatar"],
                                             Title: "@Model.Title"
                                         }

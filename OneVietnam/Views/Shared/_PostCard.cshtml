@@ -1,8 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
 @model OneVietnam.Models.PostViewModel
-<div class="grid-item  @Model.PostType">
+<div class="grid-item">
     <div class="ui fluid  card">
-        
         @{
             if (Model.Illustrations != null && Model.Illustrations.Count > 0)
             {
@@ -40,37 +39,13 @@
                    }
             }
             </div>
-            <div class="header " style="word-break: break-all">
+            <div class="header " >
                 @Model.Title
             </div>
-            <div class="description " style="word-break: break-all">
+            <div class="description " >
                 @Model.Description
             </div>
 
-
-            @*                <div class="right floated meta marker">*@
-            @*                    @if (Model.Status)*@
-            @*                    {*@
-            @*                        <i class="teal star icon" data-content="Đang hoạt động"></i>*@
-            @**@
-            @*                    }*@
-            @*                    else*@
-            @*                    {*@
-            @*                        <i class="red minus circle icon" data-content="Đang đóng"></i>*@
-            @*                    }*@
-            @*                </div>*@
-            @*                <div class="right floated meta marker hides">*@
-            @*                    @if (User.Identity.IsAuthenticated && (User.Identity.GetUserId() == Model.UserId))*@
-            @*                    {*@
-            @*                        <i class="icon remove circle link" data-content="Xóa" style="float: right" onclick="document.location.href = '@Url.Action("DeletePost", "Post", new {postId = Model.Id})';"></i>*@
-            @*                        <i class="icon edit link" data-content="Sửa" style="float: right" onclick="document.location.href =*@
-            @*                    }*@
-            @*                    else*@
-            @*                    {*@
-            @*                        <i class='icon announcement link' data-content='Báo cáo' style='float: right'></i>*@
-            @**@
-            @*                    }*@
-            @*                </div>*@
 
 
 

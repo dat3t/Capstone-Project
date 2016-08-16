@@ -149,7 +149,7 @@ namespace OneVietnam.Controllers
             {
                 var searchItem = new SearchResultItem
                 {
-                    Url = Url.Action("ShowPost", "Newsfeed", new { Id = item["_id"].ToString() })
+                    Url = Url.Action("ShowPostDetailPage", "Newsfeed", new { Id = item["_id"].ToString() })
                 };
                 //searchItem.Description = item["Description"].AsString.Substring(0,Math.Min(200, item["Description"].AsString.Length));
                 if (item["Description"].AsString.Length > Constants.DescriptionMaxLength)

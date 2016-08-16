@@ -42,7 +42,7 @@ namespace OneVietnam.BLL
             return await Store.FindAllAsync(filter).ConfigureAwait(false);
         }
 
-        public async Task<List<Post>> FindPostsByTypeAsync(BaseFilter baseFilter,int type)
+        public async Task<List<Post>> FindPostsByTypeAsync(BaseFilter baseFilter,int? type)
         {
             var builder = Builders<Post>.Filter;
             var filter = builder.Eq("PostType", type) & builder.Eq("LockedFlag", false) &
@@ -51,6 +51,14 @@ namespace OneVietnam.BLL
             return await FindAllAsync(baseFilter, filter, sort).ConfigureAwait(false);
         }
 
+        public async Task<List<Post>> FindPostByTypeAndUserIdAsync(BaseFilter baseFilter, string userId, int? type)
+        {
+            var builder = Builders<Post>.Filter;
+            var filter = builder.Eq("PostType", type) & builder.Eq("LockedFlag", false) &
+                         builder.Eq("DeletedFlag", false)& builder.Eq("UserId",userId);
+            var sort = Builders<Post>.Sort.Descending("CreatedDate");
+            return await FindAllAsync(baseFilter, filter, sort).ConfigureAwait(false);
+        }
         public async Task<List<BsonDocument>> FindPostByTagsAsync(BaseFilter baseFilter, List<Tag> tags)
         {
             var query = tags.Aggregate("", (current, tag) => current + tag.TagText + " ");
@@ -61,8 +69,9 @@ namespace OneVietnam.BLL
         {
             var sort = Builders<Post>.Sort.MetaTextScore("TextMatchScore").Ascending("CreatedDate");
             return await Store.FullTextSearch(query, filter, sort).ConfigureAwait(false);
-        }        
-        public PostManager(PostStore store) : base(store)
+        }
+
+        private PostManager(PostStore store) : base(store)
         {
         }
 
@@ -76,7 +85,7 @@ namespace OneVietnam.BLL
             var baseFilter = new BaseFilter {IsNeedPaging = false};
             return await this.FindAllAsync(baseFilter,filter,sort);
         }
-        public async Task<List<Illustration>> GetIllustration(HttpFileCollectionBase pFiles, string pBlobContainerName)
+        public async Task<List<Illustration>> AzureUploadAsync(HttpFileCollectionBase pFiles, string pBlobContainerName)
         {
             try
             {
@@ -110,7 +119,22 @@ namespace OneVietnam.BLL
             }
             return null;
         }
+        public async Task AzureDeleteAsync(string name, string id)
+        {
+            
+                Uri uri = new Uri(name);
+                string filename = Path.GetFileName(uri.LocalPath);
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                CloudBlobContainer blobContainer = blobClient.GetContainerReference(id);
 
+                var blob = blobContainer.GetBlockBlobReference(filename);
+                await blob.DeleteIfExistsAsync();
+
+
+
+           
+        }
         private string GetRandomBlobName(string filename)
         {
             string ext = Path.GetExtension(filename);

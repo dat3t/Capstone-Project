@@ -96,7 +96,7 @@ namespace OneVietnam.Controllers
 
         //ThamDTH 
 
-        public async Task<ActionResult> Index(string Id,int? pageNum)
+        public async Task<ActionResult> Index(string id,int? pageNum,int? filterVal)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
 
@@ -107,12 +107,18 @@ namespace OneVietnam.Controllers
             BaseFilter filter;
             List<Post> posts;
             List<PostViewModel> list = new List<PostViewModel>();
-            ApplicationUser user = await UserManager.FindByIdAsync(Id);
+            ApplicationUser user = await UserManager.FindByIdAsync(id);
             if (Request.IsAjaxRequest())
                 {
                     filter = new BaseFilter { CurrentPage = pageNum.Value };
-                    posts = await PostManager.FindAllDescenderByIdAsync(filter,Id);
-
+                    if (filterVal == -1 || filterVal == null)
+                    {
+                        posts = await PostManager.FindAllDescenderByIdAsync(filter, id);
+                    }
+                    else
+                    {
+                    posts = await PostManager.FindPostByTypeAndUserIdAsync(filter, id,filterVal);
+                }
                     if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
                     foreach (var post in posts)
                     {
@@ -123,7 +129,7 @@ namespace OneVietnam.Controllers
                     return PartialView("_PostRow", list);
                 }
             filter = new BaseFilter { CurrentPage = pageNum.Value };
-            posts = await PostManager.FindAllDescenderByIdAsync(filter,Id);
+            posts = await PostManager.FindAllDescenderByIdAsync(filter,id);
                 var postTypeList = await IconManager.GetIconPostAsync();
                 if (postTypeList != null)
                 {
@@ -167,7 +173,7 @@ namespace OneVietnam.Controllers
                 user.Email = profile.Email;
                 user.Location = profile.Location;                
                 user.DateOfBirth = profile.DateOfBirth;
-                user.PhoneNumber = profile.PhoneNumber;
+//                user.PhoneNumber = profile.PhoneNumber;
                 var result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {

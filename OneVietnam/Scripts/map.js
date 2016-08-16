@@ -927,7 +927,7 @@ function getPostInfo(postID) {
                     }).modal({
                         duration: 400,
                         onShow: function () {
-                            history.pushState(null, null, "/Newsfeed/ShowPost/" + postID);
+                            history.pushState(null, null, "/Newsfeed/ShowPostDetailPage/" + postID);
                         }
                     }).modal('show')
                     ;

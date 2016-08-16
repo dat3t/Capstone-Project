@@ -232,13 +232,13 @@
         
         // change size of item by toggling gigante class
         $grid.on('click', '.clickable', function (e) {
-            
+           
             var id = $(this).parent().find('#postId').val();
 
             $.ajax({
                 type: 'GET',
                 data: { "postId": id },
-                url: '/Newsfeed/_ShowPost',
+                url: '/Newsfeed/_ShowPostDetailModal',
                 success: function (partialResult) {
                     $("#forModal").empty();
                     $("#forModal").html(partialResult);
@@ -250,8 +250,9 @@
                         duration: 300,
                         onHide: function () {
                             history.back();
+                            $('#forSuggest').empty();
                         }, onShow: function () {
-                            history.pushState(null, null, "/Newsfeed/ShowPost/" + id);
+                            history.pushState(null, null, "/Newsfeed/ShowPostDetailPage/" + id);
                         }
                     }).modal('show')
                     ;
@@ -286,6 +287,7 @@
 
                 }
             });
+
             window.addEventListener('popstate', function (e) {
                 //Todo:back button
             }); 
@@ -319,7 +321,7 @@
         $('#stamp-button2')
             .on('click',
                 function () {
-                    document.location = "/Newsfeed?ShowPost";
+                    document.location = "/Newsfeed?ShowPostDetailPage";
                     $(".stamp").toggleClass("hides");
                     $(".edits").toggleClass("edits-cl");
                     $(".plus").toggleClass("plus-cl");
@@ -339,11 +341,7 @@
                 scrollTop: 0                       // Scroll to top of body
             }, 300);
         });
-        $('.filter-items').on('click', '.item', function () {
-            var filterValue = $(this).attr('data-filter');
-            // use filterFn if matches value
-            $('.grids').isotope({ filter: filterValue });
-        });
+       
 
     });
 

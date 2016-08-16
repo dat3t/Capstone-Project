@@ -15,17 +15,31 @@
   
 </head>
 <body>
-<script>
+    <script>
+    window.fbAsyncInit = function () {
+
+        FB.init({
+            appId: '1615798268744410',
+            xfbml: true,
+            version: 'v2.6'
+        });
+        FB.Event.subscribe('comment.create',
+                          function (response) {
+                              onCommentCreate(response.commentID);
+                          });
+    };
+
     (function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6&appId=1615798268744410";
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/vi_VN/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
 
     }(document, 'script', 'facebook-jssdk'));
-</script>
+
+    FB.XFBML.parse();
+    </script>
     <div class="ui grid">
         <div class="computer only row">
             <div class="ui main menu mainMenu">

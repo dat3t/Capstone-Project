@@ -1,4 +1,14 @@
-﻿
+﻿function verifyPN(parameters) {
+    var phoneNum = $("#txtMobilePhone").val();
+    $.ajax({
+        type: 'GET',
+        data:{phoneNumber:phoneNum},
+        url: "/Manage/AddPhoneNumber",
+        success: function (partialResult) {
+          
+        }
+    });
+}
 function editableForm() {
     $('.tog').toggleClass('disabled');
     $('#btnSaveEditProfile').toggleClass('hides');

@@ -19,6 +19,7 @@ using OneVietnam.DTL;
 using OneVietnam.Models;
 using Facebook;
 using System.Collections;
+using System.Configuration;
 using System.Security.Claims;
 using OneVietnam.Common;
 using Microsoft.AspNet.SignalR.Hubs;
@@ -138,7 +139,7 @@ namespace OneVietnam.Controllers
             };
             var tagList = await PostManager.AddAndGetAddedTags(Request, TagManager, "TagsInput");
             _illustrationList = (HttpFileCollectionBase)Session["Illustrations"];
-            var illList = await PostManager.GetIllustration(_illustrationList, post.Id);
+            var illList = await PostManager.AzureUploadAsync(_illustrationList, post.Id);
             Session["Illustrations"] = null;
             _illustrationList = null;
             if (tagList != null)
@@ -158,7 +159,7 @@ namespace OneVietnam.Controllers
                 var avatar = ((ClaimsIdentity) User.Identity).FindFirst("Avatar").Value;                
                 var description = Constants.AdminNotification + "\"" +
                                   post.Title + "\"";
-                var notice = new Notification(Url.Action("ShowPost", "Newsfeed", new { post.Id }), avatar, description);
+                var notice = new Notification(Url.Action("ShowPostDetailPage", "Newsfeed", new { post.Id }), avatar, description);
                 await UserManager.PushAdminNotificationToAllUsersAsync(notice);
                 await hubContext.Clients.All.pushNotification();
             }
@@ -181,7 +182,7 @@ namespace OneVietnam.Controllers
             return PartialView("_AdminPost", list);
         }
         [AllowAnonymous]
-        public async Task<ActionResult> Index(int? pageNum)
+        public async Task<ActionResult> Index(int? pageNum,int? filterVal)
         {            
             var tagList = await TagManager.FindAllAsync(false);
             if (tagList != null)
@@ -202,8 +203,15 @@ namespace OneVietnam.Controllers
             if (Request.IsAjaxRequest())
                 {
                 filter = new BaseFilter { CurrentPage = pageNum.Value };
+                if (filterVal == -1||filterVal==null) {
                 posts = await PostManager.FindAllDescenderAsync(filter);
+                }
+                else
+                {
+                    
+                posts = await PostManager.FindPostsByTypeAsync(filter, filterVal);
 
+                }
                 if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
                     foreach (var post in posts)
                     {
@@ -230,13 +238,53 @@ namespace OneVietnam.Controllers
             ViewBag.Posts = list;
             return View();
         }
+
         /// <summary>
         /// Get posts for pagenum
         /// </summary>
         /// <param name="pageNum"></param>
         /// <returns>List Post></returns>
+        public async Task<ActionResult> _suggestedPost(string postId,int? pageNum)
+        {
+            Post post = await PostManager.FindByIdAsync(postId);
+            List<Tag> tagsList = post.Tags;
+            BaseFilter filter = new BaseFilter { CurrentPage = pageNum.Value };
+            var result = await PostManager.FindPostByTagsAsync(filter, tagsList);
+            var list = new List<PostViewModel>();
+            foreach (var item in result)
+            {
+                var postView = new PostViewModel
+                {
+                    Title = (string)item["Title"],
+                    AvartarLink = await UserManager.GetAvatarByIdAsync(item["UserId"].ToString()),
+                    Description = item["Description"].ToString(),
+                    Id = item["_id"].ToString()
+                };
+                if (item.Contains("Illustrations"))
+                {
+                    var illustrations = new List<Illustration>();
+                    foreach (var il in item["Illustrations"].AsBsonArray)
+                    {
+                        var illustration = new Illustration();
+                        if (il["PhotoLink"] != null) illustration.PhotoLink = il["PhotoLink"].ToString();
+                        //todo Description                        
+                        illustrations.Add(illustration);
+                    }
+                    postView.Illustrations = illustrations;
+                }
+                postView.Status = item["Status"].AsBoolean;
+                postView.UserId = item["UserId"].ToString();
+                postView.TimeInterval = Utilities.GetTimeInterval(new DateTimeOffset
+                    (item["CreatedDate"].AsBsonArray[0].ToInt64(),
+                    Utilities.ConvertTimeZoneOffSetToTimeSpan(
+                    item["CreatedDate"].AsBsonArray[1].ToInt32())));
+                postView.UserName = await UserManager.GetUserNameByIdAsync(item["UserId"].ToString());
+                list.Add(postView);
+            }
+            return PartialView(list);
+        }
         [AllowAnonymous]
-        public async Task<ActionResult> ShowPost(string Id)
+        public async Task<ActionResult> ShowPostDetailPage(string Id)
         {
             Post post = await PostManager.FindByIdAsync(Id);
             if (post != null)
@@ -267,7 +315,7 @@ namespace OneVietnam.Controllers
             return await PostManager.FindAllAsync(filter);
         }
         [AllowAnonymous]
-        public async Task<ActionResult> _ShowPost(string postId)
+        public async Task<ActionResult> _ShowPostDetailModal(string postId)
         {
             //List<Post> list = await PostManager.FindByUserId(User.Identity.GetUserId());
             Post post = await PostManager.FindByIdAsync(postId);
@@ -284,35 +332,9 @@ namespace OneVietnam.Controllers
             }
             return PartialView();
         }
-        [AllowAnonymous]
-        public async Task<ActionResult> ShowPostDetail(string postId)
-        {
-            var tagList = await TagManager.FindAllAsync(false);
-            if (tagList != null)
-                    {
-                ViewData["TagList"] = tagList;
-                    }
-            var iconList = await IconManager.GetIconPostAsync();
-            if (iconList != null)
-                    {
-                ViewData["PostTypes"] = iconList;
-                    }
-            Post post = await PostManager.FindByIdAsync(postId);
-            if (post != null)
-            {
-                    ApplicationUser postUser = await UserManager.FindByIdAsync(post.UserId);
-                    if (postUser != null)
-                    {
+     
 
-                    PostViewModel showPost = new PostViewModel(post, postUser.UserName, postUser.Avatar);
-
-                        return View(showPost);
-                    }
-                }
-            return View();
-        }
-
-        public JsonResult GetCommentor(string commentid)
+        public JsonResult GetCommentInfo(string commentid)
         {     
             var fb = new FacebookClient(Constants.accessTokenFacebook);
             dynamic commentInfo = fb.Get(commentid);                                            
@@ -426,7 +448,7 @@ namespace OneVietnam.Controllers
             }
             Post post = new Post(pPostView);           
             await PostManager.UpdateAsync(post);
-            return RedirectToAction("ShowPost", "Newsfeed", new { pPostView.Id });
+            return RedirectToAction("ShowPostDetailPage", "Newsfeed", new { pPostView.Id });
         }
         private string GetRandomBlobName(string filename)
         {
@@ -440,7 +462,7 @@ namespace OneVietnam.Controllers
         public async Task<ActionResult> EditAdminPost(AdminPostViewModel pPostView)
         {
             ViewData.Clear();            
-            var illList = await PostManager.GetIllustration(_illustrationList, pPostView.Id);
+            var illList = await PostManager.AzureUploadAsync(_illustrationList, pPostView.Id);
             if (illList != null)
             {
                 pPostView.Illustrations = illList;
@@ -452,36 +474,27 @@ namespace OneVietnam.Controllers
 
         [System.Web.Mvc.Authorize]        
         public async Task<ActionResult> DeletePost(string postId)
-        {
-            //Post post = await PostManager.FindByIdAsync(postId);
-            //post.DeletedFlag = true;                                             
-            //await PostManager.UpdateAsync(post);
+        {        
             await PostManager.DeleteByIdAsync(postId);
+            CloudBlobContainer blobContainer = _blobClient.GetContainerReference(postId);
+            await blobContainer.DeleteIfExistsAsync();
             return RedirectToAction("Index", "Newsfeed");
         }
-        [HttpPost]
-        public async Task<ActionResult> DeleteImage(string name, string id)
+        public async Task DeleteImages(string name, string id)
         {
+           
+           
             try
             {
-                Uri uri = new Uri(name);
-                string filename = Path.GetFileName(uri.LocalPath);
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-                CloudBlobContainer blobContainer = blobClient.GetContainerReference(id);
-
-                var blob = blobContainer.GetBlockBlobReference(filename);
-                await blob.DeleteIfExistsAsync();
-                return RedirectToAction("EditPost", "Newsfeed", new { postId = id });
-
+                await PostManager.AzureDeleteAsync(name, id);
 
 
             }
+
             catch (Exception ex)
             {
                 ViewData["message"] = ex.Message;
                 ViewData["trace"] = ex.StackTrace;
-                return View("Error");
             }
         }      
     }

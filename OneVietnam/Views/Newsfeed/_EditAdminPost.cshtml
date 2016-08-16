@@ -60,7 +60,7 @@
                     </div>
                     <script>
                     function deleteImage(item, postid) {
-                        var url = "/Newsfeed/DeleteImage";
+                        var url = "/Newsfeed/DeleteImages";
                 $.post(url, { Name: item, id: postid }, function (data) {
                     window.location.href = window.location.href;
                 });

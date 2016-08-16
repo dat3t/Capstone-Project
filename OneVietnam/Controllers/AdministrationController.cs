@@ -332,7 +332,7 @@ namespace OneVietnam.Controllers
                 var location = new Location(xCoordinate, yCoordinate, adress);
                 Post post = new Post(model) { UserId = User.Identity.GetUserId(), PostLocation = location };
                 HttpFileCollectionBase files = (HttpFileCollectionBase)Session["IllustrationList"];
-                var illList = await PostManager.GetIllustration(files, post.Id);
+                var illList = await PostManager.AzureUploadAsync(files, post.Id);
                 Session["Illustrations"] = null;
                 if (illList != null)
                 {

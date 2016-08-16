@@ -156,8 +156,12 @@
                 <div class="ui big fluid tog transparent disabled input">
                     <i class="large mobile icon"></i>
                     @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @id = "txtMobilePhone" } })
+                    <div class="ui buttons">
+                        <div class="ui positive button active"  onclick="verifyPN()">Xác minh</div>
+                        <div class="or"></div>
+                        <div class="ui button">Xóa</div>
 
-                </div>
+                    </div></div>
             </div>
 
             <div class="ui item" style="display: none">

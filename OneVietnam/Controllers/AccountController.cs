@@ -193,7 +193,7 @@ namespace OneVietnam.Controllers
                     await UserManager.SendEmailAsync(user.Id,
                        "Xác nhận tài khoản", "Xác nhận tài khoản của bạn bằng cách click vào <a href=\""
                        + callbackUrl + "\">link</a>");
-                    ViewBag.Message = "Bạn cần xác nhận tài khoản qua Email trước khi đăng nhập.";
+                    ViewBag.Message = "Click vào đường link xác nhận tài khoản qua Email được gửi vào hòm thư của bạn để tiếp tục";
                     return View("Info");
                 }
                 AddErrors(result);
