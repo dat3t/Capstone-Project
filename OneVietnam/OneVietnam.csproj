@@ -492,7 +492,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -515,7 +517,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Account\DisplayEmail.cshtml" />
     <Content Include="Views\RolesAdmin\Create.cshtml" />
     <Content Include="Views\RolesAdmin\Delete.cshtml" />
     <Content Include="Views\RolesAdmin\Details.cshtml" />
@@ -528,21 +529,17 @@
     <Content Include="Views\UsersAdmin\Index.cshtml" />
     <None Include="Service References\ASPSMSX2\aspsmsx2.wsdl" />
     <Content Include="Views\Shared\Info.cshtml" />
-    <Content Include="Views\Account\ShowAllUsers.cshtml" />
-    <Content Include="Views\Account\CreateCountry.cshtml" />
     <Content Include="Views\Account\SelectCountry.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Newsfeed\EditPost.cshtml" />
-    <Content Include="Views\Newsfeed\ShowPostDetail.cshtml" />
-    <Content Include="Views\Newsfeed\ShowPost.cshtml" />
+    <Content Include="Views\Newsfeed\ShowPostDetailPage.cshtml" />
     <Content Include="Views\Manage\TimeLine.cshtml" />
     <Content Include="Views\Shared\_PostRow.cshtml" />
     <Content Include="Views\Shared\_Loading.cshtml" />
     <Content Include="Views\Map\ShowMap.cshtml" />
     <Content Include="Views\Map\CustomInfoWindow.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
-    <Content Include="Views\Newsfeed\_ShowPostDetail.cshtml" />
     <Content Include="Views\Shared\_CreatePost.cshtml" />
     <Content Include="Views\Newsfeed\_Report.cshtml" />
     <Content Include="Views\Map\_SidenavPost.cshtml" />
@@ -553,9 +550,9 @@
     <Content Include="Views\Timeline\_ChangePassword.cshtml" />
     <Content Include="Views\Timeline\_EditProfile.cshtml" />
     <Content Include="Views\Timeline\_SetPassword.cshtml" />
-    <Content Include="Views\Shared\_ShowPostDetail.cshtml" />
+    <Content Include="Views\Shared\_PostCard.cshtml" />
     <Content Include="Views\Shared\_NoSearchResult.cshtml" />
-    <Content Include="Views\Newsfeed\_ShowPost.cshtml" />
+    <Content Include="Views\Newsfeed\_ShowPostDetailModal.cshtml" />
     <Content Include="Views\Administration\Index.cshtml" />
     <Content Include="Views\Administration\_AddRole.cshtml" />
     <Content Include="Views\Administration\_RoleManagementPanel.cshtml" />
@@ -566,7 +563,6 @@
     <Content Include="Views\Administration\_AddUserRole.cshtml" />
     <Content Include="Views\Administration\_UserLockedStatus.cshtml" />
     <Content Include="Views\Administration\_PostsManagementPanel.cshtml" />
-    <Content Include="Views\Administration\_CreateAdminPost.cshtml" />
     <Content Include="Views\Shared\_UserCard.cshtml" />
     <Content Include="Views\Shared\_AdminPostDetail.cshtml" />
     <Content Include="Views\Administration\_ReportsManagementPanel.cshtml" />
@@ -577,7 +573,7 @@
     <Content Include="Views\Administration\_CreateIcon.cshtml" />
     <Content Include="Views\Search\_userResult.cshtml" />
     <Content Include="Views\Shared\_userRow.cshtml" />
-    <Content Include="Views\Timeline\_ReportUser.cshtml" />
+    <Content Include="Views\Shared\_suggestedPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

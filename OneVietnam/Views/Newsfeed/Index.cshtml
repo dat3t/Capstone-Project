@@ -8,7 +8,7 @@
         .ready(function () {
            
             $("#stamp-button2").hide();
-            if (query === 'ShowPost') {
+            if (query === 'ShowPostDetailPage') {
 //                $("#CreatePostForm").data('validator').resetForm();
 //                $(".validation-summary-errors ul li").remove();
                 $(".validation-summary-errors").addClass('validation-summary-valid').removeClass('validation-summary-errors');
@@ -57,29 +57,29 @@
             </div>
             <i class="dropdown icon"></i>
             <div class="menu filter-items">
-                <div class="item" data-filter="*">
+                <div class="item" data-filter="-1">
                     <div class="ui blue empty circular label"></div>
                     Tất cả
                 </div>
 
-                <div class="item" data-filter=".4">
+                <div class="item" data-filter="4">
                     <div class="ui yellow empty circular label"></div>
                     Việc làm
                 </div>
-                <div class="item" data-filter=".5">
+                <div class="item" data-filter="5">
                     <div class="ui black empty circular label"></div>
                     Đồ dùng
 
                 </div>
-                <div class="item" data-filter=".6">
+                <div class="item" data-filter="6">
                     <div class="ui purple empty circular label"></div>
                     Xách tay
                 </div>
-                <div class="item" data-filter=".7">
+                <div class="item" data-filter="7">
                     <div class="ui orange empty circular label"></div>
                     Mua bán
                 </div>
-                <div class="item" data-filter=".8">
+                <div class="item" data-filter="8">
                     <div class="ui empty circular label"></div>
                     Cần giúp đỡ
                 </div>
@@ -153,7 +153,6 @@ else
 </div>
 
 @section scripts{
-    <script src="~/Scripts/infiniteScroll.js"></script>
     <script type="text/javascript">
         $.ajax({
             type: 'GET',
@@ -164,9 +163,11 @@ else
         });
         var forLoad = $(".ui.link.cards");
         var grid = $(".grids");
+        var filterValue = -1;
         $(function () {
             $("div#loading").hide();
         });
+       
         var moreRowsUrl = '@Url.Action("Index","Newsfeed")';
         $(window).scroll(scrollHandler);
     </script>

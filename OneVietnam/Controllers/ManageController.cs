@@ -142,10 +142,10 @@ namespace OneVietnam.Controllers
 
         //
         // GET: /Account/AddPhoneNumber
-        public ActionResult AddPhoneNumber()
-        {
-            return View();
-        }
+//        public ActionResult AddPhoneNumber()
+//        {
+//            return View();
+//        }
 
         //
         // GET: /Manage/RememberBrowser
@@ -192,27 +192,22 @@ namespace OneVietnam.Controllers
 
         //
         // POST: /Account/AddPhoneNumber
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
+        public async Task<string> AddPhoneNumber(string phoneNumber)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+          
             // Send result of: UserManager.GetPhoneNumberCodeAsync(User.Identity.GetUserId(), phoneNumber);
             // Generate the token and send it
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), model.Number);
+            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
             if (UserManager.SmsService != null)
             {
                 var message = new IdentityMessage
                 {
-                    Destination = model.Number,
-                    Body = "Your security code is: " + code
+                    Destination =phoneNumber,
+                    Body = "Mã bảo mật của bạn là: " + code
                 };
                 await UserManager.SmsService.SendAsync(message);
             }
-            return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
+            return "" ;
         }
         //
         // POST: /Manage/EnableTwoFactorAuthentication

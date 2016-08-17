@@ -29,6 +29,7 @@ namespace OneVietnam.Controllers
                 _userManager = value;
             }
         }
+
         private PostManager _postManager;
         public PostManager PostManager
         {
@@ -40,21 +41,39 @@ namespace OneVietnam.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<ActionResult> ShowMap(double? XCoordinate, double? YCoordinate, int? PostType, string postId = "")
+        public async Task<ActionResult> ShowMap(double? XCoordinate, double? YCoordinate, int? postType, string postId = "")
         {
             ViewBag.XCoordinate = XCoordinate;
             ViewBag.YCoordinate = YCoordinate;
-            ViewBag.PostType = PostType;
+            ViewBag.PostType = postType;
             ViewBag.PostId = postId;
 
             var userslist = await UserManager.AllUsersAsync().ConfigureAwait(false);
-            var list = userslist.Select(user => new MapViewModel
+
+            MapViewModel mapModal;
+            List<MapViewModel> list = new List<MapViewModel>();
+
+            foreach (ApplicationUser user in userslist)
             {
-                X = user.Location.XCoordinate,
-                Y = user.Location.YCoordinate,
-                UserId = user.Id,
-                Gender = user.Gender
-            }).ToList();
+                mapModal = new MapViewModel();
+
+                if (user.LockedFlag == false && user.DeletedFlag == false)
+                {
+                    mapModal.X = user.Location.XCoordinate;
+                    mapModal.Y = user.Location.YCoordinate;
+                    mapModal.UserId = user.Id;
+                    mapModal.Gender = user.Gender;
+                    list.Add(mapModal);
+                }
+            }
+            //var list = userslist.Select(user => new MapViewModel
+            //{
+
+            //    X = user.Location.XCoordinate,
+            //    Y = user.Location.YCoordinate,
+            //    UserId = user.Id,
+            //    Gender = user.Gender
+            //}).ToList();
           
             ViewBag.topPostModel = await GetTopPostInfo().ConfigureAwait(false);
             return View(list);
@@ -87,7 +106,7 @@ namespace OneVietnam.Controllers
 
         //[HttpPost] // can be HttpGet
         [AllowAnonymous]
-        public async Task<ActionResult> GetUserInfo(string userId)
+        public async Task<JsonResult> GetUserInfo(string userId)
         {
             var user = await UserManager.FindByIdAsync(userId).ConfigureAwait(false);
             return Json(user, JsonRequestBehavior.AllowGet);
@@ -100,6 +119,7 @@ namespace OneVietnam.Controllers
             var user = await UserManager.FindByIdAsync(userId);
             return Json(user.Location ?? null, JsonRequestBehavior.AllowGet);
         }
+
         [AllowAnonymous]
         public async Task<ActionResult> GetPostPartialView(string postId)
         {
@@ -111,12 +131,12 @@ namespace OneVietnam.Controllers
                 {
 
                     PostViewModel showPost = new PostViewModel(post, postUser.UserName, postUser.Avatar);
-                    return PartialView("../Newsfeed/_ShowPost", showPost);
+                    return PartialView("../Newsfeed/_ShowPostDetailModal", showPost);
 
                 }
             }
             var result = new PostViewModel(post);
-            return PartialView("../Newsfeed/_ShowPost", result);
+            return PartialView("../Newsfeed/_ShowPostDetailModal", result);
         }
 
         [AllowAnonymous]
@@ -157,10 +177,10 @@ namespace OneVietnam.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<JsonResult> GetListOfAPostType(int PostType)
+        public async Task<JsonResult> GetListOfAPostType(int postType)
         {
             var baseFilter = new BaseFilter { IsNeedPaging = false };
-            var postlist = await PostManager.FindPostsByTypeAsync(baseFilter,PostType).ConfigureAwait(false);
+            var postlist = await PostManager.FindPostsByTypeAsync(baseFilter,postType).ConfigureAwait(false);
 
             var list = postlist.Select(p => new MapViewModel
             {

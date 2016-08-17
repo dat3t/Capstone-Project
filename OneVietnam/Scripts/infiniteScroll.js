@@ -8,10 +8,20 @@ var scrollHandler = function () {
         loadMoreToInfiniteScrollTable(moreRowsUrl);
     }
 }
+$('.filter-items').on('click', '.item', function () {
+    page = 0;
+    
+    $(forLoad).empty();
+     filterValue = $(this).attr('data-filter');
 
+    loadMoreToInfiniteScrollTable(moreRowsUrl);
+
+
+});
 var ulScrollHandler = function () {
     if (hasReachedEndOfInfiniteScroll === false &&
             ($(window).scrollTop() === $(document).height() - $(window).height())) {
+       
         loadMoreToInfiniteScrollUl(moreRowsUrl);
     }
 }
@@ -50,7 +60,7 @@ function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
         $.ajax({
             type: 'GET',
             url: loadMoreRowsUrl,
-            data: "pageNum=" + page,
+            data: {pageNum:page, filterVal:filterValue },
             success: function (data, textstatus) {
                 if (data != '') {
                     var $items = $(data);
