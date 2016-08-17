@@ -1,7 +1,9 @@
-﻿<div class="homepage">
-    <h2 class="ui center aligned icon" style="font-size: 3em; padding-top: 10%">        
-        <span style="color: #000000; text-shadow: 1px 1px black">Kết nối cộng đồng người Việt</span>
-    </h2>
+﻿
+
+<link rel="stylesheet" type="text/css" href="/Content/style.css" />
+
+
+<div class="homepage">   
 
     @if (!User.Identity.IsAuthenticated)
     {
@@ -10,6 +12,20 @@
             <i class="forward icon"></i>
         </a>*@
     }
-
+   
+    <div id="wowslider-container1">
+        <div class="ws_images">
+            <ul>
+                <li><img src="/Content/Icon/cau_rong.jpg" alt="con rồng cháu tiên" title="con rồng cháu tiên" id="wows1_0" /></li>
+                <li><img src="/Content/Icon/homepage_1.jpg" alt="image slider" title="vượt sóng ra khơi" id="wows1_1" /></li>
+                <li><img src="/Content/Icon/phaluong.jpg" alt="hướng về phía trước" title="hướng về phía trước" id="wows1_2" /></li>
+            </ul>
+        </div>        
+        <div class="ws_shadow"></div>
+    </div>
+    <script type="text/javascript" src="/Scripts/wowslider.js"></script>
+    <script type="text/javascript" src="/Scripts/script.js"></script>
     
+
+
 </div>
