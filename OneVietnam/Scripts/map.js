@@ -908,6 +908,8 @@ function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
         if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
             if (listMarker.length == 0) {
                 $("#userEmptyAlertModal").modal('show');
+                returnToNormalState();
+                currentFilter = -5;
             }
             else {
                 //$("#nearestUserAlertModal").modal('show');
@@ -915,6 +917,8 @@ function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
         } else {
             if (listMarker.length == 0) {
                 $("#postEmptyAlertModal").modal('show');
+                returnToNormalState();
+                currentFilter = -5;
             } else {
                 //$("#nearestPostAlertModal").modal('show');
 
