@@ -175,8 +175,7 @@
                                     type: 'GET',
                                     url: '/Newsfeed/GetCommentInfo',
                                     data: { commentid: commentID },
-                                    success: function (commentor) {
-                                        alert("cat co");
+                                    success: function (commentor) {                                        
                                         var comment = {
                                             
                                             UserId: "@Model.UserId",
@@ -282,18 +281,7 @@
         <div class="ui link cards" id="forSuggest">
             
         </div>
-    </div>
-
-    <script>
-
-
-        if ($(window).scrollTop() === $(document).height() - $(window).height()) {
-            alert("vao");
-
-        }
-    </script>
+    </div>   
 </div>
     <div class="ui two wide column forHide"></div>
-
-
 </div>

@@ -1,7 +1,7 @@
 ﻿var noNotification = "Bạn không có thông báo nào";
 function pushCommentNotification(comment) {
     $.connection.hub.start().done(function () {
-        myHub.server.pushNotification(comment);
+        window.myHub.server.pushNotification(comment);
     });
 }
 function addNotification(notification) {
