@@ -20,6 +20,7 @@ using Tag = OneVietnam.DTL.Tag;
 
 namespace OneVietnam.Controllers
 {
+    [Authorize]
     public class TimelineController : Controller
     {
         static CloudBlobClient blobClient;
@@ -106,6 +107,7 @@ namespace OneVietnam.Controllers
         //}
 
         //ThamDTH 
+        [AllowAnonymous]
 
         public async Task<ActionResult> Index(string id,int? pageNum,int? filterVal)
         {

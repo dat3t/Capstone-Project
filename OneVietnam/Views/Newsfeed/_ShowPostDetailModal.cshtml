@@ -133,9 +133,9 @@
                         <script>
                            
                           
-                           
-                             function finished_rendering() {
-                                 alert("catco");
+                            FB.Event.subscribe('xfbml.render',
+                                function () {
+                                  
                                     $.ajax({
                                         type: 'GET',
                                         url: '/Newsfeed/_suggestedPost',
@@ -151,7 +151,7 @@
                                                         gutter: '.gutter-sizer'
                                                     }
                                                 });
-                                                alert("catco");
+                                               
                                                 $("#forSuggest").html($items);
                                                 $(".suggest.grids").isotope('appended', $items);
                                                 $(".suggest.grids").isotope('layout');
@@ -167,7 +167,7 @@
                                         }
                                     });
                                   
-                                };
+                                });
                            
 
                             function onCommentCreate(commentID) {
@@ -175,8 +175,7 @@
                                     type: 'GET',
                                     url: '/Newsfeed/GetCommentInfo',
                                     data: { commentid: commentID },
-                                    success: function (commentor) {
-                                        alert("cat co");
+                                    success: function (commentor) {                                        
                                         var comment = {
                                             
                                             UserId: "@Model.UserId",
@@ -282,11 +281,7 @@
         <div class="ui link cards" id="forSuggest">
             
         </div>
-    </div>
-
-
+    </div>   
 </div>
     <div class="ui two wide column forHide"></div>
-
-
 </div>

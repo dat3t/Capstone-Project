@@ -236,17 +236,17 @@
         <script type="text/javascript" src="~/Scripts/Chat.js"></script>
         <script type="text/javascript" src="~/Scripts/Notification.js"></script>
         <script>
-            var chat;
+            var myHub;
             $(function() {
                 // Reference the auto-generated proxy for the hub.
-                if (typeof (chat) === "undefined") {
-                    chat = $.connection.oneHub;
+                if (typeof (myHub) === "undefined") {
+                    myHub = $.connection.oneHub;
                 }
-                //chat.client.logOff = function() {
+                //myHub.client.logOff = function() {
                 //        $.connection.hub.stop();
                 //    }
                 //Create a function that the hub can call back to display messages.
-                chat.client.addChatMessage = function(id, name, message, avatar) {
+                myHub.client.addChatMessage = function (id, name, message, avatar) {
                     register_popup(id, name, avatar);
                     // Add the message to the page.
                     $("#" + id + "Conversation")
@@ -254,7 +254,7 @@
                     $("#" + id + "Conversation").scrollTop(document.getElementById(id + "Conversation").scrollHeight);
 
                 };
-                chat.client.pushNotification = function() {
+                myHub.client.pushNotification = function () {
                     if ($('#NotificationsNo').text() == '') {
                         $('#NotificationsNo').show();
                         $('#NotificationsNo').text('1');
@@ -264,7 +264,7 @@
                     }
                 }
                 //var notification = {}
-                //chat.client.pushAdministrationNotification= function() {
+                //myHub.client.pushAdministrationNotification= function() {
 
                 //}
                 // Start the connection.
