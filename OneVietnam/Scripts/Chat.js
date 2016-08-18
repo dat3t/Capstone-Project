@@ -97,7 +97,7 @@ function sendMessage(friendId) {
     if (message === null || message === "") return;
     $.connection.hub.start().done(function () {
         // Call the Send method on the hub.                    
-        chat.server.sendChatMessage(friendId, message);
+        window.myHub.server.sendChatMessage(friendId, message);
         // Clear text box and reset focus for next comment.
         $("#" + friendId + "Conversation").append('<div class="item" style="text-align: right"><div class="content" style="margin-right:0.5em"><p class="sendMessage">' + htmlEncode(message) + '</p></div></div>');
         $("#" + friendId + "Conversation").scrollTop(document.getElementById(friendId + "Conversation").scrollHeight);
