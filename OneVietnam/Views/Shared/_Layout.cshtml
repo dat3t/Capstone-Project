@@ -23,10 +23,13 @@
             xfbml: true,
             version: 'v2.6'
         });
-        FB.Event.subscribe('comment.create',
-                          function (response) {
+        FB.Event.subscribe('xfbml.render',   function () {
+            finished_rendering();
+        });
+        FB.Event.subscribe('comment.create', function (response) {
                               onCommentCreate(response.commentID);
                           });
+      
     };
 
     (function (d, s, id) {
@@ -38,7 +41,6 @@
 
     }(document, 'script', 'facebook-jssdk'));
 
-    FB.XFBML.parse();
     </script>
     <div class="ui grid">
         <div class="computer only row">

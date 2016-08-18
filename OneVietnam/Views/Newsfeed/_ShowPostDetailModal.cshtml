@@ -133,9 +133,9 @@
                         <script>
                            
                           
-                            FB.Event.subscribe('xfbml.render',
-                                function () {
-                                  
+                           
+                             function finished_rendering() {
+                                 alert("catco");
                                     $.ajax({
                                         type: 'GET',
                                         url: '/Newsfeed/_suggestedPost',
@@ -151,7 +151,7 @@
                                                         gutter: '.gutter-sizer'
                                                     }
                                                 });
-                                               
+                                                alert("catco");
                                                 $("#forSuggest").html($items);
                                                 $(".suggest.grids").isotope('appended', $items);
                                                 $(".suggest.grids").isotope('layout');
@@ -167,7 +167,7 @@
                                         }
                                     });
                                   
-                                });
+                                };
                            
 
                             function onCommentCreate(commentID) {
@@ -284,14 +284,7 @@
         </div>
     </div>
 
-    <script>
 
-
-        if ($(window).scrollTop() === $(document).height() - $(window).height()) {
-            alert("vao");
-
-        }
-    </script>
 </div>
     <div class="ui two wide column forHide"></div>
 
