@@ -244,6 +244,7 @@ namespace OneVietnam.Controllers
         /// </summary>
         /// <param name="pageNum"></param>
         /// <returns>List Post></returns>
+        [AllowAnonymous]
         public async Task<ActionResult> _suggestedPost(string postId,int? pageNum)
         {
             Post post = await PostManager.FindByIdAsync(postId);
