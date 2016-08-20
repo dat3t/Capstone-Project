@@ -102,44 +102,43 @@
                     </div>
 
                     <!-- Post Location -->
-                    <label>* Địa chỉ liên hệ</label>
-                 
-                        <div class="field">
-                           
-                            <div class="ui floating labeled icon dropdown button" tabindex="15" id="locationDr" style="float: left">
-                                <i class="blue world icon"></i>
-                                <span class="forLocation">Địa điểm của bài đăng</span>
-                                <div class="menu">
-                                    <div class="item" onclick="getCurrentLocation();" id="getloc">
-                                        <div class="ui blue empty circular label"></div>
-                                        Địa điểm hiện tại của bạn
-                                    </div>
+                    <div class="field">
+                        <label>* Địa chỉ liên hệ</label>
+                        <div class="ui floating labeled icon dropdown button" tabindex="15" id="locationDr" style="float: left; margin: 0em 0em 1em;">
+                            <i class="blue world icon"></i>
+                            <span class="forLocation">Địa điểm của bài đăng</span>
+                            <div class="menu">
+                                <div class="item" onclick="getCurrentLocation();" id="getloc">
+                                    <div class="ui blue empty circular label"></div>
+                                    Địa điểm hiện tại của bạn
+                                </div>
 
-                                    <div class="item" onclick="getRegisteredLocation('@User.Identity.GetUserId()');">
-                                        <div class="ui red empty circular label"></div>
-                                        Địa chỉ nhà của bạn
-                                    </div>
+                                <div class="item" onclick="getRegisteredLocation('@User.Identity.GetUserId()');">
+                                    <div class="ui red empty circular label"></div>
+                                    Địa chỉ nhà của bạn
+                                </div>
 
 
-                                    <div class="divider"></div>
+                                <div class="divider"></div>
 
-                                    <div class="header">
-                                        Tìm kiếm địa điểm khác
-                                    </div>
-                                    <div class="ui left icon input">
-                                        <i class="search icon"></i>
-                                        <input type="text" id="search-location" name="search" placeholder="Tìm kiếm địa điểm..." style="margin-right: 20px">
-                                    </div>
+                                <div class="header">
+                                    Tìm kiếm địa điểm khác
+                                </div>
+                                <div class="ui left icon input">
+                                    <i class="search icon"></i>
+                                    <input type="text" id="search-location" name="search" placeholder="Tìm kiếm địa điểm..." style="margin-right: 20px">
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    
                             <input type="hidden" id="PostLocation_Address"/>
 @*                            @Html.EditorFor(model => model.PostLocation.Address, new {htmlAttributes = new {placeholder = "Địa chỉ của bạn", tabindex = "16"}})*@
                                       @Html.EditorFor(model => model.PostLocation.XCoordinate, new { htmlAttributes = new { style = "display: none" } })
                     @Html.EditorFor(model => model.PostLocation.YCoordinate, new { htmlAttributes = new { style = "display: none" } })
 
                     <div class="field">
-                        <i class="large inverted blue camera icon" tabindex="17"></i>Thêm ảnh
+                        <label><i class="large blue camera icon" tabindex="17"></i>Thêm ảnh</label>                        
                     </div>
 
                     <!-- Illustration -->
@@ -223,7 +222,7 @@
                     <!-- Button Create and Cancel -->
                     <div class="field" style="text-align: center">
                     <input id="btnCancel" type="button" tabindex="18" value="Hủy" class="ui cancel button" onclick="resetForm()" />
-                    <input id="btnCreate" type="button" tabindex="19" onclick="submitCreatePost()" value="Đăng bài" name="createpost" class="ui teal button" />
+                    <input id="btnCreate" type="button" tabindex="19" onclick="submitCreatePost()" value="Đăng bài" name="createpost" class="ui blue button" />
                         <script>
                             function resetForm() {
                                 $("#stamp-button").click();                                

@@ -35,7 +35,7 @@
 
 #mySidenav::-webkit-scrollbar-thumb
 {
-	background-color:rgb(167, 210, 203);
+	/*background-color:rgb(167, 210, 203);*/
 	background-image: -webkit-linear-gradient(45deg,
 	                                          rgba(167, 210, 203, .2) 25%,
 											  transparent 25%,
