@@ -1,10 +1,38 @@
-﻿<div class="homepage">
-    <h2 class="ui center aligned icon header" style="font-size: 4em">
-        <img class="ui image" src="~/Content/Images/Logo.png"/>
-        <span style="color: white;text-shadow: 1px 1px black">Kết Nối Cộng Động Người Việt</span>
-    </h2>
-    <a class="ui primary button" href="@Url.Action("Register","Account")">
-        Đăng Ký Ngay
-        <i class="forward icon"></i>
-    </a>
+﻿
+
+<link rel="stylesheet" type="text/css" href="/Content/style.css" />
+
+
+<div class="homepage">
+
+    @if (!User.Identity.IsAuthenticated)
+    {
+        @*<a class="ui primary button" style="background: linear-gradient(to left, #2185D0, #2185D0)" href="@Url.Action("Register","Account")">
+                Đăng Ký Ngay
+                <i class="forward icon"></i>
+            </a>*@
+    }
+
+    <div id="wowslider-container1">
+        <div class="ws_images">
+            <ul>
+                <li><img src="/Content/Icon/cau_rong.jpg" alt="con rồng cháu tiên" title="con rồng cháu tiên" id="wows1_0" /></li>
+                @*<li><img src="/Content/Icon/homepage_1.jpg" alt="jquery slider" title="vượt sóng ra khơi" id="wows1_1" /></li>*@
+                <li><img src="/Content/Icon/phaluong.jpg" alt="hướng về phía trước" title="hướng về phía trước" id="wows1_2" /></li>
+            </ul>
+        </div>
+        @*<div class="ws_bullets">
+                <div>
+                    <a href="#" title="con rồng cháu tiên"><span>1</span></a>
+                    <a href="#" title="vượt sóng ra khơi"><span>2</span></a>
+                    <a href="#" title="hướng về phía trước"><span>3</span></a>
+                </div>
+                <div class="ws_shadow"></div>
+            </div>*@
+        <script type="text/javascript" src="/Scripts/wowslider.js"></script>
+        <script type="text/javascript" src="/Scripts/script.js"></script>
+
+
+
+    </div>
 </div>

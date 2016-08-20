@@ -355,6 +355,7 @@
     <Content Include="Content\CountryImage\vi.png" />
     <Content Include="Content\flickity.css" />
     <Content Include="Content\icon.min.css" />
+    <Content Include="Content\Icon\cau_rong.jpg" />
     <Content Include="Content\Icon\female.png" />
     <Content Include="Content\Icon\female2.png" />
     <Content Include="Content\Icon\free.png" />
@@ -363,6 +364,7 @@
     <Content Include="Content\Icon\help2.png" />
     <Content Include="Content\Icon\home.png" />
     <Content Include="Content\Icon\home2.png" />
+    <Content Include="Content\Icon\homepage.jpg" />
     <Content Include="Content\Icon\job.png" />
     <Content Include="Content\Icon\job2.png" />
     <Content Include="Content\Icon\LGBT.png" />
@@ -373,10 +375,12 @@
     <Content Include="Content\Icon\male2.png" />
     <Content Include="Content\Icon\myhome.png" />
     <Content Include="Content\Icon\myhome2.png" />
+    <Content Include="Content\Icon\phaluong.jpg" />
     <Content Include="Content\Icon\sale.png" />
     <Content Include="Content\Icon\sale2.png" />
     <Content Include="Content\Icon\ship.jpg" />
     <Content Include="Content\Icon\ship2.png" />
+    <Content Include="Content\Icon\symbol.jpg" />
     <Content Include="Content\Icon\users.png" />
     <Content Include="Content\Icon\users2.png" />
     <Content Include="Content\Icon\Warning.png" />
@@ -403,6 +407,7 @@
     <Content Include="Content\Images\poke_celebi.png" />
     <Content Include="Content\Images\rua.png" />
     <Content Include="Content\minimal-slide.css" />
+    <Content Include="Content\style.css" />
     <Content Include="Content\stylesheet.css" />
     <Content Include="fonts\helveticaneuecyr-bold.svg" />
     <Content Include="fonts\helveticaneuecyr-roman.svg" />
@@ -463,7 +468,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\PostLocation.js" />
+    <Content Include="Scripts\script.js" />
     <Content Include="Scripts\timeline.js" />
+    <Content Include="Scripts\wowslider.js" />
     <Content Include="Scripts\_references.js" />
     <None Include="Service References\ASPSMSX2\configuration91.svcinfo" />
     <None Include="Service References\ASPSMSX2\configuration.svcinfo" />
