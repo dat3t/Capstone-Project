@@ -17,11 +17,11 @@ namespace OneVietnam.Controllers
     {
         // GET: Search
         [AllowAnonymous]
-        public async Task<ActionResult> Index(string query,int? pageNum)
+        public async Task<ActionResult> Index(string query, int? pageNum)
         {
             //todo
 
-          
+
             pageNum = pageNum ?? 1;
             ViewBag.IsEndOfRecords = false;
 
@@ -30,20 +30,20 @@ namespace OneVietnam.Controllers
             if (Request.IsAjaxRequest())
             {
                 filter = new BaseFilter { CurrentPage = pageNum.Value };
-                listPost = await PostSearch(query,filter);
+                listPost = await PostSearch(query, filter);
 
                 if (listPost.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
-               
+
                 //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
                 return PartialView("_PostRow", listPost);
             }
-           
-      
+
+
             filter = new BaseFilter { CurrentPage = pageNum.Value };
             listPost = await PostSearch(query, filter);
             //posts = await PostManager.FullTextSearch(qu)
             if (listPost.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
-        
+
             ViewBag.Posts = listPost;
             ViewBag.Query = query;
             return View();
@@ -88,25 +88,17 @@ namespace OneVietnam.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<ActionResult> _userResult(string query,int? pageNum)
+        public async Task<ActionResult> _userResult(string query, int? pageNum)
         {
-            
             ViewBag.IsEndOfRecords = false;
-
-            BaseFilter filter;
             List<UserViewModel> list = new List<UserViewModel>();
             List<ApplicationUser> users = new List<ApplicationUser>();
-          
-                filter = new BaseFilter { CurrentPage = pageNum.Value };
-                users = await UserManager.TextSearchUsers(filter, query);
-
-                if (users.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
-                list = users.Select(p => new UserViewModel(p)).ToList();
-                //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
-                return PartialView("_userRow", list);
-            
-
-           
+            var filter = new BaseFilter { CurrentPage = pageNum.Value };
+            users = await UserManager.TextSearchUsers(filter, query);
+            if (users.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
+            list = users.Select(u => new UserViewModel(u)).ToList();
+            //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
+            return PartialView("_userRow", list);
         }
         [AllowAnonymous]
         public async Task<List<PostViewModel>> PostSearch(string query, BaseFilter baseFilter)
@@ -117,13 +109,13 @@ namespace OneVietnam.Controllers
             {
                 var postView = new PostViewModel
                 {
-                    Title = (string) item["Title"],
-                    AvartarLink = await UserManager.GetAvatarByIdAsync(item["UserId"].ToString()),                  
+                    Title = (string)item["Title"],
+                    AvartarLink = await UserManager.GetAvatarByIdAsync(item["UserId"].ToString()),
                     Description = item["Description"].ToString(),
                     Id = item["_id"].ToString()
                 };
                 if (item.Contains("Illustrations"))
-                {                    
+                {
                     var illustrations = new List<Illustration>();
                     foreach (var il in item["Illustrations"].AsBsonArray)
                     {
@@ -133,14 +125,14 @@ namespace OneVietnam.Controllers
                         illustrations.Add(illustration);
                     }
                     postView.Illustrations = illustrations;
-                }                
+                }
                 postView.Status = item["Status"].AsBoolean;
                 postView.TimeInterval = Utilities.GetTimeInterval(new DateTimeOffset
-                    (item["CreatedDate"].AsBsonArray[0].ToInt64(), 
+                    (item["CreatedDate"].AsBsonArray[0].ToInt64(),
                     Utilities.ConvertTimeZoneOffSetToTimeSpan(
-                    item["CreatedDate"].AsBsonArray[1].ToInt32())));                
+                    item["CreatedDate"].AsBsonArray[1].ToInt32())));
                 postView.UserName = await UserManager.GetUserNameByIdAsync(item["UserId"].ToString());
-                list.Add(postView);                
+                list.Add(postView);
             }
             return list;
         }
@@ -193,14 +185,14 @@ namespace OneVietnam.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> UsersSearch(string query)
         {
-            var baseFilter = new BaseFilter {Limit = Constants.LimitedNumberDisplayUsers};
-            var result = await UserManager.TextSearchUsers(baseFilter,query);
+            var baseFilter = new BaseFilter { Limit = Constants.LimitedNumberDisplayUsers };
+            var result = await UserManager.TextSearchUsers(baseFilter, query);
 
             var list = result.Select(user => new SearchResultItem()
             {
                 Description = user.Email,
                 Title = user.UserName,
-                Url = Url.Action("Index","Timeline",new {Id=user.Id})
+                Url = Url.Action("Index", "Timeline", new { Id = user.Id })
             }).ToList();
             var searchResult = new SearchResultModel
             {
