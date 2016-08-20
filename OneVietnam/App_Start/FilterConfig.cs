@@ -10,7 +10,7 @@ namespace OneVietnam
             filters.Add(new HandleErrorAttribute());
             filters.Add(new System.Web.Mvc.AuthorizeAttribute());
             //require https 
-            //filters.Add(new RequireHttpsAttribute());
+            filters.Add(new RequireHttpsAttribute());
         }
     }
 }
