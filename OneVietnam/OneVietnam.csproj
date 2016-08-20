@@ -354,7 +354,7 @@
     <Content Include="Content\CountryImage\vi.png" />
     <Content Include="Content\flickity.css" />
     <Content Include="Content\icon.min.css" />
-    <Content Include="Content\Icon\cau_rong.jpg" />
+    <Content Include="Content\Icon\cau rong.jpg" />
     <Content Include="Content\Icon\female.png" />
     <Content Include="Content\Icon\female2.png" />
     <Content Include="Content\Icon\free.png" />
@@ -363,7 +363,7 @@
     <Content Include="Content\Icon\help2.png" />
     <Content Include="Content\Icon\home.png" />
     <Content Include="Content\Icon\home2.png" />
-    <Content Include="Content\Icon\homepage.jpg" />
+    <Content Include="Content\Icon\homepage_1.JPG" />
     <Content Include="Content\Icon\job.png" />
     <Content Include="Content\Icon\job2.png" />
     <Content Include="Content\Icon\LGBT.png" />
@@ -374,7 +374,7 @@
     <Content Include="Content\Icon\male2.png" />
     <Content Include="Content\Icon\myhome.png" />
     <Content Include="Content\Icon\myhome2.png" />
-    <Content Include="Content\Icon\phaluong.jpg" />
+    <Content Include="Content\Icon\pha-luong.jpg" />
     <Content Include="Content\Icon\sale.png" />
     <Content Include="Content\Icon\sale2.png" />
     <Content Include="Content\Icon\ship.jpg" />
@@ -398,6 +398,7 @@
     <Content Include="Content\Images\rua.png" />
     <Content Include="Content\Map\mappagecustom.css" />
     <Content Include="Content\Map\scrollbar.css" />
+    <Content Include="Content\Map\searchbox.css" />
     <Content Include="Content\minimal-slide.css" />
     <Content Include="Content\image-slider.css" />
     <Content Include="Content\Images\background.jpg" />
@@ -427,7 +428,9 @@
     <Content Include="fonts\helveticaneuecyr-roman.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\iCiel Brush Up.otf" />
+    <None Include="Properties\PublishProfiles\OneVietnam - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\OneVietnam - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\onevietnam893 - Web Deploy.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -577,9 +580,12 @@
     <Content Include="Views\Search\_userResult.cshtml" />
     <Content Include="Views\Shared\_userRow.cshtml" />
     <Content Include="Views\Shared\_suggestedPost.cshtml" />
+    <Content Include="Views\Timeline\_ReportUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="BLL\Common\" />
+    <Folder Include="Content\SlideImages\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -615,8 +621,7 @@
           <IISAppRootUrl>https://localhost:44300/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <CustomServerUrl>https://localhost:44300/</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

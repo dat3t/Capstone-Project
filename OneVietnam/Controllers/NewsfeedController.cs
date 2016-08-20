@@ -333,8 +333,8 @@ namespace OneVietnam.Controllers
             }
             return PartialView();
         }
-     
 
+        [AllowAnonymous]
         public JsonResult GetCommentInfo(string commentid)
         {     
             var fb = new FacebookClient(Constants.accessTokenFacebook);
