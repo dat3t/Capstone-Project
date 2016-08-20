@@ -131,11 +131,11 @@
                         <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts="3"></div>
 
                         <script>
-                           
-                          
-                            FB.Event.subscribe('xfbml.render',
-                                function () {
-                                  
+
+
+                         
+
+                             function finished_rendering(){
                                     $.ajax({
                                         type: 'GET',
                                         url: '/Newsfeed/_suggestedPost',
@@ -167,7 +167,7 @@
                                         }
                                     });
                                   
-                                });
+                                };
                            
 
                             function onCommentCreate(commentID) {
@@ -197,7 +197,7 @@
                                 $.ajax({
                                     type: 'GET',
                                     data: { "postId": id },
-                                    url: '/Newsfeed/_ShowPostDetailPageDetailModal',
+                                    url: '/Newsfeed/_ShowPostDetailModal',
                                     success: function (partialResult) {
                                         $("#forModal").empty();
                                         $("#forModal").html(partialResult);
@@ -247,10 +247,7 @@
                                     }
                                 });
 
-                                window.addEventListener('popstate', function (e) {
-                                    //Todo:back button
-                                });
-                                $grid.isotope('layout');
+                              
                             });
                         </script>
 

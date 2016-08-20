@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - One Vietnam</title>
-    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBiPDMBCKXsusl5-BgCw1nIyHwu5u3j8xw&libraries=places,geometry"></script>    
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBiPDMBCKXsusl5-BgCw1nIyHwu5u3j8xw&libraries=places,geometry"></script>    
     @Scripts.Render("~/bundles/jquery")
     
     @Styles.Render("~/semantic/css")
@@ -23,10 +23,13 @@
             xfbml: true,
             version: 'v2.6'
         });
-        FB.Event.subscribe('comment.create',
-                          function (response) {
+        FB.Event.subscribe('xfbml.render',   function () {
+            finished_rendering();
+        });
+        FB.Event.subscribe('comment.create', function (response) {
                               onCommentCreate(response.commentID);
                           });
+      
     };
 
     (function (d, s, id) {
@@ -38,20 +41,20 @@
 
     }(document, 'script', 'facebook-jssdk'));
 
-    FB.XFBML.parse();
     </script>
     <div class="ui grid">
         <div class="computer only row">
             <div class="ui main menu mainMenu">
-                <a href="@Url.Action("Index", "Home")" class="ui active item button">                
-                    <span class="brush-font" style="font-size: 2em;color:#DE5958 ">One Vietnam</span>
+                <a href="@Url.Action("Index", "Home")" class="ui middle aligned item">
+                    <img src="/Content/Icon/symbol.jpg" class="ui avatar image" />
+                    <span style="font-size: 2em; color: #FFFFFF">neVietnam</span>
                 </a>
-                @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item brush-font" })
-                @Html.ActionLink("Bảng Tin", "Index", "Newsfeed", routeValues: null, htmlAttributes: new { @class = "ui item brush-font" })
+                @Html.ActionLink("Bản Đồ", "ShowMap", "Map", routeValues: null, htmlAttributes: new { @class = "ui item", style = "color: #FFFFFF; font-size: 1.2rem" })
+                @Html.ActionLink("Bảng Tin", "Index", "Newsfeed", routeValues: null, htmlAttributes: new { @class = "ui item", style = "color: #FFFFFF; font-size: 1.2rem" })
                 <div class="floating ui label" style="color:#DE5958 ">42+</div>
                 @if (Request.IsAuthenticated && (User.IsInRole(CustomRoles.Admin) || User.IsInRole(CustomRoles.Mod)))
                 {
-                    @Html.ActionLink("Quản Trị", "Index", "Administration", routeValues: null, htmlAttributes: new { @class = "ui item brush-font" })
+                    @Html.ActionLink("Quản Trị", "Index", "Administration", routeValues: null, htmlAttributes: new { @class = "ui item", style = "color: #FFFFFF; font-size: 1.2rem" })
                 }
                 <div class="right menu">
                     <div class="item">
@@ -124,8 +127,8 @@
             </div>
         </div>
     </div>
-<div class="ui fluid container" style="height: 90%;" id="bodypage">
-    @if (User.Identity.IsAuthenticated)
+    <div class="ui fluid container" style="height: 90%; background-color: #F8F8F8;" id="bodypage">
+        @*@if (User.Identity.IsAuthenticated)
     {
 
         <div class="floating-button" id="stamp-button2" data-toggle="tooltip" data-original-title="Create">
@@ -148,8 +151,8 @@
 
             </div>
         </a>
-    }
-
+            }*@
+        @RenderBody()
     <div id="forModal" class="ui basic modal coupled" style="position: absolute !important; height: 1000px; width: 100%">
         <div class="ui  raised clearing  segment " style="width: 631px !important">
             <div class="header">
@@ -226,7 +229,7 @@
 
         </div>
     </div>
-    @RenderBody()
+
     @if (Request.IsAuthenticated)
     {
         <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
