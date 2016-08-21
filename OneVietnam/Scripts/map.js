@@ -578,15 +578,17 @@ function showMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNu
     if (checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter) == false) {
       
         if (isAutoCompleteBox == true) {
-            if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
-                $("#nearestUserAlertModal").modal('show');
-            } else {
-                $("#nearestPostAlertModal").modal('show');
+            if(currentFilter != -5){
+                if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
+                    $("#nearestUserAlertModal").modal('show');
+                } else {
+                    $("#nearestPostAlertModal").modal('show');
+                }
+
+                isAutoCompleteBox = false;
+                isPostFilter = false;
+                return;
             }
-           
-            isAutoCompleteBox = false;
-            isPostFilter = false;
-            return;
         }
 
         var pos = calculateNearestMarker(postTypeNumber);
