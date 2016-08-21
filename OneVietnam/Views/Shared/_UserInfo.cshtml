@@ -84,7 +84,7 @@
                 </div>*@
             @if (User.Identity.IsAuthenticated)
             {
-                @if (Model.UserId.CompareTo(User.Identity.GetUserId()) != 0)
+                if (Model.UserId.CompareTo(User.Identity.GetUserId()) != 0)
                 {
                     <a class="ui icon teal button" href="javascript: register_popup('@Model.UserId','@Model.UserName','@Model.Avatar')" onclick="return hideModel();">
                         Trò Chuyện

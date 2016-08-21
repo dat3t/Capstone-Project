@@ -24,7 +24,7 @@
 
 @if (Model.Count == 0)
 {
-    <div id="alertNoPost" style="position: relative;left:4%;top:50%;font-size:25px;"><p>Hiện tại không có bài viết nào!</p></div>
+    <div id="alertNoPost" style="position: relative;left:2%;top:50%;font-size:25px;"></div>
 }
 else
 {
@@ -128,6 +128,6 @@ else
 <script>
     if (page != 1) {
         var node = document.getElementById('alertNoPost');
-        node.innerHTML = '<p>Hiện tại không có bài viết nào!</p>';
+        node.innerHTML = '<p>Hiện tại không còn bài viết nào!</p>';
     }
 </script>
