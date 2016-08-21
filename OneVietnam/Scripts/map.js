@@ -78,7 +78,34 @@ function checkAuthenticated() {
         });
 
         //myCurrentLocationMarker.setMap(map);
-        //showCurrentLocation();
+        // showCurrentLocation();
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                var pos2 = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+
+                myCurrentLocationMarker.setMap(map);
+                myCurrentLocationMarker.setPosition(pos);
+                map.setCenter(pos2);
+
+                google.maps.event.addListener(myCurrentLocationMarker, 'click', (function () {
+                    return function () {
+                        map.setCenter(pos2);
+                        map.setZoom(14);
+                    }
+                })());
+
+
+            }, function () {
+                handleLocationError(true, "Không thể định vị được vị trí của bạn. Bạn cần cho phép trình duyệt sử dụng định vị GPS.", map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, "Trình duyệt của bạn không hỗ trợ định vị GPS. Vui lòng nâng cấp phiên bản mới nhất của trình duyệt và thử lại sau.", map.getCenter());
+        }
 
     }
 }
@@ -576,9 +603,9 @@ function showMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNu
 
     isPostFilter = true;
     if (checkIfCurrentBoundContainMarker(listTypeMarkersNumber, currentFilter) == false) {
-      
+
         if (isAutoCompleteBox == true) {
-            if(currentFilter != -5){
+            if (currentFilter != -5) {
                 if ((currentFilterNumber == -1) || (currentFilterNumber == -2) || (currentFilterNumber == -3) || (currentFilterNumber == -4)) {
                     $("#nearestUserAlertModal").modal('show');
                 } else {
@@ -852,7 +879,7 @@ function checkIfBoundContainPosition(pos) {
         bounds.extend(pos);
         map.fitBounds(bounds);
         map.setCenter(pos);
-      
+
         setTimeout(function () {
             // smoothZoom(this.map, 13, map.getZoom());
             smoothlyCenterPosition(pos);
