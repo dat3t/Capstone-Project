@@ -289,12 +289,12 @@ function showCurrentLocation() {
 
             myCurrentLocationMarker.setMap(map);
             myCurrentLocationMarker.setPosition(pos);
-            google.maps.event.addListener(myCurrentLocationMarker, 'click', (function (marker) {
+            google.maps.event.addListener(myCurrentLocationMarker, 'click', (function () {
                 return function () {
                     map.setCenter(pos2);
                     map.setZoom(14);
                 }
-            })(marker));
+            })());
 
             //map.setZoom(12);
             checkIfBoundContainPosition(pos2);
@@ -326,12 +326,12 @@ function showMyLocation() {
     myHomeMarker.setPosition({ lat: authenticatedUser.x, lng: authenticatedUser.y });
 
     var pos2 = new google.maps.LatLng(authenticatedUser.x, authenticatedUser.y)
-    google.maps.event.addListener(myHomeMarker, 'click', (function (marker) {
+    google.maps.event.addListener(myHomeMarker, 'click', (function () {
         return function () {
             map.setCenter(pos2);
             map.setZoom(14);
         }
-    })(marker));
+    })());
     checkIfBoundContainPosition(pos2);
     // map.setCenter({ lat: authenticatedUser.x, lng: authenticatedUser.y });
 }

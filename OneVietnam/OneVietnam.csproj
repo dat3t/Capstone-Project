@@ -386,6 +386,7 @@
     <Content Include="Content\Icon\ship.jpg" />
     <Content Include="Content\Icon\ship2.png" />
     <Content Include="Content\Icon\symbol.jpg" />
+    <Content Include="Content\Icon\symbol.png" />
     <Content Include="Content\Icon\users.png" />
     <Content Include="Content\Icon\users2.png" />
     <Content Include="Content\Icon\Warning.png" />
@@ -506,7 +507,6 @@
     </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />

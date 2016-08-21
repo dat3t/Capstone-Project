@@ -52,7 +52,7 @@ namespace OneVietnam.Controllers
 
             MapViewModel mapModal;
             List<MapViewModel> list = new List<MapViewModel>();
-
+            
             foreach (ApplicationUser user in userslist)
             {
                 mapModal = new MapViewModel();
