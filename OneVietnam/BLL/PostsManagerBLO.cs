@@ -71,7 +71,7 @@ namespace OneVietnam.BLL
             return await Store.FullTextSearch(query, filter, sort).ConfigureAwait(false);
         }
 
-        private PostManager(PostStore store) : base(store)
+        public PostManager(PostStore store) : base(store)
         {
         }
 

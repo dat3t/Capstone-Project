@@ -331,12 +331,12 @@ a[data-tooltip][data-placement="top"]::after {
 
 body {
     background: #F8F8F8;
-    /*F7F3F3*/
 }
 .mainMenu {
-    background: linear-gradient(to right, #F8CDDA, #2185D0, #F8CDDA) transparent !important; /* #F8CDDA , #1D2B64, 2185D0*/    
+    background: linear-gradient(to right, #F8CDDA, #2185D0, #F8CDDA) transparent !important;  
     box-shadow: none!important;
     border: none!important;
+
 }
 .ui.menu .item:before {
     width: 0px !important;
@@ -608,8 +608,8 @@ body {
     right: 0;
     left: 0;
     margin: auto;
-    position: absolute;    
-    text-align: center; 
+    position: absolute;
+    text-align: center;    
     height: 100%;
     position: static;
     width: 100%;
