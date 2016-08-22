@@ -125,6 +125,7 @@ function initialize() {
 
         if (map.getZoom() > 5 && isPostFilter == false) {
             switch (currentFilter) {
+         
                 case -4: showFemales(); break;
                 case -3: showMales(); break;
                 case -2: showLGBT(); break;
@@ -141,13 +142,13 @@ function initialize() {
                 case 9: showWarning(); break;
             }
         }
-        setTimeout(function () {
-            var cnt = map.getCenter();
-            cnt.e += 0.000001;
-            map.panTo(cnt);
-            cnt.e -= 0.000001;
-            map.panTo(cnt);
-        }, 400);
+        //setTimeout(function () {
+        //    var cnt = map.getCenter();
+        //    cnt.e += 0.000001;
+        //    map.panTo(cnt);
+        //    cnt.e -= 0.000001;
+        //    map.panTo(cnt);
+        //}, 400);
     });
 
     //Delcare overlapping, markerClusterer
@@ -281,9 +282,7 @@ function initialize() {
         map.fitBounds(bounds);
     });
 
-    google.maps.event.addListener(map, 'zoom_changed', function () {
 
-    });
 
 }
 

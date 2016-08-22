@@ -190,8 +190,11 @@ namespace OneVietnam.Controllers
                 PostId = p.Id
                 //PostType = p.PostType
             }).ToList();
-       
-            return Json(list, JsonRequestBehavior.AllowGet);
+
+            var jsonResult = Json(list, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
         }
     }
 }
