@@ -1,4 +1,4 @@
-﻿@import url(http://fonts.googleapis.com/css?family=Lato:400,300,700);
+﻿@import url(https://fonts.googleapis.com/css?family=Lato:400,300,700);
 
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 @font-face {
@@ -572,6 +572,7 @@ body {
     border-right-style: none;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    line-height: 1.2em!important;
 }
 .ui.user {
     display: none;
