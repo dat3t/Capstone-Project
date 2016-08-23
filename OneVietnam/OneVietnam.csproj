@@ -354,10 +354,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\chatbox.css" />
-    <Content Include="Content\CountryImage\jp.png" />
-    <Content Include="Content\CountryImage\kr.png" />
-    <Content Include="Content\CountryImage\us.png" />
-    <Content Include="Content\CountryImage\vi.png" />
     <Content Include="Content\flickity.css" />
     <Content Include="Content\icon.min.css" />
     <Content Include="Content\Icon\female.png" />
