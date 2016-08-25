@@ -18,7 +18,9 @@ function editableForm() {
     $("#drdGender").show();
     $("#btnUpdateLocation").toggleClass('hides');
     $("#drdGender").dropdown({});
-    $("#DateOfBirth").attr('type','date');
+    $("#DateOfBirth").attr('type', 'date');
+    $("#btnConfirmTelephone").toggleClass('hides');
+    $("#drdGenderIcon").show({});
 }
 
 function submitEditProfile() {
@@ -107,16 +109,16 @@ function cancelSetPassword() {
     $("#btnChangePass").show();
 }
 
-function closeSetPasswordForm() {
+function closeSetPasswordForm(url) {
     var errorMsg = document.querySelector(".validation-summary-errors");
     if (errorMsg === null) {
         $("#ChangePasswordForm").html("");
         $("#ShowPassword").html("Thay đổi mật khẩu thường xuyên để nâng cao bảo mật hơn");
         $("#btnChangePass").show();
-        $("#btnChangePass").val('Đổi mật khẩu');
+        $("#btnChangePass").val('Đổi');
         $("#btnChangePass")
             .click(function () {
-                showChangePasswordForm();
+                showChangePasswordForm(url);
             });
     }
 }
