@@ -37,11 +37,11 @@ namespace OneVietnam.Models
         public string Provider { get; set; }
 
         [Required]
-        [Display(Name = "Code")]
+        [Display(Name = "Mã xác nhận")]
         public string Code { get; set; }
         public string ReturnUrl { get; set; }
 
-        [Display(Name = "Remember this browser?")]
+        [Display(Name = "Ghi nhớ trình duyệt?")]
         public bool RememberBrowser { get; set; }
 
         public bool RememberMe { get; set; }

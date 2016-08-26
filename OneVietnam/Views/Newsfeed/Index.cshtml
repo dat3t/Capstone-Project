@@ -145,7 +145,7 @@ else
     <div class="four wide column">
         <div class="ui segment"  style="margin-right: 15px!important">
             <h3>
-                <div class="ui header">
+                <div class="ui header" style="text-align: center">
                     Từ người Quản trị
                 </div>
             </h3>
@@ -159,6 +159,10 @@ else
 
 @section scripts{
     <script type="text/javascript">
+      
+        $("grids").imagesLoaded().progress(function () {
+            $("grids").isotope('layout');
+        });
         $.ajax({
             type: 'GET',
             url: '@Url.Action("_AdminPost","Newsfeed")',

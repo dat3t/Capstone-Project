@@ -3,9 +3,6 @@
 
        
 
-        $("grids").imagesLoaded().progress(function () {
-           $("grids").isotope('layout');
-        });
      
         $("#getloc").click();
         $(".filter-post").dropdown({

@@ -113,8 +113,12 @@ namespace OneVietnam.Controllers
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
-        public async Task<ActionResult> VerifyCode(string provider, string returnUrl)
+        public async Task<ActionResult> _VerifyCode(string provider)
         {
+            if (!await SignInHelper.SendTwoFactorCode(provider))
+            {
+                return View("Error");
+            }
             // Require that the user has already logged in via username/password or external login
             if (!await SignInHelper.HasBeenVerified())
             {
@@ -124,14 +128,13 @@ namespace OneVietnam.Controllers
             if (user != null)
             {
             }
-            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl });
+            return PartialView();
         }
 
         //
         // POST: /Account/VerifyCode
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
         {
             if (!ModelState.IsValid)
@@ -148,7 +151,7 @@ namespace OneVietnam.Controllers
                     return View("Lockout");
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid code.");
+                    ModelState.AddModelError("", "Mã xác nhận không đúng");
                     return View(model);
             }
         }
@@ -330,6 +333,7 @@ namespace OneVietnam.Controllers
 
         //
         // GET: /Account/SendCode
+
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl)
         {
@@ -343,26 +347,6 @@ namespace OneVietnam.Controllers
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl });
         }
 
-        //
-        // POST: /Account/SendCode
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SendCode(SendCodeViewModel model)
-        {
-            // Generate the token and send it
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-
-            if (!await SignInHelper.SendTwoFactorCode(model.SelectedProvider))
-            {
-                return View("Error");
-            }
-            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl });
-        }
-        //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl, string locationExternal, double xCoordinateExternal, double yCoordinateExternal)

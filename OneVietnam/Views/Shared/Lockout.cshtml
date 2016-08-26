@@ -1,11 +1,17 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
+﻿<div class="ui grid">
+    <div class="three wide column"></div>
+    <div class="ten wide column">
+        <div class="ui icon negative  floating message">
+            <i class="trophy icon"></i>
+            <div class="content">
+                <div class="header">
+                    Tài Khoản Bị Khóa
+                </div>
+                <p>
+                    Tài Khoản Của Bạn Tạm Thời Bị Khóa Để Đảm Bảo An Toàn, Hãy Đăng Nhập Lại Sau 30 Phút.
+                </p>
+            </div>
 
-@{
-    ViewBag.Title = "Locked Out";
-}
-<div class="ui message">
-    <div class="header">
-        Tài Khoản Bị Khóa
+        </div>
     </div>
-    <p>Tài Khoản Của Bạn Tạm Thời Bị Khóa Để Đảm Bảo An Toàn, Hãy Đăng Nhập Lại Sau @ViewBag.LockedDuration Phút.</p>
 </div>

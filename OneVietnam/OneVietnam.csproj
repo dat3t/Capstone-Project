@@ -415,6 +415,7 @@
     <Content Include="Content\Map\map.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\deleteImage.png" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -581,6 +582,7 @@
     <Content Include="Views\Shared\_userRow.cshtml" />
     <Content Include="Views\Shared\_suggestedPost.cshtml" />
     <Content Include="Views\Timeline\_ReportUser.cshtml" />
+    <Content Include="Views\Account\_VerifyCode.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

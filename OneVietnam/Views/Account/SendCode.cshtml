@@ -1,26 +1,54 @@
 ﻿@model OneVietnam.Models.SendCodeViewModel
 @{
-   
+
 }
-@using (Html.BeginForm("SendCode", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "ui form", role = "form" })) {
-    @Html.AntiForgeryToken()
-    @Html.Hidden("rememberMe", @Model.RememberMe)
+@*@using (Html.BeginForm("VerifyCode", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "ui form", role = "form" })) {*@
+@*    @Html.AntiForgeryToken()*@
+<div class="ui grid">
 
-
-    <div class="ui grid">
-       
-        <div class="three wide column"></div>
-        <div class="eleven wide column">
+    <div class="three wide column"></div>
+    <div class="ten wide column">
+        <div class="ui segment">
             <h4>Gửi mã bảo mật</h4>
             Chọn cách mà bạn muốn nhận mã bảo mật:
+         
             <div class="field">
-                @Html.DropDownListFor(model => model.SelectedProvider, Model.Providers)
+
+                @Html.DropDownListFor(model => model.SelectedProvider, Model.Providers, new { @class = "ui selection dropdown",style="padding: 0px!important"})
+                <div class="ui teal basic  button" id="sendCode">Gửi</div>
+
             </div>
-            <input type="submit" value="Chọn" class="ui blue button"/>
+            @using (Html.BeginForm("VerifyCode", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "ui form", role = "form" }))
+            {
+                <input id="provider" name="provider" type="hidden" value="">
+                @Html.Hidden("rememberMe", @Model.RememberMe)
+                <div id="forVerify"></div>
+            }
         </div>
     </div>
-}
+</div>
+
 
 @section Scripts {
+    <script>
+        $("#sendCode")
+            .on("click",
+                function () {
+                    $("#sendCode").addClass("loading");
+                    var selected = $("#SelectedProvider").val();
+                    $("#provider").val(selected);
+                    var returned = $("#returnUrl").val();
+                    $.ajax({
+                        type: 'GET',
+                        url: "/Account/_VerifyCode",
+                        data: { provider: selected, returnUrl: returned },
+                        success: function (partialResult) {
+                            $("#sendCode").removeClass("loading");
+                            $("#sendCode").val("Gửi lại");
+                            $("#forVerify").html(partialResult);
+                        }
+                    });
+                });
+    </script>
     @Scripts.Render("~/bundles/jqueryval")
 }

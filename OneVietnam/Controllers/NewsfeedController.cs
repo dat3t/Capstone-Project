@@ -168,7 +168,7 @@ namespace OneVietnam.Controllers
         }        
 
         public const int RecordsPerPage = 60;
-
+        [AllowAnonymous]
         public async Task<ActionResult> _AdminPost()
         {
             List<PostViewModel> list = new List<PostViewModel>();
