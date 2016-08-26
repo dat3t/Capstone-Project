@@ -135,7 +135,6 @@
                         </div>
                     @*                            <input type="hidden" id="PostLocation_Address"/>*@
                     <input class="hides"  id="PostLocation_Address" name="PostLocation.Address" type="text" >
-@*                            @Html.EditorFor(model => model.PostLocation.Address, new {htmlAttributes = new {placeholder = "Địa chỉ của bạn", tabindex = "16"}})*@
                                       @Html.EditorFor(model => model.PostLocation.XCoordinate, new { htmlAttributes = new { style = "display: none" } })
                     @Html.EditorFor(model => model.PostLocation.YCoordinate, new { htmlAttributes = new { style = "display: none" } })
 
