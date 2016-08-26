@@ -6,7 +6,7 @@
 
     $(document)
         .ready(function () {
-           
+         
             $("#stamp-button2").hide();
             if (query === 'ShowPostDetailPage') {
 //                $("#CreatePostForm").data('validator').resetForm();
@@ -159,10 +159,10 @@ else
 
 @section scripts{
     <script type="text/javascript">
-      
-        $("grids").imagesLoaded().progress(function () {
-            $("grids").isotope('layout');
+        $(".grids").imagesLoaded().progress(function () {
+            $(".grids").isotope('layout');
         });
+       
         $.ajax({
             type: 'GET',
             url: '@Url.Action("_AdminPost","Newsfeed")',
