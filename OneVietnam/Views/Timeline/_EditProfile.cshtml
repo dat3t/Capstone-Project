@@ -85,6 +85,7 @@
 
                         </div>
 
+                        <i class="large other gender icon" id="drdGenderIcon" style="display: none"></i>
                         <div class="ui selection dropdown" id="drdGender" style="display: none">                            
                             <input type="hidden" name="Gender" id="Gender" value="@Model.Gender">
                             <i class="dropdown icon"></i>
@@ -110,8 +111,8 @@
 
             <div class="ui item">
                 <div class="ui fields" style="padding: 0; width: 100%">
-                    <div class="field" style="padding: 0; float: right">
-                        <input style="float: right" class="hides ui teal button" value="Cập nhật" id="btnUpdateLocation" type="button" onclick="updateCurrentLocation()"/>
+                    <div class="field" style="padding: 0; float: right;">
+                        <input style="float: right; margin: 0" class="hides ui teal button" value="Cập nhật" id="btnUpdateLocation" type="button" onclick="updateCurrentLocation()"/>
                     </div>
                     <div class="field" style="padding: 0">
                         <div class="ui big fluid transparent tog disabled input">
@@ -153,15 +154,15 @@
 
             <div class="ui item">
 
-                <div class="ui big fluid tog transparent disabled input">
+                <div class="ui big fluid tog transparent disabled input" >
                     <i class="large mobile icon"></i>
-                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @id = "txtMobilePhone" } })
-                    <div class="ui buttons">
-                        <div class="ui positive button active"  onclick="verifyPN()">Xác minh</div>
-                        <div class="or"></div>
-                        <div class="ui button">Xóa</div>
-
-                    </div></div>
+                    @Html.EditorFor(model => model.PhoneNumber, new {htmlAttributes = new {@id = "txtMobilePhone"}})
+                    <div class="hides ui buttons" id="btnConfirmTelephone">
+                        <div class="ui positive button active" onclick="verifyPN()">Xác minh</div>
+                        @*<div class=""></div>
+                        <div class="ui button">Xóa</div>*@
+                    </div>
+                </div>
             </div>
 
             <div class="ui item" style="display: none">
