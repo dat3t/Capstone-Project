@@ -186,7 +186,7 @@ namespace OneVietnam.Controllers
                 user.Email = profile.Email;
                 user.Location = profile.Location;                
                 user.DateOfBirth = profile.DateOfBirth;
-//                user.PhoneNumber = profile.PhoneNumber;
+                user.PhoneNumber = profile.PhoneNumber;
                 var result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
