@@ -47,11 +47,12 @@ function cancelEditProfile(pUrl) {
 
 function changeTwoFactorAuthentication(pUrl) {
     var param = $(".ui.toggle.button").text();
-    if (param === "Bật" && $("#txtMobilePhone").val() === "") {
-        $('.message')[0].className = "ui negative message";
-        $(".ui.toggle.button")[0].click();
-        return;
-    }               
+    //TaiLM : Users can enable two-factor authentication by email even there are no phonenumber
+    //if (param === "Bật" && $("#txtMobilePhone").val() === "") {
+    //    $('.message')[0].className = "ui negative message";
+    //    $(".ui.toggle.button")[0].click();
+    //    return;
+    //}               
     $.ajax({
         type: 'POST',
         url: pUrl,

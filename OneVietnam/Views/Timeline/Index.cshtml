@@ -245,18 +245,18 @@
                                     }
                                 }
                                 <div class="ui item" style="width: 100%; padding: 0">
-                                    <div class="ui negative message transition hidden">
+                                    @*TaiLM :Commented*@
+                                    @*<div class="ui negative message transition hidden">
                                         <i class="close icon"></i>
                                         <p>Cần thêm số điện thoại đê bât bảo mât hai lớp</p>
-                                    </div>
-
+                                    </div>*@
                                     <div class="ui horizontal list" style="width: 100%; padding: 0">
                                         <div class="ui item">
                                             <div class="ui medium header">
                                                 <i class="protect icon"></i>
                                                 <div class="content">
                                                     Bảo mật hai lớp
-                                                    <div class="sub header">Bật bảo mât hai lớp để nâng cao bảo mật</div>
+                                                    <div class="sub header">Thiết lập bảo mật hai lớp để nhận mật khẩu một lần mỗi khi đăng nhập</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -264,11 +264,7 @@
                                             <button class="ui right floated toggle button" onclick="changeTwoFactorAuthentication('@Url.Action("ChangeTwoFactorAuthentication", "Timeline")')">@value</button>
                                         </div>
                                     </div>
-
-
                                 </div>
-
-
                                 <div class="ui item" style="width: 100%; padding: 0">
                                     <div class="ui horizontal list" style="width: 100%; padding: 0">
                                         <div class="ui item">
