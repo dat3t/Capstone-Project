@@ -8,8 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
+using System.Globalization;
 using System.Net;
 using System.Net.Mail;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using AspNet.Identity.MongoDB;
@@ -31,12 +33,16 @@ namespace OneVietnam.BLL
             : base(store)
         {
             this._userStore = store;
-            this.UserValidator = new UserValidator<ApplicationUser>(this)
+            //this.UserValidator = new UserValidator<ApplicationUser>(this)
+            //{
+            //    AllowOnlyAlphanumericUserNames = false,
+            //    RequireUniqueEmail = true
+            //};
+            this.UserValidator = new CustomUserValidator<ApplicationUser>(this)
             {
-                AllowOnlyAlphanumericUserNames = false,
-                RequireUniqueEmail = true
+                AllowOnlyAlphanumericUserNames =false,
+                RequireUniqueEmail =  true
             };
-
             // Configure validation logic for passwords
             this.PasswordValidator = new PasswordValidator
             {
@@ -283,6 +289,97 @@ namespace OneVietnam.BLL
                 }
             }
             return SignInStatus.Failure;
+        }
+    }
+    /// <summary>
+    ///     Validates users before they are saved to an IUserStore
+    /// </summary>
+    /// <typeparam name="TUser"></typeparam>
+    public class CustomUserValidator<TUser> : UserValidator<TUser, string>
+        where TUser : ApplicationUser
+    {
+        /// <summary>
+        ///     Constructor
+        /// </summary>
+        /// <param name="manager"></param>
+        public CustomUserValidator(UserManager<TUser, string> manager) : base(manager)
+        {
+            this.Manager = manager;
+        }
+
+        private UserManager<TUser, string> Manager { get; set; }
+
+        /// <summary>
+        ///     Validates a user before saving
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public override async Task<IdentityResult> ValidateAsync(TUser item)
+        {
+            if (item == null)
+            {
+                throw new ArgumentNullException("item");
+            }
+            var errors = new List<string>();
+            ValidateUserName(item, errors);
+            if (RequireUniqueEmail)
+            {
+                await ValidateEmail(item, errors);
+            }
+            if (errors.Count > 0)
+            {
+                return IdentityResult.Failed(errors.ToArray());
+            }
+            return IdentityResult.Success;
+        }
+
+        private void ValidateUserName(TUser user, List<string> errors)
+        {
+            if (string.IsNullOrWhiteSpace(user.UserName))
+            {
+                errors.Add(String.Format(CultureInfo.CurrentCulture, CustomResources.PropertyTooShort, "Name"));
+            }
+            else if (AllowOnlyAlphanumericUserNames && !Regex.IsMatch(user.UserName, @"^[A-Za-z0-9@_\.]+$"))
+            {
+                // If any characters are not letters or digits, its an illegal user name
+                errors.Add(String.Format(CultureInfo.CurrentCulture, CustomResources.InvalidUserName, user.UserName));
+            }
+            // Tailm : remove username's unique constrant
+            //else
+            //{
+            //    var owner = await Manager.FindByNameAsync(user.UserName);
+            //    if (owner != null && !EqualityComparer<string>.Default.Equals(owner.Id, user.Id))
+            //    {
+            //        errors.Add(String.Format(CultureInfo.CurrentCulture, CustomResources.DuplicateName, user.UserName));
+            //    }
+            //}
+        }
+
+        // make sure email is not empty, valid, and unique
+        private async Task ValidateEmail(TUser user, List<string> errors)
+        {
+            if (!user.Email.IsNullOrWhiteSpace())
+            {
+                if (string.IsNullOrWhiteSpace(user.Email))
+                {
+                    errors.Add(String.Format(CultureInfo.CurrentCulture, CustomResources.PropertyTooShort, "Email"));
+                    return;
+                }
+                try
+                {
+                    var m = new MailAddress(user.Email);
+                }
+                catch (FormatException)
+                {
+                    errors.Add(String.Format(CultureInfo.CurrentCulture, CustomResources.InvalidEmail, user.Email));
+                    return;
+                }
+            }
+            var owner = await Manager.FindByEmailAsync(user.Email);
+            if (owner != null && !EqualityComparer<string>.Default.Equals(owner.Id, user.Id))
+            {
+                errors.Add(String.Format(CultureInfo.CurrentCulture, CustomResources.DuplicateEmail, user.Email));
+            }
         }
     }
 }
