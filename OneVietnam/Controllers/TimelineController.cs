@@ -164,6 +164,11 @@ namespace OneVietnam.Controllers
         {
             ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             UserProfileViewModel profile = new UserProfileViewModel(user);
+            var genderList = await IconManager.GetIconGender();
+            if (genderList != null)
+            {
+                ViewData["GenderTypes"] = genderList;
+            }
             return PartialView("_EditProfile", profile);
         }
 
@@ -186,7 +191,7 @@ namespace OneVietnam.Controllers
                 user.Email = profile.Email;
                 user.Location = profile.Location;                
                 user.DateOfBirth = profile.DateOfBirth;
-//                user.PhoneNumber = profile.PhoneNumber;
+                user.PhoneNumber = profile.PhoneNumber;
                 var result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
@@ -281,7 +286,7 @@ namespace OneVietnam.Controllers
                         }
                         AddErrors(result);
                     }
-                    return PartialView("_SetPassword", model);
+                    return PartialView("_ChangePassword", new ChangePasswordViewModel());
                 }
                 AddErrors(result);
             }

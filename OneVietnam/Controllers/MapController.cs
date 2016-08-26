@@ -52,7 +52,7 @@ namespace OneVietnam.Controllers
 
             MapViewModel mapModal;
             List<MapViewModel> list = new List<MapViewModel>();
-
+            
             foreach (ApplicationUser user in userslist)
             {
                 mapModal = new MapViewModel();
@@ -190,8 +190,11 @@ namespace OneVietnam.Controllers
                 PostId = p.Id
                 //PostType = p.PostType
             }).ToList();
-       
-            return Json(list, JsonRequestBehavior.AllowGet);
+
+            var jsonResult = Json(list, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
         }
     }
 }
