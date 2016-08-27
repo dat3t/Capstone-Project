@@ -37,7 +37,7 @@
                     <div class="field">
                         <h2 class="ui medium header" style="margin-bottom: 0">* Tiêu đề</h2>
                         <div class="ui input  focus">
-                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { placeholder = "Nhâp tiêu đề", tabindex ="11" } })
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { placeholder = "Nhâp tiêu đề", tabindex ="11", maxlength="320" } })
                         </div>
                     </div>
 
@@ -98,7 +98,7 @@
                     <!-- Description -->
                     <div class="field">
                         <label>* Mô tả </label>
-                    @Html.TextAreaFor(model => model.Description, new { placeholder = "Thêm mô tả cho bài đăng", rows = "4", tabindex="14" })
+                    @Html.TextAreaFor(model => model.Description, new { placeholder = "Thêm mô tả cho bài đăng", rows = "4", tabindex="14", maxlength = "5000" })
                     </div>
 
                     <!-- Post Location -->
