@@ -19,6 +19,8 @@ namespace OneVietnam.Models
 
         public bool LockedFlag { get; set; }
 
+        public List<string> Roles { get; set; }
+
         public List<PostViewModel> PostList { get; set; }
         public TwoFacterViewModel Setting { get; set; }
 
@@ -29,6 +31,10 @@ namespace OneVietnam.Models
         public TimelineViewModel(ApplicationUser user, List<Post> posts)
         {
             Id = user.Id;
+            if (user.Roles != null)
+            {
+                Roles = user.Roles;
+            }
             if (user.UserName != null)
             {
                 UserName = user.UserName;
