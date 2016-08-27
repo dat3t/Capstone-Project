@@ -83,7 +83,7 @@ namespace OneVietnam.Models
         [Display(Name = "Giới tính")]
         public int Gender { get; set; }
         [Required(ErrorMessage = "Mật khẩu là trường bắt buộc")]
-        [StringLength(100, ErrorMessage = "{0} phải có ít nhất {2} kí tự.", MinimumLength = 6)]
+        [StringLength(25, ErrorMessage = "{0} phải có ít nhất {2} kí tự.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
