@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
@@ -255,8 +256,8 @@ namespace OneVietnam.Controllers
                     await SignInAsync(user, isPersistent: false);
                 }
                 return null;
-            }
-            AddErrors(result);
+            }            
+             AddErrors(result);
             return PartialView("_ChangePassword", model);
         }
 
@@ -377,6 +378,11 @@ namespace OneVietnam.Controllers
         {
             foreach (var error in result.Errors)
             {
+                if (error.Contains("Incorrect password"))
+                {
+                    ModelState.AddModelError("", "Mật khẩu hiện tại không chính xác.");
+                    continue;
+                }
                 ModelState.AddModelError("", error);
             }
         }

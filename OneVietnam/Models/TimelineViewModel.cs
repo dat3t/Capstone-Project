@@ -143,20 +143,20 @@ namespace OneVietnam.Models
     public class ChangePasswordViewModel
     {        
 
-        [Required(ErrorMessage = "{0} không được để trống")]
+        [Required(ErrorMessage = "{0} đang để trống.")]
         [DataType(DataType.Password)]
         [Display(Name = "Mật khẩu hiện tại")]
         public string OldPassword { get; set; }
 
-        [Required(ErrorMessage = "{0} không được để trống")]
-        [StringLength(100, ErrorMessage = "{0} phải chứa ít nhất {2} kí tự.", MinimumLength = 6)]
+        [Required(ErrorMessage = "{0} đang để trống")]
+        [StringLength(100, ErrorMessage = "Nhập mật khẩu mới trong khoảng từ 6 đến 100 ký tự.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Mật khẩu mới")]
         public string NewPassword { get; set; }
         
         [DataType(DataType.Password)]
         [Display(Name = "Xác nhận lại mật khẩu mới")]
-        [Compare("NewPassword", ErrorMessage = "Mật khẩu mới và mật khẩu xác nhận lại không khớp với nhau.")]
+        [Compare("NewPassword", ErrorMessage = "Mật khẩu xác nhận không trùng khớp.")]
         public string ConfirmPassword { get; set; }
 
         public ChangePasswordViewModel(){}        
