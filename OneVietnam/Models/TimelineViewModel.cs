@@ -68,7 +68,7 @@ namespace OneVietnam.Models
     {
         public string Id { get; set; }
 
-        [Required(ErrorMessage = "{0} chưa được điền.")]
+        [Required(ErrorMessage = "{0} không được để trống.")]
         [DataType(DataType.Text)]
         [Display(Name = "Tên người dùng")]
         public string UserName { get; set; }
