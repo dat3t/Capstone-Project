@@ -8,27 +8,29 @@
 {
     HttpMethod = "POST",
     InsertionMode = InsertionMode.Replace,
-    UpdateTargetId = "ShowReportUser_"+Model.UserId
+    UpdateTargetId = "ShowReportUser_"+Model.UserId,
+    OnComplete = "ShowThankModal('"+Model.UserId+"')"
 }))
 {
 
         <div class="content">
             <div class="field">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(false)
                 <div class="ui form">
                     @Html.TextAreaFor(model => model.ReportDescription, new {placeholder = "Nội dung muốn báo cáo", rows = "6"})
                 </div>
-                <div style="display: none">                    
-                    @Html.EditorFor(model => model.UserId)                    
+                <div style="display: none">
+                    @Html.EditorFor(model => model.UserId)
                 </div>
             </div>
         </div>
         <div class="actions">
-            <div class="ui cancel button">Hủy</div>
+            <input class="ui cancel button" value="Hủy" type="button" onclick="cancelReport()" />
             <input class="ui green button" id="submitReport" value="Gửi" type="submit"/>
         </div>        
     }
 </div>
-
 
 <div class="ui small second modal" id="reportedModal_@Model.UserId">
     <div class="header" style="text-align: center">
@@ -40,6 +42,6 @@
         Rất cảm ơn các bạn đã đóng góp cho OneVietnam.
     </div>
     <div class="actions">
-        <div class="ui cancel button">Đóng</div>        
+        <div class="ui cancel button">Đóng</div>
     </div>
 </div>
