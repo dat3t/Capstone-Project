@@ -250,8 +250,26 @@ namespace OneVietnam.Controllers
             Post post = await PostManager.FindByIdAsync(postId);
             List<Tag> tagsList = post.Tags;
             BaseFilter filter = new BaseFilter { CurrentPage = pageNum.Value };
-            //todo : returned list related post from here
+            //todo : returned list related post from here, using suggestedpost to query
             var result = await PostManager.FindPostByTagsAsync(filter, tagsList,postId);
+            var suggestedList = new List<SuggestedPost>();
+            foreach (var item in result)
+            {
+                int score = 0;
+                foreach (var tag in tagsList)
+                {
+                    if (item.Tags.Contains(tag))
+                    {
+                        score++;
+                    }
+                }
+                var s = new SuggestedPost
+                {
+                    post = item,
+                    score = score
+                };
+                suggestedList.Add(s);
+            }
             var list = new List<PostViewModel>();
             //foreach (var item in result)
             //{
@@ -285,6 +303,7 @@ namespace OneVietnam.Controllers
             //}
             return PartialView(list);
         }
+                
         [AllowAnonymous]
         public async Task<ActionResult> ShowPostDetailPage(string Id)
         {
