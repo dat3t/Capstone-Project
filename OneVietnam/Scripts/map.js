@@ -50,7 +50,7 @@ function checkAuthenticated() {
     });
 
     myHomeMarker = new google.maps.Marker({
-        title: "Vị trí của tôi",
+        title: "Địa chỉ của tôi",
         optimized: false,
         icon: myhomeicon
     });
