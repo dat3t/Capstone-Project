@@ -123,7 +123,7 @@ function initialize() {
     google.maps.event.addListener(map, 'idle', function () {
         bounds = map.getBounds();
 
-        if (map.getZoom() > 5 && isPostFilter == false) {
+        if (map.getZoom() > 7 && isPostFilter == false) {
             switch (currentFilter) {
          
                 case -4: showFemales(); break;
