@@ -120,6 +120,19 @@ namespace OneVietnam.Controllers
             }
 
             AdministrationViewModel administrationView = new AdministrationViewModel(users, roles, posts, reportViewList);
+            List<AdminPostViewModel> postViews = new List<AdminPostViewModel>();
+            if (posts != null && posts.Count > 0)
+            {
+                foreach (var item in posts)
+                {
+                    AdminPostViewModel model = new AdminPostViewModel(item);
+                    var user = await UserManager.FindByIdAsync(item.UserId);
+                    model.UserName = user.UserName;
+                    postViews.Add(model);
+                }
+
+            }
+            administrationView.Posts = postViews;
             return View(administrationView);
         }
 
@@ -446,6 +459,8 @@ namespace OneVietnam.Controllers
                 foreach (var item in posts)
                 {
                     AdminPostViewModel model = new AdminPostViewModel(item);
+                    var user = await UserManager.FindByIdAsync(item.UserId);
+                    model.UserName = user.UserName;
                     postViews.Add(model);
                 }
 
