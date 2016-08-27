@@ -1,6 +1,6 @@
 ﻿
 @model OneVietnam.Models.ReportViewModel
-<div class="ui small report modal coupled">
+<div class="ui small report modal coupled" id="modalReport_@Model.UserId">
     <div class="header">
         Gửi báo cáo vi phạm
     </div>
@@ -8,7 +8,7 @@
 {
     HttpMethod = "POST",
     InsertionMode = InsertionMode.Replace,
-    UpdateTargetId = "ShowReportUser"
+    UpdateTargetId = "ShowReportUser_"+Model.UserId
 }))
 {
 
@@ -30,7 +30,7 @@
 </div>
 
 
-<div class="ui small second modal">
+<div class="ui small second modal" id="reportedModal_@Model.UserId">
     <div class="header" style="text-align: center">
         Xin cảm ơn
     </div>

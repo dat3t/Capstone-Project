@@ -1,6 +1,7 @@
-﻿@model OneVietnam.Models.UserViewModel
+﻿@using OneVietnam.Models
+@model OneVietnam.Models.UserViewModel
 <div class="ui link card user-card">
-  
+
     <div class="content" onclick="gotoTimeline('@Model.UserId')">
         <img class="right floated mini ui image" src="@Model.Avatar">
         <div class="header">
@@ -16,7 +17,20 @@
     <div class="extra content">
         <div class="ui two buttons">
             <a class="ui basic green button" href="javascript: register_popup('@Model.UserId','@Model.UserName','@Model.Avatar')">Nhắn tin</a>
-            <div class="ui basic red button">Báo cáo</div>
+            <div class="ui basic red button" onclick="showReportUser('@Model.UserId')">Báo cáo</div>
         </div>
+    </div>
+    <div id="ShowReportUser_@Model.UserId">
+        @Html.Partial("../Timeline/_ReportUser", new ReportViewModel(Model.UserId))
+        <script>
+            function showReportUser(userId) {
+                $("#modalReport_"+ userId).modal({
+                    allowMultiple: false
+                });
+                $("#reportedModal_"+ userId).modal('attach events', '.report.modal .green.button')
+                ;
+                $("#modalReport_"+ userId).modal('show');
+            }
+        </script>
     </div>
 </div>

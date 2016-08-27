@@ -140,17 +140,17 @@
                                         <div class="item" id="reportUser">Báo cáo</div>
                                     </div>
                                 </div>
-                                <div id="ShowReportUser">
+                                <div id="ShowReportUser_@Model.Id">
                                     @Html.Partial("../Timeline/_ReportUser", new ReportViewModel(Model.Id))
                                     <script>
                                         $("#reportUser")
                                             .click(function () {
-                                                $('.small.modal').modal({
+                                                $("#modalReport_"+ @Model.Id).modal({
                                                     allowMultiple: false
                                                 });
-                                                $('.second.modal').modal('attach events', '.report.modal .green.button')
+                                                $("#reportedModal_"+ @Model.Id).modal('attach events', '.report.modal .green.button')
                                                     ;
-                                                $('.report.modal').modal('show');
+                                                $("#modalReport_"+ @Model.Id).modal('show');
                                             });
                                     </script>
                                 </div>
