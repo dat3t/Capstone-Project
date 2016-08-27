@@ -250,6 +250,7 @@ namespace OneVietnam.Controllers
             Post post = await PostManager.FindByIdAsync(postId);
             List<Tag> tagsList = post.Tags;
             BaseFilter filter = new BaseFilter { CurrentPage = pageNum.Value };
+            //todo : returned list related post from here
             var result = await PostManager.FindPostByTagsAsync(filter, tagsList,postId);
             var list = new List<PostViewModel>();
             //foreach (var item in result)

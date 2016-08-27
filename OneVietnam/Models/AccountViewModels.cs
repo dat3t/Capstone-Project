@@ -17,7 +17,7 @@ namespace OneVietnam.Models
     {
         public string ReturnUrl { get; set; }
         [Required(ErrorMessage = "Không lấy được vị trí của trình duyệt")]
-        [Display(Name = "Vị Trí")]
+        [Display(Name = "Vị trí")]
         public string LocationExternal { get; set; }        
         public double XCoordinateExternal { get; set; }        
         public double YCoordinateExternal { get; set; }
@@ -62,7 +62,7 @@ namespace OneVietnam.Models
         public string Email { get; set; }        
         [Required(ErrorMessage = "Mật khẩu là trường bắt buộc")]
         [DataType(DataType.Password)]
-        [Display(Name = "Mật Khẩu")]
+        [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
 
         [Display(Name = "Duy trì đăng nhập")]
@@ -72,28 +72,28 @@ namespace OneVietnam.Models
     public class RegisterViewModel
     {
         [Required(ErrorMessage = "Họ và tên là trường bắt buộc")]        
-        [StringLength(50,ErrorMessage = "Họ và Tên phải có ít nhất {2} kí tự, nhiều nhất {1} kí tự ",MinimumLength = 2)]
-        [Display(Name = "Họ Và Tên")]
+        [StringLength(50,ErrorMessage = "Họ và tên phải có ít nhất {2} kí tự, nhiều nhất {1} kí tự ",MinimumLength = 2)]
+        [Display(Name = "Họ và tên")]
         public string UserName { get; set; }
         [Required(ErrorMessage = "Địa chỉ email là trường bắt buộc")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Giới tính là trường bắt buộc")]
-        [Display(Name = "Giới Tính")]
+        [Display(Name = "Giới tính")]
         public int Gender { get; set; }
         [Required(ErrorMessage = "Mật khẩu là trường bắt buộc")]
         [StringLength(100, ErrorMessage = "{0} phải có ít nhất {2} kí tự.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Mật Khẩu")]
+        [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
         [Required(ErrorMessage = "Yêu cầu xác nhận mật khẩu")]
         [DataType(DataType.Password)]
-        [Display(Name = "Xác Nhận Mật Khẩu")]
+        [Display(Name = "Xác nhận mật khẩu")]
         [Compare("Password", ErrorMessage = "Mật Khẩu Xác Nhận Không Trùng Khớp")]
         public string ConfirmPassword { get; set; }
         [Required(ErrorMessage = "Không lấy được vị trí của trình duyệt")]
-        [Display(Name = "Vị Trí")]
+        [Display(Name = "Vị trí")]
         public string Address { get; set; }        
         public double XCoordinate { get; set; }        
         public double YCoordinate { get; set; }
@@ -110,12 +110,12 @@ namespace OneVietnam.Models
         [Required(ErrorMessage = "Mật khẩu là trường bắt buộc")]
         [StringLength(100, ErrorMessage = "{0} phải có ít nhất {2} kí tự.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Mật Khẩu")]
+        [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Xác Nhận Mật Khẩu")]
-        [Compare("Password", ErrorMessage = "Mật Khẩu Xác Nhận Không Trùng Khớp.")]
+        [Display(Name = "Xác nhận mật khẩu")]
+        [Compare("Password", ErrorMessage = "Mật khẩu xác nhận không trùng khớp.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
