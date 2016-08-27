@@ -299,6 +299,7 @@
     <Compile Include="DTL\DictionaryItem.cs" />
     <Compile Include="DTL\MessageDTO.cs" />
     <Compile Include="DTL\Notification.cs" />
+    <Compile Include="DTL\SuggestedPost.cs" />
     <Compile Include="Models\AdministrationViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\ConversationViewModel.cs" />
