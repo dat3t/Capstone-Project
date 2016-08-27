@@ -7,7 +7,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace OneVietnam.DTL
 {
-    public class Tag : BaseMongoDocument
+    public class Tag : BaseMongoDocument, System.IEquatable<Tag>
     {                
         public string TagValue { get; set; }
 
@@ -26,6 +26,14 @@ namespace OneVietnam.DTL
             TagValue = pTagValue;
             TagText = pTagText;
         }
-                
+
+        public bool Equals(Tag otherTag)
+        {
+            if (otherTag.Id == this.Id)
+            {
+                return true;
+            }
+            else return false;
+        }
     }
 }
