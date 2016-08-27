@@ -500,8 +500,8 @@ namespace OneVietnam.Controllers
             var post = await PostManager.FindByIdAsync(postId);
             post.DeletedFlag = true;
             await PostManager.UpdateAsync(post);
-            CloudBlobContainer blobContainer = _blobClient.GetContainerReference(postId);
-            await blobContainer.DeleteIfExistsAsync();
+            //CloudBlobContainer blobContainer = _blobClient.GetContainerReference(postId);
+            //await blobContainer.DeleteIfExistsAsync();
             return RedirectToAction("Index", "Newsfeed");
         }
         public async Task DeleteImages(string name, string id)

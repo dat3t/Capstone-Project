@@ -112,7 +112,11 @@ namespace OneVietnam.Controllers
 
         public async Task<ActionResult> Index(string id, int? pageNum, int? filterVal)
         {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
+            if (string.IsNullOrWhiteSpace(id) || id.Length != 24)
+            {
+                return View();
+            }
+             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
 
             // Create a blob client for interacting with the blob service.
             blobClient = storageAccount.CreateCloudBlobClient();
@@ -158,8 +162,6 @@ namespace OneVietnam.Controllers
             }
             TimelineViewModel timeLine = new TimelineViewModel(user, posts);
             return View(timeLine);
-
-
         }
 
         [HttpGet]
