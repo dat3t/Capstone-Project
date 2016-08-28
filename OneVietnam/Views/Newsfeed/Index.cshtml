@@ -8,6 +8,7 @@
         .ready(function () {
          
             $("#stamp-button2").hide();
+            $("#stamp-button").removeClass("hides");
             if (query === 'ShowPostDetailPage') {
 //                $("#CreatePostForm").data('validator').resetForm();
 //                $(".validation-summary-errors ul li").remove();
@@ -93,30 +94,7 @@
         </div>
 
 
-        @if (User.Identity.IsAuthenticated)
-        {
-
-            <div class="floating-button" id="stamp-button" data-toggle="tooltip" data-original-title="Create">
-                <p class="plus"><i class="write icon"></i>
-                </p>
-                <p class="edits"><i class="remove icon"></i>
-                </p>
-            </div>
-        }
-        else
-        {
-            <a href="@Url.Action("Login", "Account", new {ReturnUrl = "/Newsfeed"})">
-                <div class="floating-button" data-toggle="tooltip" data-original-title="Create">
-
-                    <p class="plus">
-                        <i class="write icon"></i>
-                    </p>
-                    <p class="edits">
-                        <i class="remove icon"></i>
-                    </p>
-                </div>
-            </a>
-        }
+      
     </div>
    
     <div class="ten wide column"  >
@@ -150,7 +128,7 @@
                     Từ người Quản trị
                 </div>
             </h3>
-            <div id="forAdminPost" class="ui bound top sticky"></div>
+            <div id="forAdminPost"></div>
         </div>
         <a href="javascript:" id="return-to-top"><i class="chevron up icon"></i></a>
 

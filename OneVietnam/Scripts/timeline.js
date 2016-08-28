@@ -1,6 +1,5 @@
 ﻿function addPhone() {
     var phoneTextval = $("#PhoneNumber").val();
-    alert(phoneTextval);
     if (phoneTextval === "") $("#title").text("Thêm số điện thoại");
     else {
         $("#phonetext").val(phoneTextval);

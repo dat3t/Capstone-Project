@@ -44,7 +44,7 @@
                         data: { provider: selected, returnUrl: returned },
                         success: function (partialResult) {
                             $("#sendCode").removeClass("loading");
-                            $("#sendCode").val("Gửi lại");
+                            $("#sendCode").text("Gửi lại");
                             $("#forVerify").html(partialResult);
                         }
                     });
