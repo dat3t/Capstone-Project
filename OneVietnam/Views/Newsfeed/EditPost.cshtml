@@ -13,7 +13,7 @@
 
 @if (Model != null && !Model.DeletedFlag && !Model.LockedFlag)
 {
-    @(Model.PostType == 0 ? Html.Partial("../Newsfeed/_EditAdminPost", new AdminPostViewModel(Model)) : Html.Partial("../Newsfeed/_EditUserPost", Model))
+    @Html.Partial("../Newsfeed/_EditUserPost", Model)
 }
 else
 {
