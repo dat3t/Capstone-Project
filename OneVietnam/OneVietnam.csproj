@@ -578,7 +578,6 @@
     <Content Include="Views\Administration\_ReportsManagementPanel.cshtml" />
     <Content Include="Views\Administration\_ShowReportStatus.cshtml" />
     <Content Include="Views\Newsfeed\_EditUserPost.cshtml" />
-    <Content Include="Views\Newsfeed\_EditAdminPost.cshtml" />
     <Content Include="Views\Newsfeed\_AdminPost.cshtml" />
     <Content Include="Views\Administration\_CreateIcon.cshtml" />
     <Content Include="Views\Search\_userResult.cshtml" />
