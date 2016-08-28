@@ -484,9 +484,8 @@
                 $.ajax({
                     type: 'GET',
                     data: { phoneNumber: phoneNum,code:codeNum },
-                    url: "/Manage/VerifyPhoneNumber",
-                    success: function (result) {
-                        alert("vaor");
+                    url: "/Timeline/VerifyPhoneNumber",
+                    success: function (result) {                        
                         $("#check").removeClass("loading");
                         if (result === "1") {
                             $("#PhoneNumber").val(phoneNum);

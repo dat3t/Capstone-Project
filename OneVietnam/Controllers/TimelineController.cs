@@ -14,6 +14,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MongoDB.Driver;
 using OneVietnam.BLL;
+using OneVietnam.Common;
 using OneVietnam.DTL;
 using OneVietnam.Models;
 using Icon = System.Drawing.Icon;
@@ -211,7 +212,27 @@ namespace OneVietnam.Controllers
             }
             return PartialView("_EditProfile", profile);
         }
-
+        [Authorize]
+        public async Task<int> VerifyPhoneNumber(string phoneNumber, string code)
+        {
+            if (!ModelState.IsValid)
+            {
+                return (int)VerifyStatus.Failure;
+            }
+            var result = await UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId(), phoneNumber, code);
+            if (result.Succeeded)
+            {
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user != null)
+                {
+                    user.PhoneNumber = phoneNumber;
+                }
+                return (int)VerifyStatus.Success;
+            }
+            // If we got this far, something failed, redisplay form
+            ModelState.AddModelError("", "Failed to verify phone");
+            return (int)VerifyStatus.Failure;
+        }
         [HttpPost]
         [System.Web.Mvc.Authorize]
         public async Task ChangeTwoFactorAuthentication(string value)
@@ -282,14 +303,8 @@ namespace OneVietnam.Controllers
                 {
                     var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                     if (user != null)
-                    {
-                        result = await UserManager.SetEmailConfirmed(user);
-                        if (result.Succeeded)
-                        {
-                            await SignInAsync(user, isPersistent: false);
-                            return null;
-                        }
-                        AddErrors(result);
+                    {                        
+                        await SignInAsync(user, isPersistent: false);                                                    
                     }
                     return PartialView("_ChangePassword", new ChangePasswordViewModel());
                 }
