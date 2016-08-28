@@ -484,10 +484,6 @@
     <Content Include="Scripts\_references.js" />
     <None Include="Service References\ASPSMSX2\configuration91.svcinfo" />
     <None Include="Service References\ASPSMSX2\configuration.svcinfo" />
-    <Content Include="semantic\dist\semantic.css" />
-    <Content Include="semantic\dist\semantic.js" />
-    <Content Include="semantic\dist\semantic.min.css" />
-    <Content Include="semantic\dist\semantic.min.js" />
     <Content Include="Service References\ASPSMSX2\OneVietnam.ASPSMSX2.vouchers.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
@@ -597,6 +593,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="BLL\Common\" />
     <Folder Include="Content\SlideImages\" />
+    <Folder Include="semantic\dist\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
