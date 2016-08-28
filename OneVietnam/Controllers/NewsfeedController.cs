@@ -669,7 +669,7 @@ namespace OneVietnam.Controllers
         public async Task<ActionResult> AutoGeneratePost()
         {
             // Define number of random posts
-            Int32 numberOfPost = 30000;
+            Int32 numberOfPost = 100000;
 
             // initial data
             // - create description list
@@ -764,8 +764,8 @@ namespace OneVietnam.Controllers
                 post.PostLocation = postLocation;
 
                 // random post type
-                post.PostType = 5;
-                //post.PostType = r.Next(5, 9);
+                //post.PostType = 5;
+                post.PostType = r.Next(3, 10);
 
                 // insert one post into database
                 await PostManager.CreateAsync(post);

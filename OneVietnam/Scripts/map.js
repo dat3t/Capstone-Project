@@ -281,8 +281,13 @@ function initialize() {
         isAutoCompleteBox = true;
         map.fitBounds(bounds);
     });
-
-
+   
+    $('#pac-input2').keypress(function (e) {
+        if (e.which == 13) {
+            google.maps.event.trigger(searchBox, 'place_changed');
+            return false;
+        }
+    });
 
 }
 
