@@ -171,6 +171,9 @@ namespace OneVietnam.Controllers
                 result.PostLocation = post.PostLocation;
                 result.PostType = post.PostType;
                 result.Illustrations = post.Illustrations;
+                result.Description = post.Description;
+                result.TimeInterval = Utilities.GetTimeInterval(post.CreatedDate);
+
                 topListModel.Add(result);
             }
 
