@@ -177,7 +177,10 @@ function updateCurrentLocation() {
                     if (status === window.google.maps.GeocoderStatus.OK) { // if geocode success
                         var detailedLocation = results[0]
                             .formatted_address; // if address found, pass to processing function
-                        addr.value = detailedLocation;
+                        if (detailedLocation.indexOf("Unnamed Road,") != -1) {
+                            var NoEnglishLocation = detailedLocation.replace("Unnamed Road,", "");
+                        }
+                        addr.value = NoEnglishLocation;
                         xcoordinate.value = pos.lat;
                         ycoordinate.value = pos.lng;
                         userLocationMarker.setTitle(addr);
