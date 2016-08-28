@@ -99,9 +99,10 @@ namespace OneVietnam.Controllers
                 Description = p.Description,
                 PostLocation = p.PostLocation,
                 PostType = p.PostType,
-                Illustrations = p.Illustrations
+                Illustrations = p.Illustrations,
+                TimeInterval = Utilities.GetTimeInterval(p.CreatedDate)
 
-            }).ToList();
+        }).ToList();
         }
 
         //[HttpPost] // can be HttpGet

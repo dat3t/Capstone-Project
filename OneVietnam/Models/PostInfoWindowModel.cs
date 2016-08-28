@@ -17,6 +17,7 @@ namespace OneVietnam.Models
         public Location PostLocation { get; set; }
         public int PostType { get; set; }
         public List<Illustration> Illustrations { get; set; }
-
+        public string TimeInterval { get; set; }
+  
     }
 }
