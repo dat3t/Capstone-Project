@@ -638,6 +638,7 @@ function showMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNu
 
 function loadByAjax(postTypeList, postTypeNumber) {
     if (postTypeList.length == 0) {
+       // $("#loading").modal('show');
         $.ajax({
             url: '/Map/GetListOfAPostType?PostType=' + postTypeNumber,
             type: 'GET',
@@ -655,6 +656,7 @@ function loadByAjax(postTypeList, postTypeNumber) {
                     case 8: createListPostMarker(postTypeList, listType8Markers, overlappingType8, Type8Icon); showMarkersOnMap(postType8, 8, listType8Markers); break;
                     case 9: createListPostMarker(postTypeList, listType9Markers, overlappingType9, Type9Icon); showMarkersOnMap(postType9, 9, listType9Markers); break;
                 }
+              //  $("#loading").modal('hide');
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);
