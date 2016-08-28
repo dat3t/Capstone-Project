@@ -88,7 +88,7 @@ namespace OneVietnam.BLL
         {
             var list = new List<Post>();
             var builder = Builders<Post>.Filter;
-            var filter = builder.Eq("PostType", PostTypeEnum.Administration)&builder.Eq("DeletedFlag", false)& 
+            var filter = builder.Eq("PostType", PostTypeEnum.AdminPost)&builder.Eq("DeletedFlag", false)& 
                             builder.Eq("LockedFlag", false)&builder.Eq("Status",true);
             var sort = Builders<Post>.Sort.Descending("CreatedDate");
             var baseFilter = new BaseFilter {IsNeedPaging = false};
@@ -249,7 +249,7 @@ namespace OneVietnam.BLL
                     filter = filter & statusFilter;
                 }
             }
-            var adminPostFilter = builder.Eq("PostType", PostTypeEnum.Administration);
+            var adminPostFilter = builder.Eq("PostType", PostTypeEnum.AdminPost);
             if (filter == null)
             {
                 filter = adminPostFilter;
