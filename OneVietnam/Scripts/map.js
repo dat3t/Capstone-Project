@@ -644,17 +644,15 @@ function showMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNu
 function loadByAjax(postTypeList, postTypeNumber) {
     if (postTypeList.length == 0) {
     
-        $(document).ajaxStart(function () {
+        //$(document).ajaxStart(function () {
 
-            $("#loading").modal({ closable: false }).modal('show');
-        });
+        //});
 
-        $(document).ajaxStop(function () {
-            setTimeout(function () {
-                $("#loading").modal('hide');
-            }, 700);
+        $("#loading").modal({ closable: false }).modal('show');
+        //$(document).ajaxStop(function () {
+           
           
-        });
+        //});
        
         //$(".abc").append('<img src="/Content/Icon/loading_spinner.gif" />');
         $.ajax({
@@ -663,9 +661,15 @@ function loadByAjax(postTypeList, postTypeNumber) {
             async:true,
             dataType: 'json',
             success: function (result) {
+               
                 for (var i = 0; i < result.length; i++) {
                     postTypeList.push({ postID: result[i].PostId, x: result[i].X, y: result[i].Y });
                 }
+
+                setTimeout(function () {
+                    $("#loading").modal('hide');
+                }, 700);
+
                 switch (postTypeNumber) {
                     case 3: createListPostMarker(postTypeList, listType3Markers, overlappingType3, Type3Icon); showMarkersOnMap(postType3, 3, listType3Markers); break;
                     case 4: createListPostMarker(postTypeList, listType4Markers, overlappingType4, Type4Icon); showMarkersOnMap(postType4, 4, listType4Markers); break;
@@ -675,7 +679,7 @@ function loadByAjax(postTypeList, postTypeNumber) {
                     case 8: createListPostMarker(postTypeList, listType8Markers, overlappingType8, Type8Icon); showMarkersOnMap(postType8, 8, listType8Markers); break;
                     case 9: createListPostMarker(postTypeList, listType9Markers, overlappingType9, Type9Icon); showMarkersOnMap(postType9, 9, listType9Markers); break;
                 }
-              
+            
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);
