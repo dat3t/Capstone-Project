@@ -193,23 +193,7 @@ namespace OneVietnam.Controllers
 
         //
         // POST: /Account/AddPhoneNumber
-        public async Task<string> AddPhoneNumber(string phoneNumber)
-        {
-          
-            // Send result of: UserManager.GetPhoneNumberCodeAsync(User.Identity.GetUserId(), phoneNumber);
-            // Generate the token and send it
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
-            if (UserManager.SmsService != null)
-            {
-                var message = new IdentityMessage
-                {
-                    Destination =phoneNumber,
-                    Body = "Mã bảo mật của bạn là: " + code
-                };
-                await UserManager.SmsService.SendAsync(message);
-            }
-            return "" ;
-        }
+      
         //
         // POST: /Manage/EnableTwoFactorAuthentication
         [HttpPost]
@@ -275,23 +259,7 @@ namespace OneVietnam.Controllers
             return (int)VerifyStatus.Failure;
         }
 
-        //
-        // GET: /Account/RemovePhoneNumber
-        public async Task<ActionResult> RemovePhoneNumber()
-        {
-            var result = await UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
-            if (!result.Succeeded)
-            {
-                return RedirectToAction("Index", new { Message = ManageMessageId.Error });
-            }
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            if (user != null)
-            {
-                await SignInAsync(user, isPersistent: false);
-            }
-            return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
-        }
-
+       
         //
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()

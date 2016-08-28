@@ -1,6 +1,7 @@
 ﻿@using OneVietnam.DTL
 @using OneVietnam.Models
 @using Microsoft.AspNet.Identity
+@using OneVietnam.Common
 <script>
     var query = window.location.search.substring(1);
 
@@ -8,6 +9,7 @@
         .ready(function () {
          
             $("#stamp-button2").hide();
+            $("#stamp-button").removeClass("hides");
             if (query === 'ShowPostDetailPage') {
 //                $("#CreatePostForm").data('validator').resetForm();
 //                $(".validation-summary-errors ul li").remove();
@@ -52,8 +54,6 @@
             <div class="text">
                 <div class="ui blue empty circular label"></div>
                 Tất cả
-
-
             </div>
             <i class="dropdown icon"></i>
             <div class="menu filter-items">
@@ -61,62 +61,33 @@
                     <div class="ui blue empty circular label"></div>
                     Tất cả
                 </div>
-
-                <div class="item" data-filter="4">
-                    <div class="ui yellow empty circular label"></div>
-                    Việc làm
-                </div>
-                <div class="item" data-filter="5">
-                    <div class="ui olive empty circular label"></div>
-                    Nhà ở
-
-                </div>
-                <div class="item" data-filter="6">
-                    <div class="ui purple empty circular label"></div>
-                    Đồ dùng
-
-                </div>
-                <div class="item" data-filter="7">
-                    <div class="ui orange empty circular label"></div>
-                    Xách tay
-                </div>
-                <div class="item" data-filter="8">
-                    <div class="ui teal empty circular label"></div>
-                    Mua bán
-                </div>
-                <div class="item" data-filter="9">
-                    <div class="ui red empty circular label"></div>
-                    Cần giúp đỡ
-                </div>
+                @{
+                    List<Icon> postType = ViewData["PostTypes"] as List<Icon>;
+                    if (postType != null && postType.Count > 0)
+                    {
+                        foreach (var type in postType)
+                        {
+                            if (type.IconValue == (int)PostTypeEnum.Administration && Model.Roles != null && !Model.Roles.Contains(CustomRoles.Admin) && !Model.Roles.Contains(CustomRoles.Mod))
+                            {
+                                continue;
+                            }
+                            <div class="item" data-filter="@type.IconValue">
+                                <div class="ui blue empty circular label"></div>
+                                @type.IconText
+                            </div>
+                        }
+                    }
+                }
 
             </div>
         </div>
 
 
-        @if (User.Identity.IsAuthenticated)
-        {
 
-            <div class="floating-button" id="stamp-button" data-toggle="tooltip" data-original-title="Create">
-                <p class="plus"><i class="write icon"></i>
-                </p>
-                <p class="edits"><i class="remove icon"></i>
-                </p>
-            </div>
-        }
-        else
-        {
-            <a href="@Url.Action("Login", "Account", new {ReturnUrl = "/Newsfeed"})">
-                <div class="floating-button" data-toggle="tooltip" data-original-title="Create">
 
-                    <p class="plus">
-                        <i class="write icon"></i>
-                    </p>
-                    <p class="edits">
-                        <i class="remove icon"></i>
-                    </p>
-                </div>
-            </a>
-        }
+
+
+      
     </div>
    
     <div class="ten wide column"  >
@@ -150,7 +121,7 @@
                     Từ người Quản trị
                 </div>
             </h3>
-            <div id="forAdminPost" class="ui bound top sticky"></div>
+            <div id="forAdminPost"></div>
         </div>
         <a href="javascript:" id="return-to-top"><i class="chevron up icon"></i></a>
 

@@ -126,20 +126,17 @@
                         }
                         else
                         {
-
+                           
                             <div class="right menu">
+                              
+                                    
+                                    <a class="ui blue basic button"   href="javascript: register_popup('@Model.Id','@Model.UserName','@Model.AvatarLink')" style="text-decoration: none;padding-top: 15px">
+                                        <i class="icon mail"></i> Nhắn tin
+                                    </a>
 
-                                <div class="ui icon top pointing dropdown">
-                                    <i class="large grey setting icon"></i>
-                                    <div class="menu">
-                                        <div class="item">
-                                            <a href="javascript: register_popup('@Model.Id','@Model.UserName','@Model.AvatarLink')" style="text-decoration: none">
-                                                Nhắn tin
-                                            </a>
-                                        </div>
-                                        <div class="item" id="reportUser">Báo cáo</div>
-                                    </div>
-                                </div>
+                               
+                                <button class="ui red basic button" id="reportUser">Báo cáo</button>
+                               
                                 <div id="ShowReportUser_@Model.Id">
                                     @Html.Partial("../Timeline/_ReportUser", new ReportViewModel(Model.Id))
                                     <script>

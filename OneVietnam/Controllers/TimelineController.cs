@@ -177,6 +177,36 @@ namespace OneVietnam.Controllers
             }
             return PartialView("_EditProfile", profile);
         }
+        public async Task<string> AddPhoneNumber(string phoneNumber)
+        {
+
+            // Send result of: UserManager.GetPhoneNumberCodeAsync(User.Identity.GetUserId(), phoneNumber);
+            // Generate the token and send it
+            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
+            if (UserManager.SmsService != null)
+            {
+                var message = new IdentityMessage
+                {
+                    Destination = phoneNumber,
+                    Body = "Mã bảo mật của bạn là: " + code
+                };
+                await UserManager.SmsService.SendAsync(message);
+            }
+            return "";
+        }
+        //
+        // GET: /Account/RemovePhoneNumber
+        public async Task<int> RemovePhoneNumber()
+        {
+            var result = await UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
+            if (!result.Succeeded)
+            {
+                return (int)VerifyStatus.Failure; ;
+            }
+            
+          
+            return (int)VerifyStatus.Success;
+        }
 
         [HttpPost]
         [System.Web.Mvc.Authorize]

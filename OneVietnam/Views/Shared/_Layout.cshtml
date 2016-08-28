@@ -128,30 +128,7 @@
         </div>
     </div>
     <div class="ui fluid container" style="height: 90%; background-color: #F8F8F8;" id="bodypage">
-        @if (User.Identity.IsAuthenticated)
-    {
 
-        <div class="floating-button" id="stamp-button2" data-toggle="tooltip" data-original-title="Create">
-            <p class="plus">
-                <i class="write icon"></i>
-            </p>
-            <p class="edits">
-                <i class="remove icon"></i>
-            </p>
-        </div>
-    }
-    else
-    {
-        <a href="@Url.Action("Login", "Account",new { ReturnUrl= "/Newsfeed"})">
-            <div class="floating-button" data-toggle="tooltip" data-original-title="Create">
-
-                <p class="plus">
-                    <i class="write icon"></i>
-                </p>
-
-            </div>
-        </a>
-            }
         @RenderBody()
     <div id="forModal" class="ui basic modal coupled" style="position: absolute !important; height: 1000px; width: 100%">
         <div class="ui  raised clearing  segment " style="width: 631px !important">
