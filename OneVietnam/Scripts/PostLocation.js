@@ -24,6 +24,7 @@
                       (place.address_components[6] && place.address_components[6].short_name || '')
                     ].join(' ');
                 }
+               
                 $(".forLocation").text(address);
                 $("#PostLocation_Address").val(address);
                 document.getElementById("PostLocation_XCoordinate").value = place.geometry.location.lat();
@@ -49,9 +50,12 @@ function getCurrentLocation() {
                     var detailedLocation = results[0].formatted_address;         // if address found, pass to processing function
                     
                     var address_Post = document.getElementById("PostLocation_Address");
+                    if (detailedLocation.indexOf("Unnamed Road,") != -1) {
+                        var NoEnglishLocation = detailedLocation.replace("Unnamed Road,", "");
+                    }
                     if(address_Post != null){
-                        $(".forLocation").text(detailedLocation);
-                        $("#PostLocation_Address").val(detailedLocation);
+                        $(".forLocation").text(NoEnglishLocation);
+                        $("#PostLocation_Address").val(NoEnglishLocation);
                         document.getElementById("PostLocation_XCoordinate").value = pos.lat;
                         document.getElementById("PostLocation_YCoordinate").value = pos.lng;
                     }
