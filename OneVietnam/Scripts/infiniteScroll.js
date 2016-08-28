@@ -30,6 +30,7 @@ function loadMoreToInfiniteScrollUl(loadMoreRowsUrl) {
     if (page > -1 && !inCallback) {
         inCallback = true;
         page++;
+        
         $("div#loading").show();
         $.ajax({
             type: 'GET',

@@ -308,11 +308,12 @@
                                         @Html.Partial("../Shared/_NoSearchResult")
 
                                     }
-<script src="~/Scripts/infiniteScroll.js"></script>
-<script type="text/javascript">
-    var forLoad = $(".ui.link.cards");
-    var grid = $(".grids");
-
-    var moreRowsUrl = '@Url.Action("Index","Timeline")';
-    $(window).scroll(scrollHandler);
-</script>
+@section scripts{
+    <script type="text/javascript">
+        var forLoad = $(".ui.link.cards");
+        var grid = $(".grids");
+        var filterValue = -1;
+        var moreRowsUrl = '@Url.Action("Index", "Timeline")';
+        $(window).scroll(scrollHandler);
+    </script>
+}

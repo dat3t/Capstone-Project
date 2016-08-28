@@ -1,13 +1,15 @@
-﻿function verifyPN(parameters) {
-    var phoneNum = $("#txtMobilePhone").val();
-    $.ajax({
-        type: 'GET',
-        data:{phoneNumber:phoneNum},
-        url: "/Manage/AddPhoneNumber",
-        success: function (partialResult) {
-          
-        }
-    });
+﻿function addPhone() {
+    var phoneTextval = $("#PhoneNumber").val();
+    alert(phoneTextval);
+    if (phoneTextval === "") $("#title").text("Thêm số điện thoại");
+    else {
+        $("#phonetext").val(phoneTextval);
+        $("#title").text("Cập nhật số điện thoại");
+        $("#add").text("Sửa");
+    }
+    
+    $('#addPhoneModal')
+.modal('show');
 }
 function editableForm() {
     $('.tog').toggleClass('disabled');
@@ -139,7 +141,7 @@ function showUserMarkerOnMap(x, y, address) {
         title: address,
         icon: icon
     });
-    map2= new google.maps.Map(document.getElementById('divShowMap'), {
+    map2 = new google.maps.Map(document.getElementById('divShowMap'), {
         center: { lat: x, lng: y },
         zoom: 10,
         minZoom: 4,
@@ -171,7 +173,7 @@ function updateCurrentLocation() {
             var geocoder = new window.google.maps.Geocoder();             // create a geocoder object
             var location = new window.google.maps.LatLng(pos.lat, pos.lng);    // turn coordinates into an object          
             geocoder.geocode({ 'latLng': location },
-                function(results, status) {
+                function (results, status) {
                     if (status === window.google.maps.GeocoderStatus.OK) { // if geocode success
                         var detailedLocation = results[0]
                             .formatted_address; // if address found, pass to processing function

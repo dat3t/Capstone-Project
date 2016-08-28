@@ -20,7 +20,7 @@ namespace OneVietnam
             string result;
             if (timeDiff.TotalDays >= 30)
             {
-                result = " Tạo ngày " +createdDate.Date;
+                result = "từ " +createdDate.Date.ToShortDateString();
             }
             else if (timeDiff.TotalHours >= 24)
             {

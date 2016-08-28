@@ -94,6 +94,10 @@ namespace OneVietnam.Controllers
             {
                 case SignInStatus.Success:                    
                     return RedirectToLocal(returnUrl);
+                case SignInStatus.Locked:
+                    ViewBag.errorMessage = "Chúng tôi xin lỗi, Vì một số lý do chúng tôi phải khóa tài khoản của bạn. " +
+                                           "Để khắc phục vấn đề mời bạn gửi email đến ban quan trị theo địa chỉ onevietnamteam@gmail.com";
+                    return View("Error");
                 case SignInStatus.LockedOut:
                     ViewBag.LockedDuration =
                         ConfigurationManager.AppSettings["DefaultAccountLockoutTimeSpan"].ToString();
@@ -184,7 +188,7 @@ namespace OneVietnam.Controllers
                     Address = model.Address
                 };
 
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email,
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email.ToLower(),
                     Gender = model.Gender,Location = location, CreatedDate = DateTimeOffset.UtcNow,
                     Avatar = Constants.DefaultAvatarLink,Cover = Constants.DefaultCoverLink };
                 var result = await UserManager.CreateAsync(user, model.Password);
@@ -363,7 +367,13 @@ namespace OneVietnam.Controllers
             {
                 case SignInStatus.Success:                    
                     return RedirectToLocal(returnUrl);
+                case SignInStatus.Locked:
+                    ViewBag.errorMessage = "Chúng tôi xin lỗi, Vì một số lý do chúng tôi phải khóa tài khoản của bạn. " +
+                                           "Để khắc phục vấn đề mời bạn gửi email đến ban quan trị theo địa chỉ onevietnamteam@gmail.com";
+                    return View("Error");
                 case SignInStatus.LockedOut:
+                    ViewBag.LockedDuration =
+                        ConfigurationManager.AppSettings["DefaultAccountLockoutTimeSpan"].ToString();
                     return View("Lockout");
                 case SignInStatus.RequiresTwoFactorAuthentication:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
@@ -409,13 +419,17 @@ namespace OneVietnam.Controllers
                         var result2 = await UserManager.CreateAsync(user);
                         if (result2.Succeeded)
                         {
-                            result2 = await UserManager.AddLoginAsync(user.Id, info.Login);
+                            result2 = await UserManager.SetEmailConfirmed(user.Id);
                             if (result2.Succeeded)
                             {
-                                await StoreFacebookAuthToken(user);
-                                await SignInHelper.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                                return RedirectToLocal(returnUrl);
-                            }
+                                result2 = await UserManager.AddLoginAsync(user.Id, info.Login);
+                                if (result2.Succeeded)
+                                {
+                                    await StoreFacebookAuthToken(user);
+                                    await SignInHelper.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                                    return RedirectToLocal(returnUrl);
+                                }
+                            }                                                        
                         }
                         AddErrors(result2);
                     }

@@ -89,6 +89,11 @@ namespace OneVietnam.BLL
             return await UpdateAsync(user).ConfigureAwait(false);
         }
 
+        public async Task<IdentityResult> SetEmailConfirmed(string id)
+        {
+            var user = await _userStore.FindByIdAsync(id).ConfigureAwait(false);
+            return await SetEmailConfirmed(user);
+        }
         public async Task<List<ApplicationUser>> FindUsersByRoleAsync(IdentityRole role)
         {
             return await _userStore.FindUsersByRoleAsync(role);
@@ -266,6 +271,12 @@ namespace OneVietnam.BLL
                     .Set("PhoneNumber", model.PhoneNumber)
                     .Set("Location", model.Location);
             await _userStore.UpdateOneByFilterAsync(filter, update);
+        }
+
+        public async Task<bool> IsLocked(string userId)
+        {
+            var user = await _userStore.FindByIdAsync(userId);
+            return user.LockedFlag;
         }
     }
 }
