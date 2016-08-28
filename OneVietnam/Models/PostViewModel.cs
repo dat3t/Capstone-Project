@@ -162,10 +162,14 @@ namespace OneVietnam.Models
     {
         public string Id { get; set; }
 
+        [Required(ErrorMessage = "{0} chưa được điền.")]        
+        [Display(Name = "Người đăng")]
+        public string UserId { get; set; }
+
         [Required(ErrorMessage = "{0} chưa được điền.")]
         [DataType(DataType.Text)]
         [Display(Name = "Người đăng")]
-        public string UserId { get; set; }
+        public string UserName { get; set; }
 
         [Required(ErrorMessage = "{0} chưa được điền.")]
         [DataType(DataType.Text)]

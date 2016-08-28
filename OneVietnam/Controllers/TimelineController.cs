@@ -389,7 +389,13 @@ namespace OneVietnam.Controllers
             }
         }
 
+        public ActionResult ReportUser(string userId)
+        {            
+            return PartialView("../Timeline/_ReportUser", new ReportViewModel(userId));
+        }
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ReportUser(ReportViewModel model)
         {
             Report report = new Report(model) { ReporterId = User.Identity.GetUserId() };

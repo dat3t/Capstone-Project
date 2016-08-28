@@ -21,7 +21,7 @@ namespace OneVietnam.Models
 
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "{0} chưa được điền.")]
+        [Required(ErrorMessage = "{0} đang để trống.")]
         [DataType(DataType.Text)]
         [Display(Name = "Nội dung báo cáo")]
         public string ReportDescription { get; set; }

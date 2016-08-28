@@ -100,15 +100,15 @@ namespace OneVietnam.Models
                 }
             }
 
-            if (pPosts != null && pPosts.Count > 0)
-            {
-                Posts = new List<AdminPostViewModel>();
-                foreach (var post in pPosts)
-                {
-                    AdminPostViewModel postView = new AdminPostViewModel(post);
-                    Posts.Add(postView);
-                }
-            }
+            //if (pPosts != null && pPosts.Count > 0)
+            //{
+            //    Posts = new List<AdminPostViewModel>();
+            //    foreach (var post in pPosts)
+            //    {
+            //        AdminPostViewModel postView = new AdminPostViewModel(post);
+            //        Posts.Add(postView);
+            //    }
+            //}
 
             if (pRoles != null && pRoles.Count > 0)
             {
