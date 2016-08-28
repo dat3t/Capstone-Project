@@ -20,12 +20,17 @@
         var location = new window.google.maps.LatLng(pos.lat, pos.lng);    // turn coordinates into an object          
         geocoder.geocode({ 'latLng': location }, function (results, status) {
             if (status === window.google.maps.GeocoderStatus.OK) {           // if geocode success
-                var detailedLocation = results[0].formatted_address;         // if address found, pass to processing function
+                var detailedLocation = results[0].formatted_address;
+                if (detailedLocation.indexOf("Unnamed Road,") != -1) {
+                    var NoEnglishLocation = detailedLocation.replace("Unnamed Road,", "");
+                }
+                // if address found, pass to processing function
                 if ($("#XCoordinate").length > 0) {
-                    document.getElementById("Address").value = detailedLocation;
-                    document.getElementById("LocationExternal").value = detailedLocation;
+                   
+                    document.getElementById("Address").value = NoEnglishLocation;
+                    document.getElementById("LocationExternal").value = NoEnglishLocation;
                 } else {
-                    document.getElementById("LocationExternal").value = detailedLocation;
+                    document.getElementById("LocationExternal").value = NoEnglishLocation;
                 }                
 
             } else {

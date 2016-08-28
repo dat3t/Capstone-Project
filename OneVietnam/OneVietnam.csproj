@@ -376,6 +376,7 @@
     <Content Include="Content\Icon\job2.png" />
     <Content Include="Content\Icon\LGBT.png" />
     <Content Include="Content\Icon\LGBT2.png" />
+    <Content Include="Content\Icon\loading_spinner.gif" />
     <Content Include="Content\Icon\location.png" />
     <Content Include="Content\Icon\location2.png" />
     <Content Include="Content\Icon\logo.PNG" />

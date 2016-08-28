@@ -86,7 +86,7 @@ else
                 females.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
             }else
                 if(@item.Gender == 1){
-                   males.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
+                    males.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
                 }else
                     if(@item.Gender == 2){
                         LGBT.push({x :@item.X ,y : @item.Y, userID :'@item.UserId'});
@@ -168,6 +168,16 @@ else
         #button:hover + span {
             max-width: 200px;
         }
+
+        .loader {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url('/Content/Icon/loading_spinner.gif') 50% 50% no-repeat rgb(249,249,249);
+        }
     </style>
 
 
@@ -177,7 +187,7 @@ else
 
     <div id="map_canvas" style="width:100%;height:100%;margin-top:0px !important;margin-left:0px!important;margin-right:0px!important; overflow:hidden;"></div>
     <div class="ui icon input" style=" position: absolute; left: 40% !important; top: 8px !important;">
-        <input id="pac-input2" type="text" placeholder="Tìm kiếm địa điểm...">
+        <input id="pac-input2" type="text" placeholder="Tìm kiếm địa điểm..." style="width:300px;">
         <i class="search icon"></i>
     </div>
     <div class="ui vertical buttons" id="locationGroup" style="position: fixed; right: 12px; top: 63%;">
@@ -254,7 +264,7 @@ else
             </div>
         </div>
     </div>
-    <div class="ui basic modal " id="postModal" style="position: absolute !important; height: 1000px; width: 100%;"> 
+    <div class="ui basic modal " id="postModal" style="position: absolute !important; height: 1000px; width: 100%;">
     </div>
 
     <div class="ui modal" id="userModal" style="height:250px ;width:500px ;position: absolute; left:65%;">
@@ -272,17 +282,17 @@ else
     <div class="ui modal" id="nearestUserAlertModal" style="height:100px ;width:650px ;position: absolute; left:60%;">
         <div style="position: relative;left:4%;top:25%;font-size:30px;">Không có người dùng nào trong vùng này!</div>
     </div>
-    <div class="ui modal" id="loading" style="height:100px ;width:650px ;position: absolute; left:60%;">
-        <div style="position: relative;left:4%;top:25%;font-size:30px;">Đang tải, xin bạn vui lòng chờ!</div>
+    <div class="ui modal" id="loading" style="height:250px ;width:500px ;position: absolute; left:65%;">
+      <div class="loader"></div>
     </div>
-    
-</div> 
+
+</div>
 <script defer src="~/Scripts/OverlappingMarkerSpiderfier.js"></script>
 
 
 <script>
     var moreRowsUrl = '/Map/GetMorePost';
-   
+
 
     $("#mySidenav").scroll(function () {
         if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {

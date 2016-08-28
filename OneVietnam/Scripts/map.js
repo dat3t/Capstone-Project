@@ -281,9 +281,14 @@ function initialize() {
         isAutoCompleteBox = true;
         map.fitBounds(bounds);
     });
-
-
-
+   
+    $('#pac-input2').keypress(function (e) {
+        if (e.which == 13) {
+            google.maps.event.trigger(searchBox, 'place_changed');
+            return false;
+        }
+    });
+    
 }
 
 function loadScript() {
@@ -638,10 +643,24 @@ function showMarkersOnMap(postTypeNumber, currentFilterNumber, listTypeMarkersNu
 
 function loadByAjax(postTypeList, postTypeNumber) {
     if (postTypeList.length == 0) {
-       // $("#loading").modal('show');
+    
+        $(document).ajaxStart(function () {
+
+            $("#loading").modal({ closable: false }).modal('show');
+        });
+
+        $(document).ajaxStop(function () {
+            setTimeout(function () {
+                $("#loading").modal('hide');
+            }, 700);
+          
+        });
+       
+        //$(".abc").append('<img src="/Content/Icon/loading_spinner.gif" />');
         $.ajax({
             url: '/Map/GetListOfAPostType?PostType=' + postTypeNumber,
             type: 'GET',
+            async:true,
             dataType: 'json',
             success: function (result) {
                 for (var i = 0; i < result.length; i++) {
@@ -656,7 +675,7 @@ function loadByAjax(postTypeList, postTypeNumber) {
                     case 8: createListPostMarker(postTypeList, listType8Markers, overlappingType8, Type8Icon); showMarkersOnMap(postType8, 8, listType8Markers); break;
                     case 9: createListPostMarker(postTypeList, listType9Markers, overlappingType9, Type9Icon); showMarkersOnMap(postType9, 9, listType9Markers); break;
                 }
-              //  $("#loading").modal('hide');
+              
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);
@@ -971,7 +990,7 @@ function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
     }
     currentMarkerClusterer.addMarkers(list);
     currentMarkerClusterer.setMap(map);
-    currentMarkerClusterer.setMaxZoom(8);
+    currentMarkerClusterer.setMaxZoom(10);
 
     return true;
 }
