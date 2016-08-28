@@ -971,7 +971,7 @@ function checkIfCurrentBoundContainMarker(listMarker, currentFilterNumber) {
     }
     currentMarkerClusterer.addMarkers(list);
     currentMarkerClusterer.setMap(map);
-    currentMarkerClusterer.setMaxZoom(8);
+    currentMarkerClusterer.setMaxZoom(10);
 
     return true;
 }
