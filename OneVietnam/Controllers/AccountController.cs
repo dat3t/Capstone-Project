@@ -94,6 +94,10 @@ namespace OneVietnam.Controllers
             {
                 case SignInStatus.Success:                    
                     return RedirectToLocal(returnUrl);
+                case SignInStatus.Locked:
+                    ViewBag.errorMessage = "Chúng tôi xin lỗi, Vì một số lý do chúng tôi phải khóa tài khoản của bạn. " +
+                                           "Để khắc phục vấn đề mời bạn gửi email đến ban quan trị theo địa chỉ onevietnamteam@gmail.com";
+                    return View("Error");
                 case SignInStatus.LockedOut:
                     ViewBag.LockedDuration =
                         ConfigurationManager.AppSettings["DefaultAccountLockoutTimeSpan"].ToString();
@@ -363,7 +367,13 @@ namespace OneVietnam.Controllers
             {
                 case SignInStatus.Success:                    
                     return RedirectToLocal(returnUrl);
+                case SignInStatus.Locked:
+                    ViewBag.errorMessage = "Chúng tôi xin lỗi, Vì một số lý do chúng tôi phải khóa tài khoản của bạn. " +
+                                           "Để khắc phục vấn đề mời bạn gửi email đến ban quan trị theo địa chỉ onevietnamteam@gmail.com";
+                    return View("Error");
                 case SignInStatus.LockedOut:
+                    ViewBag.LockedDuration =
+                        ConfigurationManager.AppSettings["DefaultAccountLockoutTimeSpan"].ToString();
                     return View("Lockout");
                 case SignInStatus.RequiresTwoFactorAuthentication:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });

@@ -27,6 +27,7 @@
     public enum SignInStatus
     {
         Success,
+        Locked,
         LockedOut,
         RequiresConfirmingEmail,
         RequiresTwoFactorAuthentication,

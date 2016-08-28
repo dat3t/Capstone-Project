@@ -267,12 +267,17 @@ namespace OneVietnam.BLL
             {
                 return SignInStatus.Failure;
             }
+            if (await UserManager.IsLocked(user.Id))
+            {
+                return SignInStatus.Locked;
+            }
             if (await UserManager.IsLockedOutAsync(user.Id))
             {
                 return SignInStatus.LockedOut;
             }
             if (await UserManager.CheckPasswordAsync(user, password))
             {
+                await UserManager.ResetAccessFailedCountAsync(user.Id);
                 if (!await UserManager.IsEmailConfirmedAsync(user.Id))
                 {                    
                     return SignInStatus.RequiresConfirmingEmail;

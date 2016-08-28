@@ -267,5 +267,11 @@ namespace OneVietnam.BLL
                     .Set("Location", model.Location);
             await _userStore.UpdateOneByFilterAsync(filter, update);
         }
+
+        public async Task<bool> IsLocked(string userId)
+        {
+            var user = await _userStore.FindByIdAsync(userId);
+            return user.LockedFlag;
+        }
     }
 }
