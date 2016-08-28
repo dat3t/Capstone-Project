@@ -1,5 +1,4 @@
 ﻿<div class="ui small modal" id="addPhoneModal">
-    <i class="close icon"></i>
 <div class="header">Thêm số điện thoại</div>
 <div class="content">
 <h4> Chọn quốc gia</h4>
@@ -490,7 +489,7 @@
                         alert("vaor");
                         $("#check").removeClass("loading");
                         if (result === "1") {
-                            alert("vaor");
+                            $("#PhoneNumber").val(phoneNum);
                             $('#addPhoneModal').modal('hide');
                            
                         } else {

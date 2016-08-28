@@ -267,7 +267,7 @@ namespace OneVietnam.BLL
         {
             var builder = Builders<Post>.Filter;
             var filter = builder.Eq("DeletedFlag", false) & builder.Eq("LockedFlag", false) & builder.Eq("UserId", id);            
-            var listPost = await Store.FindAllAsync(filter);
+            var listPost = await Store.FindAllAsync(filter).ConfigureAwait(false);
             return listPost.Count;
         }
 
