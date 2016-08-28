@@ -13200,7 +13200,7 @@ $.fn.search = function(parameters) {
                 event.preventDefault();
                 return false;
               }
-              if ($result.length > 0) {
+              if ($result.length > 0 && $result.context.id !== "dvSearchUsers") {
                   location.href = "/Search/Index?query=" + module.get.value();
                   return false;;
               }

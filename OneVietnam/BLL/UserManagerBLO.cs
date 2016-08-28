@@ -166,11 +166,6 @@ namespace OneVietnam.BLL
             }
             return await _userStore.TextSearchMultipleQuery(filter);
         }
-
-        public async Task<List<ApplicationUser>> TextSearchUsers(string query, BaseFilter baseFilter)
-        {
-            return await _userStore.TextSearchUsers(query, baseFilter);
-        }
         //push admin notifications
         public async Task PushAdminNotificationToAllUsersAsync(Notification notification)
         {

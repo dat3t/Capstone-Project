@@ -28,14 +28,14 @@ namespace OneVietnam.DAL
         public async Task<List<ApplicationUser>> FindUsersByRoleAsync(IdentityRole role)
         {
             return await _users.Find(u => u.Roles.Contains(role.Name)).ToListAsync();
-        }                
+        }
 
         public async Task<List<ApplicationUser>> TextSearchUsers(string query)
-        {            
+        {
             var builder = Builders<ApplicationUser>.Filter;
-            var filter = builder.Eq("LockedFlag",false)& builder.Eq("DeletedFlag", false)&
-                         (builder.Regex("UserName", new BsonRegularExpression(query, "i")) | builder.Regex("Email", new BsonRegularExpression(query, "i"))) ;            
-            return await _users.Find(filter).ToListAsync();            
+            var filter = builder.Eq("LockedFlag", false) & builder.Eq("DeletedFlag", false) &
+                         (builder.Regex("UserName", new BsonRegularExpression(query, "i")) | builder.Regex("Email", new BsonRegularExpression(query, "i")));
+            return await _users.Find(filter).ToListAsync();
         }
 
         public async Task<List<ApplicationUser>> TextSearchUsers(BaseFilter baseFilter, string query)
@@ -46,7 +46,7 @@ namespace OneVietnam.DAL
                 var filter = builder.Eq("LockedFlag", false) & builder.Eq("DeletedFlag", false) &
                              (builder.Regex("UserName", new BsonRegularExpression(query, "i")) |
                               builder.Regex("Email", new BsonRegularExpression(query, "i")));
-                return await _users.Find(filter).Skip(baseFilter.Skip).Limit(baseFilter.Limit).ToListAsync();
+                return await _users.Find(filter).Skip(baseFilter.Skip).Limit(baseFilter.Limit).ToListAsync().ConfigureAwait(false);
             }
             else
             {
@@ -54,25 +54,25 @@ namespace OneVietnam.DAL
             }
         }
 
-        public async Task<List<ApplicationUser>> TextSearchUsers(string query, BaseFilter baseFilter)
-        {
-            if (baseFilter.IsNeedPaging)
-            {
-                var builder = Builders<ApplicationUser>.Filter;
-                var filter = builder.Regex("UserName", new BsonRegularExpression(query, "i")) | builder.Regex("Email", new BsonRegularExpression(query, "i"));
-                return
-                    await
-                        _users.Find(filter)
-                            .Skip(baseFilter.Skip)
-                            .Limit(baseFilter.Limit)
-                            .ToListAsync()
-                            .ConfigureAwait(false);
-            }
-            else
-            {
-                return await TextSearchUsers(query).ConfigureAwait(false);
-            }
-        }
+        //public async Task<List<ApplicationUser>> TextSearchUsers(string query, BaseFilter baseFilter)
+        //{
+        //    if (baseFilter.IsNeedPaging)
+        //    {
+        //        var builder = Builders<ApplicationUser>.Filter;
+        //        var filter = builder.Regex("UserName", new BsonRegularExpression(query, "i")) | builder.Regex("Email", new BsonRegularExpression(query, "i"));
+        //        return
+        //            await
+        //                _users.Find(filter)
+        //                    .Skip(baseFilter.Skip)
+        //                    .Limit(baseFilter.Limit)
+        //                    .ToListAsync()
+        //                    .ConfigureAwait(false);
+        //    }
+        //    else
+        //    {
+        //        return await TextSearchUsers(query).ConfigureAwait(false);
+        //    }
+        //}
 
         public async Task<List<ApplicationUser>> TextSearchMultipleQuery(FilterDefinition<ApplicationUser> filter)
         {
@@ -88,13 +88,13 @@ namespace OneVietnam.DAL
             {
                 return await _users.Find(u => true).ToListAsync();
             }
-            
+
         }
         public async Task UpdateOneByFilterAsync(FilterDefinition<ApplicationUser> filter, UpdateDefinition<ApplicationUser> update)
         {
             try
             {
-                await _users.UpdateOneAsync(filter, update);                
+                await _users.UpdateOneAsync(filter, update);
             }
             catch (MongoConnectionException ex)
             {
@@ -107,8 +107,8 @@ namespace OneVietnam.DAL
         }
 
         public async Task PushAdminNotificationToAllUsersAsync(Notification notification)
-        {           
-            var filter = new BsonDocument();            
+        {
+            var filter = new BsonDocument();
             using (var cursor = await _users.FindAsync(filter))
             {
                 while (await cursor.MoveNextAsync())
@@ -116,7 +116,7 @@ namespace OneVietnam.DAL
                     var batch = cursor.Current;
                     foreach (var document in batch)
                     {
-                        document.Notifications?.Add(notification.Id,notification);
+                        document.Notifications?.Add(notification.Id, notification);
                         await UpdateAsync(document);
                     }
                 }
