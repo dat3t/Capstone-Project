@@ -14,16 +14,22 @@
             @Html.AntiForgeryToken()            
             <div class="field">
                 @Html.ValidationMessageFor(m => m.Email, "",new {@class= "input-error-message" })
-                <div class="ui left icon input">
+                <div class="ui left icon corner labeled input">
                     <i class="user icon"></i>
                     @Html.TextBoxFor(m => m.Email, new {@placeholder = "Email"})
+                    <div class="ui corner label">
+                        <i class="asterisk icon"></i>
+                    </div>
                 </div>
             </div>
             <div class="field">
                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "input-error-message" })
-                <div class="ui left icon input">
+                <div class="ui left icon corner labeled input">
                     <i class="lock icon"></i>
                     @Html.PasswordFor(m => m.Password, new {@placeholder = "Mật Khẩu"})
+                    <div class="ui corner label">
+                        <i class="asterisk icon"></i>
+                    </div>
                 </div>
                 @*@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })*@
             </div>

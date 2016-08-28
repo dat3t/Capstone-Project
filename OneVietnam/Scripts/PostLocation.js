@@ -28,6 +28,7 @@
                 $("#PostLocation_Address").val(address);
                 document.getElementById("PostLocation_XCoordinate").value = place.geometry.location.lat();
                 document.getElementById("PostLocation_YCoordinate").value = place.geometry.location.lng();
+                input1.value = "";
             });
         });
     }

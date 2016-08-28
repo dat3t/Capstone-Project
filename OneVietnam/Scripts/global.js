@@ -11,8 +11,6 @@
   })
         ;
        
-
-     
         $("#getloc").click();
         $(".filter-post").dropdown({
             allowCategorySelection: true
@@ -107,7 +105,8 @@
         $('.clearing.star.rating').rating('setting', 'clearable', true);
         $('.ui.multiple.dropdown')
           .dropdown({
-              allowAdditions: true
+              allowAdditions: true,
+              minCharacters: 2
           });
         $("#CreatePostForm").find('input:text').on('keypress', function () {
             if (event.keyCode === 13) {
@@ -312,6 +311,7 @@
             $("#CreatePostForm").data('validator').resetForm();
             $("#CreatePostForm").find("#result").html("");
             $("#CreatePostForm").find('#Title, #Description, #TagsInput').val('');
+            getCurrentLocation();
             
             ImgList.splice(0, ImgList.length);
             $(".validation-summary-errors ul li").remove();

@@ -329,10 +329,10 @@ $.extend($.validator, {
 	},
 
 	messages: {
-		required: "This field is required.",
+		required: "Trường này là bắt buộc",
 		remote: "Please fix this field.",
-		email: "Please enter a valid email address.",
-		url: "Please enter a valid URL.",
+		email: "Hãy nhập địa chỉ email hợp lệ.",
+		url: "Hãy nhập đường dẫn hợp lệ.",
 		date: "Please enter a valid date.",
 		dateISO: "Please enter a valid date (ISO).",
 		number: "Please enter a valid number.",

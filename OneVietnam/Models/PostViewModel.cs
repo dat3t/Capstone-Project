@@ -9,26 +9,27 @@ namespace OneVietnam.Models
     public class CreatePostViewModel
     {
 
-        [Required(ErrorMessage = "{0} chưa được điền.")]
+        [Required(ErrorMessage = "{0} đang để trống.")]
         [DataType(DataType.Text)]
+        [StringLength(320, ErrorMessage = "Nhập tiêu đề trong khoảng 3 đến 320 ký tự.", MinimumLength = 3)]
         [Display(Name = "Tiêu đề")]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "{0} chưa được điền.")]        
+        [Required(ErrorMessage = "{0} đang để trống.")]        
         [Display(Name = "Người đăng")]
         public string UserId { get; set; }
 
-        [Required(ErrorMessage = "{0} chưa được chọn.")]
-        [Range((int)PostTypeEnum.Accommodation, (int)PostTypeEnum.Warning, ErrorMessage = "{0} chưa được chọn.")]
+        [Required(ErrorMessage = "{0} chưa được chọn.")]        
         [Display(Name = "Loại bài đăng")]
         public int PostType { get; set; }
 
-        [Required(ErrorMessage = "{0} chưa được điền.")]
-        [Display(Name = "Địa chỉ bài đăng")]
+        [Required(ErrorMessage = "{0} đang để trống.")]
+        [Display(Name = "Địa chỉ liên hệ")]
         public Location PostLocation { get; set; }
 
-        [Required(ErrorMessage = "{0} chưa được điền.")]
+        [Required(ErrorMessage = "{0} đang để trống.")]
         [DataType(DataType.Text)]
+        [StringLength(5000, ErrorMessage = "Nhập mô tả trong khoảng 3 đến 5000 ký tự.", MinimumLength = 3)]
         [Display(Name = "Mô tả")]
         public string Description { get; set; }
 
@@ -51,15 +52,17 @@ namespace OneVietnam.Models
         [Display(Name = "Người đăng")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "{0} chưa được điền.")]
+        [Required(ErrorMessage = "{0} đang để trống.")]
         [DataType(DataType.Text)]
+        [StringLength(320, ErrorMessage = "Nhập tiêu đề trong khoảng 3 đến 320 ký tự.", MinimumLength = 3)]
         [Display(Name = "Tiêu đề")]
         public string Title { get; set; }
 
         public string AvartarLink { get; set; }
 
-        [Required(ErrorMessage = "{0} chưa được điền.")]
+        [Required(ErrorMessage = "{0} đang để trống.")]
         [DataType(DataType.Text)]
+        [StringLength(5000, ErrorMessage = "Nhập mô tả trong khoảng 3 đến 5000 ký tự.", MinimumLength = 3)]
         [Display(Name = "Mô tả")]
         public string Description { get; set; }
 
@@ -68,8 +71,7 @@ namespace OneVietnam.Models
         [Display(Name = "Ngày tạo")]
         public DateTimeOffset CreatedDate { get; set; }
 
-        [Required(ErrorMessage = "{0} chưa được chọn.")]
-        [Range((int)PostTypeEnum.Accommodation, (int)PostTypeEnum.Warning, ErrorMessage = "{0} chưa được chọn")]
+        [Required(ErrorMessage = "{0} chưa được chọn.")]        
         [Display(Name = "Loại bài đăng")]
         public int PostType { get; set; }
 
@@ -160,10 +162,14 @@ namespace OneVietnam.Models
     {
         public string Id { get; set; }
 
+        [Required(ErrorMessage = "{0} chưa được điền.")]        
+        [Display(Name = "Người đăng")]
+        public string UserId { get; set; }
+
         [Required(ErrorMessage = "{0} chưa được điền.")]
         [DataType(DataType.Text)]
         [Display(Name = "Người đăng")]
-        public string UserId { get; set; }
+        public string UserName { get; set; }
 
         [Required(ErrorMessage = "{0} chưa được điền.")]
         [DataType(DataType.Text)]

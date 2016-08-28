@@ -286,6 +286,11 @@
     <Compile Include="Common\utilities.cs" />
     <Compile Include="Controllers\NewsfeedController.cs" />
     <Compile Include="Controllers\TimelineController.cs" />
+    <Compile Include="CustomResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Abstract\AbstractStore.cs" />
     <Compile Include="DAL\PostStoreDAO.cs" />
     <Compile Include="DAL\ReportStoreDAO.cs" />
@@ -294,6 +299,7 @@
     <Compile Include="DTL\DictionaryItem.cs" />
     <Compile Include="DTL\MessageDTO.cs" />
     <Compile Include="DTL\Notification.cs" />
+    <Compile Include="DTL\SuggestedPost.cs" />
     <Compile Include="Models\AdministrationViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\ConversationViewModel.cs" />
@@ -602,6 +608,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\ASPSMSX2\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CustomResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CustomResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

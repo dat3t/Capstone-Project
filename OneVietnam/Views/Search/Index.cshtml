@@ -25,7 +25,7 @@
 
         </div>
 
-        <div class="ui tab active" data-tab="post" id="postTab">
+        <div class="ui tab active" data-tab="post">
 
             <div class="post grids">
                 <div class="grid-sizer"></div>
@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <div class="ui tab" data-tab="friend" id="friendTab">
+        <div class="ui tab" data-tab="friend">
             <div class="friend grids">
                     <div class="grid-sizer"></div>
                 <div class="gutter-sizer"></div>
@@ -73,39 +73,41 @@
 
     <div class="three wide column"></div>
 </div>
-@section scripts{
-    <script type="text/javascript">
+<script src="~/Scripts/infiniteScroll.js"></script>
+<script src="~/Scripts/timeline.js"></script>
 
+<script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+<script type="text/javascript">
 //    $(".friend.grids")
 //        .on('click',
 //            ".content",
 //            function() {
 //                window.location('/Timeline/')
-        //            });
-        function gotoTimeline(e) {
-            document.location = "/Timeline/Index/" + e;
-        }
-
-        var forLoad = $("#postScroll");
-        var grid = $(".post.grids");
-        var moreRowsUrl = '@Url.Action("Index", "Search")';
-        $(function() {
-            $(".tabular.menu")
-                .on("click",
-                    ".item",
-                    function e() {
-                        var currentTab = $(".ui.tab.active").attr("data-tab");
-                        if (currentTab == "friend") {
-                            grid = $(".friend.grids");
-                            moreRowsUrl = '@Url.Action("_userResult", "Search")';
-                            forLoad = $("#friendScroll");
-                        } else {
-                            grid = $(".post.grids");
-                            moreRowsUrl = '@Url.Action("Index", "Search")';
-                            forLoad = $("#postScroll");
-                        }
-                    });
-        });
-        $(window).scroll(scrollHandler);
-    </script>
-}
+    //            });
+    function gotoTimeline(e) {
+        document.location = "/Timeline/Index/"+e;
+    }
+    var forLoad = $("#postScroll");
+    var grid = $(".post.grids");
+    var moreRowsUrl = '@Url.Action("Index","Search")';
+    $(function () {
+        $(".tabular.menu")
+            .on("click",
+                ".item",
+                function e() {                                       
+                    var currentTab = $(".ui.tab.active").attr("data-tab");
+                    if (currentTab == "friend") {
+                        grid = $(".friend.grids");
+                        moreRowsUrl = '@Url.Action("_userResult","Search")';
+                        forLoad = $("#friendScroll");
+                    } else {
+                        grid = $(".post.grids");
+                        moreRowsUrl = '@Url.Action("Index","Search")';
+                        forLoad = $("#postScroll");
+                    }
+                });
+    });
+    $(window).scroll(scrollHandler);
+</script>

@@ -6,8 +6,8 @@
 
 
 function verifyPN(parameters) {
-  
-}
+          
+        }
 function editableForm() {
     $('.tog').toggleClass('disabled');
     $('#btnSaveEditProfile').toggleClass('hides');
@@ -46,11 +46,12 @@ function cancelEditProfile(pUrl) {
 
 function changeTwoFactorAuthentication(pUrl) {
     var param = $(".ui.toggle.button").text();
-    if (param === "Bật" && $("#txtMobilePhone").val() === "") {
-        $('.message')[0].className = "ui negative message";
-        $(".ui.toggle.button")[0].click();
-        return;
-    }
+    //TaiLM : Users can enable two-factor authentication by email even there are no phonenumber
+    //if (param === "Bật" && $("#txtMobilePhone").val() === "") {
+    //    $('.message')[0].className = "ui negative message";
+    //    $(".ui.toggle.button")[0].click();
+    //    return;
+    //}               
     $.ajax({
         type: 'POST',
         url: pUrl,
@@ -143,10 +144,10 @@ function showUserMarkerOnMap(x, y, address) {
         minZoom: 4,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     });
-
+    
     userLocationMarker.setPosition({ lat: x, lng: y });
     userLocationMarker.setMap(map2);
-
+   
     google.maps.event.addListenerOnce(map2, 'idle', function () {
         google.maps.event.trigger(map2, 'resize');
         map2.setCenter({ lat: x, lng: y });
@@ -192,4 +193,20 @@ function updateCurrentLocation() {
         //  handleLocationError(false, myLocationMarker, map.getCenter());
         alert("Trình duyệt của bạn không hỗ trợ định vị GPS. Vui lòng nâng cấp phiên bản mới nhất của trình duyệt và thử lại sau.");
     }
+}
+
+
+function ShowThankModal(userId) {
+    if ($("#modalReport_" + userId).find('.validation-summary-errors').length > 0) {
+        $("#modalReport_" + userId).modal('show');
+    } else {
+        $("#reportedModal_" + userId).modal('show');
+        cancelReport(userId);
+    }
+}
+function cancelReport() {
+    $(".validation-summary-errors ul li").remove();
+    $(".input-validation-error").removeClass('input-validation-error');
+    $(".validation-summary-errors").addClass('validation-summary-valid').removeClass('validation-summary-errors');
+    $("#ReportDescription").val('');
 }

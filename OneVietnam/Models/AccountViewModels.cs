@@ -8,7 +8,7 @@ namespace OneVietnam.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Địa chỉ email là trường bắt buộc")]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
@@ -16,8 +16,8 @@ namespace OneVietnam.Models
     public class ExternalLoginListViewModel
     {
         public string ReturnUrl { get; set; }
-        [Required]
-        [Display(Name = "Vị Trí")]
+        [Required(ErrorMessage = "Không lấy được vị trí của trình duyệt")]
+        [Display(Name = "Vị trí")]
         public string LocationExternal { get; set; }        
         public double XCoordinateExternal { get; set; }        
         public double YCoordinateExternal { get; set; }
@@ -33,10 +33,10 @@ namespace OneVietnam.Models
 
     public class VerifyCodeViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Provider là trường bắt buộc")]
         public string Provider { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Mã xác nhận là trường bắt buộc")]
         [Display(Name = "Mã xác nhận")]
         public string Code { get; set; }
         public string ReturnUrl { get; set; }
@@ -49,51 +49,51 @@ namespace OneVietnam.Models
 
     public class ForgotViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Địa chỉ email là trường bắt buộc")]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Địa chỉ email là trường bắt buộc")]
         [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }        
-        [Required]
+        [Required(ErrorMessage = "Mật khẩu là trường bắt buộc")]
         [DataType(DataType.Password)]
-        [Display(Name = "Mật Khẩu")]
+        [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
 
-        [Display(Name = "Duy Trì Đăng Nhập")]
+        [Display(Name = "Duy trì đăng nhập")]
         public bool RememberMe { get; set; }
     }
 
     public class RegisterViewModel
     {
-        [Required]        
-        [StringLength(50,ErrorMessage = "Họ và Tên phải có ít nhất {2} kí tự, nhiều nhất {1} kí tự ",MinimumLength = 2)]
-        [Display(Name = "Họ Và Tên")]
+        [Required(ErrorMessage = "Họ và tên là trường bắt buộc")]        
+        [StringLength(50,ErrorMessage = "Họ và tên phải có ít nhất {2} kí tự, nhiều nhất {1} kí tự ",MinimumLength = 2)]
+        [Display(Name = "Họ và tên")]
         public string UserName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Địa chỉ email là trường bắt buộc")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
-        [Required]
-        [Display(Name = "Giới Tính")]
+        [Required(ErrorMessage = "Giới tính là trường bắt buộc")]
+        [Display(Name = "Giới tính")]
         public int Gender { get; set; }
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Mật khẩu là trường bắt buộc")]
+        [StringLength(25, ErrorMessage = "{0} phải có ít nhất {2} kí tự.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Mật Khẩu")]
+        [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Yêu cầu xác nhận mật khẩu")]
         [DataType(DataType.Password)]
-        [Display(Name = "Xác Nhận Mật Khẩu")]
+        [Display(Name = "Xác nhận mật khẩu")]
         [Compare("Password", ErrorMessage = "Mật Khẩu Xác Nhận Không Trùng Khớp")]
         public string ConfirmPassword { get; set; }
-        [Required]
-        [Display(Name = "Vị Trí")]
+        [Required(ErrorMessage = "Không lấy được vị trí của trình duyệt")]
+        [Display(Name = "Vị trí")]
         public string Address { get; set; }        
         public double XCoordinate { get; set; }        
         public double YCoordinate { get; set; }
@@ -102,20 +102,20 @@ namespace OneVietnam.Models
 
     public class ResetPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Địa chỉ email là trường bắt buộc")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Mật khẩu là trường bắt buộc")]
+        [StringLength(100, ErrorMessage = "{0} phải có ít nhất {2} kí tự.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Xác nhận mật khẩu")]
+        [Compare("Password", ErrorMessage = "Mật khẩu xác nhận không trùng khớp.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
@@ -123,7 +123,7 @@ namespace OneVietnam.Models
 
     public class ForgotPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Địa chỉ Email là trường bắt buộc")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
