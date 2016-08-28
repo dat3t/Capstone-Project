@@ -11,11 +11,6 @@
     $('#addPhoneModal')
 .modal('show');
 }
-
-
-function verifyPN(parameters) {
-          
-        }
 function editableForm() {
     $('.tog').toggleClass('disabled');
     $('#btnSaveEditProfile').toggleClass('hides');

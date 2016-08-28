@@ -419,13 +419,17 @@ namespace OneVietnam.Controllers
                         var result2 = await UserManager.CreateAsync(user);
                         if (result2.Succeeded)
                         {
-                            result2 = await UserManager.AddLoginAsync(user.Id, info.Login);
+                            result2 = await UserManager.SetEmailConfirmed(user.Id);
                             if (result2.Succeeded)
                             {
-                                await StoreFacebookAuthToken(user);
-                                await SignInHelper.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                                return RedirectToLocal(returnUrl);
-                            }
+                                result2 = await UserManager.AddLoginAsync(user.Id, info.Login);
+                                if (result2.Succeeded)
+                                {
+                                    await StoreFacebookAuthToken(user);
+                                    await SignInHelper.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                                    return RedirectToLocal(returnUrl);
+                                }
+                            }                                                        
                         }
                         AddErrors(result2);
                     }

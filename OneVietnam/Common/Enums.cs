@@ -34,6 +34,12 @@
         Failure
     }
 
+    public enum VerifyStatus
+    {
+        Failure=0,
+        Success=1
+        
+    }
     public enum ReportStatus
     {
         Open,

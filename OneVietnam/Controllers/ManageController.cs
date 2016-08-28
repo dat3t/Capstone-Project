@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using OneVietnam.BLL;
+using OneVietnam.Common;
 using OneVietnam.DTL;
 
 namespace OneVietnam.Controllers
@@ -257,7 +258,7 @@ namespace OneVietnam.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return 0;
+                return (int)VerifyStatus.Failure;
             }
             var result = await UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId(),phoneNumber, code);
             if (result.Succeeded)
@@ -267,11 +268,11 @@ namespace OneVietnam.Controllers
                 {
                     user.PhoneNumber = phoneNumber;
                 }
-                return 1;
+                return (int)VerifyStatus.Success;
             }
             // If we got this far, something failed, redisplay form
             ModelState.AddModelError("", "Failed to verify phone");
-            return 2;
+            return (int)VerifyStatus.Failure;
         }
 
         //
