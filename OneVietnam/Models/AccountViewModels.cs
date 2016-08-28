@@ -143,6 +143,7 @@ namespace OneVietnam.Models
         public string UserId { get; set; }
         public string Avatar { get; set; }
         public string Cover { get; set; }
+        public string JoinedDate { get; set; }
 
         public UserViewModel()
         {
@@ -158,6 +159,7 @@ namespace OneVietnam.Models
             PhoneNumber = appUser.PhoneNumber;
             UserId = appUser.Id;
             Avatar = appUser.Avatar;
+            JoinedDate = Utilities.GetTimeInterval(appUser.CreatedDate); 
             Cover = appUser.Cover;
         }
     }    

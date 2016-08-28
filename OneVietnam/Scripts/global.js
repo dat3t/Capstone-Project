@@ -1,6 +1,15 @@
 ﻿$(document)
     .ready(function () {
-
+        $("#countryDr").dropdown({
+            onChange: function (value, text, $selectedItem) {
+                $("#phonetext").val("+"+$selectedItem.attr("data-value"));
+            }
+        });
+        $('.ui.sticky')
+  .sticky({
+      context: '#context'
+  })
+        ;
        
 
      
@@ -44,7 +53,9 @@
         }
         $(".searchType")
             .dropdown({
+
                 onChange: function (value, text, $selectedItem) {
+                    $("#currentSearch").val(value);
                     if (value === "SearchPosts") {
                         $(".ui.user").css("display", "none");
                         $(".ui.post").css("display", "inline-flex");

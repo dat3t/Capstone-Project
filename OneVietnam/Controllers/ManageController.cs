@@ -242,37 +242,36 @@ namespace OneVietnam.Controllers
 
         //
         // GET: /Account/VerifyPhoneNumber
-        public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
-        {
-            // This code allows you exercise the flow without actually sending codes
-            // For production use please register a SMS provider in IdentityConfig and generate a code here.
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
-            return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
-        }
+//        public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
+//        {
+//            // This code allows you exercise the flow without actually sending codes
+//            // For production use please register a SMS provider in IdentityConfig and generate a code here.
+//            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
+//            return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
+//        }
 
         //
         // POST: /Account/VerifyPhoneNumber
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
+//        [ValidateAntiForgeryToken]
+        public async Task<int> VerifyPhoneNumber(string phoneNumber,string code)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return 0;
             }
-            var result = await UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId(), model.PhoneNumber, model.Code);
+            var result = await UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId(),phoneNumber, code);
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
-                    await SignInAsync(user, isPersistent: false);
+                    user.PhoneNumber = phoneNumber;
                 }
-                return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
+                return 1;
             }
             // If we got this far, something failed, redisplay form
             ModelState.AddModelError("", "Failed to verify phone");
-            return View(model);
+            return 2;
         }
 
         //

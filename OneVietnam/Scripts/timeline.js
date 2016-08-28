@@ -1,13 +1,12 @@
-﻿function verifyPN(parameters) {
-    var phoneNum = $("#txtMobilePhone").val();
-    $.ajax({
-        type: 'GET',
-        data:{phoneNumber:phoneNum},
-        url: "/Manage/AddPhoneNumber",
-        success: function (partialResult) {
-          
-        }
-    });
+﻿function addPhone() {
+    $('#addPhoneModal')
+.modal('show')
+    ;
+}
+
+
+function verifyPN(parameters) {
+  
 }
 function editableForm() {
     $('.tog').toggleClass('disabled');
@@ -51,7 +50,7 @@ function changeTwoFactorAuthentication(pUrl) {
         $('.message')[0].className = "ui negative message";
         $(".ui.toggle.button")[0].click();
         return;
-    }               
+    }
     $.ajax({
         type: 'POST',
         url: pUrl,
@@ -138,16 +137,16 @@ function showUserMarkerOnMap(x, y, address) {
         title: address,
         icon: icon
     });
-    map2= new google.maps.Map(document.getElementById('divShowMap'), {
+    map2 = new google.maps.Map(document.getElementById('divShowMap'), {
         center: { lat: x, lng: y },
         zoom: 10,
         minZoom: 4,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     });
-    
+
     userLocationMarker.setPosition({ lat: x, lng: y });
     userLocationMarker.setMap(map2);
-   
+
     google.maps.event.addListenerOnce(map2, 'idle', function () {
         google.maps.event.trigger(map2, 'resize');
         map2.setCenter({ lat: x, lng: y });
@@ -170,7 +169,7 @@ function updateCurrentLocation() {
             var geocoder = new window.google.maps.Geocoder();             // create a geocoder object
             var location = new window.google.maps.LatLng(pos.lat, pos.lng);    // turn coordinates into an object          
             geocoder.geocode({ 'latLng': location },
-                function(results, status) {
+                function (results, status) {
                     if (status === window.google.maps.GeocoderStatus.OK) { // if geocode success
                         var detailedLocation = results[0]
                             .formatted_address; // if address found, pass to processing function

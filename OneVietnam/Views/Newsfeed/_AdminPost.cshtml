@@ -1,5 +1,5 @@
 ﻿@model List<OneVietnam.Models.PostViewModel>
-<div class="ui feed">
+<div class="ui feed" id="fixedTopSticky">
     @foreach (var post in Model)
     {
 
@@ -7,14 +7,17 @@
 
         <div class="event">
             <div class="label">
-                <img src="@post.AvartarLink">
+                <a class="user" href="@Url.Action("Index", "Timeline", new {Id = @post.UserId})">
+                    <img src="@post.AvartarLink">
+                </a>
+               
             </div>
             <div class="content">
                 <div class="summary">
                     <a class="user" href="@Url.Action("Index", "Timeline", new {Id = @post.UserId})">
                         @post.UserName
                     </a>
-                    đăng <a href="@Url.Action("ShowPostDetailPage","Newsfeed",new {@post.Id})">bài viết</a>
+                    đã đăng
                     <div class="date">
                         @{
                             DateTime start = DateTime.Now;
@@ -52,7 +55,8 @@
                     </div>
 
                 </div>
-                <div class="extra text">@post.Title</div>                
+                
+                <div class="extra text"> <a href="@Url.Action("ShowPostDetailPage","Newsfeed",new {@post.Id})">@post.Title</a></div>                
             </div>
         </div>
     }

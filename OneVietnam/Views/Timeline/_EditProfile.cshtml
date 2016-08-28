@@ -151,17 +151,12 @@
 
                 </div>
             </div>
-
+            @Html.Partial("_addPhoneNumber")
             <div class="ui item">
 
-                <div class="ui big fluid tog transparent disabled input" >
+                <div class="ui big fluid tog transparent  input" >
                     <i class="large mobile icon"></i>
-                    @Html.EditorFor(model => model.PhoneNumber, new {htmlAttributes = new {@id = "txtMobilePhone"}})
-                    <div class="hides ui buttons" id="btnConfirmTelephone">
-                        <div class="ui positive button active" onclick="verifyPN()">Xác minh</div>
-                        @*<div class=""></div>
-                        <div class="ui button">Xóa</div>*@
-                    </div>
+                    <input id="PhoneNumber" name="PhoneNumber" type="button" value="@Model.PhoneNumber" class="valid" onclick="addPhone()"> 
                 </div>
             </div>
 

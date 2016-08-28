@@ -13,7 +13,7 @@
                 <div class="ui right floated button" style="background: white !important">
                     @if (User.Identity.IsAuthenticated && (User.Identity.GetUserId() == Model.UserId))
                     {
-                        <i class="red large remove circle link icon" id="deletePost" data-content="Xóa" style="float: right"></i>
+                        <i class="large trash outline link icon" id="deletePost" data-content="Xóa" style="float: right"></i>
                         <script>
 
                             $("#deletePost")

@@ -11,5 +11,6 @@ namespace OneVietnam.Models
         public int Count;
         public List<SearchResultItem> Result;
 
+
     }
 }

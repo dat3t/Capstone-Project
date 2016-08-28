@@ -15,7 +15,7 @@
             <div class="ui right floated button" style="background: white!important">
                 @if (User.Identity.IsAuthenticated && (User.Identity.GetUserId() == Model.UserId))
             {
-                    <i class="red large remove circle link icon" data-content="Xóa" style="float: right" onclick="document.location.href = '@Url.Action("DeletePost", "Newsfeed", new {postId = Model.Id})';"></i>
+                    <i class="large trash outline link icon" data-content="Xóa" style="float: right" onclick="document.location.href = '@Url.Action("DeletePost", "Newsfeed", new {postId = Model.Id})';"></i>
                     <i class="blue large write link icon" data-content="Sửa" style="float: right" onclick="document.location.href =
     '@Url.Action("EditPost", "Newsfeed", new {postId = Model.Id})'"></i>
                 }

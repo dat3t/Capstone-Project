@@ -72,16 +72,16 @@
 
                 </div>
                 <div class="item" data-filter="6">
-                    <div class="ui olive empty circular label"></div>
+                    <div class="ui purple empty circular label"></div>
                     Đồ dùng
 
                 </div>
                 <div class="item" data-filter="7">
-                    <div class="ui purple empty circular label"></div>
+                    <div class="ui orange empty circular label"></div>
                     Xách tay
                 </div>
                 <div class="item" data-filter="8">
-                    <div class="ui orange empty circular label"></div>
+                    <div class="ui teal empty circular label"></div>
                     Mua bán
                 </div>
                 <div class="item" data-filter="9">
@@ -91,35 +91,39 @@
 
             </div>
         </div>
-       
 
-@if (User.Identity.IsAuthenticated)
-{
 
-    <div class="floating-button" id="stamp-button" data-toggle="tooltip" data-original-title="Create">
-        <p class="plus"><i class="write icon"></i>
-        </p>
-        <p class="edits"><i class="remove icon"></i>
-        </p>
+        @if (User.Identity.IsAuthenticated)
+        {
+
+            <div class="floating-button" id="stamp-button" data-toggle="tooltip" data-original-title="Create">
+                <p class="plus"><i class="write icon"></i>
+                </p>
+                <p class="edits"><i class="remove icon"></i>
+                </p>
+            </div>
+        }
+        else
+        {
+            <a href="@Url.Action("Login", "Account", new {ReturnUrl = "/Newsfeed"})">
+                <div class="floating-button" data-toggle="tooltip" data-original-title="Create">
+
+                    <p class="plus">
+                        <i class="write icon"></i>
+                    </p>
+                    <p class="edits">
+                        <i class="remove icon"></i>
+                    </p>
+                </div>
+            </a>
+        }
     </div>
-}
-else
-{
-    <a href="@Url.Action("Login","Account",new { ReturnUrl= "/Newsfeed"})">
-        <div class="floating-button" data-toggle="tooltip" data-original-title="Create">
-
-            <p class="plus">
-                <i class="write icon"></i>
-            </p>
-            <p class="edits">
-                <i class="remove icon"></i>
-            </p>
+   
+    <div class="ten wide column" id="context" >
+        <div class="ui sticky" style="width: 272px !important; height: 262.531px !important; left: 14.5px;">
+            <h3 class="ui header">Stuck Content</h3>
+            <img>
         </div>
-    </a>
-}
-    </div>
-    <div class="ten wide column">
-
         @Html.Partial("_CreatePost")
 
         <div class="grids" >
@@ -127,7 +131,7 @@ else
             <div class="gutter-sizer"></div>
             <div class="ui link cards" id="postScroll">
                 @Html.Partial("_PostRow", (ViewBag.Posts as List<PostViewModel>))
-                <div class="container infinite-scroll" id="gohere"></div>
+                <div class="ui rail container infinite-scroll" id="gohere"></div>
 
             </div>
 
@@ -142,14 +146,14 @@ else
 
 
 
-    <div class="four wide column">
+    <div class="four wide column" >
         <div class="ui segment"  style="margin-right: 15px!important">
             <h3>
                 <div class="ui header" style="text-align: center">
                     Từ người Quản trị
                 </div>
             </h3>
-            <div id="forAdminPost"></div>
+            <div id="forAdminPost" class="ui bound top sticky"></div>
         </div>
         <a href="javascript:" id="return-to-top"><i class="chevron up icon"></i></a>
 
