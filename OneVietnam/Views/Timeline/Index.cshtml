@@ -1,5 +1,7 @@
 ﻿
 @using Microsoft.AspNet.Identity
+@using OneVietnam.Common
+@using OneVietnam.DTL
 @using OneVietnam.Models
 @model OneVietnam.Models.TimelineViewModel
 @{
@@ -29,6 +31,7 @@
         var icon;
         var userLocationMarker;
         var map2;
+
     </script>
     <script src="~/Scripts/jquery-1.10.2.js"></script>
     <script src="~/Scripts/timeline.js"></script>
@@ -108,22 +111,18 @@
 
                 <div class="ui pointing secondary tabular menu">
                     @{
-                        var postCount = 0;
-                        if (Model.PostList != null && Model.PostList.Count > 0)
-                        {
-                            postCount = Model.PostList.Count;
-                        }
+                        var postCount = ViewData["PostCount"] ?? 0;
                     }
                     <div class="item active" data-tab="timeline">
-                        Bài đăng
-                        <div class="ui teal   label">@postCount</div>
+                        Bài Đăng
+                        <div class="ui teal label">@postCount</div>
                     </div>
-                    <div class="item" data-tab="profile" onclick="showUserMarkerOnMap(x, y, address);">Giới thiệu</div>
+                    <div class="item" data-tab="profile" onclick="showUserMarkerOnMap(x, y, address);">Giới Thiệu</div>
                     @if (Request.IsAuthenticated)
                     {
                         if (Model.Id.Equals(User.Identity.GetUserId()))
                         {
-                            <div class="item" data-tab="setting">Cài đặt</div>
+                            <div class="item" data-tab="setting">Cài Đặt</div>
                         }
                         else
                         {
@@ -138,23 +137,19 @@
                                                 Nhắn tin
                                             </a>
                                         </div>
-                                        <div class="item" id="reportUser">Báo cáo</div>                                                                                                                       
+                                        <div class="item" id="reportUser">Báo cáo</div>
                                     </div>
                                 </div>
-                                <div id="ShowReportUser">
+                                <div id="ShowReportUser_@Model.Id">
                                     @Html.Partial("../Timeline/_ReportUser", new ReportViewModel(Model.Id))
                                     <script>
-                                            $("#reportUser")
-                                              .click(function () {
-                                                  $('.small.modal').modal({
-                                                      allowMultiple: false
-                                                  });
-                                                  $('.second.modal').modal('attach events', '.report.modal .green.button')
-                                                  ;
-                                                  $('.report.modal').modal('show');
-                                              });
+                                    $("#reportUser")
+                                        .click(function () {
+                                            $("#modalReport_@Model.Id").modal('show');
+                                        });
                                     </script>
                                 </div>
+                                
                             </div>
                         }
                     }
@@ -162,49 +157,40 @@
 
                 <div class="ui tab active" data-tab="timeline">
                     <!--Filter posts-->
-                    <div class="ui inline dropdown filter-post">
-                        <div class="text">
-                            <div class="ui blue empty circular label"></div>
-                            Tất cả
-
-
-                        </div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu filter-items">
-                            <div class="item" data-filter="-1">
+                    @if ((int)postCount > 0)
+                    {
+                        <div class="ui inline dropdown filter-post">
+                            <div class="text">
                                 <div class="ui blue empty circular label"></div>
                                 Tất cả
                             </div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu filter-items">
+                                <div class="item" data-filter="-1">
+                                    <div class="ui blue empty circular label"></div>
+                                    Tất cả
+                                </div>
+                                @{
+                                    List<Icon> postType = ViewData["PostTypes"] as List<Icon>;
+                                    if (postType != null && postType.Count > 0)
+                                    {
+                                        foreach (var type in postType)
+                                        {
+                                            if (type.IconValue == (int)PostTypeEnum.Administration && Model.Roles != null && !Model.Roles.Contains(CustomRoles.Admin) && !Model.Roles.Contains(CustomRoles.Mod))
+                                            {
+                                                continue;
+                                            }
+                                <div class="item" data-filter="@type.IconValue">
+                                    <div class="ui blue empty circular label"></div>
+                                    @type.IconText
+                                </div>
+                                        }
+                                    }
+                                }
 
-                            <div class="item" data-filter="4">
-                                <div class="ui yellow empty circular label"></div>
-                                Việc làm
                             </div>
-                            <div class="item" data-filter="5">
-                                <div class="ui olive empty circular label"></div>
-                                Nhà ở
-
-                            </div>
-                            <div class="item" data-filter="6">
-                                <div class="ui olive empty circular label"></div>
-                                Đồ dùng
-
-                            </div>
-                            <div class="item" data-filter="7">
-                                <div class="ui purple empty circular label"></div>
-                                Xách tay
-                            </div>
-                            <div class="item" data-filter="8">
-                                <div class="ui orange empty circular label"></div>
-                                Mua bán
-                            </div>
-                            <div class="item" data-filter="9">
-                                <div class="ui red empty circular label"></div>
-                                Cần giúp đỡ
-                            </div>
-
                         </div>
-                    </div>
+                                    }
                     <p> </p>
 
                     @{
@@ -247,9 +233,9 @@
                                 <div class="ui item" style="width: 100%; padding: 0">
                                     @*TaiLM :Commented*@
                                     @*<div class="ui negative message transition hidden">
-                                        <i class="close icon"></i>
-                                        <p>Cần thêm số điện thoại đê bât bảo mât hai lớp</p>
-                                    </div>*@
+                                            <i class="close icon"></i>
+                                            <p>Cần thêm số điện thoại đê bât bảo mât hai lớp</p>
+                                        </div>*@
                                     <div class="ui horizontal list" style="width: 100%; padding: 0">
                                         <div class="ui item">
                                             <div class="ui medium header">

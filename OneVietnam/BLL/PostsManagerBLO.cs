@@ -198,7 +198,7 @@ namespace OneVietnam.BLL
         public async Task<List<Post>> FindAllDescenderByIdAsync(BaseFilter baseFilter, string id)
         {
             var builder = Builders<Post>.Filter;
-            var filter = builder.Eq("DeletedFlag", false) & builder.Eq("UserId",id);
+            var filter = builder.Eq("DeletedFlag", false) & builder.Eq("LockedFlag", false) & builder.Eq("UserId",id);
             var sort = Builders<Post>.Sort.Descending("CreatedDate");
             return await Store.FindAllAsync(baseFilter, filter, sort);
         }
@@ -261,6 +261,14 @@ namespace OneVietnam.BLL
             var baseFilter = new BaseFilter {IsNeedPaging = false};
             var sort = Builders<Post>.Sort.Descending("CreatedDate");
             return await Store.FindAllAsync(baseFilter,filter,sort);
+        }
+
+        public async Task<int> FindNumberOfPost(string id)
+        {
+            var builder = Builders<Post>.Filter;
+            var filter = builder.Eq("DeletedFlag", false) & builder.Eq("LockedFlag", false) & builder.Eq("UserId", id);            
+            var listPost = await Store.FindAllAsync(filter);
+            return listPost.Count;
         }
 
     }

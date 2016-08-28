@@ -1,8 +1,6 @@
 ﻿$(document)
     .ready(function () {
 
-       
-
      
         $("#getloc").click();
         $(".filter-post").dropdown({
@@ -96,7 +94,8 @@
         $('.clearing.star.rating').rating('setting', 'clearable', true);
         $('.ui.multiple.dropdown')
           .dropdown({
-              allowAdditions: true
+              allowAdditions: true,
+              minCharacters: 2
           });
         $("#CreatePostForm").find('input:text').on('keypress', function () {
             if (event.keyCode === 13) {
@@ -300,8 +299,9 @@
             $grid.isotope('layout');
             $("#CreatePostForm").data('validator').resetForm();
             $("#CreatePostForm").find("#result").html("");
-            $("#CreatePostForm").find('#Title, #Description, #TagsInput').val('');
-            
+            $("#CreatePostForm").find('#Title, #Description, #TagsInput').val('');            
+            getCurrentLocation();
+
             ImgList.splice(0, ImgList.length);
             $(".validation-summary-errors ul li").remove();
             $(".validation-summary-errors").addClass('validation-summary-valid').removeClass('validation-summary-errors');

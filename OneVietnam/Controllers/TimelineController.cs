@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
@@ -109,9 +110,13 @@ namespace OneVietnam.Controllers
         //ThamDTH 
         [AllowAnonymous]
 
-        public async Task<ActionResult> Index(string id,int? pageNum,int? filterVal)
+        public async Task<ActionResult> Index(string id, int? pageNum, int? filterVal)
         {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
+            if (string.IsNullOrWhiteSpace(id) || id.Length != 24)
+            {
+                return View();
+            }
+             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Microsoft.Azure.CloudConfigurationManager.GetSetting("StorageConnectionString"));
 
             // Create a blob client for interacting with the blob service.
             blobClient = storageAccount.CreateCloudBlobClient();
@@ -122,41 +127,41 @@ namespace OneVietnam.Controllers
             List<PostViewModel> list = new List<PostViewModel>();
             ApplicationUser user = await UserManager.FindByIdAsync(id);
             if (Request.IsAjaxRequest())
+            {
+                filter = new BaseFilter { CurrentPage = pageNum.Value };
+                if (filterVal == -1 || filterVal == null)
                 {
-                    filter = new BaseFilter { CurrentPage = pageNum.Value };
-                    if (filterVal == -1 || filterVal == null)
-                    {
-                        posts = await PostManager.FindAllDescenderByIdAsync(filter, id);
-                    }
-                    else
-                    {
-                    posts = await PostManager.FindPostByTypeAndUserIdAsync(filter, id,filterVal);
+                    posts = await PostManager.FindAllDescenderByIdAsync(filter, id);
                 }
-                    if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
-                    foreach (var post in posts)
-                    {
-                        list.Add(new PostViewModel(post, user.UserName, user.Avatar));
+                else
+                {
+                    posts = await PostManager.FindPostByTypeAndUserIdAsync(filter, id, filterVal);
+                }
+                if (posts.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
+                foreach (var post in posts)
+                {
+                    list.Add(new PostViewModel(post, user.UserName, user.Avatar));
 
-                    }
-                    //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
-                    return PartialView("_PostRow", list);
                 }
+                //ViewBag.IsEndOfRecords = (posts.Any()) && ((pageNum.Value * RecordsPerPage) >= posts.Last().Key);
+                return PartialView("_PostRow", list);
+            }
             filter = new BaseFilter { CurrentPage = pageNum.Value };
-            posts = await PostManager.FindAllDescenderByIdAsync(filter,id);
-                var postTypeList = await IconManager.GetIconPostAsync();
-                if (postTypeList != null)
-                {
-                    ViewData["PostTypes"] = postTypeList;
-                }
-                var genderList = await IconManager.GetIconGender();
-                if (genderList != null)
-                {
-                    ViewData["GenderTypes"] = genderList;
-                }
-                TimelineViewModel timeLine = new TimelineViewModel(user, posts);
-                return View(timeLine);
-            
-       
+            posts = await PostManager.FindAllDescenderByIdAsync(filter, id);
+            var postCount = await PostManager.FindNumberOfPost(id);
+            var postTypeList = await IconManager.GetIconPostAsync();
+            if (postTypeList != null)
+            {
+                ViewData["PostTypes"] = postTypeList;
+            }
+            ViewData["PostCount"] = postCount;
+            var genderList = await IconManager.GetIconGender();
+            if (genderList != null)
+            {
+                ViewData["GenderTypes"] = genderList;
+            }
+            TimelineViewModel timeLine = new TimelineViewModel(user, posts);
+            return View(timeLine);
         }
 
         [HttpGet]
@@ -180,7 +185,7 @@ namespace OneVietnam.Controllers
             if (!ModelState.IsValid)
             {
                 return PartialView("_EditProfile", profile);
-            }            
+            }
             //await UserManager.UpdateProfileUserAsync(profile);
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
@@ -189,7 +194,7 @@ namespace OneVietnam.Controllers
                 user.UserName = profile.UserName;
                 user.Gender = profile.Gender;
                 user.Email = profile.Email;
-                user.Location = profile.Location;                
+                user.Location = profile.Location;
                 user.DateOfBirth = profile.DateOfBirth;
                 user.PhoneNumber = profile.PhoneNumber;
                 var result = await UserManager.UpdateAsync(user);
@@ -253,8 +258,8 @@ namespace OneVietnam.Controllers
                     await SignInAsync(user, isPersistent: false);
                 }
                 return null;
-            }
-            AddErrors(result);
+            }            
+             AddErrors(result);
             return PartialView("_ChangePassword", model);
         }
 
@@ -375,14 +380,25 @@ namespace OneVietnam.Controllers
         {
             foreach (var error in result.Errors)
             {
+                if (error.Contains("Incorrect password"))
+                {
+                    ModelState.AddModelError("", "Mật khẩu hiện tại không chính xác.");
+                    continue;
+                }
                 ModelState.AddModelError("", error);
             }
         }
 
+        public ActionResult ReportUser(string userId)
+        {            
+            return PartialView("../Timeline/_ReportUser", new ReportViewModel(userId));
+        }
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ReportUser(ReportViewModel model)
         {
-            Report report = new Report(model) {ReporterId = User.Identity.GetUserId()};
+            Report report = new Report(model) { ReporterId = User.Identity.GetUserId() };
             await ReportManager.CreateAsync(report);
             return PartialView("../Timeline/_ReportUser", new ReportViewModel(model.UserId));
         }

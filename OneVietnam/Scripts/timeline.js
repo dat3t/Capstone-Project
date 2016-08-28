@@ -195,3 +195,19 @@ function updateCurrentLocation() {
         alert("Trình duyệt của bạn không hỗ trợ định vị GPS. Vui lòng nâng cấp phiên bản mới nhất của trình duyệt và thử lại sau.");
     }
 }
+
+
+function ShowThankModal(userId) {
+    if ($("#modalReport_" + userId).find('.validation-summary-errors').length > 0) {
+        $("#modalReport_" + userId).modal('show');
+    } else {
+        $("#reportedModal_" + userId).modal('show');
+        cancelReport(userId);
+    }
+}
+function cancelReport() {
+    $(".validation-summary-errors ul li").remove();
+    $(".input-validation-error").removeClass('input-validation-error');
+    $(".validation-summary-errors").addClass('validation-summary-valid').removeClass('validation-summary-errors');
+    $("#ReportDescription").val('');
+}

@@ -186,15 +186,11 @@ else
         </button>
         @if (Request.IsAuthenticated)
         {
-            <button type="submit" class="ui icon green button" id="myLocation" onclick="myLocationEnlarge();showMyLocation();" data-tooltip="Vị trí của tôi" data-position="left center"></button>
+            <button type="submit" class="ui icon green button" id="myLocation" onclick="myLocationEnlarge();showMyLocation();" data-tooltip="Địa chỉ của tôi" data-position="left center"></button>
         }
 
     </div>
     <div class="ui vertical buttons" id="filterGroup" style="position: absolute; right: 15px; top: 4%;">
-
-        <button type="submit" class="ui icon red button " id="filterHelp" onclick="helpEnlarge();showSOS();" data-tooltip="Nhờ giúp đỡ" data-position="left center">
-            @*<i class="warning icon"></i>*@
-        </button>
 
         <button type="submit" class="ui blue icon button" id="filterHome" onclick="accommodationEnlarge();showAccommodation();" data-tooltip="Nhà ở" data-position="left center">
             @* <i class="home icon"></i>*@
@@ -203,7 +199,7 @@ else
         <button type="submit" class="ui icon blue button" id="filterJob" onclick="jobEnlarge();showJobOffer();" data-tooltip="Việc làm" data-position="left center">
             @*<i class="doctor icon"></i>*@
         </button>
-        <button type="submit" class="ui icon blue button" id="filterFurnitureOffer" onclick="furnitureEnlarge();showFurnitureOffer();" data-tooltip="Cho đồ/Đổi đồ" data-position="left center">
+        <button type="submit" class="ui icon blue button" id="filterFurnitureOffer" onclick="furnitureEnlarge();showFurnitureOffer();" data-tooltip="Cho đồ" data-position="left center">
             @*<i class="cubes icon"></i>*@
         </button>
 
@@ -213,6 +209,10 @@ else
 
         <button type="submit" class="ui icon blue button" id="filterSalesOffer" onclick="tradeEnlarge();showTradeOffer();" data-tooltip="Bán đồ" data-position="left center">
             @*<i class="money icon"></i>*@
+        </button>
+
+        <button type="submit" class="ui icon red button " id="filterHelp" onclick="helpEnlarge();showSOS();" data-tooltip="Nhờ giúp đỡ" data-position="left center">
+            @*<i class="warning icon"></i>*@
         </button>
 
         <button type="submit" class="ui icon blue button" id="filterWarning" onclick="warningEnlarge();showWarning();" data-tooltip="Cảnh báo" data-position="left center">
