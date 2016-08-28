@@ -249,10 +249,10 @@ namespace OneVietnam.Controllers
         {
             Post post = await PostManager.FindByIdAsync(postId);
             List<Tag> tagsList = post.Tags;
-            BaseFilter filter = new BaseFilter { CurrentPage = pageNum.Value };
+            BaseFilter baseFilter = new BaseFilter { CurrentPage = pageNum.Value };
             //todo : returned list related post from here, using suggestedpost to query
-            var result = await PostManager.FindPostByTagsAsync(filter, tagsList,postId);
-            var suggestedList = new List<SuggestedPost>();
+            var result = await PostManager.FindPostByTagsAsync(tagsList,postId);
+            var suggestedList = new List<SuggestedPost>();            
             foreach (var item in result)
             {
                 int score = 0;
@@ -269,38 +269,17 @@ namespace OneVietnam.Controllers
                     score = score
                 };
                 suggestedList.Add(s);
+            }            
+            suggestedList.Sort();
+            var list = new List<PostViewModel>();            
+            for (var i = suggestedList.Count-1-baseFilter.Skip; i >=0; i--)
+            {
+                if (i == suggestedList.Count - 1 - baseFilter.Skip - baseFilter.Limit) break;
+                var avatarLink = await UserManager.GetAvatarByIdAsync(suggestedList[i].post.UserId);
+                var userName = await UserManager.GetUserNameByIdAsync(suggestedList[i].post.UserId);
+                var postView = new PostViewModel(suggestedList[i].post,userName,avatarLink);
+                list.Add(postView);                
             }
-            var list = new List<PostViewModel>();
-            //foreach (var item in result)
-            //{
-            //    var postView = new PostViewModel
-            //    {
-            //        Title = (string)item["Title"],
-            //        AvartarLink = await UserManager.GetAvatarByIdAsync(item["UserId"].ToString()),
-            //        Description = item["Description"].ToString(),
-            //        Id = item["_id"].ToString()
-            //    };
-            //    if (item.Contains("Illustrations"))
-            //    {
-            //        var illustrations = new List<Illustration>();
-            //        foreach (var il in item["Illustrations"].AsBsonArray)
-            //        {
-            //            var illustration = new Illustration();
-            //            if (il["PhotoLink"] != null) illustration.PhotoLink = il["PhotoLink"].ToString();
-            //            //todo Description                        
-            //            illustrations.Add(illustration);
-            //        }
-            //        postView.Illustrations = illustrations;
-            //    }
-            //    postView.Status = item["Status"].AsBoolean;
-            //    postView.UserId = item["UserId"].ToString();
-            //    postView.TimeInterval = Utilities.GetTimeInterval(new DateTimeOffset
-            //        (item["CreatedDate"].AsBsonArray[0].ToInt64(),
-            //        Utilities.ConvertTimeZoneOffSetToTimeSpan(
-            //        item["CreatedDate"].AsBsonArray[1].ToInt32())));
-            //    postView.UserName = await UserManager.GetUserNameByIdAsync(item["UserId"].ToString());
-            //    list.Add(postView);
-            //}
             return PartialView(list);
         }
                 
