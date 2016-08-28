@@ -5,11 +5,11 @@
                 $("#phonetext").val("+"+$selectedItem.attr("data-value"));
             }
         });
-        $('.ui.sticky')
-  .sticky({
-      context: '#context'
-  })
-        ;
+//        $('.ui.sticky')
+//  .sticky({
+//      context: '#context'
+//  })
+//        ;
        
         $("#getloc").click();
         $(".filter-post").dropdown({

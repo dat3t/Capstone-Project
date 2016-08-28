@@ -188,7 +188,7 @@ namespace OneVietnam.Controllers
                     Address = model.Address
                 };
 
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email,
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email.ToLower(),
                     Gender = model.Gender,Location = location, CreatedDate = DateTimeOffset.UtcNow,
                     Avatar = Constants.DefaultAvatarLink,Cover = Constants.DefaultCoverLink };
                 var result = await UserManager.CreateAsync(user, model.Password);

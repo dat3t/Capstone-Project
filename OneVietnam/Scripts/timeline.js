@@ -1,7 +1,15 @@
 ﻿function addPhone() {
+    var phoneTextval = $("#PhoneNumber").val();
+    alert(phoneTextval);
+    if (phoneTextval === "") $("#title").text("Thêm số điện thoại");
+    else {
+        $("#phonetext").val(phoneTextval);
+        $("#title").text("Cập nhật số điện thoại");
+        $("#add").text("Sửa");
+    }
+    
     $('#addPhoneModal')
-.modal('show')
-    ;
+.modal('show');
 }
 
 
