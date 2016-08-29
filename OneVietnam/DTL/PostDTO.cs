@@ -78,7 +78,7 @@ namespace OneVietnam.DTL
             Title = pView.Title;
             Description = pView.Description;
             CreatedDate = DateTimeOffset.UtcNow;
-            PostType = (int)PostTypeEnum.Administration;
+            PostType = (int)PostTypeEnum.AdminPost;
             DeletedFlag = false;
             Status = true;
             LockedFlag = false;            

@@ -126,27 +126,27 @@
                         }
                         else
                         {
-                           
-                            <div class="right menu">
-                              
-                                    
-                                    <a class="ui blue basic button"   href="javascript: register_popup('@Model.Id','@Model.UserName','@Model.AvatarLink')" style="text-decoration: none;padding-top: 15px">
-                                        <i class="icon mail"></i> Nhắn tin
-                                    </a>
 
-                               
+                            <div class="right menu">
+
+
+                                <a class="ui blue basic button" href="javascript: register_popup('@Model.Id','@Model.UserName','@Model.AvatarLink')" style="text-decoration: none;padding-top: 15px">
+                                    <i class="icon mail"></i> Nhắn tin
+                                </a>
+
+
                                 <button class="ui red basic button" id="reportUser">Báo cáo</button>
-                               
+
                                 <div id="ShowReportUser_@Model.Id">
                                     @Html.Partial("../Timeline/_ReportUser", new ReportViewModel(Model.Id))
                                     <script>
-                                    $("#reportUser")
-                                        .click(function () {
-                                            $("#modalReport_@Model.Id").modal('show');
-                                        });
+                                        $("#reportUser")
+                                            .click(function () {
+                                                $("#modalReport_@Model.Id").modal('show');
+                                            });
                                     </script>
                                 </div>
-                                
+
                             </div>
                         }
                     }
@@ -173,16 +173,48 @@
                                     {
                                         foreach (var type in postType)
                                         {
-                                            if (type.IconValue == (int)PostTypeEnum.Administration && Model.Roles != null && !Model.Roles.Contains(CustomRoles.Admin) && !Model.Roles.Contains(CustomRoles.Mod))
-                                            {
-                                                continue;
-                                            }
-                                <div class="item" data-filter="@type.IconValue">
-                                    <div class="ui blue empty circular label"></div>
-                                    @type.IconText
-                                </div>
-                                        }
-                                    }
+                                            <div class="item" data-filter="@type.IconValue">
+                                                @if (type.IconValue == (int)PostTypeEnum.Accommodation)
+                                                {
+                                                    <div class="ui black empty circular label"></div>
+                                                }
+                                                else if (type.IconValue == (int)PostTypeEnum.Job)
+                                                {
+                                                    <div class="ui yellow empty circular label"></div>
+                                                }
+                                                else if (type.IconValue == (int)PostTypeEnum.Furniture)
+                                                {
+                                                    <div class="ui olive empty circular label"></div>
+                                                }
+                                                else if (type.IconValue == (int)PostTypeEnum.HandGoods)
+                                                {
+                                                    <div class="ui purple empty circular label"></div>
+                                                }
+                                                else if (type.IconValue == (int)PostTypeEnum.Trade)
+                                                {
+                                                    <div class="ui orange empty circular label"></div>
+                                                }
+                                                else if (type.IconValue == (int)PostTypeEnum.Sos)
+                                                {
+                                                    <div class="ui teal empty circular label"></div>
+                                                }
+                                                else if (type.IconValue == (int)PostTypeEnum.Warning)
+                                                {
+                                                    <div class="ui red empty circular label"></div>
+                                                }
+                                                else if (type.IconValue == (int)PostTypeEnum.AdminPost)
+                                                {
+                                                    <div class="ui black empty circular label"></div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="ui black empty circular label"></div>
+                                                }
+                                                @type.IconText
+                                                
+                                            </div>
+                                                        }
+                                                    }
                                 }
 
                             </div>

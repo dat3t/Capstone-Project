@@ -49,8 +49,8 @@
 
 
 <div class="ui grid">
-    <div class="two wide column">
-        <div class="ui inline dropdown filter-post" style="margin-left: 15px">
+    <div class="two wide column" style="padding-right: 0">
+        <div class="ui inline dropdown filter-post">
             <div class="text">
                 <div class="ui blue empty circular label"></div>
                 Tất cả
@@ -67,13 +67,57 @@
                     {
                         foreach (var type in postType)
                         {
-                            if (type.IconValue == (int)PostTypeEnum.Administration && Model.Roles != null && !Model.Roles.Contains(CustomRoles.Admin) && !Model.Roles.Contains(CustomRoles.Mod))
+                            if (type.IconValue == (int)PostTypeEnum.AdminPost && Model?.Roles != null && !Model.Roles.Contains(CustomRoles.Admin) && !Model.Roles.Contains(CustomRoles.Mod))
                             {
                                 continue;
                             }
                             <div class="item" data-filter="@type.IconValue">
-                                <div class="ui blue empty circular label"></div>
-                                @type.IconText
+                                @if (type.IconValue == (int)PostTypeEnum.Accommodation)
+                                {                                    
+                                    <div class="ui black empty circular label"></div>
+                                }
+                                else if (type.IconValue == (int)PostTypeEnum.Job)
+                                {
+                                    <div class="ui yellow empty circular label"></div>
+                                }
+                                else if (type.IconValue == (int)PostTypeEnum.Furniture)
+                                {
+                                    <div class="ui olive empty circular label"></div>
+                                }
+                                else if (type.IconValue == (int)PostTypeEnum.HandGoods)
+                                {
+                                    <div class="ui purple empty circular label"></div>
+                                }
+                                else if (type.IconValue == (int)PostTypeEnum.Trade)
+                                {
+                                    <div class="ui orange empty circular label"></div>
+                                }
+                                else if (type.IconValue == (int)PostTypeEnum.Sos)
+                                {
+                                    <div class="ui teal empty circular label"></div>
+                                }
+                                else if (type.IconValue == (int)PostTypeEnum.Warning)
+                                {
+                                    <div class="ui red empty circular label"></div>                                    
+                                }
+                                else if (type.IconValue == (int)PostTypeEnum.AdminPost)
+                                {
+                                    <div class="ui black empty circular label"></div>
+                                }
+                                else
+                                {
+                                    <div class="ui black empty circular label"></div>
+                                }
+                                @{
+                                    if (type.IconValue == (int)PostTypeEnum.AdminPost)
+                                    {
+                                        <label style="font-size: 13px">@type.IconText</label>
+                                    }
+                                    else {
+                                        @type.IconText
+                                    }
+                                }
+                                
                             </div>
                         }
                     }
