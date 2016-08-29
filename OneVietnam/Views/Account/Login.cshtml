@@ -26,7 +26,7 @@
                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "input-error-message" })
                 <div class="ui left icon corner labeled input">
                     <i class="lock icon"></i>
-                    @Html.PasswordFor(m => m.Password, new {@placeholder = "Mật Khẩu"})
+                    @Html.PasswordFor(m => m.Password, new {@placeholder = "Mật khẩu"})
                     <div class="ui corner label">
                         <i class="asterisk icon"></i>
                     </div>
@@ -41,11 +41,11 @@
             </div>
             <button class="ui blue button" type="submit">Đăng Nhập</button>
             <p>
-                @Html.ActionLink("Đăng Ký Tài Khoản", "Register")
+                @Html.ActionLink("Đăng ký tài khoản", "Register")
             </p>
             //Enable this once you have account confirmation enabled for password reset functionality
             <p>
-                @Html.ActionLink("Quên Mật Khẩu?", "ForgotPassword")
+                @Html.ActionLink("Quên mật khẩu?", "ForgotPassword")
             </p>
         }
     </div>
