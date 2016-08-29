@@ -13201,6 +13201,10 @@ $.fn.search = function(parameters) {
                 return false;
               }
               if ($result.length > 0 && $result.context.id !== "dvSearchUsers") {
+                  if ($result.context.id === "SearchUsers") {
+                      location.href = "/Search/Index?query=" + module.get.value() + "&tabNum=2";
+                      return false;
+                  }
                   location.href = "/Search/Index?query=" + module.get.value();
                   return false;;
               }

@@ -1,11 +1,7 @@
 ﻿@using System.Security.Claims
 @using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
-{
-    <div class="item">
-        <div class="ui blue button" id="stamp-button2" style="background: #d63e5c"><i class="write icon" ></i>Đăng bài</div>
-        <div class="ui blue button hides" id="stamp-button" style="background: #d63e5c"><i class="write icon"></i>Đăng bài</div>
-    </div>
+{    
     <div class="item">
         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "ui form" }))
         {

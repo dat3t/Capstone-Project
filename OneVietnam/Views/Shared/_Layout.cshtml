@@ -6,40 +6,40 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - One Vietnam</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBiPDMBCKXsusl5-BgCw1nIyHwu5u3j8xw&libraries=places,geometry"></script>    
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBiPDMBCKXsusl5-BgCw1nIyHwu5u3j8xw&libraries=places,geometry"></script>
     @Scripts.Render("~/bundles/jquery")
-    
+
     @Styles.Render("~/semantic/css")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-  
+
 </head>
 <body>
     <script>
-    window.fbAsyncInit = function () {
+        window.fbAsyncInit = function () {
 
-        FB.init({
-            appId: '1615798268744410',
-            xfbml: true,
-            version: 'v2.6'
-        });
-        FB.Event.subscribe('xfbml.render',   function () {
-            finished_rendering();
-        });
-        FB.Event.subscribe('comment.create', function (response) {
-                              onCommentCreate(response.commentID);
-                          });
-      
-    };
+            FB.init({
+                appId: '1615798268744410',
+                xfbml: true,
+                version: 'v2.6'
+            });
+            FB.Event.subscribe('xfbml.render', function () {
+                finished_rendering();
+            });
+            FB.Event.subscribe('comment.create', function (response) {
+                onCommentCreate(response.commentID);
+            });
 
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) { return; }
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/vi_VN/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
+        };
 
-    }(document, 'script', 'facebook-jssdk'));
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/vi_VN/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+        }(document, 'script', 'facebook-jssdk'));
 
     </script>
     <div class="ui grid">
@@ -81,13 +81,31 @@
                             <div class="force100 results"></div>
                         </div>
                     </div>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="item">
+                            <div class="ui blue button" id="stamp-button2">
+                                <i class="write icon"></i>Đăng bài
+                            </div>                            
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="item">
+                            <a href="@Url.Action("Login", "Account",new { ReturnUrl= "/Newsfeed"})">
+                                <div class="ui blue button" id="stamp-button">
+                                    <i class="write icon"></i>Đăng bài
+                                </div>
+                            </a>
+                        </div>                        
+                    }
                     @Html.Partial("_LoginPartial")
                 </div>
             </div>
         </div>
         <div class="tablet mobile only row" style="padding-bottom: 0em !important;">
             <div class="ui main menu">
-                <a href="@Url.Action("Index", "Home")" class="ui item brand">                    
+                <a href="@Url.Action("Index", "Home")" class="ui item brand">
                     One Vietnam
                 </a>
                 <div class="right menu open">
@@ -130,169 +148,169 @@
     <div class="ui fluid container" style="height: 90%; background-color: #F8F8F8;" id="bodypage">
 
         @RenderBody()
-    <div id="forModal" class="ui basic modal coupled" style="position: absolute !important; height: 1000px; width: 100%">
-        <div class="ui  raised clearing  segment " style="width: 631px !important">
-            <div class="header">
+        <div id="forModal" class="ui basic modal coupled" style="position: absolute !important; height: 1000px; width: 100%">
+            <div class="ui  raised clearing  segment " style="width: 631px !important">
+                <div class="header">
 
 
-                <div class="ui right floated button" style="background: white !important">
-                    {
+                    <div class="ui right floated button" style="background: white !important">
+                        {
 
-                    }
-                    else
-                    {
-                    <i class='blue large announcement link icon' id="reportPost" data-content='Báo cáo' style='float: right'></i>
-                    <div id="ShowReportPost">
-                    </div>
-                    }
-                </div>
-
-                <div class="meta">
-                    <span style="color: grey; margin-left: 40px; font-size: 14px !important"> </span>
-
-
-
-                </div>
-
-
-
-
-
-
-            </div>
-            <div class="ui centered  card" style="width: 95%; border-color: #fff">
-                <div class="image">
-
-
-                </div>
-
-                <div class="content">
-                    <div id="rate" class="ui star rating right floated" data-rating="3"></div>
-                    <div class="header"></div>
-                    <div class="meta">
-                    </div>
-                    <div class="description" style="font-size: 18px">
-
-                    </div>
-                    <i class="world icon"></i>
-
-
-                    <div class="extra content">
-                        @{
-                            string url = "http://www.phimmoi.net/phim/nguoi-vo-tuyet-voi-3976/";
                         }
-
-                        <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
-                        <div class="fb-share-button" data-href="@url" data-layout="button_count" data-size="small" data-mobile-iframe="true">
-                            <a class="fb-xfbml-parse-ignore" target="_blank" href="">Chia sẻ</a>
+                        else
+                        {
+                        <i class='blue large announcement link icon' id="reportPost" data-content='Báo cáo' style='float: right'></i>
+                        <div id="ShowReportPost">
                         </div>
-                        <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts="3"></div>
+                        }
+                    </div>
 
-                        <script>
+                    <div class="meta">
+                        <span style="color: grey; margin-left: 40px; font-size: 14px !important"> </span>
 
-
-                     
-
-                        </script>
 
 
                     </div>
+
+
+
+
+
+
+                </div>
+                <div class="ui centered  card" style="width: 95%; border-color: #fff">
+                    <div class="image">
+
+
+                    </div>
+
+                    <div class="content">
+                        <div id="rate" class="ui star rating right floated" data-rating="3"></div>
+                        <div class="header"></div>
+                        <div class="meta">
+                        </div>
+                        <div class="description" style="font-size: 18px">
+
+                        </div>
+                        <i class="world icon"></i>
+
+
+                        <div class="extra content">
+                            @{
+                                string url = "http://www.phimmoi.net/phim/nguoi-vo-tuyet-voi-3976/";
+                            }
+
+                            <div class="fb-like" data-href="@url" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+                            <div class="fb-share-button" data-href="@url" data-layout="button_count" data-size="small" data-mobile-iframe="true">
+                                <a class="fb-xfbml-parse-ignore" target="_blank" href="">Chia sẻ</a>
+                            </div>
+                            <div class="fb-comments" style="width: 100%" data-href="@url" data-numposts="3"></div>
+
+                            <script>
+
+
+
+
+                            </script>
+
+
+                        </div>
+                    </div>
+
+
                 </div>
 
 
+
             </div>
-
-
-
         </div>
-    </div>
 
-    @if (Request.IsAuthenticated)
-    {
-        <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
-        <script src="~/signalr/hubs"></script>
-        <script type="text/javascript" src="~/Scripts/Chat.js"></script>
-        <script type="text/javascript" src="~/Scripts/Notification.js"></script>
-        <script>
-            var myHub;
-            $(function() {
-                // Reference the auto-generated proxy for the hub.
-                if (typeof (myHub) === "undefined") {
-                    myHub = $.connection.oneHub;
-                }
-                //myHub.client.logOff = function() {
-                //        $.connection.hub.stop();
-                //    }
-                //Create a function that the hub can call back to display messages.
-                myHub.client.addChatMessage = function (id, name, message, avatar) {
-                    register_popup(id, name, avatar);
-                    // Add the message to the page.
-                    $("#" + id + "Conversation")
-                        .append('<div class="item"><div class="content" style="margin-left:0.5em"><p class="receiveMessage">' + htmlEncode(message) + '</p></div></div>');
-                    $("#" + id + "Conversation").scrollTop(document.getElementById(id + "Conversation").scrollHeight);
-
-                };
-                myHub.client.pushNotification = function () {
-                    if ($('#NotificationsNo').text() == '') {
-                        $('#NotificationsNo').show();
-                        $('#NotificationsNo').text('1');
-                    } else {
-                        $('#NotificationsNo').text(parseInt($('#NotificationsNo').text()) + 1);
-                        $('#NotificationsNo').show();
+        @if (Request.IsAuthenticated)
+        {
+            <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+            <script src="~/signalr/hubs"></script>
+            <script type="text/javascript" src="~/Scripts/Chat.js"></script>
+            <script type="text/javascript" src="~/Scripts/Notification.js"></script>
+            <script>
+                var myHub;
+                $(function () {
+                    // Reference the auto-generated proxy for the hub.
+                    if (typeof (myHub) === "undefined") {
+                        myHub = $.connection.oneHub;
                     }
-                }
-                //var notification = {}
-                //myHub.client.pushAdministrationNotification= function() {
+                    //myHub.client.logOff = function() {
+                    //        $.connection.hub.stop();
+                    //    }
+                    //Create a function that the hub can call back to display messages.
+                    myHub.client.addChatMessage = function (id, name, message, avatar) {
+                        register_popup(id, name, avatar);
+                        // Add the message to the page.
+                        $("#" + id + "Conversation")
+                            .append('<div class="item"><div class="content" style="margin-left:0.5em"><p class="receiveMessage">' + htmlEncode(message) + '</p></div></div>');
+                        $("#" + id + "Conversation").scrollTop(document.getElementById(id + "Conversation").scrollHeight);
 
-                //}
-                // Start the connection.
-                $.connection.hub.start()
-                    .done(function() {
-                    });
-            });
-            $(function() {
-                var controller = "/Home/GetMessageNo";
-                var data = {
-                    id: '@User.Identity.GetUserId()'
-                }
-                $.ajax({
-                    type: 'POST',
-                    url: controller,
-                    data: data,
-                    success: function(data, textstatus) {
-                        if (data == '') {
-                            $('#MessageNotification').text('');
-                            $('#MessageNotification').hide();
-                        } else {
-                            $('#MessageNotification').show();
-                            $('#MessageNotification').text(data);
-                        }
-                    }
-                });
-            });
-            $(function() {
-                var controller = "/Home/GetNotificationsNo";
-                $.ajax({
-                    type: 'POST',
-                    url: controller,
-                    success: function(data) {
-                        if (data == '' || data == '0') {
-                            $('#NotificationsNo').text('0');
-                            $('#NotificationsNo').hide();
-                        } else {
+                    };
+                    myHub.client.pushNotification = function () {
+                        if ($('#NotificationsNo').text() == '') {
                             $('#NotificationsNo').show();
-                            $('#NotificationsNo').text(data);
+                            $('#NotificationsNo').text('1');
+                        } else {
+                            $('#NotificationsNo').text(parseInt($('#NotificationsNo').text()) + 1);
+                            $('#NotificationsNo').show();
                         }
                     }
+                    //var notification = {}
+                    //myHub.client.pushAdministrationNotification= function() {
+
+                    //}
+                    // Start the connection.
+                    $.connection.hub.start()
+                        .done(function () {
+                        });
                 });
-            });
-        </script>
-        <div id="ChatZone">            
-        </div>
-    }
+                $(function () {
+                    var controller = "/Home/GetMessageNo";
+                    var data = {
+                        id: '@User.Identity.GetUserId()'
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        url: controller,
+                        data: data,
+                        success: function (data, textstatus) {
+                            if (data == '') {
+                                $('#MessageNotification').text('');
+                                $('#MessageNotification').hide();
+                            } else {
+                                $('#MessageNotification').show();
+                                $('#MessageNotification').text(data);
+                            }
+                        }
+                    });
+                });
+                $(function () {
+                    var controller = "/Home/GetNotificationsNo";
+                    $.ajax({
+                        type: 'POST',
+                        url: controller,
+                        success: function (data) {
+                            if (data == '' || data == '0') {
+                                $('#NotificationsNo').text('0');
+                                $('#NotificationsNo').hide();
+                            } else {
+                                $('#NotificationsNo').show();
+                                $('#NotificationsNo').text(data);
+                            }
+                        }
+                    });
+                });
+            </script>
+            <div id="ChatZone">
+            </div>
+        }
 
 
-</div>
+    </div>
     @Scripts.Render("~/bundles/semantic")
     @Scripts.Render("~/bundles/Scripts")
     @Scripts.Render("~/Scripts/Map")

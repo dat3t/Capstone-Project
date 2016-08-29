@@ -32,12 +32,7 @@ namespace OneVietnam.BLL
         public ApplicationUserManager(UserStore store)
             : base(store)
         {
-            this._userStore = store;
-            //this.UserValidator = new UserValidator<ApplicationUser>(this)
-            //{
-            //    AllowOnlyAlphanumericUserNames = false,
-            //    RequireUniqueEmail = true
-            //};
+            this._userStore = store;            
             this.UserValidator = new CustomUserValidator<ApplicationUser>(this)
             {
                 AllowOnlyAlphanumericUserNames =false,
@@ -136,7 +131,7 @@ namespace OneVietnam.BLL
             var myMessage = new SendGridMessage();
             myMessage.AddTo(message.Destination);
             myMessage.From = new System.Net.Mail.MailAddress(
-                                "toanlmse03407@fpt.edu.vn", "MinhToanLe");
+                                "toanlmse03407@fpt.edu.vn", "OneVietnam");
             myMessage.Subject = "Xác Nhận Tài Khoản Đăng Nhập Mạng Xã Hội OneVietnam";
             myMessage.Text = message.Body;
             myMessage.Html = message.Body;
