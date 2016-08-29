@@ -249,8 +249,7 @@ namespace OneVietnam.Controllers
         {
             Post post = await PostManager.FindByIdAsync(postId);
             List<Tag> tagsList = post.Tags;
-            BaseFilter baseFilter = new BaseFilter { CurrentPage = pageNum.Value };
-            //todo : returned list related post from here, using suggestedpost to query
+            //BaseFilter baseFilter = new BaseFilter { CurrentPage = pageNum.Value };            
             var result = await PostManager.FindPostByTagsAsync(tagsList,postId);
             var suggestedList = new List<SuggestedPost>();            
             foreach (var item in result)
@@ -272,9 +271,10 @@ namespace OneVietnam.Controllers
             }            
             suggestedList.Sort();
             var list = new List<PostViewModel>();            
-            for (var i = suggestedList.Count-1-baseFilter.Skip; i >=0; i--)
+            for (var i = suggestedList.Count-1; i >=0; i--)
             {
-                if (i == suggestedList.Count - 1 - baseFilter.Skip - baseFilter.Limit) break;
+                //for infinite scrolling
+                //if (i == suggestedList.Count - 1 - baseFilter.Skip - baseFilter.Limit) break;
                 var avatarLink = await UserManager.GetAvatarByIdAsync(suggestedList[i].post.UserId);
                 var userName = await UserManager.GetUserNameByIdAsync(suggestedList[i].post.UserId);
                 var postView = new PostViewModel(suggestedList[i].post,userName,avatarLink);

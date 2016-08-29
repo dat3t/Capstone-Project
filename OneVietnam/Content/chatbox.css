@@ -16,7 +16,7 @@
 }
 
     .popup-box .popup-head {        
-        background: #C98572;
+        background: #2185d0;
         padding: 5px;
         color: white;
         font-weight: bold;
@@ -58,7 +58,7 @@
     word-wrap: break-word;
     border-radius: 0.5em!important;
     padding: 0.7rem!important;            
-    background: #C8E6C9!important;        
+    background: #EEEEEF!important;        
 }
 .conversations {
     display: inline-flex!important;
