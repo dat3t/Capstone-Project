@@ -198,8 +198,9 @@ namespace OneVietnam.Controllers
                     var callbackUrl = Url.Action("ConfirmEmail", "Account",
                        new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(user.Id,
-                       "Xác nhận tài khoản", "Xác nhận tài khoản của bạn bằng cách click vào <a href=\""
-                       + callbackUrl + "\">link</a>");
+                       "Chào mừng bạn đến với mạng xã hội OneVietnam. \r\n " +
+                       "Xác nhận tài khoản", "Mời bạn xác nhận tài khoản bằng cách click vào <a href=\""
+                       + callbackUrl + "\">đây</a>");
                     ViewBag.Message = "Click vào đường link xác nhận tài khoản qua Email được gửi vào hòm thư của bạn để tiếp tục";
                     return View("Info");
                 }

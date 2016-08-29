@@ -136,7 +136,7 @@ namespace OneVietnam.BLL
             var myMessage = new SendGridMessage();
             myMessage.AddTo(message.Destination);
             myMessage.From = new System.Net.Mail.MailAddress(
-                                "toanlmse03407@fpt.edu.vn", "MinhToanLe");
+                                "toanlmse03407@fpt.edu.vn", "OneVietnam");
             myMessage.Subject = "Xác Nhận Tài Khoản Đăng Nhập Mạng Xã Hội OneVietnam";
             myMessage.Text = message.Body;
             myMessage.Html = message.Body;
