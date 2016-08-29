@@ -254,7 +254,7 @@ namespace OneVietnam.Controllers
 
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Mời bạn click vào: <a href=\"" + callbackUrl + "\">link</a> để đặt lại mật khẩu");
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
@@ -275,7 +275,7 @@ namespace OneVietnam.Controllers
             var callbackUrl = Url.Action("ConfirmEmail", "Account",
                new { userId = userID, code = code }, protocol: Request.Url.Scheme);
             await UserManager.SendEmailAsync(userID, subject,
-               "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+               "Hãy xác nhận tài khoản của bạn bằng cách click vào<a href=\"" + callbackUrl + "\">đây</a>");
 
             return callbackUrl;
         }
